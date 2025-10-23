@@ -64,15 +64,15 @@ export type Attachments = {
 };
 
 export enum BillingInvoiceStatus {
-  cancelled = 'CANCELLED',
-  disputed = 'DISPUTED',
-  draft = 'DRAFT',
-  paid = 'PAID',
-  partialPaid = 'PARTIAL_PAID',
-  pastDue = 'PAST_DUE',
-  sent = 'SENT',
-  viewed = 'VIEWED',
-  void = 'VOID'
+  "cancelled" = 'CANCELLED',
+  "disputed" = 'DISPUTED',
+  "draft" = 'DRAFT',
+  "paid" = 'PAID',
+  "partial-paid" = 'PARTIAL_PAID',
+  "past-due" = 'PAST_DUE',
+  "sent" = 'SENT',
+  "viewed" = 'VIEWED',
+  "void" = 'VOID'
 }
 
 export type BillingInvoices = {
@@ -540,11 +540,11 @@ export type Campaigns = {
 };
 
 export enum CarrierRateUnit {
-  flatRate = 'FLAT_RATE',
-  perContainer = 'PER_CONTAINER',
-  perKg = 'PER_KG',
-  perKm = 'PER_KM',
-  perMile = 'PER_MILE'
+  "flat-rate" = 'FLAT_RATE',
+  "per-container" = 'PER_CONTAINER',
+  "per-kg" = 'PER_KG',
+  "per-km" = 'PER_KM',
+  "per-mile" = 'PER_MILE'
 }
 
 export type CarrierRates = {
@@ -575,30 +575,30 @@ export type Carriers = {
 };
 
 export enum CasePriority {
-  critical = 'CRITICAL',
-  high = 'HIGH',
-  low = 'LOW',
-  medium = 'MEDIUM'
+  "critical" = 'CRITICAL',
+  "high" = 'HIGH',
+  "low" = 'LOW',
+  "medium" = 'MEDIUM'
 }
 
 export enum CaseStatus {
-  cancelled = 'CANCELLED',
-  closed = 'CLOSED',
-  escalated = 'ESCALATED',
-  inProgress = 'IN_PROGRESS',
-  new = 'NEW',
-  resolved = 'RESOLVED',
-  waitingForCustomer = 'WAITING_FOR_CUSTOMER',
-  waitingForInternal = 'WAITING_FOR_INTERNAL'
+  "cancelled" = 'CANCELLED',
+  "closed" = 'CLOSED',
+  "escalated" = 'ESCALATED',
+  "in-progress" = 'IN_PROGRESS',
+  "new" = 'NEW',
+  "resolved" = 'RESOLVED',
+  "waiting-for-customer" = 'WAITING_FOR_CUSTOMER',
+  "waiting-for-internal" = 'WAITING_FOR_INTERNAL'
 }
 
 export enum CaseType {
-  bugReport = 'BUG_REPORT',
-  complaint = 'COMPLAINT',
-  featureRequest = 'FEATURE_REQUEST',
-  problem = 'PROBLEM',
-  question = 'QUESTION',
-  technicalSupport = 'TECHNICAL_SUPPORT'
+  "bug-report" = 'BUG_REPORT',
+  "complaint" = 'COMPLAINT',
+  "feature-request" = 'FEATURE_REQUEST',
+  "problem" = 'PROBLEM',
+  "question" = 'QUESTION',
+  "technical-support" = 'TECHNICAL_SUPPORT'
 }
 
 export type Cases = {
@@ -1872,13 +1872,13 @@ export type CrmQueryProductsArgs = {
 };
 
 export enum Currency {
-  aud = 'AUD',
-  cad = 'CAD',
-  eur = 'EUR',
-  gbp = 'GBP',
-  jpy = 'JPY',
-  php = 'PHP',
-  usd = 'USD'
+  "aud" = 'AUD',
+  "cad" = 'CAD',
+  "eur" = 'EUR',
+  "gbp" = 'GBP',
+  "jpy" = 'JPY',
+  "php" = 'PHP',
+  "usd" = 'USD'
 }
 
 export type CustomerTrackingLinks = {
@@ -1901,22 +1901,22 @@ export type DeleteResult = {
 };
 
 export enum DeliveryFailureReason {
-  accessDenied = 'ACCESS_DENIED',
-  addressNotFound = 'ADDRESS_NOT_FOUND',
-  damagedPackage = 'DAMAGED_PACKAGE',
-  other = 'OTHER',
-  recipientNotHome = 'RECIPIENT_NOT_HOME',
-  refusedDelivery = 'REFUSED_DELIVERY',
-  vehicleBreakdown = 'VEHICLE_BREAKDOWN',
-  weatherConditions = 'WEATHER_CONDITIONS'
+  "access-denied" = 'ACCESS_DENIED',
+  "address-not-found" = 'ADDRESS_NOT_FOUND',
+  "damaged-package" = 'DAMAGED_PACKAGE',
+  "other" = 'OTHER',
+  "recipient-not-home" = 'RECIPIENT_NOT_HOME',
+  "refused-delivery" = 'REFUSED_DELIVERY',
+  "vehicle-breakdown" = 'VEHICLE_BREAKDOWN',
+  "weather-conditions" = 'WEATHER_CONDITIONS'
 }
 
 export enum DeliveryRouteStatus {
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-  inProgress = 'IN_PROGRESS',
-  paused = 'PAUSED',
-  planned = 'PLANNED'
+  "cancelled" = 'CANCELLED',
+  "completed" = 'COMPLETED',
+  "in-progress" = 'IN_PROGRESS',
+  "paused" = 'PAUSED',
+  "planned" = 'PLANNED'
 }
 
 export type DeliveryRoutes = {
@@ -1937,13 +1937,13 @@ export type DeliveryRoutes = {
 };
 
 export enum DeliveryTaskStatus {
-  assigned = 'ASSIGNED',
-  cancelled = 'CANCELLED',
-  delivered = 'DELIVERED',
-  failed = 'FAILED',
-  outForDelivery = 'OUT_FOR_DELIVERY',
-  pending = 'PENDING',
-  rescheduled = 'RESCHEDULED'
+  "assigned" = 'ASSIGNED',
+  "cancelled" = 'CANCELLED',
+  "delivered" = 'DELIVERED',
+  "failed" = 'FAILED',
+  "out-for-delivery" = 'OUT_FOR_DELIVERY',
+  "pending" = 'PENDING',
+  "rescheduled" = 'RESCHEDULED'
 }
 
 export type DeliveryTasks = {
@@ -1970,12 +1970,12 @@ export type DeliveryTasks = {
 };
 
 export enum DisputeStatus {
-  approved = 'APPROVED',
-  closed = 'CLOSED',
-  denied = 'DENIED',
-  escalated = 'ESCALATED',
-  open = 'OPEN',
-  underReview = 'UNDER_REVIEW'
+  "approved" = 'APPROVED',
+  "closed" = 'CLOSED',
+  "denied" = 'DENIED',
+  "escalated" = 'ESCALATED',
+  "open" = 'OPEN',
+  "under-review" = 'UNDER_REVIEW'
 }
 
 export type Disputes = {
@@ -2212,14 +2212,14 @@ export type DmsQueryTaskEventsArgs = {
 };
 
 export enum DocumentType {
-  bol = 'BOL',
-  commercialInvoice = 'COMMERCIAL_INVOICE',
-  creditNote = 'CREDIT_NOTE',
-  customsDeclaration = 'CUSTOMS_DECLARATION',
-  packingList = 'PACKING_LIST',
-  proofOfDelivery = 'PROOF_OF_DELIVERY',
-  receipt = 'RECEIPT',
-  shippingLabel = 'SHIPPING_LABEL'
+  "bol" = 'BOL',
+  "commercial-invoice" = 'COMMERCIAL_INVOICE',
+  "credit-note" = 'CREDIT_NOTE',
+  "customs-declaration" = 'CUSTOMS_DECLARATION',
+  "packing-list" = 'PACKING_LIST',
+  "proof-of-delivery" = 'PROOF_OF_DELIVERY',
+  "receipt" = 'RECEIPT',
+  "shipping-label" = 'SHIPPING_LABEL'
 }
 
 export type Documents = {
@@ -2253,10 +2253,10 @@ export type DriverLocations = {
 };
 
 export enum DriverScheduleReason {
-  personalLeave = 'PERSONAL_LEAVE',
-  sickLeave = 'SICK_LEAVE',
-  training = 'TRAINING',
-  vacation = 'VACATION'
+  "personal-leave" = 'PERSONAL_LEAVE',
+  "sick-leave" = 'SICK_LEAVE',
+  "training" = 'TRAINING',
+  "vacation" = 'VACATION'
 }
 
 export type DriverSchedules = {
@@ -2271,9 +2271,9 @@ export type DriverSchedules = {
 };
 
 export enum DriverStatus {
-  active = 'ACTIVE',
-  inactive = 'INACTIVE',
-  onLeave = 'ON_LEAVE'
+  "active" = 'ACTIVE',
+  "inactive" = 'INACTIVE',
+  "on-leave" = 'ON_LEAVE'
 }
 
 export type Drivers = {
@@ -2294,19 +2294,19 @@ export type Drivers = {
 };
 
 export enum ExpenseStatus {
-  approved = 'APPROVED',
-  pending = 'PENDING',
-  reimbursed = 'REIMBURSED',
-  rejected = 'REJECTED'
+  "approved" = 'APPROVED',
+  "pending" = 'PENDING',
+  "reimbursed" = 'REIMBURSED',
+  "rejected" = 'REJECTED'
 }
 
 export enum ExpenseType {
-  accommodation = 'ACCOMMODATION',
-  fuel = 'FUEL',
-  maintenance = 'MAINTENANCE',
-  meals = 'MEALS',
-  parking = 'PARKING',
-  tolls = 'TOLLS'
+  "accommodation" = 'ACCOMMODATION',
+  "fuel" = 'FUEL',
+  "maintenance" = 'MAINTENANCE',
+  "meals" = 'MEALS',
+  "parking" = 'PARKING',
+  "tolls" = 'TOLLS'
 }
 
 export type Expenses = {
@@ -2328,8 +2328,8 @@ export type Expenses = {
 };
 
 export enum GeofenceEventType {
-  enter = 'ENTER',
-  exit = 'EXIT'
+  "enter" = 'ENTER',
+  "exit" = 'EXIT'
 }
 
 export type GeofenceEvents = {
@@ -2374,11 +2374,11 @@ export type InboundShipmentItems = {
 };
 
 export enum InboundShipmentStatus {
-  arrived = 'ARRIVED',
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-  pending = 'PENDING',
-  processing = 'PROCESSING'
+  "arrived" = 'ARRIVED',
+  "cancelled" = 'CANCELLED',
+  "completed" = 'COMPLETED',
+  "pending" = 'PENDING',
+  "processing" = 'PROCESSING'
 }
 
 export type InboundShipments = {
@@ -2395,10 +2395,10 @@ export type InboundShipments = {
 };
 
 export enum InteractionType {
-  call = 'CALL',
-  email = 'EMAIL',
-  meeting = 'MEETING',
-  text = 'TEXT'
+  "call" = 'CALL',
+  "email" = 'EMAIL',
+  "meeting" = 'MEETING',
+  "text" = 'TEXT'
 }
 
 export type Interactions = {
@@ -2416,12 +2416,12 @@ export type Interactions = {
 };
 
 export enum InventoryAdjustmentReason {
-  cycleCount = 'CYCLE_COUNT',
-  damagedGoods = 'DAMAGED_GOODS',
-  expired = 'EXPIRED',
-  manualCorrection = 'MANUAL_CORRECTION',
-  returnToVendor = 'RETURN_TO_VENDOR',
-  theft = 'THEFT'
+  "cycle-count" = 'CYCLE_COUNT',
+  "damaged-goods" = 'DAMAGED_GOODS',
+  "expired" = 'EXPIRED',
+  "manual-correction" = 'MANUAL_CORRECTION',
+  "return-to-vendor" = 'RETURN_TO_VENDOR',
+  "theft" = 'THEFT'
 }
 
 export type InventoryAdjustments = {
@@ -2468,13 +2468,13 @@ export type InventoryStock = {
 };
 
 export enum InventoryStockStatus {
-  allocated = 'ALLOCATED',
-  available = 'AVAILABLE',
-  damaged = 'DAMAGED',
-  expired = 'EXPIRED',
-  hold = 'HOLD',
-  quarantine = 'QUARANTINE',
-  shipped = 'SHIPPED'
+  "allocated" = 'ALLOCATED',
+  "available" = 'AVAILABLE',
+  "damaged" = 'DAMAGED',
+  "expired" = 'EXPIRED',
+  "hold" = 'HOLD',
+  "quarantine" = 'QUARANTINE',
+  "shipped" = 'SHIPPED'
 }
 
 export type InvoiceItems = {
@@ -2509,11 +2509,11 @@ export type InvoiceLineItems = {
 };
 
 export enum InvoiceStatus {
-  cancelled = 'CANCELLED',
-  draft = 'DRAFT',
-  overdue = 'OVERDUE',
-  paid = 'PAID',
-  sent = 'SENT'
+  "cancelled" = 'CANCELLED',
+  "draft" = 'DRAFT',
+  "overdue" = 'OVERDUE',
+  "paid" = 'PAID',
+  "sent" = 'SENT'
 }
 
 export type Invoices = {
@@ -2533,23 +2533,23 @@ export type Invoices = {
 };
 
 export enum LeadSource {
-  advertisement = 'ADVERTISEMENT',
-  coldCall = 'COLD_CALL',
-  emailCampaign = 'EMAIL_CAMPAIGN',
-  event = 'EVENT',
-  other = 'OTHER',
-  partner = 'PARTNER',
-  referral = 'REFERRAL',
-  socialMedia = 'SOCIAL_MEDIA',
-  website = 'WEBSITE'
+  "advertisement" = 'ADVERTISEMENT',
+  "cold-call" = 'COLD_CALL',
+  "email-campaign" = 'EMAIL_CAMPAIGN',
+  "event" = 'EVENT',
+  "other" = 'OTHER',
+  "partner" = 'PARTNER',
+  "referral" = 'REFERRAL',
+  "social-media" = 'SOCIAL_MEDIA',
+  "website" = 'WEBSITE'
 }
 
 export enum LeadStatus {
-  contacted = 'CONTACTED',
-  converted = 'CONVERTED',
-  new = 'NEW',
-  qualified = 'QUALIFIED',
-  unqualified = 'UNQUALIFIED'
+  "contacted" = 'CONTACTED',
+  "converted" = 'CONVERTED',
+  "new" = 'NEW',
+  "qualified" = 'QUALIFIED',
+  "unqualified" = 'UNQUALIFIED'
 }
 
 export type Leads = {
@@ -2571,16 +2571,16 @@ export type Leads = {
 };
 
 export enum LocationType {
-  bulkStorage = 'BULK_STORAGE',
-  crossDockArea = 'CROSS_DOCK_AREA',
-  damagedGoods = 'DAMAGED_GOODS',
-  packingStation = 'PACKING_STATION',
-  pickBin = 'PICK_BIN',
-  qualityControl = 'QUALITY_CONTROL',
-  receivingDock = 'RECEIVING_DOCK',
-  reserveStorage = 'RESERVE_STORAGE',
-  returnsArea = 'RETURNS_AREA',
-  stagingArea = 'STAGING_AREA'
+  "bulk-storage" = 'BULK_STORAGE',
+  "cross-dock-area" = 'CROSS_DOCK_AREA',
+  "damaged-goods" = 'DAMAGED_GOODS',
+  "packing-station" = 'PACKING_STATION',
+  "pick-bin" = 'PICK_BIN',
+  "quality-control" = 'QUALITY_CONTROL',
+  "receiving-dock" = 'RECEIVING_DOCK',
+  "reserve-storage" = 'RESERVE_STORAGE',
+  "returns-area" = 'RETURNS_AREA',
+  "staging-area" = 'STAGING_AREA'
 }
 
 export type Locations = {
@@ -2661,27 +2661,27 @@ export type OpportunityProducts = {
 };
 
 export enum OpportunitySource {
-  advertisement = 'ADVERTISEMENT',
-  coldCall = 'COLD_CALL',
-  emailCampaign = 'EMAIL_CAMPAIGN',
-  event = 'EVENT',
-  existingCustomer = 'EXISTING_CUSTOMER',
-  other = 'OTHER',
-  partner = 'PARTNER',
-  referral = 'REFERRAL',
-  socialMedia = 'SOCIAL_MEDIA',
-  website = 'WEBSITE'
+  "advertisement" = 'ADVERTISEMENT',
+  "cold-call" = 'COLD_CALL',
+  "email-campaign" = 'EMAIL_CAMPAIGN',
+  "event" = 'EVENT',
+  "existing-customer" = 'EXISTING_CUSTOMER',
+  "other" = 'OTHER',
+  "partner" = 'PARTNER',
+  "referral" = 'REFERRAL',
+  "social-media" = 'SOCIAL_MEDIA',
+  "website" = 'WEBSITE'
 }
 
 export enum OpportunityStage {
-  closedLost = 'CLOSED_LOST',
-  closedWon = 'CLOSED_WON',
-  demo = 'DEMO',
-  needAnalysis = 'NEED_ANALYSIS',
-  negotiation = 'NEGOTIATION',
-  proposal = 'PROPOSAL',
-  prospecting = 'PROSPECTING',
-  qualification = 'QUALIFICATION'
+  "closed-lost" = 'CLOSED_LOST',
+  "closed-won" = 'CLOSED_WON',
+  "demo" = 'DEMO',
+  "need-analysis" = 'NEED_ANALYSIS',
+  "negotiation" = 'NEGOTIATION',
+  "proposal" = 'PROPOSAL',
+  "prospecting" = 'PROSPECTING',
+  "qualification" = 'QUALIFICATION'
 }
 
 export type OutboundShipmentItems = {
@@ -2697,11 +2697,11 @@ export type OutboundShipmentItems = {
 };
 
 export enum OutboundShipmentStatus {
-  cancelled = 'CANCELLED',
-  delivered = 'DELIVERED',
-  packed = 'PACKED',
-  picking = 'PICKING',
-  shipped = 'SHIPPED'
+  "cancelled" = 'CANCELLED',
+  "delivered" = 'DELIVERED',
+  "packed" = 'PACKED',
+  "picking" = 'PICKING',
+  "shipped" = 'SHIPPED'
 }
 
 export type OutboundShipments = {
@@ -2770,11 +2770,11 @@ export type PartnerInvoiceItems = {
 };
 
 export enum PartnerInvoiceStatus {
-  cancelled = 'CANCELLED',
-  disputed = 'DISPUTED',
-  overdue = 'OVERDUE',
-  paid = 'PAID',
-  pending = 'PENDING'
+  "cancelled" = 'CANCELLED',
+  "disputed" = 'DISPUTED',
+  "overdue" = 'OVERDUE',
+  "paid" = 'PAID',
+  "pending" = 'PENDING'
 }
 
 export type PartnerInvoices = {
@@ -2791,26 +2791,28 @@ export type PartnerInvoices = {
 };
 
 export enum PaymentMethod {
-  bankTransfer = 'BANK_TRANSFER',
-  cash = 'CASH',
-  check = 'CHECK',
-  clientCredit = 'CLIENT_CREDIT',
-  creditCard = 'CREDIT_CARD',
-  debitCard = 'DEBIT_CARD',
-  paypal = 'PAYPAL',
-  qrPh = 'QR_PH',
-  stripe = 'STRIPE',
-  wallet = 'WALLET',
-  wireTransfer = 'WIRE_TRANSFER'
+  "bank-transfer" = 'BANK_TRANSFER',
+  "cash" = 'CASH',
+  "check" = 'CHECK',
+  "client-credit" = 'CLIENT_CREDIT',
+  "credit-card" = 'CREDIT_CARD',
+  "debit-card" = 'DEBIT_CARD',
+  "maya" = 'MAYA',
+  "other" = 'OTHER',
+  "paypal" = 'PAYPAL',
+  "qr-ph" = 'QR_PH',
+  "stripe" = 'STRIPE',
+  "wallet" = 'WALLET',
+  "wire-transfer" = 'WIRE_TRANSFER'
 }
 
 export enum PaymentStatus {
-  cancelled = 'CANCELLED',
-  failed = 'FAILED',
-  pending = 'PENDING',
-  processing = 'PROCESSING',
-  refunded = 'REFUNDED',
-  successful = 'SUCCESSFUL'
+  "cancelled" = 'CANCELLED',
+  "failed" = 'FAILED',
+  "pending" = 'PENDING',
+  "processing" = 'PROCESSING',
+  "refunded" = 'REFUNDED',
+  "successful" = 'SUCCESSFUL'
 }
 
 export type Payments = {
@@ -2847,10 +2849,10 @@ export type PickBatchItems = {
 };
 
 export enum PickBatchStatus {
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-  inProgress = 'IN_PROGRESS',
-  open = 'OPEN'
+  "cancelled" = 'CANCELLED',
+  "completed" = 'COMPLETED',
+  "in-progress" = 'IN_PROGRESS',
+  "open" = 'OPEN'
 }
 
 export type PickBatches = {
@@ -2877,35 +2879,35 @@ export type PickBatches = {
 };
 
 export enum PickStrategy {
-  batchPicking = 'BATCH_PICKING',
-  clusterPicking = 'CLUSTER_PICKING',
-  singleOrderPicking = 'SINGLE_ORDER_PICKING',
-  wavePicking = 'WAVE_PICKING',
-  zonePicking = 'ZONE_PICKING'
+  "batch-picking" = 'BATCH_PICKING',
+  "cluster-picking" = 'CLUSTER_PICKING',
+  "single-order-picking" = 'SINGLE_ORDER_PICKING',
+  "wave-picking" = 'WAVE_PICKING',
+  "zone-picking" = 'ZONE_PICKING'
 }
 
 export enum PricingModel {
-  flatRate = 'FLAT_RATE',
-  percentage = 'PERCENTAGE',
-  perCubicMeter = 'PER_CUBIC_METER',
-  perItem = 'PER_ITEM',
-  perKg = 'PER_KG',
-  perZone = 'PER_ZONE',
-  tiered = 'TIERED'
+  "flat-rate" = 'FLAT_RATE',
+  "percentage" = 'PERCENTAGE',
+  "per-cubic-meter" = 'PER_CUBIC_METER',
+  "per-item" = 'PER_ITEM',
+  "per-kg" = 'PER_KG',
+  "per-zone" = 'PER_ZONE',
+  "tiered" = 'TIERED'
 }
 
 export enum ProductStatus {
-  active = 'ACTIVE',
-  discontinued = 'DISCONTINUED',
-  inactive = 'INACTIVE',
-  obsolete = 'OBSOLETE'
+  "active" = 'ACTIVE',
+  "discontinued" = 'DISCONTINUED',
+  "inactive" = 'INACTIVE',
+  "obsolete" = 'OBSOLETE'
 }
 
 export enum ProductType {
-  digital = 'DIGITAL',
-  good = 'GOOD',
-  service = 'SERVICE',
-  subscription = 'SUBSCRIPTION'
+  "digital" = 'DIGITAL',
+  "good" = 'GOOD',
+  "service" = 'SERVICE',
+  "subscription" = 'SUBSCRIPTION'
 }
 
 export type Products = {
@@ -2934,18 +2936,18 @@ export type ProofOfDeliveries = {
 };
 
 export enum ProofOfDeliveryType {
-  codeVerification = 'CODE_VERIFICATION',
-  contactlessDelivery = 'CONTACTLESS_DELIVERY',
-  leftAtDoor = 'LEFT_AT_DOOR',
-  photo = 'PHOTO',
-  signature = 'SIGNATURE'
+  "code-verification" = 'CODE_VERIFICATION',
+  "contactless-delivery" = 'CONTACTLESS_DELIVERY',
+  "left-at-door" = 'LEFT_AT_DOOR',
+  "photo" = 'PHOTO',
+  "signature" = 'SIGNATURE'
 }
 
 export enum ProofType {
-  barcodeScan = 'BARCODE_SCAN',
-  photo = 'PHOTO',
-  pinVerification = 'PIN_VERIFICATION',
-  signature = 'SIGNATURE'
+  "barcode-scan" = 'BARCODE_SCAN',
+  "photo" = 'PHOTO',
+  "pin-verification" = 'PIN_VERIFICATION',
+  "signature" = 'SIGNATURE'
 }
 
 export type PutawayRules = {
@@ -2978,11 +2980,11 @@ export type Query = {
 };
 
 export enum QuoteStatus {
-  accepted = 'ACCEPTED',
-  cancelled = 'CANCELLED',
-  converted = 'CONVERTED',
-  expired = 'EXPIRED',
-  pending = 'PENDING'
+  "accepted" = 'ACCEPTED',
+  "cancelled" = 'CANCELLED',
+  "converted" = 'CONVERTED',
+  "expired" = 'EXPIRED',
+  "pending" = 'PENDING'
 }
 
 export type Quotes = {
@@ -3040,15 +3042,15 @@ export type RateRules = {
 };
 
 export enum RecordType {
-  campaigns = 'CAMPAIGNS',
-  cases = 'CASES',
-  companies = 'COMPANIES',
-  contacts = 'CONTACTS',
-  interactions = 'INTERACTIONS',
-  invoices = 'INVOICES',
-  leads = 'LEADS',
-  opportunities = 'OPPORTUNITIES',
-  products = 'PRODUCTS'
+  "campaigns" = 'CAMPAIGNS',
+  "cases" = 'CASES',
+  "companies" = 'COMPANIES',
+  "contacts" = 'CONTACTS',
+  "interactions" = 'INTERACTIONS',
+  "invoices" = 'INVOICES',
+  "leads" = 'LEADS',
+  "opportunities" = 'OPPORTUNITIES',
+  "products" = 'PRODUCTS'
 }
 
 export type ReorderPoints = {
@@ -3062,11 +3064,11 @@ export type ReorderPoints = {
 };
 
 export enum ReturnItemCondition {
-  damaged = 'DAMAGED',
-  defective = 'DEFECTIVE',
-  expired = 'EXPIRED',
-  sellable = 'SELLABLE',
-  unsellable = 'UNSELLABLE'
+  "damaged" = 'DAMAGED',
+  "defective" = 'DEFECTIVE',
+  "expired" = 'EXPIRED',
+  "sellable" = 'SELLABLE',
+  "unsellable" = 'UNSELLABLE'
 }
 
 export type ReturnItems = {
@@ -3083,11 +3085,11 @@ export type ReturnItems = {
 };
 
 export enum ReturnStatus {
-  approved = 'APPROVED',
-  processed = 'PROCESSED',
-  received = 'RECEIVED',
-  rejected = 'REJECTED',
-  requested = 'REQUESTED'
+  "approved" = 'APPROVED',
+  "processed" = 'PROCESSED',
+  "received" = 'RECEIVED',
+  "rejected" = 'REJECTED',
+  "requested" = 'REQUESTED'
 }
 
 export type Returns = {
@@ -3126,11 +3128,11 @@ export type SalesOrderItems = {
 };
 
 export enum SalesOrderStatus {
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-  pending = 'PENDING',
-  processing = 'PROCESSING',
-  shipped = 'SHIPPED'
+  "cancelled" = 'CANCELLED',
+  "completed" = 'COMPLETED',
+  "pending" = 'PENDING',
+  "processing" = 'PROCESSING',
+  "shipped" = 'SHIPPED'
 }
 
 export type SalesOrders = {
@@ -3151,14 +3153,14 @@ export type SalesOrders = {
 };
 
 export enum ServiceType {
-  customs = 'CUSTOMS',
-  fulfillment = 'FULFILLMENT',
-  handling = 'HANDLING',
-  insurance = 'INSURANCE',
-  packaging = 'PACKAGING',
-  returns = 'RETURNS',
-  shipping = 'SHIPPING',
-  storage = 'STORAGE'
+  "customs" = 'CUSTOMS',
+  "fulfillment" = 'FULFILLMENT',
+  "handling" = 'HANDLING',
+  "insurance" = 'INSURANCE',
+  "packaging" = 'PACKAGING',
+  "returns" = 'RETURNS',
+  "shipping" = 'SHIPPING',
+  "storage" = 'STORAGE'
 }
 
 export type ShipmentLegEvents = {
@@ -3171,11 +3173,11 @@ export type ShipmentLegEvents = {
 };
 
 export enum ShipmentLegStatus {
-  cancelled = 'CANCELLED',
-  delivered = 'DELIVERED',
-  failed = 'FAILED',
-  inTransit = 'IN_TRANSIT',
-  pending = 'PENDING'
+  "cancelled" = 'CANCELLED',
+  "delivered" = 'DELIVERED',
+  "failed" = 'FAILED',
+  "in-transit" = 'IN_TRANSIT',
+  "pending" = 'PENDING'
 }
 
 export type ShipmentLegs = {
@@ -3195,10 +3197,10 @@ export type ShipmentLegs = {
 };
 
 export enum StockTransferStatus {
-  cancelled = 'CANCELLED',
-  inTransit = 'IN_TRANSIT',
-  pending = 'PENDING',
-  received = 'RECEIVED'
+  "cancelled" = 'CANCELLED',
+  "in-transit" = 'IN_TRANSIT',
+  "pending" = 'PENDING',
+  "received" = 'RECEIVED'
 }
 
 export type StockTransfers = {
@@ -3226,10 +3228,10 @@ export type Suppliers = {
 };
 
 export enum SurchargeCalculationMethod {
-  fixed = 'FIXED',
-  percentage = 'PERCENTAGE',
-  perUnit = 'PER_UNIT',
-  slidingScale = 'SLIDING_SCALE'
+  "fixed" = 'FIXED',
+  "percentage" = 'PERCENTAGE',
+  "per-unit" = 'PER_UNIT',
+  "sliding-scale" = 'SLIDING_SCALE'
 }
 
 export type Surcharges = {
@@ -3248,22 +3250,22 @@ export type Surcharges = {
 };
 
 export enum SyncStatus {
-  failed = 'FAILED',
-  inProgress = 'IN_PROGRESS',
-  pending = 'PENDING',
-  retry = 'RETRY',
-  success = 'SUCCESS'
+  "failed" = 'FAILED',
+  "in-progress" = 'IN_PROGRESS',
+  "pending" = 'PENDING',
+  "retry" = 'RETRY',
+  "success" = 'SUCCESS'
 }
 
 export enum TaskEventStatus {
-  arrived = 'ARRIVED',
-  assigned = 'ASSIGNED',
-  cancelled = 'CANCELLED',
-  delivered = 'DELIVERED',
-  exception = 'EXCEPTION',
-  failed = 'FAILED',
-  rescheduled = 'RESCHEDULED',
-  started = 'STARTED'
+  "arrived" = 'ARRIVED',
+  "assigned" = 'ASSIGNED',
+  "cancelled" = 'CANCELLED',
+  "delivered" = 'DELIVERED',
+  "exception" = 'EXCEPTION',
+  "failed" = 'FAILED',
+  "rescheduled" = 'RESCHEDULED',
+  "started" = 'STARTED'
 }
 
 export type TaskEvents = {
@@ -3281,12 +3283,12 @@ export type TaskEvents = {
 };
 
 export enum TaskItemStatus {
-  completed = 'COMPLETED',
-  damaged = 'DAMAGED',
-  inProgress = 'IN_PROGRESS',
-  notFound = 'NOT_FOUND',
-  pending = 'PENDING',
-  shortPicked = 'SHORT_PICKED'
+  "completed" = 'COMPLETED',
+  "damaged" = 'DAMAGED',
+  "in-progress" = 'IN_PROGRESS',
+  "not-found" = 'NOT_FOUND',
+  "pending" = 'PENDING',
+  "short-picked" = 'SHORT_PICKED'
 }
 
 export type TaskItems = {
@@ -3311,24 +3313,24 @@ export type TaskItems = {
 };
 
 export enum TaskStatus {
-  assigned = 'ASSIGNED',
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-  error = 'ERROR',
-  inProgress = 'IN_PROGRESS',
-  pending = 'PENDING'
+  "assigned" = 'ASSIGNED',
+  "cancelled" = 'CANCELLED',
+  "completed" = 'COMPLETED',
+  "error" = 'ERROR',
+  "in-progress" = 'IN_PROGRESS',
+  "pending" = 'PENDING'
 }
 
 export enum TaskType {
-  crossDock = 'CROSS_DOCK',
-  cycleCount = 'CYCLE_COUNT',
-  damageInspection = 'DAMAGE_INSPECTION',
-  pack = 'PACK',
-  pick = 'PICK',
-  putaway = 'PUTAWAY',
-  qualityCheck = 'QUALITY_CHECK',
-  replenishment = 'REPLENISHMENT',
-  returnsProcessing = 'RETURNS_PROCESSING'
+  "cross-dock" = 'CROSS_DOCK',
+  "cycle-count" = 'CYCLE_COUNT',
+  "damage-inspection" = 'DAMAGE_INSPECTION',
+  "pack" = 'PACK',
+  "pick" = 'PICK',
+  "putaway" = 'PUTAWAY',
+  "quality-check" = 'QUALITY_CHECK',
+  "replenishment" = 'REPLENISHMENT',
+  "returns-processing" = 'RETURNS_PROCESSING'
 }
 
 export type Tasks = {
@@ -3849,26 +3851,26 @@ export type TmsQueryVehiclesArgs = {
 };
 
 export enum TransactionType {
-  adjustment = 'ADJUSTMENT',
-  credit = 'CREDIT',
-  debit = 'DEBIT',
-  fee = 'FEE',
-  refund = 'REFUND',
-  topUp = 'TOP_UP'
+  "adjustment" = 'ADJUSTMENT',
+  "credit" = 'CREDIT',
+  "debit" = 'DEBIT',
+  "fee" = 'FEE',
+  "refund" = 'REFUND',
+  "top-up" = 'TOP_UP'
 }
 
 export enum TripStatus {
-  cancelled = 'CANCELLED',
-  completed = 'COMPLETED',
-  inProgress = 'IN_PROGRESS',
-  planned = 'PLANNED'
+  "cancelled" = 'CANCELLED',
+  "completed" = 'COMPLETED',
+  "in-progress" = 'IN_PROGRESS',
+  "planned" = 'PLANNED'
 }
 
 export enum TripStopStatus {
-  arrived = 'ARRIVED',
-  completed = 'COMPLETED',
-  pending = 'PENDING',
-  skipped = 'SKIPPED'
+  "arrived" = 'ARRIVED',
+  "completed" = 'COMPLETED',
+  "pending" = 'PENDING',
+  "skipped" = 'SKIPPED'
 }
 
 export type TripStops = {
@@ -4710,19 +4712,19 @@ export type VehicleMaintenance = {
 };
 
 export enum VehicleServiceType {
-  brakeService = 'BRAKE_SERVICE',
-  inspection = 'INSPECTION',
-  oilChange = 'OIL_CHANGE',
-  repair = 'REPAIR',
-  routineMaintenance = 'ROUTINE_MAINTENANCE',
-  tireReplacement = 'TIRE_REPLACEMENT'
+  "brake-service" = 'BRAKE_SERVICE',
+  "inspection" = 'INSPECTION',
+  "oil-change" = 'OIL_CHANGE',
+  "repair" = 'REPAIR',
+  "routine-maintenance" = 'ROUTINE_MAINTENANCE',
+  "tire-replacement" = 'TIRE_REPLACEMENT'
 }
 
 export enum VehicleStatus {
-  available = 'AVAILABLE',
-  inMaintenance = 'IN_MAINTENANCE',
-  onTrip = 'ON_TRIP',
-  outOfService = 'OUT_OF_SERVICE'
+  "available" = 'AVAILABLE',
+  "in-maintenance" = 'IN_MAINTENANCE',
+  "on-trip" = 'ON_TRIP',
+  "out-of-service" = 'OUT_OF_SERVICE'
 }
 
 export type Vehicles = {

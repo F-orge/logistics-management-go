@@ -35,7 +35,7 @@
     },
     "@packages/graphql#build": {
       "dependsOn": ["@packages/db#build"],
-      "inputs": ["src/**/*.{ts,graphql}", "tsconfig.json"],
+      "inputs": ["src/**/*.{ts,graphql}", "codegen.ts", "tsconfig.json"],
       "outputs": ["dist/**"]
     },
     "@apps/frontend#build": {

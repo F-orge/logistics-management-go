@@ -15,10 +15,10 @@ export default defineConfig({
     pool: new Pool({ connectionString: process.env.DATABASE_URL! }),
   }),
   migrations: {
-    migrationFolder: "../apps/backend/migrations",
+    migrationFolder: "../migrations",
   },
   plugins: [new CamelCasePlugin()],
   seeds: {
-    seedFolder: "../apps/backend/seeds",
+    seedFolder: "../seeds",
   },
 });

@@ -46,10 +46,6 @@ export const seedDmsDeliveryRoute = (
   routeDate: faker.date.recent({ days: 30 }),
   status: randomEnumValue(DmsDeliveryRouteStatusEnum),
   estimatedDurationMinutes: faker.number.int({ min: 30, max: 480 }),
-  actualDurationMinutes: faker.helpers.maybe(
-    () => faker.number.int({ min: 25, max: 500 }),
-    { probability: 0.5 }
-  ),
   totalDistanceKm: faker.number.float({ min: 5, max: 200, fractionDigits: 2 }),
   optimizedRouteData: faker.helpers.maybe(() => faker.lorem.paragraph(), {
     probability: 0.7,
@@ -72,7 +68,7 @@ export const seedDmsDeliveryTask = (
   routeSequence: faker.number.int({ min: 1, max: 20 }),
   deliveryAddress: faker.location.streetAddress({ useFullAddress: true }),
   recipientName: faker.person.fullName(),
-  recipientPhone: faker.phone.number(),
+  recipientPhone: faker.phone.number({ style: "international" }),
   deliveryInstructions: faker.helpers.maybe(() => faker.lorem.sentence(), {
     probability: 0.7,
   }),

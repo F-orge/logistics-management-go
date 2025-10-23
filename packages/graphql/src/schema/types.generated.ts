@@ -150,209 +150,209 @@ export type BillingMutation = {
 };
 
 
-export type BillingMutationcreateAccountTransactionArgs = {
+export type BillingMutationCreateAccountTransactionArgs = {
   value: CreateAccountTransactionInput;
 };
 
 
-export type BillingMutationcreateAccountingSyncLogArgs = {
+export type BillingMutationCreateAccountingSyncLogArgs = {
   value: CreateAccountingSyncLogInput;
 };
 
 
-export type BillingMutationcreateBillingInvoiceArgs = {
+export type BillingMutationCreateBillingInvoiceArgs = {
   value: CreateBillingInvoiceInput;
 };
 
 
-export type BillingMutationcreateClientAccountArgs = {
+export type BillingMutationCreateClientAccountArgs = {
   value: CreateClientAccountInput;
 };
 
 
-export type BillingMutationcreateCreditNoteArgs = {
+export type BillingMutationCreateCreditNoteArgs = {
   value: CreateCreditNoteInput;
 };
 
 
-export type BillingMutationcreateDisputeArgs = {
+export type BillingMutationCreateDisputeArgs = {
   value: CreateDisputeInput;
 };
 
 
-export type BillingMutationcreateDocumentArgs = {
+export type BillingMutationCreateDocumentArgs = {
   value: CreateDocumentInput;
 };
 
 
-export type BillingMutationcreateInvoiceLineItemArgs = {
+export type BillingMutationCreateInvoiceLineItemArgs = {
   value: CreateInvoiceLineItemInput;
 };
 
 
-export type BillingMutationcreatePaymentArgs = {
+export type BillingMutationCreatePaymentArgs = {
   value: CreatePaymentInput;
 };
 
 
-export type BillingMutationcreateQuoteArgs = {
+export type BillingMutationCreateQuoteArgs = {
   value: CreateQuoteInput;
 };
 
 
-export type BillingMutationcreateRateCardArgs = {
+export type BillingMutationCreateRateCardArgs = {
   value: CreateRateCardInput;
 };
 
 
-export type BillingMutationcreateRateRuleArgs = {
+export type BillingMutationCreateRateRuleArgs = {
   value: CreateRateRuleInput;
 };
 
 
-export type BillingMutationcreateSurchargeArgs = {
+export type BillingMutationCreateSurchargeArgs = {
   value: CreateSurchargeInput;
 };
 
 
-export type BillingMutationremoveAccountTransactionArgs = {
+export type BillingMutationRemoveAccountTransactionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveAccountingSyncLogArgs = {
+export type BillingMutationRemoveAccountingSyncLogArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveBillingInvoiceArgs = {
+export type BillingMutationRemoveBillingInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveClientAccountArgs = {
+export type BillingMutationRemoveClientAccountArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveCreditNoteArgs = {
+export type BillingMutationRemoveCreditNoteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveDisputeArgs = {
+export type BillingMutationRemoveDisputeArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveDocumentArgs = {
+export type BillingMutationRemoveDocumentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveInvoiceLineItemArgs = {
+export type BillingMutationRemoveInvoiceLineItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremovePaymentArgs = {
+export type BillingMutationRemovePaymentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveQuoteArgs = {
+export type BillingMutationRemoveQuoteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveRateCardArgs = {
+export type BillingMutationRemoveRateCardArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveRateRuleArgs = {
+export type BillingMutationRemoveRateRuleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationremoveSurchargeArgs = {
+export type BillingMutationRemoveSurchargeArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingMutationupdateAccountTransactionArgs = {
+export type BillingMutationUpdateAccountTransactionArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateAccountTransactionInput>;
 };
 
 
-export type BillingMutationupdateAccountingSyncLogArgs = {
+export type BillingMutationUpdateAccountingSyncLogArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateAccountingSyncLogInput>;
 };
 
 
-export type BillingMutationupdateBillingInvoiceArgs = {
+export type BillingMutationUpdateBillingInvoiceArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateBillingInvoiceInput>;
 };
 
 
-export type BillingMutationupdateClientAccountArgs = {
+export type BillingMutationUpdateClientAccountArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateClientAccountInput>;
 };
 
 
-export type BillingMutationupdateCreditNoteArgs = {
+export type BillingMutationUpdateCreditNoteArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCreditNoteInput>;
 };
 
 
-export type BillingMutationupdateDisputeArgs = {
+export type BillingMutationUpdateDisputeArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDisputeInput>;
 };
 
 
-export type BillingMutationupdateDocumentArgs = {
+export type BillingMutationUpdateDocumentArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDocumentInput>;
 };
 
 
-export type BillingMutationupdateInvoiceLineItemArgs = {
+export type BillingMutationUpdateInvoiceLineItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInvoiceLineItemInput>;
 };
 
 
-export type BillingMutationupdatePaymentArgs = {
+export type BillingMutationUpdatePaymentArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePaymentInput>;
 };
 
 
-export type BillingMutationupdateQuoteArgs = {
+export type BillingMutationUpdateQuoteArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateQuoteInput>;
 };
 
 
-export type BillingMutationupdateRateCardArgs = {
+export type BillingMutationUpdateRateCardArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateRateCardInput>;
 };
 
 
-export type BillingMutationupdateRateRuleArgs = {
+export type BillingMutationUpdateRateRuleArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateRateRuleInput>;
 };
 
 
-export type BillingMutationupdateSurchargeArgs = {
+export type BillingMutationUpdateSurchargeArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateSurchargeInput>;
 };
@@ -386,133 +386,133 @@ export type BillingQuery = {
 };
 
 
-export type BillingQueryaccountTransactionArgs = {
+export type BillingQueryAccountTransactionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQueryaccountTransactionsArgs = {
+export type BillingQueryAccountTransactionsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQueryaccountingSyncLogArgs = {
+export type BillingQueryAccountingSyncLogArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQueryaccountingSyncLogsArgs = {
+export type BillingQueryAccountingSyncLogsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQuerybillingInvoiceArgs = {
+export type BillingQueryBillingInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQuerybillingInvoicesArgs = {
+export type BillingQueryBillingInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQueryclientAccountArgs = {
+export type BillingQueryClientAccountArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQueryclientAccountsArgs = {
+export type BillingQueryClientAccountsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQuerycreditNoteArgs = {
+export type BillingQueryCreditNoteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQuerycreditNotesArgs = {
+export type BillingQueryCreditNotesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQuerydisputeArgs = {
+export type BillingQueryDisputeArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQuerydisputesArgs = {
+export type BillingQueryDisputesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQuerydocumentArgs = {
+export type BillingQueryDocumentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQuerydocumentsArgs = {
+export type BillingQueryDocumentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQuerypaymentArgs = {
+export type BillingQueryPaymentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQuerypaymentsArgs = {
+export type BillingQueryPaymentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQueryquoteArgs = {
+export type BillingQueryQuoteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQueryquotesArgs = {
+export type BillingQueryQuotesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQueryrateCardArgs = {
+export type BillingQueryRateCardArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQueryrateCardsArgs = {
+export type BillingQueryRateCardsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQueryrateRuleArgs = {
+export type BillingQueryRateRuleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQueryrateRulesArgs = {
+export type BillingQueryRateRulesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type BillingQuerysurchargeArgs = {
+export type BillingQuerySurchargeArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type BillingQuerysurchargesArgs = {
+export type BillingQuerySurchargesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1520,205 +1520,205 @@ export type CrmMutation = {
 };
 
 
-export type CrmMutationcreateAttachmentArgs = {
+export type CrmMutationCreateAttachmentArgs = {
   value: CreateAttachmentInput;
 };
 
 
-export type CrmMutationcreateCampaignArgs = {
+export type CrmMutationCreateCampaignArgs = {
   value: CreateCampaignInput;
 };
 
 
-export type CrmMutationcreateCaseArgs = {
+export type CrmMutationCreateCaseArgs = {
   value: CreateCaseInput;
 };
 
 
-export type CrmMutationcreateCompanyArgs = {
+export type CrmMutationCreateCompanyArgs = {
   value: CreateCompanyInput;
 };
 
 
-export type CrmMutationcreateContactArgs = {
+export type CrmMutationCreateContactArgs = {
   value: CreateContactInput;
 };
 
 
-export type CrmMutationcreateInteractionArgs = {
+export type CrmMutationCreateInteractionArgs = {
   value: CreateInteractionInput;
 };
 
 
-export type CrmMutationcreateInvoiceArgs = {
+export type CrmMutationCreateInvoiceArgs = {
   value: CreateInvoiceInput;
 };
 
 
-export type CrmMutationcreateInvoiceItemArgs = {
+export type CrmMutationCreateInvoiceItemArgs = {
   value: CreateInvoiceItemInput;
 };
 
 
-export type CrmMutationcreateLeadArgs = {
+export type CrmMutationCreateLeadArgs = {
   value: CreateLeadInput;
 };
 
 
-export type CrmMutationcreateNotificationArgs = {
+export type CrmMutationCreateNotificationArgs = {
   value: CreateNotificationInput;
 };
 
 
-export type CrmMutationcreateOpportunityArgs = {
+export type CrmMutationCreateOpportunityArgs = {
   value: CreateOpportunityInput;
 };
 
 
-export type CrmMutationcreateOpportunityProductArgs = {
+export type CrmMutationCreateOpportunityProductArgs = {
   value: CreateOpportunityProductInput;
 };
 
 
-export type CrmMutationcreateProductArgs = {
+export type CrmMutationCreateProductArgs = {
   value: CreateProductInput;
 };
 
 
-export type CrmMutationremoveAttachmentArgs = {
+export type CrmMutationRemoveAttachmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveCampaignArgs = {
+export type CrmMutationRemoveCampaignArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveCaseArgs = {
+export type CrmMutationRemoveCaseArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveCompanyArgs = {
+export type CrmMutationRemoveCompanyArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveContactArgs = {
+export type CrmMutationRemoveContactArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveInteractionArgs = {
+export type CrmMutationRemoveInteractionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveInvoiceArgs = {
+export type CrmMutationRemoveInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveInvoiceItemArgs = {
+export type CrmMutationRemoveInvoiceItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveLeadArgs = {
+export type CrmMutationRemoveLeadArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveNotificationArgs = {
+export type CrmMutationRemoveNotificationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveOpportunityArgs = {
+export type CrmMutationRemoveOpportunityArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveOpportunityProductArgs = {
+export type CrmMutationRemoveOpportunityProductArgs = {
   opportunityId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationremoveProductArgs = {
+export type CrmMutationRemoveProductArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmMutationupdateCampaignArgs = {
+export type CrmMutationUpdateCampaignArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCampaignInput>;
 };
 
 
-export type CrmMutationupdateCaseArgs = {
+export type CrmMutationUpdateCaseArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCaseInput>;
 };
 
 
-export type CrmMutationupdateCompanyArgs = {
+export type CrmMutationUpdateCompanyArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCompanyInput>;
 };
 
 
-export type CrmMutationupdateContactArgs = {
+export type CrmMutationUpdateContactArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateContactInput>;
 };
 
 
-export type CrmMutationupdateInteractionArgs = {
+export type CrmMutationUpdateInteractionArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInteractionInput>;
 };
 
 
-export type CrmMutationupdateInvoiceArgs = {
+export type CrmMutationUpdateInvoiceArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInvoiceInput>;
 };
 
 
-export type CrmMutationupdateInvoiceItemArgs = {
+export type CrmMutationUpdateInvoiceItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInvoiceItemInput>;
 };
 
 
-export type CrmMutationupdateLeadArgs = {
+export type CrmMutationUpdateLeadArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateLeadInput>;
 };
 
 
-export type CrmMutationupdateNotificationArgs = {
+export type CrmMutationUpdateNotificationArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateNotificationInput>;
 };
 
 
-export type CrmMutationupdateOpportunityArgs = {
+export type CrmMutationUpdateOpportunityArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateOpportunityInput>;
 };
 
 
-export type CrmMutationupdateOpportunityProductArgs = {
+export type CrmMutationUpdateOpportunityProductArgs = {
   opportunityId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   value?: InputMaybe<UpdateOpportunityProductInput>;
 };
 
 
-export type CrmMutationupdateProductArgs = {
+export type CrmMutationUpdateProductArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateProductInput>;
 };
@@ -1750,122 +1750,122 @@ export type CrmQuery = {
 };
 
 
-export type CrmQueryattachmentArgs = {
+export type CrmQueryAttachmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQueryattachmentsArgs = {
+export type CrmQueryAttachmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQuerycampaignArgs = {
+export type CrmQueryCampaignArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQuerycampaignsArgs = {
+export type CrmQueryCampaignsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQuerycaseArgs = {
+export type CrmQueryCaseArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQuerycasesArgs = {
+export type CrmQueryCasesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQuerycompaniesArgs = {
+export type CrmQueryCompaniesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQuerycompanyArgs = {
+export type CrmQueryCompanyArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQuerycontactArgs = {
+export type CrmQueryContactArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQuerycontactsArgs = {
+export type CrmQueryContactsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQueryinteractionArgs = {
+export type CrmQueryInteractionArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQueryinteractionsArgs = {
+export type CrmQueryInteractionsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQueryinvoiceArgs = {
+export type CrmQueryInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQueryinvoicesArgs = {
+export type CrmQueryInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQueryleadArgs = {
+export type CrmQueryLeadArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQueryleadsArgs = {
+export type CrmQueryLeadsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQuerynotificationArgs = {
+export type CrmQueryNotificationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQuerynotificationsArgs = {
+export type CrmQueryNotificationsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQueryopportunitiesArgs = {
+export type CrmQueryOpportunitiesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type CrmQueryopportunityArgs = {
+export type CrmQueryOpportunityArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQueryproductArgs = {
+export type CrmQueryProductArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type CrmQueryproductsArgs = {
+export type CrmQueryProductsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -2012,97 +2012,97 @@ export type DmsMutation = {
 };
 
 
-export type DmsMutationcreateCustomerTrackingLinkArgs = {
+export type DmsMutationCreateCustomerTrackingLinkArgs = {
   value: CreateCustomerTrackingLinkInput;
 };
 
 
-export type DmsMutationcreateDeliveryRouteArgs = {
+export type DmsMutationCreateDeliveryRouteArgs = {
   value: CreateDeliveryRouteInput;
 };
 
 
-export type DmsMutationcreateDeliveryTaskArgs = {
+export type DmsMutationCreateDeliveryTaskArgs = {
   value: CreateDeliveryTaskInput;
 };
 
 
-export type DmsMutationcreateDmsProofOfDeliveryArgs = {
+export type DmsMutationCreateDmsProofOfDeliveryArgs = {
   value: CreateDmsProofOfDeliveryInput;
 };
 
 
-export type DmsMutationcreateDriverLocationArgs = {
+export type DmsMutationCreateDriverLocationArgs = {
   value: CreateDriverLocationInput;
 };
 
 
-export type DmsMutationcreateTaskEventArgs = {
+export type DmsMutationCreateTaskEventArgs = {
   value: CreateTaskEventInput;
 };
 
 
-export type DmsMutationremoveCustomerTrackingLinkArgs = {
+export type DmsMutationRemoveCustomerTrackingLinkArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationremoveDeliveryRouteArgs = {
+export type DmsMutationRemoveDeliveryRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationremoveDeliveryTaskArgs = {
+export type DmsMutationRemoveDeliveryTaskArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationremoveDmsProofOfDeliveryArgs = {
+export type DmsMutationRemoveDmsProofOfDeliveryArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationremoveDriverLocationArgs = {
+export type DmsMutationRemoveDriverLocationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationremoveTaskEventArgs = {
+export type DmsMutationRemoveTaskEventArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationupdateCustomerTrackingLinkArgs = {
+export type DmsMutationUpdateCustomerTrackingLinkArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCustomerTrackingLinkInput>;
 };
 
 
-export type DmsMutationupdateDeliveryRouteArgs = {
+export type DmsMutationUpdateDeliveryRouteArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDeliveryRouteInput>;
 };
 
 
-export type DmsMutationupdateDeliveryTaskArgs = {
+export type DmsMutationUpdateDeliveryTaskArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDeliveryTaskInput>;
 };
 
 
-export type DmsMutationupdateDmsProofOfDeliveryArgs = {
+export type DmsMutationUpdateDmsProofOfDeliveryArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDmsProofOfDeliveryInput>;
 };
 
 
-export type DmsMutationupdateDriverLocationArgs = {
+export type DmsMutationUpdateDriverLocationArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDriverLocationInput>;
 };
 
 
-export type DmsMutationupdateTaskEventArgs = {
+export type DmsMutationUpdateTaskEventArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateTaskEventInput>;
 };
@@ -2140,67 +2140,67 @@ export type DmsQuery = {
 };
 
 
-export type DmsQuerycustomerTrackingLinkArgs = {
+export type DmsQueryCustomerTrackingLinkArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsQuerycustomerTrackingLinksArgs = {
+export type DmsQueryCustomerTrackingLinksArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type DmsQuerydeliveryRouteArgs = {
+export type DmsQueryDeliveryRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsQuerydeliveryRoutesArgs = {
+export type DmsQueryDeliveryRoutesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type DmsQuerydeliveryTaskArgs = {
+export type DmsQueryDeliveryTaskArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsQuerydeliveryTasksArgs = {
+export type DmsQueryDeliveryTasksArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type DmsQuerydmsProofOfDeliveriesArgs = {
+export type DmsQueryDmsProofOfDeliveriesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type DmsQuerydmsProofOfDeliveryArgs = {
+export type DmsQueryDmsProofOfDeliveryArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsQuerydriverLocationArgs = {
+export type DmsQueryDriverLocationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsQuerydriverLocationsArgs = {
+export type DmsQueryDriverLocationsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type DmsQuerytaskEventArgs = {
+export type DmsQueryTaskEventArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsQuerytaskEventsArgs = {
+export type DmsQueryTaskEventsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -2773,6 +2773,8 @@ export type PaymentMethod =
   | 'CLIENT_CREDIT'
   | 'CREDIT_CARD'
   | 'DEBIT_CARD'
+  | 'MAYA'
+  | 'OTHER'
   | 'PAYPAL'
   | 'QR_PH'
   | 'STRIPE'
@@ -3367,289 +3369,289 @@ export type TmsMutation = {
 };
 
 
-export type TmsMutationcreateCarrierArgs = {
+export type TmsMutationCreateCarrierArgs = {
   value: CreateCarrierInput;
 };
 
 
-export type TmsMutationcreateCarrierRateArgs = {
+export type TmsMutationCreateCarrierRateArgs = {
   value: CreateCarrierRateInput;
 };
 
 
-export type TmsMutationcreateDriverArgs = {
+export type TmsMutationCreateDriverArgs = {
   value: CreateDriverInput;
 };
 
 
-export type TmsMutationcreateDriverScheduleArgs = {
+export type TmsMutationCreateDriverScheduleArgs = {
   value: CreateDriverScheduleInput;
 };
 
 
-export type TmsMutationcreateExpenseArgs = {
+export type TmsMutationCreateExpenseArgs = {
   value: CreateExpenseInput;
 };
 
 
-export type TmsMutationcreateGeofenceArgs = {
+export type TmsMutationCreateGeofenceArgs = {
   value: CreateGeofenceInput;
 };
 
 
-export type TmsMutationcreateGeofenceEventArgs = {
+export type TmsMutationCreateGeofenceEventArgs = {
   value: CreateGeofenceEventInput;
 };
 
 
-export type TmsMutationcreateGpsPingArgs = {
+export type TmsMutationCreateGpsPingArgs = {
   value: CreateGpsPingInput;
 };
 
 
-export type TmsMutationcreatePartnerInvoiceArgs = {
+export type TmsMutationCreatePartnerInvoiceArgs = {
   value: CreatePartnerInvoiceInput;
 };
 
 
-export type TmsMutationcreatePartnerInvoiceItemArgs = {
+export type TmsMutationCreatePartnerInvoiceItemArgs = {
   value: CreatePartnerInvoiceItemInput;
 };
 
 
-export type TmsMutationcreateProofOfDeliveryArgs = {
+export type TmsMutationCreateProofOfDeliveryArgs = {
   value: CreateProofOfDeliveryInput;
 };
 
 
-export type TmsMutationcreateRouteArgs = {
+export type TmsMutationCreateRouteArgs = {
   value: CreateRouteInput;
 };
 
 
-export type TmsMutationcreateShipmentLegArgs = {
+export type TmsMutationCreateShipmentLegArgs = {
   value: CreateShipmentLegInput;
 };
 
 
-export type TmsMutationcreateShipmentLegEventArgs = {
+export type TmsMutationCreateShipmentLegEventArgs = {
   value: CreateShipmentLegEventInput;
 };
 
 
-export type TmsMutationcreateTripArgs = {
+export type TmsMutationCreateTripArgs = {
   value: CreateTripInput;
 };
 
 
-export type TmsMutationcreateTripStopArgs = {
+export type TmsMutationCreateTripStopArgs = {
   value: CreateTripStopInput;
 };
 
 
-export type TmsMutationcreateVehicleArgs = {
+export type TmsMutationCreateVehicleArgs = {
   value: CreateVehicleInput;
 };
 
 
-export type TmsMutationcreateVehicleMaintenanceArgs = {
+export type TmsMutationCreateVehicleMaintenanceArgs = {
   value: CreateVehicleMaintenanceInput;
 };
 
 
-export type TmsMutationremoveCarrierArgs = {
+export type TmsMutationRemoveCarrierArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveCarrierRateArgs = {
+export type TmsMutationRemoveCarrierRateArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveDriverArgs = {
+export type TmsMutationRemoveDriverArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveDriverScheduleArgs = {
+export type TmsMutationRemoveDriverScheduleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveExpenseArgs = {
+export type TmsMutationRemoveExpenseArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveGeofenceArgs = {
+export type TmsMutationRemoveGeofenceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveGeofenceEventArgs = {
+export type TmsMutationRemoveGeofenceEventArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveGpsPingArgs = {
+export type TmsMutationRemoveGpsPingArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremovePartnerInvoiceArgs = {
+export type TmsMutationRemovePartnerInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremovePartnerInvoiceItemArgs = {
+export type TmsMutationRemovePartnerInvoiceItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveProofOfDeliveryArgs = {
+export type TmsMutationRemoveProofOfDeliveryArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveRouteArgs = {
+export type TmsMutationRemoveRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveShipmentLegArgs = {
+export type TmsMutationRemoveShipmentLegArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveShipmentLegEventArgs = {
+export type TmsMutationRemoveShipmentLegEventArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveTripArgs = {
+export type TmsMutationRemoveTripArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveTripStopArgs = {
+export type TmsMutationRemoveTripStopArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveVehicleArgs = {
+export type TmsMutationRemoveVehicleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveVehicleMaintenanceArgs = {
+export type TmsMutationRemoveVehicleMaintenanceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationupdateCarrierArgs = {
+export type TmsMutationUpdateCarrierArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCarrierInput>;
 };
 
 
-export type TmsMutationupdateCarrierRateArgs = {
+export type TmsMutationUpdateCarrierRateArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateCarrierRateInput>;
 };
 
 
-export type TmsMutationupdateDriverArgs = {
+export type TmsMutationUpdateDriverArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDriverInput>;
 };
 
 
-export type TmsMutationupdateDriverScheduleArgs = {
+export type TmsMutationUpdateDriverScheduleArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDriverScheduleInput>;
 };
 
 
-export type TmsMutationupdateExpenseArgs = {
+export type TmsMutationUpdateExpenseArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateExpenseInput>;
 };
 
 
-export type TmsMutationupdateGeofenceArgs = {
+export type TmsMutationUpdateGeofenceArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateGeofenceInput>;
 };
 
 
-export type TmsMutationupdateGeofenceEventArgs = {
+export type TmsMutationUpdateGeofenceEventArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateGeofenceEventInput>;
 };
 
 
-export type TmsMutationupdateGpsPingArgs = {
+export type TmsMutationUpdateGpsPingArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateGpsPingInput>;
 };
 
 
-export type TmsMutationupdatePartnerInvoiceArgs = {
+export type TmsMutationUpdatePartnerInvoiceArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePartnerInvoiceInput>;
 };
 
 
-export type TmsMutationupdatePartnerInvoiceItemArgs = {
+export type TmsMutationUpdatePartnerInvoiceItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePartnerInvoiceItemInput>;
 };
 
 
-export type TmsMutationupdateProofOfDeliveryArgs = {
+export type TmsMutationUpdateProofOfDeliveryArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateProofOfDeliveryInput>;
 };
 
 
-export type TmsMutationupdateRouteArgs = {
+export type TmsMutationUpdateRouteArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateRouteInput>;
 };
 
 
-export type TmsMutationupdateShipmentLegArgs = {
+export type TmsMutationUpdateShipmentLegArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateShipmentLegInput>;
 };
 
 
-export type TmsMutationupdateShipmentLegEventArgs = {
+export type TmsMutationUpdateShipmentLegEventArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateShipmentLegEventInput>;
 };
 
 
-export type TmsMutationupdateTripArgs = {
+export type TmsMutationUpdateTripArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateTripInput>;
 };
 
 
-export type TmsMutationupdateTripStopArgs = {
+export type TmsMutationUpdateTripStopArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateTripStopInput>;
 };
 
 
-export type TmsMutationupdateVehicleArgs = {
+export type TmsMutationUpdateVehicleArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateVehicleInput>;
 };
 
 
-export type TmsMutationupdateVehicleMaintenanceArgs = {
+export type TmsMutationUpdateVehicleMaintenanceArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateVehicleMaintenanceInput>;
 };
@@ -3681,122 +3683,122 @@ export type TmsQuery = {
 };
 
 
-export type TmsQuerycarrierArgs = {
+export type TmsQueryCarrierArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQuerycarriersArgs = {
+export type TmsQueryCarriersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQuerydriverArgs = {
+export type TmsQueryDriverArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQuerydriversArgs = {
+export type TmsQueryDriversArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQueryexpenseArgs = {
+export type TmsQueryExpenseArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQueryexpensesArgs = {
+export type TmsQueryExpensesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQuerygeofenceArgs = {
+export type TmsQueryGeofenceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQuerygeofencesArgs = {
+export type TmsQueryGeofencesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQuerygpsPingArgs = {
+export type TmsQueryGpsPingArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQuerygpsPingsArgs = {
+export type TmsQueryGpsPingsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQuerypartnerInvoiceArgs = {
+export type TmsQueryPartnerInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQuerypartnerInvoicesArgs = {
+export type TmsQueryPartnerInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQueryproofOfDeliveriesArgs = {
+export type TmsQueryProofOfDeliveriesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQueryproofOfDeliveryArgs = {
+export type TmsQueryProofOfDeliveryArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQueryrouteArgs = {
+export type TmsQueryRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQueryroutesArgs = {
+export type TmsQueryRoutesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQueryshipmentLegArgs = {
+export type TmsQueryShipmentLegArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQueryshipmentLegsArgs = {
+export type TmsQueryShipmentLegsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQuerytripArgs = {
+export type TmsQueryTripArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQuerytripsArgs = {
+export type TmsQueryTripsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type TmsQueryvehicleArgs = {
+export type TmsQueryVehicleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsQueryvehiclesArgs = {
+export type TmsQueryVehiclesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -4801,401 +4803,401 @@ export type WmsMutation = {
 };
 
 
-export type WmsMutationcreateBinThresholdArgs = {
+export type WmsMutationCreateBinThresholdArgs = {
   value: CreateBinThresholdInput;
 };
 
 
-export type WmsMutationcreateInboundShipmentArgs = {
+export type WmsMutationCreateInboundShipmentArgs = {
   value: CreateInboundShipmentInput;
 };
 
 
-export type WmsMutationcreateInboundShipmentItemArgs = {
+export type WmsMutationCreateInboundShipmentItemArgs = {
   value: CreateInboundShipmentItemInput;
 };
 
 
-export type WmsMutationcreateInventoryAdjustmentArgs = {
+export type WmsMutationCreateInventoryAdjustmentArgs = {
   value: CreateInventoryAdjustmentInput;
 };
 
 
-export type WmsMutationcreateInventoryBatchArgs = {
+export type WmsMutationCreateInventoryBatchArgs = {
   value: CreateInventoryBatchInput;
 };
 
 
-export type WmsMutationcreateInventoryStockArgs = {
+export type WmsMutationCreateInventoryStockArgs = {
   value: CreateInventoryStockInput;
 };
 
 
-export type WmsMutationcreateLocationArgs = {
+export type WmsMutationCreateLocationArgs = {
   value: CreateLocationInput;
 };
 
 
-export type WmsMutationcreateOutboundShipmentArgs = {
+export type WmsMutationCreateOutboundShipmentArgs = {
   value: CreateOutboundShipmentInput;
 };
 
 
-export type WmsMutationcreateOutboundShipmentItemArgs = {
+export type WmsMutationCreateOutboundShipmentItemArgs = {
   value: CreateOutboundShipmentItemInput;
 };
 
 
-export type WmsMutationcreatePackageArgs = {
+export type WmsMutationCreatePackageArgs = {
   value: CreatePackageInput;
 };
 
 
-export type WmsMutationcreatePackageItemArgs = {
+export type WmsMutationCreatePackageItemArgs = {
   value: CreatePackageItemInput;
 };
 
 
-export type WmsMutationcreatePickBatchArgs = {
+export type WmsMutationCreatePickBatchArgs = {
   value: CreatePickBatchInput;
 };
 
 
-export type WmsMutationcreatePickBatchItemArgs = {
+export type WmsMutationCreatePickBatchItemArgs = {
   value: CreatePickBatchItemInput;
 };
 
 
-export type WmsMutationcreatePutawayRuleArgs = {
+export type WmsMutationCreatePutawayRuleArgs = {
   value: CreatePutawayRuleInput;
 };
 
 
-export type WmsMutationcreateReorderPointArgs = {
+export type WmsMutationCreateReorderPointArgs = {
   value: CreateReorderPointInput;
 };
 
 
-export type WmsMutationcreateReturnArgs = {
+export type WmsMutationCreateReturnArgs = {
   value: CreateReturnInput;
 };
 
 
-export type WmsMutationcreateReturnItemArgs = {
+export type WmsMutationCreateReturnItemArgs = {
   value: CreateReturnItemInput;
 };
 
 
-export type WmsMutationcreateSalesOrderArgs = {
+export type WmsMutationCreateSalesOrderArgs = {
   value: CreateSalesOrderInput;
 };
 
 
-export type WmsMutationcreateSalesOrderItemArgs = {
+export type WmsMutationCreateSalesOrderItemArgs = {
   value: CreateSalesOrderItemInput;
 };
 
 
-export type WmsMutationcreateStockTransferArgs = {
+export type WmsMutationCreateStockTransferArgs = {
   value: CreateStockTransferInput;
 };
 
 
-export type WmsMutationcreateSupplierArgs = {
+export type WmsMutationCreateSupplierArgs = {
   value: CreateSupplierInput;
 };
 
 
-export type WmsMutationcreateTaskArgs = {
+export type WmsMutationCreateTaskArgs = {
   value: CreateTaskInput;
 };
 
 
-export type WmsMutationcreateTaskItemArgs = {
+export type WmsMutationCreateTaskItemArgs = {
   value: CreateTaskItemInput;
 };
 
 
-export type WmsMutationcreateWarehouseArgs = {
+export type WmsMutationCreateWarehouseArgs = {
   value: CreateWarehouseInput;
 };
 
 
-export type WmsMutationcreateWmsProductArgs = {
+export type WmsMutationCreateWmsProductArgs = {
   value: CreateWmsProductInput;
 };
 
 
-export type WmsMutationremoveBinThresholdArgs = {
+export type WmsMutationRemoveBinThresholdArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveInboundShipmentArgs = {
+export type WmsMutationRemoveInboundShipmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveInboundShipmentItemArgs = {
+export type WmsMutationRemoveInboundShipmentItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveInventoryAdjustmentArgs = {
+export type WmsMutationRemoveInventoryAdjustmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveInventoryBatchArgs = {
+export type WmsMutationRemoveInventoryBatchArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveInventoryStockArgs = {
+export type WmsMutationRemoveInventoryStockArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveLocationArgs = {
+export type WmsMutationRemoveLocationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveOutboundShipmentArgs = {
+export type WmsMutationRemoveOutboundShipmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveOutboundShipmentItemArgs = {
+export type WmsMutationRemoveOutboundShipmentItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremovePackageArgs = {
+export type WmsMutationRemovePackageArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremovePackageItemArgs = {
+export type WmsMutationRemovePackageItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremovePickBatchArgs = {
+export type WmsMutationRemovePickBatchArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremovePickBatchItemArgs = {
+export type WmsMutationRemovePickBatchItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremovePutawayRuleArgs = {
+export type WmsMutationRemovePutawayRuleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveReorderPointArgs = {
+export type WmsMutationRemoveReorderPointArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveReturnArgs = {
+export type WmsMutationRemoveReturnArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveReturnItemArgs = {
+export type WmsMutationRemoveReturnItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveSalesOrderArgs = {
+export type WmsMutationRemoveSalesOrderArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveSalesOrderItemArgs = {
+export type WmsMutationRemoveSalesOrderItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveStockTransferArgs = {
+export type WmsMutationRemoveStockTransferArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveSupplierArgs = {
+export type WmsMutationRemoveSupplierArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveTaskArgs = {
+export type WmsMutationRemoveTaskArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveTaskItemArgs = {
+export type WmsMutationRemoveTaskItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveWarehouseArgs = {
+export type WmsMutationRemoveWarehouseArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationremoveWmsProductArgs = {
+export type WmsMutationRemoveWmsProductArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsMutationupdateBinThresholdArgs = {
+export type WmsMutationUpdateBinThresholdArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateBinThresholdInput>;
 };
 
 
-export type WmsMutationupdateInboundShipmentArgs = {
+export type WmsMutationUpdateInboundShipmentArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInboundShipmentInput>;
 };
 
 
-export type WmsMutationupdateInboundShipmentItemArgs = {
+export type WmsMutationUpdateInboundShipmentItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInboundShipmentItemInput>;
 };
 
 
-export type WmsMutationupdateInventoryAdjustmentArgs = {
+export type WmsMutationUpdateInventoryAdjustmentArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInventoryAdjustmentInput>;
 };
 
 
-export type WmsMutationupdateInventoryBatchArgs = {
+export type WmsMutationUpdateInventoryBatchArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInventoryBatchInput>;
 };
 
 
-export type WmsMutationupdateInventoryStockArgs = {
+export type WmsMutationUpdateInventoryStockArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateInventoryStockInput>;
 };
 
 
-export type WmsMutationupdateLocationArgs = {
+export type WmsMutationUpdateLocationArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateLocationInput>;
 };
 
 
-export type WmsMutationupdateOutboundShipmentArgs = {
+export type WmsMutationUpdateOutboundShipmentArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateOutboundShipmentInput>;
 };
 
 
-export type WmsMutationupdateOutboundShipmentItemArgs = {
+export type WmsMutationUpdateOutboundShipmentItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateOutboundShipmentItemInput>;
 };
 
 
-export type WmsMutationupdatePackageArgs = {
+export type WmsMutationUpdatePackageArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePackageInput>;
 };
 
 
-export type WmsMutationupdatePackageItemArgs = {
+export type WmsMutationUpdatePackageItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePackageItemInput>;
 };
 
 
-export type WmsMutationupdatePickBatchArgs = {
+export type WmsMutationUpdatePickBatchArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePickBatchInput>;
 };
 
 
-export type WmsMutationupdatePickBatchItemArgs = {
+export type WmsMutationUpdatePickBatchItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePickBatchItemInput>;
 };
 
 
-export type WmsMutationupdatePutawayRuleArgs = {
+export type WmsMutationUpdatePutawayRuleArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdatePutawayRuleInput>;
 };
 
 
-export type WmsMutationupdateReorderPointArgs = {
+export type WmsMutationUpdateReorderPointArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateReorderPointInput>;
 };
 
 
-export type WmsMutationupdateReturnArgs = {
+export type WmsMutationUpdateReturnArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateReturnInput>;
 };
 
 
-export type WmsMutationupdateReturnItemArgs = {
+export type WmsMutationUpdateReturnItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateReturnItemInput>;
 };
 
 
-export type WmsMutationupdateSalesOrderArgs = {
+export type WmsMutationUpdateSalesOrderArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateSalesOrderInput>;
 };
 
 
-export type WmsMutationupdateSalesOrderItemArgs = {
+export type WmsMutationUpdateSalesOrderItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateSalesOrderItemInput>;
 };
 
 
-export type WmsMutationupdateStockTransferArgs = {
+export type WmsMutationUpdateStockTransferArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateStockTransferInput>;
 };
 
 
-export type WmsMutationupdateSupplierArgs = {
+export type WmsMutationUpdateSupplierArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateSupplierInput>;
 };
 
 
-export type WmsMutationupdateTaskArgs = {
+export type WmsMutationUpdateTaskArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateTaskInput>;
 };
 
 
-export type WmsMutationupdateTaskItemArgs = {
+export type WmsMutationUpdateTaskItemArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateTaskItemInput>;
 };
 
 
-export type WmsMutationupdateWarehouseArgs = {
+export type WmsMutationUpdateWarehouseArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateWarehouseInput>;
 };
 
 
-export type WmsMutationupdateWmsProductArgs = {
+export type WmsMutationUpdateWmsProductArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateWmsProductInput>;
 };
@@ -5274,199 +5276,199 @@ export type WmsQuery = {
 };
 
 
-export type WmsQuerybinThresholdArgs = {
+export type WmsQueryBinThresholdArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerybinThresholdsArgs = {
+export type WmsQueryBinThresholdsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryinboundShipmentArgs = {
+export type WmsQueryInboundShipmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryinboundShipmentsArgs = {
+export type WmsQueryInboundShipmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryinventoryAdjustmentArgs = {
+export type WmsQueryInventoryAdjustmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryinventoryAdjustmentsArgs = {
+export type WmsQueryInventoryAdjustmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryinventoryBatchArgs = {
+export type WmsQueryInventoryBatchArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryinventoryBatchesArgs = {
+export type WmsQueryInventoryBatchesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryinventoryStockArgs = {
+export type WmsQueryInventoryStockArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryinventoryStocksArgs = {
+export type WmsQueryInventoryStocksArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerylocationArgs = {
+export type WmsQueryLocationArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerylocationsArgs = {
+export type WmsQueryLocationsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryoutboundShipmentArgs = {
+export type WmsQueryOutboundShipmentArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryoutboundShipmentsArgs = {
+export type WmsQueryOutboundShipmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerypackageArgs = {
+export type WmsQueryPackageArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerypackagesArgs = {
+export type WmsQueryPackagesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerypickBatchArgs = {
+export type WmsQueryPickBatchArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerypickBatchesArgs = {
+export type WmsQueryPickBatchesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryputawayRuleArgs = {
+export type WmsQueryPutawayRuleArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryputawayRulesArgs = {
+export type WmsQueryPutawayRulesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryreorderPointArgs = {
+export type WmsQueryReorderPointArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryreorderPointsArgs = {
+export type WmsQueryReorderPointsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQueryreturnArgs = {
+export type WmsQueryReturnArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQueryreturnsArgs = {
+export type WmsQueryReturnsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerysalesOrderArgs = {
+export type WmsQuerySalesOrderArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerysalesOrdersArgs = {
+export type WmsQuerySalesOrdersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerystockTransferArgs = {
+export type WmsQueryStockTransferArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerystockTransfersArgs = {
+export type WmsQueryStockTransfersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerysupplierArgs = {
+export type WmsQuerySupplierArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerysuppliersArgs = {
+export type WmsQuerySuppliersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerytaskArgs = {
+export type WmsQueryTaskArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerytasksArgs = {
+export type WmsQueryTasksArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerywarehouseArgs = {
+export type WmsQueryWarehouseArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerywarehousesArgs = {
+export type WmsQueryWarehousesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
-export type WmsQuerywmsProductArgs = {
+export type WmsQueryWmsProductArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type WmsQuerywmsProductsArgs = {
+export type WmsQueryWmsProductsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -5707,7 +5709,7 @@ export type ResolversTypes = {
   PartnerInvoiceItems: ResolverTypeWrapper<Omit<PartnerInvoiceItems, 'partnerInvoice' | 'shipmentLeg'> & { partnerInvoice: ResolversTypes['PartnerInvoices'], shipmentLeg: ResolversTypes['ShipmentLegs'] }>;
   PartnerInvoiceStatus: ResolverTypeWrapper<'PENDING' | 'PAID' | 'DISPUTED' | 'OVERDUE' | 'CANCELLED'>;
   PartnerInvoices: ResolverTypeWrapper<Omit<PartnerInvoices, 'carrier' | 'items' | 'status'> & { carrier: ResolversTypes['Carriers'], items?: Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, status?: Maybe<ResolversTypes['PartnerInvoiceStatus']> }>;
-  PaymentMethod: ResolverTypeWrapper<'BANK_TRANSFER' | 'CASH' | 'CHECK' | 'CLIENT_CREDIT' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'PAYPAL' | 'QR_PH' | 'STRIPE' | 'WALLET' | 'WIRE_TRANSFER'>;
+  PaymentMethod: ResolverTypeWrapper<'BANK_TRANSFER' | 'CASH' | 'CHECK' | 'CLIENT_CREDIT' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'MAYA' | 'OTHER' | 'PAYPAL' | 'QR_PH' | 'STRIPE' | 'WALLET' | 'WIRE_TRANSFER'>;
   PaymentStatus: ResolverTypeWrapper<'PENDING' | 'PROCESSING' | 'SUCCESSFUL' | 'FAILED' | 'CANCELLED' | 'REFUNDED'>;
   Payments: ResolverTypeWrapper<Omit<Payments, 'invoice' | 'paymentMethod' | 'status'> & { invoice: ResolversTypes['BillingInvoices'], paymentMethod: ResolversTypes['PaymentMethod'], status?: Maybe<ResolversTypes['PaymentStatus']> }>;
   PickBatchItems: ResolverTypeWrapper<Omit<PickBatchItems, 'pickBatch' | 'salesOrder'> & { pickBatch: ResolversTypes['PickBatches'], salesOrder: ResolversTypes['SalesOrders'] }>;
@@ -6168,72 +6170,72 @@ export type BillingInvoicesResolvers<ContextType = GraphQLContext, ParentType ex
 };
 
 export type BillingMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingMutation'] = ResolversParentTypes['BillingMutation']> = {
-  createAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationcreateAccountTransactionArgs, 'value'>>;
-  createAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationcreateAccountingSyncLogArgs, 'value'>>;
-  createBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationcreateBillingInvoiceArgs, 'value'>>;
-  createClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationcreateClientAccountArgs, 'value'>>;
-  createCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationcreateCreditNoteArgs, 'value'>>;
-  createDispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingMutationcreateDisputeArgs, 'value'>>;
-  createDocument?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingMutationcreateDocumentArgs, 'value'>>;
-  createInvoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingMutationcreateInvoiceLineItemArgs, 'value'>>;
-  createPayment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingMutationcreatePaymentArgs, 'value'>>;
-  createQuote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingMutationcreateQuoteArgs, 'value'>>;
-  createRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationcreateRateCardArgs, 'value'>>;
-  createRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationcreateRateRuleArgs, 'value'>>;
-  createSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationcreateSurchargeArgs, 'value'>>;
-  removeAccountTransaction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveAccountTransactionArgs, 'id'>>;
-  removeAccountingSyncLog?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveAccountingSyncLogArgs, 'id'>>;
-  removeBillingInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveBillingInvoiceArgs, 'id'>>;
-  removeClientAccount?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveClientAccountArgs, 'id'>>;
-  removeCreditNote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveCreditNoteArgs, 'id'>>;
-  removeDispute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveDisputeArgs, 'id'>>;
-  removeDocument?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveDocumentArgs, 'id'>>;
-  removeInvoiceLineItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveInvoiceLineItemArgs, 'id'>>;
-  removePayment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremovePaymentArgs, 'id'>>;
-  removeQuote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveQuoteArgs, 'id'>>;
-  removeRateCard?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveRateCardArgs, 'id'>>;
-  removeRateRule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveRateRuleArgs, 'id'>>;
-  removeSurcharge?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveSurchargeArgs, 'id'>>;
-  updateAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationupdateAccountTransactionArgs, 'id'>>;
-  updateAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationupdateAccountingSyncLogArgs, 'id'>>;
-  updateBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationupdateBillingInvoiceArgs, 'id'>>;
-  updateClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationupdateClientAccountArgs, 'id'>>;
-  updateCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationupdateCreditNoteArgs, 'id'>>;
-  updateDispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingMutationupdateDisputeArgs, 'id'>>;
-  updateDocument?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingMutationupdateDocumentArgs, 'id'>>;
-  updateInvoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingMutationupdateInvoiceLineItemArgs, 'id'>>;
-  updatePayment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingMutationupdatePaymentArgs, 'id'>>;
-  updateQuote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingMutationupdateQuoteArgs, 'id'>>;
-  updateRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationupdateRateCardArgs, 'id'>>;
-  updateRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationupdateRateRuleArgs, 'id'>>;
-  updateSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationupdateSurchargeArgs, 'id'>>;
+  createAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationCreateAccountTransactionArgs, 'value'>>;
+  createAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationCreateAccountingSyncLogArgs, 'value'>>;
+  createBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationCreateBillingInvoiceArgs, 'value'>>;
+  createClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationCreateClientAccountArgs, 'value'>>;
+  createCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationCreateCreditNoteArgs, 'value'>>;
+  createDispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingMutationCreateDisputeArgs, 'value'>>;
+  createDocument?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingMutationCreateDocumentArgs, 'value'>>;
+  createInvoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingMutationCreateInvoiceLineItemArgs, 'value'>>;
+  createPayment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingMutationCreatePaymentArgs, 'value'>>;
+  createQuote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingMutationCreateQuoteArgs, 'value'>>;
+  createRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationCreateRateCardArgs, 'value'>>;
+  createRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationCreateRateRuleArgs, 'value'>>;
+  createSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationCreateSurchargeArgs, 'value'>>;
+  removeAccountTransaction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveAccountTransactionArgs, 'id'>>;
+  removeAccountingSyncLog?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveAccountingSyncLogArgs, 'id'>>;
+  removeBillingInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveBillingInvoiceArgs, 'id'>>;
+  removeClientAccount?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveClientAccountArgs, 'id'>>;
+  removeCreditNote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveCreditNoteArgs, 'id'>>;
+  removeDispute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveDisputeArgs, 'id'>>;
+  removeDocument?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveDocumentArgs, 'id'>>;
+  removeInvoiceLineItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveInvoiceLineItemArgs, 'id'>>;
+  removePayment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemovePaymentArgs, 'id'>>;
+  removeQuote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveQuoteArgs, 'id'>>;
+  removeRateCard?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveRateCardArgs, 'id'>>;
+  removeRateRule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveRateRuleArgs, 'id'>>;
+  removeSurcharge?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationRemoveSurchargeArgs, 'id'>>;
+  updateAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationUpdateAccountTransactionArgs, 'id'>>;
+  updateAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationUpdateAccountingSyncLogArgs, 'id'>>;
+  updateBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationUpdateBillingInvoiceArgs, 'id'>>;
+  updateClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationUpdateClientAccountArgs, 'id'>>;
+  updateCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationUpdateCreditNoteArgs, 'id'>>;
+  updateDispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingMutationUpdateDisputeArgs, 'id'>>;
+  updateDocument?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingMutationUpdateDocumentArgs, 'id'>>;
+  updateInvoiceLineItem?: Resolver<ResolversTypes['InvoiceLineItems'], ParentType, ContextType, RequireFields<BillingMutationUpdateInvoiceLineItemArgs, 'id'>>;
+  updatePayment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingMutationUpdatePaymentArgs, 'id'>>;
+  updateQuote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingMutationUpdateQuoteArgs, 'id'>>;
+  updateRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationUpdateRateCardArgs, 'id'>>;
+  updateRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationUpdateRateRuleArgs, 'id'>>;
+  updateSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationUpdateSurchargeArgs, 'id'>>;
 };
 
 export type BillingQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingQuery'] = ResolversParentTypes['BillingQuery']> = {
-  accountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingQueryaccountTransactionArgs, 'id'>>;
-  accountTransactions?: Resolver<Array<ResolversTypes['AccountTransactions']>, ParentType, ContextType, Partial<BillingQueryaccountTransactionsArgs>>;
-  accountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingQueryaccountingSyncLogArgs, 'id'>>;
-  accountingSyncLogs?: Resolver<Array<ResolversTypes['AccountingSyncLogs']>, ParentType, ContextType, Partial<BillingQueryaccountingSyncLogsArgs>>;
-  billingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingQuerybillingInvoiceArgs, 'id'>>;
-  billingInvoices?: Resolver<Array<ResolversTypes['BillingInvoices']>, ParentType, ContextType, Partial<BillingQuerybillingInvoicesArgs>>;
-  clientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingQueryclientAccountArgs, 'id'>>;
-  clientAccounts?: Resolver<Array<ResolversTypes['ClientAccounts']>, ParentType, ContextType, Partial<BillingQueryclientAccountsArgs>>;
-  creditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingQuerycreditNoteArgs, 'id'>>;
-  creditNotes?: Resolver<Array<ResolversTypes['CreditNotes']>, ParentType, ContextType, Partial<BillingQuerycreditNotesArgs>>;
-  dispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingQuerydisputeArgs, 'id'>>;
-  disputes?: Resolver<Array<ResolversTypes['Disputes']>, ParentType, ContextType, Partial<BillingQuerydisputesArgs>>;
-  document?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingQuerydocumentArgs, 'id'>>;
-  documents?: Resolver<Array<ResolversTypes['Documents']>, ParentType, ContextType, Partial<BillingQuerydocumentsArgs>>;
-  payment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingQuerypaymentArgs, 'id'>>;
-  payments?: Resolver<Array<ResolversTypes['Payments']>, ParentType, ContextType, Partial<BillingQuerypaymentsArgs>>;
-  quote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingQueryquoteArgs, 'id'>>;
-  quotes?: Resolver<Array<ResolversTypes['Quotes']>, ParentType, ContextType, Partial<BillingQueryquotesArgs>>;
-  rateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingQueryrateCardArgs, 'id'>>;
-  rateCards?: Resolver<Array<ResolversTypes['RateCards']>, ParentType, ContextType, Partial<BillingQueryrateCardsArgs>>;
-  rateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingQueryrateRuleArgs, 'id'>>;
-  rateRules?: Resolver<Array<ResolversTypes['RateRules']>, ParentType, ContextType, Partial<BillingQueryrateRulesArgs>>;
-  surcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingQuerysurchargeArgs, 'id'>>;
-  surcharges?: Resolver<Array<ResolversTypes['Surcharges']>, ParentType, ContextType, Partial<BillingQuerysurchargesArgs>>;
+  accountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingQueryAccountTransactionArgs, 'id'>>;
+  accountTransactions?: Resolver<Array<ResolversTypes['AccountTransactions']>, ParentType, ContextType, Partial<BillingQueryAccountTransactionsArgs>>;
+  accountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingQueryAccountingSyncLogArgs, 'id'>>;
+  accountingSyncLogs?: Resolver<Array<ResolversTypes['AccountingSyncLogs']>, ParentType, ContextType, Partial<BillingQueryAccountingSyncLogsArgs>>;
+  billingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingQueryBillingInvoiceArgs, 'id'>>;
+  billingInvoices?: Resolver<Array<ResolversTypes['BillingInvoices']>, ParentType, ContextType, Partial<BillingQueryBillingInvoicesArgs>>;
+  clientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingQueryClientAccountArgs, 'id'>>;
+  clientAccounts?: Resolver<Array<ResolversTypes['ClientAccounts']>, ParentType, ContextType, Partial<BillingQueryClientAccountsArgs>>;
+  creditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingQueryCreditNoteArgs, 'id'>>;
+  creditNotes?: Resolver<Array<ResolversTypes['CreditNotes']>, ParentType, ContextType, Partial<BillingQueryCreditNotesArgs>>;
+  dispute?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType, RequireFields<BillingQueryDisputeArgs, 'id'>>;
+  disputes?: Resolver<Array<ResolversTypes['Disputes']>, ParentType, ContextType, Partial<BillingQueryDisputesArgs>>;
+  document?: Resolver<ResolversTypes['Documents'], ParentType, ContextType, RequireFields<BillingQueryDocumentArgs, 'id'>>;
+  documents?: Resolver<Array<ResolversTypes['Documents']>, ParentType, ContextType, Partial<BillingQueryDocumentsArgs>>;
+  payment?: Resolver<ResolversTypes['Payments'], ParentType, ContextType, RequireFields<BillingQueryPaymentArgs, 'id'>>;
+  payments?: Resolver<Array<ResolversTypes['Payments']>, ParentType, ContextType, Partial<BillingQueryPaymentsArgs>>;
+  quote?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType, RequireFields<BillingQueryQuoteArgs, 'id'>>;
+  quotes?: Resolver<Array<ResolversTypes['Quotes']>, ParentType, ContextType, Partial<BillingQueryQuotesArgs>>;
+  rateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingQueryRateCardArgs, 'id'>>;
+  rateCards?: Resolver<Array<ResolversTypes['RateCards']>, ParentType, ContextType, Partial<BillingQueryRateCardsArgs>>;
+  rateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingQueryRateRuleArgs, 'id'>>;
+  rateRules?: Resolver<Array<ResolversTypes['RateRules']>, ParentType, ContextType, Partial<BillingQueryRateRulesArgs>>;
+  surcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingQuerySurchargeArgs, 'id'>>;
+  surcharges?: Resolver<Array<ResolversTypes['Surcharges']>, ParentType, ContextType, Partial<BillingQuerySurchargesArgs>>;
 };
 
 export type BinThresholdsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BinThresholds'] = ResolversParentTypes['BinThresholds']> = {
@@ -6374,69 +6376,69 @@ export type CreditNotesResolvers<ContextType = GraphQLContext, ParentType extend
 };
 
 export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CrmMutation'] = ResolversParentTypes['CrmMutation']> = {
-  createAttachment?: Resolver<ResolversTypes['Attachments'], ParentType, ContextType, RequireFields<CrmMutationcreateAttachmentArgs, 'value'>>;
-  createCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationcreateCampaignArgs, 'value'>>;
-  createCase?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmMutationcreateCaseArgs, 'value'>>;
-  createCompany?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmMutationcreateCompanyArgs, 'value'>>;
-  createContact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmMutationcreateContactArgs, 'value'>>;
-  createInteraction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmMutationcreateInteractionArgs, 'value'>>;
-  createInvoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmMutationcreateInvoiceArgs, 'value'>>;
-  createInvoiceItem?: Resolver<ResolversTypes['InvoiceItems'], ParentType, ContextType, RequireFields<CrmMutationcreateInvoiceItemArgs, 'value'>>;
-  createLead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmMutationcreateLeadArgs, 'value'>>;
-  createNotification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmMutationcreateNotificationArgs, 'value'>>;
-  createOpportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmMutationcreateOpportunityArgs, 'value'>>;
-  createOpportunityProduct?: Resolver<ResolversTypes['OpportunityProducts'], ParentType, ContextType, RequireFields<CrmMutationcreateOpportunityProductArgs, 'value'>>;
-  createProduct?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmMutationcreateProductArgs, 'value'>>;
-  removeAttachment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveAttachmentArgs, 'id'>>;
-  removeCampaign?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveCampaignArgs, 'id'>>;
-  removeCase?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveCaseArgs, 'id'>>;
-  removeCompany?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveCompanyArgs, 'id'>>;
-  removeContact?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveContactArgs, 'id'>>;
-  removeInteraction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInteractionArgs, 'id'>>;
-  removeInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInvoiceArgs, 'id'>>;
-  removeInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInvoiceItemArgs, 'id'>>;
-  removeLead?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveLeadArgs, 'id'>>;
-  removeNotification?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveNotificationArgs, 'id'>>;
-  removeOpportunity?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityArgs, 'id'>>;
-  removeOpportunityProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityProductArgs, 'opportunityId' | 'productId'>>;
-  removeProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveProductArgs, 'id'>>;
-  updateCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationupdateCampaignArgs, 'id'>>;
-  updateCase?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmMutationupdateCaseArgs, 'id'>>;
-  updateCompany?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmMutationupdateCompanyArgs, 'id'>>;
-  updateContact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmMutationupdateContactArgs, 'id'>>;
-  updateInteraction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmMutationupdateInteractionArgs, 'id'>>;
-  updateInvoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmMutationupdateInvoiceArgs, 'id'>>;
-  updateInvoiceItem?: Resolver<ResolversTypes['InvoiceItems'], ParentType, ContextType, RequireFields<CrmMutationupdateInvoiceItemArgs, 'id'>>;
-  updateLead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmMutationupdateLeadArgs, 'id'>>;
-  updateNotification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmMutationupdateNotificationArgs, 'id'>>;
-  updateOpportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmMutationupdateOpportunityArgs, 'id'>>;
-  updateOpportunityProduct?: Resolver<ResolversTypes['OpportunityProducts'], ParentType, ContextType, RequireFields<CrmMutationupdateOpportunityProductArgs, 'opportunityId' | 'productId'>>;
-  updateProduct?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmMutationupdateProductArgs, 'id'>>;
+  createAttachment?: Resolver<ResolversTypes['Attachments'], ParentType, ContextType, RequireFields<CrmMutationCreateAttachmentArgs, 'value'>>;
+  createCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationCreateCampaignArgs, 'value'>>;
+  createCase?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmMutationCreateCaseArgs, 'value'>>;
+  createCompany?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmMutationCreateCompanyArgs, 'value'>>;
+  createContact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmMutationCreateContactArgs, 'value'>>;
+  createInteraction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmMutationCreateInteractionArgs, 'value'>>;
+  createInvoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmMutationCreateInvoiceArgs, 'value'>>;
+  createInvoiceItem?: Resolver<ResolversTypes['InvoiceItems'], ParentType, ContextType, RequireFields<CrmMutationCreateInvoiceItemArgs, 'value'>>;
+  createLead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmMutationCreateLeadArgs, 'value'>>;
+  createNotification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmMutationCreateNotificationArgs, 'value'>>;
+  createOpportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmMutationCreateOpportunityArgs, 'value'>>;
+  createOpportunityProduct?: Resolver<ResolversTypes['OpportunityProducts'], ParentType, ContextType, RequireFields<CrmMutationCreateOpportunityProductArgs, 'value'>>;
+  createProduct?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmMutationCreateProductArgs, 'value'>>;
+  removeAttachment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveAttachmentArgs, 'id'>>;
+  removeCampaign?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveCampaignArgs, 'id'>>;
+  removeCase?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveCaseArgs, 'id'>>;
+  removeCompany?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveCompanyArgs, 'id'>>;
+  removeContact?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveContactArgs, 'id'>>;
+  removeInteraction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveInteractionArgs, 'id'>>;
+  removeInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveInvoiceArgs, 'id'>>;
+  removeInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveInvoiceItemArgs, 'id'>>;
+  removeLead?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveLeadArgs, 'id'>>;
+  removeNotification?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveNotificationArgs, 'id'>>;
+  removeOpportunity?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveOpportunityArgs, 'id'>>;
+  removeOpportunityProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveOpportunityProductArgs, 'opportunityId' | 'productId'>>;
+  removeProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationRemoveProductArgs, 'id'>>;
+  updateCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationUpdateCampaignArgs, 'id'>>;
+  updateCase?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmMutationUpdateCaseArgs, 'id'>>;
+  updateCompany?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmMutationUpdateCompanyArgs, 'id'>>;
+  updateContact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmMutationUpdateContactArgs, 'id'>>;
+  updateInteraction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmMutationUpdateInteractionArgs, 'id'>>;
+  updateInvoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmMutationUpdateInvoiceArgs, 'id'>>;
+  updateInvoiceItem?: Resolver<ResolversTypes['InvoiceItems'], ParentType, ContextType, RequireFields<CrmMutationUpdateInvoiceItemArgs, 'id'>>;
+  updateLead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmMutationUpdateLeadArgs, 'id'>>;
+  updateNotification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmMutationUpdateNotificationArgs, 'id'>>;
+  updateOpportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmMutationUpdateOpportunityArgs, 'id'>>;
+  updateOpportunityProduct?: Resolver<ResolversTypes['OpportunityProducts'], ParentType, ContextType, RequireFields<CrmMutationUpdateOpportunityProductArgs, 'opportunityId' | 'productId'>>;
+  updateProduct?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmMutationUpdateProductArgs, 'id'>>;
 };
 
 export type CrmQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CrmQuery'] = ResolversParentTypes['CrmQuery']> = {
-  attachment?: Resolver<ResolversTypes['Attachments'], ParentType, ContextType, RequireFields<CrmQueryattachmentArgs, 'id'>>;
-  attachments?: Resolver<Array<ResolversTypes['Attachments']>, ParentType, ContextType, Partial<CrmQueryattachmentsArgs>>;
-  campaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmQuerycampaignArgs, 'id'>>;
-  campaigns?: Resolver<Array<ResolversTypes['Campaigns']>, ParentType, ContextType, Partial<CrmQuerycampaignsArgs>>;
-  case?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmQuerycaseArgs, 'id'>>;
-  cases?: Resolver<Array<ResolversTypes['Cases']>, ParentType, ContextType, Partial<CrmQuerycasesArgs>>;
-  companies?: Resolver<Array<ResolversTypes['Companies']>, ParentType, ContextType, Partial<CrmQuerycompaniesArgs>>;
-  company?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmQuerycompanyArgs, 'id'>>;
-  contact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmQuerycontactArgs, 'id'>>;
-  contacts?: Resolver<Array<ResolversTypes['Contacts']>, ParentType, ContextType, Partial<CrmQuerycontactsArgs>>;
-  interaction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmQueryinteractionArgs, 'id'>>;
-  interactions?: Resolver<Array<ResolversTypes['Interactions']>, ParentType, ContextType, Partial<CrmQueryinteractionsArgs>>;
-  invoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmQueryinvoiceArgs, 'id'>>;
-  invoices?: Resolver<Array<ResolversTypes['Invoices']>, ParentType, ContextType, Partial<CrmQueryinvoicesArgs>>;
-  lead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmQueryleadArgs, 'id'>>;
-  leads?: Resolver<Array<ResolversTypes['Leads']>, ParentType, ContextType, Partial<CrmQueryleadsArgs>>;
-  notification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmQuerynotificationArgs, 'id'>>;
-  notifications?: Resolver<Array<ResolversTypes['Notifications']>, ParentType, ContextType, Partial<CrmQuerynotificationsArgs>>;
-  opportunities?: Resolver<Array<ResolversTypes['Opportunities']>, ParentType, ContextType, Partial<CrmQueryopportunitiesArgs>>;
-  opportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmQueryopportunityArgs, 'id'>>;
-  product?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmQueryproductArgs, 'id'>>;
-  products?: Resolver<Array<ResolversTypes['Products']>, ParentType, ContextType, Partial<CrmQueryproductsArgs>>;
+  attachment?: Resolver<ResolversTypes['Attachments'], ParentType, ContextType, RequireFields<CrmQueryAttachmentArgs, 'id'>>;
+  attachments?: Resolver<Array<ResolversTypes['Attachments']>, ParentType, ContextType, Partial<CrmQueryAttachmentsArgs>>;
+  campaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmQueryCampaignArgs, 'id'>>;
+  campaigns?: Resolver<Array<ResolversTypes['Campaigns']>, ParentType, ContextType, Partial<CrmQueryCampaignsArgs>>;
+  case?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmQueryCaseArgs, 'id'>>;
+  cases?: Resolver<Array<ResolversTypes['Cases']>, ParentType, ContextType, Partial<CrmQueryCasesArgs>>;
+  companies?: Resolver<Array<ResolversTypes['Companies']>, ParentType, ContextType, Partial<CrmQueryCompaniesArgs>>;
+  company?: Resolver<ResolversTypes['Companies'], ParentType, ContextType, RequireFields<CrmQueryCompanyArgs, 'id'>>;
+  contact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmQueryContactArgs, 'id'>>;
+  contacts?: Resolver<Array<ResolversTypes['Contacts']>, ParentType, ContextType, Partial<CrmQueryContactsArgs>>;
+  interaction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmQueryInteractionArgs, 'id'>>;
+  interactions?: Resolver<Array<ResolversTypes['Interactions']>, ParentType, ContextType, Partial<CrmQueryInteractionsArgs>>;
+  invoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmQueryInvoiceArgs, 'id'>>;
+  invoices?: Resolver<Array<ResolversTypes['Invoices']>, ParentType, ContextType, Partial<CrmQueryInvoicesArgs>>;
+  lead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmQueryLeadArgs, 'id'>>;
+  leads?: Resolver<Array<ResolversTypes['Leads']>, ParentType, ContextType, Partial<CrmQueryLeadsArgs>>;
+  notification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmQueryNotificationArgs, 'id'>>;
+  notifications?: Resolver<Array<ResolversTypes['Notifications']>, ParentType, ContextType, Partial<CrmQueryNotificationsArgs>>;
+  opportunities?: Resolver<Array<ResolversTypes['Opportunities']>, ParentType, ContextType, Partial<CrmQueryOpportunitiesArgs>>;
+  opportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmQueryOpportunityArgs, 'id'>>;
+  product?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmQueryProductArgs, 'id'>>;
+  products?: Resolver<Array<ResolversTypes['Products']>, ParentType, ContextType, Partial<CrmQueryProductsArgs>>;
 };
 
 export type CurrencyResolvers = EnumResolverSignature<{ AUD?: any, CAD?: any, EUR?: any, GBP?: any, JPY?: any, PHP?: any, USD?: any }, ResolversTypes['Currency']>;
@@ -6521,24 +6523,24 @@ export type DisputesResolvers<ContextType = GraphQLContext, ParentType extends R
 };
 
 export type DmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsMutation'] = ResolversParentTypes['DmsMutation']> = {
-  createCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationcreateCustomerTrackingLinkArgs, 'value'>>;
-  createDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationcreateDeliveryRouteArgs, 'value'>>;
-  createDeliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsMutationcreateDeliveryTaskArgs, 'value'>>;
-  createDmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsMutationcreateDmsProofOfDeliveryArgs, 'value'>>;
-  createDriverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsMutationcreateDriverLocationArgs, 'value'>>;
-  createTaskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsMutationcreateTaskEventArgs, 'value'>>;
-  removeCustomerTrackingLink?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveCustomerTrackingLinkArgs, 'id'>>;
-  removeDeliveryRoute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDeliveryRouteArgs, 'id'>>;
-  removeDeliveryTask?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDeliveryTaskArgs, 'id'>>;
-  removeDmsProofOfDelivery?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDmsProofOfDeliveryArgs, 'id'>>;
-  removeDriverLocation?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveDriverLocationArgs, 'id'>>;
-  removeTaskEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationremoveTaskEventArgs, 'id'>>;
-  updateCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationupdateCustomerTrackingLinkArgs, 'id'>>;
-  updateDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationupdateDeliveryRouteArgs, 'id'>>;
-  updateDeliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsMutationupdateDeliveryTaskArgs, 'id'>>;
-  updateDmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsMutationupdateDmsProofOfDeliveryArgs, 'id'>>;
-  updateDriverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsMutationupdateDriverLocationArgs, 'id'>>;
-  updateTaskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsMutationupdateTaskEventArgs, 'id'>>;
+  createCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationCreateCustomerTrackingLinkArgs, 'value'>>;
+  createDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationCreateDeliveryRouteArgs, 'value'>>;
+  createDeliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsMutationCreateDeliveryTaskArgs, 'value'>>;
+  createDmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsMutationCreateDmsProofOfDeliveryArgs, 'value'>>;
+  createDriverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsMutationCreateDriverLocationArgs, 'value'>>;
+  createTaskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsMutationCreateTaskEventArgs, 'value'>>;
+  removeCustomerTrackingLink?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationRemoveCustomerTrackingLinkArgs, 'id'>>;
+  removeDeliveryRoute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationRemoveDeliveryRouteArgs, 'id'>>;
+  removeDeliveryTask?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationRemoveDeliveryTaskArgs, 'id'>>;
+  removeDmsProofOfDelivery?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationRemoveDmsProofOfDeliveryArgs, 'id'>>;
+  removeDriverLocation?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationRemoveDriverLocationArgs, 'id'>>;
+  removeTaskEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<DmsMutationRemoveTaskEventArgs, 'id'>>;
+  updateCustomerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsMutationUpdateCustomerTrackingLinkArgs, 'id'>>;
+  updateDeliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsMutationUpdateDeliveryRouteArgs, 'id'>>;
+  updateDeliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsMutationUpdateDeliveryTaskArgs, 'id'>>;
+  updateDmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsMutationUpdateDmsProofOfDeliveryArgs, 'id'>>;
+  updateDriverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsMutationUpdateDriverLocationArgs, 'id'>>;
+  updateTaskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsMutationUpdateTaskEventArgs, 'id'>>;
 };
 
 export type DmsProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsProofOfDeliveries'] = ResolversParentTypes['DmsProofOfDeliveries']> = {
@@ -6557,18 +6559,18 @@ export type DmsProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentTy
 };
 
 export type DmsQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsQuery'] = ResolversParentTypes['DmsQuery']> = {
-  customerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsQuerycustomerTrackingLinkArgs, 'id'>>;
-  customerTrackingLinks?: Resolver<Array<ResolversTypes['CustomerTrackingLinks']>, ParentType, ContextType, Partial<DmsQuerycustomerTrackingLinksArgs>>;
-  deliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsQuerydeliveryRouteArgs, 'id'>>;
-  deliveryRoutes?: Resolver<Array<ResolversTypes['DeliveryRoutes']>, ParentType, ContextType, Partial<DmsQuerydeliveryRoutesArgs>>;
-  deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsQuerydeliveryTaskArgs, 'id'>>;
-  deliveryTasks?: Resolver<Array<ResolversTypes['DeliveryTasks']>, ParentType, ContextType, Partial<DmsQuerydeliveryTasksArgs>>;
-  dmsProofOfDeliveries?: Resolver<Array<ResolversTypes['DmsProofOfDeliveries']>, ParentType, ContextType, Partial<DmsQuerydmsProofOfDeliveriesArgs>>;
-  dmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsQuerydmsProofOfDeliveryArgs, 'id'>>;
-  driverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsQuerydriverLocationArgs, 'id'>>;
-  driverLocations?: Resolver<Array<ResolversTypes['DriverLocations']>, ParentType, ContextType, Partial<DmsQuerydriverLocationsArgs>>;
-  taskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsQuerytaskEventArgs, 'id'>>;
-  taskEvents?: Resolver<Array<ResolversTypes['TaskEvents']>, ParentType, ContextType, Partial<DmsQuerytaskEventsArgs>>;
+  customerTrackingLink?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType, RequireFields<DmsQueryCustomerTrackingLinkArgs, 'id'>>;
+  customerTrackingLinks?: Resolver<Array<ResolversTypes['CustomerTrackingLinks']>, ParentType, ContextType, Partial<DmsQueryCustomerTrackingLinksArgs>>;
+  deliveryRoute?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType, RequireFields<DmsQueryDeliveryRouteArgs, 'id'>>;
+  deliveryRoutes?: Resolver<Array<ResolversTypes['DeliveryRoutes']>, ParentType, ContextType, Partial<DmsQueryDeliveryRoutesArgs>>;
+  deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType, RequireFields<DmsQueryDeliveryTaskArgs, 'id'>>;
+  deliveryTasks?: Resolver<Array<ResolversTypes['DeliveryTasks']>, ParentType, ContextType, Partial<DmsQueryDeliveryTasksArgs>>;
+  dmsProofOfDeliveries?: Resolver<Array<ResolversTypes['DmsProofOfDeliveries']>, ParentType, ContextType, Partial<DmsQueryDmsProofOfDeliveriesArgs>>;
+  dmsProofOfDelivery?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType, RequireFields<DmsQueryDmsProofOfDeliveryArgs, 'id'>>;
+  driverLocation?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType, RequireFields<DmsQueryDriverLocationArgs, 'id'>>;
+  driverLocations?: Resolver<Array<ResolversTypes['DriverLocations']>, ParentType, ContextType, Partial<DmsQueryDriverLocationsArgs>>;
+  taskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsQueryTaskEventArgs, 'id'>>;
+  taskEvents?: Resolver<Array<ResolversTypes['TaskEvents']>, ParentType, ContextType, Partial<DmsQueryTaskEventsArgs>>;
 };
 
 export type DocumentTypeResolvers = EnumResolverSignature<{ BOL?: any, COMMERCIAL_INVOICE?: any, CREDIT_NOTE?: any, CUSTOMS_DECLARATION?: any, PACKING_LIST?: any, PROOF_OF_DELIVERY?: any, RECEIPT?: any, SHIPPING_LABEL?: any }, ResolversTypes['DocumentType']>;
@@ -7001,7 +7003,7 @@ export type PartnerInvoicesResolvers<ContextType = GraphQLContext, ParentType ex
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
-export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CLIENT_CREDIT?: any, CREDIT_CARD?: any, DEBIT_CARD?: any, PAYPAL?: any, QR_PH?: any, STRIPE?: any, WALLET?: any, WIRE_TRANSFER?: any }, ResolversTypes['PaymentMethod']>;
+export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CLIENT_CREDIT?: any, CREDIT_CARD?: any, DEBIT_CARD?: any, MAYA?: any, OTHER?: any, PAYPAL?: any, QR_PH?: any, STRIPE?: any, WALLET?: any, WIRE_TRANSFER?: any }, ResolversTypes['PaymentMethod']>;
 
 export type PaymentStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, FAILED?: any, PENDING?: any, PROCESSING?: any, REFUNDED?: any, SUCCESSFUL?: any }, ResolversTypes['PaymentStatus']>;
 
@@ -7386,85 +7388,85 @@ export type TasksResolvers<ContextType = GraphQLContext, ParentType extends Reso
 };
 
 export type TmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TmsMutation'] = ResolversParentTypes['TmsMutation']> = {
-  createCarrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsMutationcreateCarrierArgs, 'value'>>;
-  createCarrierRate?: Resolver<ResolversTypes['CarrierRates'], ParentType, ContextType, RequireFields<TmsMutationcreateCarrierRateArgs, 'value'>>;
-  createDriver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsMutationcreateDriverArgs, 'value'>>;
-  createDriverSchedule?: Resolver<ResolversTypes['DriverSchedules'], ParentType, ContextType, RequireFields<TmsMutationcreateDriverScheduleArgs, 'value'>>;
-  createExpense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsMutationcreateExpenseArgs, 'value'>>;
-  createGeofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsMutationcreateGeofenceArgs, 'value'>>;
-  createGeofenceEvent?: Resolver<ResolversTypes['GeofenceEvents'], ParentType, ContextType, RequireFields<TmsMutationcreateGeofenceEventArgs, 'value'>>;
-  createGpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsMutationcreateGpsPingArgs, 'value'>>;
-  createPartnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsMutationcreatePartnerInvoiceArgs, 'value'>>;
-  createPartnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsMutationcreatePartnerInvoiceItemArgs, 'value'>>;
-  createProofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsMutationcreateProofOfDeliveryArgs, 'value'>>;
-  createRoute?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsMutationcreateRouteArgs, 'value'>>;
-  createShipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsMutationcreateShipmentLegArgs, 'value'>>;
-  createShipmentLegEvent?: Resolver<ResolversTypes['ShipmentLegEvents'], ParentType, ContextType, RequireFields<TmsMutationcreateShipmentLegEventArgs, 'value'>>;
-  createTrip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsMutationcreateTripArgs, 'value'>>;
-  createTripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsMutationcreateTripStopArgs, 'value'>>;
-  createVehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsMutationcreateVehicleArgs, 'value'>>;
-  createVehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsMutationcreateVehicleMaintenanceArgs, 'value'>>;
-  removeCarrier?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveCarrierArgs, 'id'>>;
-  removeCarrierRate?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveCarrierRateArgs, 'id'>>;
-  removeDriver?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveDriverArgs, 'id'>>;
-  removeDriverSchedule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveDriverScheduleArgs, 'id'>>;
-  removeExpense?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveExpenseArgs, 'id'>>;
-  removeGeofence?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveGeofenceArgs, 'id'>>;
-  removeGeofenceEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveGeofenceEventArgs, 'id'>>;
-  removeGpsPing?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveGpsPingArgs, 'id'>>;
-  removePartnerInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremovePartnerInvoiceArgs, 'id'>>;
-  removePartnerInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremovePartnerInvoiceItemArgs, 'id'>>;
-  removeProofOfDelivery?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveProofOfDeliveryArgs, 'id'>>;
-  removeRoute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveRouteArgs, 'id'>>;
-  removeShipmentLeg?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveShipmentLegArgs, 'id'>>;
-  removeShipmentLegEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveShipmentLegEventArgs, 'id'>>;
-  removeTrip?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveTripArgs, 'id'>>;
-  removeTripStop?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveTripStopArgs, 'id'>>;
-  removeVehicle?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveVehicleArgs, 'id'>>;
-  removeVehicleMaintenance?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveVehicleMaintenanceArgs, 'id'>>;
-  updateCarrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsMutationupdateCarrierArgs, 'id'>>;
-  updateCarrierRate?: Resolver<ResolversTypes['CarrierRates'], ParentType, ContextType, RequireFields<TmsMutationupdateCarrierRateArgs, 'id'>>;
-  updateDriver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsMutationupdateDriverArgs, 'id'>>;
-  updateDriverSchedule?: Resolver<ResolversTypes['DriverSchedules'], ParentType, ContextType, RequireFields<TmsMutationupdateDriverScheduleArgs, 'id'>>;
-  updateExpense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsMutationupdateExpenseArgs, 'id'>>;
-  updateGeofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsMutationupdateGeofenceArgs, 'id'>>;
-  updateGeofenceEvent?: Resolver<ResolversTypes['GeofenceEvents'], ParentType, ContextType, RequireFields<TmsMutationupdateGeofenceEventArgs, 'id'>>;
-  updateGpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsMutationupdateGpsPingArgs, 'id'>>;
-  updatePartnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsMutationupdatePartnerInvoiceArgs, 'id'>>;
-  updatePartnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsMutationupdatePartnerInvoiceItemArgs, 'id'>>;
-  updateProofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsMutationupdateProofOfDeliveryArgs, 'id'>>;
-  updateRoute?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsMutationupdateRouteArgs, 'id'>>;
-  updateShipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsMutationupdateShipmentLegArgs, 'id'>>;
-  updateShipmentLegEvent?: Resolver<ResolversTypes['ShipmentLegEvents'], ParentType, ContextType, RequireFields<TmsMutationupdateShipmentLegEventArgs, 'id'>>;
-  updateTrip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsMutationupdateTripArgs, 'id'>>;
-  updateTripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsMutationupdateTripStopArgs, 'id'>>;
-  updateVehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsMutationupdateVehicleArgs, 'id'>>;
-  updateVehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsMutationupdateVehicleMaintenanceArgs, 'id'>>;
+  createCarrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsMutationCreateCarrierArgs, 'value'>>;
+  createCarrierRate?: Resolver<ResolversTypes['CarrierRates'], ParentType, ContextType, RequireFields<TmsMutationCreateCarrierRateArgs, 'value'>>;
+  createDriver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsMutationCreateDriverArgs, 'value'>>;
+  createDriverSchedule?: Resolver<ResolversTypes['DriverSchedules'], ParentType, ContextType, RequireFields<TmsMutationCreateDriverScheduleArgs, 'value'>>;
+  createExpense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsMutationCreateExpenseArgs, 'value'>>;
+  createGeofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsMutationCreateGeofenceArgs, 'value'>>;
+  createGeofenceEvent?: Resolver<ResolversTypes['GeofenceEvents'], ParentType, ContextType, RequireFields<TmsMutationCreateGeofenceEventArgs, 'value'>>;
+  createGpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsMutationCreateGpsPingArgs, 'value'>>;
+  createPartnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsMutationCreatePartnerInvoiceArgs, 'value'>>;
+  createPartnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsMutationCreatePartnerInvoiceItemArgs, 'value'>>;
+  createProofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsMutationCreateProofOfDeliveryArgs, 'value'>>;
+  createRoute?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsMutationCreateRouteArgs, 'value'>>;
+  createShipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsMutationCreateShipmentLegArgs, 'value'>>;
+  createShipmentLegEvent?: Resolver<ResolversTypes['ShipmentLegEvents'], ParentType, ContextType, RequireFields<TmsMutationCreateShipmentLegEventArgs, 'value'>>;
+  createTrip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsMutationCreateTripArgs, 'value'>>;
+  createTripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsMutationCreateTripStopArgs, 'value'>>;
+  createVehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsMutationCreateVehicleArgs, 'value'>>;
+  createVehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsMutationCreateVehicleMaintenanceArgs, 'value'>>;
+  removeCarrier?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveCarrierArgs, 'id'>>;
+  removeCarrierRate?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveCarrierRateArgs, 'id'>>;
+  removeDriver?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveDriverArgs, 'id'>>;
+  removeDriverSchedule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveDriverScheduleArgs, 'id'>>;
+  removeExpense?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveExpenseArgs, 'id'>>;
+  removeGeofence?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveGeofenceArgs, 'id'>>;
+  removeGeofenceEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveGeofenceEventArgs, 'id'>>;
+  removeGpsPing?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveGpsPingArgs, 'id'>>;
+  removePartnerInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemovePartnerInvoiceArgs, 'id'>>;
+  removePartnerInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemovePartnerInvoiceItemArgs, 'id'>>;
+  removeProofOfDelivery?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveProofOfDeliveryArgs, 'id'>>;
+  removeRoute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveRouteArgs, 'id'>>;
+  removeShipmentLeg?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveShipmentLegArgs, 'id'>>;
+  removeShipmentLegEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveShipmentLegEventArgs, 'id'>>;
+  removeTrip?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveTripArgs, 'id'>>;
+  removeTripStop?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveTripStopArgs, 'id'>>;
+  removeVehicle?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveVehicleArgs, 'id'>>;
+  removeVehicleMaintenance?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationRemoveVehicleMaintenanceArgs, 'id'>>;
+  updateCarrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsMutationUpdateCarrierArgs, 'id'>>;
+  updateCarrierRate?: Resolver<ResolversTypes['CarrierRates'], ParentType, ContextType, RequireFields<TmsMutationUpdateCarrierRateArgs, 'id'>>;
+  updateDriver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsMutationUpdateDriverArgs, 'id'>>;
+  updateDriverSchedule?: Resolver<ResolversTypes['DriverSchedules'], ParentType, ContextType, RequireFields<TmsMutationUpdateDriverScheduleArgs, 'id'>>;
+  updateExpense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsMutationUpdateExpenseArgs, 'id'>>;
+  updateGeofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsMutationUpdateGeofenceArgs, 'id'>>;
+  updateGeofenceEvent?: Resolver<ResolversTypes['GeofenceEvents'], ParentType, ContextType, RequireFields<TmsMutationUpdateGeofenceEventArgs, 'id'>>;
+  updateGpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsMutationUpdateGpsPingArgs, 'id'>>;
+  updatePartnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsMutationUpdatePartnerInvoiceArgs, 'id'>>;
+  updatePartnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsMutationUpdatePartnerInvoiceItemArgs, 'id'>>;
+  updateProofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsMutationUpdateProofOfDeliveryArgs, 'id'>>;
+  updateRoute?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsMutationUpdateRouteArgs, 'id'>>;
+  updateShipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsMutationUpdateShipmentLegArgs, 'id'>>;
+  updateShipmentLegEvent?: Resolver<ResolversTypes['ShipmentLegEvents'], ParentType, ContextType, RequireFields<TmsMutationUpdateShipmentLegEventArgs, 'id'>>;
+  updateTrip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsMutationUpdateTripArgs, 'id'>>;
+  updateTripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsMutationUpdateTripStopArgs, 'id'>>;
+  updateVehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsMutationUpdateVehicleArgs, 'id'>>;
+  updateVehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsMutationUpdateVehicleMaintenanceArgs, 'id'>>;
 };
 
 export type TmsQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TmsQuery'] = ResolversParentTypes['TmsQuery']> = {
-  carrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsQuerycarrierArgs, 'id'>>;
-  carriers?: Resolver<Array<ResolversTypes['Carriers']>, ParentType, ContextType, Partial<TmsQuerycarriersArgs>>;
-  driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsQuerydriverArgs, 'id'>>;
-  drivers?: Resolver<Array<ResolversTypes['Drivers']>, ParentType, ContextType, Partial<TmsQuerydriversArgs>>;
-  expense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsQueryexpenseArgs, 'id'>>;
-  expenses?: Resolver<Array<ResolversTypes['Expenses']>, ParentType, ContextType, Partial<TmsQueryexpensesArgs>>;
-  geofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsQuerygeofenceArgs, 'id'>>;
-  geofences?: Resolver<Array<ResolversTypes['Geofences']>, ParentType, ContextType, Partial<TmsQuerygeofencesArgs>>;
-  gpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsQuerygpsPingArgs, 'id'>>;
-  gpsPings?: Resolver<Array<ResolversTypes['GpsPings']>, ParentType, ContextType, Partial<TmsQuerygpsPingsArgs>>;
-  partnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsQuerypartnerInvoiceArgs, 'id'>>;
-  partnerInvoices?: Resolver<Array<ResolversTypes['PartnerInvoices']>, ParentType, ContextType, Partial<TmsQuerypartnerInvoicesArgs>>;
-  proofOfDeliveries?: Resolver<Array<ResolversTypes['ProofOfDeliveries']>, ParentType, ContextType, Partial<TmsQueryproofOfDeliveriesArgs>>;
-  proofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsQueryproofOfDeliveryArgs, 'id'>>;
-  route?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsQueryrouteArgs, 'id'>>;
-  routes?: Resolver<Array<ResolversTypes['Routes']>, ParentType, ContextType, Partial<TmsQueryroutesArgs>>;
-  shipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsQueryshipmentLegArgs, 'id'>>;
-  shipmentLegs?: Resolver<Array<ResolversTypes['ShipmentLegs']>, ParentType, ContextType, Partial<TmsQueryshipmentLegsArgs>>;
-  trip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsQuerytripArgs, 'id'>>;
-  trips?: Resolver<Array<ResolversTypes['Trips']>, ParentType, ContextType, Partial<TmsQuerytripsArgs>>;
-  vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsQueryvehicleArgs, 'id'>>;
-  vehicles?: Resolver<Array<ResolversTypes['Vehicles']>, ParentType, ContextType, Partial<TmsQueryvehiclesArgs>>;
+  carrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsQueryCarrierArgs, 'id'>>;
+  carriers?: Resolver<Array<ResolversTypes['Carriers']>, ParentType, ContextType, Partial<TmsQueryCarriersArgs>>;
+  driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsQueryDriverArgs, 'id'>>;
+  drivers?: Resolver<Array<ResolversTypes['Drivers']>, ParentType, ContextType, Partial<TmsQueryDriversArgs>>;
+  expense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsQueryExpenseArgs, 'id'>>;
+  expenses?: Resolver<Array<ResolversTypes['Expenses']>, ParentType, ContextType, Partial<TmsQueryExpensesArgs>>;
+  geofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsQueryGeofenceArgs, 'id'>>;
+  geofences?: Resolver<Array<ResolversTypes['Geofences']>, ParentType, ContextType, Partial<TmsQueryGeofencesArgs>>;
+  gpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsQueryGpsPingArgs, 'id'>>;
+  gpsPings?: Resolver<Array<ResolversTypes['GpsPings']>, ParentType, ContextType, Partial<TmsQueryGpsPingsArgs>>;
+  partnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsQueryPartnerInvoiceArgs, 'id'>>;
+  partnerInvoices?: Resolver<Array<ResolversTypes['PartnerInvoices']>, ParentType, ContextType, Partial<TmsQueryPartnerInvoicesArgs>>;
+  proofOfDeliveries?: Resolver<Array<ResolversTypes['ProofOfDeliveries']>, ParentType, ContextType, Partial<TmsQueryProofOfDeliveriesArgs>>;
+  proofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsQueryProofOfDeliveryArgs, 'id'>>;
+  route?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsQueryRouteArgs, 'id'>>;
+  routes?: Resolver<Array<ResolversTypes['Routes']>, ParentType, ContextType, Partial<TmsQueryRoutesArgs>>;
+  shipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsQueryShipmentLegArgs, 'id'>>;
+  shipmentLegs?: Resolver<Array<ResolversTypes['ShipmentLegs']>, ParentType, ContextType, Partial<TmsQueryShipmentLegsArgs>>;
+  trip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsQueryTripArgs, 'id'>>;
+  trips?: Resolver<Array<ResolversTypes['Trips']>, ParentType, ContextType, Partial<TmsQueryTripsArgs>>;
+  vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsQueryVehicleArgs, 'id'>>;
+  vehicles?: Resolver<Array<ResolversTypes['Vehicles']>, ParentType, ContextType, Partial<TmsQueryVehiclesArgs>>;
 };
 
 export type TransactionTypeResolvers = EnumResolverSignature<{ ADJUSTMENT?: any, CREDIT?: any, DEBIT?: any, FEE?: any, REFUND?: any, TOP_UP?: any }, ResolversTypes['TransactionType']>;
@@ -7575,81 +7577,81 @@ export type WarehousesResolvers<ContextType = GraphQLContext, ParentType extends
 };
 
 export type WmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['WmsMutation'] = ResolversParentTypes['WmsMutation']> = {
-  createBinThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsMutationcreateBinThresholdArgs, 'value'>>;
-  createInboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsMutationcreateInboundShipmentArgs, 'value'>>;
-  createInboundShipmentItem?: Resolver<ResolversTypes['InboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationcreateInboundShipmentItemArgs, 'value'>>;
-  createInventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsMutationcreateInventoryAdjustmentArgs, 'value'>>;
-  createInventoryBatch?: Resolver<ResolversTypes['InventoryBatches'], ParentType, ContextType, RequireFields<WmsMutationcreateInventoryBatchArgs, 'value'>>;
-  createInventoryStock?: Resolver<ResolversTypes['InventoryStock'], ParentType, ContextType, RequireFields<WmsMutationcreateInventoryStockArgs, 'value'>>;
-  createLocation?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsMutationcreateLocationArgs, 'value'>>;
-  createOutboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsMutationcreateOutboundShipmentArgs, 'value'>>;
-  createOutboundShipmentItem?: Resolver<ResolversTypes['OutboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationcreateOutboundShipmentItemArgs, 'value'>>;
-  createPackage?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsMutationcreatePackageArgs, 'value'>>;
-  createPackageItem?: Resolver<ResolversTypes['PackageItems'], ParentType, ContextType, RequireFields<WmsMutationcreatePackageItemArgs, 'value'>>;
-  createPickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsMutationcreatePickBatchArgs, 'value'>>;
-  createPickBatchItem?: Resolver<ResolversTypes['PickBatchItems'], ParentType, ContextType, RequireFields<WmsMutationcreatePickBatchItemArgs, 'value'>>;
-  createPutawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsMutationcreatePutawayRuleArgs, 'value'>>;
-  createReorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsMutationcreateReorderPointArgs, 'value'>>;
-  createReturn?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsMutationcreateReturnArgs, 'value'>>;
-  createReturnItem?: Resolver<ResolversTypes['ReturnItems'], ParentType, ContextType, RequireFields<WmsMutationcreateReturnItemArgs, 'value'>>;
-  createSalesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsMutationcreateSalesOrderArgs, 'value'>>;
-  createSalesOrderItem?: Resolver<ResolversTypes['SalesOrderItems'], ParentType, ContextType, RequireFields<WmsMutationcreateSalesOrderItemArgs, 'value'>>;
-  createStockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsMutationcreateStockTransferArgs, 'value'>>;
-  createSupplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsMutationcreateSupplierArgs, 'value'>>;
-  createTask?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsMutationcreateTaskArgs, 'value'>>;
-  createTaskItem?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType, RequireFields<WmsMutationcreateTaskItemArgs, 'value'>>;
-  createWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsMutationcreateWarehouseArgs, 'value'>>;
-  createWmsProduct?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType, RequireFields<WmsMutationcreateWmsProductArgs, 'value'>>;
-  removeBinThreshold?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveBinThresholdArgs, 'id'>>;
-  removeInboundShipment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveInboundShipmentArgs, 'id'>>;
-  removeInboundShipmentItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveInboundShipmentItemArgs, 'id'>>;
-  removeInventoryAdjustment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveInventoryAdjustmentArgs, 'id'>>;
-  removeInventoryBatch?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveInventoryBatchArgs, 'id'>>;
-  removeInventoryStock?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveInventoryStockArgs, 'id'>>;
-  removeLocation?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveLocationArgs, 'id'>>;
-  removeOutboundShipment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveOutboundShipmentArgs, 'id'>>;
-  removeOutboundShipmentItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveOutboundShipmentItemArgs, 'id'>>;
-  removePackage?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremovePackageArgs, 'id'>>;
-  removePackageItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremovePackageItemArgs, 'id'>>;
-  removePickBatch?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremovePickBatchArgs, 'id'>>;
-  removePickBatchItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremovePickBatchItemArgs, 'id'>>;
-  removePutawayRule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremovePutawayRuleArgs, 'id'>>;
-  removeReorderPoint?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveReorderPointArgs, 'id'>>;
-  removeReturn?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveReturnArgs, 'id'>>;
-  removeReturnItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveReturnItemArgs, 'id'>>;
-  removeSalesOrder?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveSalesOrderArgs, 'id'>>;
-  removeSalesOrderItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveSalesOrderItemArgs, 'id'>>;
-  removeStockTransfer?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveStockTransferArgs, 'id'>>;
-  removeSupplier?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveSupplierArgs, 'id'>>;
-  removeTask?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveTaskArgs, 'id'>>;
-  removeTaskItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveTaskItemArgs, 'id'>>;
-  removeWarehouse?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveWarehouseArgs, 'id'>>;
-  removeWmsProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationremoveWmsProductArgs, 'id'>>;
-  updateBinThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsMutationupdateBinThresholdArgs, 'id'>>;
-  updateInboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsMutationupdateInboundShipmentArgs, 'id'>>;
-  updateInboundShipmentItem?: Resolver<ResolversTypes['InboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationupdateInboundShipmentItemArgs, 'id'>>;
-  updateInventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsMutationupdateInventoryAdjustmentArgs, 'id'>>;
-  updateInventoryBatch?: Resolver<ResolversTypes['InventoryBatches'], ParentType, ContextType, RequireFields<WmsMutationupdateInventoryBatchArgs, 'id'>>;
-  updateInventoryStock?: Resolver<ResolversTypes['InventoryStock'], ParentType, ContextType, RequireFields<WmsMutationupdateInventoryStockArgs, 'id'>>;
-  updateLocation?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsMutationupdateLocationArgs, 'id'>>;
-  updateOutboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsMutationupdateOutboundShipmentArgs, 'id'>>;
-  updateOutboundShipmentItem?: Resolver<ResolversTypes['OutboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationupdateOutboundShipmentItemArgs, 'id'>>;
-  updatePackage?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsMutationupdatePackageArgs, 'id'>>;
-  updatePackageItem?: Resolver<ResolversTypes['PackageItems'], ParentType, ContextType, RequireFields<WmsMutationupdatePackageItemArgs, 'id'>>;
-  updatePickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsMutationupdatePickBatchArgs, 'id'>>;
-  updatePickBatchItem?: Resolver<ResolversTypes['PickBatchItems'], ParentType, ContextType, RequireFields<WmsMutationupdatePickBatchItemArgs, 'id'>>;
-  updatePutawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsMutationupdatePutawayRuleArgs, 'id'>>;
-  updateReorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsMutationupdateReorderPointArgs, 'id'>>;
-  updateReturn?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsMutationupdateReturnArgs, 'id'>>;
-  updateReturnItem?: Resolver<ResolversTypes['ReturnItems'], ParentType, ContextType, RequireFields<WmsMutationupdateReturnItemArgs, 'id'>>;
-  updateSalesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsMutationupdateSalesOrderArgs, 'id'>>;
-  updateSalesOrderItem?: Resolver<ResolversTypes['SalesOrderItems'], ParentType, ContextType, RequireFields<WmsMutationupdateSalesOrderItemArgs, 'id'>>;
-  updateStockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsMutationupdateStockTransferArgs, 'id'>>;
-  updateSupplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsMutationupdateSupplierArgs, 'id'>>;
-  updateTask?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsMutationupdateTaskArgs, 'id'>>;
-  updateTaskItem?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType, RequireFields<WmsMutationupdateTaskItemArgs, 'id'>>;
-  updateWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsMutationupdateWarehouseArgs, 'id'>>;
-  updateWmsProduct?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType, RequireFields<WmsMutationupdateWmsProductArgs, 'id'>>;
+  createBinThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsMutationCreateBinThresholdArgs, 'value'>>;
+  createInboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsMutationCreateInboundShipmentArgs, 'value'>>;
+  createInboundShipmentItem?: Resolver<ResolversTypes['InboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationCreateInboundShipmentItemArgs, 'value'>>;
+  createInventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsMutationCreateInventoryAdjustmentArgs, 'value'>>;
+  createInventoryBatch?: Resolver<ResolversTypes['InventoryBatches'], ParentType, ContextType, RequireFields<WmsMutationCreateInventoryBatchArgs, 'value'>>;
+  createInventoryStock?: Resolver<ResolversTypes['InventoryStock'], ParentType, ContextType, RequireFields<WmsMutationCreateInventoryStockArgs, 'value'>>;
+  createLocation?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsMutationCreateLocationArgs, 'value'>>;
+  createOutboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsMutationCreateOutboundShipmentArgs, 'value'>>;
+  createOutboundShipmentItem?: Resolver<ResolversTypes['OutboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationCreateOutboundShipmentItemArgs, 'value'>>;
+  createPackage?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsMutationCreatePackageArgs, 'value'>>;
+  createPackageItem?: Resolver<ResolversTypes['PackageItems'], ParentType, ContextType, RequireFields<WmsMutationCreatePackageItemArgs, 'value'>>;
+  createPickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsMutationCreatePickBatchArgs, 'value'>>;
+  createPickBatchItem?: Resolver<ResolversTypes['PickBatchItems'], ParentType, ContextType, RequireFields<WmsMutationCreatePickBatchItemArgs, 'value'>>;
+  createPutawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsMutationCreatePutawayRuleArgs, 'value'>>;
+  createReorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsMutationCreateReorderPointArgs, 'value'>>;
+  createReturn?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsMutationCreateReturnArgs, 'value'>>;
+  createReturnItem?: Resolver<ResolversTypes['ReturnItems'], ParentType, ContextType, RequireFields<WmsMutationCreateReturnItemArgs, 'value'>>;
+  createSalesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsMutationCreateSalesOrderArgs, 'value'>>;
+  createSalesOrderItem?: Resolver<ResolversTypes['SalesOrderItems'], ParentType, ContextType, RequireFields<WmsMutationCreateSalesOrderItemArgs, 'value'>>;
+  createStockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsMutationCreateStockTransferArgs, 'value'>>;
+  createSupplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsMutationCreateSupplierArgs, 'value'>>;
+  createTask?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsMutationCreateTaskArgs, 'value'>>;
+  createTaskItem?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType, RequireFields<WmsMutationCreateTaskItemArgs, 'value'>>;
+  createWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsMutationCreateWarehouseArgs, 'value'>>;
+  createWmsProduct?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType, RequireFields<WmsMutationCreateWmsProductArgs, 'value'>>;
+  removeBinThreshold?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveBinThresholdArgs, 'id'>>;
+  removeInboundShipment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveInboundShipmentArgs, 'id'>>;
+  removeInboundShipmentItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveInboundShipmentItemArgs, 'id'>>;
+  removeInventoryAdjustment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveInventoryAdjustmentArgs, 'id'>>;
+  removeInventoryBatch?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveInventoryBatchArgs, 'id'>>;
+  removeInventoryStock?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveInventoryStockArgs, 'id'>>;
+  removeLocation?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveLocationArgs, 'id'>>;
+  removeOutboundShipment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveOutboundShipmentArgs, 'id'>>;
+  removeOutboundShipmentItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveOutboundShipmentItemArgs, 'id'>>;
+  removePackage?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemovePackageArgs, 'id'>>;
+  removePackageItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemovePackageItemArgs, 'id'>>;
+  removePickBatch?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemovePickBatchArgs, 'id'>>;
+  removePickBatchItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemovePickBatchItemArgs, 'id'>>;
+  removePutawayRule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemovePutawayRuleArgs, 'id'>>;
+  removeReorderPoint?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveReorderPointArgs, 'id'>>;
+  removeReturn?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveReturnArgs, 'id'>>;
+  removeReturnItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveReturnItemArgs, 'id'>>;
+  removeSalesOrder?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveSalesOrderArgs, 'id'>>;
+  removeSalesOrderItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveSalesOrderItemArgs, 'id'>>;
+  removeStockTransfer?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveStockTransferArgs, 'id'>>;
+  removeSupplier?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveSupplierArgs, 'id'>>;
+  removeTask?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveTaskArgs, 'id'>>;
+  removeTaskItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveTaskItemArgs, 'id'>>;
+  removeWarehouse?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveWarehouseArgs, 'id'>>;
+  removeWmsProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<WmsMutationRemoveWmsProductArgs, 'id'>>;
+  updateBinThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsMutationUpdateBinThresholdArgs, 'id'>>;
+  updateInboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsMutationUpdateInboundShipmentArgs, 'id'>>;
+  updateInboundShipmentItem?: Resolver<ResolversTypes['InboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationUpdateInboundShipmentItemArgs, 'id'>>;
+  updateInventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsMutationUpdateInventoryAdjustmentArgs, 'id'>>;
+  updateInventoryBatch?: Resolver<ResolversTypes['InventoryBatches'], ParentType, ContextType, RequireFields<WmsMutationUpdateInventoryBatchArgs, 'id'>>;
+  updateInventoryStock?: Resolver<ResolversTypes['InventoryStock'], ParentType, ContextType, RequireFields<WmsMutationUpdateInventoryStockArgs, 'id'>>;
+  updateLocation?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsMutationUpdateLocationArgs, 'id'>>;
+  updateOutboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsMutationUpdateOutboundShipmentArgs, 'id'>>;
+  updateOutboundShipmentItem?: Resolver<ResolversTypes['OutboundShipmentItems'], ParentType, ContextType, RequireFields<WmsMutationUpdateOutboundShipmentItemArgs, 'id'>>;
+  updatePackage?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsMutationUpdatePackageArgs, 'id'>>;
+  updatePackageItem?: Resolver<ResolversTypes['PackageItems'], ParentType, ContextType, RequireFields<WmsMutationUpdatePackageItemArgs, 'id'>>;
+  updatePickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsMutationUpdatePickBatchArgs, 'id'>>;
+  updatePickBatchItem?: Resolver<ResolversTypes['PickBatchItems'], ParentType, ContextType, RequireFields<WmsMutationUpdatePickBatchItemArgs, 'id'>>;
+  updatePutawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsMutationUpdatePutawayRuleArgs, 'id'>>;
+  updateReorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsMutationUpdateReorderPointArgs, 'id'>>;
+  updateReturn?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsMutationUpdateReturnArgs, 'id'>>;
+  updateReturnItem?: Resolver<ResolversTypes['ReturnItems'], ParentType, ContextType, RequireFields<WmsMutationUpdateReturnItemArgs, 'id'>>;
+  updateSalesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsMutationUpdateSalesOrderArgs, 'id'>>;
+  updateSalesOrderItem?: Resolver<ResolversTypes['SalesOrderItems'], ParentType, ContextType, RequireFields<WmsMutationUpdateSalesOrderItemArgs, 'id'>>;
+  updateStockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsMutationUpdateStockTransferArgs, 'id'>>;
+  updateSupplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsMutationUpdateSupplierArgs, 'id'>>;
+  updateTask?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsMutationUpdateTaskArgs, 'id'>>;
+  updateTaskItem?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType, RequireFields<WmsMutationUpdateTaskItemArgs, 'id'>>;
+  updateWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsMutationUpdateWarehouseArgs, 'id'>>;
+  updateWmsProduct?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType, RequireFields<WmsMutationUpdateWmsProductArgs, 'id'>>;
 };
 
 export type WmsProductsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['WmsProducts'] = ResolversParentTypes['WmsProducts']> = {
@@ -7685,42 +7687,42 @@ export type WmsProductsResolvers<ContextType = GraphQLContext, ParentType extend
 };
 
 export type WmsQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['WmsQuery'] = ResolversParentTypes['WmsQuery']> = {
-  binThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsQuerybinThresholdArgs, 'id'>>;
-  binThresholds?: Resolver<Array<ResolversTypes['BinThresholds']>, ParentType, ContextType, Partial<WmsQuerybinThresholdsArgs>>;
-  inboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsQueryinboundShipmentArgs, 'id'>>;
-  inboundShipments?: Resolver<Array<ResolversTypes['InboundShipments']>, ParentType, ContextType, Partial<WmsQueryinboundShipmentsArgs>>;
-  inventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsQueryinventoryAdjustmentArgs, 'id'>>;
-  inventoryAdjustments?: Resolver<Array<ResolversTypes['InventoryAdjustments']>, ParentType, ContextType, Partial<WmsQueryinventoryAdjustmentsArgs>>;
-  inventoryBatch?: Resolver<ResolversTypes['InventoryBatches'], ParentType, ContextType, RequireFields<WmsQueryinventoryBatchArgs, 'id'>>;
-  inventoryBatches?: Resolver<Array<ResolversTypes['InventoryBatches']>, ParentType, ContextType, Partial<WmsQueryinventoryBatchesArgs>>;
-  inventoryStock?: Resolver<ResolversTypes['InventoryStock'], ParentType, ContextType, RequireFields<WmsQueryinventoryStockArgs, 'id'>>;
-  inventoryStocks?: Resolver<Array<ResolversTypes['InventoryStock']>, ParentType, ContextType, Partial<WmsQueryinventoryStocksArgs>>;
-  location?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsQuerylocationArgs, 'id'>>;
-  locations?: Resolver<Array<ResolversTypes['Locations']>, ParentType, ContextType, Partial<WmsQuerylocationsArgs>>;
-  outboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsQueryoutboundShipmentArgs, 'id'>>;
-  outboundShipments?: Resolver<Array<ResolversTypes['OutboundShipments']>, ParentType, ContextType, Partial<WmsQueryoutboundShipmentsArgs>>;
-  package?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsQuerypackageArgs, 'id'>>;
-  packages?: Resolver<Array<ResolversTypes['Packages']>, ParentType, ContextType, Partial<WmsQuerypackagesArgs>>;
-  pickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsQuerypickBatchArgs, 'id'>>;
-  pickBatches?: Resolver<Array<ResolversTypes['PickBatches']>, ParentType, ContextType, Partial<WmsQuerypickBatchesArgs>>;
-  putawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsQueryputawayRuleArgs, 'id'>>;
-  putawayRules?: Resolver<Array<ResolversTypes['PutawayRules']>, ParentType, ContextType, Partial<WmsQueryputawayRulesArgs>>;
-  reorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsQueryreorderPointArgs, 'id'>>;
-  reorderPoints?: Resolver<Array<ResolversTypes['ReorderPoints']>, ParentType, ContextType, Partial<WmsQueryreorderPointsArgs>>;
-  return?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsQueryreturnArgs, 'id'>>;
-  returns?: Resolver<Array<ResolversTypes['Returns']>, ParentType, ContextType, Partial<WmsQueryreturnsArgs>>;
-  salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsQuerysalesOrderArgs, 'id'>>;
-  salesOrders?: Resolver<Array<ResolversTypes['SalesOrders']>, ParentType, ContextType, Partial<WmsQuerysalesOrdersArgs>>;
-  stockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsQuerystockTransferArgs, 'id'>>;
-  stockTransfers?: Resolver<Array<ResolversTypes['StockTransfers']>, ParentType, ContextType, Partial<WmsQuerystockTransfersArgs>>;
-  supplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsQuerysupplierArgs, 'id'>>;
-  suppliers?: Resolver<Array<ResolversTypes['Suppliers']>, ParentType, ContextType, Partial<WmsQuerysuppliersArgs>>;
-  task?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsQuerytaskArgs, 'id'>>;
-  tasks?: Resolver<Array<ResolversTypes['Tasks']>, ParentType, ContextType, Partial<WmsQuerytasksArgs>>;
-  warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsQuerywarehouseArgs, 'id'>>;
-  warehouses?: Resolver<Array<ResolversTypes['Warehouses']>, ParentType, ContextType, Partial<WmsQuerywarehousesArgs>>;
-  wmsProduct?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType, RequireFields<WmsQuerywmsProductArgs, 'id'>>;
-  wmsProducts?: Resolver<Array<ResolversTypes['WmsProducts']>, ParentType, ContextType, Partial<WmsQuerywmsProductsArgs>>;
+  binThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsQueryBinThresholdArgs, 'id'>>;
+  binThresholds?: Resolver<Array<ResolversTypes['BinThresholds']>, ParentType, ContextType, Partial<WmsQueryBinThresholdsArgs>>;
+  inboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsQueryInboundShipmentArgs, 'id'>>;
+  inboundShipments?: Resolver<Array<ResolversTypes['InboundShipments']>, ParentType, ContextType, Partial<WmsQueryInboundShipmentsArgs>>;
+  inventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsQueryInventoryAdjustmentArgs, 'id'>>;
+  inventoryAdjustments?: Resolver<Array<ResolversTypes['InventoryAdjustments']>, ParentType, ContextType, Partial<WmsQueryInventoryAdjustmentsArgs>>;
+  inventoryBatch?: Resolver<ResolversTypes['InventoryBatches'], ParentType, ContextType, RequireFields<WmsQueryInventoryBatchArgs, 'id'>>;
+  inventoryBatches?: Resolver<Array<ResolversTypes['InventoryBatches']>, ParentType, ContextType, Partial<WmsQueryInventoryBatchesArgs>>;
+  inventoryStock?: Resolver<ResolversTypes['InventoryStock'], ParentType, ContextType, RequireFields<WmsQueryInventoryStockArgs, 'id'>>;
+  inventoryStocks?: Resolver<Array<ResolversTypes['InventoryStock']>, ParentType, ContextType, Partial<WmsQueryInventoryStocksArgs>>;
+  location?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsQueryLocationArgs, 'id'>>;
+  locations?: Resolver<Array<ResolversTypes['Locations']>, ParentType, ContextType, Partial<WmsQueryLocationsArgs>>;
+  outboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsQueryOutboundShipmentArgs, 'id'>>;
+  outboundShipments?: Resolver<Array<ResolversTypes['OutboundShipments']>, ParentType, ContextType, Partial<WmsQueryOutboundShipmentsArgs>>;
+  package?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsQueryPackageArgs, 'id'>>;
+  packages?: Resolver<Array<ResolversTypes['Packages']>, ParentType, ContextType, Partial<WmsQueryPackagesArgs>>;
+  pickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsQueryPickBatchArgs, 'id'>>;
+  pickBatches?: Resolver<Array<ResolversTypes['PickBatches']>, ParentType, ContextType, Partial<WmsQueryPickBatchesArgs>>;
+  putawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsQueryPutawayRuleArgs, 'id'>>;
+  putawayRules?: Resolver<Array<ResolversTypes['PutawayRules']>, ParentType, ContextType, Partial<WmsQueryPutawayRulesArgs>>;
+  reorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsQueryReorderPointArgs, 'id'>>;
+  reorderPoints?: Resolver<Array<ResolversTypes['ReorderPoints']>, ParentType, ContextType, Partial<WmsQueryReorderPointsArgs>>;
+  return?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsQueryReturnArgs, 'id'>>;
+  returns?: Resolver<Array<ResolversTypes['Returns']>, ParentType, ContextType, Partial<WmsQueryReturnsArgs>>;
+  salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsQuerySalesOrderArgs, 'id'>>;
+  salesOrders?: Resolver<Array<ResolversTypes['SalesOrders']>, ParentType, ContextType, Partial<WmsQuerySalesOrdersArgs>>;
+  stockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsQueryStockTransferArgs, 'id'>>;
+  stockTransfers?: Resolver<Array<ResolversTypes['StockTransfers']>, ParentType, ContextType, Partial<WmsQueryStockTransfersArgs>>;
+  supplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsQuerySupplierArgs, 'id'>>;
+  suppliers?: Resolver<Array<ResolversTypes['Suppliers']>, ParentType, ContextType, Partial<WmsQuerySuppliersArgs>>;
+  task?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsQueryTaskArgs, 'id'>>;
+  tasks?: Resolver<Array<ResolversTypes['Tasks']>, ParentType, ContextType, Partial<WmsQueryTasksArgs>>;
+  warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsQueryWarehouseArgs, 'id'>>;
+  warehouses?: Resolver<Array<ResolversTypes['Warehouses']>, ParentType, ContextType, Partial<WmsQueryWarehousesArgs>>;
+  wmsProduct?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType, RequireFields<WmsQueryWmsProductArgs, 'id'>>;
+  wmsProducts?: Resolver<Array<ResolversTypes['WmsProducts']>, ParentType, ContextType, Partial<WmsQueryWmsProductsArgs>>;
 };
 
 export type Resolvers<ContextType = GraphQLContext> = {

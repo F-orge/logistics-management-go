@@ -48,7 +48,7 @@ export const seedTmsCarrier = (faker: Faker): Insertable<TmsCarrier> => ({
   name: faker.company.name() + " Transport",
   contactPerson: faker.person.fullName(),
   contactEmail: faker.internet.email(),
-  contactPhone: faker.phone.number(),
+  contactPhone: faker.phone.number({ style: "international" }),
   servicesOffered: faker.helpers.maybe(() => faker.lorem.paragraph(), {
     probability: 0.8,
   }),
@@ -78,9 +78,12 @@ export const seedTmsDriver = (
     () => faker.date.future({ years: 5 }),
     { probability: 0.9 }
   ),
-  contactPhone: faker.helpers.maybe(() => faker.phone.number(), {
-    probability: 0.8,
-  }),
+  contactPhone: faker.helpers.maybe(
+    () => faker.phone.number({ style: "international" }),
+    {
+      probability: 0.8,
+    }
+  ),
   status: randomEnumValue(TmsDriverStatusEnum),
 });
 
@@ -221,7 +224,7 @@ export const seedTmsRoute = (
 // TMS Shipment Leg - Requires tripId
 export const seedTmsShipmentLeg = (
   faker: Faker,
-  options: { tripId: string; carrierId?: string; shipmentId?: string }
+  options: { tripId?: string; carrierId?: string; shipmentId?: string }
 ): Insertable<TmsShipmentLeg> => ({
   carrierId: options.carrierId,
   legSequence: faker.number.int({ min: 1, max: 5 }),
@@ -317,7 +320,7 @@ export const seedTmsPartnerInvoice = (
 // TMS Partner Invoice Item - Requires partnerInvoiceId
 export const seedTmsPartnerInvoiceItem = (
   faker: Faker,
-  options: { partnerInvoiceId: string; shipmentLegId?: string }
+  options: { partnerInvoiceId: string; shipmentLegId: string }
 ): Insertable<TmsPartnerInvoiceItem> => ({
   partnerInvoiceId: options.partnerInvoiceId,
   shipmentLegId: options.shipmentLegId,
@@ -327,7 +330,7 @@ export const seedTmsPartnerInvoiceItem = (
 // TMS Proof Of Delivery - Requires shipmentLegId
 export const seedTmsProofOfDelivery = (
   faker: Faker,
-  options: { shipmentLegId: string; tripStopId?: string }
+  options: { tripStopId?: string }
 ): Insertable<TmsProofOfDelivery> => ({
   filePath: faker.system.filePath(),
   timestamp: faker.date.recent({ days: 30 }),

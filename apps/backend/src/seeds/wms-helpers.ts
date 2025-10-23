@@ -55,7 +55,7 @@ const randomEnumValue = <T extends Record<string, string>>(
 export const seedWmsWarehouse = (faker: Faker): Insertable<WmsWarehouse> => ({
   name: faker.company.name() + " Warehouse",
   contactEmail: faker.internet.email(),
-  contactPhone: faker.phone.number(),
+  contactPhone: faker.phone.number({ style: "international" }),
   contactPerson: faker.person.fullName(),
   address: faker.location.streetAddress({ useFullAddress: true }),
   city: faker.location.city(),
@@ -121,7 +121,6 @@ export const seedWmsProduct = (
   const length = faker.number.float({ min: 1, max: 200, fractionDigits: 2 });
   const width = faker.number.float({ min: 1, max: 200, fractionDigits: 2 });
   const height = faker.number.float({ min: 1, max: 200, fractionDigits: 2 });
-  const volume = width * height * length;
 
   return {
     name: faker.commerce.productName(),
@@ -138,7 +137,6 @@ export const seedWmsProduct = (
     clientId: options.clientId,
     costPrice: faker.number.float({ min: 1, max: 1000, fractionDigits: 2 }),
     supplierId: options.supplierId,
-    volume,
   };
 };
 
@@ -155,17 +153,19 @@ export const seedWmsInventoryStock = (
   faker: Faker,
   options: { productId: string; locationId: string; batchId?: string }
 ): Insertable<WmsInventoryStock> => {
+  const reservedQuantity = faker.number.int({ min: 0, max: 100 });
+  const quantity = faker.number.int({ min: reservedQuantity, max: 1000 });
+
   return {
     productId: options.productId,
     locationId: options.locationId,
     batchId: options.batchId,
-    quantity: faker.number.int({ min: 0, max: 1000 }),
-    reservedQuantity: faker.number.int({ min: 0, max: 100 }),
+    quantity,
+    reservedQuantity,
     status: randomEnumValue(WmsInventoryStockStatusEnum),
     lastCountedAt: faker.helpers.maybe(() => faker.date.recent({ days: 30 }), {
       probability: 0.7,
     }),
-    availableQuantity: faker.number.int({ min: 0, max: 900 }),
     lastMovementAt: faker.helpers.maybe(() => faker.date.recent({ days: 15 }), {
       probability: 0.6,
     }),
@@ -266,18 +266,12 @@ export const seedWmsInboundShipmentItem = (
   discrepancyNotes: faker.helpers.maybe(() => faker.lorem.sentence(), {
     probability: 0.4,
   }),
-  discrepancyQuantity: faker.helpers.maybe(
-    () => faker.number.int({ min: -10, max: 10 }),
-    {
-      probability: 0.4,
-    }
-  ),
 });
 
 // WMS Outbound Shipment - Requires warehouseId
 export const seedWmsOutboundShipment = (
   faker: Faker,
-  options: { warehouseId: string; clientId?: string; salesOrderId?: string }
+  options: { warehouseId: string; clientId: string; salesOrderId?: string }
 ): Insertable<WmsOutboundShipment> => ({
   warehouseId: options.warehouseId,
   status: randomEnumValue(WmsOutboundShipmentStatusEnum),
@@ -293,7 +287,7 @@ export const seedWmsOutboundShipmentItem = (
     outboundShipmentId: string;
     productId: string;
     batchId?: string;
-    salesOrderItemId?: string;
+    salesOrderItemId: string;
   }
 ): Insertable<WmsOutboundShipmentItem> => ({
   outboundShipmentId: options.outboundShipmentId,
@@ -306,7 +300,7 @@ export const seedWmsOutboundShipmentItem = (
 // WMS Sales Order - Optional clientId
 export const seedWmsSalesOrder = (
   faker: Faker,
-  options: { clientId?: string; crmOpportunityId?: string } = {}
+  options: { clientId: string; crmOpportunityId?: string }
 ): Insertable<WmsSalesOrder> => ({
   orderNumber: faker.string.alphanumeric(10).toUpperCase(),
   clientId: options.clientId,
@@ -348,10 +342,6 @@ export const seedWmsTask = (
     () => faker.number.int({ min: 5, max: 240 }),
     { probability: 0.5 }
   ),
-  durationSeconds: faker.helpers.maybe(
-    () => faker.number.int({ min: 300, max: 14400 }),
-    { probability: 0.6 }
-  ),
   endTime: faker.helpers.maybe(() => faker.date.recent({ days: 7 }), {
     probability: 0.5,
   }),
@@ -388,7 +378,6 @@ export const seedWmsTaskItem = (
     () => faker.number.int({ min: 0, max: quantityRequired }),
     { probability: 0.6 }
   );
-  const quantityRemaining = quantityRequired - (quantityCompleted || 0);
 
   return {
     taskId: options.taskId,
@@ -411,7 +400,6 @@ export const seedWmsTaskItem = (
     sourceLocationId: options.fromLocationId,
     quantityRequired,
     quantityCompleted,
-    quantityRemaining,
     serialNumbers: faker.helpers.maybe(
       () =>
         Array.from({ length: quantityCompleted || 0 }, () =>

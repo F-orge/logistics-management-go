@@ -27,7 +27,7 @@ build-backend:
   bun --filter @apps/backend build
 
 introspect:
-  bun kysely-codegen --out-file src/db/types.ts --camel-case --runtime-enums pascal-case --singularize
+  bun kysely-codegen --out-file packages/db/src/db.types.ts --camel-case --runtime-enums pascal-case --singularize
 
 build:
   bun run build:packages && bun --filter @apps/* build

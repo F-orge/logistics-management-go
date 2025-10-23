@@ -25,6 +25,6 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src"],
+  "include": ["src","codegen.ts"],
   "exclude": ["node_modules","dist",".turbo"]
 }

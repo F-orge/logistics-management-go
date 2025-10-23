@@ -1,5 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 import { defineConfig } from "@eddeee888/gcg-typescript-resolver-files";
+import lodash from "lodash";
 
 const config: CodegenConfig = {
   schema: "**/schema.graphql",
@@ -7,6 +8,10 @@ const config: CodegenConfig = {
     "src/schema": defineConfig({
       typesPluginsConfig: {
         contextType: "../context#GraphQLContext",
+        namingConvention: {
+          typeNames: "change-case-all#pascalCase",
+          enumValues: (string: string) => `"${lodash.kebabCase(string)}"`,
+        },
       },
     }),
     "src/zod.schema.ts": {
@@ -18,7 +23,7 @@ const config: CodegenConfig = {
         },
         namingConvention: {
           typeNames: "change-case-all#pascalCase",
-          enumValues: "change-case-all#camelCase",
+          enumValues: (string: string) => `"${lodash.kebabCase(string)}"`,
         },
       },
     },

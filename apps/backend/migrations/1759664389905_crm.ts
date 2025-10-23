@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely'
+import { type Kysely, sql } from "kysely";
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -10,118 +10,120 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 		-- Create all enum types first
 		create type crm.lead_status as enum(
-			'new',
-			'contacted',
-			'qualified',
-			'unqualified',
-			'converted'
+			'NEW',
+			'CONTACTED',
+			'QUALIFIED',
+			'UNQUALIFIED',
+			'CONVERTED'
 		);
 
 		create type crm.lead_source as enum(
-			'website',
-			'referral',
-			'social-media',
-			'email-campaign',
-			'cold-call',
-			'event',
-			'advertisement',
-			'partner',
-			'other'
+			'WEBSITE',
+			'REFERRAL',
+			'SOCIAL_MEDIA',
+			'EMAIL_CAMPAIGN',
+			'COLD_CALL',
+			'EVENT',
+			'ADVERTISMENT',
+			'PARTNER',
+			'OTHER'
 		);
 
 		create type crm.product_type as enum(
-			'service',
-			'good',
-			'digital',
-			'subscription'
+			'SERVICE',
+			'GOOD',
+			'DIGITAL',
+			'SUBSCRIPTION'
 		);
 
 		create type crm.opportunity_source as enum(
-			'website',
-			'referral',
-			'social-media',
-			'email-campaign',
-			'cold-call',
-			'event',
-			'advertisement',
-			'partner',
-			'existing-customer',
-			'other'
+			'WEBSITE',
+			'REFERRAL',
+			'SOCIAL_MEDIA',
+			'EMAIL_CAMPAIGN',
+			'COLD_CALL',
+			'EVENT',
+			'ADVERTISMENT',
+			'PARTNER',
+			'EXISTING_CUSTOMER',
+			'OTHER'
 		);
 
 		create type crm.opportunity_stage as enum(
-			'prospecting',
-			'qualification',
-			'need-analysis',
-			'demo',
-			'proposal',
-			'negotiation',
-			'closed-won',
-			'closed-lost'
+			'PROSPECTING',
+			'QUALIFICATION',
+			'NEED_ANALYSIS',
+			'DEMO',
+			'PROPOSAL',
+			'NEGOTIATION',
+			'CLOSED_WON',
+			'CLOSED_LOST'
 		);
 
 		create type crm.case_status as enum(
-			'new',
-			'in-progress',
-			'waiting-for-customer',
-			'waiting-for-internal',
-			'escalated',
-			'resolved',
-			'closed',
-			'cancelled'
+			'NEW',
+			'IN_PROGRESS',
+			'WAITING_FOR_CUSTOMER',
+			'WAITING_FOR_INTERNAL',
+			'ESCALATED',
+			'RESOLVED',
+			'CLOSED',
+			'CANCELLED'
 		);
 
 		create type crm.case_priority as enum(
-			'critical',
-			'high',
-			'medium',
-			'low'
+			'CRITICAL',
+			'HIGH',
+			'MEDIUM',
+			'LOW'
 		);
 
 		create type crm.case_type as enum(
-			'question',
-			'problem',
-			'complaint',
-			'feature-request',
-			'bug-report',
-			'technical-support'
+			'QUESTION',
+			'PROBLEM',
+			'COMPLAINT',
+			'FEATURE_REQUEST',
+			'BUG_REPORT',
+			'TECHNICAL_SUPPORT'
 		);
 
 		create type crm.interaction_type as enum(
-			'call',
-			'meeting',
-			'text',
-			'email'
+			'CALL',
+			'MEETING',
+			'TEXT',
+			'EMAIL'
 		);
 
 		create type crm.invoice_status as enum(
-			'draft',
-			'sent',
-			'paid',
-			'overdue',
-			'cancelled'
+			'DRAFT',
+			'SENT',
+			'PAID',
+			'OVERDUE',
+			'CANCELLED'
 		);
 
 		create type crm.payment_method as enum(
-			'credit-card',
-			'bank-transfer',
-			'cash',
-			'check',
-			'paypal',
-			'stripe',
-			'wire-transfer'
+			'CREDIT_CARD',
+			'BANK_TRANSFER',
+			'CASH',
+			'CHECK',
+			'PAYPAL',
+			'STRIPE',
+			'WIRE_TRANSFER',
+			'OTHER',
+			'MAYA'
 		);
 
 		create type crm.record_type as enum(
-			'companies',
-			'contacts',
-			'leads',
-			'opportunities',
-			'cases',
-			'interactions',
-			'campaigns',
-			'products',
-			'invoices'
+			'COMPANIES',
+			'CONTACTS',
+			'LEADS',
+			'OPPORTUNITIES',
+			'CASES',
+			'INTERACTIONS',
+			'CAMPAIGNS',
+			'PRODUCTS',
+			'INVOICES'
 		);
 
 		-- Tags
@@ -148,7 +150,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			name varchar(255) not null,
 			sku varchar(100) unique,
 			price numeric(10, 2) not null,
-			type crm.product_type default 'good',
+			type crm.product_type default 'GOOD',
 			description text,
 			created_at timestamptz default now(),
 			updated_at timestamptz default now()
@@ -334,7 +336,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			name varchar(255) not null,
 			email varchar(255) not null,
 			lead_source crm.lead_source,
-			status crm.lead_status default 'new',
+			status crm.lead_status default 'NEW',
 			lead_score integer,
 			owner_id text not null references "user"(id),
 			campaign_id uuid references crm.campaigns(id),
@@ -380,8 +382,8 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create table crm.cases(
 			id uuid primary key default gen_random_uuid(),
 			case_number varchar(50) unique not null,
-			status crm.case_status default 'new',
-			priority crm.case_priority default 'medium',
+			status crm.case_status default 'NEW',
+			priority crm.case_priority default 'MEDIUM',
 			type crm.case_type,
 			owner_id text not null references "user"(id),
 			contact_id uuid references crm.contacts(id),
@@ -468,7 +470,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create table crm.invoices(
 			id uuid primary key default gen_random_uuid(),
 			opportunity_id uuid references crm.opportunities(id),
-			status crm.invoice_status default 'draft',
+			status crm.invoice_status default 'DRAFT',
 			total numeric(15, 2),
 			issue_date date,
 			due_date date,
@@ -711,7 +713,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_crm_taggings_record on crm.taggings(record_type, record_id);
 
 		create index idx_crm_taggings_tag_id on crm.taggings(tag_id);
-	`.execute(db)
+	`.execute(db);
 }
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
@@ -775,5 +777,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop CRM schema
 		drop schema if exists crm cascade;
-	`.execute(db)
+	`.execute(db);
 }

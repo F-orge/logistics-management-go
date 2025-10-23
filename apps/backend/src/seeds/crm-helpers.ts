@@ -51,7 +51,7 @@ export const seedCrmCompany = (
   state: faker.location.state(),
   postalCode: faker.location.zipCode(),
   country: faker.location.country(),
-  phoneNumber: faker.phone.number(),
+  phoneNumber: faker.phone.number({ style: "international" }),
   website: faker.internet.url(),
   ownerId: options.ownerId,
 });
@@ -63,7 +63,7 @@ export const seedCrmContact = (
 ): Insertable<CrmContact> => ({
   name: faker.person.fullName(),
   email: faker.internet.email(),
-  phoneNumber: faker.phone.number(),
+  phoneNumber: faker.phone.number({ style: "international" }),
   jobTitle: faker.person.jobTitle(),
   companyId: options.companyId,
   ownerId: options.ownerId,
@@ -223,10 +223,26 @@ export const seedCrmNotification = (
 export const seedCrmAttachment = (
   faker: Faker,
   options: { recordId: string; recordType: CrmRecordType }
-): Insertable<CrmAttachment> => ({
-  fileName: faker.system.fileName(),
-  filePath: faker.system.filePath(),
-  mimeType: faker.system.mimeType(),
-  recordId: options.recordId,
-  recordType: options.recordType,
-});
+): Insertable<CrmAttachment> => {
+  const extensions = ["pdf", "doc", "docx", "jpg", "png", "xlsx", "txt"];
+  const mimeTypes = [
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "image/jpeg",
+    "image/png",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "text/plain",
+  ];
+
+  const extension = faker.helpers.arrayElement(extensions);
+  const fileName = `${faker.lorem.word()}.${extension}`;
+
+  return {
+    fileName,
+    filePath: `/uploads/attachments/${fileName}`,
+    mimeType: faker.helpers.arrayElement(mimeTypes),
+    recordId: options.recordId,
+    recordType: options.recordType,
+  };
+};

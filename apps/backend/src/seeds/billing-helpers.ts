@@ -39,18 +39,26 @@ const randomEnumValue = <T extends Record<string, string>>(
 export const seedBillingClientAccount = (
   faker: Faker,
   options: { clientId: string }
-): Insertable<BillingClientAccount> => ({
-  clientId: options.clientId,
-  creditLimit: faker.number.int({ min: 1000, max: 100000 }).toString(),
-  availableCredit: faker.number.int({ min: 500, max: 50000 }).toString(),
-  walletBalance: faker.number.int({ min: 0, max: 10000 }).toString(),
-  currency: faker.finance.currencyCode(),
-  isCreditApproved: faker.datatype.boolean({ probability: 0.8 }),
-  paymentTermsDays: faker.helpers.arrayElement([15, 30, 45, 60, 90]),
-  lastPaymentDate: faker.helpers.maybe(() => faker.date.recent({ days: 60 }), {
-    probability: 0.7,
-  }),
-});
+): Insertable<BillingClientAccount> => {
+  const creditLimit = faker.number.int({ min: 1000, max: 100000 });
+  const availableCredit = faker.number.int({ min: 0, max: creditLimit });
+
+  return {
+    clientId: options.clientId,
+    creditLimit: creditLimit.toString(),
+    availableCredit: availableCredit.toString(),
+    walletBalance: faker.number.int({ min: 0, max: 10000 }).toString(),
+    currency: faker.finance.currencyCode(),
+    isCreditApproved: faker.datatype.boolean({ probability: 0.8 }),
+    paymentTermsDays: faker.helpers.arrayElement([15, 30, 45, 60, 90]),
+    lastPaymentDate: faker.helpers.maybe(
+      () => faker.date.recent({ days: 60 }),
+      {
+        probability: 0.7,
+      }
+    ),
+  };
+};
 
 // Billing Quote - Optional clientId
 export const seedBillingQuote = (
@@ -84,37 +92,44 @@ export const seedBillingQuote = (
 export const seedBillingInvoice = (
   faker: Faker,
   options: { clientId: string; createdByUserId?: string; quoteId?: string }
-): Insertable<BillingInvoice> => ({
-  clientId: options.clientId,
-  createdByUserId: options.createdByUserId,
-  quoteId: options.quoteId,
-  invoiceNumber: `INV-${faker.string.alphanumeric(8).toUpperCase()}`,
-  issueDate: faker.date.recent({ days: 30 }),
-  dueDate: faker.date.future({ years: 0.1 }),
-  status: randomEnumValue(BillingInvoiceStatusEnum),
-  subtotal: faker.number.int({ min: 100, max: 10000 }).toString(),
-  taxAmount: faker.number.int({ min: 10, max: 1000 }).toString(),
-  discountAmount: faker.helpers.maybe(
-    () => faker.number.int({ min: 5, max: 500 }).toString(),
-    { probability: 0.3 }
-  ),
-  totalAmount: faker.number.int({ min: 110, max: 11000 }).toString(),
-  amountPaid: faker.helpers.maybe(
-    () => faker.number.int({ min: 0, max: 5000 }).toString(),
+): Insertable<BillingInvoice> => {
+  const totalAmount = faker.number.int({ min: 110, max: 11000 });
+  const amountPaid = faker.helpers.maybe(
+    () => faker.number.int({ min: 0, max: totalAmount }),
     { probability: 0.5 }
-  ),
-  currency: faker.finance.currencyCode(),
-  paymentTerms: faker.helpers.maybe(() => "Net 30 days", { probability: 0.8 }),
-  notes: faker.helpers.maybe(() => faker.lorem.paragraph(), {
-    probability: 0.4,
-  }),
-  sentAt: faker.helpers.maybe(() => faker.date.recent({ days: 25 }), {
-    probability: 0.7,
-  }),
-  paidAt: faker.helpers.maybe(() => faker.date.recent({ days: 15 }), {
-    probability: 0.4,
-  }),
-});
+  );
+
+  return {
+    clientId: options.clientId,
+    createdByUserId: options.createdByUserId,
+    quoteId: options.quoteId,
+    invoiceNumber: `INV-${faker.string.alphanumeric(8).toUpperCase()}`,
+    issueDate: faker.date.recent({ days: 30 }),
+    dueDate: faker.date.future({ years: 0.1 }),
+    status: randomEnumValue(BillingInvoiceStatusEnum),
+    subtotal: faker.number.int({ min: 100, max: 10000 }).toString(),
+    taxAmount: faker.number.int({ min: 10, max: 1000 }).toString(),
+    discountAmount: faker.helpers.maybe(
+      () => faker.number.int({ min: 5, max: 500 }).toString(),
+      { probability: 0.3 }
+    ),
+    totalAmount: totalAmount.toString(),
+    amountPaid: amountPaid?.toString(),
+    currency: faker.finance.currencyCode(),
+    paymentTerms: faker.helpers.maybe(() => "Net 30 days", {
+      probability: 0.8,
+    }),
+    notes: faker.helpers.maybe(() => faker.lorem.paragraph(), {
+      probability: 0.4,
+    }),
+    sentAt: faker.helpers.maybe(() => faker.date.recent({ days: 25 }), {
+      probability: 0.7,
+    }),
+    paidAt: faker.helpers.maybe(() => faker.date.recent({ days: 15 }), {
+      probability: 0.4,
+    }),
+  };
+};
 
 // Billing Invoice Line Item - Requires invoiceId
 export const seedBillingInvoiceLineItem = (
@@ -127,11 +142,18 @@ export const seedBillingInvoiceLineItem = (
 ): Insertable<BillingInvoiceLineItem> => ({
   invoiceId: options.invoiceId,
   description: faker.commerce.productDescription(),
-  quantity: faker.number.int({ min: 1, max: 100 }).toString(),
-  unitPrice: faker.number.int({ min: 5, max: 1000 }).toString(),
-  taxRate: faker.number.int({ min: 0, max: 25 }).toString(),
+  quantity: faker.number
+    .float({ min: 1, max: 999, fractionDigits: 3 })
+    .toString(),
+  unitPrice: faker.number
+    .float({ min: 1, max: 9999.99, fractionDigits: 2 })
+    .toString(),
+  taxRate: faker.number
+    .float({ min: 0, max: 0.25, fractionDigits: 4 })
+    .toString(),
   discountRate: faker.helpers.maybe(
-    () => faker.number.int({ min: 0, max: 20 }).toString(),
+    () =>
+      faker.number.float({ min: 0, max: 0.15, fractionDigits: 4 }).toString(),
     { probability: 0.3 }
   ),
   sourceRecordId: options.sourceRecordId,
