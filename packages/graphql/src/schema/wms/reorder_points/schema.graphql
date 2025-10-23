@@ -1,7 +1,7 @@
 type ReorderPoints {
   id: ID!
   product: WmsProducts!
-  warehouseId: ID!
+  warehouse: Warehouses!
   threshold: Int!
   createdAt: String
   updatedAt: String

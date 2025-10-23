@@ -2154,7 +2154,7 @@ type ReorderPoints {
   product: WmsProducts!
   threshold: Int!
   updatedAt: String
-  warehouseId: ID!
+  warehouse: Warehouses!
 }
 
 enum ReturnItemCondition {
@@ -2292,11 +2292,11 @@ enum StockTransferStatus {
 
 type StockTransfers {
   createdAt: String
-  destinationWarehouseId: ID!
+  destinationWarehouse: Warehouses!
   id: ID!
   product: WmsProducts!
   quantity: Int!
-  sourceWarehouseId: ID!
+  sourceWarehouse: Warehouses!
   status: StockTransferStatus
   updatedAt: String
 }

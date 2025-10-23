@@ -8,8 +8,8 @@ enum StockTransferStatus {
 type StockTransfers {
   id: ID!
   product: WmsProducts!
-  sourceWarehouseId: ID!
-  destinationWarehouseId: ID!
+  sourceWarehouse: Warehouses!
+  destinationWarehouse: Warehouses!
   quantity: Int!
   status: StockTransferStatus
   createdAt: String

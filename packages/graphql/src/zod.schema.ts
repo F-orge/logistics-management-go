@@ -3062,7 +3062,7 @@ export type ReorderPoints = {
   product: WmsProducts;
   threshold: Scalars['Int']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
-  warehouseId: Scalars['ID']['output'];
+  warehouse: Warehouses;
 };
 
 export enum ReturnItemCondition {
@@ -3208,11 +3208,11 @@ export enum StockTransferStatus {
 export type StockTransfers = {
   __typename?: 'StockTransfers';
   createdAt?: Maybe<Scalars['String']['output']>;
-  destinationWarehouseId: Scalars['ID']['output'];
+  destinationWarehouse: Warehouses;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
-  sourceWarehouseId: Scalars['ID']['output'];
+  sourceWarehouse: Warehouses;
   status?: Maybe<StockTransferStatus>;
   updatedAt?: Maybe<Scalars['String']['output']>;
 };

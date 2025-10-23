@@ -3027,7 +3027,7 @@ export type ReorderPoints = {
   product: WmsProducts;
   threshold: Scalars['Int']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
-  warehouseId: Scalars['ID']['output'];
+  warehouse: Warehouses;
 };
 
 export type ReturnItemCondition =
@@ -3167,11 +3167,11 @@ export type StockTransferStatus =
 export type StockTransfers = {
   __typename?: 'StockTransfers';
   createdAt?: Maybe<Scalars['String']['output']>;
-  destinationWarehouseId: Scalars['ID']['output'];
+  destinationWarehouse: Warehouses;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
-  sourceWarehouseId: Scalars['ID']['output'];
+  sourceWarehouse: Warehouses;
   status?: Maybe<StockTransferStatus>;
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
@@ -5732,7 +5732,7 @@ export type ResolversTypes = {
   RateCards: ResolverTypeWrapper<Omit<RateCards, 'rules' | 'serviceType'> & { rules?: Maybe<Array<ResolversTypes['RateRules']>>, serviceType: ResolversTypes['ServiceType'] }>;
   RateRules: ResolverTypeWrapper<Omit<RateRules, 'pricingModel' | 'rateCard'> & { pricingModel: ResolversTypes['PricingModel'], rateCard: ResolversTypes['RateCards'] }>;
   RecordType: ResolverTypeWrapper<'COMPANIES' | 'CONTACTS' | 'LEADS' | 'OPPORTUNITIES' | 'CASES' | 'INTERACTIONS' | 'CAMPAIGNS' | 'PRODUCTS' | 'INVOICES'>;
-  ReorderPoints: ResolverTypeWrapper<Omit<ReorderPoints, 'product'> & { product: ResolversTypes['WmsProducts'] }>;
+  ReorderPoints: ResolverTypeWrapper<Omit<ReorderPoints, 'product' | 'warehouse'> & { product: ResolversTypes['WmsProducts'], warehouse: ResolversTypes['Warehouses'] }>;
   ReturnItemCondition: ResolverTypeWrapper<'SELLABLE' | 'DAMAGED' | 'DEFECTIVE' | 'EXPIRED' | 'UNSELLABLE'>;
   ReturnItems: ResolverTypeWrapper<Omit<ReturnItems, 'condition' | 'product' | 'return'> & { condition?: Maybe<ResolversTypes['ReturnItemCondition']>, product: ResolversTypes['WmsProducts'], return: ResolversTypes['Returns'] }>;
   ReturnStatus: ResolverTypeWrapper<'REQUESTED' | 'APPROVED' | 'REJECTED' | 'RECEIVED' | 'PROCESSED'>;
@@ -5746,7 +5746,7 @@ export type ResolversTypes = {
   ShipmentLegStatus: ResolverTypeWrapper<'PENDING' | 'IN_TRANSIT' | 'DELIVERED' | 'CANCELLED' | 'FAILED'>;
   ShipmentLegs: ResolverTypeWrapper<Omit<ShipmentLegs, 'carrier' | 'events' | 'internalTrip' | 'partnerInvoiceItems' | 'shipment' | 'status'> & { carrier?: Maybe<ResolversTypes['Carriers']>, events?: Maybe<Array<ResolversTypes['ShipmentLegEvents']>>, internalTrip?: Maybe<ResolversTypes['Trips']>, partnerInvoiceItems?: Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, shipment?: Maybe<ResolversTypes['OutboundShipments']>, status?: Maybe<ResolversTypes['ShipmentLegStatus']> }>;
   StockTransferStatus: ResolverTypeWrapper<'PENDING' | 'IN_TRANSIT' | 'RECEIVED' | 'CANCELLED'>;
-  StockTransfers: ResolverTypeWrapper<Omit<StockTransfers, 'product' | 'status'> & { product: ResolversTypes['WmsProducts'], status?: Maybe<ResolversTypes['StockTransferStatus']> }>;
+  StockTransfers: ResolverTypeWrapper<Omit<StockTransfers, 'destinationWarehouse' | 'product' | 'sourceWarehouse' | 'status'> & { destinationWarehouse: ResolversTypes['Warehouses'], product: ResolversTypes['WmsProducts'], sourceWarehouse: ResolversTypes['Warehouses'], status?: Maybe<ResolversTypes['StockTransferStatus']> }>;
   Suppliers: ResolverTypeWrapper<Omit<Suppliers, 'products'> & { products?: Maybe<Array<ResolversTypes['WmsProducts']>> }>;
   SurchargeCalculationMethod: ResolverTypeWrapper<'PERCENTAGE' | 'FIXED' | 'PER_UNIT' | 'SLIDING_SCALE'>;
   Surcharges: ResolverTypeWrapper<Omit<Surcharges, 'calculationMethod'> & { calculationMethod: ResolversTypes['SurchargeCalculationMethod'] }>;
@@ -5997,7 +5997,7 @@ export type ResolversParentTypes = {
   Quotes: Omit<Quotes, 'billingInvoices' | 'client'> & { billingInvoices?: Maybe<Array<ResolversParentTypes['BillingInvoices']>>, client?: Maybe<ResolversParentTypes['Companies']> };
   RateCards: Omit<RateCards, 'rules'> & { rules?: Maybe<Array<ResolversParentTypes['RateRules']>> };
   RateRules: Omit<RateRules, 'rateCard'> & { rateCard: ResolversParentTypes['RateCards'] };
-  ReorderPoints: Omit<ReorderPoints, 'product'> & { product: ResolversParentTypes['WmsProducts'] };
+  ReorderPoints: Omit<ReorderPoints, 'product' | 'warehouse'> & { product: ResolversParentTypes['WmsProducts'], warehouse: ResolversParentTypes['Warehouses'] };
   ReturnItems: Omit<ReturnItems, 'product' | 'return'> & { product: ResolversParentTypes['WmsProducts'], return: ResolversParentTypes['Returns'] };
   Returns: Omit<Returns, 'client' | 'items' | 'salesOrder'> & { client: ResolversParentTypes['Companies'], items?: Maybe<Array<ResolversParentTypes['ReturnItems']>>, salesOrder?: Maybe<ResolversParentTypes['SalesOrders']> };
   Routes: Omit<Routes, 'trip'> & { trip: ResolversParentTypes['Trips'] };
@@ -6005,7 +6005,7 @@ export type ResolversParentTypes = {
   SalesOrders: Omit<SalesOrders, 'client' | 'crmOpportunity' | 'items' | 'outboundShipments' | 'packages' | 'pickBatchItems' | 'returns'> & { client: ResolversParentTypes['Companies'], crmOpportunity?: Maybe<ResolversParentTypes['Opportunities']>, items?: Maybe<Array<ResolversParentTypes['SalesOrderItems']>>, outboundShipments?: Maybe<Array<ResolversParentTypes['OutboundShipments']>>, packages?: Maybe<Array<ResolversParentTypes['Packages']>>, pickBatchItems?: Maybe<Array<ResolversParentTypes['PickBatchItems']>>, returns?: Maybe<Array<ResolversParentTypes['Returns']>> };
   ShipmentLegEvents: Omit<ShipmentLegEvents, 'shipmentLeg'> & { shipmentLeg: ResolversParentTypes['ShipmentLegs'] };
   ShipmentLegs: Omit<ShipmentLegs, 'carrier' | 'events' | 'internalTrip' | 'partnerInvoiceItems' | 'shipment'> & { carrier?: Maybe<ResolversParentTypes['Carriers']>, events?: Maybe<Array<ResolversParentTypes['ShipmentLegEvents']>>, internalTrip?: Maybe<ResolversParentTypes['Trips']>, partnerInvoiceItems?: Maybe<Array<ResolversParentTypes['PartnerInvoiceItems']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']> };
-  StockTransfers: Omit<StockTransfers, 'product'> & { product: ResolversParentTypes['WmsProducts'] };
+  StockTransfers: Omit<StockTransfers, 'destinationWarehouse' | 'product' | 'sourceWarehouse'> & { destinationWarehouse: ResolversParentTypes['Warehouses'], product: ResolversParentTypes['WmsProducts'], sourceWarehouse: ResolversParentTypes['Warehouses'] };
   Suppliers: Omit<Suppliers, 'products'> & { products?: Maybe<Array<ResolversParentTypes['WmsProducts']>> };
   Surcharges: Surcharges;
   TaskEvents: Omit<TaskEvents, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
@@ -7189,7 +7189,7 @@ export type ReorderPointsResolvers<ContextType = GraphQLContext, ParentType exte
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   threshold?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  warehouseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
 };
 
 export type ReturnItemConditionResolvers = EnumResolverSignature<{ DAMAGED?: any, DEFECTIVE?: any, EXPIRED?: any, SELLABLE?: any, UNSELLABLE?: any }, ResolversTypes['ReturnItemCondition']>;
@@ -7289,11 +7289,11 @@ export type StockTransferStatusResolvers = EnumResolverSignature<{ CANCELLED?: a
 
 export type StockTransfersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['StockTransfers'] = ResolversParentTypes['StockTransfers']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  destinationWarehouseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  destinationWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  sourceWarehouseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  sourceWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['StockTransferStatus']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
