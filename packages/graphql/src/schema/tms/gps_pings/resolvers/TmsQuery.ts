@@ -13,8 +13,8 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'gpsPing'|'gpsPings'> = {
       query = query
         .clearLimit()
         .clearOffset()
-        .where("timestamp", ">=", args.from.toISOString())
-        .where("timestamp", "<=", args.to.toISOString());
+        .where("timestamp", ">=", args.from as Date)
+        .where("timestamp", "<=", args.to as Date);
     }
 
     const results = await query.execute();
