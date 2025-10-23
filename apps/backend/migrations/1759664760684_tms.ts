@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely'
+import { type Kysely, sql } from "kysely";
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
 export async function up(db: Kysely<any>): Promise<void> {
@@ -11,69 +11,69 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 		-- Create TMS enum types
 		create type tms.driver_status_enum as enum(
-			'active',
-			'inactive',
-			'on_leave'
+			'ACTIVE',
+			'INACTIVE',
+			'ON_LEAVE'
 		);
 
 		create type tms.driver_schedule_reason_enum as enum(
-			'vacation',
-			'sick_leave',
-			'training',
-			'personal_leave'
+			'VACATION',
+			'SICK_LEAVE',
+			'TRAINING',
+			'PERSONAL_LEAVE'
 		);
 
 		create type tms.vehicle_status_enum as enum(
-			'available',
-			'in_maintenance',
-			'on_trip',
-			'out_of_service'
+			'AVAILABLE',
+			'IN_MAINTENANCE',
+			'ON_TRIP',
+			'OUT_OF_SERVICE'
 		);
 
 		create type tms.vehicle_service_type_enum as enum(
-			'routine_maintenance',
-			'repair',
-			'inspection',
-			'oil_change',
-			'tire_replacement',
-			'brake_service'
+			'ROUTINE_MAINTENANCE',
+			'REPAIR',
+			'INSPECTION',
+			'OIL_CHANGE',
+			'TIRE_REPLACEMENT',
+			'BRAKE_SERVICE'
 		);
 
 		create type tms.trip_status_enum as enum(
-			'planned',
-			'in_progress',
-			'completed',
-			'cancelled'
+			'PLANNED',
+			'IN_PROGRESS',
+			'COMPLETED',
+			'CANCELLED'
 		);
 
 		create type tms.trip_stop_status_enum as enum(
-			'pending',
-			'arrived',
-			'completed',
-			'skipped'
+			'PENDING',
+			'ARRIVED',
+			'COMPLETED',
+			'SKIPPED'
 		);
 
 		create type tms.proof_type_enum as enum(
-			'signature',
-			'photo',
-			'barcode_scan',
-			'pin_verification'
+			'SIGNATURE',
+			'PHOTO',
+			'BARCODE_SCAN',
+			'PIN_VERIFICATION'
 		);
 
 		create type tms.expense_type_enum as enum(
-			'fuel',
-			'tolls',
-			'maintenance',
-			'parking',
-			'meals',
-			'accommodation'
+			'FUEL',
+			'TOLLS',
+			'MAINTENANCE',
+			'PARKING',
+			'MEALS',
+			'ACCOMMODATION'
 		);
 
 		create type tms.expense_status_enum as enum(
-			'pending',
-			'approved',
-			'rejected',
-			'reimbursed'
+			'PENDING',
+			'APPROVED',
+			'REJECTED',
+			'REIMBURSED'
 		);
 
 		create type tms.currency_enum as enum(
@@ -87,32 +87,32 @@ export async function up(db: Kysely<any>): Promise<void> {
 		);
 
 		create type tms.geofence_event_type_enum as enum(
-			'enter',
-			'exit'
+			'ENTER',
+			'EXIT'
 		);
 
 		create type tms.carrier_rate_unit_enum as enum(
-			'per_kg',
-			'per_container',
-			'per_mile',
-			'per_km',
-			'flat_rate'
+			'PER_KG',
+			'PER_CONTAINER',
+			'PER_MILE',
+			'PER_KM',
+			'FLAT_RATE'
 		);
 
 		create type tms.shipment_leg_status_enum as enum(
-			'pending',
-			'in_transit',
-			'delivered',
-			'cancelled',
-			'failed'
+			'PENDING',
+			'IN_TRANSIT',
+			'DELIVERED',
+			'CANCELLED',
+			'FAILED'
 		);
 
 		create type tms.partner_invoice_status_enum as enum(
-			'pending',
-			'paid',
-			'disputed',
-			'overdue',
-			'cancelled'
+			'PENDING',
+			'PAID',
+			'DISPUTED',
+			'OVERDUE',
+			'CANCELLED'
 		);
 
 		-- TMS Drivers
@@ -121,7 +121,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			user_id text not null references "user"(id),
 			license_number varchar(50) not null,
 			license_expiry_date date,
-			status tms.driver_status_enum default 'active',
+			status tms.driver_status_enum default 'ACTIVE',
 			created_at timestamp default now(),
 			updated_at timestamp default now()
 		);
@@ -176,7 +176,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			model varchar(100),
 			capacity_volume real,
 			capacity_weight real,
-			status tms.vehicle_status_enum default 'available',
+			status tms.vehicle_status_enum default 'AVAILABLE',
 			created_at timestamp default now(),
 			updated_at timestamp default now()
 		);
@@ -234,7 +234,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			id uuid primary key default gen_random_uuid(),
 			driver_id uuid references tms.drivers(id),
 			vehicle_id uuid references tms.vehicles(id),
-			status tms.trip_status_enum default 'planned',
+			status tms.trip_status_enum default 'PLANNED',
 			created_at timestamp default now(),
 			updated_at timestamp default now()
 		);
@@ -261,7 +261,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			sequence integer
 				not null,
 				address varchar(500),
-				status tms.trip_stop_status_enum default 'pending',
+				status tms.trip_stop_status_enum default 'PENDING',
 				estimated_arrival_time timestamp,
 				actual_arrival_time timestamp,
 				estimated_departure_time timestamp,
@@ -388,7 +388,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			receipt_url varchar(500),
 			fuel_quantity real,
 			odometer_reading integer,
-			status tms.expense_status_enum default 'pending',
+			status tms.expense_status_enum default 'PENDING',
 			created_at timestamp default now(),
 			updated_at timestamp default now()
 		);
@@ -582,7 +582,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			invoice_number varchar(100) not null,
 			invoice_date date not null,
 			total_amount numeric(15, 2) not null,
-			status tms.partner_invoice_status_enum default 'pending',
+			status tms.partner_invoice_status_enum default 'PENDING',
 			created_at timestamp default now(),
 			updated_at timestamp default now()
 		);
@@ -725,7 +725,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_tms_partner_invoice_items_partner_invoice_id on tms.partner_invoice_items(partner_invoice_id);
 
 		create index idx_tms_partner_invoice_items_shipment_leg_id on tms.partner_invoice_items(shipment_leg_id);
-	`.execute(db)
+	`.execute(db);
 }
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
@@ -799,5 +799,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop TMS schema
 		drop schema if exists tms cascade;
-	`.execute(db)
+	`.execute(db);
 }

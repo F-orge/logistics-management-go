@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely'
+import { type Kysely, sql } from "kysely";
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -7,108 +7,108 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 		-- Create BILLING enum types
 		create type billing.service_type_enum as enum(
-			'shipping',
-			'storage',
-			'fulfillment',
-			'handling',
-			'insurance',
-			'customs',
-			'packaging',
-			'returns'
+			'SHIPPING',
+			'STORAGE',
+			'FULFILLMENT',
+			'HANDLING',
+			'INSURANCE',
+			'CUSTOMS',
+			'PACKAGING',
+			'RETURNS'
 		);
 
 		create type billing.pricing_model_enum as enum(
-			'per-kg',
-			'per-item',
-			'flat-rate',
-			'per-cubic-meter',
-			'per-zone',
-			'percentage',
-			'tiered'
+			'PER_KG',
+			'PER_ITEM',
+			'FLAT_RATE',
+			'PER_CUBIC_METER',
+			'PER_ZONE',
+			'PERCENTAGE',
+			'TIERED'
 		);
 
 		create type billing.surcharge_calculation_method_enum as enum(
-			'percentage',
-			'fixed',
-			'per-unit',
-			'sliding-scale'
+			'PERCENTAGE',
+			'FIXED',
+			'PER_UNIT',
+			'SLIDING_SCALE'
 		);
 
 		create type billing.quote_status_enum as enum(
-			'pending',
-			'accepted',
-			'expired',
-			'cancelled',
-			'converted'
+			'PENDING',
+			'ACCEPTED',
+			'EXPIRED',
+			'CANCELLED',
+			'CONVERTED'
 		);
 
 		create type billing.transaction_type_enum as enum(
-			'credit',
-			'debit',
-			'top-up',
-			'refund',
-			'adjustment',
-			'fee'
+			'CREDIT',
+			'DEBIT',
+			'TOP_UP',
+			'REFUND',
+			'ADJUSTMENT',
+			'FEE'
 		);
 
 		create type billing.invoice_status_enum as enum(
-			'draft',
-			'sent',
-			'viewed',
-			'paid',
-			'partial-paid',
-			'past-due',
-			'disputed',
-			'cancelled',
-			'void'
+			'DRAFT',
+			'SENT',
+			'VIEWED',
+			'PAID',
+			'PARTIAL_PAID',
+			'PAST_DUE',
+			'DISPUTED',
+			'CANCELLED',
+			'VOID'
 		);
 
 		create type billing.payment_method_enum as enum(
-			'credit-card',
-			'debit-card',
-			'wallet',
-			'qr-ph',
-			'client-credit',
-			'bank-transfer',
-			'cash',
-			'check'
+			'CREDIT_CARD',
+			'DEBIT_CARD',
+			'WALLET',
+			'QR_PH',
+			'CLIENT_CREDIT',
+			'BANK_TRANSFER',
+			'CASH',
+			'CHECK'
 		);
 
 		create type billing.payment_status_enum as enum(
-			'pending',
-			'processing',
-			'successful',
-			'failed',
-			'cancelled',
-			'refunded'
+			'PENDING',
+			'PROCESSING',
+			'SUCCESSFUL',
+			'FAILED',
+			'CANCELLED',
+			'REFUNDED'
 		);
 
 		create type billing.dispute_status_enum as enum(
-			'open',
-			'under-review',
-			'approved',
-			'denied',
-			'escalated',
-			'closed'
+			'OPEN',
+			'UNDER_REVIEW',
+			'APPROVED',
+			'DENIED',
+			'ESCALATED',
+			'CLOSED'
 		);
 
 		create type billing.document_type_enum as enum(
-			'bol',
-			'commercial-invoice',
-			'packing-list',
-			'receipt',
-			'credit-note',
-			'shipping-label',
-			'customs-declaration',
-			'proof-of-delivery'
+			'BOL',
+			'COMMERCIAL_INVOICE',
+			'PACKING_LIST',
+			'RECEIPT',
+			'CREDIT_NOTE',
+			'SHIPPING_LABEL',
+			'CUSTOMS_DECLARATION',
+			'PROOF_OF_DELIVERY'
 		);
 
 		create type billing.sync_status_enum as enum(
-			'pending',
-			'in-progress',
-			'success',
-			'failed',
-			'retry'
+			'PENDING',
+			'IN_PROGRESS',
+			'SUCCESS',
+			'FAILED',
+			'RETRY'
 		);
 
 		-- BILLING Rate Cards
@@ -246,7 +246,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			quoted_price numeric(10, 2) not null,
 			service_level varchar(100),
 			expires_at timestamp,
-			status billing.quote_status_enum default 'pending',
+			status billing.quote_status_enum default 'PENDING',
 			quote_number varchar(100) unique,
 			notes text,
 			created_by_user_id text references "user"(id),
@@ -390,7 +390,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			client_id uuid not null references crm.companies(id),
 			quote_id uuid references billing.quotes(id),
 			invoice_number varchar(100) not null unique,
-			status billing.invoice_status_enum default 'draft',
+			status billing.invoice_status_enum default 'DRAFT',
 			issue_date date not null,
 			due_date date not null,
 			total_amount numeric(12, 2) not null,
@@ -518,7 +518,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			payment_method billing.payment_method_enum not null,
 			transaction_id varchar(255),
 			gateway_reference varchar(255),
-			status billing.payment_status_enum default 'pending',
+			status billing.payment_status_enum default 'PENDING',
 			payment_date timestamp default now(),
 			processed_at timestamp,
 			currency varchar(3) default 'USD',
@@ -576,7 +576,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			line_item_id uuid not null references billing.invoice_line_items(id),
 			client_id uuid not null references crm.companies(id),
 			reason text not null,
-			status billing.dispute_status_enum default 'open',
+			status billing.dispute_status_enum default 'OPEN',
 			disputed_amount numeric(10, 2),
 			resolution_notes text,
 			submitted_at timestamp default now(),
@@ -706,7 +706,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			record_type varchar(50) not null,
 			external_system varchar(50) not null,
 			external_id varchar(255),
-			status billing.sync_status_enum default 'pending',
+			status billing.sync_status_enum default 'PENDING',
 			error_message text,
 			request_payload text,
 			response_payload text,
@@ -816,7 +816,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_billing_accounting_sync_log_status on billing.accounting_sync_log(status);
 
 		create index idx_billing_accounting_sync_log_external_system on billing.accounting_sync_log(external_system);
-	`.execute(db)
+	`.execute(db);
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -942,5 +942,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop schema
 		drop schema if exists billing;
-	`.execute(db)
+	`.execute(db);
 }

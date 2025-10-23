@@ -1,4 +1,4 @@
-import { type Kysely, sql } from 'kysely'
+import { type Kysely, sql } from "kysely";
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
@@ -10,51 +10,51 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 		-- Create DMS enum types
 		create type dms.delivery_route_status_enum as enum(
-			'planned',
-			'in_progress',
-			'completed',
-			'cancelled',
-			'paused'
+			'PLANNED',
+			'IN_PROGRESS',
+			'COMPLETED',
+			'CANCELLED',
+			'PAUSED'
 		);
 
 		create type dms.delivery_task_status_enum as enum(
-			'pending',
-			'assigned',
-			'out_for_delivery',
-			'delivered',
-			'failed',
-			'cancelled',
-			'rescheduled'
+			'PENDING',
+			'ASSIGNED',
+			'OUT_FOR_DELIVERY',
+			'DELIVERED',
+			'FAILED',
+			'CANCELLED',
+			'RESCHEDULED'
 		);
 
 		create type dms.task_event_status_enum as enum(
-			'assigned',
-			'started',
-			'arrived',
-			'delivered',
-			'failed',
-			'exception',
-			'cancelled',
-			'rescheduled'
+			'ASSIGNED',
+			'STARTED',
+			'ARRIVED',
+			'DELIVERED',
+			'FAILED',
+			'EXCEPTION',
+			'CANCELLED',
+			'RESCHEDULED'
 		);
 
 		create type dms.delivery_failure_reason_enum as enum(
-			'recipient_not_home',
-			'address_not_found',
-			'refused_delivery',
-			'damaged_package',
-			'access_denied',
-			'weather_conditions',
-			'vehicle_breakdown',
-			'other'
+			'RECIPIENT_NOT_HOME',
+			'ADDRESS_NOT_FOUND',
+			'REFUSED_DELIVERY',
+			'DAMAGED_PACKAGE',
+			'ACCESS_DENIED',
+			'WEATHER_CONDITIONS',
+			'VEHICLE_BREAKDOWN',
+			'OTHER'
 		);
 
 		create type dms.proof_of_delivery_type_enum as enum(
-			'signature',
-			'photo',
-			'code_verification',
-			'contactless_delivery',
-			'left_at_door'
+			'SIGNATURE',
+			'PHOTO',
+			'CODE_VERIFICATION',
+			'CONTACTLESS_DELIVERY',
+			'LEFT_AT_DOOR'
 		);
 
 		-- DMS Delivery Routes
@@ -62,7 +62,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			id uuid primary key default gen_random_uuid(),
 			driver_id uuid not null references tms.drivers(id),
 			route_date date not null,
-			status dms.delivery_route_status_enum default 'planned',
+			status dms.delivery_route_status_enum default 'PLANNED',
 			optimized_route_data text,
 			total_distance_km real,
 			estimated_duration_minutes integer,
@@ -116,7 +116,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			estimated_arrival_time timestamp,
 			actual_arrival_time timestamp,
 			delivery_time timestamp,
-			status dms.delivery_task_status_enum default 'pending',
+			status dms.delivery_task_status_enum default 'PENDING',
 			failure_reason dms.delivery_failure_reason_enum,
 			attempt_count integer default 0,
 			created_at timestamp default now(),
@@ -351,7 +351,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_dms_customer_tracking_links_tracking_token on dms.customer_tracking_links(tracking_token);
 
 		create index idx_dms_customer_tracking_links_active on dms.customer_tracking_links(is_active);
-	`.execute(db)
+	`.execute(db);
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
@@ -419,5 +419,5 @@ export async function down(db: Kysely<any>): Promise<void> {
 
 		-- Drop schema
 		drop schema if exists dms;
-	`.execute(db)
+	`.execute(db);
 }

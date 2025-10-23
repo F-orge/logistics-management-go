@@ -8,66 +8,66 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create schema if not exists wms;
 
 		create type wms.product_status_enum as enum(
-			'active',
-			'discontinued',
-			'obsolete',
-			'inactive'
+			'ACTIVE',
+			'DISCONTINUED',
+			'OBSOLETE',
+			'INACTIVE'
 		);
 
 		create type wms.inventory_adjustment_reason_enum as enum(
-			'cycle_count',
-			'damaged_goods',
-			'theft',
-			'expired',
-			'return_to_vendor',
-			'manual_correction'
+			'CYCLE_COUNT',
+			'DAMAGED_GOODS',
+			'THEFT',
+			'EXPIRED',
+			'RETURN_TO_VENDOR',
+			'MANUAL_CORRECTION'
 		);
 
 		create type wms.inbound_shipment_status_enum as enum(
-			'pending',
-			'arrived',
-			'processing',
-			'completed',
-			'cancelled'
+			'PENDING',
+			'ARRIVED',
+			'PROCESSING',
+			'COMPLETED',
+			'CANCELLED'
 		);
 
 		create type wms.stock_transfer_status_enum as enum(
-			'pending',
-			'in_transit',
-			'received',
-			'cancelled'
+			'PENDING',
+			'IN_TRANSIT',
+			'RECEIVED',
+			'CANCELLED'
 		);
 
 		create type wms.sales_order_status_enum as enum(
-			'pending',
-			'processing',
-			'shipped',
-			'completed',
-			'cancelled'
+			'PENDING',
+			'PROCESSING',
+			'SHIPPED',
+			'COMPLETED',
+			'CANCELLED'
 		);
 
 		create type wms.outbound_shipment_status_enum as enum(
-			'picking',
-			'packed',
-			'shipped',
-			'delivered',
-			'cancelled'
+			'PICKING',
+			'PACKED',
+			'SHIPPED',
+			'DELIVERED',
+			'CANCELLED'
 		);
 
 		create type wms.return_status_enum as enum(
-			'requested',
-			'approved',
-			'rejected',
-			'received',
-			'processed'
+			'REQUESTED',
+			'APPROVED',
+			'REJECTED',
+			'RECEIVED',
+			'PROCESSED'
 		);
 
 		create type wms.return_item_condition_enum as enum(
-			'sellable',
-			'damaged',
-			'defective',
-			'expired',
-			'unsellable'
+			'SELLABLE',
+			'DAMAGED',
+			'DEFECTIVE',
+			'EXPIRED',
+			'UNSELLABLE'
 		);
 
 		-- IMS Suppliers
@@ -110,7 +110,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			height real,
 			volume real generated always as (length * width * height) stored,
 			weight real,
-			status wms.product_status_enum default 'active',
+			status wms.product_status_enum default 'ACTIVE',
 			supplier_id uuid references wms.suppliers(id),
 			client_id uuid references crm.companies(id),
 			created_at timestamp default now(),
@@ -237,7 +237,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			id uuid primary key default gen_random_uuid(),
 			client_id uuid references crm.companies(id),
 			warehouse_id uuid not null,
-			status wms.inbound_shipment_status_enum default 'pending',
+			status wms.inbound_shipment_status_enum default 'PENDING',
 			expected_arrival_date date,
 			actual_arrival_date date,
 			created_at timestamp default now(),
@@ -302,7 +302,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			source_warehouse_id uuid not null,
 			destination_warehouse_id uuid not null,
 			quantity integer not null,
-			status wms.stock_transfer_status_enum default 'pending',
+			status wms.stock_transfer_status_enum default 'PENDING',
 			created_at timestamp default now(),
 			updated_at timestamp default now()
 		);
@@ -331,7 +331,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			order_number varchar(100) not null unique,
 			client_id uuid not null references crm.companies(id),
 			crm_opportunity_id uuid references crm.opportunities(id),
-			status wms.sales_order_status_enum default 'pending',
+			status wms.sales_order_status_enum default 'PENDING',
 			shipping_address text,
 			created_at timestamp default now(),
 			updated_at timestamp default now()
@@ -384,7 +384,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			id uuid primary key default gen_random_uuid(),
 			sales_order_id uuid not null references wms.sales_orders(id),
 			warehouse_id uuid not null,
-			status wms.outbound_shipment_status_enum default 'picking',
+			status wms.outbound_shipment_status_enum default 'PICKING',
 			tracking_number varchar(100),
 			carrier varchar(100),
 			created_at timestamp default now(),
@@ -457,7 +457,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			return_number varchar(100) not null unique,
 			sales_order_id uuid references wms.sales_orders(id),
 			client_id uuid not null references crm.companies(id),
-			status wms.return_status_enum default 'requested',
+			status wms.return_status_enum default 'REQUESTED',
 			reason text,
 			created_at timestamp default now(),
 			updated_at timestamp default now()
@@ -616,71 +616,71 @@ export async function up(db: Kysely<any>): Promise<void> {
 		create index idx_ims_return_items_condition on wms.return_items(condition);
 	
 		create type wms.location_type_enum as enum(
-			'receiving_dock',
-			'pick_bin',
-			'packing_station',
-			'cross_dock_area',
-			'bulk_storage',
-			'reserve_storage',
-			'damaged_goods',
-			'staging_area',
-			'quality_control',
-			'returns_area'
+			'RECEIVING_DOCK',
+			'PICK_BIN',
+			'PACKING_STATION',
+			'CROSS_DOCK_AREA',
+			'BULK_STORAGE',
+			'RESERVE_STORAGE',
+			'DAMAGED_GOODS',
+			'STAGING_AREA',
+			'QUALITY_CONTROL',
+			'RETURNS_AREA'
 		);
 
 		create type wms.inventory_stock_status_enum as enum(
-			'available',
-			'allocated',
-			'damaged',
-			'quarantine',
-			'hold',
-			'shipped',
-			'expired'
+			'AVAILABLE',
+			'ALLOCATED',
+			'DAMAGED',
+			'QUARANTINE',
+			'HOLD',
+			'SHIPPED',
+			'EXPIRED'
 		);
 
 		create type wms.pick_batch_status_enum as enum(
-			'open',
-			'in_progress',
-			'completed',
-			'cancelled'
+			'OPEN',
+			'IN_PROGRESS',
+			'COMPLETED',
+			'CANCELLED'
 		);
 
 		create type wms.pick_strategy_enum as enum(
-			'batch_picking',
-			'zone_picking',
-			'wave_picking',
-			'single_order_picking',
-			'cluster_picking'
+			'BATCH_PICKING',
+			'ZONE_PICKING',
+			'WAVE_PICKING',
+			'SINGLE_ORDER_PICKING',
+			'CLUSTER_PICKING'
 		);
 
 		create type wms.task_type_enum as enum(
-			'putaway',
-			'pick',
-			'pack',
-			'replenishment',
-			'cycle_count',
-			'cross_dock',
-			'returns_processing',
-			'damage_inspection',
-			'quality_check'
+			'PUTAWAY',
+			'PICK',
+			'PACK',
+			'REPLENISHMENT',
+			'CYCLE_COUNT',
+			'CROSS_DOCK',
+			'RETURNS_PROCESSING',
+			'DAMAGE_INSPECTION',
+			'QUALITY_CHECK'
 		);
 
 		create type wms.task_status_enum as enum(
-			'pending',
-			'assigned',
-			'in_progress',
-			'completed',
-			'cancelled',
-			'error'
+			'PENDING',
+			'ASSIGNED',
+			'IN_PROGRESS',
+			'COMPLETED',
+			'CANCELLED',
+			'ERROR'
 		);
 
 		create type wms.task_item_status_enum as enum(
-			'pending',
-			'in_progress',
-			'completed',
-			'short_picked',
-			'damaged',
-			'not_found'
+			'PENDING',
+			'IN_PROGRESS',
+			'COMPLETED',
+			'SHORT_PICKED',
+			'DAMAGED',
+			'NOT_FOUND'
 		);
 
 		-- WMS Warehouses
@@ -809,7 +809,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			quantity integer not null default 0,
 			reserved_quantity integer not null default 0,
 			available_quantity integer generated always as (quantity - reserved_quantity) stored,
-			status wms.inventory_stock_status_enum default 'available',
+			status wms.inventory_stock_status_enum default 'AVAILABLE',
 			last_counted_at timestamp,
 			last_movement_at timestamp default now(),
 			created_at timestamp default now(),
@@ -942,7 +942,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			id uuid primary key default gen_random_uuid(),
 			batch_number varchar(100) not null unique,
 			warehouse_id uuid not null references wms.warehouses(id),
-			status wms.pick_batch_status_enum default 'open',
+			status wms.pick_batch_status_enum default 'OPEN',
 			strategy wms.pick_strategy_enum not null,
 			priority integer default 100,
 			assigned_user_id text references "user"(id),
@@ -1032,7 +1032,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			warehouse_id uuid not null references wms.warehouses(id),
 			user_id text references "user"(id),
 			type wms.task_type_enum not null,
-			status wms.task_status_enum default 'pending',
+			status wms.task_status_enum default 'PENDING',
 			priority integer default 100,
 			source_entity_id uuid,
 			source_entity_type varchar(50),
@@ -1099,7 +1099,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			quantity_required integer not null,
 			quantity_completed integer not null default 0,
 			quantity_remaining integer generated always as (quantity_required - quantity_completed) stored,
-			status wms.task_item_status_enum default 'pending',
+			status wms.task_item_status_enum default 'PENDING',
 			lot_number varchar(100),
 			serial_numbers text[],
 			expiry_date date,
