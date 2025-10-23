@@ -20,7 +20,7 @@ type InventoryAdjustments {
 }
 
 extend type WmsQuery {
-  inventoryAdjustments(page: Int, perPage: Int, from: Date, to: Date): [InventoryAdjustments!]!
+  inventoryAdjustments(page: Int, perPage: Int, from: Date, to: Date, search: String): [InventoryAdjustments!]!
   inventoryAdjustment(id: ID!): InventoryAdjustments!
 }
 

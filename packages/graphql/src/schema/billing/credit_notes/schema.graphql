@@ -15,7 +15,7 @@ type CreditNotes {
 }
 
 extend type BillingQuery {
-  creditNotes(page: Int, perPage: Int, from: Date, to: Date): [CreditNotes!]!
+  creditNotes(page: Int, perPage: Int, from: Date, to: Date, search: String): [CreditNotes!]!
   creditNote(id: ID!): CreditNotes!
 }
 

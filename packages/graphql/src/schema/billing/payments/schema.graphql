@@ -39,7 +39,7 @@ type Payments {
 }
 
 extend type BillingQuery {
-  payments(page: Int, perPage: Int, from: Date, to: Date): [Payments!]!
+  payments(page: Int, perPage: Int, from: Date, to: Date, search: String): [Payments!]!
   payment(id: ID!): Payments!
 }
 

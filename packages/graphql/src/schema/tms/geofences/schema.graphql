@@ -9,7 +9,7 @@ type Geofences {
 }
 
 extend type TmsQuery {
-  geofences(page: Int, perPage: Int, from: Date, to: Date): [Geofences!]!
+  geofences(page: Int, perPage: Int, from: Date, to: Date, search: String): [Geofences!]!
   geofence(id: ID!): Geofences!
 }
 

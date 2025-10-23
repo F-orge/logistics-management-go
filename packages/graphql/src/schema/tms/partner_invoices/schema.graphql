@@ -19,7 +19,7 @@ type PartnerInvoices {
 }
 
 extend type TmsQuery {
-  partnerInvoices(page: Int, perPage: Int, from: Date, to: Date): [PartnerInvoices!]!
+  partnerInvoices(page: Int, perPage: Int, from: Date, to: Date, search: String): [PartnerInvoices!]!
   partnerInvoice(id: ID!): PartnerInvoices!
 }
 

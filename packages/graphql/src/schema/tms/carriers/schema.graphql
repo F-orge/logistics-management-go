@@ -13,7 +13,7 @@ type Carriers {
 }
 
 extend type TmsQuery {
-  carriers(page: Int, perPage: Int, from: Date, to: Date): [Carriers!]!
+  carriers(page: Int, perPage: Int, from: Date, to: Date, search: String): [Carriers!]!
   carrier(id: ID!): Carriers!
 }
 

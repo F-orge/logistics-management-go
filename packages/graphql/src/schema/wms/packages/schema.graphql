@@ -26,7 +26,7 @@ type Packages {
 }
 
 extend type WmsQuery {
-  packages(page: Int, perPage: Int, from: Date, to: Date): [Packages!]!
+  packages(page: Int, perPage: Int, from: Date, to: Date, search: String): [Packages!]!
   package(id: ID!): Packages!
 }
 

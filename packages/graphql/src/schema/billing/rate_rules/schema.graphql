@@ -24,7 +24,7 @@ type RateRules {
 }
 
 extend type BillingQuery {
-  rateRules(page: Int, perPage: Int, from: Date, to: Date): [RateRules!]!
+  rateRules(page: Int, perPage: Int, from: Date, to: Date, search: String): [RateRules!]!
   rateRule(id: ID!): RateRules!
 }
 

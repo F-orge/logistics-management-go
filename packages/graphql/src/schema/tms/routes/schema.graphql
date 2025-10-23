@@ -9,7 +9,7 @@ type Routes {
 }
 
 extend type TmsQuery {
-  routes(page: Int, perPage: Int, from: Date, to: Date): [Routes!]!
+  routes(page: Int, perPage: Int, from: Date, to: Date, search: String): [Routes!]!
   route(id: ID!): Routes!
 }
 

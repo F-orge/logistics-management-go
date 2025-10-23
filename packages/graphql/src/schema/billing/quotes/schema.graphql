@@ -29,7 +29,7 @@ type Quotes {
 }
 
 extend type BillingQuery {
-  quotes(page: Int, perPage: Int, from: Date, to: Date): [Quotes!]!
+  quotes(page: Int, perPage: Int, from: Date, to: Date, search: String): [Quotes!]!
   quote(id: ID!): Quotes!
 }
 

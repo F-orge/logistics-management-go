@@ -26,7 +26,7 @@ type Vehicles {
 }
 
 extend type TmsQuery {
-  vehicles(page: Int, perPage: Int, from: Date, to: Date): [Vehicles!]!
+  vehicles(page: Int, perPage: Int, from: Date, to: Date, search: String): [Vehicles!]!
   vehicle(id: ID!): Vehicles!
 }
 

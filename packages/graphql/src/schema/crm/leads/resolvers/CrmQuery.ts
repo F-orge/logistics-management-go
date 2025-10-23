@@ -22,11 +22,12 @@ export const CrmQuery: Pick<CrmQueryResolvers, "lead" | "leads"> = {
         eb.or([
           eb("name", "ilike", `%${args.search}%`),
           eb("email", "ilike", `%${args.search}%`),
-          eb("leadSource", "ilike", args.search as any),
-          eb("status", "ilike", args.search as any),
+          eb("leadSource", "=", args.search as any),
+          eb("status", "=", args.search as any),
         ])
       );
     }
+
     const results = await query.execute();
     return results as unknown as Leads[];
   },

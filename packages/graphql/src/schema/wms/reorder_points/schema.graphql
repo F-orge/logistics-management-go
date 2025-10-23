@@ -8,7 +8,7 @@ type ReorderPoints {
 }
 
 extend type WmsQuery {
-  reorderPoints(page: Int, perPage: Int, from: Date, to: Date): [ReorderPoints!]!
+  reorderPoints(page: Int, perPage: Int, from: Date, to: Date, search: String): [ReorderPoints!]!
   reorderPoint(id: ID!): ReorderPoints!
 }
 

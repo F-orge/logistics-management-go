@@ -19,7 +19,7 @@ type OutboundShipments {
 }
 
 extend type WmsQuery {
-  outboundShipments(page: Int, perPage: Int, from: Date, to: Date): [OutboundShipments!]!
+  outboundShipments(page: Int, perPage: Int, from: Date, to: Date, search: String): [OutboundShipments!]!
   outboundShipment(id: ID!): OutboundShipments!
 }
 

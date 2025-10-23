@@ -24,7 +24,7 @@ type RateCards {
 }
 
 extend type BillingQuery {
-  rateCards(page: Int, perPage: Int, from: Date, to: Date): [RateCards!]!
+  rateCards(page: Int, perPage: Int, from: Date, to: Date, search: String): [RateCards!]!
   rateCard(id: ID!): RateCards!
 }
 

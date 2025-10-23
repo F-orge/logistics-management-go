@@ -22,7 +22,7 @@ type ShipmentLegs {
 }
 
 extend type TmsQuery {
-  shipmentLegs(page: Int, perPage: Int, from: Date, to: Date): [ShipmentLegs!]!
+  shipmentLegs(page: Int, perPage: Int, from: Date, to: Date, search: String): [ShipmentLegs!]!
   shipmentLeg(id: ID!): ShipmentLegs!
 }
 

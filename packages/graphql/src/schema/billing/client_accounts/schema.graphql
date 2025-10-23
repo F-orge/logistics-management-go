@@ -14,7 +14,7 @@ type ClientAccounts {
 }
 
 extend type BillingQuery {
-  clientAccounts(page: Int, perPage: Int, from: Date, to: Date): [ClientAccounts!]!
+  clientAccounts(page: Int, perPage: Int, from: Date, to: Date, search: String): [ClientAccounts!]!
   clientAccount(id: ID!): ClientAccounts!
 }
 

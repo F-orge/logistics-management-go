@@ -23,7 +23,7 @@ type DeliveryRoutes {
 }
 
 extend type DmsQuery {
-  deliveryRoutes(page: Int, perPage: Int, from: Date, to: Date): [DeliveryRoutes!]!
+  deliveryRoutes(page: Int, perPage: Int, from: Date, to: Date, search: String): [DeliveryRoutes!]!
   deliveryRoute(id: ID!): DeliveryRoutes!
 }
 
