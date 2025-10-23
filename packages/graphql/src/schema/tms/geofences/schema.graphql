@@ -1,4 +1,5 @@
 type Geofences {
+  id: ID!
   name: String!
   longitude: Float
   latitude: Float

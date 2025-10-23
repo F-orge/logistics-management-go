@@ -568,6 +568,7 @@ export type Carriers = {
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   partnerInvoices?: Maybe<Array<PartnerInvoices>>;
   rates?: Maybe<Array<CarrierRates>>;
@@ -2333,6 +2334,7 @@ export type Geofences = {
   __typename?: 'Geofences';
   createdAt?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<GeofenceEvents>>;
+  id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
@@ -6280,6 +6282,7 @@ export type CarriersResolvers<ContextType = GraphQLContext, ParentType extends R
   contactPerson?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   contactPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   partnerInvoices?: Resolver<Maybe<Array<ResolversTypes['PartnerInvoices']>>, ParentType, ContextType>;
   rates?: Resolver<Maybe<Array<ResolversTypes['CarrierRates']>>, ParentType, ContextType>;
@@ -6671,6 +6674,7 @@ export type GeofenceEventsResolvers<ContextType = GraphQLContext, ParentType ext
 export type GeofencesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Geofences'] = ResolversParentTypes['Geofences']> = {
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   events?: Resolver<Maybe<Array<ResolversTypes['GeofenceEvents']>>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

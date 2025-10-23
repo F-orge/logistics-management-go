@@ -1,4 +1,5 @@
 type Carriers {
+  id: ID!
   name: String!
   contactPerson: String
   contactEmail: String

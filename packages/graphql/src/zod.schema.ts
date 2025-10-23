@@ -566,6 +566,7 @@ export type Carriers = {
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   partnerInvoices?: Maybe<Array<PartnerInvoices>>;
   rates?: Maybe<Array<CarrierRates>>;
@@ -2345,6 +2346,7 @@ export type Geofences = {
   __typename?: 'Geofences';
   createdAt?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<GeofenceEvents>>;
+  id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];

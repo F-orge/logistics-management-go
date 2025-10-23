@@ -198,6 +198,7 @@ type Carriers {
   contactPerson: String
   contactPhone: String
   createdAt: String
+  id: ID!
   name: String!
   partnerInvoices: [PartnerInvoices!]
   rates: [CarrierRates!]
@@ -1470,6 +1471,7 @@ type GeofenceEvents {
 type Geofences {
   createdAt: String
   events: [GeofenceEvents!]
+  id: ID!
   latitude: Float
   longitude: Float
   name: String!
