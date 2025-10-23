@@ -15,10 +15,6 @@ type DriverSchedules {
   updatedAt: String
 }
 
-extend type TmsQuery {
-  driverSchedules(page: Int, perPage: Int): [DriverSchedules!]!
-  driverSchedule(id: ID!): DriverSchedules!
-}
 
 input CreateDriverScheduleInput {
   driverId: ID!

@@ -8,11 +8,6 @@ type SalesOrderItems {
   outboundShipmentItems: [OutboundShipmentItems!]
 }
 
-extend type WmsQuery {
-  salesOrderItems(page: Int, perPage: Int): [SalesOrderItems!]!
-  salesOrderItem(id: ID!): SalesOrderItems!
-}
-
 input CreateSalesOrderItemInput {
   salesOrderId: ID!
   productId: ID!

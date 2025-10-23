@@ -21,11 +21,6 @@ type TripStops {
   proofOfDeliveries: [ProofOfDeliveries!]
 }
 
-extend type TmsQuery {
-  tripStops(page: Int, perPage: Int): [TripStops!]!
-  tripStop(id: ID!): TripStops!
-}
-
 input CreateTripStopInput {
   tripId: ID!
   shipmentId: ID

@@ -18,10 +18,6 @@ type CarrierRates {
   updatedAt: String
 }
 
-extend type TmsQuery {
-  carrierRates(page: Int, perPage: Int): [CarrierRates!]!
-  carrierRate(id: ID!): CarrierRates!
-}
 
 input CreateCarrierRateInput {
   carrierId: ID!

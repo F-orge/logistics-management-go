@@ -13,11 +13,6 @@ type PackageItems {
   updatedAt: String
 }
 
-extend type WmsQuery {
-  packageItems(page: Int, perPage: Int): [PackageItems!]!
-  packageItem(id: ID!): PackageItems!
-}
-
 input CreatePackageItemInput {
   packageId: ID!
   productId: ID!

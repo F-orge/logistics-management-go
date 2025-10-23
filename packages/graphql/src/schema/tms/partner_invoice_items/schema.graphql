@@ -5,11 +5,6 @@ type PartnerInvoiceItems {
   amount: Float!
 }
 
-extend type TmsQuery {
-  partnerInvoiceItems(page: Int, perPage: Int): [PartnerInvoiceItems!]!
-  partnerInvoiceItem(id: ID!): PartnerInvoiceItems!
-}
-
 input CreatePartnerInvoiceItemInput {
   partnerInvoiceId: ID!
   shipmentLegId: ID!

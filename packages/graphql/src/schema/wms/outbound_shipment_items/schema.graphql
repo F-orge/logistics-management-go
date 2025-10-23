@@ -9,11 +9,6 @@ type OutboundShipmentItems {
   updatedAt: String
 }
 
-extend type WmsQuery {
-  outboundShipmentItems(page: Int, perPage: Int): [OutboundShipmentItems!]!
-  outboundShipmentItem(id: ID!): OutboundShipmentItems!
-}
-
 input CreateOutboundShipmentItemInput {
   outboundShipmentId: ID!
   salesOrderItemId: ID!

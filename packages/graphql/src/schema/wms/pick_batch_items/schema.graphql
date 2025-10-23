@@ -9,11 +9,6 @@ type PickBatchItems {
   updatedAt: String
 }
 
-extend type WmsQuery {
-  pickBatchItems(page: Int, perPage: Int): [PickBatchItems!]!
-  pickBatchItem(id: ID!): PickBatchItems!
-}
-
 input CreatePickBatchItemInput {
   pickBatchId: ID!
   salesOrderId: ID!

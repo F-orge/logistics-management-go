@@ -6,11 +6,6 @@ type ShipmentLegEvents {
   eventTimestamp: String!
 }
 
-extend type TmsQuery {
-  shipmentLegEvents(page: Int, perPage: Int): [ShipmentLegEvents!]!
-  shipmentLegEvent(id: ID!): ShipmentLegEvents!
-}
-
 input CreateShipmentLegEventInput {
   shipmentLegId: ID!
   statusMessage: String

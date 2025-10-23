@@ -27,11 +27,6 @@ type TaskItems {
   updatedAt: String
 }
 
-extend type WmsQuery {
-  taskItems(page: Int, perPage: Int): [TaskItems!]!
-  taskItem(id: ID!): TaskItems!
-}
-
 input CreateTaskItemInput {
   taskId: ID!
   productId: ID!

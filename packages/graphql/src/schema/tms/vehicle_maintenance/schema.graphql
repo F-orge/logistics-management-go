@@ -18,11 +18,6 @@ type VehicleMaintenance {
   updatedAt: String
 }
 
-extend type TmsQuery {
-  vehicleMaintenances(page: Int, perPage: Int): [VehicleMaintenance!]!
-  vehicleMaintenance(id: ID!): VehicleMaintenance!
-}
-
 input CreateVehicleMaintenanceInput {
   vehicleId: ID!
   serviceDate: String!
