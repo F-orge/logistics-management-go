@@ -17,6 +17,17 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'vehicle'|'vehicles'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("registrationNumber", "ilike", `%${args.search}%`),
+          eb("model", "ilike", `%${args.search}%`),
+          eb("make", "ilike", `%${args.search}%`),
+          eb("vin", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Vehicles[];

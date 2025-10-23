@@ -17,6 +17,15 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'expense'|'expenses'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("receiptUrl", "ilike", `%${args.search}%`),
+          eb("description", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Expenses[];

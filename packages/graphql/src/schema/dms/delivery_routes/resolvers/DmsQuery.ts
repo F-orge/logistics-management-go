@@ -17,6 +17,12 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryRoute'|'deliveryRoutes'>
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([eb("optimizedRouteData", "ilike", `%${args.search}%`)])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as DeliveryRoutes[];

@@ -125,29 +125,29 @@ type BillingMutation {
 
 type BillingQuery {
   accountTransaction(id: ID!): AccountTransactions!
-  accountTransactions(from: Date, page: Int, perPage: Int, to: Date): [AccountTransactions!]!
+  accountTransactions(from: Date, page: Int, perPage: Int, search: String, to: Date): [AccountTransactions!]!
   accountingSyncLog(id: ID!): AccountingSyncLogs!
-  accountingSyncLogs(from: Date, page: Int, perPage: Int, to: Date): [AccountingSyncLogs!]!
+  accountingSyncLogs(from: Date, page: Int, perPage: Int, search: String, to: Date): [AccountingSyncLogs!]!
   billingInvoice(id: ID!): BillingInvoices!
-  billingInvoices(from: Date, page: Int, perPage: Int, to: Date): [BillingInvoices!]!
+  billingInvoices(from: Date, page: Int, perPage: Int, search: String, to: Date): [BillingInvoices!]!
   clientAccount(id: ID!): ClientAccounts!
-  clientAccounts(from: Date, page: Int, perPage: Int, to: Date): [ClientAccounts!]!
+  clientAccounts(from: Date, page: Int, perPage: Int, search: String, to: Date): [ClientAccounts!]!
   creditNote(id: ID!): CreditNotes!
-  creditNotes(from: Date, page: Int, perPage: Int, to: Date): [CreditNotes!]!
+  creditNotes(from: Date, page: Int, perPage: Int, search: String, to: Date): [CreditNotes!]!
   dispute(id: ID!): Disputes!
-  disputes(from: Date, page: Int, perPage: Int, to: Date): [Disputes!]!
+  disputes(from: Date, page: Int, perPage: Int, search: String, to: Date): [Disputes!]!
   document(id: ID!): Documents!
   documents(from: Date, page: Int, perPage: Int, to: Date): [Documents!]!
   payment(id: ID!): Payments!
-  payments(from: Date, page: Int, perPage: Int, to: Date): [Payments!]!
+  payments(from: Date, page: Int, perPage: Int, search: String, to: Date): [Payments!]!
   quote(id: ID!): Quotes!
-  quotes(from: Date, page: Int, perPage: Int, to: Date): [Quotes!]!
+  quotes(from: Date, page: Int, perPage: Int, search: String, to: Date): [Quotes!]!
   rateCard(id: ID!): RateCards!
-  rateCards(from: Date, page: Int, perPage: Int, to: Date): [RateCards!]!
+  rateCards(from: Date, page: Int, perPage: Int, search: String, to: Date): [RateCards!]!
   rateRule(id: ID!): RateRules!
-  rateRules(from: Date, page: Int, perPage: Int, to: Date): [RateRules!]!
+  rateRules(from: Date, page: Int, perPage: Int, search: String, to: Date): [RateRules!]!
   surcharge(id: ID!): Surcharges!
-  surcharges(from: Date, page: Int, perPage: Int, to: Date): [Surcharges!]!
+  surcharges(from: Date, page: Int, perPage: Int, search: String, to: Date): [Surcharges!]!
 }
 
 type BinThresholds {
@@ -1331,17 +1331,17 @@ type DmsProofOfDeliveries {
 
 type DmsQuery {
   customerTrackingLink(id: ID!): CustomerTrackingLinks!
-  customerTrackingLinks(from: Date, page: Int, perPage: Int, to: Date): [CustomerTrackingLinks!]!
+  customerTrackingLinks(from: Date, page: Int, perPage: Int, search: String, to: Date): [CustomerTrackingLinks!]!
   deliveryRoute(id: ID!): DeliveryRoutes!
-  deliveryRoutes(from: Date, page: Int, perPage: Int, to: Date): [DeliveryRoutes!]!
+  deliveryRoutes(from: Date, page: Int, perPage: Int, search: String, to: Date): [DeliveryRoutes!]!
   deliveryTask(id: ID!): DeliveryTasks!
-  deliveryTasks(from: Date, page: Int, perPage: Int, to: Date): [DeliveryTasks!]!
-  dmsProofOfDeliveries(from: Date, page: Int, perPage: Int, to: Date): [DmsProofOfDeliveries!]!
+  deliveryTasks(from: Date, page: Int, perPage: Int, search: String, to: Date): [DeliveryTasks!]!
+  dmsProofOfDeliveries(from: Date, page: Int, perPage: Int, search: String, to: Date): [DmsProofOfDeliveries!]!
   dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
   driverLocation(id: ID!): DriverLocations!
   driverLocations(from: Date, page: Int, perPage: Int, to: Date): [DriverLocations!]!
   taskEvent(id: ID!): TaskEvents!
-  taskEvents(from: Date, page: Int, perPage: Int, to: Date): [TaskEvents!]!
+  taskEvents(from: Date, page: Int, perPage: Int, search: String, to: Date): [TaskEvents!]!
 }
 
 enum DocumentType {
@@ -2499,27 +2499,27 @@ type TmsMutation {
 
 type TmsQuery {
   carrier(id: ID!): Carriers!
-  carriers(from: Date, page: Int, perPage: Int, to: Date): [Carriers!]!
+  carriers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Carriers!]!
   driver(id: ID!): Drivers!
-  drivers(from: Date, page: Int, perPage: Int, to: Date): [Drivers!]!
+  drivers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Drivers!]!
   expense(id: ID!): Expenses!
-  expenses(from: Date, page: Int, perPage: Int, to: Date): [Expenses!]!
+  expenses(from: Date, page: Int, perPage: Int, search: String, to: Date): [Expenses!]!
   geofence(id: ID!): Geofences!
-  geofences(from: Date, page: Int, perPage: Int, to: Date): [Geofences!]!
+  geofences(from: Date, page: Int, perPage: Int, search: String, to: Date): [Geofences!]!
   gpsPing(id: ID!): GpsPings!
   gpsPings(from: Date, page: Int, perPage: Int, to: Date): [GpsPings!]!
   partnerInvoice(id: ID!): PartnerInvoices!
-  partnerInvoices(from: Date, page: Int, perPage: Int, to: Date): [PartnerInvoices!]!
-  proofOfDeliveries(from: Date, page: Int, perPage: Int, to: Date): [ProofOfDeliveries!]!
+  partnerInvoices(from: Date, page: Int, perPage: Int, search: String, to: Date): [PartnerInvoices!]!
+  proofOfDeliveries(from: Date, page: Int, perPage: Int, search: String, to: Date): [ProofOfDeliveries!]!
   proofOfDelivery(id: ID!): ProofOfDeliveries!
   route(id: ID!): Routes!
-  routes(from: Date, page: Int, perPage: Int, to: Date): [Routes!]!
+  routes(from: Date, page: Int, perPage: Int, search: String, to: Date): [Routes!]!
   shipmentLeg(id: ID!): ShipmentLegs!
-  shipmentLegs(from: Date, page: Int, perPage: Int, to: Date): [ShipmentLegs!]!
+  shipmentLegs(from: Date, page: Int, perPage: Int, search: String, to: Date): [ShipmentLegs!]!
   trip(id: ID!): Trips!
-  trips(from: Date, page: Int, perPage: Int, to: Date): [Trips!]!
+  trips(from: Date, page: Int, perPage: Int, search: String, to: Date): [Trips!]!
   vehicle(id: ID!): Vehicles!
-  vehicles(from: Date, page: Int, perPage: Int, to: Date): [Vehicles!]!
+  vehicles(from: Date, page: Int, perPage: Int, search: String, to: Date): [Vehicles!]!
 }
 
 enum TransactionType {
@@ -3553,39 +3553,39 @@ type WmsProducts {
 
 type WmsQuery {
   binThreshold(id: ID!): BinThresholds!
-  binThresholds(from: Date, page: Int, perPage: Int, to: Date): [BinThresholds!]!
+  binThresholds(from: Date, page: Int, perPage: Int, search: String, to: Date): [BinThresholds!]!
   inboundShipment(id: ID!): InboundShipments!
-  inboundShipments(from: Date, page: Int, perPage: Int, to: Date): [InboundShipments!]!
+  inboundShipments(from: Date, page: Int, perPage: Int, search: String, to: Date): [InboundShipments!]!
   inventoryAdjustment(id: ID!): InventoryAdjustments!
-  inventoryAdjustments(from: Date, page: Int, perPage: Int, to: Date): [InventoryAdjustments!]!
+  inventoryAdjustments(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryAdjustments!]!
   inventoryBatch(id: ID!): InventoryBatches!
-  inventoryBatches(from: Date, page: Int, perPage: Int, to: Date): [InventoryBatches!]!
+  inventoryBatches(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryBatches!]!
   inventoryStock(id: ID!): InventoryStock!
-  inventoryStocks(from: Date, page: Int, perPage: Int, to: Date): [InventoryStock!]!
+  inventoryStocks(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryStock!]!
   location(id: ID!): Locations!
-  locations(from: Date, page: Int, perPage: Int, to: Date): [Locations!]!
+  locations(from: Date, page: Int, perPage: Int, search: String, to: Date): [Locations!]!
   outboundShipment(id: ID!): OutboundShipments!
-  outboundShipments(from: Date, page: Int, perPage: Int, to: Date): [OutboundShipments!]!
+  outboundShipments(from: Date, page: Int, perPage: Int, search: String, to: Date): [OutboundShipments!]!
   package(id: ID!): Packages!
-  packages(from: Date, page: Int, perPage: Int, to: Date): [Packages!]!
+  packages(from: Date, page: Int, perPage: Int, search: String, to: Date): [Packages!]!
   pickBatch(id: ID!): PickBatches!
-  pickBatches(from: Date, page: Int, perPage: Int, to: Date): [PickBatches!]!
+  pickBatches(from: Date, page: Int, perPage: Int, search: String, to: Date): [PickBatches!]!
   putawayRule(id: ID!): PutawayRules!
-  putawayRules(from: Date, page: Int, perPage: Int, to: Date): [PutawayRules!]!
+  putawayRules(from: Date, page: Int, perPage: Int, search: String, to: Date): [PutawayRules!]!
   reorderPoint(id: ID!): ReorderPoints!
-  reorderPoints(from: Date, page: Int, perPage: Int, to: Date): [ReorderPoints!]!
+  reorderPoints(from: Date, page: Int, perPage: Int, search: String, to: Date): [ReorderPoints!]!
   return(id: ID!): Returns!
-  returns(from: Date, page: Int, perPage: Int, to: Date): [Returns!]!
+  returns(from: Date, page: Int, perPage: Int, search: String, to: Date): [Returns!]!
   salesOrder(id: ID!): SalesOrders!
-  salesOrders(from: Date, page: Int, perPage: Int, to: Date): [SalesOrders!]!
+  salesOrders(from: Date, page: Int, perPage: Int, search: String, to: Date): [SalesOrders!]!
   stockTransfer(id: ID!): StockTransfers!
-  stockTransfers(from: Date, page: Int, perPage: Int, to: Date): [StockTransfers!]!
+  stockTransfers(from: Date, page: Int, perPage: Int, search: String, to: Date): [StockTransfers!]!
   supplier(id: ID!): Suppliers!
-  suppliers(from: Date, page: Int, perPage: Int, to: Date): [Suppliers!]!
+  suppliers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Suppliers!]!
   task(id: ID!): Tasks!
-  tasks(from: Date, page: Int, perPage: Int, to: Date): [Tasks!]!
+  tasks(from: Date, page: Int, perPage: Int, search: String, to: Date): [Tasks!]!
   warehouse(id: ID!): Warehouses!
-  warehouses(from: Date, page: Int, perPage: Int, to: Date): [Warehouses!]!
+  warehouses(from: Date, page: Int, perPage: Int, search: String, to: Date): [Warehouses!]!
   wmsProduct(id: ID!): WmsProducts!
-  wmsProducts(from: Date, page: Int, perPage: Int, to: Date): [WmsProducts!]!
+  wmsProducts(from: Date, page: Int, perPage: Int, search: String, to: Date): [WmsProducts!]!
 }

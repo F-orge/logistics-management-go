@@ -17,6 +17,18 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'carrier'|'carriers'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("name", "ilike", `%${args.search}%`),
+          eb("contactPerson", "ilike", `%${args.search}%`),
+          eb("contactEmail", "ilike", `%${args.search}%`),
+          eb("contactPhone", "ilike", `%${args.search}%`),
+          eb("servicesOffered", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Carriers[];

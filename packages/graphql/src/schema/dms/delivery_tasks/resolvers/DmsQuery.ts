@@ -17,6 +17,17 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryTask'|'deliveryTasks'> =
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("deliveryAddress", "ilike", `%${args.search}%`),
+          eb("recipientName", "ilike", `%${args.search}%`),
+          eb("recipientPhone", "ilike", `%${args.search}%`),
+          eb("deliveryInstructions", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as DeliveryTasks[];

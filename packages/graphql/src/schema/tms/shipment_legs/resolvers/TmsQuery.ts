@@ -18,6 +18,15 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'shipmentLeg'|'shipmentLegs'> =
           .where("createdAt", "<=", args.to as Date);
       }
 
+      if (args.search) {
+        query = query.where((eb) =>
+          eb.or([
+            eb("startLocation", "ilike", `%${args.search}%`),
+            eb("endLocation", "ilike", `%${args.search}%`),
+          ])
+        );
+      }
+
       const results = await query.execute();
 
       return results as unknown as ShipmentLegs[];

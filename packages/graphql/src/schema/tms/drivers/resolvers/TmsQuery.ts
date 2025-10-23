@@ -17,6 +17,15 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'driver'|'drivers'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("licenseNumber", "ilike", `%${args.search}%`),
+          eb("contactPhone", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Drivers[];

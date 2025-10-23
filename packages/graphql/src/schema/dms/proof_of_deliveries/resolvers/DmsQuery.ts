@@ -17,6 +17,17 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'dmsProofOfDeliveries'|'dmsProofO
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("filePath", "ilike", `%${args.search}%`),
+          eb("signatureData", "ilike", `%${args.search}%`),
+          eb("recipientName", "ilike", `%${args.search}%`),
+          eb("verificationCode", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as DmsProofOfDeliveries[];

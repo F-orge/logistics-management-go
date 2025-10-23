@@ -17,6 +17,12 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'proofOfDeliveries'|'proofOfDeliv
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([eb("filePath", "ilike", `%${args.search}%`)])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as ProofOfDeliveries[];

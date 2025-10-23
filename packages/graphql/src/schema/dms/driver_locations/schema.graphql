@@ -13,7 +13,7 @@ type DriverLocations {
 }
 
 extend type DmsQuery {
-  driverLocations(page: Int, perPage: Int, from: Date, to: Date, search: String): [DriverLocations!]!
+  driverLocations(page: Int, perPage: Int, from: Date, to: Date): [DriverLocations!]!
   driverLocation(id: ID!): DriverLocations!
 }
 
