@@ -12,7 +12,7 @@ type InventoryBatches {
 }
 
 extend type WmsQuery {
-  inventoryBatches(page: Int, perPage: Int): [InventoryBatches!]!
+  inventoryBatches(page: Int, perPage: Int, from: Date, to: Date): [InventoryBatches!]!
   inventoryBatch(id: ID!): InventoryBatches!
 }
 

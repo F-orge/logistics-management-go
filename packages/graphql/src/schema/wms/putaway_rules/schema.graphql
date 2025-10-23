@@ -18,7 +18,7 @@ type PutawayRules {
 }
 
 extend type WmsQuery {
-  putawayRules(page: Int, perPage: Int): [PutawayRules!]!
+  putawayRules(page: Int, perPage: Int, from: Date, to: Date): [PutawayRules!]!
   putawayRule(id: ID!): PutawayRules!
 }
 

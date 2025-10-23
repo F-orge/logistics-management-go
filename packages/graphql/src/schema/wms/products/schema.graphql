@@ -38,7 +38,7 @@ type WmsProducts {
 }
 
 extend type WmsQuery {
-  wmsProducts(page: Int, perPage: Int): [WmsProducts!]!
+  wmsProducts(page: Int, perPage: Int, from: Date, to: Date): [WmsProducts!]!
   wmsProduct(id: ID!): WmsProducts!
 }
 

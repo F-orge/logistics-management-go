@@ -25,7 +25,7 @@ type Warehouses {
 }
 
 extend type WmsQuery {
-  warehouses(page: Int, perPage: Int): [Warehouses!]!
+  warehouses(page: Int, perPage: Int, from: Date, to: Date): [Warehouses!]!
   warehouse(id: ID!): Warehouses!
 }
 

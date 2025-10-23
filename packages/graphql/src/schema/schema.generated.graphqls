@@ -3553,39 +3553,39 @@ type WmsProducts {
 
 type WmsQuery {
   binThreshold(id: ID!): BinThresholds!
-  binThresholds(page: Int, perPage: Int): [BinThresholds!]!
+  binThresholds(from: Date, page: Int, perPage: Int, to: Date): [BinThresholds!]!
   inboundShipment(id: ID!): InboundShipments!
-  inboundShipments(page: Int, perPage: Int): [InboundShipments!]!
+  inboundShipments(from: Date, page: Int, perPage: Int, to: Date): [InboundShipments!]!
   inventoryAdjustment(id: ID!): InventoryAdjustments!
-  inventoryAdjustments(page: Int, perPage: Int): [InventoryAdjustments!]!
+  inventoryAdjustments(from: Date, page: Int, perPage: Int, to: Date): [InventoryAdjustments!]!
   inventoryBatch(id: ID!): InventoryBatches!
-  inventoryBatches(page: Int, perPage: Int): [InventoryBatches!]!
+  inventoryBatches(from: Date, page: Int, perPage: Int, to: Date): [InventoryBatches!]!
   inventoryStock(id: ID!): InventoryStock!
-  inventoryStocks(page: Int, perPage: Int): [InventoryStock!]!
+  inventoryStocks(from: Date, page: Int, perPage: Int, to: Date): [InventoryStock!]!
   location(id: ID!): Locations!
-  locations(page: Int, perPage: Int): [Locations!]!
+  locations(from: Date, page: Int, perPage: Int, to: Date): [Locations!]!
   outboundShipment(id: ID!): OutboundShipments!
-  outboundShipments(page: Int, perPage: Int): [OutboundShipments!]!
+  outboundShipments(from: Date, page: Int, perPage: Int, to: Date): [OutboundShipments!]!
   package(id: ID!): Packages!
-  packages(page: Int, perPage: Int): [Packages!]!
+  packages(from: Date, page: Int, perPage: Int, to: Date): [Packages!]!
   pickBatch(id: ID!): PickBatches!
-  pickBatches(page: Int, perPage: Int): [PickBatches!]!
+  pickBatches(from: Date, page: Int, perPage: Int, to: Date): [PickBatches!]!
   putawayRule(id: ID!): PutawayRules!
-  putawayRules(page: Int, perPage: Int): [PutawayRules!]!
+  putawayRules(from: Date, page: Int, perPage: Int, to: Date): [PutawayRules!]!
   reorderPoint(id: ID!): ReorderPoints!
-  reorderPoints(page: Int, perPage: Int): [ReorderPoints!]!
+  reorderPoints(from: Date, page: Int, perPage: Int, to: Date): [ReorderPoints!]!
   return(id: ID!): Returns!
-  returns(page: Int, perPage: Int): [Returns!]!
+  returns(from: Date, page: Int, perPage: Int, to: Date): [Returns!]!
   salesOrder(id: ID!): SalesOrders!
-  salesOrders(page: Int, perPage: Int): [SalesOrders!]!
+  salesOrders(from: Date, page: Int, perPage: Int, to: Date): [SalesOrders!]!
   stockTransfer(id: ID!): StockTransfers!
-  stockTransfers(page: Int, perPage: Int): [StockTransfers!]!
+  stockTransfers(from: Date, page: Int, perPage: Int, to: Date): [StockTransfers!]!
   supplier(id: ID!): Suppliers!
-  suppliers(page: Int, perPage: Int): [Suppliers!]!
+  suppliers(from: Date, page: Int, perPage: Int, to: Date): [Suppliers!]!
   task(id: ID!): Tasks!
-  tasks(page: Int, perPage: Int): [Tasks!]!
+  tasks(from: Date, page: Int, perPage: Int, to: Date): [Tasks!]!
   warehouse(id: ID!): Warehouses!
-  warehouses(page: Int, perPage: Int): [Warehouses!]!
+  warehouses(from: Date, page: Int, perPage: Int, to: Date): [Warehouses!]!
   wmsProduct(id: ID!): WmsProducts!
-  wmsProducts(page: Int, perPage: Int): [WmsProducts!]!
+  wmsProducts(from: Date, page: Int, perPage: Int, to: Date): [WmsProducts!]!
 }

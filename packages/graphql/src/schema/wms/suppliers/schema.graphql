@@ -10,7 +10,7 @@ type Suppliers {
 }
 
 extend type WmsQuery {
-  suppliers(page: Int, perPage: Int): [Suppliers!]!
+  suppliers(page: Int, perPage: Int, from: Date, to: Date): [Suppliers!]!
   supplier(id: ID!): Suppliers!
 }
 

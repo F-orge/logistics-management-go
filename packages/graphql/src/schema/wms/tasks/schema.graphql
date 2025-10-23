@@ -43,7 +43,7 @@ type Tasks {
 }
 
 extend type WmsQuery {
-  tasks(page: Int, perPage: Int): [Tasks!]!
+  tasks(page: Int, perPage: Int, from: Date, to: Date): [Tasks!]!
   task(id: ID!): Tasks!
 }
 

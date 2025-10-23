@@ -24,7 +24,7 @@ type InventoryStock {
 }
 
 extend type WmsQuery {
-  inventoryStocks(page: Int, perPage: Int): [InventoryStock!]!
+  inventoryStocks(page: Int, perPage: Int, from: Date, to: Date): [InventoryStock!]!
   inventoryStock(id: ID!): InventoryStock!
 }
 
