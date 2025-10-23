@@ -17,6 +17,16 @@ export const BillingQuery: Pick<BillingQueryResolvers, 'surcharge'|'surcharges'>
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("name", "ilike", `%${args.search}%`),
+          eb("type", "ilike", `%${args.search}%`),
+          eb("description", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Surcharges[];

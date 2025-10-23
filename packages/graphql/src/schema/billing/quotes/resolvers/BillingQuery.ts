@@ -17,6 +17,18 @@ export const BillingQuery: Pick<BillingQueryResolvers, 'quote'|'quotes'> = {
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("originDetails", "ilike", `%${args.search}%`),
+          eb("destinationDetails", "ilike", `%${args.search}%`),
+          eb("serviceLevel", "ilike", `%${args.search}%`),
+          eb("quoteNumber", "ilike", `%${args.search}%`),
+          eb("notes", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as Quotes[];

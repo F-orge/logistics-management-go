@@ -2,14 +2,28 @@ import { AccountTransactions } from "../../../../zod.schema";
 import type { BillingQueryResolvers } from "./../../../types.generated";
 export const BillingQuery: Pick<BillingQueryResolvers, 'accountTransaction'|'accountTransactions'> = {
   accountTransactions: async (_parent, args, ctx) => {
-    const query = ctx.db.selectFrom("billing.accountTransactions").selectAll();
+    let query = ctx.db.selectFrom("billing.accountTransactions").selectAll();
 
     if (args.page && args.perPage) {
       query.offset((args.page - 1) * args.perPage).limit(args.perPage);
     }
 
     if (args.from && args.to) {
-      query.clearLimit().clearOffset().where("createdAt", ">=", args.from as Date).where("createdAt", "<=", args.to as Date);
+      query
+        .clearLimit()
+        .clearOffset()
+        .where("createdAt", ">=", args.from as Date)
+        .where("createdAt", "<=", args.to as Date);
+    }
+
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("sourceRecordType", "ilike", `%${args.search}%`),
+          eb("description", "ilike", `%${args.search}%`),
+          eb("referenceNumber", "ilike", `%${args.search}%`),
+        ])
+      );
     }
 
     const results = await query.execute();

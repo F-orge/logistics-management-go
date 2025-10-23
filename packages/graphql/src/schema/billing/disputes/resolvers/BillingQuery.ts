@@ -18,6 +18,15 @@ export const BillingQuery: Pick<BillingQueryResolvers, 'dispute'|'disputes'> =
           .where("createdAt", "<=", args.to as Date);
       }
 
+      if (args.search) {
+        query = query.where((eb) =>
+          eb.or([
+            eb("reason", "ilike", `%${args.search}%`),
+            eb("resolutionNotes", "ilike", `%${args.search}%`),
+          ])
+        );
+      }
+
       const results = await query.execute();
 
       return results as unknown as Disputes[];

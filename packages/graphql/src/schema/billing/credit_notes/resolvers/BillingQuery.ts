@@ -17,6 +17,17 @@ export const BillingQuery: Pick<BillingQueryResolvers, 'creditNote'|'creditNotes
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("creditNoteNumber", "ilike", `%${args.search}%`),
+          eb("reason", "ilike", `%${args.search}%`),
+          eb("currency", "ilike", `%${args.search}%`),
+          eb("notes", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as CreditNotes[];

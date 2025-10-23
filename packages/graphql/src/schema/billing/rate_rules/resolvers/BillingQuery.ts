@@ -17,6 +17,15 @@ export const BillingQuery: Pick<BillingQueryResolvers, 'rateRule'|'rateRules'> =
         .where("createdAt", "<=", args.to as Date);
     }
 
+    if (args.search) {
+      query = query.where((eb) =>
+        eb.or([
+          eb("condition", "ilike", `%${args.search}%`),
+          eb("value", "ilike", `%${args.search}%`),
+        ])
+      );
+    }
+
     const results = await query.execute();
 
     return results as unknown as RateRules[];
