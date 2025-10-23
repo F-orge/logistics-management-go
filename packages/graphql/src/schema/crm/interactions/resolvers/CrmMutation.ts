@@ -4,7 +4,10 @@ import {
   UpdateInteractionInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createInteraction'|'removeInteraction'|'updateInteraction'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createInteraction" | "removeInteraction" | "updateInteraction"
+> = {
   createInteraction: async (_parent, args, ctx) => {
     const payload = CreateInteractionInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInteraction'|'remove
       .insertInto("crm.interactions")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Interactions;
   },

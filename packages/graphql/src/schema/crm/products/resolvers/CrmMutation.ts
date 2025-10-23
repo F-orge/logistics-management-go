@@ -4,7 +4,10 @@ import {
   UpdateProductInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createProduct'|'removeProduct'|'updateProduct'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createProduct" | "removeProduct" | "updateProduct"
+> = {
   createProduct: async (_parent, args, ctx) => {
     const payload = CreateProductInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createProduct'|'removeProd
       .insertInto("crm.products")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Products;
   },

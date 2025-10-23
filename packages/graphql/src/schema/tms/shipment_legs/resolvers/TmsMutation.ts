@@ -4,7 +4,10 @@ import {
   UpdateShipmentLegInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createShipmentLeg'|'removeShipmentLeg'|'updateShipmentLeg'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createShipmentLeg" | "removeShipmentLeg" | "updateShipmentLeg"
+> = {
   createShipmentLeg: async (_parent, args, ctx) => {
     const payload = CreateShipmentLegEventInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createShipmentLeg'|'remove
       .insertInto("tms.shipmentLegs")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as ShipmentLegs;
   },

@@ -4,7 +4,10 @@ import {
   UpdateSalesOrderInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createSalesOrder'|'removeSalesOrder'|'updateSalesOrder'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createSalesOrder" | "removeSalesOrder" | "updateSalesOrder"
+> = {
   createSalesOrder: async (_parent, args, ctx) => {
     const payload = CreateSalesOrderInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createSalesOrder'|'removeS
       .insertInto("wms.salesOrders")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as SalesOrders;
   },

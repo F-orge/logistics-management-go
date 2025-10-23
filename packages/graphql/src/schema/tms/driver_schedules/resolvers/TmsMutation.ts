@@ -3,7 +3,10 @@ import {
   DriverSchedules,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createDriverSchedule'|'removeDriverSchedule'|'updateDriverSchedule'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createDriverSchedule" | "removeDriverSchedule" | "updateDriverSchedule"
+> = {
   createDriverSchedule: async (_parent, args, ctx) => {
     const payload = CreateDriverScheduleInputSchema().parse(args.value);
 
@@ -11,7 +14,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createDriverSchedule'|'rem
       .insertInto("tms.driverSchedules")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as DriverSchedules;
   },

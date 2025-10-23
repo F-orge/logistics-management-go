@@ -17,7 +17,7 @@ export const BillingMutation: Pick<
       .insertInto("billing.accountingSyncLog")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as AccountingSyncLogs;
   },

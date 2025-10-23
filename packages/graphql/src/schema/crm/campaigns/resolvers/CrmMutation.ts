@@ -4,7 +4,10 @@ import {
   UpdateCampaignInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createCampaign'|'removeCampaign'|'updateCampaign'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createCampaign" | "removeCampaign" | "updateCampaign"
+> = {
   createCampaign: async (_parent, args, ctx) => {
     const payload = CreateCampaignInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCampaign'|'removeCam
       .insertInto("crm.campaigns")
       .values(payload)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Campaigns;
   },

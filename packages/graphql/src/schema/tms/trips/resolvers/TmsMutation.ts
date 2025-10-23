@@ -4,7 +4,10 @@ import {
   UpdateTripInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createTrip'|'removeTrip'|'updateTrip'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createTrip" | "removeTrip" | "updateTrip"
+> = {
   createTrip: async (_parent, args, ctx) => {
     const payload = CreateTripInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createTrip'|'removeTrip'|'
       .insertInto("tms.trips")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Trips;
   },

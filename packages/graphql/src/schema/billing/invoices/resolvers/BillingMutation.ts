@@ -15,7 +15,7 @@ export const BillingMutation: Pick<
       .insertInto("billing.invoices")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as BillingInvoices;
   },

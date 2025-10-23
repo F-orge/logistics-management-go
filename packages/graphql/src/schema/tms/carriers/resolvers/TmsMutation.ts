@@ -1,6 +1,9 @@
 import { Carriers, CreateCarrierInputSchema } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createCarrier'|'removeCarrier'|'updateCarrier'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createCarrier" | "removeCarrier" | "updateCarrier"
+> = {
   createCarrier: async (_parent, args, ctx) => {
     const payload = CreateCarrierInputSchema().parse(args.value);
 
@@ -8,7 +11,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createCarrier'|'removeCarr
       .insertInto("tms.carriers")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Carriers;
   },

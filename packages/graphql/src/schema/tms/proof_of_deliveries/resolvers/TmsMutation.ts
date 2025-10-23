@@ -4,7 +4,10 @@ import {
   UpdateProofOfDeliveryInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createProofOfDelivery'|'removeProofOfDelivery'|'updateProofOfDelivery'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createProofOfDelivery" | "removeProofOfDelivery" | "updateProofOfDelivery"
+> = {
   createProofOfDelivery: async (_parent, args, ctx) => {
     const payload = CreateProofOfDeliveryInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createProofOfDelivery'|'re
       .insertInto("tms.proofOfDeliveries")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as ProofOfDeliveries;
   },

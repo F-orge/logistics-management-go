@@ -4,7 +4,10 @@ import {
   UpdateTaskItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createTaskItem'|'removeTaskItem'|'updateTaskItem'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createTaskItem" | "removeTaskItem" | "updateTaskItem"
+> = {
   createTaskItem: async (_parent, args, ctx) => {
     const payload = CreateTaskItemInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createTaskItem'|'removeTas
       .insertInto("wms.taskItems")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as TaskItems;
   },

@@ -4,7 +4,10 @@ import {
   Warehouses,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createWarehouse'|'removeWarehouse'|'updateWarehouse'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createWarehouse" | "removeWarehouse" | "updateWarehouse"
+> = {
   createWarehouse: async (_parent, args, ctx) => {
     const payload = CreateWarehouseInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createWarehouse'|'removeWa
       .insertInto("wms.warehouses")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Warehouses;
   },

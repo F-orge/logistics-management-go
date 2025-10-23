@@ -4,7 +4,10 @@ import {
   Vehicles,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createVehicle'|'removeVehicle'|'updateVehicle'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createVehicle" | "removeVehicle" | "updateVehicle"
+> = {
   createVehicle: async (_parent, args, ctx) => {
     const payload = CreateVehicleInputSchema().parse(args.value);
 
@@ -13,7 +16,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createVehicle'|'removeVehi
       .values(payload as any)
       .returningAll()
 
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Vehicles;
   },

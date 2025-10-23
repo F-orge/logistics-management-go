@@ -4,7 +4,10 @@ import {
   UpdateStockTransferInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createStockTransfer'|'removeStockTransfer'|'updateStockTransfer'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createStockTransfer" | "removeStockTransfer" | "updateStockTransfer"
+> = {
   createStockTransfer: async (_parent, args, ctx) => {
     const payload = CreateStockTransferInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createStockTransfer'|'remo
       .insertInto("wms.stockTransfers")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as StockTransfers;
   },

@@ -4,7 +4,10 @@ import {
   UpdateReorderPointInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createReorderPoint'|'removeReorderPoint'|'updateReorderPoint'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createReorderPoint" | "removeReorderPoint" | "updateReorderPoint"
+> = {
   createReorderPoint: async (_parent, args, ctx) => {
     const payload = CreateReorderPointInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createReorderPoint'|'remov
       .insertInto("wms.reorderPoints")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as ReorderPoints;
   },

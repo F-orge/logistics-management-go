@@ -4,7 +4,10 @@ import {
   UpdateLocationInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createLocation'|'removeLocation'|'updateLocation'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createLocation" | "removeLocation" | "updateLocation"
+> = {
   createLocation: async (_parent, args, ctx) => {
     const payload = CreateLocationInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createLocation'|'removeLoc
       .insertInto("wms.locations")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Locations;
   },

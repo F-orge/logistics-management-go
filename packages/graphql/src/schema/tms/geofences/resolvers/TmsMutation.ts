@@ -4,7 +4,10 @@ import {
   UpdateGeofenceInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createGeofence'|'removeGeofence'|'updateGeofence'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createGeofence" | "removeGeofence" | "updateGeofence"
+> = {
   createGeofence: async (_parent, args, ctx) => {
     const payload = CreateGeofenceInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createGeofence'|'removeGeo
       .insertInto("tms.geofences")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Geofences;
   },

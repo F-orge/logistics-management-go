@@ -4,7 +4,10 @@ import {
   UpdateReturnInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createReturn'|'removeReturn'|'updateReturn'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createReturn" | "removeReturn" | "updateReturn"
+> = {
   createReturn: async (_parent, args, ctx) => {
     const payload = CreateReturnInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createReturn'|'removeRetur
       .insertInto("wms.returns")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Returns;
   },

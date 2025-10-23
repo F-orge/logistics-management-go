@@ -4,7 +4,10 @@ import {
   UpdateGeofenceEventInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createGeofenceEvent'|'removeGeofenceEvent'|'updateGeofenceEvent'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createGeofenceEvent" | "removeGeofenceEvent" | "updateGeofenceEvent"
+> = {
   createGeofenceEvent: async (_parent, args, ctx) => {
     const payload = CreateGeofenceEventInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createGeofenceEvent'|'remo
       .insertInto("tms.geofenceEvents")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as GeofenceEvents;
   },

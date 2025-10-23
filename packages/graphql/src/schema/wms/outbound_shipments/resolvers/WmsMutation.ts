@@ -4,7 +4,10 @@ import {
   UpdateOutboundShipmentInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createOutboundShipment'|'removeOutboundShipment'|'updateOutboundShipment'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createOutboundShipment" | "removeOutboundShipment" | "updateOutboundShipment"
+> = {
   createOutboundShipment: async (_parent, args, ctx) => {
     const payload = CreateOutboundShipmentInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createOutboundShipment'|'r
       .insertInto("wms.outboundShipments")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as OutboundShipments;
   },

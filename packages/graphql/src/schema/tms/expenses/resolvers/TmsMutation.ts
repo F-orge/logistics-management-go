@@ -4,7 +4,10 @@ import {
   UpdateExpenseInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createExpense'|'removeExpense'|'updateExpense'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createExpense" | "removeExpense" | "updateExpense"
+> = {
   createExpense: async (_parent, args, ctx) => {
     const payload = CreateExpenseInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createExpense'|'removeExpe
       .insertInto("tms.expenses")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as Expenses;
   },

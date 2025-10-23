@@ -4,7 +4,10 @@ import {
   UpdateBinThresholdInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createBinThreshold'|'removeBinThreshold'|'updateBinThreshold'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createBinThreshold" | "removeBinThreshold" | "updateBinThreshold"
+> = {
   createBinThreshold: async (_parent, args, ctx) => {
     const payload = CreateBinThresholdInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createBinThreshold'|'remov
       .insertInto("wms.binThresholds")
       .values(payload as any)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as BinThresholds;
   },

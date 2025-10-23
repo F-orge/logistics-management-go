@@ -4,7 +4,10 @@ import {
   UpdateInvoiceLineItemInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoiceItem'|'removeInvoiceItem'|'updateInvoiceItem'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createInvoiceItem" | "removeInvoiceItem" | "updateInvoiceItem"
+> = {
   createInvoiceItem: async (_parent, args, ctx) => {
     const payload = CreateInvoiceItemInputSchema().parse(args.value);
 
@@ -12,7 +15,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoiceItem'|'remove
       .insertInto("crm.invoiceItems")
       .values(payload)
       .returningAll()
-      .executeTakeFirst();
+      .executeTakeFirstOrThrow();
 
     return result as unknown as InvoiceItems;
   },
