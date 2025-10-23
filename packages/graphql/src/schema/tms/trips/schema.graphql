@@ -23,7 +23,7 @@ type Trips {
 }
 
 extend type TmsQuery {
-  trips(page: Int, perPage: Int): [Trips!]!
+  trips(page: Int, perPage: Int, from: Date, to: Date): [Trips!]!
   trip(id: ID!): Trips!
 }
 

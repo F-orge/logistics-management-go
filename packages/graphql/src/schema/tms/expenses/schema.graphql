@@ -42,7 +42,7 @@ type Expenses {
 }
 
 extend type TmsQuery {
-  expenses(page: Int, perPage: Int): [Expenses!]!
+  expenses(page: Int, perPage: Int, from: Date, to: Date): [Expenses!]!
   expense(id: ID!): Expenses!
 }
 

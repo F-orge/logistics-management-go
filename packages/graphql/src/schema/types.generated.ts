@@ -3763,8 +3763,10 @@ export type TmsQueryDriverArgs = {
 
 
 export type TmsQueryDriversArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3774,8 +3776,10 @@ export type TmsQueryExpenseArgs = {
 
 
 export type TmsQueryExpensesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3798,8 +3802,10 @@ export type TmsQueryGpsPingArgs = {
 
 
 export type TmsQueryGpsPingsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3809,14 +3815,18 @@ export type TmsQueryPartnerInvoiceArgs = {
 
 
 export type TmsQueryPartnerInvoicesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
 export type TmsQueryProofOfDeliveriesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3831,8 +3841,10 @@ export type TmsQueryRouteArgs = {
 
 
 export type TmsQueryRoutesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3842,8 +3854,10 @@ export type TmsQueryShipmentLegArgs = {
 
 
 export type TmsQueryShipmentLegsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3853,8 +3867,10 @@ export type TmsQueryTripArgs = {
 
 
 export type TmsQueryTripsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 
@@ -3864,8 +3880,10 @@ export type TmsQueryVehicleArgs = {
 
 
 export type TmsQueryVehiclesArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type TransactionType =

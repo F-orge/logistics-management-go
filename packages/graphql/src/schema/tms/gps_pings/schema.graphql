@@ -7,7 +7,7 @@ type GpsPings {
 }
 
 extend type TmsQuery {
-  gpsPings(page: Int, perPage: Int): [GpsPings!]!
+  gpsPings(page: Int, perPage: Int, from: Date, to: Date): [GpsPings!]!
   gpsPing(id: ID!): GpsPings!
 }
 

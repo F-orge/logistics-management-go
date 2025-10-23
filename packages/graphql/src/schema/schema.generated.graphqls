@@ -2501,25 +2501,25 @@ type TmsQuery {
   carrier(id: ID!): Carriers!
   carriers(from: Date, page: Int, perPage: Int, to: Date): [Carriers!]!
   driver(id: ID!): Drivers!
-  drivers(page: Int, perPage: Int): [Drivers!]!
+  drivers(from: Date, page: Int, perPage: Int, to: Date): [Drivers!]!
   expense(id: ID!): Expenses!
-  expenses(page: Int, perPage: Int): [Expenses!]!
+  expenses(from: Date, page: Int, perPage: Int, to: Date): [Expenses!]!
   geofence(id: ID!): Geofences!
   geofences(from: Date, page: Int, perPage: Int, to: Date): [Geofences!]!
   gpsPing(id: ID!): GpsPings!
-  gpsPings(page: Int, perPage: Int): [GpsPings!]!
+  gpsPings(from: Date, page: Int, perPage: Int, to: Date): [GpsPings!]!
   partnerInvoice(id: ID!): PartnerInvoices!
-  partnerInvoices(page: Int, perPage: Int): [PartnerInvoices!]!
-  proofOfDeliveries(page: Int, perPage: Int): [ProofOfDeliveries!]!
+  partnerInvoices(from: Date, page: Int, perPage: Int, to: Date): [PartnerInvoices!]!
+  proofOfDeliveries(from: Date, page: Int, perPage: Int, to: Date): [ProofOfDeliveries!]!
   proofOfDelivery(id: ID!): ProofOfDeliveries!
   route(id: ID!): Routes!
-  routes(page: Int, perPage: Int): [Routes!]!
+  routes(from: Date, page: Int, perPage: Int, to: Date): [Routes!]!
   shipmentLeg(id: ID!): ShipmentLegs!
-  shipmentLegs(page: Int, perPage: Int): [ShipmentLegs!]!
+  shipmentLegs(from: Date, page: Int, perPage: Int, to: Date): [ShipmentLegs!]!
   trip(id: ID!): Trips!
-  trips(page: Int, perPage: Int): [Trips!]!
+  trips(from: Date, page: Int, perPage: Int, to: Date): [Trips!]!
   vehicle(id: ID!): Vehicles!
-  vehicles(page: Int, perPage: Int): [Vehicles!]!
+  vehicles(from: Date, page: Int, perPage: Int, to: Date): [Vehicles!]!
 }
 
 enum TransactionType {
