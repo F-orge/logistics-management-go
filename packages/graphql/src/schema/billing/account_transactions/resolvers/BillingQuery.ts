@@ -8,6 +8,10 @@ export const BillingQuery: Pick<BillingQueryResolvers, 'accountTransaction'|'acc
       query.offset((args.page - 1) * args.perPage).limit(args.perPage);
     }
 
+    if (args.from && args.to) {
+      query.clearLimit().clearOffset().where("createdAt", ">=", args.from as Date).where("createdAt", "<=", args.to as Date);
+    }
+
     const results = await query.execute();
 
     return results as unknown as AccountTransactions[];

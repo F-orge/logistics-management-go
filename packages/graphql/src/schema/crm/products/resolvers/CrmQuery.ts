@@ -9,6 +9,14 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'product'|'products'> = {
       query = query.offset(offset).limit(args.perPage);
     }
 
+    if (args.from && args.to) {
+      query = query
+        .clearLimit()
+        .clearOffset()
+        .where("createdAt", ">=", args.from as Date)
+        .where("createdAt", "<=", args.to as Date);
+    }
+
     const products = await query.execute();
     return products as unknown as Products[];
   },

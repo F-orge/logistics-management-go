@@ -9,6 +9,14 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'customerTrackingLink'|'customerT
       query = query.offset(offset).limit(args.perPage);
     }
 
+    if (args.from && args.to) {
+      query = query
+        .clearLimit()
+        .clearOffset()
+        .where("createdAt", ">=", args.from as Date)
+        .where("createdAt", "<=", args.to as Date);
+    }
+
     const results = await query.execute();
 
     return results as unknown as CustomerTrackingLinks[];

@@ -9,6 +9,14 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'companies'|'company'> = {
       query = query.offset(offset).limit(args.perPage);
     }
 
+    if (args.from && args.to) {
+      query = query
+        .clearLimit()
+        .clearOffset()
+        .where("createdAt", ">=", args.from as Date)
+        .where("createdAt", "<=", args.to as Date);
+    }
+
     return query.execute() as unknown as Companies[];
   },
 
