@@ -4,6 +4,7 @@ import {
   Contacts,
   OpportunityProducts,
   Products,
+  SalesOrders,
   User,
 } from "../../../../zod.schema";
 import type { OpportunitiesResolvers } from "./../../../types.generated";
@@ -73,5 +74,19 @@ export const Opportunities: OpportunitiesResolvers = {
       .execute();
 
     return results as unknown as OpportunityProducts[];
+  },
+  salesOrders: async (parent, _args, ctx) => {
+    const results = await ctx.db
+      .selectFrom("wms.salesOrders")
+      .selectAll("wms.salesOrders")
+      .innerJoin(
+        "crm.opportunities",
+        "crm.opportunities.id",
+        "wms.salesOrders.crmOpportunityId"
+      )
+      .where("crm.opportunities.id", "=", parent.id as string)
+      .execute();
+
+    return results as unknown as SalesOrders[];
   },
 };
