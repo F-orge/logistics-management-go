@@ -1,9 +1,6 @@
 import { InventoryBatches } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<
-  WmsQueryResolvers,
-  "inventoryBatch" | "inventoryBatches"
-> = {
+export const WmsQuery: Pick<WmsQueryResolvers, 'inventoryBatch'|'inventoryBatches'> = {
   inventoryBatches: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("wms.inventoryBatches").selectAll();
 

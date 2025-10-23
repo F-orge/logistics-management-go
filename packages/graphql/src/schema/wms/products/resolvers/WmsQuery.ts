@@ -1,6 +1,6 @@
 import { WmsProducts } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<WmsQueryResolvers, "wmsProduct" | "wmsProducts"> = {
+export const WmsQuery: Pick<WmsQueryResolvers, 'wmsProduct'|'wmsProducts'> = {
   wmsProducts: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("wms.products").selectAll();
 

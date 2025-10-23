@@ -1,6 +1,6 @@
 import { Routes } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
-export const TmsQuery: Pick<TmsQueryResolvers, "route" | "routes"> = {
+export const TmsQuery: Pick<TmsQueryResolvers, 'route'|'routes'> = {
   routes: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("tms.routes").selectAll();
 

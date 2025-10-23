@@ -1,9 +1,6 @@
 import { InventoryAdjustments } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<
-  WmsQueryResolvers,
-  "inventoryAdjustment" | "inventoryAdjustments"
-> = {
+export const WmsQuery: Pick<WmsQueryResolvers, 'inventoryAdjustment'|'inventoryAdjustments'> = {
   inventoryAdjustments: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("wms.inventoryAdjustments").selectAll();
 

@@ -4,10 +4,7 @@ import {
   UpdateRouteInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createRoute" | "removeRoute" | "updateRoute"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createRoute'|'removeRoute'|'updateRoute'> = {
   createRoute: async (_parent, args, ctx) => {
     const payload = CreateRouteInputSchema().parse(args.value);
 

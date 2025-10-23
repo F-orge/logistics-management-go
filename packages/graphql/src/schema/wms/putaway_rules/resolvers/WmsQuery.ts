@@ -1,6 +1,6 @@
 import { PutawayRules } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<WmsQueryResolvers, "putawayRule" | "putawayRules"> =
+export const WmsQuery: Pick<WmsQueryResolvers, 'putawayRule'|'putawayRules'> =
   {
     putawayRules: async (_parent, args, ctx) => {
       let query = ctx.db.selectFrom("wms.putawayRules").selectAll();

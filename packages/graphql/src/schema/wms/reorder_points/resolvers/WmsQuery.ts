@@ -1,9 +1,6 @@
 import { ReorderPoints } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<
-  WmsQueryResolvers,
-  "reorderPoint" | "reorderPoints"
-> = {
+export const WmsQuery: Pick<WmsQueryResolvers, 'reorderPoint'|'reorderPoints'> = {
   reorderPoints: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("wms.reorderPoints").selectAll();
 

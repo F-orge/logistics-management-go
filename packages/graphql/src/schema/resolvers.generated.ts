@@ -161,23 +161,16 @@ import    { TmsMutation as trip_stops_TmsMutation } from './tms/trip_stops/resol
 import    { TmsMutation as vehicles_TmsMutation } from './tms/vehicles/resolvers/TmsMutation';
 import    { TmsMutation as vehicle_maintenance_TmsMutation } from './tms/vehicle_maintenance/resolvers/TmsMutation';
 import    { TmsQuery as carriers_TmsQuery } from './tms/carriers/resolvers/TmsQuery';
-import    { TmsQuery as carrier_rates_TmsQuery } from './tms/carrier_rates/resolvers/TmsQuery';
 import    { TmsQuery as drivers_TmsQuery } from './tms/drivers/resolvers/TmsQuery';
-import    { TmsQuery as driver_schedules_TmsQuery } from './tms/driver_schedules/resolvers/TmsQuery';
 import    { TmsQuery as expenses_TmsQuery } from './tms/expenses/resolvers/TmsQuery';
 import    { TmsQuery as geofences_TmsQuery } from './tms/geofences/resolvers/TmsQuery';
-import    { TmsQuery as geofence_events_TmsQuery } from './tms/geofence_events/resolvers/TmsQuery';
 import    { TmsQuery as gps_pings_TmsQuery } from './tms/gps_pings/resolvers/TmsQuery';
 import    { TmsQuery as partner_invoices_TmsQuery } from './tms/partner_invoices/resolvers/TmsQuery';
-import    { TmsQuery as partner_invoice_items_TmsQuery } from './tms/partner_invoice_items/resolvers/TmsQuery';
 import    { TmsQuery as proof_of_deliveries_TmsQuery } from './tms/proof_of_deliveries/resolvers/TmsQuery';
 import    { TmsQuery as routes_TmsQuery } from './tms/routes/resolvers/TmsQuery';
 import    { TmsQuery as shipment_legs_TmsQuery } from './tms/shipment_legs/resolvers/TmsQuery';
-import    { TmsQuery as shipment_leg_events_TmsQuery } from './tms/shipment_leg_events/resolvers/TmsQuery';
 import    { TmsQuery as trips_TmsQuery } from './tms/trips/resolvers/TmsQuery';
-import    { TmsQuery as trip_stops_TmsQuery } from './tms/trip_stops/resolvers/TmsQuery';
 import    { TmsQuery as vehicles_TmsQuery } from './tms/vehicles/resolvers/TmsQuery';
-import    { TmsQuery as vehicle_maintenance_TmsQuery } from './tms/vehicle_maintenance/resolvers/TmsQuery';
 import    { TripStops } from './tms/trip_stops/resolvers/TripStops';
 import    { Trips } from './tms/trips/resolvers/Trips';
 import    { User } from './base/resolvers/User';
@@ -212,27 +205,20 @@ import    { WmsMutation as products_WmsMutation } from './wms/products/resolvers
 import    { WmsProducts } from './wms/products/resolvers/WmsProducts';
 import    { WmsQuery as bin_thresholds_WmsQuery } from './wms/bin_thresholds/resolvers/WmsQuery';
 import    { WmsQuery as inbound_shipments_WmsQuery } from './wms/inbound_shipments/resolvers/WmsQuery';
-import    { WmsQuery as inbound_shipment_items_WmsQuery } from './wms/inbound_shipment_items/resolvers/WmsQuery';
 import    { WmsQuery as inventory_adjustments_WmsQuery } from './wms/inventory_adjustments/resolvers/WmsQuery';
 import    { WmsQuery as inventory_batches_WmsQuery } from './wms/inventory_batches/resolvers/WmsQuery';
 import    { WmsQuery as inventory_stock_WmsQuery } from './wms/inventory_stock/resolvers/WmsQuery';
 import    { WmsQuery as locations_WmsQuery } from './wms/locations/resolvers/WmsQuery';
 import    { WmsQuery as outbound_shipments_WmsQuery } from './wms/outbound_shipments/resolvers/WmsQuery';
-import    { WmsQuery as outbound_shipment_items_WmsQuery } from './wms/outbound_shipment_items/resolvers/WmsQuery';
 import    { WmsQuery as packages_WmsQuery } from './wms/packages/resolvers/WmsQuery';
-import    { WmsQuery as package_items_WmsQuery } from './wms/package_items/resolvers/WmsQuery';
 import    { WmsQuery as pick_batches_WmsQuery } from './wms/pick_batches/resolvers/WmsQuery';
-import    { WmsQuery as pick_batch_items_WmsQuery } from './wms/pick_batch_items/resolvers/WmsQuery';
 import    { WmsQuery as putaway_rules_WmsQuery } from './wms/putaway_rules/resolvers/WmsQuery';
 import    { WmsQuery as reorder_points_WmsQuery } from './wms/reorder_points/resolvers/WmsQuery';
 import    { WmsQuery as returns_WmsQuery } from './wms/returns/resolvers/WmsQuery';
-import    { WmsQuery as return_items_WmsQuery } from './wms/return_items/resolvers/WmsQuery';
 import    { WmsQuery as sales_orders_WmsQuery } from './wms/sales_orders/resolvers/WmsQuery';
-import    { WmsQuery as sales_order_items_WmsQuery } from './wms/sales_order_items/resolvers/WmsQuery';
 import    { WmsQuery as stock_transfers_WmsQuery } from './wms/stock_transfers/resolvers/WmsQuery';
 import    { WmsQuery as suppliers_WmsQuery } from './wms/suppliers/resolvers/WmsQuery';
 import    { WmsQuery as tasks_WmsQuery } from './wms/tasks/resolvers/WmsQuery';
-import    { WmsQuery as task_items_WmsQuery } from './wms/task_items/resolvers/WmsQuery';
 import    { WmsQuery as warehouses_WmsQuery } from './wms/warehouses/resolvers/WmsQuery';
 import    { WmsQuery as products_WmsQuery } from './wms/products/resolvers/WmsQuery';
 import    { File } from './base/resolvers/File';
@@ -317,7 +303,7 @@ TaskEvents: TaskEvents,
 TaskItems: TaskItems,
 Tasks: Tasks,
 TmsMutation: { ...carriers_TmsMutation,...carrier_rates_TmsMutation,...drivers_TmsMutation,...driver_schedules_TmsMutation,...expenses_TmsMutation,...geofences_TmsMutation,...geofence_events_TmsMutation,...gps_pings_TmsMutation,...partner_invoices_TmsMutation,...partner_invoice_items_TmsMutation,...proof_of_deliveries_TmsMutation,...routes_TmsMutation,...shipment_legs_TmsMutation,...shipment_leg_events_TmsMutation,...trips_TmsMutation,...trip_stops_TmsMutation,...vehicles_TmsMutation,...vehicle_maintenance_TmsMutation },
-TmsQuery: { ...carriers_TmsQuery,...carrier_rates_TmsQuery,...drivers_TmsQuery,...driver_schedules_TmsQuery,...expenses_TmsQuery,...geofences_TmsQuery,...geofence_events_TmsQuery,...gps_pings_TmsQuery,...partner_invoices_TmsQuery,...partner_invoice_items_TmsQuery,...proof_of_deliveries_TmsQuery,...routes_TmsQuery,...shipment_legs_TmsQuery,...shipment_leg_events_TmsQuery,...trips_TmsQuery,...trip_stops_TmsQuery,...vehicles_TmsQuery,...vehicle_maintenance_TmsQuery },
+TmsQuery: { ...carriers_TmsQuery,...drivers_TmsQuery,...expenses_TmsQuery,...geofences_TmsQuery,...gps_pings_TmsQuery,...partner_invoices_TmsQuery,...proof_of_deliveries_TmsQuery,...routes_TmsQuery,...shipment_legs_TmsQuery,...trips_TmsQuery,...vehicles_TmsQuery },
 TripStops: TripStops,
 Trips: Trips,
 User: User,
@@ -326,6 +312,6 @@ Vehicles: Vehicles,
 Warehouses: Warehouses,
 WmsMutation: { ...bin_thresholds_WmsMutation,...inbound_shipments_WmsMutation,...inbound_shipment_items_WmsMutation,...inventory_adjustments_WmsMutation,...inventory_batches_WmsMutation,...inventory_stock_WmsMutation,...locations_WmsMutation,...outbound_shipments_WmsMutation,...outbound_shipment_items_WmsMutation,...packages_WmsMutation,...package_items_WmsMutation,...pick_batches_WmsMutation,...pick_batch_items_WmsMutation,...putaway_rules_WmsMutation,...reorder_points_WmsMutation,...returns_WmsMutation,...return_items_WmsMutation,...sales_orders_WmsMutation,...sales_order_items_WmsMutation,...stock_transfers_WmsMutation,...suppliers_WmsMutation,...tasks_WmsMutation,...task_items_WmsMutation,...warehouses_WmsMutation,...products_WmsMutation },
 WmsProducts: WmsProducts,
-WmsQuery: { ...bin_thresholds_WmsQuery,...inbound_shipments_WmsQuery,...inbound_shipment_items_WmsQuery,...inventory_adjustments_WmsQuery,...inventory_batches_WmsQuery,...inventory_stock_WmsQuery,...locations_WmsQuery,...outbound_shipments_WmsQuery,...outbound_shipment_items_WmsQuery,...packages_WmsQuery,...package_items_WmsQuery,...pick_batches_WmsQuery,...pick_batch_items_WmsQuery,...putaway_rules_WmsQuery,...reorder_points_WmsQuery,...returns_WmsQuery,...return_items_WmsQuery,...sales_orders_WmsQuery,...sales_order_items_WmsQuery,...stock_transfers_WmsQuery,...suppliers_WmsQuery,...tasks_WmsQuery,...task_items_WmsQuery,...warehouses_WmsQuery,...products_WmsQuery },
+WmsQuery: { ...bin_thresholds_WmsQuery,...inbound_shipments_WmsQuery,...inventory_adjustments_WmsQuery,...inventory_batches_WmsQuery,...inventory_stock_WmsQuery,...locations_WmsQuery,...outbound_shipments_WmsQuery,...packages_WmsQuery,...pick_batches_WmsQuery,...putaway_rules_WmsQuery,...reorder_points_WmsQuery,...returns_WmsQuery,...sales_orders_WmsQuery,...stock_transfers_WmsQuery,...suppliers_WmsQuery,...tasks_WmsQuery,...warehouses_WmsQuery,...products_WmsQuery },
 File: File
     }

@@ -1,9 +1,6 @@
 import { ProofOfDeliveries } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
-export const TmsQuery: Pick<
-  TmsQueryResolvers,
-  "proofOfDeliveries" | "proofOfDelivery"
-> = {
+export const TmsQuery: Pick<TmsQueryResolvers, 'proofOfDeliveries'|'proofOfDelivery'> = {
   proofOfDeliveries: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("tms.proofOfDeliveries").selectAll();
 

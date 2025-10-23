@@ -1,9 +1,6 @@
 import { BinThresholds } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<
-  WmsQueryResolvers,
-  "binThreshold" | "binThresholds"
-> = {
+export const WmsQuery: Pick<WmsQueryResolvers, 'binThreshold'|'binThresholds'> = {
   binThresholds: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("wms.binThresholds").selectAll();
 

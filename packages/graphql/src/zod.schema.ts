@@ -3717,57 +3717,32 @@ export type TmsMutationUpdateVehicleMaintenanceArgs = {
 export type TmsQuery = {
   __typename?: 'TmsQuery';
   carrier: Carriers;
-  carrierRate: CarrierRates;
-  carrierRates: Array<CarrierRates>;
   carriers: Array<Carriers>;
   driver: Drivers;
-  driverSchedule: DriverSchedules;
-  driverSchedules: Array<DriverSchedules>;
   drivers: Array<Drivers>;
   expense: Expenses;
   expenses: Array<Expenses>;
   geofence: Geofences;
-  geofenceEvent: GeofenceEvents;
-  geofenceEvents: Array<GeofenceEvents>;
   geofences: Array<Geofences>;
   gpsPing: GpsPings;
   gpsPings: Array<GpsPings>;
   partnerInvoice: PartnerInvoices;
-  partnerInvoiceItem: PartnerInvoiceItems;
-  partnerInvoiceItems: Array<PartnerInvoiceItems>;
   partnerInvoices: Array<PartnerInvoices>;
   proofOfDeliveries: Array<ProofOfDeliveries>;
   proofOfDelivery: ProofOfDeliveries;
   route: Routes;
   routes: Array<Routes>;
   shipmentLeg: ShipmentLegs;
-  shipmentLegEvent: ShipmentLegEvents;
-  shipmentLegEvents: Array<ShipmentLegEvents>;
   shipmentLegs: Array<ShipmentLegs>;
   trip: Trips;
-  tripStop: TripStops;
-  tripStops: Array<TripStops>;
   trips: Array<Trips>;
   vehicle: Vehicles;
-  vehicleMaintenance: VehicleMaintenance;
-  vehicleMaintenances: Array<VehicleMaintenance>;
   vehicles: Array<Vehicles>;
 };
 
 
 export type TmsQueryCarrierArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryCarrierRateArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryCarrierRatesArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3779,17 +3754,6 @@ export type TmsQueryCarriersArgs = {
 
 export type TmsQueryDriverArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryDriverScheduleArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryDriverSchedulesArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3815,17 +3779,6 @@ export type TmsQueryGeofenceArgs = {
 };
 
 
-export type TmsQueryGeofenceEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryGeofenceEventsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type TmsQueryGeofencesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3845,17 +3798,6 @@ export type TmsQueryGpsPingsArgs = {
 
 export type TmsQueryPartnerInvoiceArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryPartnerInvoiceItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryPartnerInvoiceItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3892,17 +3834,6 @@ export type TmsQueryShipmentLegArgs = {
 };
 
 
-export type TmsQueryShipmentLegEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryShipmentLegEventsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type TmsQueryShipmentLegsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3914,17 +3845,6 @@ export type TmsQueryTripArgs = {
 };
 
 
-export type TmsQueryTripStopArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryTripStopsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type TmsQueryTripsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3933,17 +3853,6 @@ export type TmsQueryTripsArgs = {
 
 export type TmsQueryVehicleArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryVehicleMaintenanceArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryVehicleMaintenancesArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5394,8 +5303,6 @@ export type WmsQuery = {
   binThreshold: BinThresholds;
   binThresholds: Array<BinThresholds>;
   inboundShipment: InboundShipments;
-  inboundShipmentItem: InboundShipmentItems;
-  inboundShipmentItems: Array<InboundShipmentItems>;
   inboundShipments: Array<InboundShipments>;
   inventoryAdjustment: InventoryAdjustments;
   inventoryAdjustments: Array<InventoryAdjustments>;
@@ -5406,36 +5313,24 @@ export type WmsQuery = {
   location: Locations;
   locations: Array<Locations>;
   outboundShipment: OutboundShipments;
-  outboundShipmentItem: OutboundShipmentItems;
-  outboundShipmentItems: Array<OutboundShipmentItems>;
   outboundShipments: Array<OutboundShipments>;
   package: Packages;
-  packageItem: PackageItems;
-  packageItems: Array<PackageItems>;
   packages: Array<Packages>;
   pickBatch: PickBatches;
-  pickBatchItem: PickBatchItems;
-  pickBatchItems: Array<PickBatchItems>;
   pickBatches: Array<PickBatches>;
   putawayRule: PutawayRules;
   putawayRules: Array<PutawayRules>;
   reorderPoint: ReorderPoints;
   reorderPoints: Array<ReorderPoints>;
   return: Returns;
-  returnItem: ReturnItems;
-  returnItems: Array<ReturnItems>;
   returns: Array<Returns>;
   salesOrder: SalesOrders;
-  salesOrderItem: SalesOrderItems;
-  salesOrderItems: Array<SalesOrderItems>;
   salesOrders: Array<SalesOrders>;
   stockTransfer: StockTransfers;
   stockTransfers: Array<StockTransfers>;
   supplier: Suppliers;
   suppliers: Array<Suppliers>;
   task: Tasks;
-  taskItem: TaskItems;
-  taskItems: Array<TaskItems>;
   tasks: Array<Tasks>;
   warehouse: Warehouses;
   warehouses: Array<Warehouses>;
@@ -5457,17 +5352,6 @@ export type WmsQueryBinThresholdsArgs = {
 
 export type WmsQueryInboundShipmentArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryInboundShipmentItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryInboundShipmentItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5526,17 +5410,6 @@ export type WmsQueryOutboundShipmentArgs = {
 };
 
 
-export type WmsQueryOutboundShipmentItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryOutboundShipmentItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type WmsQueryOutboundShipmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5548,17 +5421,6 @@ export type WmsQueryPackageArgs = {
 };
 
 
-export type WmsQueryPackageItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryPackageItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type WmsQueryPackagesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5567,17 +5429,6 @@ export type WmsQueryPackagesArgs = {
 
 export type WmsQueryPickBatchArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryPickBatchItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryPickBatchItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5614,17 +5465,6 @@ export type WmsQueryReturnArgs = {
 };
 
 
-export type WmsQueryReturnItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryReturnItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type WmsQueryReturnsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5633,17 +5473,6 @@ export type WmsQueryReturnsArgs = {
 
 export type WmsQuerySalesOrderArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerySalesOrderItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerySalesOrderItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5677,17 +5506,6 @@ export type WmsQuerySuppliersArgs = {
 
 export type WmsQueryTaskArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryTaskItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryTaskItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 

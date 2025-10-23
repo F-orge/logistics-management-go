@@ -2495,40 +2495,26 @@ type TmsMutation {
 
 type TmsQuery {
   carrier(id: ID!): Carriers!
-  carrierRate(id: ID!): CarrierRates!
-  carrierRates(page: Int, perPage: Int): [CarrierRates!]!
   carriers(page: Int, perPage: Int): [Carriers!]!
   driver(id: ID!): Drivers!
-  driverSchedule(id: ID!): DriverSchedules!
-  driverSchedules(page: Int, perPage: Int): [DriverSchedules!]!
   drivers(page: Int, perPage: Int): [Drivers!]!
   expense(id: ID!): Expenses!
   expenses(page: Int, perPage: Int): [Expenses!]!
   geofence(id: ID!): Geofences!
-  geofenceEvent(id: ID!): GeofenceEvents!
-  geofenceEvents(page: Int, perPage: Int): [GeofenceEvents!]!
   geofences(page: Int, perPage: Int): [Geofences!]!
   gpsPing(id: ID!): GpsPings!
   gpsPings(page: Int, perPage: Int): [GpsPings!]!
   partnerInvoice(id: ID!): PartnerInvoices!
-  partnerInvoiceItem(id: ID!): PartnerInvoiceItems!
-  partnerInvoiceItems(page: Int, perPage: Int): [PartnerInvoiceItems!]!
   partnerInvoices(page: Int, perPage: Int): [PartnerInvoices!]!
   proofOfDeliveries(page: Int, perPage: Int): [ProofOfDeliveries!]!
   proofOfDelivery(id: ID!): ProofOfDeliveries!
   route(id: ID!): Routes!
   routes(page: Int, perPage: Int): [Routes!]!
   shipmentLeg(id: ID!): ShipmentLegs!
-  shipmentLegEvent(id: ID!): ShipmentLegEvents!
-  shipmentLegEvents(page: Int, perPage: Int): [ShipmentLegEvents!]!
   shipmentLegs(page: Int, perPage: Int): [ShipmentLegs!]!
   trip(id: ID!): Trips!
-  tripStop(id: ID!): TripStops!
-  tripStops(page: Int, perPage: Int): [TripStops!]!
   trips(page: Int, perPage: Int): [Trips!]!
   vehicle(id: ID!): Vehicles!
-  vehicleMaintenance(id: ID!): VehicleMaintenance!
-  vehicleMaintenances(page: Int, perPage: Int): [VehicleMaintenance!]!
   vehicles(page: Int, perPage: Int): [Vehicles!]!
 }
 
@@ -3565,8 +3551,6 @@ type WmsQuery {
   binThreshold(id: ID!): BinThresholds!
   binThresholds(page: Int, perPage: Int): [BinThresholds!]!
   inboundShipment(id: ID!): InboundShipments!
-  inboundShipmentItem(id: ID!): InboundShipmentItems!
-  inboundShipmentItems(page: Int, perPage: Int): [InboundShipmentItems!]!
   inboundShipments(page: Int, perPage: Int): [InboundShipments!]!
   inventoryAdjustment(id: ID!): InventoryAdjustments!
   inventoryAdjustments(page: Int, perPage: Int): [InventoryAdjustments!]!
@@ -3577,36 +3561,24 @@ type WmsQuery {
   location(id: ID!): Locations!
   locations(page: Int, perPage: Int): [Locations!]!
   outboundShipment(id: ID!): OutboundShipments!
-  outboundShipmentItem(id: ID!): OutboundShipmentItems!
-  outboundShipmentItems(page: Int, perPage: Int): [OutboundShipmentItems!]!
   outboundShipments(page: Int, perPage: Int): [OutboundShipments!]!
   package(id: ID!): Packages!
-  packageItem(id: ID!): PackageItems!
-  packageItems(page: Int, perPage: Int): [PackageItems!]!
   packages(page: Int, perPage: Int): [Packages!]!
   pickBatch(id: ID!): PickBatches!
-  pickBatchItem(id: ID!): PickBatchItems!
-  pickBatchItems(page: Int, perPage: Int): [PickBatchItems!]!
   pickBatches(page: Int, perPage: Int): [PickBatches!]!
   putawayRule(id: ID!): PutawayRules!
   putawayRules(page: Int, perPage: Int): [PutawayRules!]!
   reorderPoint(id: ID!): ReorderPoints!
   reorderPoints(page: Int, perPage: Int): [ReorderPoints!]!
   return(id: ID!): Returns!
-  returnItem(id: ID!): ReturnItems!
-  returnItems(page: Int, perPage: Int): [ReturnItems!]!
   returns(page: Int, perPage: Int): [Returns!]!
   salesOrder(id: ID!): SalesOrders!
-  salesOrderItem(id: ID!): SalesOrderItems!
-  salesOrderItems(page: Int, perPage: Int): [SalesOrderItems!]!
   salesOrders(page: Int, perPage: Int): [SalesOrders!]!
   stockTransfer(id: ID!): StockTransfers!
   stockTransfers(page: Int, perPage: Int): [StockTransfers!]!
   supplier(id: ID!): Suppliers!
   suppliers(page: Int, perPage: Int): [Suppliers!]!
   task(id: ID!): Tasks!
-  taskItem(id: ID!): TaskItems!
-  taskItems(page: Int, perPage: Int): [TaskItems!]!
   tasks(page: Int, perPage: Int): [Tasks!]!
   warehouse(id: ID!): Warehouses!
   warehouses(page: Int, perPage: Int): [Warehouses!]!

@@ -4,10 +4,7 @@ import {
   UpdateTaskInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createTask" | "removeTask" | "updateTask"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createTask'|'removeTask'|'updateTask'> = {
   createTask: async (_parent, args, ctx) => {
     const payload = CreateTaskInputSchema().parse(args.value);
 

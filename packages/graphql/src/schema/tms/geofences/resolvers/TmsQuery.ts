@@ -1,6 +1,6 @@
 import { Geofences } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
-export const TmsQuery: Pick<TmsQueryResolvers, "geofence" | "geofences"> = {
+export const TmsQuery: Pick<TmsQueryResolvers, 'geofence'|'geofences'> = {
   geofences: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("tms.geofences").selectAll();
 

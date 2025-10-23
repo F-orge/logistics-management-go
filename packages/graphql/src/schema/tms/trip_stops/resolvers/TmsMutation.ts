@@ -4,10 +4,7 @@ import {
   UpdateTripStopInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createTripStop" | "removeTripStop" | "updateTripStop"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createTripStop'|'removeTripStop'|'updateTripStop'> = {
   createTripStop: async (_parent, args, ctx) => {
     const payload = CreateTripStopInputSchema().parse(args.value);
 

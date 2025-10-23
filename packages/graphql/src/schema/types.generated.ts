@@ -3670,57 +3670,32 @@ export type TmsMutationupdateVehicleMaintenanceArgs = {
 export type TmsQuery = {
   __typename?: 'TmsQuery';
   carrier: Carriers;
-  carrierRate: CarrierRates;
-  carrierRates: Array<CarrierRates>;
   carriers: Array<Carriers>;
   driver: Drivers;
-  driverSchedule: DriverSchedules;
-  driverSchedules: Array<DriverSchedules>;
   drivers: Array<Drivers>;
   expense: Expenses;
   expenses: Array<Expenses>;
   geofence: Geofences;
-  geofenceEvent: GeofenceEvents;
-  geofenceEvents: Array<GeofenceEvents>;
   geofences: Array<Geofences>;
   gpsPing: GpsPings;
   gpsPings: Array<GpsPings>;
   partnerInvoice: PartnerInvoices;
-  partnerInvoiceItem: PartnerInvoiceItems;
-  partnerInvoiceItems: Array<PartnerInvoiceItems>;
   partnerInvoices: Array<PartnerInvoices>;
   proofOfDeliveries: Array<ProofOfDeliveries>;
   proofOfDelivery: ProofOfDeliveries;
   route: Routes;
   routes: Array<Routes>;
   shipmentLeg: ShipmentLegs;
-  shipmentLegEvent: ShipmentLegEvents;
-  shipmentLegEvents: Array<ShipmentLegEvents>;
   shipmentLegs: Array<ShipmentLegs>;
   trip: Trips;
-  tripStop: TripStops;
-  tripStops: Array<TripStops>;
   trips: Array<Trips>;
   vehicle: Vehicles;
-  vehicleMaintenance: VehicleMaintenance;
-  vehicleMaintenances: Array<VehicleMaintenance>;
   vehicles: Array<Vehicles>;
 };
 
 
 export type TmsQuerycarrierArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerycarrierRateArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerycarrierRatesArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3732,17 +3707,6 @@ export type TmsQuerycarriersArgs = {
 
 export type TmsQuerydriverArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerydriverScheduleArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerydriverSchedulesArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3768,17 +3732,6 @@ export type TmsQuerygeofenceArgs = {
 };
 
 
-export type TmsQuerygeofenceEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerygeofenceEventsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type TmsQuerygeofencesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3798,17 +3751,6 @@ export type TmsQuerygpsPingsArgs = {
 
 export type TmsQuerypartnerInvoiceArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerypartnerInvoiceItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerypartnerInvoiceItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -3845,17 +3787,6 @@ export type TmsQueryshipmentLegArgs = {
 };
 
 
-export type TmsQueryshipmentLegEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryshipmentLegEventsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type TmsQueryshipmentLegsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3867,17 +3798,6 @@ export type TmsQuerytripArgs = {
 };
 
 
-export type TmsQuerytripStopArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQuerytripStopsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type TmsQuerytripsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -3886,17 +3806,6 @@ export type TmsQuerytripsArgs = {
 
 export type TmsQueryvehicleArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryvehicleMaintenanceArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsQueryvehicleMaintenancesArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5342,8 +5251,6 @@ export type WmsQuery = {
   binThreshold: BinThresholds;
   binThresholds: Array<BinThresholds>;
   inboundShipment: InboundShipments;
-  inboundShipmentItem: InboundShipmentItems;
-  inboundShipmentItems: Array<InboundShipmentItems>;
   inboundShipments: Array<InboundShipments>;
   inventoryAdjustment: InventoryAdjustments;
   inventoryAdjustments: Array<InventoryAdjustments>;
@@ -5354,36 +5261,24 @@ export type WmsQuery = {
   location: Locations;
   locations: Array<Locations>;
   outboundShipment: OutboundShipments;
-  outboundShipmentItem: OutboundShipmentItems;
-  outboundShipmentItems: Array<OutboundShipmentItems>;
   outboundShipments: Array<OutboundShipments>;
   package: Packages;
-  packageItem: PackageItems;
-  packageItems: Array<PackageItems>;
   packages: Array<Packages>;
   pickBatch: PickBatches;
-  pickBatchItem: PickBatchItems;
-  pickBatchItems: Array<PickBatchItems>;
   pickBatches: Array<PickBatches>;
   putawayRule: PutawayRules;
   putawayRules: Array<PutawayRules>;
   reorderPoint: ReorderPoints;
   reorderPoints: Array<ReorderPoints>;
   return: Returns;
-  returnItem: ReturnItems;
-  returnItems: Array<ReturnItems>;
   returns: Array<Returns>;
   salesOrder: SalesOrders;
-  salesOrderItem: SalesOrderItems;
-  salesOrderItems: Array<SalesOrderItems>;
   salesOrders: Array<SalesOrders>;
   stockTransfer: StockTransfers;
   stockTransfers: Array<StockTransfers>;
   supplier: Suppliers;
   suppliers: Array<Suppliers>;
   task: Tasks;
-  taskItem: TaskItems;
-  taskItems: Array<TaskItems>;
   tasks: Array<Tasks>;
   warehouse: Warehouses;
   warehouses: Array<Warehouses>;
@@ -5405,17 +5300,6 @@ export type WmsQuerybinThresholdsArgs = {
 
 export type WmsQueryinboundShipmentArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryinboundShipmentItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryinboundShipmentItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5474,17 +5358,6 @@ export type WmsQueryoutboundShipmentArgs = {
 };
 
 
-export type WmsQueryoutboundShipmentItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryoutboundShipmentItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type WmsQueryoutboundShipmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5496,17 +5369,6 @@ export type WmsQuerypackageArgs = {
 };
 
 
-export type WmsQuerypackageItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerypackageItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type WmsQuerypackagesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5515,17 +5377,6 @@ export type WmsQuerypackagesArgs = {
 
 export type WmsQuerypickBatchArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerypickBatchItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerypickBatchItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5562,17 +5413,6 @@ export type WmsQueryreturnArgs = {
 };
 
 
-export type WmsQueryreturnItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryreturnItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
 export type WmsQueryreturnsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5581,17 +5421,6 @@ export type WmsQueryreturnsArgs = {
 
 export type WmsQuerysalesOrderArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerysalesOrderItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerysalesOrderItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5625,17 +5454,6 @@ export type WmsQuerysuppliersArgs = {
 
 export type WmsQuerytaskArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerytaskItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQuerytaskItemsArgs = {
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -5950,7 +5768,7 @@ export type ResolversTypes = {
   TaskType: ResolverTypeWrapper<'PUTAWAY' | 'PICK' | 'PACK' | 'REPLENISHMENT' | 'CYCLE_COUNT' | 'CROSS_DOCK' | 'RETURNS_PROCESSING' | 'DAMAGE_INSPECTION' | 'QUALITY_CHECK'>;
   Tasks: ResolverTypeWrapper<Omit<Tasks, 'items' | 'pickBatch' | 'status' | 'type' | 'warehouse'> & { items?: Maybe<Array<ResolversTypes['TaskItems']>>, pickBatch?: Maybe<ResolversTypes['PickBatches']>, status?: Maybe<ResolversTypes['TaskStatus']>, type: ResolversTypes['TaskType'], warehouse: ResolversTypes['Warehouses'] }>;
   TmsMutation: ResolverTypeWrapper<Omit<TmsMutation, 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createPartnerInvoiceItem' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'createVehicleMaintenance' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateShipmentLegEvent' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { createCarrier: ResolversTypes['Carriers'], createCarrierRate: ResolversTypes['CarrierRates'], createDriver: ResolversTypes['Drivers'], createDriverSchedule: ResolversTypes['DriverSchedules'], createExpense: ResolversTypes['Expenses'], createGeofence: ResolversTypes['Geofences'], createGeofenceEvent: ResolversTypes['GeofenceEvents'], createGpsPing: ResolversTypes['GpsPings'], createPartnerInvoice: ResolversTypes['PartnerInvoices'], createPartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], createProofOfDelivery: ResolversTypes['ProofOfDeliveries'], createRoute: ResolversTypes['Routes'], createShipmentLeg: ResolversTypes['ShipmentLegs'], createShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], createTrip: ResolversTypes['Trips'], createTripStop: ResolversTypes['TripStops'], createVehicle: ResolversTypes['Vehicles'], createVehicleMaintenance: ResolversTypes['VehicleMaintenance'], updateCarrier: ResolversTypes['Carriers'], updateCarrierRate: ResolversTypes['CarrierRates'], updateDriver: ResolversTypes['Drivers'], updateDriverSchedule: ResolversTypes['DriverSchedules'], updateExpense: ResolversTypes['Expenses'], updateGeofence: ResolversTypes['Geofences'], updateGeofenceEvent: ResolversTypes['GeofenceEvents'], updateGpsPing: ResolversTypes['GpsPings'], updatePartnerInvoice: ResolversTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversTypes['ProofOfDeliveries'], updateRoute: ResolversTypes['Routes'], updateShipmentLeg: ResolversTypes['ShipmentLegs'], updateShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], updateTrip: ResolversTypes['Trips'], updateTripStop: ResolversTypes['TripStops'], updateVehicle: ResolversTypes['Vehicles'], updateVehicleMaintenance: ResolversTypes['VehicleMaintenance'] }>;
-  TmsQuery: ResolverTypeWrapper<Omit<TmsQuery, 'carrier' | 'carrierRate' | 'carrierRates' | 'carriers' | 'driver' | 'driverSchedule' | 'driverSchedules' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofenceEvent' | 'geofenceEvents' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoiceItem' | 'partnerInvoiceItems' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegEvent' | 'shipmentLegEvents' | 'shipmentLegs' | 'trip' | 'tripStop' | 'tripStops' | 'trips' | 'vehicle' | 'vehicleMaintenance' | 'vehicleMaintenances' | 'vehicles'> & { carrier: ResolversTypes['Carriers'], carrierRate: ResolversTypes['CarrierRates'], carrierRates: Array<ResolversTypes['CarrierRates']>, carriers: Array<ResolversTypes['Carriers']>, driver: ResolversTypes['Drivers'], driverSchedule: ResolversTypes['DriverSchedules'], driverSchedules: Array<ResolversTypes['DriverSchedules']>, drivers: Array<ResolversTypes['Drivers']>, expense: ResolversTypes['Expenses'], expenses: Array<ResolversTypes['Expenses']>, geofence: ResolversTypes['Geofences'], geofenceEvent: ResolversTypes['GeofenceEvents'], geofenceEvents: Array<ResolversTypes['GeofenceEvents']>, geofences: Array<ResolversTypes['Geofences']>, gpsPing: ResolversTypes['GpsPings'], gpsPings: Array<ResolversTypes['GpsPings']>, partnerInvoice: ResolversTypes['PartnerInvoices'], partnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], partnerInvoiceItems: Array<ResolversTypes['PartnerInvoiceItems']>, partnerInvoices: Array<ResolversTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversTypes['ProofOfDeliveries'], route: ResolversTypes['Routes'], routes: Array<ResolversTypes['Routes']>, shipmentLeg: ResolversTypes['ShipmentLegs'], shipmentLegEvent: ResolversTypes['ShipmentLegEvents'], shipmentLegEvents: Array<ResolversTypes['ShipmentLegEvents']>, shipmentLegs: Array<ResolversTypes['ShipmentLegs']>, trip: ResolversTypes['Trips'], tripStop: ResolversTypes['TripStops'], tripStops: Array<ResolversTypes['TripStops']>, trips: Array<ResolversTypes['Trips']>, vehicle: ResolversTypes['Vehicles'], vehicleMaintenance: ResolversTypes['VehicleMaintenance'], vehicleMaintenances: Array<ResolversTypes['VehicleMaintenance']>, vehicles: Array<ResolversTypes['Vehicles']> }>;
+  TmsQuery: ResolverTypeWrapper<Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversTypes['Carriers'], carriers: Array<ResolversTypes['Carriers']>, driver: ResolversTypes['Drivers'], drivers: Array<ResolversTypes['Drivers']>, expense: ResolversTypes['Expenses'], expenses: Array<ResolversTypes['Expenses']>, geofence: ResolversTypes['Geofences'], geofences: Array<ResolversTypes['Geofences']>, gpsPing: ResolversTypes['GpsPings'], gpsPings: Array<ResolversTypes['GpsPings']>, partnerInvoice: ResolversTypes['PartnerInvoices'], partnerInvoices: Array<ResolversTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversTypes['ProofOfDeliveries'], route: ResolversTypes['Routes'], routes: Array<ResolversTypes['Routes']>, shipmentLeg: ResolversTypes['ShipmentLegs'], shipmentLegs: Array<ResolversTypes['ShipmentLegs']>, trip: ResolversTypes['Trips'], trips: Array<ResolversTypes['Trips']>, vehicle: ResolversTypes['Vehicles'], vehicles: Array<ResolversTypes['Vehicles']> }>;
   TransactionType: ResolverTypeWrapper<'CREDIT' | 'DEBIT' | 'TOP_UP' | 'REFUND' | 'ADJUSTMENT' | 'FEE'>;
   TripStatus: ResolverTypeWrapper<'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED'>;
   TripStopStatus: ResolverTypeWrapper<'PENDING' | 'ARRIVED' | 'COMPLETED' | 'SKIPPED'>;
@@ -6038,7 +5856,7 @@ export type ResolversTypes = {
   Warehouses: ResolverTypeWrapper<Omit<Warehouses, 'destinationStockTransfers' | 'inboundShipments' | 'locations' | 'outboundShipments' | 'packages' | 'pickBatches' | 'putawayRules' | 'sourceStockTransfers' | 'tasks'> & { destinationStockTransfers?: Maybe<Array<ResolversTypes['StockTransfers']>>, inboundShipments?: Maybe<Array<ResolversTypes['InboundShipments']>>, locations?: Maybe<Array<ResolversTypes['Locations']>>, outboundShipments?: Maybe<Array<ResolversTypes['OutboundShipments']>>, packages?: Maybe<Array<ResolversTypes['Packages']>>, pickBatches?: Maybe<Array<ResolversTypes['PickBatches']>>, putawayRules?: Maybe<Array<ResolversTypes['PutawayRules']>>, sourceStockTransfers?: Maybe<Array<ResolversTypes['StockTransfers']>>, tasks?: Maybe<Array<ResolversTypes['Tasks']>> }>;
   WmsMutation: ResolverTypeWrapper<Omit<WmsMutation, 'createBinThreshold' | 'createInboundShipment' | 'createInboundShipmentItem' | 'createInventoryAdjustment' | 'createInventoryBatch' | 'createInventoryStock' | 'createLocation' | 'createOutboundShipment' | 'createOutboundShipmentItem' | 'createPackage' | 'createPackageItem' | 'createPickBatch' | 'createPickBatchItem' | 'createPutawayRule' | 'createReorderPoint' | 'createReturn' | 'createReturnItem' | 'createSalesOrder' | 'createSalesOrderItem' | 'createStockTransfer' | 'createSupplier' | 'createTask' | 'createTaskItem' | 'createWarehouse' | 'createWmsProduct' | 'updateBinThreshold' | 'updateInboundShipment' | 'updateInboundShipmentItem' | 'updateInventoryAdjustment' | 'updateInventoryBatch' | 'updateInventoryStock' | 'updateLocation' | 'updateOutboundShipment' | 'updateOutboundShipmentItem' | 'updatePackage' | 'updatePackageItem' | 'updatePickBatch' | 'updatePickBatchItem' | 'updatePutawayRule' | 'updateReorderPoint' | 'updateReturn' | 'updateReturnItem' | 'updateSalesOrder' | 'updateSalesOrderItem' | 'updateStockTransfer' | 'updateSupplier' | 'updateTask' | 'updateTaskItem' | 'updateWarehouse' | 'updateWmsProduct'> & { createBinThreshold: ResolversTypes['BinThresholds'], createInboundShipment: ResolversTypes['InboundShipments'], createInboundShipmentItem: ResolversTypes['InboundShipmentItems'], createInventoryAdjustment: ResolversTypes['InventoryAdjustments'], createInventoryBatch: ResolversTypes['InventoryBatches'], createInventoryStock: ResolversTypes['InventoryStock'], createLocation: ResolversTypes['Locations'], createOutboundShipment: ResolversTypes['OutboundShipments'], createOutboundShipmentItem: ResolversTypes['OutboundShipmentItems'], createPackage: ResolversTypes['Packages'], createPackageItem: ResolversTypes['PackageItems'], createPickBatch: ResolversTypes['PickBatches'], createPickBatchItem: ResolversTypes['PickBatchItems'], createPutawayRule: ResolversTypes['PutawayRules'], createReorderPoint: ResolversTypes['ReorderPoints'], createReturn: ResolversTypes['Returns'], createReturnItem: ResolversTypes['ReturnItems'], createSalesOrder: ResolversTypes['SalesOrders'], createSalesOrderItem: ResolversTypes['SalesOrderItems'], createStockTransfer: ResolversTypes['StockTransfers'], createSupplier: ResolversTypes['Suppliers'], createTask: ResolversTypes['Tasks'], createTaskItem: ResolversTypes['TaskItems'], createWarehouse: ResolversTypes['Warehouses'], createWmsProduct: ResolversTypes['WmsProducts'], updateBinThreshold: ResolversTypes['BinThresholds'], updateInboundShipment: ResolversTypes['InboundShipments'], updateInboundShipmentItem: ResolversTypes['InboundShipmentItems'], updateInventoryAdjustment: ResolversTypes['InventoryAdjustments'], updateInventoryBatch: ResolversTypes['InventoryBatches'], updateInventoryStock: ResolversTypes['InventoryStock'], updateLocation: ResolversTypes['Locations'], updateOutboundShipment: ResolversTypes['OutboundShipments'], updateOutboundShipmentItem: ResolversTypes['OutboundShipmentItems'], updatePackage: ResolversTypes['Packages'], updatePackageItem: ResolversTypes['PackageItems'], updatePickBatch: ResolversTypes['PickBatches'], updatePickBatchItem: ResolversTypes['PickBatchItems'], updatePutawayRule: ResolversTypes['PutawayRules'], updateReorderPoint: ResolversTypes['ReorderPoints'], updateReturn: ResolversTypes['Returns'], updateReturnItem: ResolversTypes['ReturnItems'], updateSalesOrder: ResolversTypes['SalesOrders'], updateSalesOrderItem: ResolversTypes['SalesOrderItems'], updateStockTransfer: ResolversTypes['StockTransfers'], updateSupplier: ResolversTypes['Suppliers'], updateTask: ResolversTypes['Tasks'], updateTaskItem: ResolversTypes['TaskItems'], updateWarehouse: ResolversTypes['Warehouses'], updateWmsProduct: ResolversTypes['WmsProducts'] }>;
   WmsProducts: ResolverTypeWrapper<Omit<WmsProducts, 'adjustments' | 'batches' | 'binThresholds' | 'client' | 'inboundShipmentItems' | 'inventoryStock' | 'outboundShipmentItems' | 'packageItems' | 'putawayRules' | 'reorderPoints' | 'returnItems' | 'salesOrderItems' | 'status' | 'stockTransfers' | 'supplier' | 'taskItems'> & { adjustments?: Maybe<Array<ResolversTypes['InventoryAdjustments']>>, batches?: Maybe<Array<ResolversTypes['InventoryBatches']>>, binThresholds?: Maybe<Array<ResolversTypes['BinThresholds']>>, client?: Maybe<ResolversTypes['Companies']>, inboundShipmentItems?: Maybe<Array<ResolversTypes['InboundShipmentItems']>>, inventoryStock?: Maybe<Array<ResolversTypes['InventoryStock']>>, outboundShipmentItems?: Maybe<Array<ResolversTypes['OutboundShipmentItems']>>, packageItems?: Maybe<Array<ResolversTypes['PackageItems']>>, putawayRules?: Maybe<Array<ResolversTypes['PutawayRules']>>, reorderPoints?: Maybe<Array<ResolversTypes['ReorderPoints']>>, returnItems?: Maybe<Array<ResolversTypes['ReturnItems']>>, salesOrderItems?: Maybe<Array<ResolversTypes['SalesOrderItems']>>, status?: Maybe<ResolversTypes['ProductStatus']>, stockTransfers?: Maybe<Array<ResolversTypes['StockTransfers']>>, supplier?: Maybe<ResolversTypes['Suppliers']>, taskItems?: Maybe<Array<ResolversTypes['TaskItems']>> }>;
-  WmsQuery: ResolverTypeWrapper<Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipmentItem' | 'inboundShipmentItems' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipmentItem' | 'outboundShipmentItems' | 'outboundShipments' | 'package' | 'packageItem' | 'packageItems' | 'packages' | 'pickBatch' | 'pickBatchItem' | 'pickBatchItems' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returnItem' | 'returnItems' | 'returns' | 'salesOrder' | 'salesOrderItem' | 'salesOrderItems' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'taskItem' | 'taskItems' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversTypes['BinThresholds'], binThresholds: Array<ResolversTypes['BinThresholds']>, inboundShipment: ResolversTypes['InboundShipments'], inboundShipmentItem: ResolversTypes['InboundShipmentItems'], inboundShipmentItems: Array<ResolversTypes['InboundShipmentItems']>, inboundShipments: Array<ResolversTypes['InboundShipments']>, inventoryAdjustment: ResolversTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversTypes['InventoryAdjustments']>, inventoryBatch: ResolversTypes['InventoryBatches'], inventoryBatches: Array<ResolversTypes['InventoryBatches']>, inventoryStock: ResolversTypes['InventoryStock'], inventoryStocks: Array<ResolversTypes['InventoryStock']>, location: ResolversTypes['Locations'], locations: Array<ResolversTypes['Locations']>, outboundShipment: ResolversTypes['OutboundShipments'], outboundShipmentItem: ResolversTypes['OutboundShipmentItems'], outboundShipmentItems: Array<ResolversTypes['OutboundShipmentItems']>, outboundShipments: Array<ResolversTypes['OutboundShipments']>, package: ResolversTypes['Packages'], packageItem: ResolversTypes['PackageItems'], packageItems: Array<ResolversTypes['PackageItems']>, packages: Array<ResolversTypes['Packages']>, pickBatch: ResolversTypes['PickBatches'], pickBatchItem: ResolversTypes['PickBatchItems'], pickBatchItems: Array<ResolversTypes['PickBatchItems']>, pickBatches: Array<ResolversTypes['PickBatches']>, putawayRule: ResolversTypes['PutawayRules'], putawayRules: Array<ResolversTypes['PutawayRules']>, reorderPoint: ResolversTypes['ReorderPoints'], reorderPoints: Array<ResolversTypes['ReorderPoints']>, return: ResolversTypes['Returns'], returnItem: ResolversTypes['ReturnItems'], returnItems: Array<ResolversTypes['ReturnItems']>, returns: Array<ResolversTypes['Returns']>, salesOrder: ResolversTypes['SalesOrders'], salesOrderItem: ResolversTypes['SalesOrderItems'], salesOrderItems: Array<ResolversTypes['SalesOrderItems']>, salesOrders: Array<ResolversTypes['SalesOrders']>, stockTransfer: ResolversTypes['StockTransfers'], stockTransfers: Array<ResolversTypes['StockTransfers']>, supplier: ResolversTypes['Suppliers'], suppliers: Array<ResolversTypes['Suppliers']>, task: ResolversTypes['Tasks'], taskItem: ResolversTypes['TaskItems'], taskItems: Array<ResolversTypes['TaskItems']>, tasks: Array<ResolversTypes['Tasks']>, warehouse: ResolversTypes['Warehouses'], warehouses: Array<ResolversTypes['Warehouses']>, wmsProduct: ResolversTypes['WmsProducts'], wmsProducts: Array<ResolversTypes['WmsProducts']> }>;
+  WmsQuery: ResolverTypeWrapper<Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipments' | 'package' | 'packages' | 'pickBatch' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returns' | 'salesOrder' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversTypes['BinThresholds'], binThresholds: Array<ResolversTypes['BinThresholds']>, inboundShipment: ResolversTypes['InboundShipments'], inboundShipments: Array<ResolversTypes['InboundShipments']>, inventoryAdjustment: ResolversTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversTypes['InventoryAdjustments']>, inventoryBatch: ResolversTypes['InventoryBatches'], inventoryBatches: Array<ResolversTypes['InventoryBatches']>, inventoryStock: ResolversTypes['InventoryStock'], inventoryStocks: Array<ResolversTypes['InventoryStock']>, location: ResolversTypes['Locations'], locations: Array<ResolversTypes['Locations']>, outboundShipment: ResolversTypes['OutboundShipments'], outboundShipments: Array<ResolversTypes['OutboundShipments']>, package: ResolversTypes['Packages'], packages: Array<ResolversTypes['Packages']>, pickBatch: ResolversTypes['PickBatches'], pickBatches: Array<ResolversTypes['PickBatches']>, putawayRule: ResolversTypes['PutawayRules'], putawayRules: Array<ResolversTypes['PutawayRules']>, reorderPoint: ResolversTypes['ReorderPoints'], reorderPoints: Array<ResolversTypes['ReorderPoints']>, return: ResolversTypes['Returns'], returns: Array<ResolversTypes['Returns']>, salesOrder: ResolversTypes['SalesOrders'], salesOrders: Array<ResolversTypes['SalesOrders']>, stockTransfer: ResolversTypes['StockTransfers'], stockTransfers: Array<ResolversTypes['StockTransfers']>, supplier: ResolversTypes['Suppliers'], suppliers: Array<ResolversTypes['Suppliers']>, task: ResolversTypes['Tasks'], tasks: Array<ResolversTypes['Tasks']>, warehouse: ResolversTypes['Warehouses'], warehouses: Array<ResolversTypes['Warehouses']>, wmsProduct: ResolversTypes['WmsProducts'], wmsProducts: Array<ResolversTypes['WmsProducts']> }>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -6203,7 +6021,7 @@ export type ResolversParentTypes = {
   TaskItems: Omit<TaskItems, 'batch' | 'destinationLocation' | 'product' | 'sourceLocation' | 'task'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, destinationLocation?: Maybe<ResolversParentTypes['Locations']>, product: ResolversParentTypes['WmsProducts'], sourceLocation?: Maybe<ResolversParentTypes['Locations']>, task: ResolversParentTypes['Tasks'] };
   Tasks: Omit<Tasks, 'items' | 'pickBatch' | 'warehouse'> & { items?: Maybe<Array<ResolversParentTypes['TaskItems']>>, pickBatch?: Maybe<ResolversParentTypes['PickBatches']>, warehouse: ResolversParentTypes['Warehouses'] };
   TmsMutation: Omit<TmsMutation, 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createPartnerInvoiceItem' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'createVehicleMaintenance' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateShipmentLegEvent' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { createCarrier: ResolversParentTypes['Carriers'], createCarrierRate: ResolversParentTypes['CarrierRates'], createDriver: ResolversParentTypes['Drivers'], createDriverSchedule: ResolversParentTypes['DriverSchedules'], createExpense: ResolversParentTypes['Expenses'], createGeofence: ResolversParentTypes['Geofences'], createGeofenceEvent: ResolversParentTypes['GeofenceEvents'], createGpsPing: ResolversParentTypes['GpsPings'], createPartnerInvoice: ResolversParentTypes['PartnerInvoices'], createPartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], createProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], createRoute: ResolversParentTypes['Routes'], createShipmentLeg: ResolversParentTypes['ShipmentLegs'], createShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], createTrip: ResolversParentTypes['Trips'], createTripStop: ResolversParentTypes['TripStops'], createVehicle: ResolversParentTypes['Vehicles'], createVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], updateCarrier: ResolversParentTypes['Carriers'], updateCarrierRate: ResolversParentTypes['CarrierRates'], updateDriver: ResolversParentTypes['Drivers'], updateDriverSchedule: ResolversParentTypes['DriverSchedules'], updateExpense: ResolversParentTypes['Expenses'], updateGeofence: ResolversParentTypes['Geofences'], updateGeofenceEvent: ResolversParentTypes['GeofenceEvents'], updateGpsPing: ResolversParentTypes['GpsPings'], updatePartnerInvoice: ResolversParentTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], updateRoute: ResolversParentTypes['Routes'], updateShipmentLeg: ResolversParentTypes['ShipmentLegs'], updateShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], updateTrip: ResolversParentTypes['Trips'], updateTripStop: ResolversParentTypes['TripStops'], updateVehicle: ResolversParentTypes['Vehicles'], updateVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'] };
-  TmsQuery: Omit<TmsQuery, 'carrier' | 'carrierRate' | 'carrierRates' | 'carriers' | 'driver' | 'driverSchedule' | 'driverSchedules' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofenceEvent' | 'geofenceEvents' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoiceItem' | 'partnerInvoiceItems' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegEvent' | 'shipmentLegEvents' | 'shipmentLegs' | 'trip' | 'tripStop' | 'tripStops' | 'trips' | 'vehicle' | 'vehicleMaintenance' | 'vehicleMaintenances' | 'vehicles'> & { carrier: ResolversParentTypes['Carriers'], carrierRate: ResolversParentTypes['CarrierRates'], carrierRates: Array<ResolversParentTypes['CarrierRates']>, carriers: Array<ResolversParentTypes['Carriers']>, driver: ResolversParentTypes['Drivers'], driverSchedule: ResolversParentTypes['DriverSchedules'], driverSchedules: Array<ResolversParentTypes['DriverSchedules']>, drivers: Array<ResolversParentTypes['Drivers']>, expense: ResolversParentTypes['Expenses'], expenses: Array<ResolversParentTypes['Expenses']>, geofence: ResolversParentTypes['Geofences'], geofenceEvent: ResolversParentTypes['GeofenceEvents'], geofenceEvents: Array<ResolversParentTypes['GeofenceEvents']>, geofences: Array<ResolversParentTypes['Geofences']>, gpsPing: ResolversParentTypes['GpsPings'], gpsPings: Array<ResolversParentTypes['GpsPings']>, partnerInvoice: ResolversParentTypes['PartnerInvoices'], partnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], partnerInvoiceItems: Array<ResolversParentTypes['PartnerInvoiceItems']>, partnerInvoices: Array<ResolversParentTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversParentTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], route: ResolversParentTypes['Routes'], routes: Array<ResolversParentTypes['Routes']>, shipmentLeg: ResolversParentTypes['ShipmentLegs'], shipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], shipmentLegEvents: Array<ResolversParentTypes['ShipmentLegEvents']>, shipmentLegs: Array<ResolversParentTypes['ShipmentLegs']>, trip: ResolversParentTypes['Trips'], tripStop: ResolversParentTypes['TripStops'], tripStops: Array<ResolversParentTypes['TripStops']>, trips: Array<ResolversParentTypes['Trips']>, vehicle: ResolversParentTypes['Vehicles'], vehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], vehicleMaintenances: Array<ResolversParentTypes['VehicleMaintenance']>, vehicles: Array<ResolversParentTypes['Vehicles']> };
+  TmsQuery: Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversParentTypes['Carriers'], carriers: Array<ResolversParentTypes['Carriers']>, driver: ResolversParentTypes['Drivers'], drivers: Array<ResolversParentTypes['Drivers']>, expense: ResolversParentTypes['Expenses'], expenses: Array<ResolversParentTypes['Expenses']>, geofence: ResolversParentTypes['Geofences'], geofences: Array<ResolversParentTypes['Geofences']>, gpsPing: ResolversParentTypes['GpsPings'], gpsPings: Array<ResolversParentTypes['GpsPings']>, partnerInvoice: ResolversParentTypes['PartnerInvoices'], partnerInvoices: Array<ResolversParentTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversParentTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], route: ResolversParentTypes['Routes'], routes: Array<ResolversParentTypes['Routes']>, shipmentLeg: ResolversParentTypes['ShipmentLegs'], shipmentLegs: Array<ResolversParentTypes['ShipmentLegs']>, trip: ResolversParentTypes['Trips'], trips: Array<ResolversParentTypes['Trips']>, vehicle: ResolversParentTypes['Vehicles'], vehicles: Array<ResolversParentTypes['Vehicles']> };
   TripStops: Omit<TripStops, 'proofOfDeliveries' | 'shipment' | 'trip'> & { proofOfDeliveries?: Maybe<Array<ResolversParentTypes['ProofOfDeliveries']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']>, trip: ResolversParentTypes['Trips'] };
   Trips: Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, routes?: Maybe<Array<ResolversParentTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversParentTypes['ShipmentLegs']>>, stops?: Maybe<Array<ResolversParentTypes['TripStops']>>, vehicle?: Maybe<ResolversParentTypes['Vehicles']> };
   UpdateAccountTransactionInput: UpdateAccountTransactionInput;
@@ -6286,7 +6104,7 @@ export type ResolversParentTypes = {
   Warehouses: Omit<Warehouses, 'destinationStockTransfers' | 'inboundShipments' | 'locations' | 'outboundShipments' | 'packages' | 'pickBatches' | 'putawayRules' | 'sourceStockTransfers' | 'tasks'> & { destinationStockTransfers?: Maybe<Array<ResolversParentTypes['StockTransfers']>>, inboundShipments?: Maybe<Array<ResolversParentTypes['InboundShipments']>>, locations?: Maybe<Array<ResolversParentTypes['Locations']>>, outboundShipments?: Maybe<Array<ResolversParentTypes['OutboundShipments']>>, packages?: Maybe<Array<ResolversParentTypes['Packages']>>, pickBatches?: Maybe<Array<ResolversParentTypes['PickBatches']>>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, sourceStockTransfers?: Maybe<Array<ResolversParentTypes['StockTransfers']>>, tasks?: Maybe<Array<ResolversParentTypes['Tasks']>> };
   WmsMutation: Omit<WmsMutation, 'createBinThreshold' | 'createInboundShipment' | 'createInboundShipmentItem' | 'createInventoryAdjustment' | 'createInventoryBatch' | 'createInventoryStock' | 'createLocation' | 'createOutboundShipment' | 'createOutboundShipmentItem' | 'createPackage' | 'createPackageItem' | 'createPickBatch' | 'createPickBatchItem' | 'createPutawayRule' | 'createReorderPoint' | 'createReturn' | 'createReturnItem' | 'createSalesOrder' | 'createSalesOrderItem' | 'createStockTransfer' | 'createSupplier' | 'createTask' | 'createTaskItem' | 'createWarehouse' | 'createWmsProduct' | 'updateBinThreshold' | 'updateInboundShipment' | 'updateInboundShipmentItem' | 'updateInventoryAdjustment' | 'updateInventoryBatch' | 'updateInventoryStock' | 'updateLocation' | 'updateOutboundShipment' | 'updateOutboundShipmentItem' | 'updatePackage' | 'updatePackageItem' | 'updatePickBatch' | 'updatePickBatchItem' | 'updatePutawayRule' | 'updateReorderPoint' | 'updateReturn' | 'updateReturnItem' | 'updateSalesOrder' | 'updateSalesOrderItem' | 'updateStockTransfer' | 'updateSupplier' | 'updateTask' | 'updateTaskItem' | 'updateWarehouse' | 'updateWmsProduct'> & { createBinThreshold: ResolversParentTypes['BinThresholds'], createInboundShipment: ResolversParentTypes['InboundShipments'], createInboundShipmentItem: ResolversParentTypes['InboundShipmentItems'], createInventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], createInventoryBatch: ResolversParentTypes['InventoryBatches'], createInventoryStock: ResolversParentTypes['InventoryStock'], createLocation: ResolversParentTypes['Locations'], createOutboundShipment: ResolversParentTypes['OutboundShipments'], createOutboundShipmentItem: ResolversParentTypes['OutboundShipmentItems'], createPackage: ResolversParentTypes['Packages'], createPackageItem: ResolversParentTypes['PackageItems'], createPickBatch: ResolversParentTypes['PickBatches'], createPickBatchItem: ResolversParentTypes['PickBatchItems'], createPutawayRule: ResolversParentTypes['PutawayRules'], createReorderPoint: ResolversParentTypes['ReorderPoints'], createReturn: ResolversParentTypes['Returns'], createReturnItem: ResolversParentTypes['ReturnItems'], createSalesOrder: ResolversParentTypes['SalesOrders'], createSalesOrderItem: ResolversParentTypes['SalesOrderItems'], createStockTransfer: ResolversParentTypes['StockTransfers'], createSupplier: ResolversParentTypes['Suppliers'], createTask: ResolversParentTypes['Tasks'], createTaskItem: ResolversParentTypes['TaskItems'], createWarehouse: ResolversParentTypes['Warehouses'], createWmsProduct: ResolversParentTypes['WmsProducts'], updateBinThreshold: ResolversParentTypes['BinThresholds'], updateInboundShipment: ResolversParentTypes['InboundShipments'], updateInboundShipmentItem: ResolversParentTypes['InboundShipmentItems'], updateInventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], updateInventoryBatch: ResolversParentTypes['InventoryBatches'], updateInventoryStock: ResolversParentTypes['InventoryStock'], updateLocation: ResolversParentTypes['Locations'], updateOutboundShipment: ResolversParentTypes['OutboundShipments'], updateOutboundShipmentItem: ResolversParentTypes['OutboundShipmentItems'], updatePackage: ResolversParentTypes['Packages'], updatePackageItem: ResolversParentTypes['PackageItems'], updatePickBatch: ResolversParentTypes['PickBatches'], updatePickBatchItem: ResolversParentTypes['PickBatchItems'], updatePutawayRule: ResolversParentTypes['PutawayRules'], updateReorderPoint: ResolversParentTypes['ReorderPoints'], updateReturn: ResolversParentTypes['Returns'], updateReturnItem: ResolversParentTypes['ReturnItems'], updateSalesOrder: ResolversParentTypes['SalesOrders'], updateSalesOrderItem: ResolversParentTypes['SalesOrderItems'], updateStockTransfer: ResolversParentTypes['StockTransfers'], updateSupplier: ResolversParentTypes['Suppliers'], updateTask: ResolversParentTypes['Tasks'], updateTaskItem: ResolversParentTypes['TaskItems'], updateWarehouse: ResolversParentTypes['Warehouses'], updateWmsProduct: ResolversParentTypes['WmsProducts'] };
   WmsProducts: Omit<WmsProducts, 'adjustments' | 'batches' | 'binThresholds' | 'client' | 'inboundShipmentItems' | 'inventoryStock' | 'outboundShipmentItems' | 'packageItems' | 'putawayRules' | 'reorderPoints' | 'returnItems' | 'salesOrderItems' | 'stockTransfers' | 'supplier' | 'taskItems'> & { adjustments?: Maybe<Array<ResolversParentTypes['InventoryAdjustments']>>, batches?: Maybe<Array<ResolversParentTypes['InventoryBatches']>>, binThresholds?: Maybe<Array<ResolversParentTypes['BinThresholds']>>, client?: Maybe<ResolversParentTypes['Companies']>, inboundShipmentItems?: Maybe<Array<ResolversParentTypes['InboundShipmentItems']>>, inventoryStock?: Maybe<Array<ResolversParentTypes['InventoryStock']>>, outboundShipmentItems?: Maybe<Array<ResolversParentTypes['OutboundShipmentItems']>>, packageItems?: Maybe<Array<ResolversParentTypes['PackageItems']>>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, reorderPoints?: Maybe<Array<ResolversParentTypes['ReorderPoints']>>, returnItems?: Maybe<Array<ResolversParentTypes['ReturnItems']>>, salesOrderItems?: Maybe<Array<ResolversParentTypes['SalesOrderItems']>>, stockTransfers?: Maybe<Array<ResolversParentTypes['StockTransfers']>>, supplier?: Maybe<ResolversParentTypes['Suppliers']>, taskItems?: Maybe<Array<ResolversParentTypes['TaskItems']>> };
-  WmsQuery: Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipmentItem' | 'inboundShipmentItems' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipmentItem' | 'outboundShipmentItems' | 'outboundShipments' | 'package' | 'packageItem' | 'packageItems' | 'packages' | 'pickBatch' | 'pickBatchItem' | 'pickBatchItems' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returnItem' | 'returnItems' | 'returns' | 'salesOrder' | 'salesOrderItem' | 'salesOrderItems' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'taskItem' | 'taskItems' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversParentTypes['BinThresholds'], binThresholds: Array<ResolversParentTypes['BinThresholds']>, inboundShipment: ResolversParentTypes['InboundShipments'], inboundShipmentItem: ResolversParentTypes['InboundShipmentItems'], inboundShipmentItems: Array<ResolversParentTypes['InboundShipmentItems']>, inboundShipments: Array<ResolversParentTypes['InboundShipments']>, inventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversParentTypes['InventoryAdjustments']>, inventoryBatch: ResolversParentTypes['InventoryBatches'], inventoryBatches: Array<ResolversParentTypes['InventoryBatches']>, inventoryStock: ResolversParentTypes['InventoryStock'], inventoryStocks: Array<ResolversParentTypes['InventoryStock']>, location: ResolversParentTypes['Locations'], locations: Array<ResolversParentTypes['Locations']>, outboundShipment: ResolversParentTypes['OutboundShipments'], outboundShipmentItem: ResolversParentTypes['OutboundShipmentItems'], outboundShipmentItems: Array<ResolversParentTypes['OutboundShipmentItems']>, outboundShipments: Array<ResolversParentTypes['OutboundShipments']>, package: ResolversParentTypes['Packages'], packageItem: ResolversParentTypes['PackageItems'], packageItems: Array<ResolversParentTypes['PackageItems']>, packages: Array<ResolversParentTypes['Packages']>, pickBatch: ResolversParentTypes['PickBatches'], pickBatchItem: ResolversParentTypes['PickBatchItems'], pickBatchItems: Array<ResolversParentTypes['PickBatchItems']>, pickBatches: Array<ResolversParentTypes['PickBatches']>, putawayRule: ResolversParentTypes['PutawayRules'], putawayRules: Array<ResolversParentTypes['PutawayRules']>, reorderPoint: ResolversParentTypes['ReorderPoints'], reorderPoints: Array<ResolversParentTypes['ReorderPoints']>, return: ResolversParentTypes['Returns'], returnItem: ResolversParentTypes['ReturnItems'], returnItems: Array<ResolversParentTypes['ReturnItems']>, returns: Array<ResolversParentTypes['Returns']>, salesOrder: ResolversParentTypes['SalesOrders'], salesOrderItem: ResolversParentTypes['SalesOrderItems'], salesOrderItems: Array<ResolversParentTypes['SalesOrderItems']>, salesOrders: Array<ResolversParentTypes['SalesOrders']>, stockTransfer: ResolversParentTypes['StockTransfers'], stockTransfers: Array<ResolversParentTypes['StockTransfers']>, supplier: ResolversParentTypes['Suppliers'], suppliers: Array<ResolversParentTypes['Suppliers']>, task: ResolversParentTypes['Tasks'], taskItem: ResolversParentTypes['TaskItems'], taskItems: Array<ResolversParentTypes['TaskItems']>, tasks: Array<ResolversParentTypes['Tasks']>, warehouse: ResolversParentTypes['Warehouses'], warehouses: Array<ResolversParentTypes['Warehouses']>, wmsProduct: ResolversParentTypes['WmsProducts'], wmsProducts: Array<ResolversParentTypes['WmsProducts']> };
+  WmsQuery: Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipments' | 'package' | 'packages' | 'pickBatch' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returns' | 'salesOrder' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversParentTypes['BinThresholds'], binThresholds: Array<ResolversParentTypes['BinThresholds']>, inboundShipment: ResolversParentTypes['InboundShipments'], inboundShipments: Array<ResolversParentTypes['InboundShipments']>, inventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversParentTypes['InventoryAdjustments']>, inventoryBatch: ResolversParentTypes['InventoryBatches'], inventoryBatches: Array<ResolversParentTypes['InventoryBatches']>, inventoryStock: ResolversParentTypes['InventoryStock'], inventoryStocks: Array<ResolversParentTypes['InventoryStock']>, location: ResolversParentTypes['Locations'], locations: Array<ResolversParentTypes['Locations']>, outboundShipment: ResolversParentTypes['OutboundShipments'], outboundShipments: Array<ResolversParentTypes['OutboundShipments']>, package: ResolversParentTypes['Packages'], packages: Array<ResolversParentTypes['Packages']>, pickBatch: ResolversParentTypes['PickBatches'], pickBatches: Array<ResolversParentTypes['PickBatches']>, putawayRule: ResolversParentTypes['PutawayRules'], putawayRules: Array<ResolversParentTypes['PutawayRules']>, reorderPoint: ResolversParentTypes['ReorderPoints'], reorderPoints: Array<ResolversParentTypes['ReorderPoints']>, return: ResolversParentTypes['Returns'], returns: Array<ResolversParentTypes['Returns']>, salesOrder: ResolversParentTypes['SalesOrders'], salesOrders: Array<ResolversParentTypes['SalesOrders']>, stockTransfer: ResolversParentTypes['StockTransfers'], stockTransfers: Array<ResolversParentTypes['StockTransfers']>, supplier: ResolversParentTypes['Suppliers'], suppliers: Array<ResolversParentTypes['Suppliers']>, task: ResolversParentTypes['Tasks'], tasks: Array<ResolversParentTypes['Tasks']>, warehouse: ResolversParentTypes['Warehouses'], warehouses: Array<ResolversParentTypes['Warehouses']>, wmsProduct: ResolversParentTypes['WmsProducts'], wmsProducts: Array<ResolversParentTypes['WmsProducts']> };
 };
 
 export type AccountTransactionsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountTransactions'] = ResolversParentTypes['AccountTransactions']> = {
@@ -7641,40 +7459,26 @@ export type TmsMutationResolvers<ContextType = GraphQLContext, ParentType extend
 
 export type TmsQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TmsQuery'] = ResolversParentTypes['TmsQuery']> = {
   carrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsQuerycarrierArgs, 'id'>>;
-  carrierRate?: Resolver<ResolversTypes['CarrierRates'], ParentType, ContextType, RequireFields<TmsQuerycarrierRateArgs, 'id'>>;
-  carrierRates?: Resolver<Array<ResolversTypes['CarrierRates']>, ParentType, ContextType, Partial<TmsQuerycarrierRatesArgs>>;
   carriers?: Resolver<Array<ResolversTypes['Carriers']>, ParentType, ContextType, Partial<TmsQuerycarriersArgs>>;
   driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsQuerydriverArgs, 'id'>>;
-  driverSchedule?: Resolver<ResolversTypes['DriverSchedules'], ParentType, ContextType, RequireFields<TmsQuerydriverScheduleArgs, 'id'>>;
-  driverSchedules?: Resolver<Array<ResolversTypes['DriverSchedules']>, ParentType, ContextType, Partial<TmsQuerydriverSchedulesArgs>>;
   drivers?: Resolver<Array<ResolversTypes['Drivers']>, ParentType, ContextType, Partial<TmsQuerydriversArgs>>;
   expense?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType, RequireFields<TmsQueryexpenseArgs, 'id'>>;
   expenses?: Resolver<Array<ResolversTypes['Expenses']>, ParentType, ContextType, Partial<TmsQueryexpensesArgs>>;
   geofence?: Resolver<ResolversTypes['Geofences'], ParentType, ContextType, RequireFields<TmsQuerygeofenceArgs, 'id'>>;
-  geofenceEvent?: Resolver<ResolversTypes['GeofenceEvents'], ParentType, ContextType, RequireFields<TmsQuerygeofenceEventArgs, 'id'>>;
-  geofenceEvents?: Resolver<Array<ResolversTypes['GeofenceEvents']>, ParentType, ContextType, Partial<TmsQuerygeofenceEventsArgs>>;
   geofences?: Resolver<Array<ResolversTypes['Geofences']>, ParentType, ContextType, Partial<TmsQuerygeofencesArgs>>;
   gpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsQuerygpsPingArgs, 'id'>>;
   gpsPings?: Resolver<Array<ResolversTypes['GpsPings']>, ParentType, ContextType, Partial<TmsQuerygpsPingsArgs>>;
   partnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsQuerypartnerInvoiceArgs, 'id'>>;
-  partnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsQuerypartnerInvoiceItemArgs, 'id'>>;
-  partnerInvoiceItems?: Resolver<Array<ResolversTypes['PartnerInvoiceItems']>, ParentType, ContextType, Partial<TmsQuerypartnerInvoiceItemsArgs>>;
   partnerInvoices?: Resolver<Array<ResolversTypes['PartnerInvoices']>, ParentType, ContextType, Partial<TmsQuerypartnerInvoicesArgs>>;
   proofOfDeliveries?: Resolver<Array<ResolversTypes['ProofOfDeliveries']>, ParentType, ContextType, Partial<TmsQueryproofOfDeliveriesArgs>>;
   proofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsQueryproofOfDeliveryArgs, 'id'>>;
   route?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsQueryrouteArgs, 'id'>>;
   routes?: Resolver<Array<ResolversTypes['Routes']>, ParentType, ContextType, Partial<TmsQueryroutesArgs>>;
   shipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsQueryshipmentLegArgs, 'id'>>;
-  shipmentLegEvent?: Resolver<ResolversTypes['ShipmentLegEvents'], ParentType, ContextType, RequireFields<TmsQueryshipmentLegEventArgs, 'id'>>;
-  shipmentLegEvents?: Resolver<Array<ResolversTypes['ShipmentLegEvents']>, ParentType, ContextType, Partial<TmsQueryshipmentLegEventsArgs>>;
   shipmentLegs?: Resolver<Array<ResolversTypes['ShipmentLegs']>, ParentType, ContextType, Partial<TmsQueryshipmentLegsArgs>>;
   trip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsQuerytripArgs, 'id'>>;
-  tripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsQuerytripStopArgs, 'id'>>;
-  tripStops?: Resolver<Array<ResolversTypes['TripStops']>, ParentType, ContextType, Partial<TmsQuerytripStopsArgs>>;
   trips?: Resolver<Array<ResolversTypes['Trips']>, ParentType, ContextType, Partial<TmsQuerytripsArgs>>;
   vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsQueryvehicleArgs, 'id'>>;
-  vehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsQueryvehicleMaintenanceArgs, 'id'>>;
-  vehicleMaintenances?: Resolver<Array<ResolversTypes['VehicleMaintenance']>, ParentType, ContextType, Partial<TmsQueryvehicleMaintenancesArgs>>;
   vehicles?: Resolver<Array<ResolversTypes['Vehicles']>, ParentType, ContextType, Partial<TmsQueryvehiclesArgs>>;
 };
 
@@ -7899,8 +7703,6 @@ export type WmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   binThreshold?: Resolver<ResolversTypes['BinThresholds'], ParentType, ContextType, RequireFields<WmsQuerybinThresholdArgs, 'id'>>;
   binThresholds?: Resolver<Array<ResolversTypes['BinThresholds']>, ParentType, ContextType, Partial<WmsQuerybinThresholdsArgs>>;
   inboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType, RequireFields<WmsQueryinboundShipmentArgs, 'id'>>;
-  inboundShipmentItem?: Resolver<ResolversTypes['InboundShipmentItems'], ParentType, ContextType, RequireFields<WmsQueryinboundShipmentItemArgs, 'id'>>;
-  inboundShipmentItems?: Resolver<Array<ResolversTypes['InboundShipmentItems']>, ParentType, ContextType, Partial<WmsQueryinboundShipmentItemsArgs>>;
   inboundShipments?: Resolver<Array<ResolversTypes['InboundShipments']>, ParentType, ContextType, Partial<WmsQueryinboundShipmentsArgs>>;
   inventoryAdjustment?: Resolver<ResolversTypes['InventoryAdjustments'], ParentType, ContextType, RequireFields<WmsQueryinventoryAdjustmentArgs, 'id'>>;
   inventoryAdjustments?: Resolver<Array<ResolversTypes['InventoryAdjustments']>, ParentType, ContextType, Partial<WmsQueryinventoryAdjustmentsArgs>>;
@@ -7911,36 +7713,24 @@ export type WmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   location?: Resolver<ResolversTypes['Locations'], ParentType, ContextType, RequireFields<WmsQuerylocationArgs, 'id'>>;
   locations?: Resolver<Array<ResolversTypes['Locations']>, ParentType, ContextType, Partial<WmsQuerylocationsArgs>>;
   outboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType, RequireFields<WmsQueryoutboundShipmentArgs, 'id'>>;
-  outboundShipmentItem?: Resolver<ResolversTypes['OutboundShipmentItems'], ParentType, ContextType, RequireFields<WmsQueryoutboundShipmentItemArgs, 'id'>>;
-  outboundShipmentItems?: Resolver<Array<ResolversTypes['OutboundShipmentItems']>, ParentType, ContextType, Partial<WmsQueryoutboundShipmentItemsArgs>>;
   outboundShipments?: Resolver<Array<ResolversTypes['OutboundShipments']>, ParentType, ContextType, Partial<WmsQueryoutboundShipmentsArgs>>;
   package?: Resolver<ResolversTypes['Packages'], ParentType, ContextType, RequireFields<WmsQuerypackageArgs, 'id'>>;
-  packageItem?: Resolver<ResolversTypes['PackageItems'], ParentType, ContextType, RequireFields<WmsQuerypackageItemArgs, 'id'>>;
-  packageItems?: Resolver<Array<ResolversTypes['PackageItems']>, ParentType, ContextType, Partial<WmsQuerypackageItemsArgs>>;
   packages?: Resolver<Array<ResolversTypes['Packages']>, ParentType, ContextType, Partial<WmsQuerypackagesArgs>>;
   pickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType, RequireFields<WmsQuerypickBatchArgs, 'id'>>;
-  pickBatchItem?: Resolver<ResolversTypes['PickBatchItems'], ParentType, ContextType, RequireFields<WmsQuerypickBatchItemArgs, 'id'>>;
-  pickBatchItems?: Resolver<Array<ResolversTypes['PickBatchItems']>, ParentType, ContextType, Partial<WmsQuerypickBatchItemsArgs>>;
   pickBatches?: Resolver<Array<ResolversTypes['PickBatches']>, ParentType, ContextType, Partial<WmsQuerypickBatchesArgs>>;
   putawayRule?: Resolver<ResolversTypes['PutawayRules'], ParentType, ContextType, RequireFields<WmsQueryputawayRuleArgs, 'id'>>;
   putawayRules?: Resolver<Array<ResolversTypes['PutawayRules']>, ParentType, ContextType, Partial<WmsQueryputawayRulesArgs>>;
   reorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsQueryreorderPointArgs, 'id'>>;
   reorderPoints?: Resolver<Array<ResolversTypes['ReorderPoints']>, ParentType, ContextType, Partial<WmsQueryreorderPointsArgs>>;
   return?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsQueryreturnArgs, 'id'>>;
-  returnItem?: Resolver<ResolversTypes['ReturnItems'], ParentType, ContextType, RequireFields<WmsQueryreturnItemArgs, 'id'>>;
-  returnItems?: Resolver<Array<ResolversTypes['ReturnItems']>, ParentType, ContextType, Partial<WmsQueryreturnItemsArgs>>;
   returns?: Resolver<Array<ResolversTypes['Returns']>, ParentType, ContextType, Partial<WmsQueryreturnsArgs>>;
   salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsQuerysalesOrderArgs, 'id'>>;
-  salesOrderItem?: Resolver<ResolversTypes['SalesOrderItems'], ParentType, ContextType, RequireFields<WmsQuerysalesOrderItemArgs, 'id'>>;
-  salesOrderItems?: Resolver<Array<ResolversTypes['SalesOrderItems']>, ParentType, ContextType, Partial<WmsQuerysalesOrderItemsArgs>>;
   salesOrders?: Resolver<Array<ResolversTypes['SalesOrders']>, ParentType, ContextType, Partial<WmsQuerysalesOrdersArgs>>;
   stockTransfer?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType, RequireFields<WmsQuerystockTransferArgs, 'id'>>;
   stockTransfers?: Resolver<Array<ResolversTypes['StockTransfers']>, ParentType, ContextType, Partial<WmsQuerystockTransfersArgs>>;
   supplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsQuerysupplierArgs, 'id'>>;
   suppliers?: Resolver<Array<ResolversTypes['Suppliers']>, ParentType, ContextType, Partial<WmsQuerysuppliersArgs>>;
   task?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsQuerytaskArgs, 'id'>>;
-  taskItem?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType, RequireFields<WmsQuerytaskItemArgs, 'id'>>;
-  taskItems?: Resolver<Array<ResolversTypes['TaskItems']>, ParentType, ContextType, Partial<WmsQuerytaskItemsArgs>>;
   tasks?: Resolver<Array<ResolversTypes['Tasks']>, ParentType, ContextType, Partial<WmsQuerytasksArgs>>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsQuerywarehouseArgs, 'id'>>;
   warehouses?: Resolver<Array<ResolversTypes['Warehouses']>, ParentType, ContextType, Partial<WmsQuerywarehousesArgs>>;

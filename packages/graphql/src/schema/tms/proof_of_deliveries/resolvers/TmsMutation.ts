@@ -4,10 +4,7 @@ import {
   UpdateProofOfDeliveryInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createProofOfDelivery" | "removeProofOfDelivery" | "updateProofOfDelivery"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createProofOfDelivery'|'removeProofOfDelivery'|'updateProofOfDelivery'> = {
   createProofOfDelivery: async (_parent, args, ctx) => {
     const payload = CreateProofOfDeliveryInputSchema().parse(args.value);
 
