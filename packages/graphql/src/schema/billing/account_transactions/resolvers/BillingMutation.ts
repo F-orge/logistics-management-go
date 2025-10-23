@@ -4,12 +4,7 @@ import {
   UpdateAccountTransactionInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
-export const BillingMutation: Pick<
-  BillingMutationResolvers,
-  | "createAccountTransaction"
-  | "removeAccountTransaction"
-  | "updateAccountTransaction"
-> = {
+export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountTransaction'|'removeAccountTransaction'|'updateAccountTransaction'> = {
   createAccountTransaction: async (_parent, args, ctx) => {
     const payload = CreateAccountTransactionInputSchema().parse(args.value);
 

@@ -4,10 +4,7 @@ import {
   UpdateQuoteInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
-export const BillingMutation: Pick<
-  BillingMutationResolvers,
-  "createQuote" | "removeQuote" | "updateQuote"
-> = {
+export const BillingMutation: Pick<BillingMutationResolvers, 'createQuote'|'removeQuote'|'updateQuote'> = {
   createQuote: async (_parent, args, ctx) => {
     const payload = CreateQuoteInputSchema().parse(args.value);
 

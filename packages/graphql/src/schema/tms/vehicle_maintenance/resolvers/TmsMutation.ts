@@ -3,12 +3,7 @@ import {
   VehicleMaintenance,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  | "createVehicleMaintenance"
-  | "removeVehicleMaintenance"
-  | "updateVehicleMaintenance"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createVehicleMaintenance'|'removeVehicleMaintenance'|'updateVehicleMaintenance'> = {
   createVehicleMaintenance: async (_parent, args, ctx) => {
     const payload = CreateVehicleMaintenanceInputSchema().parse(args.value);
 

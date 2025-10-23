@@ -4,10 +4,7 @@ import {
   UpdateRateCardInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
-export const BillingMutation: Pick<
-  BillingMutationResolvers,
-  "createRateCard" | "removeRateCard" | "updateRateCard"
-> = {
+export const BillingMutation: Pick<BillingMutationResolvers, 'createRateCard'|'removeRateCard'|'updateRateCard'> = {
   createRateCard: async (_parent, args, ctx) => {
     const payload = CreateRateCardInputSchema().parse(args.value);
 

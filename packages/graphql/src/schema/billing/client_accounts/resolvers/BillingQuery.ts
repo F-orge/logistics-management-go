@@ -1,9 +1,6 @@
 import { ClientAccounts } from "../../../../zod.schema";
 import type { BillingQueryResolvers } from "./../../../types.generated";
-export const BillingQuery: Pick<
-  BillingQueryResolvers,
-  "clientAccount" | "clientAccounts"
-> = {
+export const BillingQuery: Pick<BillingQueryResolvers, 'clientAccount'|'clientAccounts'> = {
   clientAccounts: async (_parent, args, ctx) => {
     let query = ctx.db.selectFrom("billing.clientAccounts").selectAll();
 

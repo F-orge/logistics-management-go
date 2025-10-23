@@ -1,6 +1,6 @@
 import { Disputes } from "../../../../zod.schema";
 import type { BillingQueryResolvers } from "./../../../types.generated";
-export const BillingQuery: Pick<BillingQueryResolvers, "dispute" | "disputes"> =
+export const BillingQuery: Pick<BillingQueryResolvers, 'dispute'|'disputes'> =
   {
     disputes: async (_parent, args, ctx) => {
       let query = ctx.db.selectFrom("billing.disputes").selectAll();

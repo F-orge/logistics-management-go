@@ -4,10 +4,7 @@ import {
   UpdateGeofenceEventInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createGeofenceEvent" | "removeGeofenceEvent" | "updateGeofenceEvent"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createGeofenceEvent'|'removeGeofenceEvent'|'updateGeofenceEvent'> = {
   createGeofenceEvent: async (_parent, args, ctx) => {
     const payload = CreateGeofenceEventInputSchema().parse(args.value);
 

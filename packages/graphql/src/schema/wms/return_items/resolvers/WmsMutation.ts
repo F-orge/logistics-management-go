@@ -4,10 +4,7 @@ import {
   UpdateReturnItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createReturnItem" | "removeReturnItem" | "updateReturnItem"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createReturnItem'|'removeReturnItem'|'updateReturnItem'> = {
   createReturnItem: async (_parent, args, ctx) => {
     const payload = CreateReturnItemInputSchema().parse(args.value);
 

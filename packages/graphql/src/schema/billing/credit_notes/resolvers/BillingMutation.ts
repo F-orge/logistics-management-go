@@ -4,10 +4,7 @@ import {
   UpdateCreditNoteInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
-export const BillingMutation: Pick<
-  BillingMutationResolvers,
-  "createCreditNote" | "removeCreditNote" | "updateCreditNote"
-> = {
+export const BillingMutation: Pick<BillingMutationResolvers, 'createCreditNote'|'removeCreditNote'|'updateCreditNote'> = {
   createCreditNote: async (_parent, args, ctx) => {
     const payload = CreateCreditNoteInputSchema().parse(args.value);
 

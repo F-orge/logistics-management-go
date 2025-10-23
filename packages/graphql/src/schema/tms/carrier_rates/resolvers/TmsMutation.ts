@@ -4,10 +4,7 @@ import {
   UpdateCarrierRateInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createCarrierRate" | "removeCarrierRate" | "updateCarrierRate"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createCarrierRate'|'removeCarrierRate'|'updateCarrierRate'> = {
   createCarrierRate: async (_parent, args, ctx) => {
     const payload = CreateCarrierRateInputSchema().parse(args.value);
 

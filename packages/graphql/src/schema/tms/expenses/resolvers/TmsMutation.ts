@@ -4,10 +4,7 @@ import {
   UpdateExpenseInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createExpense" | "removeExpense" | "updateExpense"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createExpense'|'removeExpense'|'updateExpense'> = {
   createExpense: async (_parent, args, ctx) => {
     const payload = CreateExpenseInputSchema().parse(args.value);
 

@@ -4,10 +4,7 @@ import {
   UpdatePickBatchInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createPickBatch" | "removePickBatch" | "updatePickBatch"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createPickBatch'|'removePickBatch'|'updatePickBatch'> = {
   createPickBatch: async (_parent, args, ctx) => {
     const payload = CreatePickBatchInputSchema().parse(args.value);
 

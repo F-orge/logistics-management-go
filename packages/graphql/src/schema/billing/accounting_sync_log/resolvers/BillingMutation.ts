@@ -4,12 +4,7 @@ import {
   UpdateAccountingSyncLogInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
-export const BillingMutation: Pick<
-  BillingMutationResolvers,
-  | "createAccountingSyncLog"
-  | "removeAccountingSyncLog"
-  | "updateAccountingSyncLog"
-> = {
+export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountingSyncLog'|'removeAccountingSyncLog'|'updateAccountingSyncLog'> = {
   createAccountingSyncLog: async (_parent, args, ctx) => {
     const payload = CreateAccountingSyncLogInputSchema().parse(args.value);
 

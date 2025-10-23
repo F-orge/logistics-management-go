@@ -4,10 +4,7 @@ import {
   UpdateBinThresholdInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createBinThreshold" | "removeBinThreshold" | "updateBinThreshold"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createBinThreshold'|'removeBinThreshold'|'updateBinThreshold'> = {
   createBinThreshold: async (_parent, args, ctx) => {
     const payload = CreateBinThresholdInputSchema().parse(args.value);
 

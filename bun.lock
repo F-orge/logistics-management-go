@@ -17,6 +17,7 @@
       "name": "@apps/backend",
       "version": "0.0.0",
       "dependencies": {
+        "@faker-js/faker": "^10.1.0",
         "@hono/zod-validator": "^0.7.4",
         "@packages/db": "workspace:*",
         "@packages/graphql": "workspace:*",

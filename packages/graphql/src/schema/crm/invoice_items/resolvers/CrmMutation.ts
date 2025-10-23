@@ -4,10 +4,7 @@ import {
   UpdateInvoiceLineItemInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<
-  CrmMutationResolvers,
-  "createInvoiceItem" | "removeInvoiceItem" | "updateInvoiceItem"
-> = {
+export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoiceItem'|'removeInvoiceItem'|'updateInvoiceItem'> = {
   createInvoiceItem: async (_parent, args, ctx) => {
     const payload = CreateInvoiceItemInputSchema().parse(args.value);
 

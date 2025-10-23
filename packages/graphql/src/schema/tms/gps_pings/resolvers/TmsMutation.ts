@@ -4,10 +4,7 @@ import {
   UpdateGpsPingInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createGpsPing" | "removeGpsPing" | "updateGpsPing"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createGpsPing'|'removeGpsPing'|'updateGpsPing'> = {
   createGpsPing: async (_parent, args, ctx) => {
     const payload = CreateGpsPingInputSchema().parse(args.value);
 

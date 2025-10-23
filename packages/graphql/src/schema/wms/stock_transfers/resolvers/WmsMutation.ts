@@ -4,10 +4,7 @@ import {
   UpdateStockTransferInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createStockTransfer" | "removeStockTransfer" | "updateStockTransfer"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createStockTransfer'|'removeStockTransfer'|'updateStockTransfer'> = {
   createStockTransfer: async (_parent, args, ctx) => {
     const payload = CreateStockTransferInputSchema().parse(args.value);
 
