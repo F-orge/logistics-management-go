@@ -11,7 +11,13 @@
     "moduleResolution": "node",
     "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": false,
-    "noImplicitOverride": true
+    "noImplicitOverride": true,
+    "plugins": [
+      {
+        "name": "@0no-co/graphqlsp",
+        "schema": "./schema.graphql"
+      }
+    ]
   },
   "include": [
     "index.ts",

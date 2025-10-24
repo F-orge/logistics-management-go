@@ -1,6 +1,7 @@
-import * as z from 'zod'
+/* eslint-disable */
+import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -5749,1999 +5750,3688 @@ export type WmsQueryWmsProductsArgs = {
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
-
-type Properties<T> = Required<{
-  [K in keyof T]: z.ZodType<T[K]>;
+export type CreateAccountTransactionMutationVariables = Exact<{
+  accountTransaction: CreateAccountTransactionInput;
 }>;
 
-type definedNonNullAny = {};
 
-export const isDefinedNonNullAny = (v: any): v is definedNonNullAny => v !== undefined && v !== null;
+export type CreateAccountTransactionMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createAccountTransaction: { __typename?: 'AccountTransactions', id: string } } | null };
 
-export const definedNonNullAnySchema = z.any().refine((v) => isDefinedNonNullAny(v));
+export type UpdateAccountTransactionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  accountTransaction: UpdateAccountTransactionInput;
+}>;
 
-export const BillingInvoiceStatusSchema = z.enum(BillingInvoiceStatus);
 
-export const CarrierRateUnitSchema = z.enum(CarrierRateUnit);
+export type UpdateAccountTransactionMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateAccountTransaction: { __typename?: 'AccountTransactions', id: string } } | null };
 
-export const CasePrioritySchema = z.enum(CasePriority);
+export type RemoveAccountTransactionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
 
-export const CaseStatusSchema = z.enum(CaseStatus);
 
-export const CaseTypeSchema = z.enum(CaseType);
+export type RemoveAccountTransactionMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeAccountTransaction: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
-export const CrmInvoicePaymentMethodSchema = z.enum(CrmInvoicePaymentMethod);
+export type CreateAccountingSyncLogMutationVariables = Exact<{
+  accountingSyncLog: CreateAccountingSyncLogInput;
+}>;
 
-export const CurrencySchema = z.enum(Currency);
 
-export const DeliveryFailureReasonSchema = z.enum(DeliveryFailureReason);
+export type CreateAccountingSyncLogMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createAccountingSyncLog: { __typename?: 'AccountingSyncLogs', id: string } } | null };
 
-export const DeliveryRouteStatusSchema = z.enum(DeliveryRouteStatus);
+export type UpdateAccountingSyncLogMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  accountingSyncLog: UpdateAccountingSyncLogInput;
+}>;
 
-export const DeliveryTaskStatusSchema = z.enum(DeliveryTaskStatus);
 
-export const DisputeStatusSchema = z.enum(DisputeStatus);
+export type UpdateAccountingSyncLogMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateAccountingSyncLog: { __typename?: 'AccountingSyncLogs', id: string } } | null };
 
-export const DocumentTypeSchema = z.enum(DocumentType);
+export type RemoveAccountingSyncLogMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
 
-export const DriverScheduleReasonSchema = z.enum(DriverScheduleReason);
 
-export const DriverStatusSchema = z.enum(DriverStatus);
+export type RemoveAccountingSyncLogMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeAccountingSyncLog: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
-export const ExpenseStatusSchema = z.enum(ExpenseStatus);
+export type CreateClientAccountMutationVariables = Exact<{
+  clientAccount: CreateClientAccountInput;
+}>;
 
-export const ExpenseTypeSchema = z.enum(ExpenseType);
 
-export const GeofenceEventTypeSchema = z.enum(GeofenceEventType);
+export type CreateClientAccountMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createClientAccount: { __typename?: 'ClientAccounts', id: string } } | null };
 
-export const InboundShipmentStatusSchema = z.enum(InboundShipmentStatus);
+export type UpdateClientAccountMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  clientAccount: UpdateClientAccountInput;
+}>;
 
-export const InteractionTypeSchema = z.enum(InteractionType);
 
-export const InventoryAdjustmentReasonSchema = z.enum(InventoryAdjustmentReason);
+export type UpdateClientAccountMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateClientAccount: { __typename?: 'ClientAccounts', id: string } } | null };
 
-export const InventoryStockStatusSchema = z.enum(InventoryStockStatus);
+export type RemoveClientAccountMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
 
-export const InvoiceStatusSchema = z.enum(InvoiceStatus);
 
-export const LeadSourceSchema = z.enum(LeadSource);
+export type RemoveClientAccountMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeClientAccount: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
-export const LeadStatusSchema = z.enum(LeadStatus);
+export type CreateCreditNoteMutationVariables = Exact<{
+  creditNote: CreateCreditNoteInput;
+}>;
 
-export const LocationTypeSchema = z.enum(LocationType);
 
-export const OpportunitySourceSchema = z.enum(OpportunitySource);
+export type CreateCreditNoteMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createCreditNote: { __typename?: 'CreditNotes', id: string } } | null };
 
-export const OpportunityStageSchema = z.enum(OpportunityStage);
+export type UpdateCreditNoteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  creditNote: UpdateCreditNoteInput;
+}>;
 
-export const OutboundShipmentStatusSchema = z.enum(OutboundShipmentStatus);
 
-export const PartnerInvoiceStatusSchema = z.enum(PartnerInvoiceStatus);
+export type UpdateCreditNoteMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateCreditNote: { __typename?: 'CreditNotes', id: string } } | null };
 
-export const PaymentMethodSchema = z.enum(PaymentMethod);
+export type RemoveCreditNoteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
 
-export const PaymentStatusSchema = z.enum(PaymentStatus);
 
-export const PickBatchStatusSchema = z.enum(PickBatchStatus);
+export type RemoveCreditNoteMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeCreditNote: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
-export const PickStrategySchema = z.enum(PickStrategy);
+export type CreateDisputeMutationVariables = Exact<{
+  dispute: CreateDisputeInput;
+}>;
 
-export const PricingModelSchema = z.enum(PricingModel);
 
-export const ProductStatusSchema = z.enum(ProductStatus);
+export type CreateDisputeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createDispute: { __typename?: 'Disputes', id: string } } | null };
 
-export const ProductTypeSchema = z.enum(ProductType);
+export type UpdateDisputeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  dispute: UpdateDisputeInput;
+}>;
 
-export const ProofOfDeliveryTypeSchema = z.enum(ProofOfDeliveryType);
 
-export const ProofTypeSchema = z.enum(ProofType);
+export type UpdateDisputeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateDispute: { __typename?: 'Disputes', id: string } } | null };
 
-export const QuoteStatusSchema = z.enum(QuoteStatus);
+export type RemoveDisputeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
 
-export const RecordTypeSchema = z.enum(RecordType);
 
-export const ReturnItemConditionSchema = z.enum(ReturnItemCondition);
+export type RemoveDisputeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeDispute: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
-export const ReturnStatusSchema = z.enum(ReturnStatus);
+export type CreateInvoiceLineItemMutationVariables = Exact<{
+  invoiceLineItem: CreateInvoiceLineItemInput;
+}>;
 
-export const SalesOrderStatusSchema = z.enum(SalesOrderStatus);
 
-export const ServiceTypeSchema = z.enum(ServiceType);
+export type CreateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
 
-export const ShipmentLegStatusSchema = z.enum(ShipmentLegStatus);
+export type UpdateInvoiceLineItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  invoiceLineItem: UpdateInvoiceLineItemInput;
+}>;
 
-export const StockTransferStatusSchema = z.enum(StockTransferStatus);
 
-export const SurchargeCalculationMethodSchema = z.enum(SurchargeCalculationMethod);
+export type UpdateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
 
-export const SyncStatusSchema = z.enum(SyncStatus);
-
-export const TaskEventStatusSchema = z.enum(TaskEventStatus);
-
-export const TaskItemStatusSchema = z.enum(TaskItemStatus);
-
-export const TaskStatusSchema = z.enum(TaskStatus);
-
-export const TaskTypeSchema = z.enum(TaskType);
-
-export const TransactionTypeSchema = z.enum(TransactionType);
-
-export const TripStatusSchema = z.enum(TripStatus);
-
-export const TripStopStatusSchema = z.enum(TripStopStatus);
-
-export const VehicleServiceTypeSchema = z.enum(VehicleServiceType);
-
-export const VehicleStatusSchema = z.enum(VehicleStatus);
-
-export function CreateAccountTransactionInputSchema(): z.ZodObject<Properties<CreateAccountTransactionInput>> {
-  return z.object({
-    amount: z.number(),
-    clientAccountId: z.string(),
-    description: z.string().nullish(),
-    processedByUserId: z.string().nullish(),
-    referenceNumber: z.string().nullish(),
-    runningBalance: z.number().nullish(),
-    sourceRecordId: z.string().nullish(),
-    sourceRecordType: z.string().nullish(),
-    transactionDate: z.string().nullish(),
-    type: TransactionTypeSchema
-  })
-}
-
-export function CreateAccountingSyncLogInputSchema(): z.ZodObject<Properties<CreateAccountingSyncLogInput>> {
-  return z.object({
-    errorMessage: z.string().nullish(),
-    externalId: z.string().nullish(),
-    externalSystem: z.string(),
-    lastSyncAt: z.string().nullish(),
-    nextRetryAt: z.string().nullish(),
-    recordId: z.string(),
-    recordType: z.string(),
-    requestPayload: z.string().nullish(),
-    responsePayload: z.string().nullish(),
-    retryCount: z.number().nullish(),
-    status: SyncStatusSchema.nullish()
-  })
-}
-
-export function CreateAttachmentInputSchema(): z.ZodObject<Properties<CreateAttachmentInput>> {
-  return z.object({
-    file: z.file().nullish(),
-    recordId: z.string().nullish(),
-    recordType: RecordTypeSchema.nullish()
-  })
-}
-
-export function CreateBillingInvoiceInputSchema(): z.ZodObject<Properties<CreateBillingInvoiceInput>> {
-  return z.object({
-    amountPaid: z.number().nullish(),
-    clientId: z.string(),
-    createdByUserId: z.string().nullish(),
-    currency: z.string().nullish(),
-    discountAmount: z.number().nullish(),
-    dueDate: z.string(),
-    invoiceNumber: z.string(),
-    issueDate: z.string(),
-    notes: z.string().nullish(),
-    paidAt: z.string().nullish(),
-    paymentTerms: z.string().nullish(),
-    quoteId: z.string().nullish(),
-    sentAt: z.string().nullish(),
-    status: BillingInvoiceStatusSchema.nullish(),
-    subtotal: z.number().nullish(),
-    taxAmount: z.number().nullish(),
-    totalAmount: z.number()
-  })
-}
-
-export function CreateBinThresholdInputSchema(): z.ZodObject<Properties<CreateBinThresholdInput>> {
-  return z.object({
-    alertThreshold: z.number().nullish(),
-    isActive: z.boolean().nullish(),
-    locationId: z.string(),
-    maxQuantity: z.number(),
-    minQuantity: z.number(),
-    productId: z.string(),
-    reorderQuantity: z.number().nullish()
-  })
-}
-
-export function CreateCampaignInputSchema(): z.ZodObject<Properties<CreateCampaignInput>> {
-  return z.object({
-    budget: z.number().nullish(),
-    endDate: z.string().nullish(),
-    name: z.string(),
-    startDate: z.string().nullish()
-  })
-}
-
-export function CreateCarrierInputSchema(): z.ZodObject<Properties<CreateCarrierInput>> {
-  return z.object({
-    contactEmail: z.string().nullish(),
-    contactPerson: z.string().nullish(),
-    contactPhone: z.string().nullish(),
-    name: z.string(),
-    servicesOffered: z.string().nullish()
-  })
-}
-
-export function CreateCarrierRateInputSchema(): z.ZodObject<Properties<CreateCarrierRateInput>> {
-  return z.object({
-    carrierId: z.string(),
-    destination: z.string().nullish(),
-    origin: z.string().nullish(),
-    rate: z.number(),
-    serviceType: z.string().nullish(),
-    unit: CarrierRateUnitSchema.nullish()
-  })
-}
-
-export function CreateCaseInputSchema(): z.ZodObject<Properties<CreateCaseInput>> {
-  return z.object({
-    caseNumber: z.string(),
-    contactId: z.string().nullish(),
-    description: z.string().nullish(),
-    ownerId: z.string(),
-    priority: CasePrioritySchema.nullish(),
-    status: CaseStatusSchema.nullish(),
-    type: CaseTypeSchema.nullish()
-  })
-}
-
-export function CreateClientAccountInputSchema(): z.ZodObject<Properties<CreateClientAccountInput>> {
-  return z.object({
-    availableCredit: z.number().nullish(),
-    clientId: z.string(),
-    creditLimit: z.number().nullish(),
-    currency: z.string().nullish(),
-    isCreditApproved: z.boolean().nullish(),
-    lastPaymentDate: z.string().nullish(),
-    paymentTermsDays: z.number().nullish(),
-    walletBalance: z.number().nullish()
-  })
-}
-
-export function CreateCompanyInputSchema(): z.ZodObject<Properties<CreateCompanyInput>> {
-  return z.object({
-    annualRevenue: z.number().nullish(),
-    city: z.string().nullish(),
-    country: z.string().nullish(),
-    industry: z.string().nullish(),
-    name: z.string(),
-    ownerId: z.string().nullish(),
-    phoneNumber: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    state: z.string().nullish(),
-    street: z.string().nullish(),
-    website: z.string().nullish()
-  })
-}
-
-export function CreateContactInputSchema(): z.ZodObject<Properties<CreateContactInput>> {
-  return z.object({
-    companyId: z.string().nullish(),
-    email: z.string(),
-    jobTitle: z.string().nullish(),
-    name: z.string(),
-    ownerId: z.string(),
-    phoneNumber: z.string().nullish()
-  })
-}
-
-export function CreateCreditNoteInputSchema(): z.ZodObject<Properties<CreateCreditNoteInput>> {
-  return z.object({
-    amount: z.number(),
-    appliedAt: z.string().nullish(),
-    createdByUserId: z.string().nullish(),
-    creditNoteNumber: z.string(),
-    currency: z.string().nullish(),
-    disputeId: z.string().nullish(),
-    invoiceId: z.string(),
-    issueDate: z.string(),
-    notes: z.string().nullish(),
-    reason: z.string()
-  })
-}
-
-export function CreateCustomerTrackingLinkInputSchema(): z.ZodObject<Properties<CreateCustomerTrackingLinkInput>> {
-  return z.object({
-    accessCount: z.number().nullish(),
-    deliveryTaskId: z.string(),
-    expiresAt: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    lastAccessedAt: z.string().nullish(),
-    trackingToken: z.string()
-  })
-}
-
-export function CreateDeliveryRouteInputSchema(): z.ZodObject<Properties<CreateDeliveryRouteInput>> {
-  return z.object({
-    completedAt: z.string().nullish(),
-    driverId: z.string(),
-    estimatedDurationMinutes: z.number().nullish(),
-    optimizedRouteData: z.string().nullish(),
-    routeDate: z.string(),
-    startedAt: z.string().nullish(),
-    status: DeliveryRouteStatusSchema.nullish(),
-    totalDistanceKm: z.number().nullish()
-  })
-}
-
-export function CreateDeliveryTaskInputSchema(): z.ZodObject<Properties<CreateDeliveryTaskInput>> {
-  return z.object({
-    actualArrivalTime: z.string().nullish(),
-    attemptCount: z.number().nullish(),
-    deliveryAddress: z.string(),
-    deliveryInstructions: z.string().nullish(),
-    deliveryRouteId: z.string(),
-    deliveryTime: z.string().nullish(),
-    estimatedArrivalTime: z.string().nullish(),
-    failureReason: DeliveryFailureReasonSchema.nullish(),
-    packageId: z.string(),
-    recipientName: z.string().nullish(),
-    recipientPhone: z.string().nullish(),
-    routeSequence: z.number(),
-    status: DeliveryTaskStatusSchema.nullish()
-  })
-}
-
-export function CreateDisputeInputSchema(): z.ZodObject<Properties<CreateDisputeInput>> {
-  return z.object({
-    clientId: z.string(),
-    disputedAmount: z.number().nullish(),
-    lineItemId: z.string(),
-    reason: z.string(),
-    resolutionNotes: z.string().nullish(),
-    resolvedAt: z.string().nullish(),
-    resolvedByUserId: z.string().nullish(),
-    status: DisputeStatusSchema.nullish(),
-    submittedAt: z.string().nullish()
-  })
-}
-
-export function CreateDmsProofOfDeliveryInputSchema(): z.ZodObject<Properties<CreateDmsProofOfDeliveryInput>> {
-  return z.object({
-    deliveryTaskId: z.string(),
-    filePath: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    recipientName: z.string().nullish(),
-    signatureData: z.string().nullish(),
-    timestamp: z.string().nullish(),
-    type: ProofOfDeliveryTypeSchema,
-    verificationCode: z.string().nullish()
-  })
-}
-
-export function CreateDocumentInputSchema(): z.ZodObject<Properties<CreateDocumentInput>> {
-  return z.object({
-    documentType: DocumentTypeSchema,
-    fileName: z.string(),
-    filePath: z.string(),
-    fileSize: z.number().nullish(),
-    mimeType: z.string().nullish(),
-    recordId: z.string(),
-    recordType: z.string(),
-    uploadedByUserId: z.string().nullish()
-  })
-}
-
-export function CreateDriverInputSchema(): z.ZodObject<Properties<CreateDriverInput>> {
-  return z.object({
-    contactPhone: z.string().nullish(),
-    licenseExpiryDate: z.string().nullish(),
-    licenseNumber: z.string(),
-    status: DriverStatusSchema.nullish(),
-    userId: z.string()
-  })
-}
-
-export function CreateDriverLocationInputSchema(): z.ZodObject<Properties<CreateDriverLocationInput>> {
-  return z.object({
-    accuracy: z.number().nullish(),
-    altitude: z.number().nullish(),
-    driverId: z.string(),
-    heading: z.number().nullish(),
-    latitude: z.number(),
-    longitude: z.number(),
-    speedKmh: z.number().nullish(),
-    timestamp: z.string().nullish()
-  })
-}
-
-export function CreateDriverScheduleInputSchema(): z.ZodObject<Properties<CreateDriverScheduleInput>> {
-  return z.object({
-    driverId: z.string(),
-    endDate: z.string(),
-    reason: DriverScheduleReasonSchema.nullish(),
-    startDate: z.string()
-  })
-}
-
-export function CreateExpenseInputSchema(): z.ZodObject<Properties<CreateExpenseInput>> {
-  return z.object({
-    amount: z.number(),
-    currency: CurrencySchema.nullish(),
-    description: z.string().nullish(),
-    driverId: z.string().nullish(),
-    expenseDate: z.string().nullish(),
-    fuelQuantity: z.number().nullish(),
-    odometerReading: z.number().nullish(),
-    receiptUrl: z.string().nullish(),
-    status: ExpenseStatusSchema.nullish(),
-    tripId: z.string().nullish(),
-    type: ExpenseTypeSchema.nullish()
-  })
-}
-
-export function CreateGeofenceEventInputSchema(): z.ZodObject<Properties<CreateGeofenceEventInput>> {
-  return z.object({
-    eventType: GeofenceEventTypeSchema,
-    geofenceId: z.string(),
-    timestamp: z.string(),
-    vehicleId: z.string()
-  })
-}
-
-export function CreateGeofenceInputSchema(): z.ZodObject<Properties<CreateGeofenceInput>> {
-  return z.object({
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    name: z.string()
-  })
-}
-
-export function CreateGpsPingInputSchema(): z.ZodObject<Properties<CreateGpsPingInput>> {
-  return z.object({
-    latitude: z.number(),
-    longitude: z.number(),
-    timestamp: z.string(),
-    vehicleId: z.string()
-  })
-}
-
-export function CreateInboundShipmentInputSchema(): z.ZodObject<Properties<CreateInboundShipmentInput>> {
-  return z.object({
-    actualArrivalDate: z.string().nullish(),
-    clientId: z.string().nullish(),
-    expectedArrivalDate: z.string().nullish(),
-    status: InboundShipmentStatusSchema.nullish(),
-    warehouseId: z.string()
-  })
-}
-
-export function CreateInboundShipmentItemInputSchema(): z.ZodObject<Properties<CreateInboundShipmentItemInput>> {
-  return z.object({
-    discrepancyNotes: z.string().nullish(),
-    expectedQuantity: z.number(),
-    inboundShipmentId: z.string(),
-    productId: z.string(),
-    receivedQuantity: z.number().nullish()
-  })
-}
-
-export function CreateInteractionInputSchema(): z.ZodObject<Properties<CreateInteractionInput>> {
-  return z.object({
-    caseId: z.string().nullish(),
-    contactId: z.string(),
-    interactionDate: z.string().nullish(),
-    notes: z.string().nullish(),
-    outcome: z.string().nullish(),
-    type: InteractionTypeSchema.nullish(),
-    userId: z.string()
-  })
-}
-
-export function CreateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<CreateInventoryAdjustmentInput>> {
-  return z.object({
-    notes: z.string().nullish(),
-    productId: z.string(),
-    quantityChange: z.number(),
-    reason: InventoryAdjustmentReasonSchema.nullish(),
-    userId: z.string(),
-    warehouseId: z.string()
-  })
-}
-
-export function CreateInventoryBatchInputSchema(): z.ZodObject<Properties<CreateInventoryBatchInput>> {
-  return z.object({
-    batchNumber: z.string(),
-    expirationDate: z.string().nullish(),
-    productId: z.string()
-  })
-}
-
-export function CreateInventoryStockInputSchema(): z.ZodObject<Properties<CreateInventoryStockInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    lastCountedAt: z.string().nullish(),
-    lastMovementAt: z.string().nullish(),
-    locationId: z.string(),
-    productId: z.string(),
-    quantity: z.number(),
-    reservedQuantity: z.number(),
-    status: InventoryStockStatusSchema.nullish()
-  })
-}
-
-export function CreateInvoiceInputSchema(): z.ZodObject<Properties<CreateInvoiceInput>> {
-  return z.object({
-    dueDate: z.string().nullish(),
-    issueDate: z.string().nullish(),
-    opportunityId: z.string().nullish(),
-    paidAt: z.string().nullish(),
-    paymentMethod: PaymentMethodSchema.nullish(),
-    sentAt: z.string().nullish(),
-    status: InvoiceStatusSchema.nullish(),
-    total: z.number().nullish()
-  })
-}
-
-export function CreateInvoiceItemInputSchema(): z.ZodObject<Properties<CreateInvoiceItemInput>> {
-  return z.object({
-    invoiceId: z.string(),
-    price: z.number(),
-    productId: z.string(),
-    quantity: z.number()
-  })
-}
-
-export function CreateInvoiceLineItemInputSchema(): z.ZodObject<Properties<CreateInvoiceLineItemInput>> {
-  return z.object({
-    description: z.string(),
-    discountRate: z.number().nullish(),
-    invoiceId: z.string(),
-    quantity: z.number(),
-    sourceRecordId: z.string().nullish(),
-    sourceRecordType: z.string().nullish(),
-    taxRate: z.number().nullish(),
-    unitPrice: z.number()
-  })
-}
-
-export function CreateLeadInputSchema(): z.ZodObject<Properties<CreateLeadInput>> {
-  return z.object({
-    campaignId: z.string().nullish(),
-    email: z.string(),
-    leadScore: z.number().nullish(),
-    leadSource: LeadSourceSchema.nullish(),
-    name: z.string(),
-    ownerId: z.string(),
-    status: LeadStatusSchema.nullish()
-  })
-}
-
-export function CreateLocationInputSchema(): z.ZodObject<Properties<CreateLocationInput>> {
-  return z.object({
-    barcode: z.string().nullish(),
-    hazmatApproved: z.boolean().nullish(),
-    isActive: z.boolean().nullish(),
-    isPickable: z.boolean().nullish(),
-    isReceivable: z.boolean().nullish(),
-    level: z.number().nullish(),
-    maxPallets: z.number().nullish(),
-    maxVolume: z.number().nullish(),
-    maxWeight: z.number().nullish(),
-    name: z.string(),
-    parentLocationId: z.string().nullish(),
-    path: z.string().nullish(),
-    temperatureControlled: z.boolean().nullish(),
-    type: LocationTypeSchema,
-    warehouseId: z.string(),
-    xCoordinate: z.number().nullish(),
-    yCoordinate: z.number().nullish(),
-    zCoordinate: z.number().nullish()
-  })
-}
-
-export function CreateNotificationInputSchema(): z.ZodObject<Properties<CreateNotificationInput>> {
-  return z.object({
-    isRead: z.boolean().nullish(),
-    link: z.string().nullish(),
-    message: z.string(),
-    userId: z.string()
-  })
-}
-
-export function CreateOpportunityInputSchema(): z.ZodObject<Properties<CreateOpportunityInput>> {
-  return z.object({
-    campaignId: z.string().nullish(),
-    companyId: z.string().nullish(),
-    contactId: z.string().nullish(),
-    dealValue: z.number().nullish(),
-    expectedCloseDate: z.string().nullish(),
-    lostReason: z.string().nullish(),
-    name: z.string(),
-    ownerId: z.string(),
-    probability: z.number().nullish(),
-    source: OpportunitySourceSchema.nullish(),
-    stage: OpportunityStageSchema.nullish()
-  })
-}
-
-export function CreateOpportunityProductInputSchema(): z.ZodObject<Properties<CreateOpportunityProductInput>> {
-  return z.object({
-    opportunityId: z.string(),
-    productId: z.string(),
-    quantity: z.number()
-  })
-}
-
-export function CreateOutboundShipmentInputSchema(): z.ZodObject<Properties<CreateOutboundShipmentInput>> {
-  return z.object({
-    carrier: z.string().nullish(),
-    salesOrderId: z.string(),
-    status: OutboundShipmentStatusSchema.nullish(),
-    trackingNumber: z.string().nullish(),
-    warehouseId: z.string()
-  })
-}
-
-export function CreateOutboundShipmentItemInputSchema(): z.ZodObject<Properties<CreateOutboundShipmentItemInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    outboundShipmentId: z.string(),
-    productId: z.string(),
-    quantityShipped: z.number(),
-    salesOrderItemId: z.string()
-  })
-}
-
-export function CreatePackageInputSchema(): z.ZodObject<Properties<CreatePackageInput>> {
-  return z.object({
-    carrier: z.string().nullish(),
-    height: z.number().nullish(),
-    insuranceValue: z.number().nullish(),
-    isFragile: z.boolean().nullish(),
-    isHazmat: z.boolean().nullish(),
-    length: z.number().nullish(),
-    packageNumber: z.string(),
-    packageType: z.string().nullish(),
-    packedAt: z.string().nullish(),
-    packedByUserId: z.string().nullish(),
-    requiresSignature: z.boolean().nullish(),
-    salesOrderId: z.string(),
-    serviceLevel: z.string().nullish(),
-    shippedAt: z.string().nullish(),
-    trackingNumber: z.string().nullish(),
-    warehouseId: z.string(),
-    weight: z.number().nullish(),
-    width: z.number().nullish()
-  })
-}
-
-export function CreatePackageItemInputSchema(): z.ZodObject<Properties<CreatePackageItemInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    expiryDate: z.string().nullish(),
-    lotNumber: z.string().nullish(),
-    packageId: z.string(),
-    productId: z.string(),
-    quantity: z.number(),
-    serialNumbers: z.array(z.string().nullable()).nullish(),
-    unitWeight: z.number().nullish()
-  })
-}
-
-export function CreatePartnerInvoiceInputSchema(): z.ZodObject<Properties<CreatePartnerInvoiceInput>> {
-  return z.object({
-    carrierId: z.string(),
-    invoiceDate: z.string(),
-    invoiceNumber: z.string(),
-    status: PartnerInvoiceStatusSchema.nullish(),
-    totalAmount: z.number()
-  })
-}
-
-export function CreatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<CreatePartnerInvoiceItemInput>> {
-  return z.object({
-    amount: z.number(),
-    partnerInvoiceId: z.string(),
-    shipmentLegId: z.string()
-  })
-}
-
-export function CreatePaymentInputSchema(): z.ZodObject<Properties<CreatePaymentInput>> {
-  return z.object({
-    amount: z.number(),
-    currency: z.string().nullish(),
-    exchangeRate: z.number().nullish(),
-    fees: z.number().nullish(),
-    gatewayReference: z.string().nullish(),
-    invoiceId: z.string(),
-    notes: z.string().nullish(),
-    paymentDate: z.string().nullish(),
-    paymentMethod: PaymentMethodSchema,
-    processedAt: z.string().nullish(),
-    processedByUserId: z.string().nullish(),
-    status: PaymentStatusSchema.nullish(),
-    transactionId: z.string().nullish()
-  })
-}
-
-export function CreatePickBatchInputSchema(): z.ZodObject<Properties<CreatePickBatchInput>> {
-  return z.object({
-    actualDuration: z.number().nullish(),
-    assignedUserId: z.string().nullish(),
-    batchNumber: z.string(),
-    completedAt: z.string().nullish(),
-    completedItems: z.number().nullish(),
-    estimatedDuration: z.number().nullish(),
-    priority: z.number().nullish(),
-    startedAt: z.string().nullish(),
-    status: PickBatchStatusSchema.nullish(),
-    strategy: PickStrategySchema,
-    totalItems: z.number().nullish(),
-    warehouseId: z.string(),
-    waveId: z.string().nullish(),
-    zoneRestrictions: z.array(z.string().nullable()).nullish()
-  })
-}
-
-export function CreatePickBatchItemInputSchema(): z.ZodObject<Properties<CreatePickBatchItemInput>> {
-  return z.object({
-    actualPickTime: z.number().nullish(),
-    estimatedPickTime: z.number().nullish(),
-    orderPriority: z.number().nullish(),
-    pickBatchId: z.string(),
-    salesOrderId: z.string()
-  })
-}
-
-export function CreateProductInputSchema(): z.ZodObject<Properties<CreateProductInput>> {
-  return z.object({
-    description: z.string().nullish(),
-    name: z.string(),
-    price: z.number(),
-    sku: z.string().nullish(),
-    type: ProductTypeSchema.nullish()
-  })
-}
-
-export function CreateProofOfDeliveryInputSchema(): z.ZodObject<Properties<CreateProofOfDeliveryInput>> {
-  return z.object({
-    filePath: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    timestamp: z.string(),
-    tripStopId: z.string(),
-    type: ProofTypeSchema.nullish()
-  })
-}
-
-export function CreatePutawayRuleInputSchema(): z.ZodObject<Properties<CreatePutawayRuleInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    locationType: LocationTypeSchema.nullish(),
-    maxQuantity: z.number().nullish(),
-    minQuantity: z.number().nullish(),
-    preferredLocationId: z.string().nullish(),
-    priority: z.number(),
-    productId: z.string(),
-    requiresHazmatApproval: z.boolean().nullish(),
-    requiresTemperatureControl: z.boolean().nullish(),
-    volumeThreshold: z.number().nullish(),
-    warehouseId: z.string(),
-    weightThreshold: z.number().nullish()
-  })
-}
-
-export function CreateQuoteInputSchema(): z.ZodObject<Properties<CreateQuoteInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    createdByUserId: z.string().nullish(),
-    destinationDetails: z.string(),
-    expiresAt: z.string().nullish(),
-    height: z.number().nullish(),
-    length: z.number().nullish(),
-    notes: z.string().nullish(),
-    originDetails: z.string(),
-    quoteNumber: z.string().nullish(),
-    quotedPrice: z.number(),
-    serviceLevel: z.string().nullish(),
-    status: QuoteStatusSchema.nullish(),
-    weight: z.number().nullish(),
-    width: z.number().nullish()
-  })
-}
-
-export function CreateRateCardInputSchema(): z.ZodObject<Properties<CreateRateCardInput>> {
-  return z.object({
-    createdByUserId: z.string().nullish(),
-    description: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    name: z.string(),
-    serviceType: ServiceTypeSchema,
-    validFrom: z.string(),
-    validTo: z.string().nullish()
-  })
-}
-
-export function CreateRateRuleInputSchema(): z.ZodObject<Properties<CreateRateRuleInput>> {
-  return z.object({
-    condition: z.string(),
-    isActive: z.boolean().nullish(),
-    maxValue: z.number().nullish(),
-    minValue: z.number().nullish(),
-    price: z.number(),
-    pricingModel: PricingModelSchema,
-    priority: z.number().nullish(),
-    rateCardId: z.string(),
-    value: z.string()
-  })
-}
-
-export function CreateReorderPointInputSchema(): z.ZodObject<Properties<CreateReorderPointInput>> {
-  return z.object({
-    productId: z.string(),
-    threshold: z.number(),
-    warehouseId: z.string()
-  })
-}
-
-export function CreateReturnInputSchema(): z.ZodObject<Properties<CreateReturnInput>> {
-  return z.object({
-    clientId: z.string(),
-    reason: z.string().nullish(),
-    returnNumber: z.string(),
-    salesOrderId: z.string().nullish(),
-    status: ReturnStatusSchema.nullish()
-  })
-}
-
-export function CreateReturnItemInputSchema(): z.ZodObject<Properties<CreateReturnItemInput>> {
-  return z.object({
-    condition: ReturnItemConditionSchema.nullish(),
-    productId: z.string(),
-    quantityExpected: z.number(),
-    quantityReceived: z.number().nullish(),
-    returnId: z.string()
-  })
-}
-
-export function CreateRouteInputSchema(): z.ZodObject<Properties<CreateRouteInput>> {
-  return z.object({
-    optimizedRouteData: z.string().nullish(),
-    totalDistance: z.number().nullish(),
-    totalDuration: z.number().nullish(),
-    tripId: z.string()
-  })
-}
-
-export function CreateSalesOrderInputSchema(): z.ZodObject<Properties<CreateSalesOrderInput>> {
-  return z.object({
-    clientId: z.string(),
-    crmOpportunityId: z.string().nullish(),
-    orderNumber: z.string(),
-    shippingAddress: z.string().nullish(),
-    status: SalesOrderStatusSchema.nullish()
-  })
-}
-
-export function CreateSalesOrderItemInputSchema(): z.ZodObject<Properties<CreateSalesOrderItemInput>> {
-  return z.object({
-    productId: z.string(),
-    quantityOrdered: z.number(),
-    salesOrderId: z.string()
-  })
-}
-
-export function CreateShipmentLegEventInputSchema(): z.ZodObject<Properties<CreateShipmentLegEventInput>> {
-  return z.object({
-    eventTimestamp: z.string(),
-    location: z.string().nullish(),
-    shipmentLegId: z.string(),
-    statusMessage: z.string().nullish()
-  })
-}
-
-export function CreateShipmentLegInputSchema(): z.ZodObject<Properties<CreateShipmentLegInput>> {
-  return z.object({
-    carrierId: z.string().nullish(),
-    endLocation: z.string().nullish(),
-    internalTripId: z.string().nullish(),
-    legSequence: z.number(),
-    shipmentId: z.string().nullish(),
-    startLocation: z.string().nullish(),
-    status: ShipmentLegStatusSchema.nullish()
-  })
-}
-
-export function CreateStockTransferInputSchema(): z.ZodObject<Properties<CreateStockTransferInput>> {
-  return z.object({
-    destinationWarehouseId: z.string(),
-    productId: z.string(),
-    quantity: z.number(),
-    sourceWarehouseId: z.string(),
-    status: StockTransferStatusSchema.nullish()
-  })
-}
-
-export function CreateSupplierInputSchema(): z.ZodObject<Properties<CreateSupplierInput>> {
-  return z.object({
-    contactPerson: z.string().nullish(),
-    email: z.string().nullish(),
-    name: z.string(),
-    phoneNumber: z.string().nullish()
-  })
-}
-
-export function CreateSurchargeInputSchema(): z.ZodObject<Properties<CreateSurchargeInput>> {
-  return z.object({
-    amount: z.number(),
-    calculationMethod: SurchargeCalculationMethodSchema,
-    description: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    name: z.string(),
-    type: z.string(),
-    validFrom: z.string().nullish(),
-    validTo: z.string().nullish()
-  })
-}
-
-export function CreateTaskEventInputSchema(): z.ZodObject<Properties<CreateTaskEventInput>> {
-  return z.object({
-    deliveryTaskId: z.string(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    notes: z.string().nullish(),
-    reason: z.string().nullish(),
-    status: TaskEventStatusSchema,
-    timestamp: z.string().nullish()
-  })
-}
-
-export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>> {
-  return z.object({
-    actualDuration: z.number().nullish(),
-    endTime: z.string().nullish(),
-    estimatedDuration: z.number().nullish(),
-    instructions: z.string().nullish(),
-    notes: z.string().nullish(),
-    pickBatchId: z.string().nullish(),
-    priority: z.number().nullish(),
-    sourceEntityId: z.string().nullish(),
-    sourceEntityType: z.string().nullish(),
-    startTime: z.string().nullish(),
-    status: TaskStatusSchema.nullish(),
-    taskNumber: z.string(),
-    type: TaskTypeSchema,
-    userId: z.string().nullish(),
-    warehouseId: z.string()
-  })
-}
-
-export function CreateTaskItemInputSchema(): z.ZodObject<Properties<CreateTaskItemInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    completedAt: z.string().nullish(),
-    destinationLocationId: z.string().nullish(),
-    expiryDate: z.string().nullish(),
-    lotNumber: z.string().nullish(),
-    notes: z.string().nullish(),
-    productId: z.string(),
-    quantityCompleted: z.number(),
-    quantityRequired: z.number(),
-    serialNumbers: z.array(z.string().nullable()).nullish(),
-    sourceLocationId: z.string().nullish(),
-    status: TaskItemStatusSchema.nullish(),
-    taskId: z.string()
-  })
-}
-
-export function CreateTripInputSchema(): z.ZodObject<Properties<CreateTripInput>> {
-  return z.object({
-    driverId: z.string().nullish(),
-    endLocation: z.string().nullish(),
-    endTime: z.string().nullish(),
-    startLocation: z.string().nullish(),
-    startTime: z.string().nullish(),
-    status: TripStatusSchema.nullish(),
-    vehicleId: z.string().nullish()
-  })
-}
-
-export function CreateTripStopInputSchema(): z.ZodObject<Properties<CreateTripStopInput>> {
-  return z.object({
-    actualArrivalTime: z.string().nullish(),
-    actualDepartureTime: z.string().nullish(),
-    address: z.string().nullish(),
-    estimatedArrivalTime: z.string().nullish(),
-    estimatedDepartureTime: z.string().nullish(),
-    sequence: z.number(),
-    shipmentId: z.string().nullish(),
-    status: TripStopStatusSchema.nullish(),
-    tripId: z.string()
-  })
-}
-
-export function CreateVehicleInputSchema(): z.ZodObject<Properties<CreateVehicleInput>> {
-  return z.object({
-    capacityVolume: z.number().nullish(),
-    capacityWeight: z.number().nullish(),
-    currentMileage: z.number().nullish(),
-    lastMaintenanceDate: z.string().nullish(),
-    make: z.string().nullish(),
-    model: z.string().nullish(),
-    registrationNumber: z.string(),
-    status: VehicleStatusSchema.nullish(),
-    vin: z.string().nullish(),
-    year: z.number().nullish()
-  })
-}
-
-export function CreateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<CreateVehicleMaintenanceInput>> {
-  return z.object({
-    cost: z.number().nullish(),
-    notes: z.string().nullish(),
-    serviceDate: z.string(),
-    serviceType: VehicleServiceTypeSchema.nullish(),
-    vehicleId: z.string()
-  })
-}
-
-export function CreateWarehouseInputSchema(): z.ZodObject<Properties<CreateWarehouseInput>> {
-  return z.object({
-    address: z.string().nullish(),
-    city: z.string().nullish(),
-    contactEmail: z.string().nullish(),
-    contactPerson: z.string().nullish(),
-    contactPhone: z.string().nullish(),
-    country: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    name: z.string(),
-    postalCode: z.string().nullish(),
-    state: z.string().nullish(),
-    timezone: z.string().nullish()
-  })
-}
-
-export function CreateWmsProductInputSchema(): z.ZodObject<Properties<CreateWmsProductInput>> {
-  return z.object({
-    barcode: z.string().nullish(),
-    clientId: z.string().nullish(),
-    costPrice: z.number().nullish(),
-    description: z.string().nullish(),
-    height: z.number().nullish(),
-    length: z.number().nullish(),
-    name: z.string(),
-    sku: z.string(),
-    status: ProductStatusSchema.nullish(),
-    supplierId: z.string().nullish(),
-    weight: z.number().nullish(),
-    width: z.number().nullish()
-  })
-}
-
-export function UpdateAccountTransactionInputSchema(): z.ZodObject<Properties<UpdateAccountTransactionInput>> {
-  return z.object({
-    amount: z.number().nullish(),
-    clientAccountId: z.string().nullish(),
-    description: z.string().nullish(),
-    processedByUserId: z.string().nullish(),
-    referenceNumber: z.string().nullish(),
-    runningBalance: z.number().nullish(),
-    sourceRecordId: z.string().nullish(),
-    sourceRecordType: z.string().nullish(),
-    transactionDate: z.string().nullish(),
-    type: TransactionTypeSchema.nullish()
-  })
-}
-
-export function UpdateAccountingSyncLogInputSchema(): z.ZodObject<Properties<UpdateAccountingSyncLogInput>> {
-  return z.object({
-    errorMessage: z.string().nullish(),
-    externalId: z.string().nullish(),
-    externalSystem: z.string().nullish(),
-    lastSyncAt: z.string().nullish(),
-    nextRetryAt: z.string().nullish(),
-    recordId: z.string().nullish(),
-    recordType: z.string().nullish(),
-    requestPayload: z.string().nullish(),
-    responsePayload: z.string().nullish(),
-    retryCount: z.number().nullish(),
-    status: SyncStatusSchema.nullish()
-  })
-}
-
-export function UpdateBillingInvoiceInputSchema(): z.ZodObject<Properties<UpdateBillingInvoiceInput>> {
-  return z.object({
-    amountPaid: z.number().nullish(),
-    clientId: z.string().nullish(),
-    createdByUserId: z.string().nullish(),
-    currency: z.string().nullish(),
-    discountAmount: z.number().nullish(),
-    dueDate: z.string().nullish(),
-    invoiceNumber: z.string().nullish(),
-    issueDate: z.string().nullish(),
-    notes: z.string().nullish(),
-    paidAt: z.string().nullish(),
-    paymentTerms: z.string().nullish(),
-    quoteId: z.string().nullish(),
-    sentAt: z.string().nullish(),
-    status: BillingInvoiceStatusSchema.nullish(),
-    subtotal: z.number().nullish(),
-    taxAmount: z.number().nullish(),
-    totalAmount: z.number().nullish()
-  })
-}
-
-export function UpdateBinThresholdInputSchema(): z.ZodObject<Properties<UpdateBinThresholdInput>> {
-  return z.object({
-    alertThreshold: z.number().nullish(),
-    isActive: z.boolean().nullish(),
-    locationId: z.string().nullish(),
-    maxQuantity: z.number().nullish(),
-    minQuantity: z.number().nullish(),
-    productId: z.string().nullish(),
-    reorderQuantity: z.number().nullish()
-  })
-}
-
-export function UpdateCampaignInputSchema(): z.ZodObject<Properties<UpdateCampaignInput>> {
-  return z.object({
-    budget: z.number().nullish(),
-    endDate: z.string().nullish(),
-    name: z.string().nullish(),
-    startDate: z.string().nullish()
-  })
-}
-
-export function UpdateCarrierInputSchema(): z.ZodObject<Properties<UpdateCarrierInput>> {
-  return z.object({
-    contactEmail: z.string().nullish(),
-    contactPerson: z.string().nullish(),
-    contactPhone: z.string().nullish(),
-    name: z.string().nullish(),
-    servicesOffered: z.string().nullish()
-  })
-}
-
-export function UpdateCarrierRateInputSchema(): z.ZodObject<Properties<UpdateCarrierRateInput>> {
-  return z.object({
-    carrierId: z.string().nullish(),
-    destination: z.string().nullish(),
-    origin: z.string().nullish(),
-    rate: z.number().nullish(),
-    serviceType: z.string().nullish(),
-    unit: CarrierRateUnitSchema.nullish()
-  })
-}
-
-export function UpdateCaseInputSchema(): z.ZodObject<Properties<UpdateCaseInput>> {
-  return z.object({
-    caseNumber: z.string().nullish(),
-    contactId: z.string().nullish(),
-    description: z.string().nullish(),
-    ownerId: z.string().nullish(),
-    priority: CasePrioritySchema.nullish(),
-    status: CaseStatusSchema.nullish(),
-    type: CaseTypeSchema.nullish()
-  })
-}
-
-export function UpdateClientAccountInputSchema(): z.ZodObject<Properties<UpdateClientAccountInput>> {
-  return z.object({
-    availableCredit: z.number().nullish(),
-    clientId: z.string().nullish(),
-    creditLimit: z.number().nullish(),
-    currency: z.string().nullish(),
-    isCreditApproved: z.boolean().nullish(),
-    lastPaymentDate: z.string().nullish(),
-    paymentTermsDays: z.number().nullish(),
-    walletBalance: z.number().nullish()
-  })
-}
-
-export function UpdateCompanyInputSchema(): z.ZodObject<Properties<UpdateCompanyInput>> {
-  return z.object({
-    annualRevenue: z.number().nullish(),
-    city: z.string().nullish(),
-    country: z.string().nullish(),
-    industry: z.string().nullish(),
-    name: z.string().nullish(),
-    ownerId: z.string().nullish(),
-    phoneNumber: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    state: z.string().nullish(),
-    street: z.string().nullish(),
-    website: z.string().nullish()
-  })
-}
-
-export function UpdateContactInputSchema(): z.ZodObject<Properties<UpdateContactInput>> {
-  return z.object({
-    companyId: z.string().nullish(),
-    email: z.string().nullish(),
-    jobTitle: z.string().nullish(),
-    name: z.string().nullish(),
-    ownerId: z.string().nullish(),
-    phoneNumber: z.string().nullish()
-  })
-}
-
-export function UpdateCreditNoteInputSchema(): z.ZodObject<Properties<UpdateCreditNoteInput>> {
-  return z.object({
-    amount: z.number().nullish(),
-    appliedAt: z.string().nullish(),
-    createdByUserId: z.string().nullish(),
-    creditNoteNumber: z.string().nullish(),
-    currency: z.string().nullish(),
-    disputeId: z.string().nullish(),
-    invoiceId: z.string().nullish(),
-    issueDate: z.string().nullish(),
-    notes: z.string().nullish(),
-    reason: z.string().nullish()
-  })
-}
-
-export function UpdateCustomerTrackingLinkInputSchema(): z.ZodObject<Properties<UpdateCustomerTrackingLinkInput>> {
-  return z.object({
-    accessCount: z.number().nullish(),
-    deliveryTaskId: z.string().nullish(),
-    expiresAt: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    lastAccessedAt: z.string().nullish(),
-    trackingToken: z.string().nullish()
-  })
-}
-
-export function UpdateDeliveryRouteInputSchema(): z.ZodObject<Properties<UpdateDeliveryRouteInput>> {
-  return z.object({
-    completedAt: z.string().nullish(),
-    driverId: z.string().nullish(),
-    estimatedDurationMinutes: z.number().nullish(),
-    optimizedRouteData: z.string().nullish(),
-    routeDate: z.string().nullish(),
-    startedAt: z.string().nullish(),
-    status: DeliveryRouteStatusSchema.nullish(),
-    totalDistanceKm: z.number().nullish()
-  })
-}
-
-export function UpdateDeliveryTaskInputSchema(): z.ZodObject<Properties<UpdateDeliveryTaskInput>> {
-  return z.object({
-    actualArrivalTime: z.string().nullish(),
-    attemptCount: z.number().nullish(),
-    deliveryAddress: z.string().nullish(),
-    deliveryInstructions: z.string().nullish(),
-    deliveryRouteId: z.string().nullish(),
-    deliveryTime: z.string().nullish(),
-    estimatedArrivalTime: z.string().nullish(),
-    failureReason: DeliveryFailureReasonSchema.nullish(),
-    packageId: z.string().nullish(),
-    recipientName: z.string().nullish(),
-    recipientPhone: z.string().nullish(),
-    routeSequence: z.number().nullish(),
-    status: DeliveryTaskStatusSchema.nullish()
-  })
-}
-
-export function UpdateDisputeInputSchema(): z.ZodObject<Properties<UpdateDisputeInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    disputedAmount: z.number().nullish(),
-    lineItemId: z.string().nullish(),
-    reason: z.string().nullish(),
-    resolutionNotes: z.string().nullish(),
-    resolvedAt: z.string().nullish(),
-    resolvedByUserId: z.string().nullish(),
-    status: DisputeStatusSchema.nullish(),
-    submittedAt: z.string().nullish()
-  })
-}
-
-export function UpdateDmsProofOfDeliveryInputSchema(): z.ZodObject<Properties<UpdateDmsProofOfDeliveryInput>> {
-  return z.object({
-    deliveryTaskId: z.string().nullish(),
-    filePath: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    recipientName: z.string().nullish(),
-    signatureData: z.string().nullish(),
-    timestamp: z.string().nullish(),
-    type: ProofOfDeliveryTypeSchema.nullish(),
-    verificationCode: z.string().nullish()
-  })
-}
-
-export function UpdateDocumentInputSchema(): z.ZodObject<Properties<UpdateDocumentInput>> {
-  return z.object({
-    documentType: DocumentTypeSchema.nullish(),
-    fileName: z.string().nullish(),
-    filePath: z.string().nullish(),
-    fileSize: z.number().nullish(),
-    mimeType: z.string().nullish(),
-    recordId: z.string().nullish(),
-    recordType: z.string().nullish(),
-    uploadedByUserId: z.string().nullish()
-  })
-}
-
-export function UpdateDriverInputSchema(): z.ZodObject<Properties<UpdateDriverInput>> {
-  return z.object({
-    contactPhone: z.string().nullish(),
-    licenseExpiryDate: z.string().nullish(),
-    licenseNumber: z.string().nullish(),
-    status: DriverStatusSchema.nullish(),
-    userId: z.string().nullish()
-  })
-}
-
-export function UpdateDriverLocationInputSchema(): z.ZodObject<Properties<UpdateDriverLocationInput>> {
-  return z.object({
-    accuracy: z.number().nullish(),
-    altitude: z.number().nullish(),
-    driverId: z.string().nullish(),
-    heading: z.number().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    speedKmh: z.number().nullish(),
-    timestamp: z.string().nullish()
-  })
-}
-
-export function UpdateDriverScheduleInputSchema(): z.ZodObject<Properties<UpdateDriverScheduleInput>> {
-  return z.object({
-    driverId: z.string().nullish(),
-    endDate: z.string().nullish(),
-    reason: DriverScheduleReasonSchema.nullish(),
-    startDate: z.string().nullish()
-  })
-}
-
-export function UpdateExpenseInputSchema(): z.ZodObject<Properties<UpdateExpenseInput>> {
-  return z.object({
-    amount: z.number().nullish(),
-    currency: CurrencySchema.nullish(),
-    description: z.string().nullish(),
-    driverId: z.string().nullish(),
-    expenseDate: z.string().nullish(),
-    fuelQuantity: z.number().nullish(),
-    odometerReading: z.number().nullish(),
-    receiptUrl: z.string().nullish(),
-    status: ExpenseStatusSchema.nullish(),
-    tripId: z.string().nullish(),
-    type: ExpenseTypeSchema.nullish()
-  })
-}
-
-export function UpdateGeofenceEventInputSchema(): z.ZodObject<Properties<UpdateGeofenceEventInput>> {
-  return z.object({
-    eventType: GeofenceEventTypeSchema.nullish(),
-    geofenceId: z.string().nullish(),
-    timestamp: z.string().nullish(),
-    vehicleId: z.string().nullish()
-  })
-}
-
-export function UpdateGeofenceInputSchema(): z.ZodObject<Properties<UpdateGeofenceInput>> {
-  return z.object({
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    name: z.string().nullish()
-  })
-}
-
-export function UpdateGpsPingInputSchema(): z.ZodObject<Properties<UpdateGpsPingInput>> {
-  return z.object({
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    timestamp: z.string().nullish(),
-    vehicleId: z.string().nullish()
-  })
-}
-
-export function UpdateInboundShipmentInputSchema(): z.ZodObject<Properties<UpdateInboundShipmentInput>> {
-  return z.object({
-    actualArrivalDate: z.string().nullish(),
-    clientId: z.string().nullish(),
-    expectedArrivalDate: z.string().nullish(),
-    status: InboundShipmentStatusSchema.nullish(),
-    warehouseId: z.string().nullish()
-  })
-}
-
-export function UpdateInboundShipmentItemInputSchema(): z.ZodObject<Properties<UpdateInboundShipmentItemInput>> {
-  return z.object({
-    discrepancyNotes: z.string().nullish(),
-    expectedQuantity: z.number().nullish(),
-    inboundShipmentId: z.string().nullish(),
-    productId: z.string().nullish(),
-    receivedQuantity: z.number().nullish()
-  })
-}
-
-export function UpdateInteractionInputSchema(): z.ZodObject<Properties<UpdateInteractionInput>> {
-  return z.object({
-    caseId: z.string().nullish(),
-    contactId: z.string().nullish(),
-    interactionDate: z.string().nullish(),
-    notes: z.string().nullish(),
-    outcome: z.string().nullish(),
-    type: InteractionTypeSchema.nullish(),
-    userId: z.string().nullish()
-  })
-}
-
-export function UpdateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<UpdateInventoryAdjustmentInput>> {
-  return z.object({
-    notes: z.string().nullish(),
-    productId: z.string().nullish(),
-    quantityChange: z.number().nullish(),
-    reason: InventoryAdjustmentReasonSchema.nullish(),
-    userId: z.string().nullish(),
-    warehouseId: z.string().nullish()
-  })
-}
-
-export function UpdateInventoryBatchInputSchema(): z.ZodObject<Properties<UpdateInventoryBatchInput>> {
-  return z.object({
-    batchNumber: z.string().nullish(),
-    expirationDate: z.string().nullish(),
-    productId: z.string().nullish()
-  })
-}
-
-export function UpdateInventoryStockInputSchema(): z.ZodObject<Properties<UpdateInventoryStockInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    lastCountedAt: z.string().nullish(),
-    lastMovementAt: z.string().nullish(),
-    locationId: z.string().nullish(),
-    productId: z.string().nullish(),
-    quantity: z.number().nullish(),
-    reservedQuantity: z.number().nullish(),
-    status: InventoryStockStatusSchema.nullish()
-  })
-}
-
-export function UpdateInvoiceInputSchema(): z.ZodObject<Properties<UpdateInvoiceInput>> {
-  return z.object({
-    dueDate: z.string().nullish(),
-    issueDate: z.string().nullish(),
-    opportunityId: z.string().nullish(),
-    paidAt: z.string().nullish(),
-    paymentMethod: PaymentMethodSchema.nullish(),
-    sentAt: z.string().nullish(),
-    status: InvoiceStatusSchema.nullish(),
-    total: z.number().nullish()
-  })
-}
-
-export function UpdateInvoiceItemInputSchema(): z.ZodObject<Properties<UpdateInvoiceItemInput>> {
-  return z.object({
-    invoiceId: z.string().nullish(),
-    price: z.number().nullish(),
-    productId: z.string().nullish(),
-    quantity: z.number().nullish()
-  })
-}
-
-export function UpdateInvoiceLineItemInputSchema(): z.ZodObject<Properties<UpdateInvoiceLineItemInput>> {
-  return z.object({
-    description: z.string().nullish(),
-    discountRate: z.number().nullish(),
-    invoiceId: z.string().nullish(),
-    quantity: z.number().nullish(),
-    sourceRecordId: z.string().nullish(),
-    sourceRecordType: z.string().nullish(),
-    taxRate: z.number().nullish(),
-    unitPrice: z.number().nullish()
-  })
-}
-
-export function UpdateLeadInputSchema(): z.ZodObject<Properties<UpdateLeadInput>> {
-  return z.object({
-    campaignId: z.string().nullish(),
-    email: z.string().nullish(),
-    leadScore: z.number().nullish(),
-    leadSource: LeadSourceSchema.nullish(),
-    name: z.string().nullish(),
-    ownerId: z.string().nullish(),
-    status: LeadStatusSchema.nullish()
-  })
-}
-
-export function UpdateLocationInputSchema(): z.ZodObject<Properties<UpdateLocationInput>> {
-  return z.object({
-    barcode: z.string().nullish(),
-    hazmatApproved: z.boolean().nullish(),
-    isActive: z.boolean().nullish(),
-    isPickable: z.boolean().nullish(),
-    isReceivable: z.boolean().nullish(),
-    level: z.number().nullish(),
-    maxPallets: z.number().nullish(),
-    maxVolume: z.number().nullish(),
-    maxWeight: z.number().nullish(),
-    name: z.string().nullish(),
-    parentLocationId: z.string().nullish(),
-    path: z.string().nullish(),
-    temperatureControlled: z.boolean().nullish(),
-    type: LocationTypeSchema.nullish(),
-    warehouseId: z.string().nullish(),
-    xCoordinate: z.number().nullish(),
-    yCoordinate: z.number().nullish(),
-    zCoordinate: z.number().nullish()
-  })
-}
-
-export function UpdateNotificationInputSchema(): z.ZodObject<Properties<UpdateNotificationInput>> {
-  return z.object({
-    isRead: z.boolean().nullish(),
-    link: z.string().nullish(),
-    message: z.string().nullish(),
-    userId: z.string().nullish()
-  })
-}
-
-export function UpdateOpportunityInputSchema(): z.ZodObject<Properties<UpdateOpportunityInput>> {
-  return z.object({
-    campaignId: z.string().nullish(),
-    companyId: z.string().nullish(),
-    contactId: z.string().nullish(),
-    dealValue: z.number().nullish(),
-    expectedCloseDate: z.string().nullish(),
-    lostReason: z.string().nullish(),
-    name: z.string().nullish(),
-    ownerId: z.string().nullish(),
-    probability: z.number().nullish(),
-    source: OpportunitySourceSchema.nullish(),
-    stage: OpportunityStageSchema.nullish()
-  })
-}
-
-export function UpdateOpportunityProductInputSchema(): z.ZodObject<Properties<UpdateOpportunityProductInput>> {
-  return z.object({
-    quantity: z.number().nullish()
-  })
-}
-
-export function UpdateOutboundShipmentInputSchema(): z.ZodObject<Properties<UpdateOutboundShipmentInput>> {
-  return z.object({
-    carrier: z.string().nullish(),
-    salesOrderId: z.string().nullish(),
-    status: OutboundShipmentStatusSchema.nullish(),
-    trackingNumber: z.string().nullish(),
-    warehouseId: z.string().nullish()
-  })
-}
-
-export function UpdateOutboundShipmentItemInputSchema(): z.ZodObject<Properties<UpdateOutboundShipmentItemInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    outboundShipmentId: z.string().nullish(),
-    productId: z.string().nullish(),
-    quantityShipped: z.number().nullish(),
-    salesOrderItemId: z.string().nullish()
-  })
-}
-
-export function UpdatePackageInputSchema(): z.ZodObject<Properties<UpdatePackageInput>> {
-  return z.object({
-    carrier: z.string().nullish(),
-    height: z.number().nullish(),
-    insuranceValue: z.number().nullish(),
-    isFragile: z.boolean().nullish(),
-    isHazmat: z.boolean().nullish(),
-    length: z.number().nullish(),
-    packageNumber: z.string().nullish(),
-    packageType: z.string().nullish(),
-    packedAt: z.string().nullish(),
-    packedByUserId: z.string().nullish(),
-    requiresSignature: z.boolean().nullish(),
-    salesOrderId: z.string().nullish(),
-    serviceLevel: z.string().nullish(),
-    shippedAt: z.string().nullish(),
-    trackingNumber: z.string().nullish(),
-    warehouseId: z.string().nullish(),
-    weight: z.number().nullish(),
-    width: z.number().nullish()
-  })
-}
-
-export function UpdatePackageItemInputSchema(): z.ZodObject<Properties<UpdatePackageItemInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    expiryDate: z.string().nullish(),
-    lotNumber: z.string().nullish(),
-    packageId: z.string().nullish(),
-    productId: z.string().nullish(),
-    quantity: z.number().nullish(),
-    serialNumbers: z.array(z.string().nullable()).nullish(),
-    unitWeight: z.number().nullish()
-  })
-}
-
-export function UpdatePartnerInvoiceInputSchema(): z.ZodObject<Properties<UpdatePartnerInvoiceInput>> {
-  return z.object({
-    carrierId: z.string().nullish(),
-    invoiceDate: z.string().nullish(),
-    invoiceNumber: z.string().nullish(),
-    status: PartnerInvoiceStatusSchema.nullish(),
-    totalAmount: z.number().nullish()
-  })
-}
-
-export function UpdatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<UpdatePartnerInvoiceItemInput>> {
-  return z.object({
-    amount: z.number().nullish(),
-    partnerInvoiceId: z.string().nullish(),
-    shipmentLegId: z.string().nullish()
-  })
-}
-
-export function UpdatePaymentInputSchema(): z.ZodObject<Properties<UpdatePaymentInput>> {
-  return z.object({
-    amount: z.number().nullish(),
-    currency: z.string().nullish(),
-    exchangeRate: z.number().nullish(),
-    fees: z.number().nullish(),
-    gatewayReference: z.string().nullish(),
-    invoiceId: z.string().nullish(),
-    notes: z.string().nullish(),
-    paymentDate: z.string().nullish(),
-    paymentMethod: PaymentMethodSchema.nullish(),
-    processedAt: z.string().nullish(),
-    processedByUserId: z.string().nullish(),
-    status: PaymentStatusSchema.nullish(),
-    transactionId: z.string().nullish()
-  })
-}
-
-export function UpdatePickBatchInputSchema(): z.ZodObject<Properties<UpdatePickBatchInput>> {
-  return z.object({
-    actualDuration: z.number().nullish(),
-    assignedUserId: z.string().nullish(),
-    batchNumber: z.string().nullish(),
-    completedAt: z.string().nullish(),
-    completedItems: z.number().nullish(),
-    estimatedDuration: z.number().nullish(),
-    priority: z.number().nullish(),
-    startedAt: z.string().nullish(),
-    status: PickBatchStatusSchema.nullish(),
-    strategy: PickStrategySchema.nullish(),
-    totalItems: z.number().nullish(),
-    warehouseId: z.string().nullish(),
-    waveId: z.string().nullish(),
-    zoneRestrictions: z.array(z.string().nullable()).nullish()
-  })
-}
-
-export function UpdatePickBatchItemInputSchema(): z.ZodObject<Properties<UpdatePickBatchItemInput>> {
-  return z.object({
-    actualPickTime: z.number().nullish(),
-    estimatedPickTime: z.number().nullish(),
-    orderPriority: z.number().nullish(),
-    pickBatchId: z.string().nullish(),
-    salesOrderId: z.string().nullish()
-  })
-}
-
-export function UpdateProductInputSchema(): z.ZodObject<Properties<UpdateProductInput>> {
-  return z.object({
-    description: z.string().nullish(),
-    name: z.string().nullish(),
-    price: z.number().nullish(),
-    sku: z.string().nullish(),
-    type: ProductTypeSchema.nullish()
-  })
-}
-
-export function UpdateProofOfDeliveryInputSchema(): z.ZodObject<Properties<UpdateProofOfDeliveryInput>> {
-  return z.object({
-    filePath: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    timestamp: z.string().nullish(),
-    tripStopId: z.string().nullish(),
-    type: ProofTypeSchema.nullish()
-  })
-}
-
-export function UpdatePutawayRuleInputSchema(): z.ZodObject<Properties<UpdatePutawayRuleInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    locationType: LocationTypeSchema.nullish(),
-    maxQuantity: z.number().nullish(),
-    minQuantity: z.number().nullish(),
-    preferredLocationId: z.string().nullish(),
-    priority: z.number().nullish(),
-    productId: z.string().nullish(),
-    requiresHazmatApproval: z.boolean().nullish(),
-    requiresTemperatureControl: z.boolean().nullish(),
-    volumeThreshold: z.number().nullish(),
-    warehouseId: z.string().nullish(),
-    weightThreshold: z.number().nullish()
-  })
-}
-
-export function UpdateQuoteInputSchema(): z.ZodObject<Properties<UpdateQuoteInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    createdByUserId: z.string().nullish(),
-    destinationDetails: z.string().nullish(),
-    expiresAt: z.string().nullish(),
-    height: z.number().nullish(),
-    length: z.number().nullish(),
-    notes: z.string().nullish(),
-    originDetails: z.string().nullish(),
-    quoteNumber: z.string().nullish(),
-    quotedPrice: z.number().nullish(),
-    serviceLevel: z.string().nullish(),
-    status: QuoteStatusSchema.nullish(),
-    weight: z.number().nullish(),
-    width: z.number().nullish()
-  })
-}
-
-export function UpdateRateCardInputSchema(): z.ZodObject<Properties<UpdateRateCardInput>> {
-  return z.object({
-    createdByUserId: z.string().nullish(),
-    description: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    name: z.string().nullish(),
-    serviceType: ServiceTypeSchema.nullish(),
-    validFrom: z.string().nullish(),
-    validTo: z.string().nullish()
-  })
-}
-
-export function UpdateRateRuleInputSchema(): z.ZodObject<Properties<UpdateRateRuleInput>> {
-  return z.object({
-    condition: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    maxValue: z.number().nullish(),
-    minValue: z.number().nullish(),
-    price: z.number().nullish(),
-    pricingModel: PricingModelSchema.nullish(),
-    priority: z.number().nullish(),
-    rateCardId: z.string().nullish(),
-    value: z.string().nullish()
-  })
-}
-
-export function UpdateReorderPointInputSchema(): z.ZodObject<Properties<UpdateReorderPointInput>> {
-  return z.object({
-    productId: z.string().nullish(),
-    threshold: z.number().nullish(),
-    warehouseId: z.string().nullish()
-  })
-}
-
-export function UpdateReturnInputSchema(): z.ZodObject<Properties<UpdateReturnInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    reason: z.string().nullish(),
-    returnNumber: z.string().nullish(),
-    salesOrderId: z.string().nullish(),
-    status: ReturnStatusSchema.nullish()
-  })
-}
-
-export function UpdateReturnItemInputSchema(): z.ZodObject<Properties<UpdateReturnItemInput>> {
-  return z.object({
-    condition: ReturnItemConditionSchema.nullish(),
-    productId: z.string().nullish(),
-    quantityExpected: z.number().nullish(),
-    quantityReceived: z.number().nullish(),
-    returnId: z.string().nullish()
-  })
-}
-
-export function UpdateRouteInputSchema(): z.ZodObject<Properties<UpdateRouteInput>> {
-  return z.object({
-    optimizedRouteData: z.string().nullish(),
-    totalDistance: z.number().nullish(),
-    totalDuration: z.number().nullish(),
-    tripId: z.string().nullish()
-  })
-}
-
-export function UpdateSalesOrderInputSchema(): z.ZodObject<Properties<UpdateSalesOrderInput>> {
-  return z.object({
-    clientId: z.string().nullish(),
-    crmOpportunityId: z.string().nullish(),
-    orderNumber: z.string().nullish(),
-    shippingAddress: z.string().nullish(),
-    status: SalesOrderStatusSchema.nullish()
-  })
-}
-
-export function UpdateSalesOrderItemInputSchema(): z.ZodObject<Properties<UpdateSalesOrderItemInput>> {
-  return z.object({
-    productId: z.string().nullish(),
-    quantityOrdered: z.number().nullish(),
-    salesOrderId: z.string().nullish()
-  })
-}
-
-export function UpdateShipmentLegEventInputSchema(): z.ZodObject<Properties<UpdateShipmentLegEventInput>> {
-  return z.object({
-    eventTimestamp: z.string().nullish(),
-    location: z.string().nullish(),
-    shipmentLegId: z.string().nullish(),
-    statusMessage: z.string().nullish()
-  })
-}
-
-export function UpdateShipmentLegInputSchema(): z.ZodObject<Properties<UpdateShipmentLegInput>> {
-  return z.object({
-    carrierId: z.string().nullish(),
-    endLocation: z.string().nullish(),
-    internalTripId: z.string().nullish(),
-    legSequence: z.number().nullish(),
-    shipmentId: z.string().nullish(),
-    startLocation: z.string().nullish(),
-    status: ShipmentLegStatusSchema.nullish()
-  })
-}
-
-export function UpdateStockTransferInputSchema(): z.ZodObject<Properties<UpdateStockTransferInput>> {
-  return z.object({
-    destinationWarehouseId: z.string().nullish(),
-    productId: z.string().nullish(),
-    quantity: z.number().nullish(),
-    sourceWarehouseId: z.string().nullish(),
-    status: StockTransferStatusSchema.nullish()
-  })
-}
-
-export function UpdateSupplierInputSchema(): z.ZodObject<Properties<UpdateSupplierInput>> {
-  return z.object({
-    contactPerson: z.string().nullish(),
-    email: z.string().nullish(),
-    name: z.string().nullish(),
-    phoneNumber: z.string().nullish()
-  })
-}
-
-export function UpdateSurchargeInputSchema(): z.ZodObject<Properties<UpdateSurchargeInput>> {
-  return z.object({
-    amount: z.number().nullish(),
-    calculationMethod: SurchargeCalculationMethodSchema.nullish(),
-    description: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    name: z.string().nullish(),
-    type: z.string().nullish(),
-    validFrom: z.string().nullish(),
-    validTo: z.string().nullish()
-  })
-}
-
-export function UpdateTaskEventInputSchema(): z.ZodObject<Properties<UpdateTaskEventInput>> {
-  return z.object({
-    deliveryTaskId: z.string().nullish(),
-    latitude: z.number().nullish(),
-    longitude: z.number().nullish(),
-    notes: z.string().nullish(),
-    reason: z.string().nullish(),
-    status: TaskEventStatusSchema.nullish(),
-    timestamp: z.string().nullish()
-  })
-}
-
-export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>> {
-  return z.object({
-    actualDuration: z.number().nullish(),
-    endTime: z.string().nullish(),
-    estimatedDuration: z.number().nullish(),
-    instructions: z.string().nullish(),
-    notes: z.string().nullish(),
-    pickBatchId: z.string().nullish(),
-    priority: z.number().nullish(),
-    sourceEntityId: z.string().nullish(),
-    sourceEntityType: z.string().nullish(),
-    startTime: z.string().nullish(),
-    status: TaskStatusSchema.nullish(),
-    taskNumber: z.string().nullish(),
-    type: TaskTypeSchema.nullish(),
-    userId: z.string().nullish(),
-    warehouseId: z.string().nullish()
-  })
-}
-
-export function UpdateTaskItemInputSchema(): z.ZodObject<Properties<UpdateTaskItemInput>> {
-  return z.object({
-    batchId: z.string().nullish(),
-    completedAt: z.string().nullish(),
-    destinationLocationId: z.string().nullish(),
-    expiryDate: z.string().nullish(),
-    lotNumber: z.string().nullish(),
-    notes: z.string().nullish(),
-    productId: z.string().nullish(),
-    quantityCompleted: z.number().nullish(),
-    quantityRequired: z.number().nullish(),
-    serialNumbers: z.array(z.string().nullable()).nullish(),
-    sourceLocationId: z.string().nullish(),
-    status: TaskItemStatusSchema.nullish(),
-    taskId: z.string().nullish()
-  })
-}
-
-export function UpdateTripInputSchema(): z.ZodObject<Properties<UpdateTripInput>> {
-  return z.object({
-    driverId: z.string().nullish(),
-    endLocation: z.string().nullish(),
-    endTime: z.string().nullish(),
-    startLocation: z.string().nullish(),
-    startTime: z.string().nullish(),
-    status: TripStatusSchema.nullish(),
-    vehicleId: z.string().nullish()
-  })
-}
-
-export function UpdateTripStopInputSchema(): z.ZodObject<Properties<UpdateTripStopInput>> {
-  return z.object({
-    actualArrivalTime: z.string().nullish(),
-    actualDepartureTime: z.string().nullish(),
-    address: z.string().nullish(),
-    estimatedArrivalTime: z.string().nullish(),
-    estimatedDepartureTime: z.string().nullish(),
-    sequence: z.number().nullish(),
-    shipmentId: z.string().nullish(),
-    status: TripStopStatusSchema.nullish(),
-    tripId: z.string().nullish()
-  })
-}
-
-export function UpdateVehicleInputSchema(): z.ZodObject<Properties<UpdateVehicleInput>> {
-  return z.object({
-    capacityVolume: z.number().nullish(),
-    capacityWeight: z.number().nullish(),
-    currentMileage: z.number().nullish(),
-    lastMaintenanceDate: z.string().nullish(),
-    make: z.string().nullish(),
-    model: z.string().nullish(),
-    registrationNumber: z.string().nullish(),
-    status: VehicleStatusSchema.nullish(),
-    vin: z.string().nullish(),
-    year: z.number().nullish()
-  })
-}
-
-export function UpdateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<UpdateVehicleMaintenanceInput>> {
-  return z.object({
-    cost: z.number().nullish(),
-    notes: z.string().nullish(),
-    serviceDate: z.string().nullish(),
-    serviceType: VehicleServiceTypeSchema.nullish(),
-    vehicleId: z.string().nullish()
-  })
-}
-
-export function UpdateWarehouseInputSchema(): z.ZodObject<Properties<UpdateWarehouseInput>> {
-  return z.object({
-    address: z.string().nullish(),
-    city: z.string().nullish(),
-    contactEmail: z.string().nullish(),
-    contactPerson: z.string().nullish(),
-    contactPhone: z.string().nullish(),
-    country: z.string().nullish(),
-    isActive: z.boolean().nullish(),
-    name: z.string().nullish(),
-    postalCode: z.string().nullish(),
-    state: z.string().nullish(),
-    timezone: z.string().nullish()
-  })
-}
-
-export function UpdateWmsProductInputSchema(): z.ZodObject<Properties<UpdateWmsProductInput>> {
-  return z.object({
-    barcode: z.string().nullish(),
-    clientId: z.string().nullish(),
-    costPrice: z.number().nullish(),
-    description: z.string().nullish(),
-    height: z.number().nullish(),
-    length: z.number().nullish(),
-    name: z.string().nullish(),
-    sku: z.string().nullish(),
-    status: ProductStatusSchema.nullish(),
-    supplierId: z.string().nullish(),
-    weight: z.number().nullish(),
-    width: z.number().nullish()
-  })
+export type RemoveInvoiceLineItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeInvoiceLineItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateBillingInvoiceMutationVariables = Exact<{
+  billingInvoice: CreateBillingInvoiceInput;
+}>;
+
+
+export type CreateBillingInvoiceMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createBillingInvoice: { __typename?: 'BillingInvoices', id: string } } | null };
+
+export type UpdateBillingInvoiceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  billingInvoice: UpdateBillingInvoiceInput;
+}>;
+
+
+export type UpdateBillingInvoiceMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateBillingInvoice: { __typename?: 'BillingInvoices', id: string } } | null };
+
+export type RemoveBillingInvoiceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveBillingInvoiceMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeBillingInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePaymentMutationVariables = Exact<{
+  payment: CreatePaymentInput;
+}>;
+
+
+export type CreatePaymentMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createPayment: { __typename?: 'Payments', id: string } } | null };
+
+export type UpdatePaymentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  payment: UpdatePaymentInput;
+}>;
+
+
+export type UpdatePaymentMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updatePayment: { __typename?: 'Payments', id: string } } | null };
+
+export type RemovePaymentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePaymentMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removePayment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateQuoteMutationVariables = Exact<{
+  quote: CreateQuoteInput;
+}>;
+
+
+export type CreateQuoteMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createQuote: { __typename?: 'Quotes', id: string } } | null };
+
+export type UpdateQuoteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  quote: UpdateQuoteInput;
+}>;
+
+
+export type UpdateQuoteMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateQuote: { __typename?: 'Quotes', id: string } } | null };
+
+export type RemoveQuoteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveQuoteMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeQuote: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateRateCardMutationVariables = Exact<{
+  rateCard: CreateRateCardInput;
+}>;
+
+
+export type CreateRateCardMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createRateCard: { __typename?: 'RateCards', id: string } } | null };
+
+export type UpdateRateCardMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  rateCard: UpdateRateCardInput;
+}>;
+
+
+export type UpdateRateCardMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateRateCard: { __typename?: 'RateCards', id: string } } | null };
+
+export type RemoveRateCardMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveRateCardMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeRateCard: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateRateRuleMutationVariables = Exact<{
+  rateRule: CreateRateRuleInput;
+}>;
+
+
+export type CreateRateRuleMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createRateRule: { __typename?: 'RateRules', id: string } } | null };
+
+export type UpdateRateRuleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  rateRule: UpdateRateRuleInput;
+}>;
+
+
+export type UpdateRateRuleMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateRateRule: { __typename?: 'RateRules', id: string } } | null };
+
+export type RemoveRateRuleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveRateRuleMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeRateRule: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateSurchargeMutationVariables = Exact<{
+  surcharge: CreateSurchargeInput;
+}>;
+
+
+export type CreateSurchargeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createSurcharge: { __typename?: 'Surcharges', id: string } } | null };
+
+export type UpdateSurchargeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  surcharge: UpdateSurchargeInput;
+}>;
+
+
+export type UpdateSurchargeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateSurcharge: { __typename?: 'Surcharges', id: string } } | null };
+
+export type RemoveSurchargeMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveSurchargeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeSurcharge: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateCampaignMutationVariables = Exact<{
+  campaign: CreateCampaignInput;
+}>;
+
+
+export type CreateCampaignMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createCampaign: { __typename?: 'Campaigns', id: string } } | null };
+
+export type UpdateCampaignMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  campaign: UpdateCampaignInput;
+}>;
+
+
+export type UpdateCampaignMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateCampaign: { __typename?: 'Campaigns', id: string } } | null };
+
+export type RemoveCampaignMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveCampaignMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeCampaign: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateCaseMutationVariables = Exact<{
+  case: CreateCaseInput;
+}>;
+
+
+export type CreateCaseMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createCase: { __typename?: 'Cases', id: string } } | null };
+
+export type UpdateCaseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  case: UpdateCaseInput;
+}>;
+
+
+export type UpdateCaseMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateCase: { __typename?: 'Cases', id: string } } | null };
+
+export type RemoveCaseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveCaseMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeCase: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateCompanyMutationVariables = Exact<{
+  company: CreateCompanyInput;
+}>;
+
+
+export type CreateCompanyMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createCompany: { __typename?: 'Companies', id: string } } | null };
+
+export type UpdateCompanyMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  company: UpdateCompanyInput;
+}>;
+
+
+export type UpdateCompanyMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateCompany: { __typename?: 'Companies', id: string } } | null };
+
+export type RemoveCompanyMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveCompanyMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeCompany: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateContactMutationVariables = Exact<{
+  contact: CreateContactInput;
+}>;
+
+
+export type CreateContactMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createContact: { __typename?: 'Contacts', id: string } } | null };
+
+export type UpdateContactMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  contact: UpdateContactInput;
+}>;
+
+
+export type UpdateContactMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateContact: { __typename?: 'Contacts', id: string } } | null };
+
+export type RemoveContactMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveContactMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeContact: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInteractionMutationVariables = Exact<{
+  interaction: CreateInteractionInput;
+}>;
+
+
+export type CreateInteractionMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createInteraction: { __typename?: 'Interactions', id: string } } | null };
+
+export type UpdateInteractionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  interaction: UpdateInteractionInput;
+}>;
+
+
+export type UpdateInteractionMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateInteraction: { __typename?: 'Interactions', id: string } } | null };
+
+export type RemoveInteractionMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInteractionMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInteraction: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInvoiceItemMutationVariables = Exact<{
+  invoiceItem: CreateInvoiceItemInput;
+}>;
+
+
+export type CreateInvoiceItemMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createInvoiceItem: { __typename?: 'InvoiceItems', id: string } } | null };
+
+export type UpdateInvoiceItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  invoiceItem: UpdateInvoiceItemInput;
+}>;
+
+
+export type UpdateInvoiceItemMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateInvoiceItem: { __typename?: 'InvoiceItems', id: string } } | null };
+
+export type RemoveInvoiceItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInvoiceItemMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInvoiceItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInvoiceMutationVariables = Exact<{
+  invoice: CreateInvoiceInput;
+}>;
+
+
+export type CreateInvoiceMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createInvoice: { __typename?: 'Invoices', id: string } } | null };
+
+export type UpdateInvoiceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  invoice: UpdateInvoiceInput;
+}>;
+
+
+export type UpdateInvoiceMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateInvoice: { __typename?: 'Invoices', id: string } } | null };
+
+export type RemoveInvoiceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInvoiceMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateLeadMutationVariables = Exact<{
+  lead: CreateLeadInput;
+}>;
+
+
+export type CreateLeadMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createLead: { __typename?: 'Leads', id: string } } | null };
+
+export type UpdateLeadMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  lead: UpdateLeadInput;
+}>;
+
+
+export type UpdateLeadMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateLead: { __typename?: 'Leads', id: string } } | null };
+
+export type RemoveLeadMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveLeadMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeLead: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateNotificationMutationVariables = Exact<{
+  notification: CreateNotificationInput;
+}>;
+
+
+export type CreateNotificationMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createNotification: { __typename?: 'Notifications', id: string } } | null };
+
+export type UpdateNotificationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  notification: UpdateNotificationInput;
+}>;
+
+
+export type UpdateNotificationMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateNotification: { __typename?: 'Notifications', id: string } } | null };
+
+export type RemoveNotificationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveNotificationMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeNotification: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateOpportunityMutationVariables = Exact<{
+  opportunity: CreateOpportunityInput;
+}>;
+
+
+export type CreateOpportunityMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createOpportunity: { __typename?: 'Opportunities', id: string } } | null };
+
+export type UpdateOpportunityMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  opportunity: UpdateOpportunityInput;
+}>;
+
+
+export type UpdateOpportunityMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateOpportunity: { __typename?: 'Opportunities', id: string } } | null };
+
+export type RemoveOpportunityMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveOpportunityMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeOpportunity: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateOpportunityProductMutationVariables = Exact<{
+  opportunityProduct: CreateOpportunityProductInput;
+}>;
+
+
+export type CreateOpportunityProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createOpportunityProduct: { __typename?: 'OpportunityProducts', opportunity: { __typename?: 'Opportunities', id: string }, product: { __typename?: 'Products', id: string } } } | null };
+
+export type UpdateOpportunityProductMutationVariables = Exact<{
+  opportunityId: Scalars['ID']['input'];
+  productId: Scalars['ID']['input'];
+  opportunityProduct: UpdateOpportunityProductInput;
+}>;
+
+
+export type UpdateOpportunityProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateOpportunityProduct: { __typename?: 'OpportunityProducts', opportunity: { __typename?: 'Opportunities', id: string }, product: { __typename?: 'Products', id: string } } } | null };
+
+export type RemoveOpportunityProductMutationVariables = Exact<{
+  opportunityId: Scalars['ID']['input'];
+  productId: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveOpportunityProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeOpportunityProduct: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateProductMutationVariables = Exact<{
+  product: CreateProductInput;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createProduct: { __typename?: 'Products', id: string } } | null };
+
+export type UpdateProductMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  product: UpdateProductInput;
+}>;
+
+
+export type UpdateProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateProduct: { __typename?: 'Products', id: string } } | null };
+
+export type RemoveProductMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeProduct: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateCustomerTrackingLinkMutationVariables = Exact<{
+  customerTrackingLink: CreateCustomerTrackingLinkInput;
+}>;
+
+
+export type CreateCustomerTrackingLinkMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createCustomerTrackingLink: { __typename?: 'CustomerTrackingLinks', id: string } } | null };
+
+export type UpdateCustomerTrackingLinkMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  customerTrackingLink: UpdateCustomerTrackingLinkInput;
+}>;
+
+
+export type UpdateCustomerTrackingLinkMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateCustomerTrackingLink: { __typename?: 'CustomerTrackingLinks', id: string } } | null };
+
+export type RemoveCustomerTrackingLinkMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveCustomerTrackingLinkMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeCustomerTrackingLink: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateDeliveryRouteMutationVariables = Exact<{
+  deliveryRoute: CreateDeliveryRouteInput;
+}>;
+
+
+export type CreateDeliveryRouteMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createDeliveryRoute: { __typename?: 'DeliveryRoutes', id: string } } | null };
+
+export type UpdateDeliveryRouteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  deliveryRoute: UpdateDeliveryRouteInput;
+}>;
+
+
+export type UpdateDeliveryRouteMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateDeliveryRoute: { __typename?: 'DeliveryRoutes', id: string } } | null };
+
+export type RemoveDeliveryRouteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDeliveryRouteMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDeliveryRoute: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateDeliveryTaskMutationVariables = Exact<{
+  deliveryTask: CreateDeliveryTaskInput;
+}>;
+
+
+export type CreateDeliveryTaskMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createDeliveryTask: { __typename?: 'DeliveryTasks', id: string } } | null };
+
+export type UpdateDeliveryTaskMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  deliveryTask: UpdateDeliveryTaskInput;
+}>;
+
+
+export type UpdateDeliveryTaskMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateDeliveryTask: { __typename?: 'DeliveryTasks', id: string } } | null };
+
+export type RemoveDeliveryTaskMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDeliveryTaskMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDeliveryTask: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateDriverLocationMutationVariables = Exact<{
+  driverLocation: CreateDriverLocationInput;
+}>;
+
+
+export type CreateDriverLocationMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createDriverLocation: { __typename?: 'DriverLocations', id: string } } | null };
+
+export type UpdateDriverLocationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  driverLocation: UpdateDriverLocationInput;
+}>;
+
+
+export type UpdateDriverLocationMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateDriverLocation: { __typename?: 'DriverLocations', id: string } } | null };
+
+export type RemoveDriverLocationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDriverLocationMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDriverLocation: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateDmsProofOfDeliveryMutationVariables = Exact<{
+  dmsProofOfDelivery: CreateDmsProofOfDeliveryInput;
+}>;
+
+
+export type CreateDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createDmsProofOfDelivery: { __typename?: 'DmsProofOfDeliveries', id: string } } | null };
+
+export type UpdateDmsProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  dmsProofOfDelivery: UpdateDmsProofOfDeliveryInput;
+}>;
+
+
+export type UpdateDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateDmsProofOfDelivery: { __typename?: 'DmsProofOfDeliveries', id: string } } | null };
+
+export type RemoveDmsProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDmsProofOfDelivery: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateTaskEventMutationVariables = Exact<{
+  taskEvent: CreateTaskEventInput;
+}>;
+
+
+export type CreateTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createTaskEvent: { __typename?: 'TaskEvents', id: string } } | null };
+
+export type UpdateTaskEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  taskEvent: UpdateTaskEventInput;
+}>;
+
+
+export type UpdateTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateTaskEvent: { __typename?: 'TaskEvents', id: string } } | null };
+
+export type RemoveTaskEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeTaskEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateCarrierRateMutationVariables = Exact<{
+  carrierRate: CreateCarrierRateInput;
+}>;
+
+
+export type CreateCarrierRateMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createCarrierRate: { __typename?: 'CarrierRates', id: string } } | null };
+
+export type UpdateCarrierRateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  carrierRate: UpdateCarrierRateInput;
+}>;
+
+
+export type UpdateCarrierRateMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateCarrierRate: { __typename?: 'CarrierRates', id: string } } | null };
+
+export type RemoveCarrierRateMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveCarrierRateMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeCarrierRate: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateCarrierMutationVariables = Exact<{
+  carrier: CreateCarrierInput;
+}>;
+
+
+export type CreateCarrierMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createCarrier: { __typename?: 'Carriers', id: string } } | null };
+
+export type UpdateCarrierMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  carrier: UpdateCarrierInput;
+}>;
+
+
+export type UpdateCarrierMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateCarrier: { __typename?: 'Carriers', id: string } } | null };
+
+export type RemoveCarrierMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveCarrierMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeCarrier: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateDriverScheduleMutationVariables = Exact<{
+  driverSchedule: CreateDriverScheduleInput;
+}>;
+
+
+export type CreateDriverScheduleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createDriverSchedule: { __typename?: 'DriverSchedules', id: string } } | null };
+
+export type UpdateDriverScheduleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  driverSchedule: UpdateDriverScheduleInput;
+}>;
+
+
+export type UpdateDriverScheduleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateDriverSchedule: { __typename?: 'DriverSchedules', id: string } } | null };
+
+export type RemoveDriverScheduleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDriverScheduleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeDriverSchedule: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateDriverMutationVariables = Exact<{
+  driver: CreateDriverInput;
+}>;
+
+
+export type CreateDriverMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createDriver: { __typename?: 'Drivers', id: string } } | null };
+
+export type UpdateDriverMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  driver: UpdateDriverInput;
+}>;
+
+
+export type UpdateDriverMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateDriver: { __typename?: 'Drivers', id: string } } | null };
+
+export type RemoveDriverMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDriverMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeDriver: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateExpenseMutationVariables = Exact<{
+  expense: CreateExpenseInput;
+}>;
+
+
+export type CreateExpenseMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createExpense: { __typename?: 'Expenses', id: string } } | null };
+
+export type UpdateExpenseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  expense: UpdateExpenseInput;
+}>;
+
+
+export type UpdateExpenseMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateExpense: { __typename?: 'Expenses', id: string } } | null };
+
+export type RemoveExpenseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveExpenseMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeExpense: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateGeofenceEventMutationVariables = Exact<{
+  geofenceEvent: CreateGeofenceEventInput;
+}>;
+
+
+export type CreateGeofenceEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createGeofenceEvent: { __typename?: 'GeofenceEvents', id: string } } | null };
+
+export type UpdateGeofenceEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  geofenceEvent: UpdateGeofenceEventInput;
+}>;
+
+
+export type UpdateGeofenceEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateGeofenceEvent: { __typename?: 'GeofenceEvents', id: string } } | null };
+
+export type RemoveGeofenceEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveGeofenceEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGeofenceEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateGeofenceMutationVariables = Exact<{
+  geofence: CreateGeofenceInput;
+}>;
+
+
+export type CreateGeofenceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createGeofence: { __typename?: 'Geofences', id: string } } | null };
+
+export type UpdateGeofenceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  geofence: UpdateGeofenceInput;
+}>;
+
+
+export type UpdateGeofenceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateGeofence: { __typename?: 'Geofences', id: string } } | null };
+
+export type RemoveGeofenceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveGeofenceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGeofence: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateGpsPingMutationVariables = Exact<{
+  gpsPing: CreateGpsPingInput;
+}>;
+
+
+export type CreateGpsPingMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createGpsPing: { __typename?: 'GpsPings', id: string } } | null };
+
+export type UpdateGpsPingMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  gpsPing: UpdateGpsPingInput;
+}>;
+
+
+export type UpdateGpsPingMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateGpsPing: { __typename?: 'GpsPings', id: string } } | null };
+
+export type RemoveGpsPingMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveGpsPingMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGpsPing: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePartnerInvoiceItemMutationVariables = Exact<{
+  partnerInvoiceItem: CreatePartnerInvoiceItemInput;
+}>;
+
+
+export type CreatePartnerInvoiceItemMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createPartnerInvoiceItem: { __typename?: 'PartnerInvoiceItems', id: string } } | null };
+
+export type UpdatePartnerInvoiceItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  partnerInvoiceItem: UpdatePartnerInvoiceItemInput;
+}>;
+
+
+export type UpdatePartnerInvoiceItemMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updatePartnerInvoiceItem: { __typename?: 'PartnerInvoiceItems', id: string } } | null };
+
+export type RemovePartnerInvoiceItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePartnerInvoiceItemMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removePartnerInvoiceItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePartnerInvoiceMutationVariables = Exact<{
+  partnerInvoice: CreatePartnerInvoiceInput;
+}>;
+
+
+export type CreatePartnerInvoiceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createPartnerInvoice: { __typename?: 'PartnerInvoices', id: string } } | null };
+
+export type UpdatePartnerInvoiceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  partnerInvoice: UpdatePartnerInvoiceInput;
+}>;
+
+
+export type UpdatePartnerInvoiceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updatePartnerInvoice: { __typename?: 'PartnerInvoices', id: string } } | null };
+
+export type RemovePartnerInvoiceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePartnerInvoiceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removePartnerInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateProofOfDeliveryMutationVariables = Exact<{
+  proofOfDelivery: CreateProofOfDeliveryInput;
+}>;
+
+
+export type CreateProofOfDeliveryMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createProofOfDelivery: { __typename?: 'ProofOfDeliveries', id: string } } | null };
+
+export type UpdateProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  proofOfDelivery: UpdateProofOfDeliveryInput;
+}>;
+
+
+export type UpdateProofOfDeliveryMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateProofOfDelivery: { __typename?: 'ProofOfDeliveries', id: string } } | null };
+
+export type RemoveProofOfDeliveryMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveProofOfDeliveryMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeProofOfDelivery: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateRouteMutationVariables = Exact<{
+  route: CreateRouteInput;
+}>;
+
+
+export type CreateRouteMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createRoute: { __typename?: 'Routes', id: string } } | null };
+
+export type UpdateRouteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  route: UpdateRouteInput;
+}>;
+
+
+export type UpdateRouteMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateRoute: { __typename?: 'Routes', id: string } } | null };
+
+export type RemoveRouteMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveRouteMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeRoute: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateShipmentLegEventMutationVariables = Exact<{
+  shipmentLegEvent: CreateShipmentLegEventInput;
+}>;
+
+
+export type CreateShipmentLegEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createShipmentLegEvent: { __typename?: 'ShipmentLegEvents', id: string } } | null };
+
+export type UpdateShipmentLegEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  shipmentLegEvent: UpdateShipmentLegEventInput;
+}>;
+
+
+export type UpdateShipmentLegEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateShipmentLegEvent: { __typename?: 'ShipmentLegEvents', id: string } } | null };
+
+export type RemoveShipmentLegEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveShipmentLegEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeShipmentLegEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateShipmentLegMutationVariables = Exact<{
+  shipmentLeg: CreateShipmentLegInput;
+}>;
+
+
+export type CreateShipmentLegMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createShipmentLeg: { __typename?: 'ShipmentLegs', id: string } } | null };
+
+export type UpdateShipmentLegMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  shipmentLeg: UpdateShipmentLegInput;
+}>;
+
+
+export type UpdateShipmentLegMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateShipmentLeg: { __typename?: 'ShipmentLegs', id: string } } | null };
+
+export type RemoveShipmentLegMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveShipmentLegMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeShipmentLeg: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateTripStopMutationVariables = Exact<{
+  tripStop: CreateTripStopInput;
+}>;
+
+
+export type CreateTripStopMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createTripStop: { __typename?: 'TripStops', id: string } } | null };
+
+export type UpdateTripStopMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  tripStop: UpdateTripStopInput;
+}>;
+
+
+export type UpdateTripStopMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateTripStop: { __typename?: 'TripStops', id: string } } | null };
+
+export type RemoveTripStopMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveTripStopMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeTripStop: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateTripMutationVariables = Exact<{
+  trip: CreateTripInput;
+}>;
+
+
+export type CreateTripMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createTrip: { __typename?: 'Trips', id: string } } | null };
+
+export type UpdateTripMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  trip: UpdateTripInput;
+}>;
+
+
+export type UpdateTripMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateTrip: { __typename?: 'Trips', id: string } } | null };
+
+export type RemoveTripMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveTripMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeTrip: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateVehicleMaintenanceMutationVariables = Exact<{
+  vehicleMaintenance: CreateVehicleMaintenanceInput;
+}>;
+
+
+export type CreateVehicleMaintenanceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createVehicleMaintenance: { __typename?: 'VehicleMaintenance', id: string } } | null };
+
+export type UpdateVehicleMaintenanceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  vehicleMaintenance: UpdateVehicleMaintenanceInput;
+}>;
+
+
+export type UpdateVehicleMaintenanceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateVehicleMaintenance: { __typename?: 'VehicleMaintenance', id: string } } | null };
+
+export type RemoveVehicleMaintenanceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveVehicleMaintenanceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeVehicleMaintenance: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateVehicleMutationVariables = Exact<{
+  vehicle: CreateVehicleInput;
+}>;
+
+
+export type CreateVehicleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createVehicle: { __typename?: 'Vehicles', id: string } } | null };
+
+export type UpdateVehicleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  vehicle: UpdateVehicleInput;
+}>;
+
+
+export type UpdateVehicleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateVehicle: { __typename?: 'Vehicles', id: string } } | null };
+
+export type RemoveVehicleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveVehicleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeVehicle: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateBinThresholdMutationVariables = Exact<{
+  binThreshold: CreateBinThresholdInput;
+}>;
+
+
+export type CreateBinThresholdMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createBinThreshold: { __typename?: 'BinThresholds', id: string } } | null };
+
+export type UpdateBinThresholdMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  binThreshold: UpdateBinThresholdInput;
+}>;
+
+
+export type UpdateBinThresholdMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateBinThreshold: { __typename?: 'BinThresholds', id: string } } | null };
+
+export type RemoveBinThresholdMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveBinThresholdMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeBinThreshold: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInboundShipmentItemMutationVariables = Exact<{
+  inboundShipmentItem: CreateInboundShipmentItemInput;
+}>;
+
+
+export type CreateInboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createInboundShipmentItem: { __typename?: 'InboundShipmentItems', id: string } } | null };
+
+export type UpdateInboundShipmentItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  inboundShipmentItem: UpdateInboundShipmentItemInput;
+}>;
+
+
+export type UpdateInboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateInboundShipmentItem: { __typename?: 'InboundShipmentItems', id: string } } | null };
+
+export type RemoveInboundShipmentItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInboundShipmentItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInboundShipmentMutationVariables = Exact<{
+  inboundShipment: CreateInboundShipmentInput;
+}>;
+
+
+export type CreateInboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createInboundShipment: { __typename?: 'InboundShipments', id: string } } | null };
+
+export type UpdateInboundShipmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  inboundShipment: UpdateInboundShipmentInput;
+}>;
+
+
+export type UpdateInboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateInboundShipment: { __typename?: 'InboundShipments', id: string } } | null };
+
+export type RemoveInboundShipmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInboundShipment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInventoryAdjustmentMutationVariables = Exact<{
+  inventoryAdjustment: CreateInventoryAdjustmentInput;
+}>;
+
+
+export type CreateInventoryAdjustmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createInventoryAdjustment: { __typename?: 'InventoryAdjustments', id: string } } | null };
+
+export type UpdateInventoryAdjustmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  inventoryAdjustment: UpdateInventoryAdjustmentInput;
+}>;
+
+
+export type UpdateInventoryAdjustmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateInventoryAdjustment: { __typename?: 'InventoryAdjustments', id: string } } | null };
+
+export type RemoveInventoryAdjustmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInventoryAdjustmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInventoryAdjustment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInventoryBatchMutationVariables = Exact<{
+  inventoryBatch: CreateInventoryBatchInput;
+}>;
+
+
+export type CreateInventoryBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createInventoryBatch: { __typename?: 'InventoryBatches', id: string } } | null };
+
+export type UpdateInventoryBatchMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  inventoryBatch: UpdateInventoryBatchInput;
+}>;
+
+
+export type UpdateInventoryBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateInventoryBatch: { __typename?: 'InventoryBatches', id: string } } | null };
+
+export type RemoveInventoryBatchMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInventoryBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInventoryBatch: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateInventoryStockMutationVariables = Exact<{
+  inventoryStock: CreateInventoryStockInput;
+}>;
+
+
+export type CreateInventoryStockMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createInventoryStock: { __typename?: 'InventoryStock', id: string } } | null };
+
+export type UpdateInventoryStockMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  inventoryStock: UpdateInventoryStockInput;
+}>;
+
+
+export type UpdateInventoryStockMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateInventoryStock: { __typename?: 'InventoryStock', id: string } } | null };
+
+export type RemoveInventoryStockMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInventoryStockMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInventoryStock: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateLocationMutationVariables = Exact<{
+  location: CreateLocationInput;
+}>;
+
+
+export type CreateLocationMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createLocation: { __typename?: 'Locations', id: string } } | null };
+
+export type UpdateLocationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  location: UpdateLocationInput;
+}>;
+
+
+export type UpdateLocationMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateLocation: { __typename?: 'Locations', id: string } } | null };
+
+export type RemoveLocationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveLocationMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeLocation: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateOutboundShipmentItemMutationVariables = Exact<{
+  outboundShipmentItem: CreateOutboundShipmentItemInput;
+}>;
+
+
+export type CreateOutboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createOutboundShipmentItem: { __typename?: 'OutboundShipmentItems', id: string } } | null };
+
+export type UpdateOutboundShipmentItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  outboundShipmentItem: UpdateOutboundShipmentItemInput;
+}>;
+
+
+export type UpdateOutboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateOutboundShipmentItem: { __typename?: 'OutboundShipmentItems', id: string } } | null };
+
+export type RemoveOutboundShipmentItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveOutboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeOutboundShipmentItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateOutboundShipmentMutationVariables = Exact<{
+  outboundShipment: CreateOutboundShipmentInput;
+}>;
+
+
+export type CreateOutboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createOutboundShipment: { __typename?: 'OutboundShipments', id: string } } | null };
+
+export type UpdateOutboundShipmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  outboundShipment: UpdateOutboundShipmentInput;
+}>;
+
+
+export type UpdateOutboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateOutboundShipment: { __typename?: 'OutboundShipments', id: string } } | null };
+
+export type RemoveOutboundShipmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveOutboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeOutboundShipment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePackageItemMutationVariables = Exact<{
+  packageItem: CreatePackageItemInput;
+}>;
+
+
+export type CreatePackageItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPackageItem: { __typename?: 'PackageItems', id: string } } | null };
+
+export type UpdatePackageItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  packageItem: UpdatePackageItemInput;
+}>;
+
+
+export type UpdatePackageItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updatePackageItem: { __typename?: 'PackageItems', id: string } } | null };
+
+export type RemovePackageItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePackageItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePackageItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePackageMutationVariables = Exact<{
+  package: CreatePackageInput;
+}>;
+
+
+export type CreatePackageMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPackage: { __typename?: 'Packages', id: string } } | null };
+
+export type UpdatePackageMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  package: UpdatePackageInput;
+}>;
+
+
+export type UpdatePackageMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updatePackage: { __typename?: 'Packages', id: string } } | null };
+
+export type RemovePackageMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePackageMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePackage: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePickBatchItemMutationVariables = Exact<{
+  pickBatchItem: CreatePickBatchItemInput;
+}>;
+
+
+export type CreatePickBatchItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPickBatchItem: { __typename?: 'PickBatchItems', id: string } } | null };
+
+export type UpdatePickBatchItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  pickBatchItem: UpdatePickBatchItemInput;
+}>;
+
+
+export type UpdatePickBatchItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updatePickBatchItem: { __typename?: 'PickBatchItems', id: string } } | null };
+
+export type RemovePickBatchItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePickBatchItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePickBatchItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePickBatchMutationVariables = Exact<{
+  pickBatch: CreatePickBatchInput;
+}>;
+
+
+export type CreatePickBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPickBatch: { __typename?: 'PickBatches', id: string } } | null };
+
+export type UpdatePickBatchMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  pickBatch: UpdatePickBatchInput;
+}>;
+
+
+export type UpdatePickBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updatePickBatch: { __typename?: 'PickBatches', id: string } } | null };
+
+export type RemovePickBatchMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePickBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePickBatch: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateWmsProductMutationVariables = Exact<{
+  wmsProduct: CreateWmsProductInput;
+}>;
+
+
+export type CreateWmsProductMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createWmsProduct: { __typename?: 'WmsProducts', id: string } } | null };
+
+export type UpdateWmsProductMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  wmsProduct: UpdateWmsProductInput;
+}>;
+
+
+export type UpdateWmsProductMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateWmsProduct: { __typename?: 'WmsProducts', id: string } } | null };
+
+export type RemoveWmsProductMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveWmsProductMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeWmsProduct: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreatePutawayRuleMutationVariables = Exact<{
+  putawayRule: CreatePutawayRuleInput;
+}>;
+
+
+export type CreatePutawayRuleMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPutawayRule: { __typename?: 'PutawayRules', id: string } } | null };
+
+export type UpdatePutawayRuleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  putawayRule: UpdatePutawayRuleInput;
+}>;
+
+
+export type UpdatePutawayRuleMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updatePutawayRule: { __typename?: 'PutawayRules', id: string } } | null };
+
+export type RemovePutawayRuleMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemovePutawayRuleMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePutawayRule: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateReorderPointMutationVariables = Exact<{
+  reorderPoint: CreateReorderPointInput;
+}>;
+
+
+export type CreateReorderPointMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createReorderPoint: { __typename?: 'ReorderPoints', id: string } } | null };
+
+export type UpdateReorderPointMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  reorderPoint: UpdateReorderPointInput;
+}>;
+
+
+export type UpdateReorderPointMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateReorderPoint: { __typename?: 'ReorderPoints', id: string } } | null };
+
+export type RemoveReorderPointMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveReorderPointMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeReorderPoint: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateReturnItemMutationVariables = Exact<{
+  returnItem: CreateReturnItemInput;
+}>;
+
+
+export type CreateReturnItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createReturnItem: { __typename?: 'ReturnItems', id: string } } | null };
+
+export type UpdateReturnItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  returnItem: UpdateReturnItemInput;
+}>;
+
+
+export type UpdateReturnItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateReturnItem: { __typename?: 'ReturnItems', id: string } } | null };
+
+export type RemoveReturnItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveReturnItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeReturnItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateReturnMutationVariables = Exact<{
+  return: CreateReturnInput;
+}>;
+
+
+export type CreateReturnMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createReturn: { __typename?: 'Returns', id: string } } | null };
+
+export type UpdateReturnMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  return: UpdateReturnInput;
+}>;
+
+
+export type UpdateReturnMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateReturn: { __typename?: 'Returns', id: string } } | null };
+
+export type RemoveReturnMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveReturnMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeReturn: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateSalesOrderItemMutationVariables = Exact<{
+  salesOrderItem: CreateSalesOrderItemInput;
+}>;
+
+
+export type CreateSalesOrderItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createSalesOrderItem: { __typename?: 'SalesOrderItems', id: string } } | null };
+
+export type UpdateSalesOrderItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  salesOrderItem: UpdateSalesOrderItemInput;
+}>;
+
+
+export type UpdateSalesOrderItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateSalesOrderItem: { __typename?: 'SalesOrderItems', id: string } } | null };
+
+export type RemoveSalesOrderItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveSalesOrderItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeSalesOrderItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateSalesOrderMutationVariables = Exact<{
+  salesOrder: CreateSalesOrderInput;
+}>;
+
+
+export type CreateSalesOrderMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createSalesOrder: { __typename?: 'SalesOrders', id: string } } | null };
+
+export type UpdateSalesOrderMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  salesOrder: UpdateSalesOrderInput;
+}>;
+
+
+export type UpdateSalesOrderMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateSalesOrder: { __typename?: 'SalesOrders', id: string } } | null };
+
+export type RemoveSalesOrderMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveSalesOrderMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeSalesOrder: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateStockTransferMutationVariables = Exact<{
+  stockTransfer: CreateStockTransferInput;
+}>;
+
+
+export type CreateStockTransferMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createStockTransfer: { __typename?: 'StockTransfers', id: string } } | null };
+
+export type UpdateStockTransferMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  stockTransfer: UpdateStockTransferInput;
+}>;
+
+
+export type UpdateStockTransferMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateStockTransfer: { __typename?: 'StockTransfers', id: string } } | null };
+
+export type RemoveStockTransferMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveStockTransferMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeStockTransfer: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateSupplierMutationVariables = Exact<{
+  supplier: CreateSupplierInput;
+}>;
+
+
+export type CreateSupplierMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createSupplier: { __typename?: 'Suppliers', id: string } } | null };
+
+export type UpdateSupplierMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  supplier: UpdateSupplierInput;
+}>;
+
+
+export type UpdateSupplierMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateSupplier: { __typename?: 'Suppliers', id: string } } | null };
+
+export type RemoveSupplierMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveSupplierMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeSupplier: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateTaskItemMutationVariables = Exact<{
+  taskItem: CreateTaskItemInput;
+}>;
+
+
+export type CreateTaskItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createTaskItem: { __typename?: 'TaskItems', id: string } } | null };
+
+export type UpdateTaskItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  taskItem: UpdateTaskItemInput;
+}>;
+
+
+export type UpdateTaskItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateTaskItem: { __typename?: 'TaskItems', id: string } } | null };
+
+export type RemoveTaskItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveTaskItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeTaskItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateTaskMutationVariables = Exact<{
+  task: CreateTaskInput;
+}>;
+
+
+export type CreateTaskMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createTask: { __typename?: 'Tasks', id: string } } | null };
+
+export type UpdateTaskMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  task: UpdateTaskInput;
+}>;
+
+
+export type UpdateTaskMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateTask: { __typename?: 'Tasks', id: string } } | null };
+
+export type RemoveTaskMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveTaskMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeTask: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type CreateWarehouseMutationVariables = Exact<{
+  warehouse: CreateWarehouseInput;
+}>;
+
+
+export type CreateWarehouseMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createWarehouse: { __typename?: 'Warehouses', id: string } } | null };
+
+export type UpdateWarehouseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  warehouse: UpdateWarehouseInput;
+}>;
+
+
+export type UpdateWarehouseMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', updateWarehouse: { __typename?: 'Warehouses', id: string } } | null };
+
+export type RemoveWarehouseMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveWarehouseMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeWarehouse: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export class TypedDocumentString<TResult, TVariables>
+  extends String
+  implements DocumentTypeDecoration<TResult, TVariables>
+{
+  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
+  private value: string;
+  public __meta__?: Record<string, any> | undefined;
+
+  constructor(value: string, __meta__?: Record<string, any> | undefined) {
+    super(value);
+    this.value = value;
+    this.__meta__ = __meta__;
+  }
+
+  override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+    return this.value;
+  }
+}
+
+export const CreateAccountTransactionDocument = new TypedDocumentString(`
+    mutation CreateAccountTransaction($accountTransaction: CreateAccountTransactionInput!) {
+  billing {
+    createAccountTransaction(value: $accountTransaction) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateAccountTransactionMutation, CreateAccountTransactionMutationVariables>;
+export const UpdateAccountTransactionDocument = new TypedDocumentString(`
+    mutation UpdateAccountTransaction($id: ID!, $accountTransaction: UpdateAccountTransactionInput!) {
+  billing {
+    updateAccountTransaction(id: $id, value: $accountTransaction) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountTransactionMutation, UpdateAccountTransactionMutationVariables>;
+export const RemoveAccountTransactionDocument = new TypedDocumentString(`
+    mutation RemoveAccountTransaction($id: ID!) {
+  billing {
+    removeAccountTransaction(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveAccountTransactionMutation, RemoveAccountTransactionMutationVariables>;
+export const CreateAccountingSyncLogDocument = new TypedDocumentString(`
+    mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {
+  billing {
+    createAccountingSyncLog(value: $accountingSyncLog) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateAccountingSyncLogMutation, CreateAccountingSyncLogMutationVariables>;
+export const UpdateAccountingSyncLogDocument = new TypedDocumentString(`
+    mutation UpdateAccountingSyncLog($id: ID!, $accountingSyncLog: UpdateAccountingSyncLogInput!) {
+  billing {
+    updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogMutation, UpdateAccountingSyncLogMutationVariables>;
+export const RemoveAccountingSyncLogDocument = new TypedDocumentString(`
+    mutation RemoveAccountingSyncLog($id: ID!) {
+  billing {
+    removeAccountingSyncLog(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveAccountingSyncLogMutation, RemoveAccountingSyncLogMutationVariables>;
+export const CreateClientAccountDocument = new TypedDocumentString(`
+    mutation CreateClientAccount($clientAccount: CreateClientAccountInput!) {
+  billing {
+    createClientAccount(value: $clientAccount) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateClientAccountMutation, CreateClientAccountMutationVariables>;
+export const UpdateClientAccountDocument = new TypedDocumentString(`
+    mutation UpdateClientAccount($id: ID!, $clientAccount: UpdateClientAccountInput!) {
+  billing {
+    updateClientAccount(id: $id, value: $clientAccount) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateClientAccountMutation, UpdateClientAccountMutationVariables>;
+export const RemoveClientAccountDocument = new TypedDocumentString(`
+    mutation RemoveClientAccount($id: ID!) {
+  billing {
+    removeClientAccount(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveClientAccountMutation, RemoveClientAccountMutationVariables>;
+export const CreateCreditNoteDocument = new TypedDocumentString(`
+    mutation CreateCreditNote($creditNote: CreateCreditNoteInput!) {
+  billing {
+    createCreditNote(value: $creditNote) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCreditNoteMutation, CreateCreditNoteMutationVariables>;
+export const UpdateCreditNoteDocument = new TypedDocumentString(`
+    mutation UpdateCreditNote($id: ID!, $creditNote: UpdateCreditNoteInput!) {
+  billing {
+    updateCreditNote(id: $id, value: $creditNote) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCreditNoteMutation, UpdateCreditNoteMutationVariables>;
+export const RemoveCreditNoteDocument = new TypedDocumentString(`
+    mutation RemoveCreditNote($id: ID!) {
+  billing {
+    removeCreditNote(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCreditNoteMutation, RemoveCreditNoteMutationVariables>;
+export const CreateDisputeDocument = new TypedDocumentString(`
+    mutation CreateDispute($dispute: CreateDisputeInput!) {
+  billing {
+    createDispute(value: $dispute) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDisputeMutation, CreateDisputeMutationVariables>;
+export const UpdateDisputeDocument = new TypedDocumentString(`
+    mutation UpdateDispute($id: ID!, $dispute: UpdateDisputeInput!) {
+  billing {
+    updateDispute(id: $id, value: $dispute) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDisputeMutation, UpdateDisputeMutationVariables>;
+export const RemoveDisputeDocument = new TypedDocumentString(`
+    mutation RemoveDispute($id: ID!) {
+  billing {
+    removeDispute(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDisputeMutation, RemoveDisputeMutationVariables>;
+export const CreateInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {
+  billing {
+    createInvoiceLineItem(value: $invoiceLineItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInvoiceLineItemMutation, CreateInvoiceLineItemMutationVariables>;
+export const UpdateInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {
+  billing {
+    updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInvoiceLineItemMutation, UpdateInvoiceLineItemMutationVariables>;
+export const RemoveInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation RemoveInvoiceLineItem($id: ID!) {
+  billing {
+    removeInvoiceLineItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInvoiceLineItemMutation, RemoveInvoiceLineItemMutationVariables>;
+export const CreateBillingInvoiceDocument = new TypedDocumentString(`
+    mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {
+  billing {
+    createBillingInvoice(value: $billingInvoice) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateBillingInvoiceMutation, CreateBillingInvoiceMutationVariables>;
+export const UpdateBillingInvoiceDocument = new TypedDocumentString(`
+    mutation UpdateBillingInvoice($id: ID!, $billingInvoice: UpdateBillingInvoiceInput!) {
+  billing {
+    updateBillingInvoice(id: $id, value: $billingInvoice) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBillingInvoiceMutation, UpdateBillingInvoiceMutationVariables>;
+export const RemoveBillingInvoiceDocument = new TypedDocumentString(`
+    mutation RemoveBillingInvoice($id: ID!) {
+  billing {
+    removeBillingInvoice(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveBillingInvoiceMutation, RemoveBillingInvoiceMutationVariables>;
+export const CreatePaymentDocument = new TypedDocumentString(`
+    mutation CreatePayment($payment: CreatePaymentInput!) {
+  billing {
+    createPayment(value: $payment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export const UpdatePaymentDocument = new TypedDocumentString(`
+    mutation UpdatePayment($id: ID!, $payment: UpdatePaymentInput!) {
+  billing {
+    updatePayment(id: $id, value: $payment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePaymentMutation, UpdatePaymentMutationVariables>;
+export const RemovePaymentDocument = new TypedDocumentString(`
+    mutation RemovePayment($id: ID!) {
+  billing {
+    removePayment(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePaymentMutation, RemovePaymentMutationVariables>;
+export const CreateQuoteDocument = new TypedDocumentString(`
+    mutation CreateQuote($quote: CreateQuoteInput!) {
+  billing {
+    createQuote(value: $quote) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateQuoteMutation, CreateQuoteMutationVariables>;
+export const UpdateQuoteDocument = new TypedDocumentString(`
+    mutation UpdateQuote($id: ID!, $quote: UpdateQuoteInput!) {
+  billing {
+    updateQuote(id: $id, value: $quote) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateQuoteMutation, UpdateQuoteMutationVariables>;
+export const RemoveQuoteDocument = new TypedDocumentString(`
+    mutation RemoveQuote($id: ID!) {
+  billing {
+    removeQuote(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveQuoteMutation, RemoveQuoteMutationVariables>;
+export const CreateRateCardDocument = new TypedDocumentString(`
+    mutation CreateRateCard($rateCard: CreateRateCardInput!) {
+  billing {
+    createRateCard(value: $rateCard) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRateCardMutation, CreateRateCardMutationVariables>;
+export const UpdateRateCardDocument = new TypedDocumentString(`
+    mutation UpdateRateCard($id: ID!, $rateCard: UpdateRateCardInput!) {
+  billing {
+    updateRateCard(id: $id, value: $rateCard) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateCardMutation, UpdateRateCardMutationVariables>;
+export const RemoveRateCardDocument = new TypedDocumentString(`
+    mutation RemoveRateCard($id: ID!) {
+  billing {
+    removeRateCard(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveRateCardMutation, RemoveRateCardMutationVariables>;
+export const CreateRateRuleDocument = new TypedDocumentString(`
+    mutation CreateRateRule($rateRule: CreateRateRuleInput!) {
+  billing {
+    createRateRule(value: $rateRule) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRateRuleMutation, CreateRateRuleMutationVariables>;
+export const UpdateRateRuleDocument = new TypedDocumentString(`
+    mutation UpdateRateRule($id: ID!, $rateRule: UpdateRateRuleInput!) {
+  billing {
+    updateRateRule(id: $id, value: $rateRule) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRateRuleMutation, UpdateRateRuleMutationVariables>;
+export const RemoveRateRuleDocument = new TypedDocumentString(`
+    mutation RemoveRateRule($id: ID!) {
+  billing {
+    removeRateRule(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveRateRuleMutation, RemoveRateRuleMutationVariables>;
+export const CreateSurchargeDocument = new TypedDocumentString(`
+    mutation CreateSurcharge($surcharge: CreateSurchargeInput!) {
+  billing {
+    createSurcharge(value: $surcharge) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateSurchargeMutation, CreateSurchargeMutationVariables>;
+export const UpdateSurchargeDocument = new TypedDocumentString(`
+    mutation UpdateSurcharge($id: ID!, $surcharge: UpdateSurchargeInput!) {
+  billing {
+    updateSurcharge(id: $id, value: $surcharge) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSurchargeMutation, UpdateSurchargeMutationVariables>;
+export const RemoveSurchargeDocument = new TypedDocumentString(`
+    mutation RemoveSurcharge($id: ID!) {
+  billing {
+    removeSurcharge(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveSurchargeMutation, RemoveSurchargeMutationVariables>;
+export const CreateCampaignDocument = new TypedDocumentString(`
+    mutation CreateCampaign($campaign: CreateCampaignInput!) {
+  crm {
+    createCampaign(value: $campaign) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCampaignMutation, CreateCampaignMutationVariables>;
+export const UpdateCampaignDocument = new TypedDocumentString(`
+    mutation UpdateCampaign($id: ID!, $campaign: UpdateCampaignInput!) {
+  crm {
+    updateCampaign(id: $id, value: $campaign) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCampaignMutation, UpdateCampaignMutationVariables>;
+export const RemoveCampaignDocument = new TypedDocumentString(`
+    mutation RemoveCampaign($id: ID!) {
+  crm {
+    removeCampaign(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCampaignMutation, RemoveCampaignMutationVariables>;
+export const CreateCaseDocument = new TypedDocumentString(`
+    mutation CreateCase($case: CreateCaseInput!) {
+  crm {
+    createCase(value: $case) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCaseMutation, CreateCaseMutationVariables>;
+export const UpdateCaseDocument = new TypedDocumentString(`
+    mutation UpdateCase($id: ID!, $case: UpdateCaseInput!) {
+  crm {
+    updateCase(id: $id, value: $case) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCaseMutation, UpdateCaseMutationVariables>;
+export const RemoveCaseDocument = new TypedDocumentString(`
+    mutation RemoveCase($id: ID!) {
+  crm {
+    removeCase(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCaseMutation, RemoveCaseMutationVariables>;
+export const CreateCompanyDocument = new TypedDocumentString(`
+    mutation CreateCompany($company: CreateCompanyInput!) {
+  crm {
+    createCompany(value: $company) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCompanyMutation, CreateCompanyMutationVariables>;
+export const UpdateCompanyDocument = new TypedDocumentString(`
+    mutation UpdateCompany($id: ID!, $company: UpdateCompanyInput!) {
+  crm {
+    updateCompany(id: $id, value: $company) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCompanyMutation, UpdateCompanyMutationVariables>;
+export const RemoveCompanyDocument = new TypedDocumentString(`
+    mutation RemoveCompany($id: ID!) {
+  crm {
+    removeCompany(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCompanyMutation, RemoveCompanyMutationVariables>;
+export const CreateContactDocument = new TypedDocumentString(`
+    mutation CreateContact($contact: CreateContactInput!) {
+  crm {
+    createContact(value: $contact) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateContactMutation, CreateContactMutationVariables>;
+export const UpdateContactDocument = new TypedDocumentString(`
+    mutation UpdateContact($id: ID!, $contact: UpdateContactInput!) {
+  crm {
+    updateContact(id: $id, value: $contact) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateContactMutation, UpdateContactMutationVariables>;
+export const RemoveContactDocument = new TypedDocumentString(`
+    mutation RemoveContact($id: ID!) {
+  crm {
+    removeContact(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveContactMutation, RemoveContactMutationVariables>;
+export const CreateInteractionDocument = new TypedDocumentString(`
+    mutation CreateInteraction($interaction: CreateInteractionInput!) {
+  crm {
+    createInteraction(value: $interaction) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInteractionMutation, CreateInteractionMutationVariables>;
+export const UpdateInteractionDocument = new TypedDocumentString(`
+    mutation UpdateInteraction($id: ID!, $interaction: UpdateInteractionInput!) {
+  crm {
+    updateInteraction(id: $id, value: $interaction) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInteractionMutation, UpdateInteractionMutationVariables>;
+export const RemoveInteractionDocument = new TypedDocumentString(`
+    mutation RemoveInteraction($id: ID!) {
+  crm {
+    removeInteraction(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInteractionMutation, RemoveInteractionMutationVariables>;
+export const CreateInvoiceItemDocument = new TypedDocumentString(`
+    mutation CreateInvoiceItem($invoiceItem: CreateInvoiceItemInput!) {
+  crm {
+    createInvoiceItem(value: $invoiceItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInvoiceItemMutation, CreateInvoiceItemMutationVariables>;
+export const UpdateInvoiceItemDocument = new TypedDocumentString(`
+    mutation UpdateInvoiceItem($id: ID!, $invoiceItem: UpdateInvoiceItemInput!) {
+  crm {
+    updateInvoiceItem(id: $id, value: $invoiceItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInvoiceItemMutation, UpdateInvoiceItemMutationVariables>;
+export const RemoveInvoiceItemDocument = new TypedDocumentString(`
+    mutation RemoveInvoiceItem($id: ID!) {
+  crm {
+    removeInvoiceItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInvoiceItemMutation, RemoveInvoiceItemMutationVariables>;
+export const CreateInvoiceDocument = new TypedDocumentString(`
+    mutation CreateInvoice($invoice: CreateInvoiceInput!) {
+  crm {
+    createInvoice(value: $invoice) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInvoiceMutation, CreateInvoiceMutationVariables>;
+export const UpdateInvoiceDocument = new TypedDocumentString(`
+    mutation UpdateInvoice($id: ID!, $invoice: UpdateInvoiceInput!) {
+  crm {
+    updateInvoice(id: $id, value: $invoice) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInvoiceMutation, UpdateInvoiceMutationVariables>;
+export const RemoveInvoiceDocument = new TypedDocumentString(`
+    mutation RemoveInvoice($id: ID!) {
+  crm {
+    removeInvoice(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInvoiceMutation, RemoveInvoiceMutationVariables>;
+export const CreateLeadDocument = new TypedDocumentString(`
+    mutation CreateLead($lead: CreateLeadInput!) {
+  crm {
+    createLead(value: $lead) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateLeadMutation, CreateLeadMutationVariables>;
+export const UpdateLeadDocument = new TypedDocumentString(`
+    mutation UpdateLead($id: ID!, $lead: UpdateLeadInput!) {
+  crm {
+    updateLead(id: $id, value: $lead) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateLeadMutation, UpdateLeadMutationVariables>;
+export const RemoveLeadDocument = new TypedDocumentString(`
+    mutation RemoveLead($id: ID!) {
+  crm {
+    removeLead(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveLeadMutation, RemoveLeadMutationVariables>;
+export const CreateNotificationDocument = new TypedDocumentString(`
+    mutation CreateNotification($notification: CreateNotificationInput!) {
+  crm {
+    createNotification(value: $notification) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateNotificationMutation, CreateNotificationMutationVariables>;
+export const UpdateNotificationDocument = new TypedDocumentString(`
+    mutation UpdateNotification($id: ID!, $notification: UpdateNotificationInput!) {
+  crm {
+    updateNotification(id: $id, value: $notification) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateNotificationMutation, UpdateNotificationMutationVariables>;
+export const RemoveNotificationDocument = new TypedDocumentString(`
+    mutation RemoveNotification($id: ID!) {
+  crm {
+    removeNotification(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveNotificationMutation, RemoveNotificationMutationVariables>;
+export const CreateOpportunityDocument = new TypedDocumentString(`
+    mutation CreateOpportunity($opportunity: CreateOpportunityInput!) {
+  crm {
+    createOpportunity(value: $opportunity) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOpportunityMutation, CreateOpportunityMutationVariables>;
+export const UpdateOpportunityDocument = new TypedDocumentString(`
+    mutation UpdateOpportunity($id: ID!, $opportunity: UpdateOpportunityInput!) {
+  crm {
+    updateOpportunity(id: $id, value: $opportunity) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateOpportunityMutation, UpdateOpportunityMutationVariables>;
+export const RemoveOpportunityDocument = new TypedDocumentString(`
+    mutation RemoveOpportunity($id: ID!) {
+  crm {
+    removeOpportunity(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveOpportunityMutation, RemoveOpportunityMutationVariables>;
+export const CreateOpportunityProductDocument = new TypedDocumentString(`
+    mutation CreateOpportunityProduct($opportunityProduct: CreateOpportunityProductInput!) {
+  crm {
+    createOpportunityProduct(value: $opportunityProduct) {
+      opportunity {
+        id
+      }
+      product {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOpportunityProductMutation, CreateOpportunityProductMutationVariables>;
+export const UpdateOpportunityProductDocument = new TypedDocumentString(`
+    mutation UpdateOpportunityProduct($opportunityId: ID!, $productId: ID!, $opportunityProduct: UpdateOpportunityProductInput!) {
+  crm {
+    updateOpportunityProduct(
+      opportunityId: $opportunityId
+      productId: $productId
+      value: $opportunityProduct
+    ) {
+      opportunity {
+        id
+      }
+      product {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateOpportunityProductMutation, UpdateOpportunityProductMutationVariables>;
+export const RemoveOpportunityProductDocument = new TypedDocumentString(`
+    mutation RemoveOpportunityProduct($opportunityId: ID!, $productId: ID!) {
+  crm {
+    removeOpportunityProduct(opportunityId: $opportunityId, productId: $productId) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveOpportunityProductMutation, RemoveOpportunityProductMutationVariables>;
+export const CreateProductDocument = new TypedDocumentString(`
+    mutation CreateProduct($product: CreateProductInput!) {
+  crm {
+    createProduct(value: $product) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateProductMutation, CreateProductMutationVariables>;
+export const UpdateProductDocument = new TypedDocumentString(`
+    mutation UpdateProduct($id: ID!, $product: UpdateProductInput!) {
+  crm {
+    updateProduct(id: $id, value: $product) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProductMutation, UpdateProductMutationVariables>;
+export const RemoveProductDocument = new TypedDocumentString(`
+    mutation RemoveProduct($id: ID!) {
+  crm {
+    removeProduct(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveProductMutation, RemoveProductMutationVariables>;
+export const CreateCustomerTrackingLinkDocument = new TypedDocumentString(`
+    mutation CreateCustomerTrackingLink($customerTrackingLink: CreateCustomerTrackingLinkInput!) {
+  dms {
+    createCustomerTrackingLink(value: $customerTrackingLink) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCustomerTrackingLinkMutation, CreateCustomerTrackingLinkMutationVariables>;
+export const UpdateCustomerTrackingLinkDocument = new TypedDocumentString(`
+    mutation UpdateCustomerTrackingLink($id: ID!, $customerTrackingLink: UpdateCustomerTrackingLinkInput!) {
+  dms {
+    updateCustomerTrackingLink(id: $id, value: $customerTrackingLink) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkMutation, UpdateCustomerTrackingLinkMutationVariables>;
+export const RemoveCustomerTrackingLinkDocument = new TypedDocumentString(`
+    mutation RemoveCustomerTrackingLink($id: ID!) {
+  dms {
+    removeCustomerTrackingLink(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCustomerTrackingLinkMutation, RemoveCustomerTrackingLinkMutationVariables>;
+export const CreateDeliveryRouteDocument = new TypedDocumentString(`
+    mutation CreateDeliveryRoute($deliveryRoute: CreateDeliveryRouteInput!) {
+  dms {
+    createDeliveryRoute(value: $deliveryRoute) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDeliveryRouteMutation, CreateDeliveryRouteMutationVariables>;
+export const UpdateDeliveryRouteDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryRoute($id: ID!, $deliveryRoute: UpdateDeliveryRouteInput!) {
+  dms {
+    updateDeliveryRoute(id: $id, value: $deliveryRoute) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryRouteMutation, UpdateDeliveryRouteMutationVariables>;
+export const RemoveDeliveryRouteDocument = new TypedDocumentString(`
+    mutation RemoveDeliveryRoute($id: ID!) {
+  dms {
+    removeDeliveryRoute(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDeliveryRouteMutation, RemoveDeliveryRouteMutationVariables>;
+export const CreateDeliveryTaskDocument = new TypedDocumentString(`
+    mutation CreateDeliveryTask($deliveryTask: CreateDeliveryTaskInput!) {
+  dms {
+    createDeliveryTask(value: $deliveryTask) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDeliveryTaskMutation, CreateDeliveryTaskMutationVariables>;
+export const UpdateDeliveryTaskDocument = new TypedDocumentString(`
+    mutation UpdateDeliveryTask($id: ID!, $deliveryTask: UpdateDeliveryTaskInput!) {
+  dms {
+    updateDeliveryTask(id: $id, value: $deliveryTask) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDeliveryTaskMutation, UpdateDeliveryTaskMutationVariables>;
+export const RemoveDeliveryTaskDocument = new TypedDocumentString(`
+    mutation RemoveDeliveryTask($id: ID!) {
+  dms {
+    removeDeliveryTask(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDeliveryTaskMutation, RemoveDeliveryTaskMutationVariables>;
+export const CreateDriverLocationDocument = new TypedDocumentString(`
+    mutation CreateDriverLocation($driverLocation: CreateDriverLocationInput!) {
+  dms {
+    createDriverLocation(value: $driverLocation) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDriverLocationMutation, CreateDriverLocationMutationVariables>;
+export const UpdateDriverLocationDocument = new TypedDocumentString(`
+    mutation UpdateDriverLocation($id: ID!, $driverLocation: UpdateDriverLocationInput!) {
+  dms {
+    updateDriverLocation(id: $id, value: $driverLocation) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverLocationMutation, UpdateDriverLocationMutationVariables>;
+export const RemoveDriverLocationDocument = new TypedDocumentString(`
+    mutation RemoveDriverLocation($id: ID!) {
+  dms {
+    removeDriverLocation(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDriverLocationMutation, RemoveDriverLocationMutationVariables>;
+export const CreateDmsProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation CreateDmsProofOfDelivery($dmsProofOfDelivery: CreateDmsProofOfDeliveryInput!) {
+  dms {
+    createDmsProofOfDelivery(value: $dmsProofOfDelivery) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDmsProofOfDeliveryMutation, CreateDmsProofOfDeliveryMutationVariables>;
+export const UpdateDmsProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation UpdateDmsProofOfDelivery($id: ID!, $dmsProofOfDelivery: UpdateDmsProofOfDeliveryInput!) {
+  dms {
+    updateDmsProofOfDelivery(id: $id, value: $dmsProofOfDelivery) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDmsProofOfDeliveryMutation, UpdateDmsProofOfDeliveryMutationVariables>;
+export const RemoveDmsProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation RemoveDmsProofOfDelivery($id: ID!) {
+  dms {
+    removeDmsProofOfDelivery(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDmsProofOfDeliveryMutation, RemoveDmsProofOfDeliveryMutationVariables>;
+export const CreateTaskEventDocument = new TypedDocumentString(`
+    mutation CreateTaskEvent($taskEvent: CreateTaskEventInput!) {
+  dms {
+    createTaskEvent(value: $taskEvent) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTaskEventMutation, CreateTaskEventMutationVariables>;
+export const UpdateTaskEventDocument = new TypedDocumentString(`
+    mutation UpdateTaskEvent($id: ID!, $taskEvent: UpdateTaskEventInput!) {
+  dms {
+    updateTaskEvent(id: $id, value: $taskEvent) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskEventMutation, UpdateTaskEventMutationVariables>;
+export const RemoveTaskEventDocument = new TypedDocumentString(`
+    mutation RemoveTaskEvent($id: ID!) {
+  dms {
+    removeTaskEvent(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTaskEventMutation, RemoveTaskEventMutationVariables>;
+export const CreateCarrierRateDocument = new TypedDocumentString(`
+    mutation CreateCarrierRate($carrierRate: CreateCarrierRateInput!) {
+  tms {
+    createCarrierRate(value: $carrierRate) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCarrierRateMutation, CreateCarrierRateMutationVariables>;
+export const UpdateCarrierRateDocument = new TypedDocumentString(`
+    mutation UpdateCarrierRate($id: ID!, $carrierRate: UpdateCarrierRateInput!) {
+  tms {
+    updateCarrierRate(id: $id, value: $carrierRate) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCarrierRateMutation, UpdateCarrierRateMutationVariables>;
+export const RemoveCarrierRateDocument = new TypedDocumentString(`
+    mutation RemoveCarrierRate($id: ID!) {
+  tms {
+    removeCarrierRate(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCarrierRateMutation, RemoveCarrierRateMutationVariables>;
+export const CreateCarrierDocument = new TypedDocumentString(`
+    mutation CreateCarrier($carrier: CreateCarrierInput!) {
+  tms {
+    createCarrier(value: $carrier) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCarrierMutation, CreateCarrierMutationVariables>;
+export const UpdateCarrierDocument = new TypedDocumentString(`
+    mutation UpdateCarrier($id: ID!, $carrier: UpdateCarrierInput!) {
+  tms {
+    updateCarrier(id: $id, value: $carrier) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCarrierMutation, UpdateCarrierMutationVariables>;
+export const RemoveCarrierDocument = new TypedDocumentString(`
+    mutation RemoveCarrier($id: ID!) {
+  tms {
+    removeCarrier(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveCarrierMutation, RemoveCarrierMutationVariables>;
+export const CreateDriverScheduleDocument = new TypedDocumentString(`
+    mutation CreateDriverSchedule($driverSchedule: CreateDriverScheduleInput!) {
+  tms {
+    createDriverSchedule(value: $driverSchedule) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDriverScheduleMutation, CreateDriverScheduleMutationVariables>;
+export const UpdateDriverScheduleDocument = new TypedDocumentString(`
+    mutation UpdateDriverSchedule($id: ID!, $driverSchedule: UpdateDriverScheduleInput!) {
+  tms {
+    updateDriverSchedule(id: $id, value: $driverSchedule) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverScheduleMutation, UpdateDriverScheduleMutationVariables>;
+export const RemoveDriverScheduleDocument = new TypedDocumentString(`
+    mutation RemoveDriverSchedule($id: ID!) {
+  tms {
+    removeDriverSchedule(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDriverScheduleMutation, RemoveDriverScheduleMutationVariables>;
+export const CreateDriverDocument = new TypedDocumentString(`
+    mutation CreateDriver($driver: CreateDriverInput!) {
+  tms {
+    createDriver(value: $driver) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDriverMutation, CreateDriverMutationVariables>;
+export const UpdateDriverDocument = new TypedDocumentString(`
+    mutation UpdateDriver($id: ID!, $driver: UpdateDriverInput!) {
+  tms {
+    updateDriver(id: $id, value: $driver) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDriverMutation, UpdateDriverMutationVariables>;
+export const RemoveDriverDocument = new TypedDocumentString(`
+    mutation RemoveDriver($id: ID!) {
+  tms {
+    removeDriver(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDriverMutation, RemoveDriverMutationVariables>;
+export const CreateExpenseDocument = new TypedDocumentString(`
+    mutation CreateExpense($expense: CreateExpenseInput!) {
+  tms {
+    createExpense(value: $expense) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateExpenseMutation, CreateExpenseMutationVariables>;
+export const UpdateExpenseDocument = new TypedDocumentString(`
+    mutation UpdateExpense($id: ID!, $expense: UpdateExpenseInput!) {
+  tms {
+    updateExpense(id: $id, value: $expense) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateExpenseMutation, UpdateExpenseMutationVariables>;
+export const RemoveExpenseDocument = new TypedDocumentString(`
+    mutation RemoveExpense($id: ID!) {
+  tms {
+    removeExpense(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveExpenseMutation, RemoveExpenseMutationVariables>;
+export const CreateGeofenceEventDocument = new TypedDocumentString(`
+    mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {
+  tms {
+    createGeofenceEvent(value: $geofenceEvent) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateGeofenceEventMutation, CreateGeofenceEventMutationVariables>;
+export const UpdateGeofenceEventDocument = new TypedDocumentString(`
+    mutation UpdateGeofenceEvent($id: ID!, $geofenceEvent: UpdateGeofenceEventInput!) {
+  tms {
+    updateGeofenceEvent(id: $id, value: $geofenceEvent) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateGeofenceEventMutation, UpdateGeofenceEventMutationVariables>;
+export const RemoveGeofenceEventDocument = new TypedDocumentString(`
+    mutation RemoveGeofenceEvent($id: ID!) {
+  tms {
+    removeGeofenceEvent(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveGeofenceEventMutation, RemoveGeofenceEventMutationVariables>;
+export const CreateGeofenceDocument = new TypedDocumentString(`
+    mutation CreateGeofence($geofence: CreateGeofenceInput!) {
+  tms {
+    createGeofence(value: $geofence) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateGeofenceMutation, CreateGeofenceMutationVariables>;
+export const UpdateGeofenceDocument = new TypedDocumentString(`
+    mutation UpdateGeofence($id: ID!, $geofence: UpdateGeofenceInput!) {
+  tms {
+    updateGeofence(id: $id, value: $geofence) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateGeofenceMutation, UpdateGeofenceMutationVariables>;
+export const RemoveGeofenceDocument = new TypedDocumentString(`
+    mutation RemoveGeofence($id: ID!) {
+  tms {
+    removeGeofence(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveGeofenceMutation, RemoveGeofenceMutationVariables>;
+export const CreateGpsPingDocument = new TypedDocumentString(`
+    mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {
+  tms {
+    createGpsPing(value: $gpsPing) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateGpsPingMutation, CreateGpsPingMutationVariables>;
+export const UpdateGpsPingDocument = new TypedDocumentString(`
+    mutation UpdateGpsPing($id: ID!, $gpsPing: UpdateGpsPingInput!) {
+  tms {
+    updateGpsPing(id: $id, value: $gpsPing) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateGpsPingMutation, UpdateGpsPingMutationVariables>;
+export const RemoveGpsPingDocument = new TypedDocumentString(`
+    mutation RemoveGpsPing($id: ID!) {
+  tms {
+    removeGpsPing(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveGpsPingMutation, RemoveGpsPingMutationVariables>;
+export const CreatePartnerInvoiceItemDocument = new TypedDocumentString(`
+    mutation CreatePartnerInvoiceItem($partnerInvoiceItem: CreatePartnerInvoiceItemInput!) {
+  tms {
+    createPartnerInvoiceItem(value: $partnerInvoiceItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePartnerInvoiceItemMutation, CreatePartnerInvoiceItemMutationVariables>;
+export const UpdatePartnerInvoiceItemDocument = new TypedDocumentString(`
+    mutation UpdatePartnerInvoiceItem($id: ID!, $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!) {
+  tms {
+    updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePartnerInvoiceItemMutation, UpdatePartnerInvoiceItemMutationVariables>;
+export const RemovePartnerInvoiceItemDocument = new TypedDocumentString(`
+    mutation RemovePartnerInvoiceItem($id: ID!) {
+  tms {
+    removePartnerInvoiceItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePartnerInvoiceItemMutation, RemovePartnerInvoiceItemMutationVariables>;
+export const CreatePartnerInvoiceDocument = new TypedDocumentString(`
+    mutation CreatePartnerInvoice($partnerInvoice: CreatePartnerInvoiceInput!) {
+  tms {
+    createPartnerInvoice(value: $partnerInvoice) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePartnerInvoiceMutation, CreatePartnerInvoiceMutationVariables>;
+export const UpdatePartnerInvoiceDocument = new TypedDocumentString(`
+    mutation UpdatePartnerInvoice($id: ID!, $partnerInvoice: UpdatePartnerInvoiceInput!) {
+  tms {
+    updatePartnerInvoice(id: $id, value: $partnerInvoice) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePartnerInvoiceMutation, UpdatePartnerInvoiceMutationVariables>;
+export const RemovePartnerInvoiceDocument = new TypedDocumentString(`
+    mutation RemovePartnerInvoice($id: ID!) {
+  tms {
+    removePartnerInvoice(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePartnerInvoiceMutation, RemovePartnerInvoiceMutationVariables>;
+export const CreateProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {
+  tms {
+    createProofOfDelivery(value: $proofOfDelivery) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateProofOfDeliveryMutation, CreateProofOfDeliveryMutationVariables>;
+export const UpdateProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation UpdateProofOfDelivery($id: ID!, $proofOfDelivery: UpdateProofOfDeliveryInput!) {
+  tms {
+    updateProofOfDelivery(id: $id, value: $proofOfDelivery) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateProofOfDeliveryMutation, UpdateProofOfDeliveryMutationVariables>;
+export const RemoveProofOfDeliveryDocument = new TypedDocumentString(`
+    mutation RemoveProofOfDelivery($id: ID!) {
+  tms {
+    removeProofOfDelivery(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveProofOfDeliveryMutation, RemoveProofOfDeliveryMutationVariables>;
+export const CreateRouteDocument = new TypedDocumentString(`
+    mutation CreateRoute($route: CreateRouteInput!) {
+  tms {
+    createRoute(value: $route) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateRouteMutation, CreateRouteMutationVariables>;
+export const UpdateRouteDocument = new TypedDocumentString(`
+    mutation UpdateRoute($id: ID!, $route: UpdateRouteInput!) {
+  tms {
+    updateRoute(id: $id, value: $route) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateRouteMutation, UpdateRouteMutationVariables>;
+export const RemoveRouteDocument = new TypedDocumentString(`
+    mutation RemoveRoute($id: ID!) {
+  tms {
+    removeRoute(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveRouteMutation, RemoveRouteMutationVariables>;
+export const CreateShipmentLegEventDocument = new TypedDocumentString(`
+    mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {
+  tms {
+    createShipmentLegEvent(value: $shipmentLegEvent) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateShipmentLegEventMutation, CreateShipmentLegEventMutationVariables>;
+export const UpdateShipmentLegEventDocument = new TypedDocumentString(`
+    mutation UpdateShipmentLegEvent($id: ID!, $shipmentLegEvent: UpdateShipmentLegEventInput!) {
+  tms {
+    updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateShipmentLegEventMutation, UpdateShipmentLegEventMutationVariables>;
+export const RemoveShipmentLegEventDocument = new TypedDocumentString(`
+    mutation RemoveShipmentLegEvent($id: ID!) {
+  tms {
+    removeShipmentLegEvent(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveShipmentLegEventMutation, RemoveShipmentLegEventMutationVariables>;
+export const CreateShipmentLegDocument = new TypedDocumentString(`
+    mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {
+  tms {
+    createShipmentLeg(value: $shipmentLeg) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateShipmentLegMutation, CreateShipmentLegMutationVariables>;
+export const UpdateShipmentLegDocument = new TypedDocumentString(`
+    mutation UpdateShipmentLeg($id: ID!, $shipmentLeg: UpdateShipmentLegInput!) {
+  tms {
+    updateShipmentLeg(id: $id, value: $shipmentLeg) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateShipmentLegMutation, UpdateShipmentLegMutationVariables>;
+export const RemoveShipmentLegDocument = new TypedDocumentString(`
+    mutation RemoveShipmentLeg($id: ID!) {
+  tms {
+    removeShipmentLeg(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveShipmentLegMutation, RemoveShipmentLegMutationVariables>;
+export const CreateTripStopDocument = new TypedDocumentString(`
+    mutation CreateTripStop($tripStop: CreateTripStopInput!) {
+  tms {
+    createTripStop(value: $tripStop) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTripStopMutation, CreateTripStopMutationVariables>;
+export const UpdateTripStopDocument = new TypedDocumentString(`
+    mutation UpdateTripStop($id: ID!, $tripStop: UpdateTripStopInput!) {
+  tms {
+    updateTripStop(id: $id, value: $tripStop) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTripStopMutation, UpdateTripStopMutationVariables>;
+export const RemoveTripStopDocument = new TypedDocumentString(`
+    mutation RemoveTripStop($id: ID!) {
+  tms {
+    removeTripStop(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTripStopMutation, RemoveTripStopMutationVariables>;
+export const CreateTripDocument = new TypedDocumentString(`
+    mutation CreateTrip($trip: CreateTripInput!) {
+  tms {
+    createTrip(value: $trip) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTripMutation, CreateTripMutationVariables>;
+export const UpdateTripDocument = new TypedDocumentString(`
+    mutation UpdateTrip($id: ID!, $trip: UpdateTripInput!) {
+  tms {
+    updateTrip(id: $id, value: $trip) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTripMutation, UpdateTripMutationVariables>;
+export const RemoveTripDocument = new TypedDocumentString(`
+    mutation RemoveTrip($id: ID!) {
+  tms {
+    removeTrip(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTripMutation, RemoveTripMutationVariables>;
+export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {
+  tms {
+    createVehicleMaintenance(value: $vehicleMaintenance) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateVehicleMaintenanceMutation, CreateVehicleMaintenanceMutationVariables>;
+export const UpdateVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation UpdateVehicleMaintenance($id: ID!, $vehicleMaintenance: UpdateVehicleMaintenanceInput!) {
+  tms {
+    updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateVehicleMaintenanceMutation, UpdateVehicleMaintenanceMutationVariables>;
+export const RemoveVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation RemoveVehicleMaintenance($id: ID!) {
+  tms {
+    removeVehicleMaintenance(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveVehicleMaintenanceMutation, RemoveVehicleMaintenanceMutationVariables>;
+export const CreateVehicleDocument = new TypedDocumentString(`
+    mutation CreateVehicle($vehicle: CreateVehicleInput!) {
+  tms {
+    createVehicle(value: $vehicle) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateVehicleMutation, CreateVehicleMutationVariables>;
+export const UpdateVehicleDocument = new TypedDocumentString(`
+    mutation UpdateVehicle($id: ID!, $vehicle: UpdateVehicleInput!) {
+  tms {
+    updateVehicle(id: $id, value: $vehicle) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
+export const RemoveVehicleDocument = new TypedDocumentString(`
+    mutation RemoveVehicle($id: ID!) {
+  tms {
+    removeVehicle(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveVehicleMutation, RemoveVehicleMutationVariables>;
+export const CreateBinThresholdDocument = new TypedDocumentString(`
+    mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {
+  wms {
+    createBinThreshold(value: $binThreshold) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateBinThresholdMutation, CreateBinThresholdMutationVariables>;
+export const UpdateBinThresholdDocument = new TypedDocumentString(`
+    mutation UpdateBinThreshold($id: ID!, $binThreshold: UpdateBinThresholdInput!) {
+  wms {
+    updateBinThreshold(id: $id, value: $binThreshold) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateBinThresholdMutation, UpdateBinThresholdMutationVariables>;
+export const RemoveBinThresholdDocument = new TypedDocumentString(`
+    mutation RemoveBinThreshold($id: ID!) {
+  wms {
+    removeBinThreshold(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveBinThresholdMutation, RemoveBinThresholdMutationVariables>;
+export const CreateInboundShipmentItemDocument = new TypedDocumentString(`
+    mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {
+  wms {
+    createInboundShipmentItem(value: $inboundShipmentItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInboundShipmentItemMutation, CreateInboundShipmentItemMutationVariables>;
+export const UpdateInboundShipmentItemDocument = new TypedDocumentString(`
+    mutation UpdateInboundShipmentItem($id: ID!, $inboundShipmentItem: UpdateInboundShipmentItemInput!) {
+  wms {
+    updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInboundShipmentItemMutation, UpdateInboundShipmentItemMutationVariables>;
+export const RemoveInboundShipmentItemDocument = new TypedDocumentString(`
+    mutation RemoveInboundShipmentItem($id: ID!) {
+  wms {
+    removeInboundShipmentItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInboundShipmentItemMutation, RemoveInboundShipmentItemMutationVariables>;
+export const CreateInboundShipmentDocument = new TypedDocumentString(`
+    mutation CreateInboundShipment($inboundShipment: CreateInboundShipmentInput!) {
+  wms {
+    createInboundShipment(value: $inboundShipment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInboundShipmentMutation, CreateInboundShipmentMutationVariables>;
+export const UpdateInboundShipmentDocument = new TypedDocumentString(`
+    mutation UpdateInboundShipment($id: ID!, $inboundShipment: UpdateInboundShipmentInput!) {
+  wms {
+    updateInboundShipment(id: $id, value: $inboundShipment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInboundShipmentMutation, UpdateInboundShipmentMutationVariables>;
+export const RemoveInboundShipmentDocument = new TypedDocumentString(`
+    mutation RemoveInboundShipment($id: ID!) {
+  wms {
+    removeInboundShipment(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInboundShipmentMutation, RemoveInboundShipmentMutationVariables>;
+export const CreateInventoryAdjustmentDocument = new TypedDocumentString(`
+    mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {
+  wms {
+    createInventoryAdjustment(value: $inventoryAdjustment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInventoryAdjustmentMutation, CreateInventoryAdjustmentMutationVariables>;
+export const UpdateInventoryAdjustmentDocument = new TypedDocumentString(`
+    mutation UpdateInventoryAdjustment($id: ID!, $inventoryAdjustment: UpdateInventoryAdjustmentInput!) {
+  wms {
+    updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInventoryAdjustmentMutation, UpdateInventoryAdjustmentMutationVariables>;
+export const RemoveInventoryAdjustmentDocument = new TypedDocumentString(`
+    mutation RemoveInventoryAdjustment($id: ID!) {
+  wms {
+    removeInventoryAdjustment(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInventoryAdjustmentMutation, RemoveInventoryAdjustmentMutationVariables>;
+export const CreateInventoryBatchDocument = new TypedDocumentString(`
+    mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {
+  wms {
+    createInventoryBatch(value: $inventoryBatch) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInventoryBatchMutation, CreateInventoryBatchMutationVariables>;
+export const UpdateInventoryBatchDocument = new TypedDocumentString(`
+    mutation UpdateInventoryBatch($id: ID!, $inventoryBatch: UpdateInventoryBatchInput!) {
+  wms {
+    updateInventoryBatch(id: $id, value: $inventoryBatch) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInventoryBatchMutation, UpdateInventoryBatchMutationVariables>;
+export const RemoveInventoryBatchDocument = new TypedDocumentString(`
+    mutation RemoveInventoryBatch($id: ID!) {
+  wms {
+    removeInventoryBatch(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInventoryBatchMutation, RemoveInventoryBatchMutationVariables>;
+export const CreateInventoryStockDocument = new TypedDocumentString(`
+    mutation CreateInventoryStock($inventoryStock: CreateInventoryStockInput!) {
+  wms {
+    createInventoryStock(value: $inventoryStock) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInventoryStockMutation, CreateInventoryStockMutationVariables>;
+export const UpdateInventoryStockDocument = new TypedDocumentString(`
+    mutation UpdateInventoryStock($id: ID!, $inventoryStock: UpdateInventoryStockInput!) {
+  wms {
+    updateInventoryStock(id: $id, value: $inventoryStock) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInventoryStockMutation, UpdateInventoryStockMutationVariables>;
+export const RemoveInventoryStockDocument = new TypedDocumentString(`
+    mutation RemoveInventoryStock($id: ID!) {
+  wms {
+    removeInventoryStock(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInventoryStockMutation, RemoveInventoryStockMutationVariables>;
+export const CreateLocationDocument = new TypedDocumentString(`
+    mutation CreateLocation($location: CreateLocationInput!) {
+  wms {
+    createLocation(value: $location) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateLocationMutation, CreateLocationMutationVariables>;
+export const UpdateLocationDocument = new TypedDocumentString(`
+    mutation UpdateLocation($id: ID!, $location: UpdateLocationInput!) {
+  wms {
+    updateLocation(id: $id, value: $location) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateLocationMutation, UpdateLocationMutationVariables>;
+export const RemoveLocationDocument = new TypedDocumentString(`
+    mutation RemoveLocation($id: ID!) {
+  wms {
+    removeLocation(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
 }
+    `) as unknown as TypedDocumentString<RemoveLocationMutation, RemoveLocationMutationVariables>;
+export const CreateOutboundShipmentItemDocument = new TypedDocumentString(`
+    mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {
+  wms {
+    createOutboundShipmentItem(value: $outboundShipmentItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOutboundShipmentItemMutation, CreateOutboundShipmentItemMutationVariables>;
+export const UpdateOutboundShipmentItemDocument = new TypedDocumentString(`
+    mutation UpdateOutboundShipmentItem($id: ID!, $outboundShipmentItem: UpdateOutboundShipmentItemInput!) {
+  wms {
+    updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateOutboundShipmentItemMutation, UpdateOutboundShipmentItemMutationVariables>;
+export const RemoveOutboundShipmentItemDocument = new TypedDocumentString(`
+    mutation RemoveOutboundShipmentItem($id: ID!) {
+  wms {
+    removeOutboundShipmentItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveOutboundShipmentItemMutation, RemoveOutboundShipmentItemMutationVariables>;
+export const CreateOutboundShipmentDocument = new TypedDocumentString(`
+    mutation CreateOutboundShipment($outboundShipment: CreateOutboundShipmentInput!) {
+  wms {
+    createOutboundShipment(value: $outboundShipment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOutboundShipmentMutation, CreateOutboundShipmentMutationVariables>;
+export const UpdateOutboundShipmentDocument = new TypedDocumentString(`
+    mutation UpdateOutboundShipment($id: ID!, $outboundShipment: UpdateOutboundShipmentInput!) {
+  wms {
+    updateOutboundShipment(id: $id, value: $outboundShipment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateOutboundShipmentMutation, UpdateOutboundShipmentMutationVariables>;
+export const RemoveOutboundShipmentDocument = new TypedDocumentString(`
+    mutation RemoveOutboundShipment($id: ID!) {
+  wms {
+    removeOutboundShipment(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveOutboundShipmentMutation, RemoveOutboundShipmentMutationVariables>;
+export const CreatePackageItemDocument = new TypedDocumentString(`
+    mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
+  wms {
+    createPackageItem(value: $packageItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePackageItemMutation, CreatePackageItemMutationVariables>;
+export const UpdatePackageItemDocument = new TypedDocumentString(`
+    mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {
+  wms {
+    updatePackageItem(id: $id, value: $packageItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePackageItemMutation, UpdatePackageItemMutationVariables>;
+export const RemovePackageItemDocument = new TypedDocumentString(`
+    mutation RemovePackageItem($id: ID!) {
+  wms {
+    removePackageItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePackageItemMutation, RemovePackageItemMutationVariables>;
+export const CreatePackageDocument = new TypedDocumentString(`
+    mutation CreatePackage($package: CreatePackageInput!) {
+  wms {
+    createPackage(value: $package) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePackageMutation, CreatePackageMutationVariables>;
+export const UpdatePackageDocument = new TypedDocumentString(`
+    mutation UpdatePackage($id: ID!, $package: UpdatePackageInput!) {
+  wms {
+    updatePackage(id: $id, value: $package) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePackageMutation, UpdatePackageMutationVariables>;
+export const RemovePackageDocument = new TypedDocumentString(`
+    mutation RemovePackage($id: ID!) {
+  wms {
+    removePackage(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePackageMutation, RemovePackageMutationVariables>;
+export const CreatePickBatchItemDocument = new TypedDocumentString(`
+    mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {
+  wms {
+    createPickBatchItem(value: $pickBatchItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePickBatchItemMutation, CreatePickBatchItemMutationVariables>;
+export const UpdatePickBatchItemDocument = new TypedDocumentString(`
+    mutation UpdatePickBatchItem($id: ID!, $pickBatchItem: UpdatePickBatchItemInput!) {
+  wms {
+    updatePickBatchItem(id: $id, value: $pickBatchItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePickBatchItemMutation, UpdatePickBatchItemMutationVariables>;
+export const RemovePickBatchItemDocument = new TypedDocumentString(`
+    mutation RemovePickBatchItem($id: ID!) {
+  wms {
+    removePickBatchItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePickBatchItemMutation, RemovePickBatchItemMutationVariables>;
+export const CreatePickBatchDocument = new TypedDocumentString(`
+    mutation CreatePickBatch($pickBatch: CreatePickBatchInput!) {
+  wms {
+    createPickBatch(value: $pickBatch) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePickBatchMutation, CreatePickBatchMutationVariables>;
+export const UpdatePickBatchDocument = new TypedDocumentString(`
+    mutation UpdatePickBatch($id: ID!, $pickBatch: UpdatePickBatchInput!) {
+  wms {
+    updatePickBatch(id: $id, value: $pickBatch) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePickBatchMutation, UpdatePickBatchMutationVariables>;
+export const RemovePickBatchDocument = new TypedDocumentString(`
+    mutation RemovePickBatch($id: ID!) {
+  wms {
+    removePickBatch(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePickBatchMutation, RemovePickBatchMutationVariables>;
+export const CreateWmsProductDocument = new TypedDocumentString(`
+    mutation CreateWmsProduct($wmsProduct: CreateWmsProductInput!) {
+  wms {
+    createWmsProduct(value: $wmsProduct) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateWmsProductMutation, CreateWmsProductMutationVariables>;
+export const UpdateWmsProductDocument = new TypedDocumentString(`
+    mutation UpdateWmsProduct($id: ID!, $wmsProduct: UpdateWmsProductInput!) {
+  wms {
+    updateWmsProduct(id: $id, value: $wmsProduct) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateWmsProductMutation, UpdateWmsProductMutationVariables>;
+export const RemoveWmsProductDocument = new TypedDocumentString(`
+    mutation RemoveWmsProduct($id: ID!) {
+  wms {
+    removeWmsProduct(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveWmsProductMutation, RemoveWmsProductMutationVariables>;
+export const CreatePutawayRuleDocument = new TypedDocumentString(`
+    mutation CreatePutawayRule($putawayRule: CreatePutawayRuleInput!) {
+  wms {
+    createPutawayRule(value: $putawayRule) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreatePutawayRuleMutation, CreatePutawayRuleMutationVariables>;
+export const UpdatePutawayRuleDocument = new TypedDocumentString(`
+    mutation UpdatePutawayRule($id: ID!, $putawayRule: UpdatePutawayRuleInput!) {
+  wms {
+    updatePutawayRule(id: $id, value: $putawayRule) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdatePutawayRuleMutation, UpdatePutawayRuleMutationVariables>;
+export const RemovePutawayRuleDocument = new TypedDocumentString(`
+    mutation RemovePutawayRule($id: ID!) {
+  wms {
+    removePutawayRule(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemovePutawayRuleMutation, RemovePutawayRuleMutationVariables>;
+export const CreateReorderPointDocument = new TypedDocumentString(`
+    mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {
+  wms {
+    createReorderPoint(value: $reorderPoint) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateReorderPointMutation, CreateReorderPointMutationVariables>;
+export const UpdateReorderPointDocument = new TypedDocumentString(`
+    mutation UpdateReorderPoint($id: ID!, $reorderPoint: UpdateReorderPointInput!) {
+  wms {
+    updateReorderPoint(id: $id, value: $reorderPoint) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateReorderPointMutation, UpdateReorderPointMutationVariables>;
+export const RemoveReorderPointDocument = new TypedDocumentString(`
+    mutation RemoveReorderPoint($id: ID!) {
+  wms {
+    removeReorderPoint(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveReorderPointMutation, RemoveReorderPointMutationVariables>;
+export const CreateReturnItemDocument = new TypedDocumentString(`
+    mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {
+  wms {
+    createReturnItem(value: $returnItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateReturnItemMutation, CreateReturnItemMutationVariables>;
+export const UpdateReturnItemDocument = new TypedDocumentString(`
+    mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {
+  wms {
+    updateReturnItem(id: $id, value: $returnItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateReturnItemMutation, UpdateReturnItemMutationVariables>;
+export const RemoveReturnItemDocument = new TypedDocumentString(`
+    mutation RemoveReturnItem($id: ID!) {
+  wms {
+    removeReturnItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveReturnItemMutation, RemoveReturnItemMutationVariables>;
+export const CreateReturnDocument = new TypedDocumentString(`
+    mutation CreateReturn($return: CreateReturnInput!) {
+  wms {
+    createReturn(value: $return) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateReturnMutation, CreateReturnMutationVariables>;
+export const UpdateReturnDocument = new TypedDocumentString(`
+    mutation UpdateReturn($id: ID!, $return: UpdateReturnInput!) {
+  wms {
+    updateReturn(id: $id, value: $return) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateReturnMutation, UpdateReturnMutationVariables>;
+export const RemoveReturnDocument = new TypedDocumentString(`
+    mutation RemoveReturn($id: ID!) {
+  wms {
+    removeReturn(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveReturnMutation, RemoveReturnMutationVariables>;
+export const CreateSalesOrderItemDocument = new TypedDocumentString(`
+    mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
+  wms {
+    createSalesOrderItem(value: $salesOrderItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateSalesOrderItemMutation, CreateSalesOrderItemMutationVariables>;
+export const UpdateSalesOrderItemDocument = new TypedDocumentString(`
+    mutation UpdateSalesOrderItem($id: ID!, $salesOrderItem: UpdateSalesOrderItemInput!) {
+  wms {
+    updateSalesOrderItem(id: $id, value: $salesOrderItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSalesOrderItemMutation, UpdateSalesOrderItemMutationVariables>;
+export const RemoveSalesOrderItemDocument = new TypedDocumentString(`
+    mutation RemoveSalesOrderItem($id: ID!) {
+  wms {
+    removeSalesOrderItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveSalesOrderItemMutation, RemoveSalesOrderItemMutationVariables>;
+export const CreateSalesOrderDocument = new TypedDocumentString(`
+    mutation CreateSalesOrder($salesOrder: CreateSalesOrderInput!) {
+  wms {
+    createSalesOrder(value: $salesOrder) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateSalesOrderMutation, CreateSalesOrderMutationVariables>;
+export const UpdateSalesOrderDocument = new TypedDocumentString(`
+    mutation UpdateSalesOrder($id: ID!, $salesOrder: UpdateSalesOrderInput!) {
+  wms {
+    updateSalesOrder(id: $id, value: $salesOrder) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSalesOrderMutation, UpdateSalesOrderMutationVariables>;
+export const RemoveSalesOrderDocument = new TypedDocumentString(`
+    mutation RemoveSalesOrder($id: ID!) {
+  wms {
+    removeSalesOrder(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveSalesOrderMutation, RemoveSalesOrderMutationVariables>;
+export const CreateStockTransferDocument = new TypedDocumentString(`
+    mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {
+  wms {
+    createStockTransfer(value: $stockTransfer) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateStockTransferMutation, CreateStockTransferMutationVariables>;
+export const UpdateStockTransferDocument = new TypedDocumentString(`
+    mutation UpdateStockTransfer($id: ID!, $stockTransfer: UpdateStockTransferInput!) {
+  wms {
+    updateStockTransfer(id: $id, value: $stockTransfer) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateStockTransferMutation, UpdateStockTransferMutationVariables>;
+export const RemoveStockTransferDocument = new TypedDocumentString(`
+    mutation RemoveStockTransfer($id: ID!) {
+  wms {
+    removeStockTransfer(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveStockTransferMutation, RemoveStockTransferMutationVariables>;
+export const CreateSupplierDocument = new TypedDocumentString(`
+    mutation CreateSupplier($supplier: CreateSupplierInput!) {
+  wms {
+    createSupplier(value: $supplier) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateSupplierMutation, CreateSupplierMutationVariables>;
+export const UpdateSupplierDocument = new TypedDocumentString(`
+    mutation UpdateSupplier($id: ID!, $supplier: UpdateSupplierInput!) {
+  wms {
+    updateSupplier(id: $id, value: $supplier) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateSupplierMutation, UpdateSupplierMutationVariables>;
+export const RemoveSupplierDocument = new TypedDocumentString(`
+    mutation RemoveSupplier($id: ID!) {
+  wms {
+    removeSupplier(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveSupplierMutation, RemoveSupplierMutationVariables>;
+export const CreateTaskItemDocument = new TypedDocumentString(`
+    mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {
+  wms {
+    createTaskItem(value: $taskItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTaskItemMutation, CreateTaskItemMutationVariables>;
+export const UpdateTaskItemDocument = new TypedDocumentString(`
+    mutation UpdateTaskItem($id: ID!, $taskItem: UpdateTaskItemInput!) {
+  wms {
+    updateTaskItem(id: $id, value: $taskItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskItemMutation, UpdateTaskItemMutationVariables>;
+export const RemoveTaskItemDocument = new TypedDocumentString(`
+    mutation RemoveTaskItem($id: ID!) {
+  wms {
+    removeTaskItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTaskItemMutation, RemoveTaskItemMutationVariables>;
+export const CreateTaskDocument = new TypedDocumentString(`
+    mutation CreateTask($task: CreateTaskInput!) {
+  wms {
+    createTask(value: $task) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateTaskMutation, CreateTaskMutationVariables>;
+export const UpdateTaskDocument = new TypedDocumentString(`
+    mutation UpdateTask($id: ID!, $task: UpdateTaskInput!) {
+  wms {
+    updateTask(id: $id, value: $task) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateTaskMutation, UpdateTaskMutationVariables>;
+export const RemoveTaskDocument = new TypedDocumentString(`
+    mutation RemoveTask($id: ID!) {
+  wms {
+    removeTask(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveTaskMutation, RemoveTaskMutationVariables>;
+export const CreateWarehouseDocument = new TypedDocumentString(`
+    mutation CreateWarehouse($warehouse: CreateWarehouseInput!) {
+  wms {
+    createWarehouse(value: $warehouse) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateWarehouseMutation, CreateWarehouseMutationVariables>;
+export const UpdateWarehouseDocument = new TypedDocumentString(`
+    mutation UpdateWarehouse($id: ID!, $warehouse: UpdateWarehouseInput!) {
+  wms {
+    updateWarehouse(id: $id, value: $warehouse) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateWarehouseMutation, UpdateWarehouseMutationVariables>;
+export const RemoveWarehouseDocument = new TypedDocumentString(`
+    mutation RemoveWarehouse($id: ID!) {
+  wms {
+    removeWarehouse(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveWarehouseMutation, RemoveWarehouseMutationVariables>;

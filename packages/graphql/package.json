@@ -25,10 +25,15 @@
     "prepublishOnly": "bun run clean && bun run build"
   },
   "devDependencies": {
+    "@0no-co/graphqlsp": "^1.15.0",
     "@eddeee888/gcg-typescript-resolver-files": "^0.14.0",
     "@graphql-codegen/cli": "^6.0.1",
+    "@graphql-codegen/client-preset": "^5.1.0",
+    "@graphql-codegen/introspection": "^5.0.0",
+    "@graphql-codegen/schema-ast": "^5.0.0",
     "@graphql-codegen/typescript": "^5.0.2",
     "@graphql-codegen/typescript-resolvers": "^5.1.0",
+    "@parcel/watcher": "^2.5.1",
     "@types/bun": "latest",
     "@types/lodash": "^4.17.20",
     "graphql-codegen-typescript-validation-schema": "^0.18.1",

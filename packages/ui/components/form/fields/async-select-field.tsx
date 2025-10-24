@@ -1,0 +1,43 @@
+import React from "react";
+import { useFieldContext } from "..";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AsyncSelect } from "@/components/ui/async-select";
+
+export type AsyncSelectFieldProps = {
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+};
+
+export function AsyncSelectField<T>(
+  props: React.ComponentProps<typeof AsyncSelect<T>> & AsyncSelectFieldProps
+) {
+  const field = useFieldContext<string>();
+
+  return (
+    <Field>
+      <FieldContent>
+        <FieldLabel>{props.label}</FieldLabel>
+        <AsyncSelect<T>
+          {...props}
+          value={field.state.value}
+          onChange={(v) => field.handleChange(v)}
+        />
+        <FieldDescription>{props.description}</FieldDescription>
+      </FieldContent>
+      <FieldError errors={field.state.meta.errors} />
+    </Field>
+  );
+}

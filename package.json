@@ -54,6 +54,7 @@
     "@types/react-dom": "^19.2.0"
   },
   "dependencies": {
-    "graphql": "^16.11.0"
+    "graphql": "^16.11.0",
+    "graphql-config": "^5.1.5"
   }
 }

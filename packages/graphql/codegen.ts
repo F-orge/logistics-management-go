@@ -4,16 +4,17 @@ import lodash from "lodash";
 
 const config: CodegenConfig = {
   schema: "**/schema.graphql",
+  documents: ["src/client/**/*.ts"],
+  ignoreNoDocuments: true,
   generates: {
     "src/schema": defineConfig({
       typesPluginsConfig: {
         contextType: "../context#GraphQLContext",
-        namingConvention: {
-          typeNames: "change-case-all#pascalCase",
-          enumValues: (string: string) => `"${lodash.kebabCase(string)}"`,
-        },
       },
     }),
+    "src/schema/graphql.schema.json": {
+      plugins: ["introspection"],
+    },
     "src/zod.schema.ts": {
       plugins: ["typescript", "typescript-validation-schema"],
       config: {
@@ -21,10 +22,12 @@ const config: CodegenConfig = {
         scalarSchemas: {
           File: "z.file()",
         },
-        namingConvention: {
-          typeNames: "change-case-all#pascalCase",
-          enumValues: (string: string) => `"${lodash.kebabCase(string)}"`,
-        },
+      },
+    },
+    "./src/client/generated/": {
+      preset: "client",
+      config: {
+        documentMode: "string",
       },
     },
   },

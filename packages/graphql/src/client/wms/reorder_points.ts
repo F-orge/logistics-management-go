@@ -1,0 +1,32 @@
+import { graphql } from "../../generated/gql";
+
+export const CreateReorderPointMutation = graphql(`
+  mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {
+    wms {
+      createReorderPoint(value: $reorderPoint) {
+        id
+      }
+    }
+  }
+`);
+
+export const UpdateReorderPointMutation = graphql(`
+  mutation UpdateReorderPoint($id: ID!, $reorderPoint: UpdateReorderPointInput!) {
+    wms {
+      updateReorderPoint(id: $id, value: $reorderPoint) {
+        id
+      }
+    }
+  }
+`);
+
+export const RemoveReorderPointMutation = graphql(`
+  mutation RemoveReorderPoint($id: ID!) {
+    wms {
+      removeReorderPoint(id: $id) {
+        success
+        numDeletedRows
+      }
+    }
+  }
+`);
