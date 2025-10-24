@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateDisputeMutation = graphql(`
   mutation CreateDispute($dispute: CreateDisputeInput!) {

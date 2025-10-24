@@ -1,7 +1,9 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateAccountingSyncLogMutation = graphql(`
-  mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {
+  mutation CreateAccountingSyncLog(
+    $accountingSyncLog: CreateAccountingSyncLogInput!
+  ) {
     billing {
       createAccountingSyncLog(value: $accountingSyncLog) {
         id
@@ -11,7 +13,10 @@ export const CreateAccountingSyncLogMutation = graphql(`
 `);
 
 export const UpdateAccountingSyncLogMutation = graphql(`
-  mutation UpdateAccountingSyncLog($id: ID!, $accountingSyncLog: UpdateAccountingSyncLogInput!) {
+  mutation UpdateAccountingSyncLog(
+    $id: ID!
+    $accountingSyncLog: UpdateAccountingSyncLogInput!
+  ) {
     billing {
       updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {
         id

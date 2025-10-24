@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreatePickBatchItemMutation = graphql(`
   mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {
@@ -11,7 +11,10 @@ export const CreatePickBatchItemMutation = graphql(`
 `);
 
 export const UpdatePickBatchItemMutation = graphql(`
-  mutation UpdatePickBatchItem($id: ID!, $pickBatchItem: UpdatePickBatchItemInput!) {
+  mutation UpdatePickBatchItem(
+    $id: ID!
+    $pickBatchItem: UpdatePickBatchItemInput!
+  ) {
     wms {
       updatePickBatchItem(id: $id, value: $pickBatchItem) {
         id

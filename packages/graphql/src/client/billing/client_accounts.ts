@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateClientAccountMutation = graphql(`
   mutation CreateClientAccount($clientAccount: CreateClientAccountInput!) {
@@ -11,7 +11,10 @@ export const CreateClientAccountMutation = graphql(`
 `);
 
 export const UpdateClientAccountMutation = graphql(`
-  mutation UpdateClientAccount($id: ID!, $clientAccount: UpdateClientAccountInput!) {
+  mutation UpdateClientAccount(
+    $id: ID!
+    $clientAccount: UpdateClientAccountInput!
+  ) {
     billing {
       updateClientAccount(id: $id, value: $clientAccount) {
         id

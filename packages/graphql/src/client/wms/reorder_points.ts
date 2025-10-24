@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateReorderPointMutation = graphql(`
   mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {
@@ -11,7 +11,10 @@ export const CreateReorderPointMutation = graphql(`
 `);
 
 export const UpdateReorderPointMutation = graphql(`
-  mutation UpdateReorderPoint($id: ID!, $reorderPoint: UpdateReorderPointInput!) {
+  mutation UpdateReorderPoint(
+    $id: ID!
+    $reorderPoint: UpdateReorderPointInput!
+  ) {
     wms {
       updateReorderPoint(id: $id, value: $reorderPoint) {
         id

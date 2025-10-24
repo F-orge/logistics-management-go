@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateQuoteMutation = graphql(`
   mutation CreateQuote($quote: CreateQuoteInput!) {

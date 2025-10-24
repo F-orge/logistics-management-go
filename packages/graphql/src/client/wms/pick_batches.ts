@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreatePickBatchMutation = graphql(`
   mutation CreatePickBatch($pickBatch: CreatePickBatchInput!) {

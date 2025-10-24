@@ -15,14 +15,14 @@ import * as types from './graphql';
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n  mutation CreateAccountTransaction($accountTransaction: CreateAccountTransactionInput!) {\n    billing {\n      createAccountTransaction(value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": typeof types.CreateAccountTransactionDocument,
-    "\n  mutation UpdateAccountTransaction($id: ID!, $accountTransaction: UpdateAccountTransactionInput!) {\n    billing {\n      updateAccountTransaction(id: $id, value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateAccountTransactionDocument,
+    "\n  mutation CreateAccountTransaction(\n    $accountTransaction: CreateAccountTransactionInput!\n  ) {\n    billing {\n      createAccountTransaction(value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": typeof types.CreateAccountTransactionDocument,
+    "\n  mutation UpdateAccountTransaction(\n    $id: ID!\n    $accountTransaction: UpdateAccountTransactionInput!\n  ) {\n    billing {\n      updateAccountTransaction(id: $id, value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateAccountTransactionDocument,
     "\n  mutation RemoveAccountTransaction($id: ID!) {\n    billing {\n      removeAccountTransaction(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveAccountTransactionDocument,
-    "\n  mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {\n    billing {\n      createAccountingSyncLog(value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": typeof types.CreateAccountingSyncLogDocument,
-    "\n  mutation UpdateAccountingSyncLog($id: ID!, $accountingSyncLog: UpdateAccountingSyncLogInput!) {\n    billing {\n      updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateAccountingSyncLogDocument,
+    "\n  mutation CreateAccountingSyncLog(\n    $accountingSyncLog: CreateAccountingSyncLogInput!\n  ) {\n    billing {\n      createAccountingSyncLog(value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": typeof types.CreateAccountingSyncLogDocument,
+    "\n  mutation UpdateAccountingSyncLog(\n    $id: ID!\n    $accountingSyncLog: UpdateAccountingSyncLogInput!\n  ) {\n    billing {\n      updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateAccountingSyncLogDocument,
     "\n  mutation RemoveAccountingSyncLog($id: ID!) {\n    billing {\n      removeAccountingSyncLog(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveAccountingSyncLogDocument,
     "\n  mutation CreateClientAccount($clientAccount: CreateClientAccountInput!) {\n    billing {\n      createClientAccount(value: $clientAccount) {\n        id\n      }\n    }\n  }\n": typeof types.CreateClientAccountDocument,
-    "\n  mutation UpdateClientAccount($id: ID!, $clientAccount: UpdateClientAccountInput!) {\n    billing {\n      updateClientAccount(id: $id, value: $clientAccount) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateClientAccountDocument,
+    "\n  mutation UpdateClientAccount(\n    $id: ID!\n    $clientAccount: UpdateClientAccountInput!\n  ) {\n    billing {\n      updateClientAccount(id: $id, value: $clientAccount) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateClientAccountDocument,
     "\n  mutation RemoveClientAccount($id: ID!) {\n    billing {\n      removeClientAccount(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveClientAccountDocument,
     "\n  mutation CreateCreditNote($creditNote: CreateCreditNoteInput!) {\n    billing {\n      createCreditNote(value: $creditNote) {\n        id\n      }\n    }\n  }\n": typeof types.CreateCreditNoteDocument,
     "\n  mutation UpdateCreditNote($id: ID!, $creditNote: UpdateCreditNoteInput!) {\n    billing {\n      updateCreditNote(id: $id, value: $creditNote) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateCreditNoteDocument,
@@ -30,11 +30,11 @@ type Documents = {
     "\n  mutation CreateDispute($dispute: CreateDisputeInput!) {\n    billing {\n      createDispute(value: $dispute) {\n        id\n      }\n    }\n  }\n": typeof types.CreateDisputeDocument,
     "\n  mutation UpdateDispute($id: ID!, $dispute: UpdateDisputeInput!) {\n    billing {\n      updateDispute(id: $id, value: $dispute) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateDisputeDocument,
     "\n  mutation RemoveDispute($id: ID!) {\n    billing {\n      removeDispute(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveDisputeDocument,
-    "\n  mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {\n    billing {\n      createInvoiceLineItem(value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInvoiceLineItemDocument,
-    "\n  mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInvoiceLineItemDocument,
+    "\n  mutation CreateInvoiceLineItem(\n    $invoiceLineItem: CreateInvoiceLineItemInput!\n  ) {\n    billing {\n      createInvoiceLineItem(value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInvoiceLineItemDocument,
+    "\n  mutation UpdateInvoiceLineItem(\n    $id: ID!\n    $invoiceLineItem: UpdateInvoiceLineItemInput!\n  ) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInvoiceLineItemDocument,
     "\n  mutation RemoveInvoiceLineItem($id: ID!) {\n    billing {\n      removeInvoiceLineItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInvoiceLineItemDocument,
     "\n  mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {\n    billing {\n      createBillingInvoice(value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.CreateBillingInvoiceDocument,
-    "\n  mutation UpdateBillingInvoice($id: ID!, $billingInvoice: UpdateBillingInvoiceInput!) {\n    billing {\n      updateBillingInvoice(id: $id, value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateBillingInvoiceDocument,
+    "\n  mutation UpdateBillingInvoice(\n    $id: ID!\n    $billingInvoice: UpdateBillingInvoiceInput!\n  ) {\n    billing {\n      updateBillingInvoice(id: $id, value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateBillingInvoiceDocument,
     "\n  mutation RemoveBillingInvoice($id: ID!) {\n    billing {\n      removeBillingInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveBillingInvoiceDocument,
     "\n  mutation CreatePayment($payment: CreatePaymentInput!) {\n    billing {\n      createPayment(value: $payment) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePaymentDocument,
     "\n  mutation UpdatePayment($id: ID!, $payment: UpdatePaymentInput!) {\n    billing {\n      updatePayment(id: $id, value: $payment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePaymentDocument,
@@ -121,7 +121,7 @@ type Documents = {
     "\n  mutation UpdateExpense($id: ID!, $expense: UpdateExpenseInput!) {\n    tms {\n      updateExpense(id: $id, value: $expense) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateExpenseDocument,
     "\n  mutation RemoveExpense($id: ID!) {\n    tms {\n      removeExpense(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveExpenseDocument,
     "\n  mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {\n    tms {\n      createGeofenceEvent(value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": typeof types.CreateGeofenceEventDocument,
-    "\n  mutation UpdateGeofenceEvent($id: ID!, $geofenceEvent: UpdateGeofenceEventInput!) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGeofenceEventDocument,
+    "\n  mutation UpdateGeofenceEvent(\n    $id: ID!\n    $geofenceEvent: UpdateGeofenceEventInput!\n  ) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGeofenceEventDocument,
     "\n  mutation RemoveGeofenceEvent($id: ID!) {\n    tms {\n      removeGeofenceEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveGeofenceEventDocument,
     "\n  mutation CreateGeofence($geofence: CreateGeofenceInput!) {\n    tms {\n      createGeofence(value: $geofence) {\n        id\n      }\n    }\n  }\n": typeof types.CreateGeofenceDocument,
     "\n  mutation UpdateGeofence($id: ID!, $geofence: UpdateGeofenceInput!) {\n    tms {\n      updateGeofence(id: $id, value: $geofence) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGeofenceDocument,
@@ -129,20 +129,20 @@ type Documents = {
     "\n  mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {\n    tms {\n      createGpsPing(value: $gpsPing) {\n        id\n      }\n    }\n  }\n": typeof types.CreateGpsPingDocument,
     "\n  mutation UpdateGpsPing($id: ID!, $gpsPing: UpdateGpsPingInput!) {\n    tms {\n      updateGpsPing(id: $id, value: $gpsPing) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGpsPingDocument,
     "\n  mutation RemoveGpsPing($id: ID!) {\n    tms {\n      removeGpsPing(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveGpsPingDocument,
-    "\n  mutation CreatePartnerInvoiceItem($partnerInvoiceItem: CreatePartnerInvoiceItemInput!) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePartnerInvoiceItemDocument,
-    "\n  mutation UpdatePartnerInvoiceItem($id: ID!, $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePartnerInvoiceItemDocument,
+    "\n  mutation CreatePartnerInvoiceItem(\n    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePartnerInvoiceItemDocument,
+    "\n  mutation UpdatePartnerInvoiceItem(\n    $id: ID!\n    $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePartnerInvoiceItemDocument,
     "\n  mutation RemovePartnerInvoiceItem($id: ID!) {\n    tms {\n      removePartnerInvoiceItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePartnerInvoiceItemDocument,
     "\n  mutation CreatePartnerInvoice($partnerInvoice: CreatePartnerInvoiceInput!) {\n    tms {\n      createPartnerInvoice(value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePartnerInvoiceDocument,
-    "\n  mutation UpdatePartnerInvoice($id: ID!, $partnerInvoice: UpdatePartnerInvoiceInput!) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePartnerInvoiceDocument,
+    "\n  mutation UpdatePartnerInvoice(\n    $id: ID!\n    $partnerInvoice: UpdatePartnerInvoiceInput!\n  ) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePartnerInvoiceDocument,
     "\n  mutation RemovePartnerInvoice($id: ID!) {\n    tms {\n      removePartnerInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePartnerInvoiceDocument,
-    "\n  mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": typeof types.CreateProofOfDeliveryDocument,
-    "\n  mutation UpdateProofOfDelivery($id: ID!, $proofOfDelivery: UpdateProofOfDeliveryInput!) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateProofOfDeliveryDocument,
+    "\n  mutation CreateProofOfDelivery(\n    $proofOfDelivery: CreateProofOfDeliveryInput!\n  ) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": typeof types.CreateProofOfDeliveryDocument,
+    "\n  mutation UpdateProofOfDelivery(\n    $id: ID!\n    $proofOfDelivery: UpdateProofOfDeliveryInput!\n  ) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateProofOfDeliveryDocument,
     "\n  mutation RemoveProofOfDelivery($id: ID!) {\n    tms {\n      removeProofOfDelivery(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveProofOfDeliveryDocument,
     "\n  mutation CreateRoute($route: CreateRouteInput!) {\n    tms {\n      createRoute(value: $route) {\n        id\n      }\n    }\n  }\n": typeof types.CreateRouteDocument,
     "\n  mutation UpdateRoute($id: ID!, $route: UpdateRouteInput!) {\n    tms {\n      updateRoute(id: $id, value: $route) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateRouteDocument,
     "\n  mutation RemoveRoute($id: ID!) {\n    tms {\n      removeRoute(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveRouteDocument,
-    "\n  mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": typeof types.CreateShipmentLegEventDocument,
-    "\n  mutation UpdateShipmentLegEvent($id: ID!, $shipmentLegEvent: UpdateShipmentLegEventInput!) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateShipmentLegEventDocument,
+    "\n  mutation CreateShipmentLegEvent(\n    $shipmentLegEvent: CreateShipmentLegEventInput!\n  ) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": typeof types.CreateShipmentLegEventDocument,
+    "\n  mutation UpdateShipmentLegEvent(\n    $id: ID!\n    $shipmentLegEvent: UpdateShipmentLegEventInput!\n  ) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateShipmentLegEventDocument,
     "\n  mutation RemoveShipmentLegEvent($id: ID!) {\n    tms {\n      removeShipmentLegEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveShipmentLegEventDocument,
     "\n  mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {\n    tms {\n      createShipmentLeg(value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": typeof types.CreateShipmentLegDocument,
     "\n  mutation UpdateShipmentLeg($id: ID!, $shipmentLeg: UpdateShipmentLegInput!) {\n    tms {\n      updateShipmentLeg(id: $id, value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateShipmentLegDocument,
@@ -153,38 +153,38 @@ type Documents = {
     "\n  mutation CreateTrip($trip: CreateTripInput!) {\n    tms {\n      createTrip(value: $trip) {\n        id\n      }\n    }\n  }\n": typeof types.CreateTripDocument,
     "\n  mutation UpdateTrip($id: ID!, $trip: UpdateTripInput!) {\n    tms {\n      updateTrip(id: $id, value: $trip) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateTripDocument,
     "\n  mutation RemoveTrip($id: ID!) {\n    tms {\n      removeTrip(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveTripDocument,
-    "\n  mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": typeof types.CreateVehicleMaintenanceDocument,
-    "\n  mutation UpdateVehicleMaintenance($id: ID!, $vehicleMaintenance: UpdateVehicleMaintenanceInput!) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateVehicleMaintenanceDocument,
+    "\n  mutation CreateVehicleMaintenance(\n    $vehicleMaintenance: CreateVehicleMaintenanceInput!\n  ) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": typeof types.CreateVehicleMaintenanceDocument,
+    "\n  mutation UpdateVehicleMaintenance(\n    $id: ID!\n    $vehicleMaintenance: UpdateVehicleMaintenanceInput!\n  ) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateVehicleMaintenanceDocument,
     "\n  mutation RemoveVehicleMaintenance($id: ID!) {\n    tms {\n      removeVehicleMaintenance(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveVehicleMaintenanceDocument,
     "\n  mutation CreateVehicle($vehicle: CreateVehicleInput!) {\n    tms {\n      createVehicle(value: $vehicle) {\n        id\n      }\n    }\n  }\n": typeof types.CreateVehicleDocument,
     "\n  mutation UpdateVehicle($id: ID!, $vehicle: UpdateVehicleInput!) {\n    tms {\n      updateVehicle(id: $id, value: $vehicle) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateVehicleDocument,
     "\n  mutation RemoveVehicle($id: ID!) {\n    tms {\n      removeVehicle(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveVehicleDocument,
     "\n  mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {\n    wms {\n      createBinThreshold(value: $binThreshold) {\n        id\n      }\n    }\n  }\n": typeof types.CreateBinThresholdDocument,
-    "\n  mutation UpdateBinThreshold($id: ID!, $binThreshold: UpdateBinThresholdInput!) {\n    wms {\n      updateBinThreshold(id: $id, value: $binThreshold) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateBinThresholdDocument,
+    "\n  mutation UpdateBinThreshold(\n    $id: ID!\n    $binThreshold: UpdateBinThresholdInput!\n  ) {\n    wms {\n      updateBinThreshold(id: $id, value: $binThreshold) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateBinThresholdDocument,
     "\n  mutation RemoveBinThreshold($id: ID!) {\n    wms {\n      removeBinThreshold(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveBinThresholdDocument,
-    "\n  mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInboundShipmentItemDocument,
-    "\n  mutation UpdateInboundShipmentItem($id: ID!, $inboundShipmentItem: UpdateInboundShipmentItemInput!) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInboundShipmentItemDocument,
+    "\n  mutation CreateInboundShipmentItem(\n    $inboundShipmentItem: CreateInboundShipmentItemInput!\n  ) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInboundShipmentItemDocument,
+    "\n  mutation UpdateInboundShipmentItem(\n    $id: ID!\n    $inboundShipmentItem: UpdateInboundShipmentItemInput!\n  ) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInboundShipmentItemDocument,
     "\n  mutation RemoveInboundShipmentItem($id: ID!) {\n    wms {\n      removeInboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInboundShipmentItemDocument,
-    "\n  mutation CreateInboundShipment($inboundShipment: CreateInboundShipmentInput!) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInboundShipmentDocument,
-    "\n  mutation UpdateInboundShipment($id: ID!, $inboundShipment: UpdateInboundShipmentInput!) {\n    wms {\n      updateInboundShipment(id: $id, value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInboundShipmentDocument,
+    "\n  mutation CreateInboundShipment(\n    $inboundShipment: CreateInboundShipmentInput!\n  ) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInboundShipmentDocument,
+    "\n  mutation UpdateInboundShipment(\n    $id: ID!\n    $inboundShipment: UpdateInboundShipmentInput!\n  ) {\n    wms {\n      updateInboundShipment(id: $id, value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInboundShipmentDocument,
     "\n  mutation RemoveInboundShipment($id: ID!) {\n    wms {\n      removeInboundShipment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInboundShipmentDocument,
-    "\n  mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {\n    wms {\n      createInventoryAdjustment(value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInventoryAdjustmentDocument,
-    "\n  mutation UpdateInventoryAdjustment($id: ID!, $inventoryAdjustment: UpdateInventoryAdjustmentInput!) {\n    wms {\n      updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInventoryAdjustmentDocument,
+    "\n  mutation CreateInventoryAdjustment(\n    $inventoryAdjustment: CreateInventoryAdjustmentInput!\n  ) {\n    wms {\n      createInventoryAdjustment(value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInventoryAdjustmentDocument,
+    "\n  mutation UpdateInventoryAdjustment(\n    $id: ID!\n    $inventoryAdjustment: UpdateInventoryAdjustmentInput!\n  ) {\n    wms {\n      updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInventoryAdjustmentDocument,
     "\n  mutation RemoveInventoryAdjustment($id: ID!) {\n    wms {\n      removeInventoryAdjustment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInventoryAdjustmentDocument,
     "\n  mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {\n    wms {\n      createInventoryBatch(value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInventoryBatchDocument,
-    "\n  mutation UpdateInventoryBatch($id: ID!, $inventoryBatch: UpdateInventoryBatchInput!) {\n    wms {\n      updateInventoryBatch(id: $id, value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInventoryBatchDocument,
+    "\n  mutation UpdateInventoryBatch(\n    $id: ID!\n    $inventoryBatch: UpdateInventoryBatchInput!\n  ) {\n    wms {\n      updateInventoryBatch(id: $id, value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInventoryBatchDocument,
     "\n  mutation RemoveInventoryBatch($id: ID!) {\n    wms {\n      removeInventoryBatch(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInventoryBatchDocument,
     "\n  mutation CreateInventoryStock($inventoryStock: CreateInventoryStockInput!) {\n    wms {\n      createInventoryStock(value: $inventoryStock) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInventoryStockDocument,
-    "\n  mutation UpdateInventoryStock($id: ID!, $inventoryStock: UpdateInventoryStockInput!) {\n    wms {\n      updateInventoryStock(id: $id, value: $inventoryStock) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInventoryStockDocument,
+    "\n  mutation UpdateInventoryStock(\n    $id: ID!\n    $inventoryStock: UpdateInventoryStockInput!\n  ) {\n    wms {\n      updateInventoryStock(id: $id, value: $inventoryStock) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInventoryStockDocument,
     "\n  mutation RemoveInventoryStock($id: ID!) {\n    wms {\n      removeInventoryStock(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInventoryStockDocument,
     "\n  mutation CreateLocation($location: CreateLocationInput!) {\n    wms {\n      createLocation(value: $location) {\n        id\n      }\n    }\n  }\n": typeof types.CreateLocationDocument,
     "\n  mutation UpdateLocation($id: ID!, $location: UpdateLocationInput!) {\n    wms {\n      updateLocation(id: $id, value: $location) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateLocationDocument,
     "\n  mutation RemoveLocation($id: ID!) {\n    wms {\n      removeLocation(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveLocationDocument,
-    "\n  mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateOutboundShipmentItemDocument,
-    "\n  mutation UpdateOutboundShipmentItem($id: ID!, $outboundShipmentItem: UpdateOutboundShipmentItemInput!) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateOutboundShipmentItemDocument,
+    "\n  mutation CreateOutboundShipmentItem(\n    $outboundShipmentItem: CreateOutboundShipmentItemInput!\n  ) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateOutboundShipmentItemDocument,
+    "\n  mutation UpdateOutboundShipmentItem(\n    $id: ID!\n    $outboundShipmentItem: UpdateOutboundShipmentItemInput!\n  ) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateOutboundShipmentItemDocument,
     "\n  mutation RemoveOutboundShipmentItem($id: ID!) {\n    wms {\n      removeOutboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveOutboundShipmentItemDocument,
-    "\n  mutation CreateOutboundShipment($outboundShipment: CreateOutboundShipmentInput!) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateOutboundShipmentDocument,
-    "\n  mutation UpdateOutboundShipment($id: ID!, $outboundShipment: UpdateOutboundShipmentInput!) {\n    wms {\n      updateOutboundShipment(id: $id, value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateOutboundShipmentDocument,
+    "\n  mutation CreateOutboundShipment(\n    $outboundShipment: CreateOutboundShipmentInput!\n  ) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateOutboundShipmentDocument,
+    "\n  mutation UpdateOutboundShipment(\n    $id: ID!\n    $outboundShipment: UpdateOutboundShipmentInput!\n  ) {\n    wms {\n      updateOutboundShipment(id: $id, value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateOutboundShipmentDocument,
     "\n  mutation RemoveOutboundShipment($id: ID!) {\n    wms {\n      removeOutboundShipment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveOutboundShipmentDocument,
     "\n  mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {\n    wms {\n      createPackageItem(value: $packageItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePackageItemDocument,
     "\n  mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {\n    wms {\n      updatePackageItem(id: $id, value: $packageItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePackageItemDocument,
@@ -193,7 +193,7 @@ type Documents = {
     "\n  mutation UpdatePackage($id: ID!, $package: UpdatePackageInput!) {\n    wms {\n      updatePackage(id: $id, value: $package) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePackageDocument,
     "\n  mutation RemovePackage($id: ID!) {\n    wms {\n      removePackage(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePackageDocument,
     "\n  mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {\n    wms {\n      createPickBatchItem(value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePickBatchItemDocument,
-    "\n  mutation UpdatePickBatchItem($id: ID!, $pickBatchItem: UpdatePickBatchItemInput!) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePickBatchItemDocument,
+    "\n  mutation UpdatePickBatchItem(\n    $id: ID!\n    $pickBatchItem: UpdatePickBatchItemInput!\n  ) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePickBatchItemDocument,
     "\n  mutation RemovePickBatchItem($id: ID!) {\n    wms {\n      removePickBatchItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePickBatchItemDocument,
     "\n  mutation CreatePickBatch($pickBatch: CreatePickBatchInput!) {\n    wms {\n      createPickBatch(value: $pickBatch) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePickBatchDocument,
     "\n  mutation UpdatePickBatch($id: ID!, $pickBatch: UpdatePickBatchInput!) {\n    wms {\n      updatePickBatch(id: $id, value: $pickBatch) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePickBatchDocument,
@@ -205,7 +205,7 @@ type Documents = {
     "\n  mutation UpdatePutawayRule($id: ID!, $putawayRule: UpdatePutawayRuleInput!) {\n    wms {\n      updatePutawayRule(id: $id, value: $putawayRule) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePutawayRuleDocument,
     "\n  mutation RemovePutawayRule($id: ID!) {\n    wms {\n      removePutawayRule(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePutawayRuleDocument,
     "\n  mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {\n    wms {\n      createReorderPoint(value: $reorderPoint) {\n        id\n      }\n    }\n  }\n": typeof types.CreateReorderPointDocument,
-    "\n  mutation UpdateReorderPoint($id: ID!, $reorderPoint: UpdateReorderPointInput!) {\n    wms {\n      updateReorderPoint(id: $id, value: $reorderPoint) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateReorderPointDocument,
+    "\n  mutation UpdateReorderPoint(\n    $id: ID!\n    $reorderPoint: UpdateReorderPointInput!\n  ) {\n    wms {\n      updateReorderPoint(id: $id, value: $reorderPoint) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateReorderPointDocument,
     "\n  mutation RemoveReorderPoint($id: ID!) {\n    wms {\n      removeReorderPoint(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveReorderPointDocument,
     "\n  mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {\n    wms {\n      createReturnItem(value: $returnItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateReturnItemDocument,
     "\n  mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {\n    wms {\n      updateReturnItem(id: $id, value: $returnItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateReturnItemDocument,
@@ -214,13 +214,13 @@ type Documents = {
     "\n  mutation UpdateReturn($id: ID!, $return: UpdateReturnInput!) {\n    wms {\n      updateReturn(id: $id, value: $return) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateReturnDocument,
     "\n  mutation RemoveReturn($id: ID!) {\n    wms {\n      removeReturn(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveReturnDocument,
     "\n  mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {\n    wms {\n      createSalesOrderItem(value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateSalesOrderItemDocument,
-    "\n  mutation UpdateSalesOrderItem($id: ID!, $salesOrderItem: UpdateSalesOrderItemInput!) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateSalesOrderItemDocument,
+    "\n  mutation UpdateSalesOrderItem(\n    $id: ID!\n    $salesOrderItem: UpdateSalesOrderItemInput!\n  ) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateSalesOrderItemDocument,
     "\n  mutation RemoveSalesOrderItem($id: ID!) {\n    wms {\n      removeSalesOrderItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveSalesOrderItemDocument,
     "\n  mutation CreateSalesOrder($salesOrder: CreateSalesOrderInput!) {\n    wms {\n      createSalesOrder(value: $salesOrder) {\n        id\n      }\n    }\n  }\n": typeof types.CreateSalesOrderDocument,
     "\n  mutation UpdateSalesOrder($id: ID!, $salesOrder: UpdateSalesOrderInput!) {\n    wms {\n      updateSalesOrder(id: $id, value: $salesOrder) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateSalesOrderDocument,
     "\n  mutation RemoveSalesOrder($id: ID!) {\n    wms {\n      removeSalesOrder(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveSalesOrderDocument,
     "\n  mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {\n    wms {\n      createStockTransfer(value: $stockTransfer) {\n        id\n      }\n    }\n  }\n": typeof types.CreateStockTransferDocument,
-    "\n  mutation UpdateStockTransfer($id: ID!, $stockTransfer: UpdateStockTransferInput!) {\n    wms {\n      updateStockTransfer(id: $id, value: $stockTransfer) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateStockTransferDocument,
+    "\n  mutation UpdateStockTransfer(\n    $id: ID!\n    $stockTransfer: UpdateStockTransferInput!\n  ) {\n    wms {\n      updateStockTransfer(id: $id, value: $stockTransfer) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateStockTransferDocument,
     "\n  mutation RemoveStockTransfer($id: ID!) {\n    wms {\n      removeStockTransfer(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveStockTransferDocument,
     "\n  mutation CreateSupplier($supplier: CreateSupplierInput!) {\n    wms {\n      createSupplier(value: $supplier) {\n        id\n      }\n    }\n  }\n": typeof types.CreateSupplierDocument,
     "\n  mutation UpdateSupplier($id: ID!, $supplier: UpdateSupplierInput!) {\n    wms {\n      updateSupplier(id: $id, value: $supplier) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateSupplierDocument,
@@ -236,14 +236,14 @@ type Documents = {
     "\n  mutation RemoveWarehouse($id: ID!) {\n    wms {\n      removeWarehouse(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveWarehouseDocument,
 };
 const documents: Documents = {
-    "\n  mutation CreateAccountTransaction($accountTransaction: CreateAccountTransactionInput!) {\n    billing {\n      createAccountTransaction(value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": types.CreateAccountTransactionDocument,
-    "\n  mutation UpdateAccountTransaction($id: ID!, $accountTransaction: UpdateAccountTransactionInput!) {\n    billing {\n      updateAccountTransaction(id: $id, value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": types.UpdateAccountTransactionDocument,
+    "\n  mutation CreateAccountTransaction(\n    $accountTransaction: CreateAccountTransactionInput!\n  ) {\n    billing {\n      createAccountTransaction(value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": types.CreateAccountTransactionDocument,
+    "\n  mutation UpdateAccountTransaction(\n    $id: ID!\n    $accountTransaction: UpdateAccountTransactionInput!\n  ) {\n    billing {\n      updateAccountTransaction(id: $id, value: $accountTransaction) {\n        id\n      }\n    }\n  }\n": types.UpdateAccountTransactionDocument,
     "\n  mutation RemoveAccountTransaction($id: ID!) {\n    billing {\n      removeAccountTransaction(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveAccountTransactionDocument,
-    "\n  mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {\n    billing {\n      createAccountingSyncLog(value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": types.CreateAccountingSyncLogDocument,
-    "\n  mutation UpdateAccountingSyncLog($id: ID!, $accountingSyncLog: UpdateAccountingSyncLogInput!) {\n    billing {\n      updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": types.UpdateAccountingSyncLogDocument,
+    "\n  mutation CreateAccountingSyncLog(\n    $accountingSyncLog: CreateAccountingSyncLogInput!\n  ) {\n    billing {\n      createAccountingSyncLog(value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": types.CreateAccountingSyncLogDocument,
+    "\n  mutation UpdateAccountingSyncLog(\n    $id: ID!\n    $accountingSyncLog: UpdateAccountingSyncLogInput!\n  ) {\n    billing {\n      updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n": types.UpdateAccountingSyncLogDocument,
     "\n  mutation RemoveAccountingSyncLog($id: ID!) {\n    billing {\n      removeAccountingSyncLog(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveAccountingSyncLogDocument,
     "\n  mutation CreateClientAccount($clientAccount: CreateClientAccountInput!) {\n    billing {\n      createClientAccount(value: $clientAccount) {\n        id\n      }\n    }\n  }\n": types.CreateClientAccountDocument,
-    "\n  mutation UpdateClientAccount($id: ID!, $clientAccount: UpdateClientAccountInput!) {\n    billing {\n      updateClientAccount(id: $id, value: $clientAccount) {\n        id\n      }\n    }\n  }\n": types.UpdateClientAccountDocument,
+    "\n  mutation UpdateClientAccount(\n    $id: ID!\n    $clientAccount: UpdateClientAccountInput!\n  ) {\n    billing {\n      updateClientAccount(id: $id, value: $clientAccount) {\n        id\n      }\n    }\n  }\n": types.UpdateClientAccountDocument,
     "\n  mutation RemoveClientAccount($id: ID!) {\n    billing {\n      removeClientAccount(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveClientAccountDocument,
     "\n  mutation CreateCreditNote($creditNote: CreateCreditNoteInput!) {\n    billing {\n      createCreditNote(value: $creditNote) {\n        id\n      }\n    }\n  }\n": types.CreateCreditNoteDocument,
     "\n  mutation UpdateCreditNote($id: ID!, $creditNote: UpdateCreditNoteInput!) {\n    billing {\n      updateCreditNote(id: $id, value: $creditNote) {\n        id\n      }\n    }\n  }\n": types.UpdateCreditNoteDocument,
@@ -251,11 +251,11 @@ const documents: Documents = {
     "\n  mutation CreateDispute($dispute: CreateDisputeInput!) {\n    billing {\n      createDispute(value: $dispute) {\n        id\n      }\n    }\n  }\n": types.CreateDisputeDocument,
     "\n  mutation UpdateDispute($id: ID!, $dispute: UpdateDisputeInput!) {\n    billing {\n      updateDispute(id: $id, value: $dispute) {\n        id\n      }\n    }\n  }\n": types.UpdateDisputeDocument,
     "\n  mutation RemoveDispute($id: ID!) {\n    billing {\n      removeDispute(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveDisputeDocument,
-    "\n  mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {\n    billing {\n      createInvoiceLineItem(value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": types.CreateInvoiceLineItemDocument,
-    "\n  mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": types.UpdateInvoiceLineItemDocument,
+    "\n  mutation CreateInvoiceLineItem(\n    $invoiceLineItem: CreateInvoiceLineItemInput!\n  ) {\n    billing {\n      createInvoiceLineItem(value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": types.CreateInvoiceLineItemDocument,
+    "\n  mutation UpdateInvoiceLineItem(\n    $id: ID!\n    $invoiceLineItem: UpdateInvoiceLineItemInput!\n  ) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": types.UpdateInvoiceLineItemDocument,
     "\n  mutation RemoveInvoiceLineItem($id: ID!) {\n    billing {\n      removeInvoiceLineItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInvoiceLineItemDocument,
     "\n  mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {\n    billing {\n      createBillingInvoice(value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": types.CreateBillingInvoiceDocument,
-    "\n  mutation UpdateBillingInvoice($id: ID!, $billingInvoice: UpdateBillingInvoiceInput!) {\n    billing {\n      updateBillingInvoice(id: $id, value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": types.UpdateBillingInvoiceDocument,
+    "\n  mutation UpdateBillingInvoice(\n    $id: ID!\n    $billingInvoice: UpdateBillingInvoiceInput!\n  ) {\n    billing {\n      updateBillingInvoice(id: $id, value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": types.UpdateBillingInvoiceDocument,
     "\n  mutation RemoveBillingInvoice($id: ID!) {\n    billing {\n      removeBillingInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveBillingInvoiceDocument,
     "\n  mutation CreatePayment($payment: CreatePaymentInput!) {\n    billing {\n      createPayment(value: $payment) {\n        id\n      }\n    }\n  }\n": types.CreatePaymentDocument,
     "\n  mutation UpdatePayment($id: ID!, $payment: UpdatePaymentInput!) {\n    billing {\n      updatePayment(id: $id, value: $payment) {\n        id\n      }\n    }\n  }\n": types.UpdatePaymentDocument,
@@ -342,7 +342,7 @@ const documents: Documents = {
     "\n  mutation UpdateExpense($id: ID!, $expense: UpdateExpenseInput!) {\n    tms {\n      updateExpense(id: $id, value: $expense) {\n        id\n      }\n    }\n  }\n": types.UpdateExpenseDocument,
     "\n  mutation RemoveExpense($id: ID!) {\n    tms {\n      removeExpense(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveExpenseDocument,
     "\n  mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {\n    tms {\n      createGeofenceEvent(value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": types.CreateGeofenceEventDocument,
-    "\n  mutation UpdateGeofenceEvent($id: ID!, $geofenceEvent: UpdateGeofenceEventInput!) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": types.UpdateGeofenceEventDocument,
+    "\n  mutation UpdateGeofenceEvent(\n    $id: ID!\n    $geofenceEvent: UpdateGeofenceEventInput!\n  ) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": types.UpdateGeofenceEventDocument,
     "\n  mutation RemoveGeofenceEvent($id: ID!) {\n    tms {\n      removeGeofenceEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveGeofenceEventDocument,
     "\n  mutation CreateGeofence($geofence: CreateGeofenceInput!) {\n    tms {\n      createGeofence(value: $geofence) {\n        id\n      }\n    }\n  }\n": types.CreateGeofenceDocument,
     "\n  mutation UpdateGeofence($id: ID!, $geofence: UpdateGeofenceInput!) {\n    tms {\n      updateGeofence(id: $id, value: $geofence) {\n        id\n      }\n    }\n  }\n": types.UpdateGeofenceDocument,
@@ -350,20 +350,20 @@ const documents: Documents = {
     "\n  mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {\n    tms {\n      createGpsPing(value: $gpsPing) {\n        id\n      }\n    }\n  }\n": types.CreateGpsPingDocument,
     "\n  mutation UpdateGpsPing($id: ID!, $gpsPing: UpdateGpsPingInput!) {\n    tms {\n      updateGpsPing(id: $id, value: $gpsPing) {\n        id\n      }\n    }\n  }\n": types.UpdateGpsPingDocument,
     "\n  mutation RemoveGpsPing($id: ID!) {\n    tms {\n      removeGpsPing(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveGpsPingDocument,
-    "\n  mutation CreatePartnerInvoiceItem($partnerInvoiceItem: CreatePartnerInvoiceItemInput!) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": types.CreatePartnerInvoiceItemDocument,
-    "\n  mutation UpdatePartnerInvoiceItem($id: ID!, $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePartnerInvoiceItemDocument,
+    "\n  mutation CreatePartnerInvoiceItem(\n    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": types.CreatePartnerInvoiceItemDocument,
+    "\n  mutation UpdatePartnerInvoiceItem(\n    $id: ID!\n    $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePartnerInvoiceItemDocument,
     "\n  mutation RemovePartnerInvoiceItem($id: ID!) {\n    tms {\n      removePartnerInvoiceItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePartnerInvoiceItemDocument,
     "\n  mutation CreatePartnerInvoice($partnerInvoice: CreatePartnerInvoiceInput!) {\n    tms {\n      createPartnerInvoice(value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": types.CreatePartnerInvoiceDocument,
-    "\n  mutation UpdatePartnerInvoice($id: ID!, $partnerInvoice: UpdatePartnerInvoiceInput!) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": types.UpdatePartnerInvoiceDocument,
+    "\n  mutation UpdatePartnerInvoice(\n    $id: ID!\n    $partnerInvoice: UpdatePartnerInvoiceInput!\n  ) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": types.UpdatePartnerInvoiceDocument,
     "\n  mutation RemovePartnerInvoice($id: ID!) {\n    tms {\n      removePartnerInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePartnerInvoiceDocument,
-    "\n  mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": types.CreateProofOfDeliveryDocument,
-    "\n  mutation UpdateProofOfDelivery($id: ID!, $proofOfDelivery: UpdateProofOfDeliveryInput!) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": types.UpdateProofOfDeliveryDocument,
+    "\n  mutation CreateProofOfDelivery(\n    $proofOfDelivery: CreateProofOfDeliveryInput!\n  ) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": types.CreateProofOfDeliveryDocument,
+    "\n  mutation UpdateProofOfDelivery(\n    $id: ID!\n    $proofOfDelivery: UpdateProofOfDeliveryInput!\n  ) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": types.UpdateProofOfDeliveryDocument,
     "\n  mutation RemoveProofOfDelivery($id: ID!) {\n    tms {\n      removeProofOfDelivery(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveProofOfDeliveryDocument,
     "\n  mutation CreateRoute($route: CreateRouteInput!) {\n    tms {\n      createRoute(value: $route) {\n        id\n      }\n    }\n  }\n": types.CreateRouteDocument,
     "\n  mutation UpdateRoute($id: ID!, $route: UpdateRouteInput!) {\n    tms {\n      updateRoute(id: $id, value: $route) {\n        id\n      }\n    }\n  }\n": types.UpdateRouteDocument,
     "\n  mutation RemoveRoute($id: ID!) {\n    tms {\n      removeRoute(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveRouteDocument,
-    "\n  mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": types.CreateShipmentLegEventDocument,
-    "\n  mutation UpdateShipmentLegEvent($id: ID!, $shipmentLegEvent: UpdateShipmentLegEventInput!) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": types.UpdateShipmentLegEventDocument,
+    "\n  mutation CreateShipmentLegEvent(\n    $shipmentLegEvent: CreateShipmentLegEventInput!\n  ) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": types.CreateShipmentLegEventDocument,
+    "\n  mutation UpdateShipmentLegEvent(\n    $id: ID!\n    $shipmentLegEvent: UpdateShipmentLegEventInput!\n  ) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": types.UpdateShipmentLegEventDocument,
     "\n  mutation RemoveShipmentLegEvent($id: ID!) {\n    tms {\n      removeShipmentLegEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveShipmentLegEventDocument,
     "\n  mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {\n    tms {\n      createShipmentLeg(value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": types.CreateShipmentLegDocument,
     "\n  mutation UpdateShipmentLeg($id: ID!, $shipmentLeg: UpdateShipmentLegInput!) {\n    tms {\n      updateShipmentLeg(id: $id, value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": types.UpdateShipmentLegDocument,
@@ -374,38 +374,38 @@ const documents: Documents = {
     "\n  mutation CreateTrip($trip: CreateTripInput!) {\n    tms {\n      createTrip(value: $trip) {\n        id\n      }\n    }\n  }\n": types.CreateTripDocument,
     "\n  mutation UpdateTrip($id: ID!, $trip: UpdateTripInput!) {\n    tms {\n      updateTrip(id: $id, value: $trip) {\n        id\n      }\n    }\n  }\n": types.UpdateTripDocument,
     "\n  mutation RemoveTrip($id: ID!) {\n    tms {\n      removeTrip(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveTripDocument,
-    "\n  mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": types.CreateVehicleMaintenanceDocument,
-    "\n  mutation UpdateVehicleMaintenance($id: ID!, $vehicleMaintenance: UpdateVehicleMaintenanceInput!) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": types.UpdateVehicleMaintenanceDocument,
+    "\n  mutation CreateVehicleMaintenance(\n    $vehicleMaintenance: CreateVehicleMaintenanceInput!\n  ) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": types.CreateVehicleMaintenanceDocument,
+    "\n  mutation UpdateVehicleMaintenance(\n    $id: ID!\n    $vehicleMaintenance: UpdateVehicleMaintenanceInput!\n  ) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": types.UpdateVehicleMaintenanceDocument,
     "\n  mutation RemoveVehicleMaintenance($id: ID!) {\n    tms {\n      removeVehicleMaintenance(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveVehicleMaintenanceDocument,
     "\n  mutation CreateVehicle($vehicle: CreateVehicleInput!) {\n    tms {\n      createVehicle(value: $vehicle) {\n        id\n      }\n    }\n  }\n": types.CreateVehicleDocument,
     "\n  mutation UpdateVehicle($id: ID!, $vehicle: UpdateVehicleInput!) {\n    tms {\n      updateVehicle(id: $id, value: $vehicle) {\n        id\n      }\n    }\n  }\n": types.UpdateVehicleDocument,
     "\n  mutation RemoveVehicle($id: ID!) {\n    tms {\n      removeVehicle(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveVehicleDocument,
     "\n  mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {\n    wms {\n      createBinThreshold(value: $binThreshold) {\n        id\n      }\n    }\n  }\n": types.CreateBinThresholdDocument,
-    "\n  mutation UpdateBinThreshold($id: ID!, $binThreshold: UpdateBinThresholdInput!) {\n    wms {\n      updateBinThreshold(id: $id, value: $binThreshold) {\n        id\n      }\n    }\n  }\n": types.UpdateBinThresholdDocument,
+    "\n  mutation UpdateBinThreshold(\n    $id: ID!\n    $binThreshold: UpdateBinThresholdInput!\n  ) {\n    wms {\n      updateBinThreshold(id: $id, value: $binThreshold) {\n        id\n      }\n    }\n  }\n": types.UpdateBinThresholdDocument,
     "\n  mutation RemoveBinThreshold($id: ID!) {\n    wms {\n      removeBinThreshold(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveBinThresholdDocument,
-    "\n  mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.CreateInboundShipmentItemDocument,
-    "\n  mutation UpdateInboundShipmentItem($id: ID!, $inboundShipmentItem: UpdateInboundShipmentItemInput!) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.UpdateInboundShipmentItemDocument,
+    "\n  mutation CreateInboundShipmentItem(\n    $inboundShipmentItem: CreateInboundShipmentItemInput!\n  ) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.CreateInboundShipmentItemDocument,
+    "\n  mutation UpdateInboundShipmentItem(\n    $id: ID!\n    $inboundShipmentItem: UpdateInboundShipmentItemInput!\n  ) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.UpdateInboundShipmentItemDocument,
     "\n  mutation RemoveInboundShipmentItem($id: ID!) {\n    wms {\n      removeInboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInboundShipmentItemDocument,
-    "\n  mutation CreateInboundShipment($inboundShipment: CreateInboundShipmentInput!) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": types.CreateInboundShipmentDocument,
-    "\n  mutation UpdateInboundShipment($id: ID!, $inboundShipment: UpdateInboundShipmentInput!) {\n    wms {\n      updateInboundShipment(id: $id, value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": types.UpdateInboundShipmentDocument,
+    "\n  mutation CreateInboundShipment(\n    $inboundShipment: CreateInboundShipmentInput!\n  ) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": types.CreateInboundShipmentDocument,
+    "\n  mutation UpdateInboundShipment(\n    $id: ID!\n    $inboundShipment: UpdateInboundShipmentInput!\n  ) {\n    wms {\n      updateInboundShipment(id: $id, value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": types.UpdateInboundShipmentDocument,
     "\n  mutation RemoveInboundShipment($id: ID!) {\n    wms {\n      removeInboundShipment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInboundShipmentDocument,
-    "\n  mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {\n    wms {\n      createInventoryAdjustment(value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": types.CreateInventoryAdjustmentDocument,
-    "\n  mutation UpdateInventoryAdjustment($id: ID!, $inventoryAdjustment: UpdateInventoryAdjustmentInput!) {\n    wms {\n      updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": types.UpdateInventoryAdjustmentDocument,
+    "\n  mutation CreateInventoryAdjustment(\n    $inventoryAdjustment: CreateInventoryAdjustmentInput!\n  ) {\n    wms {\n      createInventoryAdjustment(value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": types.CreateInventoryAdjustmentDocument,
+    "\n  mutation UpdateInventoryAdjustment(\n    $id: ID!\n    $inventoryAdjustment: UpdateInventoryAdjustmentInput!\n  ) {\n    wms {\n      updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n": types.UpdateInventoryAdjustmentDocument,
     "\n  mutation RemoveInventoryAdjustment($id: ID!) {\n    wms {\n      removeInventoryAdjustment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInventoryAdjustmentDocument,
     "\n  mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {\n    wms {\n      createInventoryBatch(value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n": types.CreateInventoryBatchDocument,
-    "\n  mutation UpdateInventoryBatch($id: ID!, $inventoryBatch: UpdateInventoryBatchInput!) {\n    wms {\n      updateInventoryBatch(id: $id, value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n": types.UpdateInventoryBatchDocument,
+    "\n  mutation UpdateInventoryBatch(\n    $id: ID!\n    $inventoryBatch: UpdateInventoryBatchInput!\n  ) {\n    wms {\n      updateInventoryBatch(id: $id, value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n": types.UpdateInventoryBatchDocument,
     "\n  mutation RemoveInventoryBatch($id: ID!) {\n    wms {\n      removeInventoryBatch(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInventoryBatchDocument,
     "\n  mutation CreateInventoryStock($inventoryStock: CreateInventoryStockInput!) {\n    wms {\n      createInventoryStock(value: $inventoryStock) {\n        id\n      }\n    }\n  }\n": types.CreateInventoryStockDocument,
-    "\n  mutation UpdateInventoryStock($id: ID!, $inventoryStock: UpdateInventoryStockInput!) {\n    wms {\n      updateInventoryStock(id: $id, value: $inventoryStock) {\n        id\n      }\n    }\n  }\n": types.UpdateInventoryStockDocument,
+    "\n  mutation UpdateInventoryStock(\n    $id: ID!\n    $inventoryStock: UpdateInventoryStockInput!\n  ) {\n    wms {\n      updateInventoryStock(id: $id, value: $inventoryStock) {\n        id\n      }\n    }\n  }\n": types.UpdateInventoryStockDocument,
     "\n  mutation RemoveInventoryStock($id: ID!) {\n    wms {\n      removeInventoryStock(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInventoryStockDocument,
     "\n  mutation CreateLocation($location: CreateLocationInput!) {\n    wms {\n      createLocation(value: $location) {\n        id\n      }\n    }\n  }\n": types.CreateLocationDocument,
     "\n  mutation UpdateLocation($id: ID!, $location: UpdateLocationInput!) {\n    wms {\n      updateLocation(id: $id, value: $location) {\n        id\n      }\n    }\n  }\n": types.UpdateLocationDocument,
     "\n  mutation RemoveLocation($id: ID!) {\n    wms {\n      removeLocation(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveLocationDocument,
-    "\n  mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.CreateOutboundShipmentItemDocument,
-    "\n  mutation UpdateOutboundShipmentItem($id: ID!, $outboundShipmentItem: UpdateOutboundShipmentItemInput!) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.UpdateOutboundShipmentItemDocument,
+    "\n  mutation CreateOutboundShipmentItem(\n    $outboundShipmentItem: CreateOutboundShipmentItemInput!\n  ) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.CreateOutboundShipmentItemDocument,
+    "\n  mutation UpdateOutboundShipmentItem(\n    $id: ID!\n    $outboundShipmentItem: UpdateOutboundShipmentItemInput!\n  ) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.UpdateOutboundShipmentItemDocument,
     "\n  mutation RemoveOutboundShipmentItem($id: ID!) {\n    wms {\n      removeOutboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveOutboundShipmentItemDocument,
-    "\n  mutation CreateOutboundShipment($outboundShipment: CreateOutboundShipmentInput!) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": types.CreateOutboundShipmentDocument,
-    "\n  mutation UpdateOutboundShipment($id: ID!, $outboundShipment: UpdateOutboundShipmentInput!) {\n    wms {\n      updateOutboundShipment(id: $id, value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": types.UpdateOutboundShipmentDocument,
+    "\n  mutation CreateOutboundShipment(\n    $outboundShipment: CreateOutboundShipmentInput!\n  ) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": types.CreateOutboundShipmentDocument,
+    "\n  mutation UpdateOutboundShipment(\n    $id: ID!\n    $outboundShipment: UpdateOutboundShipmentInput!\n  ) {\n    wms {\n      updateOutboundShipment(id: $id, value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": types.UpdateOutboundShipmentDocument,
     "\n  mutation RemoveOutboundShipment($id: ID!) {\n    wms {\n      removeOutboundShipment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveOutboundShipmentDocument,
     "\n  mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {\n    wms {\n      createPackageItem(value: $packageItem) {\n        id\n      }\n    }\n  }\n": types.CreatePackageItemDocument,
     "\n  mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {\n    wms {\n      updatePackageItem(id: $id, value: $packageItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePackageItemDocument,
@@ -414,7 +414,7 @@ const documents: Documents = {
     "\n  mutation UpdatePackage($id: ID!, $package: UpdatePackageInput!) {\n    wms {\n      updatePackage(id: $id, value: $package) {\n        id\n      }\n    }\n  }\n": types.UpdatePackageDocument,
     "\n  mutation RemovePackage($id: ID!) {\n    wms {\n      removePackage(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePackageDocument,
     "\n  mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {\n    wms {\n      createPickBatchItem(value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": types.CreatePickBatchItemDocument,
-    "\n  mutation UpdatePickBatchItem($id: ID!, $pickBatchItem: UpdatePickBatchItemInput!) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePickBatchItemDocument,
+    "\n  mutation UpdatePickBatchItem(\n    $id: ID!\n    $pickBatchItem: UpdatePickBatchItemInput!\n  ) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePickBatchItemDocument,
     "\n  mutation RemovePickBatchItem($id: ID!) {\n    wms {\n      removePickBatchItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePickBatchItemDocument,
     "\n  mutation CreatePickBatch($pickBatch: CreatePickBatchInput!) {\n    wms {\n      createPickBatch(value: $pickBatch) {\n        id\n      }\n    }\n  }\n": types.CreatePickBatchDocument,
     "\n  mutation UpdatePickBatch($id: ID!, $pickBatch: UpdatePickBatchInput!) {\n    wms {\n      updatePickBatch(id: $id, value: $pickBatch) {\n        id\n      }\n    }\n  }\n": types.UpdatePickBatchDocument,
@@ -426,7 +426,7 @@ const documents: Documents = {
     "\n  mutation UpdatePutawayRule($id: ID!, $putawayRule: UpdatePutawayRuleInput!) {\n    wms {\n      updatePutawayRule(id: $id, value: $putawayRule) {\n        id\n      }\n    }\n  }\n": types.UpdatePutawayRuleDocument,
     "\n  mutation RemovePutawayRule($id: ID!) {\n    wms {\n      removePutawayRule(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePutawayRuleDocument,
     "\n  mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {\n    wms {\n      createReorderPoint(value: $reorderPoint) {\n        id\n      }\n    }\n  }\n": types.CreateReorderPointDocument,
-    "\n  mutation UpdateReorderPoint($id: ID!, $reorderPoint: UpdateReorderPointInput!) {\n    wms {\n      updateReorderPoint(id: $id, value: $reorderPoint) {\n        id\n      }\n    }\n  }\n": types.UpdateReorderPointDocument,
+    "\n  mutation UpdateReorderPoint(\n    $id: ID!\n    $reorderPoint: UpdateReorderPointInput!\n  ) {\n    wms {\n      updateReorderPoint(id: $id, value: $reorderPoint) {\n        id\n      }\n    }\n  }\n": types.UpdateReorderPointDocument,
     "\n  mutation RemoveReorderPoint($id: ID!) {\n    wms {\n      removeReorderPoint(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveReorderPointDocument,
     "\n  mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {\n    wms {\n      createReturnItem(value: $returnItem) {\n        id\n      }\n    }\n  }\n": types.CreateReturnItemDocument,
     "\n  mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {\n    wms {\n      updateReturnItem(id: $id, value: $returnItem) {\n        id\n      }\n    }\n  }\n": types.UpdateReturnItemDocument,
@@ -435,13 +435,13 @@ const documents: Documents = {
     "\n  mutation UpdateReturn($id: ID!, $return: UpdateReturnInput!) {\n    wms {\n      updateReturn(id: $id, value: $return) {\n        id\n      }\n    }\n  }\n": types.UpdateReturnDocument,
     "\n  mutation RemoveReturn($id: ID!) {\n    wms {\n      removeReturn(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveReturnDocument,
     "\n  mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {\n    wms {\n      createSalesOrderItem(value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": types.CreateSalesOrderItemDocument,
-    "\n  mutation UpdateSalesOrderItem($id: ID!, $salesOrderItem: UpdateSalesOrderItemInput!) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": types.UpdateSalesOrderItemDocument,
+    "\n  mutation UpdateSalesOrderItem(\n    $id: ID!\n    $salesOrderItem: UpdateSalesOrderItemInput!\n  ) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": types.UpdateSalesOrderItemDocument,
     "\n  mutation RemoveSalesOrderItem($id: ID!) {\n    wms {\n      removeSalesOrderItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveSalesOrderItemDocument,
     "\n  mutation CreateSalesOrder($salesOrder: CreateSalesOrderInput!) {\n    wms {\n      createSalesOrder(value: $salesOrder) {\n        id\n      }\n    }\n  }\n": types.CreateSalesOrderDocument,
     "\n  mutation UpdateSalesOrder($id: ID!, $salesOrder: UpdateSalesOrderInput!) {\n    wms {\n      updateSalesOrder(id: $id, value: $salesOrder) {\n        id\n      }\n    }\n  }\n": types.UpdateSalesOrderDocument,
     "\n  mutation RemoveSalesOrder($id: ID!) {\n    wms {\n      removeSalesOrder(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveSalesOrderDocument,
     "\n  mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {\n    wms {\n      createStockTransfer(value: $stockTransfer) {\n        id\n      }\n    }\n  }\n": types.CreateStockTransferDocument,
-    "\n  mutation UpdateStockTransfer($id: ID!, $stockTransfer: UpdateStockTransferInput!) {\n    wms {\n      updateStockTransfer(id: $id, value: $stockTransfer) {\n        id\n      }\n    }\n  }\n": types.UpdateStockTransferDocument,
+    "\n  mutation UpdateStockTransfer(\n    $id: ID!\n    $stockTransfer: UpdateStockTransferInput!\n  ) {\n    wms {\n      updateStockTransfer(id: $id, value: $stockTransfer) {\n        id\n      }\n    }\n  }\n": types.UpdateStockTransferDocument,
     "\n  mutation RemoveStockTransfer($id: ID!) {\n    wms {\n      removeStockTransfer(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveStockTransferDocument,
     "\n  mutation CreateSupplier($supplier: CreateSupplierInput!) {\n    wms {\n      createSupplier(value: $supplier) {\n        id\n      }\n    }\n  }\n": types.CreateSupplierDocument,
     "\n  mutation UpdateSupplier($id: ID!, $supplier: UpdateSupplierInput!) {\n    wms {\n      updateSupplier(id: $id, value: $supplier) {\n        id\n      }\n    }\n  }\n": types.UpdateSupplierDocument,
@@ -460,11 +460,11 @@ const documents: Documents = {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateAccountTransaction($accountTransaction: CreateAccountTransactionInput!) {\n    billing {\n      createAccountTransaction(value: $accountTransaction) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateAccountTransactionDocument;
+export function graphql(source: "\n  mutation CreateAccountTransaction(\n    $accountTransaction: CreateAccountTransactionInput!\n  ) {\n    billing {\n      createAccountTransaction(value: $accountTransaction) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateAccountTransactionDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateAccountTransaction($id: ID!, $accountTransaction: UpdateAccountTransactionInput!) {\n    billing {\n      updateAccountTransaction(id: $id, value: $accountTransaction) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateAccountTransactionDocument;
+export function graphql(source: "\n  mutation UpdateAccountTransaction(\n    $id: ID!\n    $accountTransaction: UpdateAccountTransactionInput!\n  ) {\n    billing {\n      updateAccountTransaction(id: $id, value: $accountTransaction) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateAccountTransactionDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -472,11 +472,11 @@ export function graphql(source: "\n  mutation RemoveAccountTransaction($id: ID!)
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {\n    billing {\n      createAccountingSyncLog(value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateAccountingSyncLogDocument;
+export function graphql(source: "\n  mutation CreateAccountingSyncLog(\n    $accountingSyncLog: CreateAccountingSyncLogInput!\n  ) {\n    billing {\n      createAccountingSyncLog(value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateAccountingSyncLogDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateAccountingSyncLog($id: ID!, $accountingSyncLog: UpdateAccountingSyncLogInput!) {\n    billing {\n      updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateAccountingSyncLogDocument;
+export function graphql(source: "\n  mutation UpdateAccountingSyncLog(\n    $id: ID!\n    $accountingSyncLog: UpdateAccountingSyncLogInput!\n  ) {\n    billing {\n      updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateAccountingSyncLogDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -488,7 +488,7 @@ export function graphql(source: "\n  mutation CreateClientAccount($clientAccount
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateClientAccount($id: ID!, $clientAccount: UpdateClientAccountInput!) {\n    billing {\n      updateClientAccount(id: $id, value: $clientAccount) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateClientAccountDocument;
+export function graphql(source: "\n  mutation UpdateClientAccount(\n    $id: ID!\n    $clientAccount: UpdateClientAccountInput!\n  ) {\n    billing {\n      updateClientAccount(id: $id, value: $clientAccount) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateClientAccountDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -520,11 +520,11 @@ export function graphql(source: "\n  mutation RemoveDispute($id: ID!) {\n    bil
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {\n    billing {\n      createInvoiceLineItem(value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInvoiceLineItemDocument;
+export function graphql(source: "\n  mutation CreateInvoiceLineItem(\n    $invoiceLineItem: CreateInvoiceLineItemInput!\n  ) {\n    billing {\n      createInvoiceLineItem(value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInvoiceLineItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInvoiceLineItemDocument;
+export function graphql(source: "\n  mutation UpdateInvoiceLineItem(\n    $id: ID!\n    $invoiceLineItem: UpdateInvoiceLineItemInput!\n  ) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInvoiceLineItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -536,7 +536,7 @@ export function graphql(source: "\n  mutation CreateBillingInvoice($billingInvoi
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateBillingInvoice($id: ID!, $billingInvoice: UpdateBillingInvoiceInput!) {\n    billing {\n      updateBillingInvoice(id: $id, value: $billingInvoice) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateBillingInvoiceDocument;
+export function graphql(source: "\n  mutation UpdateBillingInvoice(\n    $id: ID!\n    $billingInvoice: UpdateBillingInvoiceInput!\n  ) {\n    billing {\n      updateBillingInvoice(id: $id, value: $billingInvoice) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateBillingInvoiceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -884,7 +884,7 @@ export function graphql(source: "\n  mutation CreateGeofenceEvent($geofenceEvent
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateGeofenceEvent($id: ID!, $geofenceEvent: UpdateGeofenceEventInput!) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateGeofenceEventDocument;
+export function graphql(source: "\n  mutation UpdateGeofenceEvent(\n    $id: ID!\n    $geofenceEvent: UpdateGeofenceEventInput!\n  ) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateGeofenceEventDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -916,11 +916,11 @@ export function graphql(source: "\n  mutation RemoveGpsPing($id: ID!) {\n    tms
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreatePartnerInvoiceItem($partnerInvoiceItem: CreatePartnerInvoiceItemInput!) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreatePartnerInvoiceItemDocument;
+export function graphql(source: "\n  mutation CreatePartnerInvoiceItem(\n    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreatePartnerInvoiceItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdatePartnerInvoiceItem($id: ID!, $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePartnerInvoiceItemDocument;
+export function graphql(source: "\n  mutation UpdatePartnerInvoiceItem(\n    $id: ID!\n    $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePartnerInvoiceItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -932,7 +932,7 @@ export function graphql(source: "\n  mutation CreatePartnerInvoice($partnerInvoi
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdatePartnerInvoice($id: ID!, $partnerInvoice: UpdatePartnerInvoiceInput!) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePartnerInvoiceDocument;
+export function graphql(source: "\n  mutation UpdatePartnerInvoice(\n    $id: ID!\n    $partnerInvoice: UpdatePartnerInvoiceInput!\n  ) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePartnerInvoiceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -940,11 +940,11 @@ export function graphql(source: "\n  mutation RemovePartnerInvoice($id: ID!) {\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateProofOfDeliveryDocument;
+export function graphql(source: "\n  mutation CreateProofOfDelivery(\n    $proofOfDelivery: CreateProofOfDeliveryInput!\n  ) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateProofOfDeliveryDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateProofOfDelivery($id: ID!, $proofOfDelivery: UpdateProofOfDeliveryInput!) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateProofOfDeliveryDocument;
+export function graphql(source: "\n  mutation UpdateProofOfDelivery(\n    $id: ID!\n    $proofOfDelivery: UpdateProofOfDeliveryInput!\n  ) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateProofOfDeliveryDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -964,11 +964,11 @@ export function graphql(source: "\n  mutation RemoveRoute($id: ID!) {\n    tms {
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateShipmentLegEventDocument;
+export function graphql(source: "\n  mutation CreateShipmentLegEvent(\n    $shipmentLegEvent: CreateShipmentLegEventInput!\n  ) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateShipmentLegEventDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateShipmentLegEvent($id: ID!, $shipmentLegEvent: UpdateShipmentLegEventInput!) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateShipmentLegEventDocument;
+export function graphql(source: "\n  mutation UpdateShipmentLegEvent(\n    $id: ID!\n    $shipmentLegEvent: UpdateShipmentLegEventInput!\n  ) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateShipmentLegEventDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1012,11 +1012,11 @@ export function graphql(source: "\n  mutation RemoveTrip($id: ID!) {\n    tms {\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateVehicleMaintenanceDocument;
+export function graphql(source: "\n  mutation CreateVehicleMaintenance(\n    $vehicleMaintenance: CreateVehicleMaintenanceInput!\n  ) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateVehicleMaintenanceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateVehicleMaintenance($id: ID!, $vehicleMaintenance: UpdateVehicleMaintenanceInput!) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateVehicleMaintenanceDocument;
+export function graphql(source: "\n  mutation UpdateVehicleMaintenance(\n    $id: ID!\n    $vehicleMaintenance: UpdateVehicleMaintenanceInput!\n  ) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateVehicleMaintenanceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1040,7 +1040,7 @@ export function graphql(source: "\n  mutation CreateBinThreshold($binThreshold: 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateBinThreshold($id: ID!, $binThreshold: UpdateBinThresholdInput!) {\n    wms {\n      updateBinThreshold(id: $id, value: $binThreshold) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateBinThresholdDocument;
+export function graphql(source: "\n  mutation UpdateBinThreshold(\n    $id: ID!\n    $binThreshold: UpdateBinThresholdInput!\n  ) {\n    wms {\n      updateBinThreshold(id: $id, value: $binThreshold) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateBinThresholdDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1048,11 +1048,11 @@ export function graphql(source: "\n  mutation RemoveBinThreshold($id: ID!) {\n  
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInboundShipmentItemDocument;
+export function graphql(source: "\n  mutation CreateInboundShipmentItem(\n    $inboundShipmentItem: CreateInboundShipmentItemInput!\n  ) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInboundShipmentItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateInboundShipmentItem($id: ID!, $inboundShipmentItem: UpdateInboundShipmentItemInput!) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInboundShipmentItemDocument;
+export function graphql(source: "\n  mutation UpdateInboundShipmentItem(\n    $id: ID!\n    $inboundShipmentItem: UpdateInboundShipmentItemInput!\n  ) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInboundShipmentItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1060,11 +1060,11 @@ export function graphql(source: "\n  mutation RemoveInboundShipmentItem($id: ID!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateInboundShipment($inboundShipment: CreateInboundShipmentInput!) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInboundShipmentDocument;
+export function graphql(source: "\n  mutation CreateInboundShipment(\n    $inboundShipment: CreateInboundShipmentInput!\n  ) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInboundShipmentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateInboundShipment($id: ID!, $inboundShipment: UpdateInboundShipmentInput!) {\n    wms {\n      updateInboundShipment(id: $id, value: $inboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInboundShipmentDocument;
+export function graphql(source: "\n  mutation UpdateInboundShipment(\n    $id: ID!\n    $inboundShipment: UpdateInboundShipmentInput!\n  ) {\n    wms {\n      updateInboundShipment(id: $id, value: $inboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInboundShipmentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1072,11 +1072,11 @@ export function graphql(source: "\n  mutation RemoveInboundShipment($id: ID!) {\
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {\n    wms {\n      createInventoryAdjustment(value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInventoryAdjustmentDocument;
+export function graphql(source: "\n  mutation CreateInventoryAdjustment(\n    $inventoryAdjustment: CreateInventoryAdjustmentInput!\n  ) {\n    wms {\n      createInventoryAdjustment(value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInventoryAdjustmentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateInventoryAdjustment($id: ID!, $inventoryAdjustment: UpdateInventoryAdjustmentInput!) {\n    wms {\n      updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInventoryAdjustmentDocument;
+export function graphql(source: "\n  mutation UpdateInventoryAdjustment(\n    $id: ID!\n    $inventoryAdjustment: UpdateInventoryAdjustmentInput!\n  ) {\n    wms {\n      updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInventoryAdjustmentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1088,7 +1088,7 @@ export function graphql(source: "\n  mutation CreateInventoryBatch($inventoryBat
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateInventoryBatch($id: ID!, $inventoryBatch: UpdateInventoryBatchInput!) {\n    wms {\n      updateInventoryBatch(id: $id, value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInventoryBatchDocument;
+export function graphql(source: "\n  mutation UpdateInventoryBatch(\n    $id: ID!\n    $inventoryBatch: UpdateInventoryBatchInput!\n  ) {\n    wms {\n      updateInventoryBatch(id: $id, value: $inventoryBatch) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInventoryBatchDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1100,7 +1100,7 @@ export function graphql(source: "\n  mutation CreateInventoryStock($inventorySto
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateInventoryStock($id: ID!, $inventoryStock: UpdateInventoryStockInput!) {\n    wms {\n      updateInventoryStock(id: $id, value: $inventoryStock) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInventoryStockDocument;
+export function graphql(source: "\n  mutation UpdateInventoryStock(\n    $id: ID!\n    $inventoryStock: UpdateInventoryStockInput!\n  ) {\n    wms {\n      updateInventoryStock(id: $id, value: $inventoryStock) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInventoryStockDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1120,11 +1120,11 @@ export function graphql(source: "\n  mutation RemoveLocation($id: ID!) {\n    wm
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateOutboundShipmentItemDocument;
+export function graphql(source: "\n  mutation CreateOutboundShipmentItem(\n    $outboundShipmentItem: CreateOutboundShipmentItemInput!\n  ) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateOutboundShipmentItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateOutboundShipmentItem($id: ID!, $outboundShipmentItem: UpdateOutboundShipmentItemInput!) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateOutboundShipmentItemDocument;
+export function graphql(source: "\n  mutation UpdateOutboundShipmentItem(\n    $id: ID!\n    $outboundShipmentItem: UpdateOutboundShipmentItemInput!\n  ) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateOutboundShipmentItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1132,11 +1132,11 @@ export function graphql(source: "\n  mutation RemoveOutboundShipmentItem($id: ID
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateOutboundShipment($outboundShipment: CreateOutboundShipmentInput!) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateOutboundShipmentDocument;
+export function graphql(source: "\n  mutation CreateOutboundShipment(\n    $outboundShipment: CreateOutboundShipmentInput!\n  ) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateOutboundShipmentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateOutboundShipment($id: ID!, $outboundShipment: UpdateOutboundShipmentInput!) {\n    wms {\n      updateOutboundShipment(id: $id, value: $outboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateOutboundShipmentDocument;
+export function graphql(source: "\n  mutation UpdateOutboundShipment(\n    $id: ID!\n    $outboundShipment: UpdateOutboundShipmentInput!\n  ) {\n    wms {\n      updateOutboundShipment(id: $id, value: $outboundShipment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateOutboundShipmentDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1172,7 +1172,7 @@ export function graphql(source: "\n  mutation CreatePickBatchItem($pickBatchItem
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdatePickBatchItem($id: ID!, $pickBatchItem: UpdatePickBatchItemInput!) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePickBatchItemDocument;
+export function graphql(source: "\n  mutation UpdatePickBatchItem(\n    $id: ID!\n    $pickBatchItem: UpdatePickBatchItemInput!\n  ) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePickBatchItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1220,7 +1220,7 @@ export function graphql(source: "\n  mutation CreateReorderPoint($reorderPoint: 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateReorderPoint($id: ID!, $reorderPoint: UpdateReorderPointInput!) {\n    wms {\n      updateReorderPoint(id: $id, value: $reorderPoint) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateReorderPointDocument;
+export function graphql(source: "\n  mutation UpdateReorderPoint(\n    $id: ID!\n    $reorderPoint: UpdateReorderPointInput!\n  ) {\n    wms {\n      updateReorderPoint(id: $id, value: $reorderPoint) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateReorderPointDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1256,7 +1256,7 @@ export function graphql(source: "\n  mutation CreateSalesOrderItem($salesOrderIt
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateSalesOrderItem($id: ID!, $salesOrderItem: UpdateSalesOrderItemInput!) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateSalesOrderItemDocument;
+export function graphql(source: "\n  mutation UpdateSalesOrderItem(\n    $id: ID!\n    $salesOrderItem: UpdateSalesOrderItemInput!\n  ) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateSalesOrderItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1280,7 +1280,7 @@ export function graphql(source: "\n  mutation CreateStockTransfer($stockTransfer
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateStockTransfer($id: ID!, $stockTransfer: UpdateStockTransferInput!) {\n    wms {\n      updateStockTransfer(id: $id, value: $stockTransfer) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateStockTransferDocument;
+export function graphql(source: "\n  mutation UpdateStockTransfer(\n    $id: ID!\n    $stockTransfer: UpdateStockTransferInput!\n  ) {\n    wms {\n      updateStockTransfer(id: $id, value: $stockTransfer) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateStockTransferDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

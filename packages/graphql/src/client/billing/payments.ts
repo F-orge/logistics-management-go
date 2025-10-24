@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreatePaymentMutation = graphql(`
   mutation CreatePayment($payment: CreatePaymentInput!) {

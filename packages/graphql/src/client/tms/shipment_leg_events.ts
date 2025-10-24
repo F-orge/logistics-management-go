@@ -1,7 +1,9 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateShipmentLegEventMutation = graphql(`
-  mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {
+  mutation CreateShipmentLegEvent(
+    $shipmentLegEvent: CreateShipmentLegEventInput!
+  ) {
     tms {
       createShipmentLegEvent(value: $shipmentLegEvent) {
         id
@@ -11,7 +13,10 @@ export const CreateShipmentLegEventMutation = graphql(`
 `);
 
 export const UpdateShipmentLegEventMutation = graphql(`
-  mutation UpdateShipmentLegEvent($id: ID!, $shipmentLegEvent: UpdateShipmentLegEventInput!) {
+  mutation UpdateShipmentLegEvent(
+    $id: ID!
+    $shipmentLegEvent: UpdateShipmentLegEventInput!
+  ) {
     tms {
       updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {
         id

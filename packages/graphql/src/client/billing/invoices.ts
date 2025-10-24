@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateBillingInvoiceMutation = graphql(`
   mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {
@@ -11,7 +11,10 @@ export const CreateBillingInvoiceMutation = graphql(`
 `);
 
 export const UpdateBillingInvoiceMutation = graphql(`
-  mutation UpdateBillingInvoice($id: ID!, $billingInvoice: UpdateBillingInvoiceInput!) {
+  mutation UpdateBillingInvoice(
+    $id: ID!
+    $billingInvoice: UpdateBillingInvoiceInput!
+  ) {
     billing {
       updateBillingInvoice(id: $id, value: $billingInvoice) {
         id

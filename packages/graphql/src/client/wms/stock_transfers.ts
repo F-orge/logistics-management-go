@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateStockTransferMutation = graphql(`
   mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {
@@ -11,7 +11,10 @@ export const CreateStockTransferMutation = graphql(`
 `);
 
 export const UpdateStockTransferMutation = graphql(`
-  mutation UpdateStockTransfer($id: ID!, $stockTransfer: UpdateStockTransferInput!) {
+  mutation UpdateStockTransfer(
+    $id: ID!
+    $stockTransfer: UpdateStockTransferInput!
+  ) {
     wms {
       updateStockTransfer(id: $id, value: $stockTransfer) {
         id

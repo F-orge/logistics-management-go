@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateBinThresholdMutation = graphql(`
   mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {
@@ -11,7 +11,10 @@ export const CreateBinThresholdMutation = graphql(`
 `);
 
 export const UpdateBinThresholdMutation = graphql(`
-  mutation UpdateBinThreshold($id: ID!, $binThreshold: UpdateBinThresholdInput!) {
+  mutation UpdateBinThreshold(
+    $id: ID!
+    $binThreshold: UpdateBinThresholdInput!
+  ) {
     wms {
       updateBinThreshold(id: $id, value: $binThreshold) {
         id

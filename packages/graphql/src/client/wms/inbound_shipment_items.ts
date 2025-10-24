@@ -1,7 +1,9 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateInboundShipmentItemMutation = graphql(`
-  mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {
+  mutation CreateInboundShipmentItem(
+    $inboundShipmentItem: CreateInboundShipmentItemInput!
+  ) {
     wms {
       createInboundShipmentItem(value: $inboundShipmentItem) {
         id
@@ -11,7 +13,10 @@ export const CreateInboundShipmentItemMutation = graphql(`
 `);
 
 export const UpdateInboundShipmentItemMutation = graphql(`
-  mutation UpdateInboundShipmentItem($id: ID!, $inboundShipmentItem: UpdateInboundShipmentItemInput!) {
+  mutation UpdateInboundShipmentItem(
+    $id: ID!
+    $inboundShipmentItem: UpdateInboundShipmentItemInput!
+  ) {
     wms {
       updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {
         id

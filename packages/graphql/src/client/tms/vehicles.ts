@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateVehicleMutation = graphql(`
   mutation CreateVehicle($vehicle: CreateVehicleInput!) {

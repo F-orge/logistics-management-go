@@ -1,7 +1,9 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateInventoryAdjustmentMutation = graphql(`
-  mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {
+  mutation CreateInventoryAdjustment(
+    $inventoryAdjustment: CreateInventoryAdjustmentInput!
+  ) {
     wms {
       createInventoryAdjustment(value: $inventoryAdjustment) {
         id
@@ -11,7 +13,10 @@ export const CreateInventoryAdjustmentMutation = graphql(`
 `);
 
 export const UpdateInventoryAdjustmentMutation = graphql(`
-  mutation UpdateInventoryAdjustment($id: ID!, $inventoryAdjustment: UpdateInventoryAdjustmentInput!) {
+  mutation UpdateInventoryAdjustment(
+    $id: ID!
+    $inventoryAdjustment: UpdateInventoryAdjustmentInput!
+  ) {
     wms {
       updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {
         id

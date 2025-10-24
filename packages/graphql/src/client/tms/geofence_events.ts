@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateGeofenceEventMutation = graphql(`
   mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {
@@ -11,7 +11,10 @@ export const CreateGeofenceEventMutation = graphql(`
 `);
 
 export const UpdateGeofenceEventMutation = graphql(`
-  mutation UpdateGeofenceEvent($id: ID!, $geofenceEvent: UpdateGeofenceEventInput!) {
+  mutation UpdateGeofenceEvent(
+    $id: ID!
+    $geofenceEvent: UpdateGeofenceEventInput!
+  ) {
     tms {
       updateGeofenceEvent(id: $id, value: $geofenceEvent) {
         id

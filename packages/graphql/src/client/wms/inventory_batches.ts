@@ -1,4 +1,4 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateInventoryBatchMutation = graphql(`
   mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {
@@ -11,7 +11,10 @@ export const CreateInventoryBatchMutation = graphql(`
 `);
 
 export const UpdateInventoryBatchMutation = graphql(`
-  mutation UpdateInventoryBatch($id: ID!, $inventoryBatch: UpdateInventoryBatchInput!) {
+  mutation UpdateInventoryBatch(
+    $id: ID!
+    $inventoryBatch: UpdateInventoryBatchInput!
+  ) {
     wms {
       updateInventoryBatch(id: $id, value: $inventoryBatch) {
         id

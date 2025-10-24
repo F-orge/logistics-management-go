@@ -1,7 +1,9 @@
-import { graphql } from "../../generated/gql";
+import { graphql } from "../generated/gql";
 
 export const CreateProofOfDeliveryMutation = graphql(`
-  mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {
+  mutation CreateProofOfDelivery(
+    $proofOfDelivery: CreateProofOfDeliveryInput!
+  ) {
     tms {
       createProofOfDelivery(value: $proofOfDelivery) {
         id
@@ -11,7 +13,10 @@ export const CreateProofOfDeliveryMutation = graphql(`
 `);
 
 export const UpdateProofOfDeliveryMutation = graphql(`
-  mutation UpdateProofOfDelivery($id: ID!, $proofOfDelivery: UpdateProofOfDeliveryInput!) {
+  mutation UpdateProofOfDelivery(
+    $id: ID!
+    $proofOfDelivery: UpdateProofOfDeliveryInput!
+  ) {
     tms {
       updateProofOfDelivery(id: $id, value: $proofOfDelivery) {
         id
