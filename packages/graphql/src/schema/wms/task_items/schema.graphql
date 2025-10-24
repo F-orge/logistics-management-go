@@ -59,6 +59,12 @@ input UpdateTaskItemInput {
   completedAt: String
 }
 
+
+extend type WmsQuery {
+  taskItems(page: Int, perPage: Int, from: Date, to: Date, search: String, status: TaskItemStatus): [TaskItems!]!
+  taskItem(id: ID!): TaskItems!
+}
+
 extend type WmsMutation {
   createTaskItem(value: CreateTaskItemInput!): TaskItems!
   updateTaskItem(id: ID!, value: UpdateTaskItemInput): TaskItems!

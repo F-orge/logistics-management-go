@@ -42,7 +42,7 @@ type DeliveryTasks {
 }
 
 extend type DmsQuery {
-  deliveryTasks(page: Int, perPage: Int, from: Date, to: Date, search: String): [DeliveryTasks!]!
+  deliveryTasks(page: Int, perPage: Int, from: Date, to: Date, search: String, status: DeliveryTaskStatus, failureReason: DeliveryFailureReason): [DeliveryTasks!]!
   deliveryTask(id: ID!): DeliveryTasks!
 }
 

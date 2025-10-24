@@ -36,7 +36,7 @@ type PickBatches {
 }
 
 extend type WmsQuery {
-  pickBatches(page: Int, perPage: Int, from: Date, to: Date, search: String): [PickBatches!]!
+  pickBatches(page: Int, perPage: Int, from: Date, to: Date, search: String, status: PickBatchStatus, strategy: PickStrategy): [PickBatches!]!
   pickBatch(id: ID!): PickBatches!
 }
 

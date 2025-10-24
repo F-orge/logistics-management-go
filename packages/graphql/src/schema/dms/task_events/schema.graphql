@@ -23,7 +23,7 @@ type TaskEvents {
 }
 
 extend type DmsQuery {
-  taskEvents(page: Int, perPage: Int, from: Date, to: Date, search: String): [TaskEvents!]!
+  taskEvents(page: Int, perPage: Int, from: Date, to: Date, search: String, status: TaskEventStatus): [TaskEvents!]!
   taskEvent(id: ID!): TaskEvents!
 }
 

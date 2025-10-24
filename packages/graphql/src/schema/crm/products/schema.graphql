@@ -17,7 +17,7 @@ type Products {
 }
 
 extend type CrmQuery {
-  products(page: Int, perPage: Int, from: Date, to: Date, search: String): [Products!]!
+  products(page: Int, perPage: Int, from: Date, to: Date, search: String, type: ProductType): [Products!]!
   product(id: ID!): Products!
 }
 

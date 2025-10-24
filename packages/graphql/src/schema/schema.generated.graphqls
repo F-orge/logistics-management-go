@@ -125,29 +125,29 @@ type BillingMutation {
 
 type BillingQuery {
   accountTransaction(id: ID!): AccountTransactions!
-  accountTransactions(from: Date, page: Int, perPage: Int, search: String, to: Date): [AccountTransactions!]!
+  accountTransactions(from: Date, page: Int, perPage: Int, search: String, to: Date, type: TransactionType): [AccountTransactions!]!
   accountingSyncLog(id: ID!): AccountingSyncLogs!
-  accountingSyncLogs(from: Date, page: Int, perPage: Int, search: String, to: Date): [AccountingSyncLogs!]!
+  accountingSyncLogs(from: Date, page: Int, perPage: Int, search: String, status: SyncStatus, to: Date): [AccountingSyncLogs!]!
   billingInvoice(id: ID!): BillingInvoices!
-  billingInvoices(from: Date, page: Int, perPage: Int, search: String, to: Date): [BillingInvoices!]!
+  billingInvoices(from: Date, page: Int, perPage: Int, search: String, status: BillingInvoiceStatus, to: Date): [BillingInvoices!]!
   clientAccount(id: ID!): ClientAccounts!
   clientAccounts(from: Date, page: Int, perPage: Int, search: String, to: Date): [ClientAccounts!]!
   creditNote(id: ID!): CreditNotes!
   creditNotes(from: Date, page: Int, perPage: Int, search: String, to: Date): [CreditNotes!]!
   dispute(id: ID!): Disputes!
-  disputes(from: Date, page: Int, perPage: Int, search: String, to: Date): [Disputes!]!
+  disputes(from: Date, page: Int, perPage: Int, search: String, status: DisputeStatus, to: Date): [Disputes!]!
   document(id: ID!): Documents!
   documents(from: Date, page: Int, perPage: Int, to: Date): [Documents!]!
   payment(id: ID!): Payments!
-  payments(from: Date, page: Int, perPage: Int, search: String, to: Date): [Payments!]!
+  payments(from: Date, page: Int, paymentMethod: PaymentMethod, perPage: Int, search: String, status: PaymentStatus, to: Date): [Payments!]!
   quote(id: ID!): Quotes!
-  quotes(from: Date, page: Int, perPage: Int, search: String, to: Date): [Quotes!]!
+  quotes(from: Date, page: Int, perPage: Int, search: String, status: QuoteStatus, to: Date): [Quotes!]!
   rateCard(id: ID!): RateCards!
-  rateCards(from: Date, page: Int, perPage: Int, search: String, to: Date): [RateCards!]!
+  rateCards(from: Date, page: Int, perPage: Int, search: String, serviceType: ServiceType, to: Date): [RateCards!]!
   rateRule(id: ID!): RateRules!
-  rateRules(from: Date, page: Int, perPage: Int, search: String, to: Date): [RateRules!]!
+  rateRules(from: Date, page: Int, perPage: Int, pricingModel: PricingModel, search: String, to: Date): [RateRules!]!
   surcharge(id: ID!): Surcharges!
-  surcharges(from: Date, page: Int, perPage: Int, search: String, to: Date): [Surcharges!]!
+  surcharges(calculationMethod: SurchargeCalculationMethod, from: Date, page: Int, perPage: Int, search: String, to: Date): [Surcharges!]!
 }
 
 type BinThresholds {
@@ -1153,23 +1153,23 @@ type CrmQuery {
   campaign(id: ID!): Campaigns!
   campaigns(from: Date, page: Int, perPage: Int, search: String, to: Date): [Campaigns!]!
   case(id: ID!): Cases!
-  cases(from: Date, page: Int, perPage: Int, search: String, to: Date): [Cases!]!
+  cases(from: Date, page: Int, perPage: Int, priority: CasePriority, search: String, status: CaseStatus, to: Date, type: CaseType): [Cases!]!
   companies(from: Date, page: Int, perPage: Int, search: String, to: Date): [Companies!]!
   company(id: ID!): Companies!
   contact(id: ID!): Contacts!
   contacts(from: Date, page: Int, perPage: Int, search: String, to: Date): [Contacts!]!
   interaction(id: ID!): Interactions!
-  interactions(from: Date, page: Int, perPage: Int, search: String, to: Date): [Interactions!]!
+  interactions(from: Date, interactionType: InteractionType, page: Int, perPage: Int, search: String, to: Date): [Interactions!]!
   invoice(id: ID!): Invoices!
-  invoices(from: Date, page: Int, perPage: Int, search: String, to: Date): [Invoices!]!
+  invoices(from: Date, page: Int, paymentMethod: PaymentMethod, perPage: Int, search: String, status: InvoiceStatus, to: Date): [Invoices!]!
   lead(id: ID!): Leads!
-  leads(from: Date, page: Int, perPage: Int, search: String, to: Date): [Leads!]!
+  leads(from: Date, leadSource: LeadSource, page: Int, perPage: Int, search: String, status: LeadStatus, to: Date): [Leads!]!
   notification(id: ID!): Notifications!
   notifications(from: Date, page: Int, perPage: Int, search: String, to: Date): [Notifications!]!
-  opportunities(from: Date, page: Int, perPage: Int, search: String, to: Date): [Opportunities!]!
+  opportunities(from: Date, page: Int, perPage: Int, search: String, source: OpportunitySource, stage: OpportunityStage, to: Date): [Opportunities!]!
   opportunity(id: ID!): Opportunities!
   product(id: ID!): Products!
-  products(from: Date, page: Int, perPage: Int, search: String, to: Date): [Products!]!
+  products(from: Date, page: Int, perPage: Int, search: String, to: Date, type: ProductType): [Products!]!
 }
 
 enum Currency {
@@ -1333,15 +1333,15 @@ type DmsQuery {
   customerTrackingLink(id: ID!): CustomerTrackingLinks!
   customerTrackingLinks(from: Date, page: Int, perPage: Int, search: String, to: Date): [CustomerTrackingLinks!]!
   deliveryRoute(id: ID!): DeliveryRoutes!
-  deliveryRoutes(from: Date, page: Int, perPage: Int, search: String, to: Date): [DeliveryRoutes!]!
+  deliveryRoutes(from: Date, page: Int, perPage: Int, search: String, status: DeliveryRouteStatus, to: Date): [DeliveryRoutes!]!
   deliveryTask(id: ID!): DeliveryTasks!
-  deliveryTasks(from: Date, page: Int, perPage: Int, search: String, to: Date): [DeliveryTasks!]!
-  dmsProofOfDeliveries(from: Date, page: Int, perPage: Int, search: String, to: Date): [DmsProofOfDeliveries!]!
+  deliveryTasks(failureReason: DeliveryFailureReason, from: Date, page: Int, perPage: Int, search: String, status: DeliveryTaskStatus, to: Date): [DeliveryTasks!]!
+  dmsProofOfDeliveries(from: Date, page: Int, perPage: Int, search: String, to: Date, type: ProofOfDeliveryType): [DmsProofOfDeliveries!]!
   dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
   driverLocation(id: ID!): DriverLocations!
   driverLocations(from: Date, page: Int, perPage: Int, to: Date): [DriverLocations!]!
   taskEvent(id: ID!): TaskEvents!
-  taskEvents(from: Date, page: Int, perPage: Int, search: String, to: Date): [TaskEvents!]!
+  taskEvents(from: Date, page: Int, perPage: Int, search: String, status: TaskEventStatus, to: Date): [TaskEvents!]!
 }
 
 enum DocumentType {
@@ -2501,25 +2501,25 @@ type TmsQuery {
   carrier(id: ID!): Carriers!
   carriers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Carriers!]!
   driver(id: ID!): Drivers!
-  drivers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Drivers!]!
+  drivers(from: Date, page: Int, perPage: Int, search: String, status: DriverStatus, to: Date): [Drivers!]!
   expense(id: ID!): Expenses!
-  expenses(from: Date, page: Int, perPage: Int, search: String, to: Date): [Expenses!]!
+  expenses(currency: Currency, from: Date, page: Int, perPage: Int, search: String, status: ExpenseStatus, to: Date, type: ExpenseType): [Expenses!]!
   geofence(id: ID!): Geofences!
   geofences(from: Date, page: Int, perPage: Int, search: String, to: Date): [Geofences!]!
   gpsPing(id: ID!): GpsPings!
   gpsPings(from: Date, page: Int, perPage: Int, to: Date): [GpsPings!]!
   partnerInvoice(id: ID!): PartnerInvoices!
-  partnerInvoices(from: Date, page: Int, perPage: Int, search: String, to: Date): [PartnerInvoices!]!
-  proofOfDeliveries(from: Date, page: Int, perPage: Int, search: String, to: Date): [ProofOfDeliveries!]!
+  partnerInvoices(from: Date, page: Int, perPage: Int, search: String, status: PartnerInvoiceStatus, to: Date): [PartnerInvoices!]!
+  proofOfDeliveries(from: Date, page: Int, perPage: Int, search: String, to: Date, type: ProofType): [ProofOfDeliveries!]!
   proofOfDelivery(id: ID!): ProofOfDeliveries!
   route(id: ID!): Routes!
   routes(from: Date, page: Int, perPage: Int, search: String, to: Date): [Routes!]!
   shipmentLeg(id: ID!): ShipmentLegs!
-  shipmentLegs(from: Date, page: Int, perPage: Int, search: String, to: Date): [ShipmentLegs!]!
+  shipmentLegs(from: Date, page: Int, perPage: Int, search: String, status: ShipmentLegStatus, to: Date): [ShipmentLegs!]!
   trip(id: ID!): Trips!
-  trips(from: Date, page: Int, perPage: Int, search: String, to: Date): [Trips!]!
+  trips(from: Date, page: Int, perPage: Int, search: String, status: TripStatus, to: Date): [Trips!]!
   vehicle(id: ID!): Vehicles!
-  vehicles(from: Date, page: Int, perPage: Int, search: String, to: Date): [Vehicles!]!
+  vehicles(from: Date, page: Int, perPage: Int, search: String, status: VehicleStatus, to: Date): [Vehicles!]!
 }
 
 enum TransactionType {
@@ -3555,37 +3555,41 @@ type WmsQuery {
   binThreshold(id: ID!): BinThresholds!
   binThresholds(from: Date, page: Int, perPage: Int, to: Date): [BinThresholds!]!
   inboundShipment(id: ID!): InboundShipments!
-  inboundShipments(from: Date, page: Int, perPage: Int, to: Date): [InboundShipments!]!
+  inboundShipments(from: Date, page: Int, perPage: Int, status: InboundShipmentStatus, to: Date): [InboundShipments!]!
   inventoryAdjustment(id: ID!): InventoryAdjustments!
-  inventoryAdjustments(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryAdjustments!]!
+  inventoryAdjustments(from: Date, page: Int, perPage: Int, reason: InventoryAdjustmentReason, search: String, to: Date): [InventoryAdjustments!]!
   inventoryBatch(id: ID!): InventoryBatches!
   inventoryBatches(from: Date, page: Int, perPage: Int, search: String, to: Date): [InventoryBatches!]!
   inventoryStock(id: ID!): InventoryStock!
-  inventoryStocks(from: Date, page: Int, perPage: Int, to: Date): [InventoryStock!]!
+  inventoryStocks(from: Date, page: Int, perPage: Int, status: InventoryStockStatus, to: Date): [InventoryStock!]!
   location(id: ID!): Locations!
-  locations(from: Date, page: Int, perPage: Int, search: String, to: Date): [Locations!]!
+  locations(from: Date, page: Int, perPage: Int, search: String, to: Date, type: LocationType): [Locations!]!
   outboundShipment(id: ID!): OutboundShipments!
-  outboundShipments(from: Date, page: Int, perPage: Int, search: String, to: Date): [OutboundShipments!]!
+  outboundShipments(from: Date, page: Int, perPage: Int, search: String, status: OutboundShipmentStatus, to: Date): [OutboundShipments!]!
   package(id: ID!): Packages!
   packages(from: Date, page: Int, perPage: Int, search: String, to: Date): [Packages!]!
   pickBatch(id: ID!): PickBatches!
-  pickBatches(from: Date, page: Int, perPage: Int, search: String, to: Date): [PickBatches!]!
+  pickBatches(from: Date, page: Int, perPage: Int, search: String, status: PickBatchStatus, strategy: PickStrategy, to: Date): [PickBatches!]!
   putawayRule(id: ID!): PutawayRules!
-  putawayRules(from: Date, page: Int, perPage: Int, to: Date): [PutawayRules!]!
+  putawayRules(from: Date, locationType: LocationType, page: Int, perPage: Int, to: Date): [PutawayRules!]!
   reorderPoint(id: ID!): ReorderPoints!
   reorderPoints(from: Date, page: Int, perPage: Int, to: Date): [ReorderPoints!]!
   return(id: ID!): Returns!
-  returns(from: Date, page: Int, perPage: Int, search: String, to: Date): [Returns!]!
+  returnItem(id: ID!): ReturnItems!
+  returnItems(condition: ReturnItemCondition, from: Date, page: Int, perPage: Int, search: String, to: Date): [ReturnItems!]!
+  returns(from: Date, page: Int, perPage: Int, search: String, status: ReturnStatus, to: Date): [Returns!]!
   salesOrder(id: ID!): SalesOrders!
-  salesOrders(from: Date, page: Int, perPage: Int, search: String, to: Date): [SalesOrders!]!
+  salesOrders(from: Date, page: Int, perPage: Int, search: String, status: SalesOrderStatus, to: Date): [SalesOrders!]!
   stockTransfer(id: ID!): StockTransfers!
-  stockTransfers(from: Date, page: Int, perPage: Int, search: String, to: Date): [StockTransfers!]!
+  stockTransfers(from: Date, page: Int, perPage: Int, search: String, status: StockTransferStatus, to: Date): [StockTransfers!]!
   supplier(id: ID!): Suppliers!
   suppliers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Suppliers!]!
   task(id: ID!): Tasks!
-  tasks(from: Date, page: Int, perPage: Int, search: String, to: Date): [Tasks!]!
+  taskItem(id: ID!): TaskItems!
+  taskItems(from: Date, page: Int, perPage: Int, search: String, status: TaskItemStatus, to: Date): [TaskItems!]!
+  tasks(from: Date, page: Int, perPage: Int, search: String, status: TaskStatus, to: Date, type: TaskType): [Tasks!]!
   warehouse(id: ID!): Warehouses!
   warehouses(from: Date, page: Int, perPage: Int, search: String, to: Date): [Warehouses!]!
   wmsProduct(id: ID!): WmsProducts!
-  wmsProducts(from: Date, page: Int, perPage: Int, search: String, to: Date): [WmsProducts!]!
+  wmsProducts(from: Date, page: Int, perPage: Int, search: String, status: ProductStatus, to: Date): [WmsProducts!]!
 }

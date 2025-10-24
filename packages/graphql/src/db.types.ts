@@ -3,4067 +3,4069 @@
  * Please do not edit it manually.
  */
 
-import type { ColumnType } from 'kysely'
+import type { ColumnType } from "kysely";
 
 export enum BillingDisputeStatusEnum {
-  Approved = 'approved',
-  Closed = 'closed',
-  Denied = 'denied',
-  Escalated = 'escalated',
-  Open = 'open',
-  UnderReview = 'under-review',
+  APPROVED = "APPROVED",
+  CLOSED = "CLOSED",
+  DENIED = "DENIED",
+  ESCALATED = "ESCALATED",
+  OPEN = "OPEN",
+  UNDER_REVIEW = "UNDER_REVIEW",
 }
 
 export enum BillingDocumentTypeEnum {
-  Bol = 'bol',
-  CommercialInvoice = 'commercial-invoice',
-  CreditNote = 'credit-note',
-  CustomsDeclaration = 'customs-declaration',
-  PackingList = 'packing-list',
-  ProofOfDelivery = 'proof-of-delivery',
-  Receipt = 'receipt',
-  ShippingLabel = 'shipping-label',
+  BOL = "BOL",
+  COMMERCIAL_INVOICE = "COMMERCIAL_INVOICE",
+  CREDIT_NOTE = "CREDIT_NOTE",
+  CUSTOMS_DECLARATION = "CUSTOMS_DECLARATION",
+  PACKING_LIST = "PACKING_LIST",
+  PROOF_OF_DELIVERY = "PROOF_OF_DELIVERY",
+  RECEIPT = "RECEIPT",
+  SHIPPING_LABEL = "SHIPPING_LABEL",
 }
 
 export enum BillingInvoiceStatusEnum {
-  Cancelled = 'cancelled',
-  Disputed = 'disputed',
-  Draft = 'draft',
-  Paid = 'paid',
-  PartialPaid = 'partial-paid',
-  PastDue = 'past-due',
-  Sent = 'sent',
-  Viewed = 'viewed',
-  Void = 'void',
+  CANCELLED = "CANCELLED",
+  DISPUTED = "DISPUTED",
+  DRAFT = "DRAFT",
+  PAID = "PAID",
+  PARTIAL_PAID = "PARTIAL_PAID",
+  PAST_DUE = "PAST_DUE",
+  SENT = "SENT",
+  VIEWED = "VIEWED",
+  VOID = "VOID",
 }
 
 export enum BillingPaymentMethodEnum {
-  BankTransfer = 'bank-transfer',
-  Cash = 'cash',
-  Check = 'check',
-  ClientCredit = 'client-credit',
-  CreditCard = 'credit-card',
-  DebitCard = 'debit-card',
-  QrPh = 'qr-ph',
-  Wallet = 'wallet',
+  BANK_TRANSFER = "BANK_TRANSFER",
+  CASH = "CASH",
+  CHECK = "CHECK",
+  CLIENT_CREDIT = "CLIENT_CREDIT",
+  CREDIT_CARD = "CREDIT_CARD",
+  DEBIT_CARD = "DEBIT_CARD",
+  QR_PH = "QR_PH",
+  WALLET = "WALLET",
 }
 
 export enum BillingPaymentStatusEnum {
-  Cancelled = 'cancelled',
-  Failed = 'failed',
-  Pending = 'pending',
-  Processing = 'processing',
-  Refunded = 'refunded',
-  Successful = 'successful',
+  CANCELLED = "CANCELLED",
+  FAILED = "FAILED",
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  REFUNDED = "REFUNDED",
+  SUCCESSFUL = "SUCCESSFUL",
 }
 
 export enum BillingPricingModelEnum {
-  FlatRate = 'flat-rate',
-  PerCubicMeter = 'per-cubic-meter',
-  PerItem = 'per-item',
-  PerKg = 'per-kg',
-  PerZone = 'per-zone',
-  Percentage = 'percentage',
-  Tiered = 'tiered',
+  FLAT_RATE = "FLAT_RATE",
+  PER_CUBIC_METER = "PER_CUBIC_METER",
+  PER_ITEM = "PER_ITEM",
+  PER_KG = "PER_KG",
+  PER_ZONE = "PER_ZONE",
+  PERCENTAGE = "PERCENTAGE",
+  TIERED = "TIERED",
 }
 
 export enum BillingQuoteStatusEnum {
-  Accepted = 'accepted',
-  Cancelled = 'cancelled',
-  Converted = 'converted',
-  Expired = 'expired',
-  Pending = 'pending',
+  ACCEPTED = "ACCEPTED",
+  CANCELLED = "CANCELLED",
+  CONVERTED = "CONVERTED",
+  EXPIRED = "EXPIRED",
+  PENDING = "PENDING",
 }
 
 export enum BillingServiceTypeEnum {
-  Customs = 'customs',
-  Fulfillment = 'fulfillment',
-  Handling = 'handling',
-  Insurance = 'insurance',
-  Packaging = 'packaging',
-  Returns = 'returns',
-  Shipping = 'shipping',
-  Storage = 'storage',
+  CUSTOMS = "CUSTOMS",
+  FULFILLMENT = "FULFILLMENT",
+  HANDLING = "HANDLING",
+  INSURANCE = "INSURANCE",
+  PACKAGING = "PACKAGING",
+  RETURNS = "RETURNS",
+  SHIPPING = "SHIPPING",
+  STORAGE = "STORAGE",
 }
 
 export enum BillingSurchargeCalculationMethodEnum {
-  Fixed = 'fixed',
-  PerUnit = 'per-unit',
-  Percentage = 'percentage',
-  SlidingScale = 'sliding-scale',
+  FIXED = "FIXED",
+  PER_UNIT = "PER_UNIT",
+  PERCENTAGE = "PERCENTAGE",
+  SLIDING_SCALE = "SLIDING_SCALE",
 }
 
 export enum BillingSyncStatusEnum {
-  Failed = 'failed',
-  InProgress = 'in-progress',
-  Pending = 'pending',
-  Retry = 'retry',
-  Success = 'success',
+  FAILED = "FAILED",
+  IN_PROGRESS = "IN_PROGRESS",
+  PENDING = "PENDING",
+  RETRY = "RETRY",
+  SUCCESS = "SUCCESS",
 }
 
 export enum BillingTransactionTypeEnum {
-  Adjustment = 'adjustment',
-  Credit = 'credit',
-  Debit = 'debit',
-  Fee = 'fee',
-  Refund = 'refund',
-  TopUp = 'top-up',
+  ADJUSTMENT = "ADJUSTMENT",
+  CREDIT = "CREDIT",
+  DEBIT = "DEBIT",
+  FEE = "FEE",
+  REFUND = "REFUND",
+  TOP_UP = "TOP_UP",
 }
 
 export enum CrmCasePriority {
-  Critical = 'critical',
-  High = 'high',
-  Low = 'low',
-  Medium = 'medium',
+  CRITICAL = "CRITICAL",
+  HIGH = "HIGH",
+  LOW = "LOW",
+  MEDIUM = "MEDIUM",
 }
 
 export enum CrmCaseStatus {
-  Cancelled = 'cancelled',
-  Closed = 'closed',
-  Escalated = 'escalated',
-  InProgress = 'in-progress',
-  New = 'new',
-  Resolved = 'resolved',
-  WaitingForCustomer = 'waiting-for-customer',
-  WaitingForInternal = 'waiting-for-internal',
+  CANCELLED = "CANCELLED",
+  CLOSED = "CLOSED",
+  ESCALATED = "ESCALATED",
+  IN_PROGRESS = "IN_PROGRESS",
+  NEW = "NEW",
+  RESOLVED = "RESOLVED",
+  WAITING_FOR_CUSTOMER = "WAITING_FOR_CUSTOMER",
+  WAITING_FOR_INTERNAL = "WAITING_FOR_INTERNAL",
 }
 
 export enum CrmCaseType {
-  BugReport = 'bug-report',
-  Complaint = 'complaint',
-  FeatureRequest = 'feature-request',
-  Problem = 'problem',
-  Question = 'question',
-  TechnicalSupport = 'technical-support',
+  BUG_REPORT = "BUG_REPORT",
+  COMPLAINT = "COMPLAINT",
+  FEATURE_REQUEST = "FEATURE_REQUEST",
+  PROBLEM = "PROBLEM",
+  QUESTION = "QUESTION",
+  TECHNICAL_SUPPORT = "TECHNICAL_SUPPORT",
 }
 
 export enum CrmInteractionType {
-  Call = 'call',
-  Email = 'email',
-  Meeting = 'meeting',
-  Text = 'text',
+  CALL = "CALL",
+  EMAIL = "EMAIL",
+  MEETING = "MEETING",
+  TEXT = "TEXT",
 }
 
 export enum CrmInvoiceStatus {
-  Cancelled = 'cancelled',
-  Draft = 'draft',
-  Overdue = 'overdue',
-  Paid = 'paid',
-  Sent = 'sent',
+  CANCELLED = "CANCELLED",
+  DRAFT = "DRAFT",
+  OVERDUE = "OVERDUE",
+  PAID = "PAID",
+  SENT = "SENT",
 }
 
 export enum CrmLeadSource {
-  Advertisement = 'advertisement',
-  ColdCall = 'cold-call',
-  EmailCampaign = 'email-campaign',
-  Event = 'event',
-  Other = 'other',
-  Partner = 'partner',
-  Referral = 'referral',
-  SocialMedia = 'social-media',
-  Website = 'website',
+  ADVERTISMENT = "ADVERTISMENT",
+  COLD_CALL = "COLD_CALL",
+  EMAIL_CAMPAIGN = "EMAIL_CAMPAIGN",
+  EVENT = "EVENT",
+  OTHER = "OTHER",
+  PARTNER = "PARTNER",
+  REFERRAL = "REFERRAL",
+  SOCIAL_MEDIA = "SOCIAL_MEDIA",
+  WEBSITE = "WEBSITE",
 }
 
 export enum CrmLeadStatus {
-  Contacted = 'contacted',
-  Converted = 'converted',
-  New = 'new',
-  Qualified = 'qualified',
-  Unqualified = 'unqualified',
+  CONTACTED = "CONTACTED",
+  CONVERTED = "CONVERTED",
+  NEW = "NEW",
+  QUALIFIED = "QUALIFIED",
+  UNQUALIFIED = "UNQUALIFIED",
 }
 
 export enum CrmOpportunitySource {
-  Advertisement = 'advertisement',
-  ColdCall = 'cold-call',
-  EmailCampaign = 'email-campaign',
-  Event = 'event',
-  ExistingCustomer = 'existing-customer',
-  Other = 'other',
-  Partner = 'partner',
-  Referral = 'referral',
-  SocialMedia = 'social-media',
-  Website = 'website',
+  ADVERTISMENT = "ADVERTISMENT",
+  COLD_CALL = "COLD_CALL",
+  EMAIL_CAMPAIGN = "EMAIL_CAMPAIGN",
+  EVENT = "EVENT",
+  EXISTING_CUSTOMER = "EXISTING_CUSTOMER",
+  OTHER = "OTHER",
+  PARTNER = "PARTNER",
+  REFERRAL = "REFERRAL",
+  SOCIAL_MEDIA = "SOCIAL_MEDIA",
+  WEBSITE = "WEBSITE",
 }
 
 export enum CrmOpportunityStage {
-  ClosedLost = 'closed-lost',
-  ClosedWon = 'closed-won',
-  Demo = 'demo',
-  NeedAnalysis = 'need-analysis',
-  Negotiation = 'negotiation',
-  Proposal = 'proposal',
-  Prospecting = 'prospecting',
-  Qualification = 'qualification',
+  CLOSED_LOST = "CLOSED_LOST",
+  CLOSED_WON = "CLOSED_WON",
+  DEMO = "DEMO",
+  NEED_ANALYSIS = "NEED_ANALYSIS",
+  NEGOTIATION = "NEGOTIATION",
+  PROPOSAL = "PROPOSAL",
+  PROSPECTING = "PROSPECTING",
+  QUALIFICATION = "QUALIFICATION",
 }
 
 export enum CrmPaymentMethod {
-  BankTransfer = 'bank-transfer',
-  Cash = 'cash',
-  Check = 'check',
-  CreditCard = 'credit-card',
-  Paypal = 'paypal',
-  Stripe = 'stripe',
-  WireTransfer = 'wire-transfer',
+  BANK_TRANSFER = "BANK_TRANSFER",
+  CASH = "CASH",
+  CHECK = "CHECK",
+  CREDIT_CARD = "CREDIT_CARD",
+  MAYA = "MAYA",
+  OTHER = "OTHER",
+  PAYPAL = "PAYPAL",
+  STRIPE = "STRIPE",
+  WIRE_TRANSFER = "WIRE_TRANSFER",
 }
 
 export enum CrmProductType {
-  Digital = 'digital',
-  Good = 'good',
-  Service = 'service',
-  Subscription = 'subscription',
+  DIGITAL = "DIGITAL",
+  GOOD = "GOOD",
+  SERVICE = "SERVICE",
+  SUBSCRIPTION = "SUBSCRIPTION",
 }
 
 export enum CrmRecordType {
-  Campaigns = 'campaigns',
-  Cases = 'cases',
-  Companies = 'companies',
-  Contacts = 'contacts',
-  Interactions = 'interactions',
-  Invoices = 'invoices',
-  Leads = 'leads',
-  Opportunities = 'opportunities',
-  Products = 'products',
+  CAMPAIGNS = "CAMPAIGNS",
+  CASES = "CASES",
+  COMPANIES = "COMPANIES",
+  CONTACTS = "CONTACTS",
+  INTERACTIONS = "INTERACTIONS",
+  INVOICES = "INVOICES",
+  LEADS = "LEADS",
+  OPPORTUNITIES = "OPPORTUNITIES",
+  PRODUCTS = "PRODUCTS",
 }
 
 export enum DmsDeliveryFailureReasonEnum {
-  AccessDenied = 'access_denied',
-  AddressNotFound = 'address_not_found',
-  DamagedPackage = 'damaged_package',
-  Other = 'other',
-  RecipientNotHome = 'recipient_not_home',
-  RefusedDelivery = 'refused_delivery',
-  VehicleBreakdown = 'vehicle_breakdown',
-  WeatherConditions = 'weather_conditions',
+  ACCESS_DENIED = "ACCESS_DENIED",
+  ADDRESS_NOT_FOUND = "ADDRESS_NOT_FOUND",
+  DAMAGED_PACKAGE = "DAMAGED_PACKAGE",
+  OTHER = "OTHER",
+  RECIPIENT_NOT_HOME = "RECIPIENT_NOT_HOME",
+  REFUSED_DELIVERY = "REFUSED_DELIVERY",
+  VEHICLE_BREAKDOWN = "VEHICLE_BREAKDOWN",
+  WEATHER_CONDITIONS = "WEATHER_CONDITIONS",
 }
 
 export enum DmsDeliveryRouteStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Paused = 'paused',
-  Planned = 'planned',
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+  IN_PROGRESS = "IN_PROGRESS",
+  PAUSED = "PAUSED",
+  PLANNED = "PLANNED",
 }
 
 export enum DmsDeliveryTaskStatusEnum {
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Failed = 'failed',
-  OutForDelivery = 'out_for_delivery',
-  Pending = 'pending',
-  Rescheduled = 'rescheduled',
+  ASSIGNED = "ASSIGNED",
+  CANCELLED = "CANCELLED",
+  DELIVERED = "DELIVERED",
+  FAILED = "FAILED",
+  OUT_FOR_DELIVERY = "OUT_FOR_DELIVERY",
+  PENDING = "PENDING",
+  RESCHEDULED = "RESCHEDULED",
 }
 
 export enum DmsProofOfDeliveryTypeEnum {
-  CodeVerification = 'code_verification',
-  ContactlessDelivery = 'contactless_delivery',
-  LeftAtDoor = 'left_at_door',
-  Photo = 'photo',
-  Signature = 'signature',
+  CODE_VERIFICATION = "CODE_VERIFICATION",
+  CONTACTLESS_DELIVERY = "CONTACTLESS_DELIVERY",
+  LEFT_AT_DOOR = "LEFT_AT_DOOR",
+  PHOTO = "PHOTO",
+  SIGNATURE = "SIGNATURE",
 }
 
 export enum DmsTaskEventStatusEnum {
-  Arrived = 'arrived',
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Exception = 'exception',
-  Failed = 'failed',
-  Rescheduled = 'rescheduled',
-  Started = 'started',
+  ARRIVED = "ARRIVED",
+  ASSIGNED = "ASSIGNED",
+  CANCELLED = "CANCELLED",
+  DELIVERED = "DELIVERED",
+  EXCEPTION = "EXCEPTION",
+  FAILED = "FAILED",
+  RESCHEDULED = "RESCHEDULED",
+  STARTED = "STARTED",
 }
 
 export enum TmsCarrierRateUnitEnum {
-  FlatRate = 'flat_rate',
-  PerContainer = 'per_container',
-  PerKg = 'per_kg',
-  PerKm = 'per_km',
-  PerMile = 'per_mile',
+  FLAT_RATE = "FLAT_RATE",
+  PER_CONTAINER = "PER_CONTAINER",
+  PER_KG = "PER_KG",
+  PER_KM = "PER_KM",
+  PER_MILE = "PER_MILE",
 }
 
 export enum TmsCurrencyEnum {
-  Aud = 'AUD',
-  Cad = 'CAD',
-  Eur = 'EUR',
-  Gbp = 'GBP',
-  Jpy = 'JPY',
-  Php = 'PHP',
-  Usd = 'USD',
+  AUD = "AUD",
+  CAD = "CAD",
+  EUR = "EUR",
+  GBP = "GBP",
+  JPY = "JPY",
+  PHP = "PHP",
+  USD = "USD",
 }
 
 export enum TmsDriverScheduleReasonEnum {
-  PersonalLeave = 'personal_leave',
-  SickLeave = 'sick_leave',
-  Training = 'training',
-  Vacation = 'vacation',
+  PERSONAL_LEAVE = "PERSONAL_LEAVE",
+  SICK_LEAVE = "SICK_LEAVE",
+  TRAINING = "TRAINING",
+  VACATION = "VACATION",
 }
 
 export enum TmsDriverStatusEnum {
-  Active = 'active',
-  Inactive = 'inactive',
-  OnLeave = 'on_leave',
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
+  ON_LEAVE = "ON_LEAVE",
 }
 
 export enum TmsExpenseStatusEnum {
-  Approved = 'approved',
-  Pending = 'pending',
-  Reimbursed = 'reimbursed',
-  Rejected = 'rejected',
+  APPROVED = "APPROVED",
+  PENDING = "PENDING",
+  REIMBURSED = "REIMBURSED",
+  REJECTED = "REJECTED",
 }
 
 export enum TmsExpenseTypeEnum {
-  Accommodation = 'accommodation',
-  Fuel = 'fuel',
-  Maintenance = 'maintenance',
-  Meals = 'meals',
-  Parking = 'parking',
-  Tolls = 'tolls',
+  ACCOMMODATION = "ACCOMMODATION",
+  FUEL = "FUEL",
+  MAINTENANCE = "MAINTENANCE",
+  MEALS = "MEALS",
+  PARKING = "PARKING",
+  TOLLS = "TOLLS",
 }
 
 export enum TmsGeofenceEventTypeEnum {
-  Enter = 'enter',
-  Exit = 'exit',
+  ENTER = "ENTER",
+  EXIT = "EXIT",
 }
 
 export enum TmsPartnerInvoiceStatusEnum {
-  Cancelled = 'cancelled',
-  Disputed = 'disputed',
-  Overdue = 'overdue',
-  Paid = 'paid',
-  Pending = 'pending',
+  CANCELLED = "CANCELLED",
+  DISPUTED = "DISPUTED",
+  OVERDUE = "OVERDUE",
+  PAID = "PAID",
+  PENDING = "PENDING",
 }
 
 export enum TmsProofTypeEnum {
-  BarcodeScan = 'barcode_scan',
-  Photo = 'photo',
-  PinVerification = 'pin_verification',
-  Signature = 'signature',
+  BARCODE_SCAN = "BARCODE_SCAN",
+  PHOTO = "PHOTO",
+  PIN_VERIFICATION = "PIN_VERIFICATION",
+  SIGNATURE = "SIGNATURE",
 }
 
 export enum TmsShipmentLegStatusEnum {
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Failed = 'failed',
-  InTransit = 'in_transit',
-  Pending = 'pending',
+  CANCELLED = "CANCELLED",
+  DELIVERED = "DELIVERED",
+  FAILED = "FAILED",
+  IN_TRANSIT = "IN_TRANSIT",
+  PENDING = "PENDING",
 }
 
 export enum TmsTripStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Planned = 'planned',
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+  IN_PROGRESS = "IN_PROGRESS",
+  PLANNED = "PLANNED",
 }
 
 export enum TmsTripStopStatusEnum {
-  Arrived = 'arrived',
-  Completed = 'completed',
-  Pending = 'pending',
-  Skipped = 'skipped',
+  ARRIVED = "ARRIVED",
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  SKIPPED = "SKIPPED",
 }
 
 export enum TmsVehicleServiceTypeEnum {
-  BrakeService = 'brake_service',
-  Inspection = 'inspection',
-  OilChange = 'oil_change',
-  Repair = 'repair',
-  RoutineMaintenance = 'routine_maintenance',
-  TireReplacement = 'tire_replacement',
+  BRAKE_SERVICE = "BRAKE_SERVICE",
+  INSPECTION = "INSPECTION",
+  OIL_CHANGE = "OIL_CHANGE",
+  REPAIR = "REPAIR",
+  ROUTINE_MAINTENANCE = "ROUTINE_MAINTENANCE",
+  TIRE_REPLACEMENT = "TIRE_REPLACEMENT",
 }
 
 export enum TmsVehicleStatusEnum {
-  Available = 'available',
-  InMaintenance = 'in_maintenance',
-  OnTrip = 'on_trip',
-  OutOfService = 'out_of_service',
+  AVAILABLE = "AVAILABLE",
+  IN_MAINTENANCE = "IN_MAINTENANCE",
+  ON_TRIP = "ON_TRIP",
+  OUT_OF_SERVICE = "OUT_OF_SERVICE",
 }
 
 export enum UserRole {
-  AccountManager = 'account-manager',
-  Accountant = 'accountant',
-  Admin = 'admin',
-  Carrier = 'carrier',
-  Client = 'client',
-  ClientAdmin = 'client-admin',
-  CustomerSupportAgent = 'customer-support-agent',
-  Developer = 'developer',
-  Dispatcher = 'dispatcher',
-  Driver = 'driver',
-  EndCustomer = 'end-customer',
-  FinanceManager = 'finance-manager',
-  FleetManager = 'fleet-manager',
-  InventoryManager = 'inventory-manager',
-  LogisticsCoordinator = 'logistics-coordinator',
-  LogisticsManager = 'logistics-manager',
-  LogisticsPlanner = 'logistics-planner',
-  MarketingManager = 'marketing-manager',
-  Packer = 'packer',
-  Picker = 'picker',
-  PricingAnalyst = 'pricing-analyst',
-  ProductManager = 'product-manager',
-  QcManager = 'qc-manager',
-  ReceivingManager = 'receiving-manager',
-  ReturnsProcessor = 'returns-processor',
-  SalesManager = 'sales-manager',
-  SalesRep = 'sales-rep',
-  Sdr = 'sdr',
-  TransportManager = 'transport-manager',
-  User = 'user',
-  WarehouseManager = 'warehouse-manager',
-  WarehouseOperator = 'warehouse-operator',
+  ACCOUNT_MANAGER = "account-manager",
+  ACCOUNTANT = "accountant",
+  ADMIN = "admin",
+  CARRIER = "carrier",
+  CLIENT = "client",
+  CLIENT_ADMIN = "client-admin",
+  CUSTOMER_SUPPORT_AGENT = "customer-support-agent",
+  DEVELOPER = "developer",
+  DISPATCHER = "dispatcher",
+  DRIVER = "driver",
+  END_CUSTOMER = "end-customer",
+  FINANCE_MANAGER = "finance-manager",
+  FLEET_MANAGER = "fleet-manager",
+  INVENTORY_MANAGER = "inventory-manager",
+  LOGISTICS_COORDINATOR = "logistics-coordinator",
+  LOGISTICS_MANAGER = "logistics-manager",
+  LOGISTICS_PLANNER = "logistics-planner",
+  MARKETING_MANAGER = "marketing-manager",
+  PACKER = "packer",
+  PICKER = "picker",
+  PRICING_ANALYST = "pricing-analyst",
+  PRODUCT_MANAGER = "product-manager",
+  QC_MANAGER = "qc-manager",
+  RECEIVING_MANAGER = "receiving-manager",
+  RETURNS_PROCESSOR = "returns-processor",
+  SALES_MANAGER = "sales-manager",
+  SALES_REP = "sales-rep",
+  SDR = "sdr",
+  TRANSPORT_MANAGER = "transport-manager",
+  USER = "user",
+  WAREHOUSE_MANAGER = "warehouse-manager",
+  WAREHOUSE_OPERATOR = "warehouse-operator",
 }
 
 export enum WmsInboundShipmentStatusEnum {
-  Arrived = 'arrived',
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Pending = 'pending',
-  Processing = 'processing',
+  ARRIVED = "ARRIVED",
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
 }
 
 export enum WmsInventoryAdjustmentReasonEnum {
-  CycleCount = 'cycle_count',
-  DamagedGoods = 'damaged_goods',
-  Expired = 'expired',
-  ManualCorrection = 'manual_correction',
-  ReturnToVendor = 'return_to_vendor',
-  Theft = 'theft',
+  CYCLE_COUNT = "CYCLE_COUNT",
+  DAMAGED_GOODS = "DAMAGED_GOODS",
+  EXPIRED = "EXPIRED",
+  MANUAL_CORRECTION = "MANUAL_CORRECTION",
+  RETURN_TO_VENDOR = "RETURN_TO_VENDOR",
+  THEFT = "THEFT",
 }
 
 export enum WmsInventoryStockStatusEnum {
-  Allocated = 'allocated',
-  Available = 'available',
-  Damaged = 'damaged',
-  Expired = 'expired',
-  Hold = 'hold',
-  Quarantine = 'quarantine',
-  Shipped = 'shipped',
+  ALLOCATED = "ALLOCATED",
+  AVAILABLE = "AVAILABLE",
+  DAMAGED = "DAMAGED",
+  EXPIRED = "EXPIRED",
+  HOLD = "HOLD",
+  QUARANTINE = "QUARANTINE",
+  SHIPPED = "SHIPPED",
 }
 
 export enum WmsLocationTypeEnum {
-  BulkStorage = 'bulk_storage',
-  CrossDockArea = 'cross_dock_area',
-  DamagedGoods = 'damaged_goods',
-  PackingStation = 'packing_station',
-  PickBin = 'pick_bin',
-  QualityControl = 'quality_control',
-  ReceivingDock = 'receiving_dock',
-  ReserveStorage = 'reserve_storage',
-  ReturnsArea = 'returns_area',
-  StagingArea = 'staging_area',
+  BULK_STORAGE = "BULK_STORAGE",
+  CROSS_DOCK_AREA = "CROSS_DOCK_AREA",
+  DAMAGED_GOODS = "DAMAGED_GOODS",
+  PACKING_STATION = "PACKING_STATION",
+  PICK_BIN = "PICK_BIN",
+  QUALITY_CONTROL = "QUALITY_CONTROL",
+  RECEIVING_DOCK = "RECEIVING_DOCK",
+  RESERVE_STORAGE = "RESERVE_STORAGE",
+  RETURNS_AREA = "RETURNS_AREA",
+  STAGING_AREA = "STAGING_AREA",
 }
 
 export enum WmsOutboundShipmentStatusEnum {
-  Cancelled = 'cancelled',
-  Delivered = 'delivered',
-  Packed = 'packed',
-  Picking = 'picking',
-  Shipped = 'shipped',
+  CANCELLED = "CANCELLED",
+  DELIVERED = "DELIVERED",
+  PACKED = "PACKED",
+  PICKING = "PICKING",
+  SHIPPED = "SHIPPED",
 }
 
 export enum WmsPickBatchStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  InProgress = 'in_progress',
-  Open = 'open',
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+  IN_PROGRESS = "IN_PROGRESS",
+  OPEN = "OPEN",
 }
 
 export enum WmsPickStrategyEnum {
-  BatchPicking = 'batch_picking',
-  ClusterPicking = 'cluster_picking',
-  SingleOrderPicking = 'single_order_picking',
-  WavePicking = 'wave_picking',
-  ZonePicking = 'zone_picking',
+  BATCH_PICKING = "BATCH_PICKING",
+  CLUSTER_PICKING = "CLUSTER_PICKING",
+  SINGLE_ORDER_PICKING = "SINGLE_ORDER_PICKING",
+  WAVE_PICKING = "WAVE_PICKING",
+  ZONE_PICKING = "ZONE_PICKING",
 }
 
 export enum WmsProductStatusEnum {
-  Active = 'active',
-  Discontinued = 'discontinued',
-  Inactive = 'inactive',
-  Obsolete = 'obsolete',
+  ACTIVE = "ACTIVE",
+  DISCONTINUED = "DISCONTINUED",
+  INACTIVE = "INACTIVE",
+  OBSOLETE = "OBSOLETE",
 }
 
 export enum WmsReturnItemConditionEnum {
-  Damaged = 'damaged',
-  Defective = 'defective',
-  Expired = 'expired',
-  Sellable = 'sellable',
-  Unsellable = 'unsellable',
+  DAMAGED = "DAMAGED",
+  DEFECTIVE = "DEFECTIVE",
+  EXPIRED = "EXPIRED",
+  SELLABLE = "SELLABLE",
+  UNSELLABLE = "UNSELLABLE",
 }
 
 export enum WmsReturnStatusEnum {
-  Approved = 'approved',
-  Processed = 'processed',
-  Received = 'received',
-  Rejected = 'rejected',
-  Requested = 'requested',
+  APPROVED = "APPROVED",
+  PROCESSED = "PROCESSED",
+  RECEIVED = "RECEIVED",
+  REJECTED = "REJECTED",
+  REQUESTED = "REQUESTED",
 }
 
 export enum WmsSalesOrderStatusEnum {
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Pending = 'pending',
-  Processing = 'processing',
-  Shipped = 'shipped',
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+  PENDING = "PENDING",
+  PROCESSING = "PROCESSING",
+  SHIPPED = "SHIPPED",
 }
 
 export enum WmsStockTransferStatusEnum {
-  Cancelled = 'cancelled',
-  InTransit = 'in_transit',
-  Pending = 'pending',
-  Received = 'received',
+  CANCELLED = "CANCELLED",
+  IN_TRANSIT = "IN_TRANSIT",
+  PENDING = "PENDING",
+  RECEIVED = "RECEIVED",
 }
 
 export enum WmsTaskItemStatusEnum {
-  Completed = 'completed',
-  Damaged = 'damaged',
-  InProgress = 'in_progress',
-  NotFound = 'not_found',
-  Pending = 'pending',
-  ShortPicked = 'short_picked',
+  COMPLETED = "COMPLETED",
+  DAMAGED = "DAMAGED",
+  IN_PROGRESS = "IN_PROGRESS",
+  NOT_FOUND = "NOT_FOUND",
+  PENDING = "PENDING",
+  SHORT_PICKED = "SHORT_PICKED",
 }
 
 export enum WmsTaskStatusEnum {
-  Assigned = 'assigned',
-  Cancelled = 'cancelled',
-  Completed = 'completed',
-  Error = 'error',
-  InProgress = 'in_progress',
-  Pending = 'pending',
+  ASSIGNED = "ASSIGNED",
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+  ERROR = "ERROR",
+  IN_PROGRESS = "IN_PROGRESS",
+  PENDING = "PENDING",
 }
 
 export enum WmsTaskTypeEnum {
-  CrossDock = 'cross_dock',
-  CycleCount = 'cycle_count',
-  DamageInspection = 'damage_inspection',
-  Pack = 'pack',
-  Pick = 'pick',
-  Putaway = 'putaway',
-  QualityCheck = 'quality_check',
-  Replenishment = 'replenishment',
-  ReturnsProcessing = 'returns_processing',
+  CROSS_DOCK = "CROSS_DOCK",
+  CYCLE_COUNT = "CYCLE_COUNT",
+  DAMAGE_INSPECTION = "DAMAGE_INSPECTION",
+  PACK = "PACK",
+  PICK = "PICK",
+  PUTAWAY = "PUTAWAY",
+  QUALITY_CHECK = "QUALITY_CHECK",
+  REPLENISHMENT = "REPLENISHMENT",
+  RETURNS_PROCESSING = "RETURNS_PROCESSING",
 }
 
 export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
-  : ColumnType<T, T | undefined, T>
+  : ColumnType<T, T | undefined, T>;
 
-export type Numeric = ColumnType<string, number | string, number | string>
+export type Numeric = ColumnType<string, number | string, number | string>;
 
-export type Timestamp = ColumnType<Date, Date | string, Date | string>
+export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Account {
-  accessToken: string | null
-  accessTokenExpiresAt: Timestamp | null
-  accountId: string
-  createdAt: Generated<Timestamp>
-  id: string
-  idToken: string | null
-  password: string | null
-  providerId: string
-  refreshToken: string | null
-  refreshTokenExpiresAt: Timestamp | null
-  scope: string | null
-  updatedAt: Timestamp
-  userId: string
+  accessToken: string | null;
+  accessTokenExpiresAt: Timestamp | null;
+  accountId: string;
+  createdAt: Generated<Timestamp>;
+  id: string;
+  idToken: string | null;
+  password: string | null;
+  providerId: string;
+  refreshToken: string | null;
+  refreshTokenExpiresAt: Timestamp | null;
+  scope: string | null;
+  updatedAt: Timestamp;
+  userId: string;
 }
 
 export interface BillingAccountingSyncLog {
   /**
    * Timestamp when the sync log was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Details of any synchronization errors.
    */
-  errorMessage: string | null
+  errorMessage: string | null;
   /**
    * ID assigned by the external system.
    */
-  externalId: string | null
+  externalId: string | null;
   /**
    * Target accounting system (e.g., quickbooks, xero).
    */
-  externalSystem: string
+  externalSystem: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Timestamp of the last synchronization attempt.
    */
-  lastSyncAt: Timestamp | null
+  lastSyncAt: Timestamp | null;
   /**
    * When the next retry should be attempted.
    */
-  nextRetryAt: Timestamp | null
+  nextRetryAt: Timestamp | null;
   /**
    * Reference to the record being synchronized.
    */
-  recordId: string
+  recordId: string;
   /**
    * Type of record being synchronized.
    */
-  recordType: string
+  recordType: string;
   /**
    * Request data sent to external system.
    */
-  requestPayload: string | null
+  requestPayload: string | null;
   /**
    * Response data received from external system.
    */
-  responsePayload: string | null
+  responsePayload: string | null;
   /**
    * Number of retry attempts made.
    */
-  retryCount: Generated<number | null>
+  retryCount: Generated<number | null>;
   /**
    * Synchronization status using sync_status_enum.
    */
-  status: Generated<BillingSyncStatusEnum | null>
+  status: Generated<BillingSyncStatusEnum | null>;
   /**
    * Timestamp when the sync log was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingAccountTransaction {
   /**
    * Transaction amount (positive for credits, negative for debits).
    */
-  amount: Numeric
+  amount: Numeric;
   /**
    * Reference to the affected client account.
    */
-  clientAccountId: string
+  clientAccountId: string;
   /**
    * Timestamp when the transaction was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Description of the transaction.
    */
-  description: string | null
+  description: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * User who processed this transaction.
    */
-  processedByUserId: string | null
+  processedByUserId: string | null;
   /**
    * External reference number.
    */
-  referenceNumber: string | null
+  referenceNumber: string | null;
   /**
    * Account balance after this transaction.
    */
-  runningBalance: Numeric | null
+  runningBalance: Numeric | null;
   /**
    * Reference to the source document (e.g., invoice_id, payment_id).
    */
-  sourceRecordId: string | null
+  sourceRecordId: string | null;
   /**
    * Type of source document.
    */
-  sourceRecordType: string | null
+  sourceRecordType: string | null;
   /**
    * When the transaction occurred.
    */
-  transactionDate: Generated<Timestamp | null>
+  transactionDate: Generated<Timestamp | null>;
   /**
    * Type of transaction using transaction_type_enum.
    */
-  type: BillingTransactionTypeEnum
+  type: BillingTransactionTypeEnum;
   /**
    * Timestamp when the transaction was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingClientAccount {
   /**
    * Current available credit balance.
    */
-  availableCredit: Generated<Numeric | null>
+  availableCredit: Generated<Numeric | null>;
   /**
    * Reference to the client company.
    */
-  clientId: string
+  clientId: string;
   /**
    * Timestamp when the client account was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Maximum credit amount allowed for the client.
    */
-  creditLimit: Generated<Numeric | null>
+  creditLimit: Generated<Numeric | null>;
   /**
    * Currency code for the account.
    */
-  currency: Generated<string | null>
+  currency: Generated<string | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether the client is approved for credit.
    */
-  isCreditApproved: Generated<boolean | null>
+  isCreditApproved: Generated<boolean | null>;
   /**
    * Date of the last payment received.
    */
-  lastPaymentDate: Timestamp | null
+  lastPaymentDate: Timestamp | null;
   /**
    * Number of days for payment terms.
    */
-  paymentTermsDays: Generated<number | null>
+  paymentTermsDays: Generated<number | null>;
   /**
    * Timestamp when the client account was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Prepaid balance available for services.
    */
-  walletBalance: Generated<Numeric | null>
+  walletBalance: Generated<Numeric | null>;
 }
 
 export interface BillingCreditNote {
   /**
    * Credit amount being issued.
    */
-  amount: Numeric
+  amount: Numeric;
   /**
    * When the credit was applied to the account.
    */
-  appliedAt: Timestamp | null
+  appliedAt: Timestamp | null;
   /**
    * Timestamp when the credit note was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * User who created this credit note.
    */
-  createdByUserId: string | null
+  createdByUserId: string | null;
   /**
    * Unique credit note reference number.
    */
-  creditNoteNumber: string
+  creditNoteNumber: string;
   /**
    * Currency of the credit note.
    */
-  currency: Generated<string | null>
+  currency: Generated<string | null>;
   /**
    * Reference to the dispute (if applicable).
    */
-  disputeId: string | null
+  disputeId: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to the related invoice.
    */
-  invoiceId: string
+  invoiceId: string;
   /**
    * Date the credit note was created.
    */
-  issueDate: Timestamp
+  issueDate: Timestamp;
   /**
    * Additional notes about the credit note.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Explanation for the credit note.
    */
-  reason: string
+  reason: string;
   /**
    * Timestamp when the credit note was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingDispute {
   /**
    * Reference to the client raising the dispute.
    */
-  clientId: string
+  clientId: string;
   /**
    * Timestamp when the dispute was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Amount being disputed.
    */
-  disputedAmount: Numeric | null
+  disputedAmount: Numeric | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to the disputed invoice line item.
    */
-  lineItemId: string
+  lineItemId: string;
   /**
    * Explanation of why the charge is being disputed.
    */
-  reason: string
+  reason: string;
   /**
    * Notes about the dispute resolution.
    */
-  resolutionNotes: string | null
+  resolutionNotes: string | null;
   /**
    * When the dispute was resolved.
    */
-  resolvedAt: Timestamp | null
+  resolvedAt: Timestamp | null;
   /**
    * User who resolved the dispute.
    */
-  resolvedByUserId: string | null
+  resolvedByUserId: string | null;
   /**
    * Current dispute status using dispute_status_enum.
    */
-  status: Generated<BillingDisputeStatusEnum | null>
+  status: Generated<BillingDisputeStatusEnum | null>;
   /**
    * When the dispute was submitted.
    */
-  submittedAt: Generated<Timestamp | null>
+  submittedAt: Generated<Timestamp | null>;
   /**
    * Timestamp when the dispute was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingDocument {
   /**
    * Timestamp when the document was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Type of document using document_type_enum.
    */
-  documentType: BillingDocumentTypeEnum
+  documentType: BillingDocumentTypeEnum;
   /**
    * Original file name.
    */
-  fileName: string
+  fileName: string;
   /**
    * Storage location of the document file.
    */
-  filePath: string
+  filePath: string;
   /**
    * File size in bytes.
    */
-  fileSize: number | null
+  fileSize: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * MIME type of the file.
    */
-  mimeType: string | null
+  mimeType: string | null;
   /**
    * Reference to the record the document is attached to.
    */
-  recordId: string
+  recordId: string;
   /**
    * Type of record (e.g., ims_outbound_shipments, billing_invoices).
    */
-  recordType: string
+  recordType: string;
   /**
    * Timestamp when the document was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * User who uploaded this document.
    */
-  uploadedByUserId: string | null
+  uploadedByUserId: string | null;
 }
 
 export interface BillingInvoiceLineItem {
   /**
    * Timestamp when the line item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Description of the service or charge.
    */
-  description: string
+  description: string;
   /**
    * Discount amount for this line item (automatically calculated).
    */
-  discountAmount: Generated<Numeric | null>
+  discountAmount: Generated<Numeric | null>;
   /**
    * Discount rate applied to this line item.
    */
-  discountRate: Generated<Numeric | null>
+  discountRate: Generated<Numeric | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to the parent invoice.
    */
-  invoiceId: string
+  invoiceId: string;
   /**
    * Final total including tax and discounts (automatically calculated).
    */
-  lineTotal: Generated<Numeric | null>
+  lineTotal: Generated<Numeric | null>;
   /**
    * Number of units being charged.
    */
-  quantity: Generated<Numeric>
+  quantity: Generated<Numeric>;
   /**
    * Reference to the source of the charge (e.g., shipment_id).
    */
-  sourceRecordId: string | null
+  sourceRecordId: string | null;
   /**
    * Type of source record.
    */
-  sourceRecordType: string | null
+  sourceRecordType: string | null;
   /**
    * Tax amount for this line item (automatically calculated).
    */
-  taxAmount: Generated<Numeric | null>
+  taxAmount: Generated<Numeric | null>;
   /**
    * Tax rate applied to this line item.
    */
-  taxRate: Generated<Numeric | null>
+  taxRate: Generated<Numeric | null>;
   /**
    * Total amount for this line item (automatically calculated).
    */
-  totalPrice: Generated<Numeric | null>
+  totalPrice: Generated<Numeric | null>;
   /**
    * Price per unit.
    */
-  unitPrice: Numeric
+  unitPrice: Numeric;
   /**
    * Timestamp when the line item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingInvoice {
   /**
    * Outstanding amount (automatically calculated).
    */
-  amountOutstanding: Generated<Numeric | null>
+  amountOutstanding: Generated<Numeric | null>;
   /**
    * Amount already paid against the invoice.
    */
-  amountPaid: Generated<Numeric | null>
+  amountPaid: Generated<Numeric | null>;
   /**
    * Reference to the client being billed.
    */
-  clientId: string
+  clientId: string;
   /**
    * Timestamp when the invoice was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * User who created this invoice.
    */
-  createdByUserId: string | null
+  createdByUserId: string | null;
   /**
    * Currency code for the invoice.
    */
-  currency: Generated<string | null>
+  currency: Generated<string | null>;
   /**
    * Total discount applied to the invoice.
    */
-  discountAmount: Generated<Numeric | null>
+  discountAmount: Generated<Numeric | null>;
   /**
    * Payment due date.
    */
-  dueDate: Timestamp
+  dueDate: Timestamp;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Unique invoice reference number.
    */
-  invoiceNumber: string
+  invoiceNumber: string;
   /**
    * Date the invoice was created.
    */
-  issueDate: Timestamp
+  issueDate: Timestamp;
   /**
    * Additional notes on the invoice.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * When the invoice was fully paid.
    */
-  paidAt: Timestamp | null
+  paidAt: Timestamp | null;
   /**
    * Payment terms and conditions.
    */
-  paymentTerms: string | null
+  paymentTerms: string | null;
   /**
    * Reference to the original quote (if applicable).
    */
-  quoteId: string | null
+  quoteId: string | null;
   /**
    * When the invoice was sent to the client.
    */
-  sentAt: Timestamp | null
+  sentAt: Timestamp | null;
   /**
    * Current invoice status using invoice_status_enum.
    */
-  status: Generated<BillingInvoiceStatusEnum | null>
+  status: Generated<BillingInvoiceStatusEnum | null>;
   /**
    * Subtotal before tax and discounts.
    */
-  subtotal: Numeric | null
+  subtotal: Numeric | null;
   /**
    * Total tax amount on the invoice.
    */
-  taxAmount: Generated<Numeric | null>
+  taxAmount: Generated<Numeric | null>;
   /**
    * Total amount due on the invoice.
    */
-  totalAmount: Numeric
+  totalAmount: Numeric;
   /**
    * Timestamp when the invoice was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingPayment {
   /**
    * Payment amount.
    */
-  amount: Numeric
+  amount: Numeric;
   /**
    * Timestamp when the payment was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Currency of the payment.
    */
-  currency: Generated<string | null>
+  currency: Generated<string | null>;
   /**
    * Exchange rate used for currency conversion.
    */
-  exchangeRate: Generated<Numeric | null>
+  exchangeRate: Generated<Numeric | null>;
   /**
    * Processing fees deducted from the payment.
    */
-  fees: Generated<Numeric | null>
+  fees: Generated<Numeric | null>;
   /**
    * Payment gateway transaction reference.
    */
-  gatewayReference: string | null
+  gatewayReference: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to the invoice being paid.
    */
-  invoiceId: string
+  invoiceId: string;
   /**
    * Net amount after fees (automatically calculated).
    */
-  netAmount: Generated<Numeric | null>
+  netAmount: Generated<Numeric | null>;
   /**
    * Additional notes about the payment.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * When the payment was initiated.
    */
-  paymentDate: Generated<Timestamp | null>
+  paymentDate: Generated<Timestamp | null>;
   /**
    * How the payment was made using payment_method_enum.
    */
-  paymentMethod: BillingPaymentMethodEnum
+  paymentMethod: BillingPaymentMethodEnum;
   /**
    * When the payment was successfully processed.
    */
-  processedAt: Timestamp | null
+  processedAt: Timestamp | null;
   /**
    * User who processed this payment.
    */
-  processedByUserId: string | null
+  processedByUserId: string | null;
   /**
    * Payment processing status using payment_status_enum.
    */
-  status: Generated<BillingPaymentStatusEnum | null>
+  status: Generated<BillingPaymentStatusEnum | null>;
   /**
    * Reference from payment gateway or internal system.
    */
-  transactionId: string | null
+  transactionId: string | null;
   /**
    * Timestamp when the payment was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface BillingQuote {
   /**
    * Reference to the client requesting the quote (optional for anonymous quotes).
    */
-  clientId: string | null
+  clientId: string | null;
   /**
    * Timestamp when the quote was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * User who created this quote.
    */
-  createdByUserId: string | null
+  createdByUserId: string | null;
   /**
    * Delivery location information.
    */
-  destinationDetails: string
+  destinationDetails: string;
   /**
    * When the quote becomes invalid.
    */
-  expiresAt: Timestamp | null
+  expiresAt: Timestamp | null;
   /**
    * Package height dimension.
    */
-  height: Numeric | null
+  height: Numeric | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Package length dimension.
    */
-  length: Numeric | null
+  length: Numeric | null;
   /**
    * Additional notes about the quote.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Pickup location information.
    */
-  originDetails: string
+  originDetails: string;
   /**
    * Calculated price for the requested service.
    */
-  quotedPrice: Numeric
+  quotedPrice: Numeric;
   /**
    * Unique quote reference number.
    */
-  quoteNumber: string | null
+  quoteNumber: string | null;
   /**
    * Type of service quoted (e.g., standard, express).
    */
-  serviceLevel: string | null
+  serviceLevel: string | null;
   /**
    * Current quote status using quote_status_enum.
    */
-  status: Generated<BillingQuoteStatusEnum | null>
+  status: Generated<BillingQuoteStatusEnum | null>;
   /**
    * Timestamp when the quote was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Package volume (automatically calculated from dimensions).
    */
-  volume: Generated<Numeric | null>
+  volume: Generated<Numeric | null>;
   /**
    * Package weight for pricing calculation.
    */
-  weight: Numeric | null
+  weight: Numeric | null;
   /**
    * Package width dimension.
    */
-  width: Numeric | null
+  width: Numeric | null;
 }
 
 export interface BillingRateCard {
   /**
    * Timestamp when the rate card was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * User who created this rate card.
    */
-  createdByUserId: string | null
+  createdByUserId: string | null;
   /**
    * Additional details about the rate card.
    */
-  description: string | null
+  description: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether this rate card is currently in use.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * Descriptive name for the rate card (e.g., "Standard Shipping Rates 2025").
    */
-  name: string
+  name: string;
   /**
    * Category of service being priced using service_type_enum.
    */
-  serviceType: BillingServiceTypeEnum
+  serviceType: BillingServiceTypeEnum;
   /**
    * Timestamp when the rate card was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Date when the rate card becomes effective.
    */
-  validFrom: Timestamp
+  validFrom: Timestamp;
   /**
    * Date when the rate card expires.
    */
-  validTo: Timestamp | null
+  validTo: Timestamp | null;
 }
 
 export interface BillingRateRule {
   /**
    * Condition that must be met for this rule to apply (e.g., weight_gt, zone_eq).
    */
-  condition: string
+  condition: string;
   /**
    * Timestamp when the rate rule was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether this rule is currently active.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * Maximum value for range-based conditions.
    */
-  maxValue: Numeric | null
+  maxValue: Numeric | null;
   /**
    * Minimum value for range-based conditions.
    */
-  minValue: Numeric | null
+  minValue: Numeric | null;
   /**
    * Price amount when this rule applies.
    */
-  price: Numeric
+  price: Numeric;
   /**
    * How the price is calculated using pricing_model_enum.
    */
-  pricingModel: BillingPricingModelEnum
+  pricingModel: BillingPricingModelEnum;
   /**
    * Rule precedence when multiple rules could apply (lower = higher priority).
    */
-  priority: Generated<number | null>
+  priority: Generated<number | null>;
   /**
    * Reference to the parent rate card.
    */
-  rateCardId: string
+  rateCardId: string;
   /**
    * Timestamp when the rate rule was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Value for the condition (e.g., "5kg", "Zone A").
    */
-  value: string
+  value: string;
 }
 
 export interface BillingSurcharge {
   /**
    * Surcharge amount or percentage.
    */
-  amount: Numeric
+  amount: Numeric;
   /**
    * How the surcharge is calculated using surcharge_calculation_method_enum.
    */
-  calculationMethod: BillingSurchargeCalculationMethodEnum
+  calculationMethod: BillingSurchargeCalculationMethodEnum;
   /**
    * Timestamp when the surcharge was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Additional details about the surcharge.
    */
-  description: string | null
+  description: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether this surcharge is currently being applied.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * Name of the surcharge (e.g., "Fuel Surcharge", "Peak Season Fee").
    */
-  name: string
+  name: string;
   /**
    * Category of surcharge (e.g., fuel, seasonal, handling).
    */
-  type: string
+  type: string;
   /**
    * Timestamp when the surcharge was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Date when the surcharge becomes effective.
    */
-  validFrom: Timestamp | null
+  validFrom: Timestamp | null;
   /**
    * Date when the surcharge expires.
    */
-  validTo: Timestamp | null
+  validTo: Timestamp | null;
 }
 
 export interface CrmAttachment {
   /**
    * timestamptz when the attachment was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Name of the attached file.
    */
-  fileName: string
+  fileName: string;
   /**
    * Storage path for the file.
    */
-  filePath: string
+  filePath: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * File MIME type (e.g., image/png, application/pdf).
    */
-  mimeType: string | null
+  mimeType: string | null;
   /**
    * Identifier for the record the attachment is associated with.
    */
-  recordId: string | null
+  recordId: string | null;
   /**
    * Type of record (polymorphic).
    */
-  recordType: CrmRecordType | null
+  recordType: CrmRecordType | null;
   /**
    * timestamptz when the attachment was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmCampaign {
   /**
    * Allocated budget for the campaign.
    */
-  budget: Numeric | null
+  budget: Numeric | null;
   /**
    * timestamptz when the campaign was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Campaign end date.
    */
-  endDate: Timestamp | null
+  endDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Campaign title.
    */
-  name: string
+  name: string;
   /**
    * Campaign start date.
    */
-  startDate: Timestamp | null
+  startDate: Timestamp | null;
   /**
    * timestamptz when the campaign was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmCase {
   /**
    * Unique number assigned to the case.
    */
-  caseNumber: string
+  caseNumber: string;
   /**
    * Linked contact for context.
    */
-  contactId: string | null
+  contactId: string | null;
   /**
    * timestamptz when the case was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Detailed description of the issue.
    */
-  description: string | null
+  description: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * User responsible for handling the case.
    */
-  ownerId: string
+  ownerId: string;
   /**
    * Level of urgency (e.g., low, medium, high).
    */
-  priority: Generated<CrmCasePriority | null>
+  priority: Generated<CrmCasePriority | null>;
   /**
    * Current case status.
    */
-  status: Generated<CrmCaseStatus | null>
+  status: Generated<CrmCaseStatus | null>;
   /**
    * Type of case (e.g., question, problem).
    */
-  type: CrmCaseType | null
+  type: CrmCaseType | null;
   /**
    * timestamptz when the case was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmCompany {
   /**
    * Yearly revenue figure.
    */
-  annualRevenue: Numeric | null
+  annualRevenue: Numeric | null;
   /**
    * City location.
    */
-  city: string | null
+  city: string | null;
   /**
    * Country of operation.
    */
-  country: string | null
+  country: string | null;
   /**
    * timestamptz when the company was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Sector or industry type.
    */
-  industry: string | null
+  industry: string | null;
   /**
    * Company name.
    */
-  name: string
+  name: string;
   /**
    * Reference to the user who owns the company record.
    */
-  ownerId: string | null
+  ownerId: string | null;
   /**
    * Company contact number.
    */
-  phoneNumber: string | null
+  phoneNumber: string | null;
   /**
    * Postal or ZIP code.
    */
-  postalCode: string | null
+  postalCode: string | null;
   /**
    * State or province.
    */
-  state: string | null
+  state: string | null;
   /**
    * Street address.
    */
-  street: string | null
+  street: string | null;
   /**
    * timestamptz when the company was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Company website URL.
    */
-  website: string | null
+  website: string | null;
 }
 
 export interface CrmContact {
   /**
    * Identifier linking to the associated company.
    */
-  companyId: string | null
+  companyId: string | null;
   /**
    * timestamptz when the contact was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Contact's email address.
    */
-  email: string
+  email: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Job designation or position.
    */
-  jobTitle: string | null
+  jobTitle: string | null;
   /**
    * Full name of the contact.
    */
-  name: string
+  name: string;
   /**
    * Reference to the user responsible for the contact.
    */
-  ownerId: string
+  ownerId: string;
   /**
    * Contact's telephone number.
    */
-  phoneNumber: string | null
+  phoneNumber: string | null;
   /**
    * timestamptz when the contact was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmInteraction {
   /**
    * Associated case (if applicable).
    */
-  caseId: string | null
+  caseId: string | null;
   /**
    * Linked contact for the interaction.
    */
-  contactId: string
+  contactId: string;
   /**
    * timestamptz when the interaction was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Date and time of the interaction.
    */
-  interactionDate: Timestamp | null
+  interactionDate: Timestamp | null;
   /**
    * Additional details or comments.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Result of the interaction (e.g., meeting scheduled).
    */
-  outcome: string | null
+  outcome: string | null;
   /**
    * Type of interaction (e.g., call, meeting, email).
    */
-  type: CrmInteractionType | null
+  type: CrmInteractionType | null;
   /**
    * timestamptz when the interaction was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * User who performed the interaction.
    */
-  userId: string
+  userId: string;
 }
 
 export interface CrmInvoiceItem {
   /**
    * timestamptz when the invoice item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Linked invoice record.
    */
-  invoiceId: string
+  invoiceId: string;
   /**
    * Price per unit for the product.
    */
-  price: Numeric
+  price: Numeric;
   /**
    * Associated product for the line item.
    */
-  productId: string
+  productId: string;
   /**
    * Quantity of the product.
    */
-  quantity: number
+  quantity: number;
   /**
    * timestamptz when the invoice item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmInvoice {
   /**
    * timestamptz when the invoice was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Payment due date.
    */
-  dueDate: Timestamp | null
+  dueDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Date on which the invoice was issued.
    */
-  issueDate: Timestamp | null
+  issueDate: Timestamp | null;
   /**
    * Associated sales opportunity.
    */
-  opportunityId: string | null
+  opportunityId: string | null;
   /**
    * timestamptz when payment was received.
    */
-  paidAt: Timestamp | null
+  paidAt: Timestamp | null;
   /**
    * Method used for payment.
    */
-  paymentMethod: CrmPaymentMethod | null
+  paymentMethod: CrmPaymentMethod | null;
   /**
    * timestamptz when the invoice was sent.
    */
-  sentAt: Timestamp | null
+  sentAt: Timestamp | null;
   /**
    * Current status of the invoice (e.g., draft, sent, paid).
    */
-  status: Generated<CrmInvoiceStatus | null>
+  status: Generated<CrmInvoiceStatus | null>;
   /**
    * Total amount billed.
    */
-  total: Numeric | null
+  total: Numeric | null;
   /**
    * timestamptz when the invoice was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmLead {
   /**
    * Associated marketing campaign.
    */
-  campaignId: string | null
+  campaignId: string | null;
   /**
    * timestamptz when the lead was converted.
    */
-  convertedAt: Timestamp | null
+  convertedAt: Timestamp | null;
   /**
    * Reference to the company record created upon conversion.
    */
-  convertedCompanyId: string | null
+  convertedCompanyId: string | null;
   /**
    * Reference to the created contact upon conversion.
    */
-  convertedContactId: string | null
+  convertedContactId: string | null;
   /**
    * Reference to the opportunity created upon conversion.
    */
-  convertedOpportunityId: string | null
+  convertedOpportunityId: string | null;
   /**
    * timestamptz when the lead was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Lead's email address.
    */
-  email: string
+  email: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Numerical score reflecting lead quality.
    */
-  leadScore: number | null
+  leadScore: number | null;
   /**
    * Origin of the lead information.
    */
-  leadSource: CrmLeadSource | null
+  leadSource: CrmLeadSource | null;
   /**
    * Lead's full name.
    */
-  name: string
+  name: string;
   /**
    * User responsible for the lead.
    */
-  ownerId: string
+  ownerId: string;
   /**
    * Current qualification status.
    */
-  status: Generated<CrmLeadStatus | null>
+  status: Generated<CrmLeadStatus | null>;
   /**
    * timestamptz when the lead was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmNotification {
   /**
    * timestamptz when the notification was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Boolean indicating if the notification has been read.
    */
-  isRead: Generated<boolean | null>
+  isRead: Generated<boolean | null>;
   /**
    * URL or path for further action/reference.
    */
-  link: string | null
+  link: string | null;
   /**
    * Notification content.
    */
-  message: string
+  message: string;
   /**
    * timestamptz when the notification was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * User receiving the notification.
    */
-  userId: string
+  userId: string;
 }
 
 export interface CrmOpportunity {
   /**
    * Related campaign.
    */
-  campaignId: string | null
+  campaignId: string | null;
   /**
    * Linked company record.
    */
-  companyId: string | null
+  companyId: string | null;
   /**
    * Associated contact.
    */
-  contactId: string | null
+  contactId: string | null;
   /**
    * timestamptz when the opportunity was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Potential deal amount.
    */
-  dealValue: Numeric | null
+  dealValue: Numeric | null;
   /**
    * Anticipated date for closing the opportunity.
    */
-  expectedCloseDate: Timestamp | null
+  expectedCloseDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Explanation for why the opportunity was lost.
    */
-  lostReason: string | null
+  lostReason: string | null;
   /**
    * Opportunity title.
    */
-  name: string
+  name: string;
   /**
    * User responsible for the opportunity.
    */
-  ownerId: string
+  ownerId: string;
   /**
    * Likelihood of closing, represented as a fraction or percentage.
    */
-  probability: number | null
+  probability: number | null;
   /**
    * Origin of the opportunity (e.g., website, referral).
    */
-  source: CrmOpportunitySource | null
+  source: CrmOpportunitySource | null;
   /**
    * Current stage in the sales pipeline.
    */
-  stage: CrmOpportunityStage | null
+  stage: CrmOpportunityStage | null;
   /**
    * timestamptz when the opportunity was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface CrmOpportunityProduct {
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Identifier linking to the related opportunity.
    */
-  opportunityId: string
+  opportunityId: string;
   /**
    * Identifier linking to the product.
    */
-  productId: string
+  productId: string;
   /**
    * Number of units associated with the opportunity.
    */
-  quantity: number
+  quantity: number;
 }
 
 export interface CrmProduct {
   /**
    * timestamptz when the product was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Description or details about the product.
    */
-  description: string | null
+  description: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Name of the product or service.
    */
-  name: string
+  name: string;
   /**
    * Cost of the product.
    */
-  price: Numeric
+  price: Numeric;
   /**
    * Stock keeping unit identifier.
    */
-  sku: string | null
+  sku: string | null;
   /**
    * Type of offering (e.g., service, good).
    */
-  type: Generated<CrmProductType | null>
+  type: Generated<CrmProductType | null>;
   /**
    * timestamptz when the product was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface DmsCustomerTrackingLink {
   /**
    * Number of times the tracking link has been accessed.
    */
-  accessCount: Generated<number | null>
+  accessCount: Generated<number | null>;
   /**
    * Timestamp when the customer tracking link was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the delivery task being tracked.
    */
-  deliveryTaskId: string
+  deliveryTaskId: string;
   /**
    * When the tracking link will expire.
    */
-  expiresAt: Timestamp | null
+  expiresAt: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether the tracking link is currently valid.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * When the tracking link was last accessed.
    */
-  lastAccessedAt: Timestamp | null
+  lastAccessedAt: Timestamp | null;
   /**
    * Unique, unguessable identifier for secure access.
    */
-  trackingToken: string
+  trackingToken: string;
   /**
    * Timestamp when the customer tracking link was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface DmsDeliveryRoute {
   /**
    * Actual time taken to complete the route in minutes (automatically calculated from start and completion times).
    */
-  actualDurationMinutes: Generated<number | null>
+  actualDurationMinutes: Generated<number | null>;
   /**
    * When the route was completed.
    */
-  completedAt: Timestamp | null
+  completedAt: Timestamp | null;
   /**
    * Timestamp when the delivery route was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the assigned driver from the TMS.
    */
-  driverId: string
+  driverId: string;
   /**
    * Estimated time to complete the entire route in minutes.
    */
-  estimatedDurationMinutes: number | null
+  estimatedDurationMinutes: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Stored route optimization data such as polylines and turn-by-turn directions.
    */
-  optimizedRouteData: string | null
+  optimizedRouteData: string | null;
   /**
    * Scheduled date for the delivery route.
    */
-  routeDate: Timestamp
+  routeDate: Timestamp;
   /**
    * When the route was started.
    */
-  startedAt: Timestamp | null
+  startedAt: Timestamp | null;
   /**
    * Current state of the route using delivery_route_status_enum.
    */
-  status: Generated<DmsDeliveryRouteStatusEnum | null>
+  status: Generated<DmsDeliveryRouteStatusEnum | null>;
   /**
    * Total distance of the route in kilometers.
    */
-  totalDistanceKm: number | null
+  totalDistanceKm: number | null;
   /**
    * Timestamp when the delivery route was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface DmsDeliveryTask {
   /**
    * When the driver actually arrived at the delivery location.
    */
-  actualArrivalTime: Timestamp | null
+  actualArrivalTime: Timestamp | null;
   /**
    * Number of delivery attempts made.
    */
-  attemptCount: Generated<number | null>
+  attemptCount: Generated<number | null>;
   /**
    * Timestamp when the delivery task was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * The address where the package should be delivered.
    */
-  deliveryAddress: string
+  deliveryAddress: string;
   /**
    * Special instructions for the delivery.
    */
-  deliveryInstructions: string | null
+  deliveryInstructions: string | null;
   /**
    * Reference to the delivery route this task belongs to.
    */
-  deliveryRouteId: string
+  deliveryRouteId: string;
   /**
    * When the package was successfully delivered.
    */
-  deliveryTime: Timestamp | null
+  deliveryTime: Timestamp | null;
   /**
    * Calculated time when the delivery is expected.
    */
-  estimatedArrivalTime: Timestamp | null
+  estimatedArrivalTime: Timestamp | null;
   /**
    * Reason for delivery failure using delivery_failure_reason_enum.
    */
-  failureReason: DmsDeliveryFailureReasonEnum | null
+  failureReason: DmsDeliveryFailureReasonEnum | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to the package from the WMS.
    */
-  packageId: string
+  packageId: string;
   /**
    * Name of the person receiving the package.
    */
-  recipientName: string | null
+  recipientName: string | null;
   /**
    * Phone number of the recipient.
    */
-  recipientPhone: string | null
+  recipientPhone: string | null;
   /**
    * Order of this delivery within the route.
    */
-  routeSequence: number
+  routeSequence: number;
   /**
    * Current status of the delivery task using delivery_task_status_enum.
    */
-  status: Generated<DmsDeliveryTaskStatusEnum | null>
+  status: Generated<DmsDeliveryTaskStatusEnum | null>;
   /**
    * Timestamp when the delivery task was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface DmsDriverLocation {
   /**
    * GPS accuracy in meters.
    */
-  accuracy: number | null
+  accuracy: number | null;
   /**
    * Altitude in meters above sea level.
    */
-  altitude: number | null
+  altitude: number | null;
   /**
    * Timestamp when the driver location was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the driver from the TMS.
    */
-  driverId: string
+  driverId: string;
   /**
    * Direction of travel in degrees (0-359).
    */
-  heading: number | null
+  heading: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Geographic latitude coordinate.
    */
-  latitude: number
+  latitude: number;
   /**
    * Geographic longitude coordinate.
    */
-  longitude: number
+  longitude: number;
   /**
    * Current speed in kilometers per hour.
    */
-  speedKmh: number | null
+  speedKmh: number | null;
   /**
    * When the location was recorded.
    */
-  timestamp: Generated<Timestamp | null>
+  timestamp: Generated<Timestamp | null>;
   /**
    * Timestamp when the driver location was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface DmsProofOfDelivery {
   /**
    * Timestamp when the proof of delivery was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the completed delivery task.
    */
-  deliveryTaskId: string
+  deliveryTaskId: string;
   /**
    * Storage location of the proof file (for photos).
    */
-  filePath: string | null
+  filePath: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Geographic latitude where proof was collected.
    */
-  latitude: number | null
+  latitude: number | null;
   /**
    * Geographic longitude where proof was collected.
    */
-  longitude: number | null
+  longitude: number | null;
   /**
    * Name of the person who received the package.
    */
-  recipientName: string | null
+  recipientName: string | null;
   /**
    * Digital signature data (for signature proofs).
    */
-  signatureData: string | null
+  signatureData: string | null;
   /**
    * When the proof was collected.
    */
-  timestamp: Generated<Timestamp | null>
+  timestamp: Generated<Timestamp | null>;
   /**
    * Type of proof collected using proof_of_delivery_type_enum.
    */
-  type: DmsProofOfDeliveryTypeEnum
+  type: DmsProofOfDeliveryTypeEnum;
   /**
    * Timestamp when the proof of delivery was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Code used for verification deliveries.
    */
-  verificationCode: string | null
+  verificationCode: string | null;
 }
 
 export interface DmsTaskEvent {
   /**
    * Timestamp when the task event was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the associated delivery task.
    */
-  deliveryTaskId: string
+  deliveryTaskId: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Geographic latitude where the event occurred.
    */
-  latitude: number | null
+  latitude: number | null;
   /**
    * Geographic longitude where the event occurred.
    */
-  longitude: number | null
+  longitude: number | null;
   /**
    * Additional notes about the event.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Additional context for the status change (e.g., "recipient not home").
    */
-  reason: string | null
+  reason: string | null;
   /**
    * The event status being recorded using task_event_status_enum.
    */
-  status: DmsTaskEventStatusEnum
+  status: DmsTaskEventStatusEnum;
   /**
    * When the event occurred.
    */
-  timestamp: Generated<Timestamp | null>
+  timestamp: Generated<Timestamp | null>;
   /**
    * Timestamp when the task event was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface Session {
-  createdAt: Generated<Timestamp>
-  expiresAt: Timestamp
-  id: string
-  impersonatedBy: string | null
-  ipAddress: string | null
-  token: string
-  updatedAt: Timestamp
-  userAgent: string | null
-  userId: string
+  createdAt: Generated<Timestamp>;
+  expiresAt: Timestamp;
+  id: string;
+  impersonatedBy: string | null;
+  ipAddress: string | null;
+  token: string;
+  updatedAt: Timestamp;
+  userAgent: string | null;
+  userId: string;
 }
 
 export interface TmsCarrierRate {
   /**
    * Reference to the carrier providing the service.
    */
-  carrierId: string
+  carrierId: string;
   /**
    * Timestamp when the rate was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Ending location for the service.
    */
-  destination: string | null
+  destination: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Starting location for the service.
    */
-  origin: string | null
+  origin: string | null;
   /**
    * Cost for the service.
    */
-  rate: Numeric
+  rate: Numeric;
   /**
    * Type of transportation service.
    */
-  serviceType: string | null
+  serviceType: string | null;
   /**
    * Pricing unit using carrier_rate_unit_enum.
    */
-  unit: TmsCarrierRateUnitEnum | null
+  unit: TmsCarrierRateUnitEnum | null;
   /**
    * Timestamp when the rate was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsCarrier {
-  contactEmail: string | null
-  contactPerson: string | null
-  contactPhone: string | null
+  contactEmail: string | null;
+  contactPerson: string | null;
+  contactPhone: string | null;
   /**
    * Timestamp when the carrier was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Carrier company name.
    */
-  name: string
+  name: string;
   /**
    * Description of transportation services provided.
    */
-  servicesOffered: string | null
+  servicesOffered: string | null;
   /**
    * Timestamp when the carrier was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsDriver {
-  contactPhone: string | null
+  contactPhone: string | null;
   /**
    * Timestamp when the driver was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * When the driver's license expires.
    */
-  licenseExpiryDate: Timestamp | null
+  licenseExpiryDate: Timestamp | null;
   /**
    * Driver's license identification number.
    */
-  licenseNumber: string
+  licenseNumber: string;
   /**
    * Current availability status using driver_status_enum.
    */
-  status: Generated<TmsDriverStatusEnum | null>
+  status: Generated<TmsDriverStatusEnum | null>;
   /**
    * Timestamp when the driver was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Reference to the user account in the system.
    */
-  userId: string
+  userId: string;
 }
 
 export interface TmsDriverSchedule {
   /**
    * Timestamp when the schedule was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the associated driver.
    */
-  driverId: string
+  driverId: string;
   /**
    * End of the schedule period.
    */
-  endDate: Timestamp
+  endDate: Timestamp;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Purpose of the schedule entry using driver_schedule_reason_enum.
    */
-  reason: TmsDriverScheduleReasonEnum | null
+  reason: TmsDriverScheduleReasonEnum | null;
   /**
    * Beginning of the schedule period.
    */
-  startDate: Timestamp
+  startDate: Timestamp;
   /**
    * Timestamp when the schedule was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsExpense {
   /**
    * Financial amount of the expense.
    */
-  amount: Numeric
+  amount: Numeric;
   /**
    * Timestamp when the expense was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Currency denomination using currency_enum.
    */
-  currency: Generated<TmsCurrencyEnum | null>
-  description: string | null
+  currency: Generated<TmsCurrencyEnum | null>;
+  description: string | null;
   /**
    * Reference to the driver who logged the expense.
    */
-  driverId: string | null
-  expenseDate: Timestamp | null
+  driverId: string | null;
+  expenseDate: Timestamp | null;
   /**
    * Amount of fuel purchased (if applicable).
    */
-  fuelQuantity: number | null
+  fuelQuantity: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Vehicle odometer reading at time of expense.
    */
-  odometerReading: number | null
+  odometerReading: number | null;
   /**
    * Link to receipt or proof of purchase.
    */
-  receiptUrl: string | null
+  receiptUrl: string | null;
   /**
    * Approval status using expense_status_enum.
    */
-  status: Generated<TmsExpenseStatusEnum | null>
+  status: Generated<TmsExpenseStatusEnum | null>;
   /**
    * Reference to the associated trip.
    */
-  tripId: string | null
+  tripId: string | null;
   /**
    * Category of expense using expense_type_enum.
    */
-  type: TmsExpenseTypeEnum | null
+  type: TmsExpenseTypeEnum | null;
   /**
    * Timestamp when the expense was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsGeofenceEvent {
   /**
    * Type of boundary event using geofence_event_type_enum.
    */
-  eventType: TmsGeofenceEventTypeEnum
+  eventType: TmsGeofenceEventTypeEnum;
   /**
    * Reference to the geofenced area.
    */
-  geofenceId: string
+  geofenceId: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * When the event occurred.
    */
-  timestamp: Generated<Timestamp>
+  timestamp: Generated<Timestamp>;
   /**
    * Reference to the vehicle that triggered the event.
    */
-  vehicleId: string
+  vehicleId: string;
 }
 
 export interface TmsGeofence {
   /**
    * Timestamp when the geofence was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
-  latitude: number | null
-  longitude: number | null
+  id: Generated<string>;
+  latitude: number | null;
+  longitude: number | null;
   /**
    * Descriptive name for the geofenced area.
    */
-  name: string
+  name: string;
   /**
    * Timestamp when the geofence was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsGpsPing {
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Geographic latitude coordinate.
    */
-  latitude: number
+  latitude: number;
   /**
    * Geographic longitude coordinate.
    */
-  longitude: number
+  longitude: number;
   /**
    * When the location was recorded.
    */
-  timestamp: Generated<Timestamp>
+  timestamp: Generated<Timestamp>;
   /**
    * Reference to the vehicle sending the location data.
    */
-  vehicleId: string
+  vehicleId: string;
 }
 
 export interface TmsPartnerInvoiceItem {
   /**
    * Amount charged for this specific shipment leg.
    */
-  amount: Numeric
+  amount: Numeric;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to the parent invoice.
    */
-  partnerInvoiceId: string
+  partnerInvoiceId: string;
   /**
    * Reference to the specific shipment leg being billed.
    */
-  shipmentLegId: string
+  shipmentLegId: string;
 }
 
 export interface TmsPartnerInvoice {
   /**
    * Reference to the carrier sending the invoice.
    */
-  carrierId: string
+  carrierId: string;
   /**
    * Timestamp when the invoice was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Date the invoice was issued.
    */
-  invoiceDate: Timestamp
+  invoiceDate: Timestamp;
   /**
    * Carrier's invoice identifier.
    */
-  invoiceNumber: string
+  invoiceNumber: string;
   /**
    * Payment status using partner_invoice_status_enum.
    */
-  status: Generated<TmsPartnerInvoiceStatusEnum | null>
+  status: Generated<TmsPartnerInvoiceStatusEnum | null>;
   /**
    * Total amount billed on the invoice.
    */
-  totalAmount: Numeric
+  totalAmount: Numeric;
   /**
    * Timestamp when the invoice was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsProofOfDelivery {
   /**
    * Timestamp when the proof was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Storage location of the proof file.
    */
-  filePath: string | null
+  filePath: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Geographic latitude where proof was collected.
    */
-  latitude: number | null
+  latitude: number | null;
   /**
    * Geographic longitude where proof was collected.
    */
-  longitude: number | null
+  longitude: number | null;
   /**
    * When the proof was collected.
    */
-  timestamp: Generated<Timestamp>
+  timestamp: Generated<Timestamp>;
   /**
    * Reference to the trip stop where proof was collected.
    */
-  tripStopId: string
+  tripStopId: string;
   /**
    * Type of proof collected using proof_type_enum.
    */
-  type: TmsProofTypeEnum | null
+  type: TmsProofTypeEnum | null;
   /**
    * Timestamp when the proof was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsRoute {
   /**
    * Timestamp when the route was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Route optimization data such as polylines and turn-by-turn directions.
    */
-  optimizedRouteData: string | null
+  optimizedRouteData: string | null;
   /**
    * Calculated total distance of the route.
    */
-  totalDistance: number | null
+  totalDistance: number | null;
   /**
    * Estimated total time for the route.
    */
-  totalDuration: number | null
+  totalDuration: number | null;
   /**
    * Reference to the associated trip.
    */
-  tripId: string
+  tripId: string;
   /**
    * Timestamp when the route was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsShipmentLegEvent {
   /**
    * When the event was recorded.
    */
-  eventTimestamp: Generated<Timestamp>
+  eventTimestamp: Generated<Timestamp>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Geographic location where the event occurred.
    */
-  location: string | null
+  location: string | null;
   /**
    * Reference to the associated shipment leg.
    */
-  shipmentLegId: string
+  shipmentLegId: string;
   /**
    * Description of the status or event.
    */
-  statusMessage: string | null
+  statusMessage: string | null;
 }
 
 export interface TmsShipmentLeg {
   /**
    * Reference to third-party carrier (if external).
    */
-  carrierId: string | null
+  carrierId: string | null;
   /**
    * Timestamp when the shipment leg was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Ending point of this leg.
    */
-  endLocation: string | null
+  endLocation: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Reference to internal trip (if using own fleet).
    */
-  internalTripId: string | null
+  internalTripId: string | null;
   /**
    * Order of this leg within the shipment journey.
    */
-  legSequence: number
+  legSequence: number;
   /**
    * Reference to the overall shipment.
    */
-  shipmentId: string | null
+  shipmentId: string | null;
   /**
    * Starting point of this leg.
    */
-  startLocation: string | null
+  startLocation: string | null;
   /**
    * Current status of this shipment leg using shipment_leg_status_enum.
    */
-  status: TmsShipmentLegStatusEnum | null
+  status: TmsShipmentLegStatusEnum | null;
   /**
    * Timestamp when the shipment leg was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsTrip {
   /**
    * Timestamp when the trip was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to the assigned driver.
    */
-  driverId: string | null
-  endLocation: string | null
-  endTime: Timestamp | null
+  driverId: string | null;
+  endLocation: string | null;
+  endTime: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
-  startLocation: string | null
-  startTime: Timestamp | null
+  id: Generated<string>;
+  startLocation: string | null;
+  startTime: Timestamp | null;
   /**
    * Current trip status using trip_status_enum.
    */
-  status: Generated<TmsTripStatusEnum | null>
+  status: Generated<TmsTripStatusEnum | null>;
   /**
    * Timestamp when the trip was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Reference to the assigned vehicle.
    */
-  vehicleId: string | null
+  vehicleId: string | null;
 }
 
 export interface TmsTripStop {
   /**
    * Actual recorded arrival time.
    */
-  actualArrivalTime: Timestamp | null
+  actualArrivalTime: Timestamp | null;
   /**
    * Actual recorded departure time.
    */
-  actualDepartureTime: Timestamp | null
+  actualDepartureTime: Timestamp | null;
   /**
    * Physical location of the stop.
    */
-  address: string | null
+  address: string | null;
   /**
    * Timestamp when the trip stop was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Planned arrival time at the stop.
    */
-  estimatedArrivalTime: Timestamp | null
+  estimatedArrivalTime: Timestamp | null;
   /**
    * Planned departure time from the stop.
    */
-  estimatedDepartureTime: Timestamp | null
+  estimatedDepartureTime: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Order of this stop within the trip.
    */
-  sequence: number
+  sequence: number;
   /**
    * Reference to the shipment being handled at this stop.
    */
-  shipmentId: string | null
+  shipmentId: string | null;
   /**
    * Current stop status using trip_stop_status_enum.
    */
-  status: Generated<TmsTripStopStatusEnum | null>
+  status: Generated<TmsTripStopStatusEnum | null>;
   /**
    * Reference to the parent trip.
    */
-  tripId: string
+  tripId: string;
   /**
    * Timestamp when the trip stop was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface TmsVehicleMaintenance {
   /**
    * Financial cost of the maintenance service.
    */
-  cost: Numeric | null
+  cost: Numeric | null;
   /**
    * Timestamp when the maintenance record was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Additional details about the maintenance work.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Date when maintenance was performed.
    */
-  serviceDate: Timestamp
+  serviceDate: Timestamp;
   /**
    * Type of maintenance or repair work using vehicle_service_type_enum.
    */
-  serviceType: TmsVehicleServiceTypeEnum | null
+  serviceType: TmsVehicleServiceTypeEnum | null;
   /**
    * Timestamp when the maintenance record was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Reference to the vehicle being serviced.
    */
-  vehicleId: string
+  vehicleId: string;
 }
 
 export interface TmsVehicle {
   /**
    * Maximum cargo volume the vehicle can carry.
    */
-  capacityVolume: number | null
+  capacityVolume: number | null;
   /**
    * Maximum weight capacity of the vehicle.
    */
-  capacityWeight: number | null
+  capacityWeight: number | null;
   /**
    * Timestamp when the vehicle was created.
    */
-  createdAt: Generated<Timestamp | null>
-  currentMileage: number | null
+  createdAt: Generated<Timestamp | null>;
+  currentMileage: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
-  lastMaintenanceDate: Timestamp | null
-  make: string | null
+  id: Generated<string>;
+  lastMaintenanceDate: Timestamp | null;
+  make: string | null;
   /**
    * Vehicle make and model information.
    */
-  model: string | null
+  model: string | null;
   /**
    * Vehicle's license plate or registration identifier.
    */
-  registrationNumber: string
+  registrationNumber: string;
   /**
    * Current vehicle status using vehicle_status_enum.
    */
-  status: Generated<TmsVehicleStatusEnum | null>
+  status: Generated<TmsVehicleStatusEnum | null>;
   /**
    * Timestamp when the vehicle was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
-  vin: string | null
-  year: number | null
+  updatedAt: Generated<Timestamp | null>;
+  vin: string | null;
+  year: number | null;
 }
 
 export interface User {
-  banExpires: Timestamp | null
-  banned: boolean | null
-  banReason: string | null
-  createdAt: Generated<Timestamp>
-  email: string
-  emailVerified: boolean
-  id: string
-  image: string | null
-  name: string
-  role: UserRole | null
-  updatedAt: Generated<Timestamp>
+  banExpires: Timestamp | null;
+  banned: boolean | null;
+  banReason: string | null;
+  createdAt: Generated<Timestamp>;
+  email: string;
+  emailVerified: boolean;
+  id: string;
+  image: string | null;
+  name: string;
+  role: UserRole | null;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface Verification {
-  createdAt: Generated<Timestamp>
-  expiresAt: Timestamp
-  id: string
-  identifier: string
-  updatedAt: Generated<Timestamp>
-  value: string
+  createdAt: Generated<Timestamp>;
+  expiresAt: Timestamp;
+  id: string;
+  identifier: string;
+  updatedAt: Generated<Timestamp>;
+  value: string;
 }
 
 export interface WmsBinThreshold {
   /**
    * Quantity that triggers low stock alerts.
    */
-  alertThreshold: number | null
+  alertThreshold: number | null;
   /**
    * Timestamp when the threshold was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether this threshold monitoring is active.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * Reference to the storage location.
    */
-  locationId: string
+  locationId: string;
   /**
    * Maximum stock level for the location.
    */
-  maxQuantity: number
+  maxQuantity: number;
   /**
    * Minimum stock level that triggers replenishment.
    */
-  minQuantity: Generated<number>
+  minQuantity: Generated<number>;
   /**
    * Reference to the product being monitored (from IMS).
    */
-  productId: string
+  productId: string;
   /**
    * Suggested quantity to reorder when minimum is reached.
    */
-  reorderQuantity: number | null
+  reorderQuantity: number | null;
   /**
    * Timestamp when the threshold was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsInboundShipmentItem {
   /**
    * Timestamp when the inbound shipment item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Notes detailing any differences between expected and received quantities.
    */
-  discrepancyNotes: string | null
+  discrepancyNotes: string | null;
   /**
    * The difference between received and expected quantities (automatically calculated).
    */
-  discrepancyQuantity: Generated<number | null>
+  discrepancyQuantity: Generated<number | null>;
   /**
    * The quantity declared on the ASN.
    */
-  expectedQuantity: number
+  expectedQuantity: number;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * A reference to the parent inbound shipment.
    */
-  inboundShipmentId: string
+  inboundShipmentId: string;
   /**
    * The product included in the shipment.
    */
-  productId: string
+  productId: string;
   /**
    * The actual quantity counted upon receipt.
    */
-  receivedQuantity: number | null
+  receivedQuantity: number | null;
   /**
    * Timestamp when the inbound shipment item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsInboundShipment {
   /**
    * The date the shipment actually arrived.
    */
-  actualArrivalDate: Timestamp | null
+  actualArrivalDate: Timestamp | null;
   /**
    * The client company sending the inventory.
    */
-  clientId: string | null
+  clientId: string | null;
   /**
    * Timestamp when the inbound shipment was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * The planned arrival date.
    */
-  expectedArrivalDate: Timestamp | null
+  expectedArrivalDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The current status of the shipment using inbound_shipment_status_enum.
    */
-  status: Generated<WmsInboundShipmentStatusEnum | null>
+  status: Generated<WmsInboundShipmentStatusEnum | null>;
   /**
    * Timestamp when the inbound shipment was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * The destination warehouse.
    */
-  warehouseId: string
+  warehouseId: string;
 }
 
 export interface WmsInventoryAdjustment {
   /**
    * Timestamp when the adjustment was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Additional details about the adjustment.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * The product being adjusted.
    */
-  productId: string
+  productId: string;
   /**
    * The amount by which the quantity was changed (can be positive or negative).
    */
-  quantityChange: number
+  quantityChange: number;
   /**
    * The reason for the adjustment using inventory_adjustment_reason_enum.
    */
-  reason: WmsInventoryAdjustmentReasonEnum | null
+  reason: WmsInventoryAdjustmentReasonEnum | null;
   /**
    * Timestamp when the adjustment was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * The user who performed the adjustment.
    */
-  userId: string
+  userId: string;
   /**
    * The warehouse where the adjustment occurred.
    */
-  warehouseId: string
+  warehouseId: string;
 }
 
 export interface WmsInventoryBatch {
   /**
    * The unique identifier for the batch/lot.
    */
-  batchNumber: string
+  batchNumber: string;
   /**
    * Timestamp when the batch was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * The expiration date of the products in this batch.
    */
-  expirationDate: Timestamp | null
+  expirationDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The product associated with this batch.
    */
-  productId: string
+  productId: string;
   /**
    * Timestamp when the batch was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsInventoryStock {
   /**
    * Available quantity (quantity - reserved_quantity, automatically calculated).
    */
-  availableQuantity: Generated<number | null>
+  availableQuantity: Generated<number | null>;
   /**
    * Reference to the inventory batch (if applicable for lot tracking).
    */
-  batchId: string | null
+  batchId: string | null;
   /**
    * Timestamp when the inventory record was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * When this inventory was last physically counted.
    */
-  lastCountedAt: Timestamp | null
+  lastCountedAt: Timestamp | null;
   /**
    * When inventory was last moved in/out of this location.
    */
-  lastMovementAt: Generated<Timestamp | null>
+  lastMovementAt: Generated<Timestamp | null>;
   /**
    * Reference to the physical location where stock is stored.
    */
-  locationId: string
+  locationId: string;
   /**
    * Reference to the product being stored (from IMS).
    */
-  productId: string
+  productId: string;
   /**
    * Current total quantity of product at this location.
    */
-  quantity: Generated<number>
+  quantity: Generated<number>;
   /**
    * Quantity reserved for pending orders or tasks.
    */
-  reservedQuantity: Generated<number>
+  reservedQuantity: Generated<number>;
   /**
    * Current state of the inventory using inventory_stock_status_enum.
    */
-  status: Generated<WmsInventoryStockStatusEnum | null>
+  status: Generated<WmsInventoryStockStatusEnum | null>;
   /**
    * Timestamp when the inventory record was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsLocation {
   /**
    * Machine-readable location identifier for scanning operations.
    */
-  barcode: string | null
+  barcode: string | null;
   /**
    * Timestamp when the location was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Whether this location is approved for hazardous materials.
    */
-  hazmatApproved: Generated<boolean | null>
+  hazmatApproved: Generated<boolean | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether the location is currently active and available for use.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * Whether items can be picked from this location.
    */
-  isPickable: Generated<boolean | null>
+  isPickable: Generated<boolean | null>;
   /**
    * Whether items can be received into this location.
    */
-  isReceivable: Generated<boolean | null>
+  isReceivable: Generated<boolean | null>;
   /**
    * The hierarchy level (0=zone, 1=aisle, 2=shelf, 3=bin, etc.).
    */
-  level: Generated<number | null>
+  level: Generated<number | null>;
   /**
    * Maximum number of pallets the location can hold.
    */
-  maxPallets: number | null
+  maxPallets: number | null;
   /**
    * Maximum volume capacity for the location.
    */
-  maxVolume: number | null
+  maxVolume: number | null;
   /**
    * Maximum weight capacity for the location.
    */
-  maxWeight: number | null
+  maxWeight: number | null;
   /**
    * Human-readable location identifier (e.g., A-01-B-101).
    */
-  name: string
+  name: string;
   /**
    * Reference to parent location for hierarchical organization (e.g., zone > aisle > shelf > bin).
    */
-  parentLocationId: string | null
+  parentLocationId: string | null;
   /**
    * Full hierarchical path for quick lookups (e.g., "Zone A/Aisle 01/Shelf B/Bin 101").
    */
-  path: string | null
+  path: string | null;
   /**
    * Whether this location has temperature control.
    */
-  temperatureControlled: Generated<boolean | null>
+  temperatureControlled: Generated<boolean | null>;
   /**
    * Classification of location purpose using location_type_enum.
    */
-  type: WmsLocationTypeEnum
+  type: WmsLocationTypeEnum;
   /**
    * Timestamp when the location was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Reference to the warehouse facility.
    */
-  warehouseId: string
+  warehouseId: string;
   /**
    * X coordinate for warehouse mapping and optimization.
    */
-  xCoordinate: number | null
+  xCoordinate: number | null;
   /**
    * Y coordinate for warehouse mapping and optimization.
    */
-  yCoordinate: number | null
+  yCoordinate: number | null;
   /**
    * Z coordinate for warehouse mapping and optimization.
    */
-  zCoordinate: number | null
+  zCoordinate: number | null;
 }
 
 export interface WmsOutboundShipmentItem {
   /**
    * The specific batch the item was picked from (if applicable).
    */
-  batchId: string | null
+  batchId: string | null;
   /**
    * Timestamp when the outbound shipment item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * A reference to the parent outbound shipment.
    */
-  outboundShipmentId: string
+  outboundShipmentId: string;
   /**
    * The product being shipped.
    */
-  productId: string
+  productId: string;
   /**
    * The quantity of the product included in this shipment.
    */
-  quantityShipped: number
+  quantityShipped: number;
   /**
    * A link to the specific line item on the sales order.
    */
-  salesOrderItemId: string
+  salesOrderItemId: string;
   /**
    * Timestamp when the outbound shipment item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsOutboundShipment {
   /**
    * The shipping carrier (e.g., FedEx, UPS).
    */
-  carrier: string | null
+  carrier: string | null;
   /**
    * Timestamp when the outbound shipment was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The sales order being fulfilled.
    */
-  salesOrderId: string
+  salesOrderId: string;
   /**
    * The status of the outbound shipment using outbound_shipment_status_enum.
    */
-  status: Generated<WmsOutboundShipmentStatusEnum | null>
+  status: Generated<WmsOutboundShipmentStatusEnum | null>;
   /**
    * The carrier tracking number for the shipment.
    */
-  trackingNumber: string | null
+  trackingNumber: string | null;
   /**
    * Timestamp when the outbound shipment was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * The warehouse the shipment is being sent from.
    */
-  warehouseId: string
+  warehouseId: string;
 }
 
 export interface WmsPackageItem {
   /**
    * Reference to the batch of the product (from IMS).
    */
-  batchId: string | null
+  batchId: string | null;
   /**
    * Timestamp when the package item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Expiry date of the packaged items.
    */
-  expiryDate: Timestamp | null
+  expiryDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Lot number for traceability.
    */
-  lotNumber: string | null
+  lotNumber: string | null;
   /**
    * Reference to the package container.
    */
-  packageId: string
+  packageId: string;
   /**
    * Reference to the product included in the package (from IMS).
    */
-  productId: string
+  productId: string;
   /**
    * Number of units of the product in the package.
    */
-  quantity: number
+  quantity: number;
   /**
    * Array of serial numbers for serialized items.
    */
-  serialNumbers: string[] | null
+  serialNumbers: string[] | null;
   /**
    * Total weight of this line item (automatically calculated from quantity * unit_weight).
    */
-  totalWeight: Generated<number | null>
+  totalWeight: Generated<number | null>;
   /**
    * Weight per unit of the product.
    */
-  unitWeight: number | null
+  unitWeight: number | null;
   /**
    * Timestamp when the package item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsPackage {
   /**
    * Shipping carrier (e.g., "FedEx", "UPS", "DHL").
    */
-  carrier: string | null
+  carrier: string | null;
   /**
    * Timestamp when the package was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Package height dimension.
    */
-  height: number | null
+  height: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Declared insurance value for the package.
    */
-  insuranceValue: Numeric | null
+  insuranceValue: Numeric | null;
   /**
    * Whether the package contains fragile items.
    */
-  isFragile: Generated<boolean | null>
+  isFragile: Generated<boolean | null>;
   /**
    * Whether the package contains hazardous materials.
    */
-  isHazmat: Generated<boolean | null>
+  isHazmat: Generated<boolean | null>;
   /**
    * Package length dimension.
    */
-  length: number | null
+  length: number | null;
   /**
    * Unique identifier for tracking the package.
    */
-  packageNumber: string
+  packageNumber: string;
   /**
    * Type of package (e.g., "box", "envelope", "pallet").
    */
-  packageType: string | null
+  packageType: string | null;
   /**
    * When the package was packed.
    */
-  packedAt: Timestamp | null
+  packedAt: Timestamp | null;
   /**
    * Reference to the user who packed the package.
    */
-  packedByUserId: string | null
+  packedByUserId: string | null;
   /**
    * Whether delivery requires signature.
    */
-  requiresSignature: Generated<boolean | null>
+  requiresSignature: Generated<boolean | null>;
   /**
    * Reference to the sales order being packaged (from IMS).
    */
-  salesOrderId: string
+  salesOrderId: string;
   /**
    * Shipping service level (e.g., "Ground", "Express", "Overnight").
    */
-  serviceLevel: string | null
+  serviceLevel: string | null;
   /**
    * When the package was shipped.
    */
-  shippedAt: Timestamp | null
+  shippedAt: Timestamp | null;
   /**
    * Carrier tracking number for the package.
    */
-  trackingNumber: string | null
+  trackingNumber: string | null;
   /**
    * Timestamp when the package was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Package volume (automatically calculated from length * width * height).
    */
-  volume: Generated<number | null>
+  volume: Generated<number | null>;
   /**
    * Reference to the warehouse where the package was created.
    */
-  warehouseId: string
+  warehouseId: string;
   /**
    * Total weight of the packed package.
    */
-  weight: number | null
+  weight: number | null;
   /**
    * Package width dimension.
    */
-  width: number | null
+  width: number | null;
 }
 
 export interface WmsPickBatch {
   /**
    * Actual time taken to complete the batch (in minutes).
    */
-  actualDuration: number | null
+  actualDuration: number | null;
   /**
    * Reference to the user assigned to this pick batch.
    */
-  assignedUserId: string | null
+  assignedUserId: string | null;
   /**
    * Unique identifier for the pick batch.
    */
-  batchNumber: string
+  batchNumber: string;
   /**
    * When the batch picking was completed.
    */
-  completedAt: Timestamp | null
+  completedAt: Timestamp | null;
   /**
    * Number of completed items in the batch.
    */
-  completedItems: Generated<number | null>
+  completedItems: Generated<number | null>;
   /**
    * Timestamp when the batch was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Estimated time to complete the batch (in minutes).
    */
-  estimatedDuration: number | null
+  estimatedDuration: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Batch priority for execution order (lower = higher priority).
    */
-  priority: Generated<number | null>
+  priority: Generated<number | null>;
   /**
    * When the batch picking was started.
    */
-  startedAt: Timestamp | null
+  startedAt: Timestamp | null;
   /**
    * Current batch status using pick_batch_status_enum.
    */
-  status: Generated<WmsPickBatchStatusEnum | null>
+  status: Generated<WmsPickBatchStatusEnum | null>;
   /**
    * Picking strategy employed using pick_strategy_enum.
    */
-  strategy: WmsPickStrategyEnum
+  strategy: WmsPickStrategyEnum;
   /**
    * Total number of items in the batch.
    */
-  totalItems: Generated<number | null>
+  totalItems: Generated<number | null>;
   /**
    * Timestamp when the batch was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Reference to the warehouse where picking occurs.
    */
-  warehouseId: string
+  warehouseId: string;
   /**
    * Wave identifier for grouping batches.
    */
-  waveId: string | null
+  waveId: string | null;
   /**
    * Array of zone restrictions for this batch.
    */
-  zoneRestrictions: string[] | null
+  zoneRestrictions: string[] | null;
 }
 
 export interface WmsPickBatchItem {
   /**
    * Actual time taken to pick this order (in minutes).
    */
-  actualPickTime: number | null
+  actualPickTime: number | null;
   /**
    * Timestamp when the batch item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Estimated time to pick this order (in minutes).
    */
-  estimatedPickTime: number | null
+  estimatedPickTime: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Priority of this order within the batch.
    */
-  orderPriority: Generated<number | null>
+  orderPriority: Generated<number | null>;
   /**
    * Reference to the pick batch.
    */
-  pickBatchId: string
+  pickBatchId: string;
   /**
    * Reference to the sales order included in the batch (from IMS).
    */
-  salesOrderId: string
+  salesOrderId: string;
   /**
    * Timestamp when the batch item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsProduct {
   /**
    * The product's barcode (e.g., UPC, EAN) for scanning.
    */
-  barcode: string | null
+  barcode: string | null;
   /**
    * A reference to the client company (from CRM) that owns this inventory.
    */
-  clientId: string | null
+  clientId: string | null;
   /**
    * The purchase price or cost of the product.
    */
-  costPrice: Numeric | null
+  costPrice: Numeric | null;
   /**
    * Timestamp when the product was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Detailed information about the product.
    */
-  description: string | null
+  description: string | null;
   /**
    * Physical height dimension.
    */
-  height: number | null
+  height: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Physical length dimension.
    */
-  length: number | null
+  length: number | null;
   /**
    * The common name of the product.
    */
-  name: string
+  name: string;
   /**
    * The unique Stock Keeping Unit identifier.
    */
-  sku: string
+  sku: string;
   /**
    * The product's lifecycle status using product_status_enum.
    */
-  status: Generated<WmsProductStatusEnum | null>
+  status: Generated<WmsProductStatusEnum | null>;
   /**
    * A reference to the product's supplier.
    */
-  supplierId: string | null
+  supplierId: string | null;
   /**
    * Timestamp when the product was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Product volume (automatically calculated from length * width * height).
    */
-  volume: Generated<number | null>
+  volume: Generated<number | null>;
   /**
    * Physical weight.
    */
-  weight: number | null
+  weight: number | null;
   /**
    * Physical width dimension.
    */
-  width: number | null
+  width: number | null;
 }
 
 export interface WmsPutawayRule {
   /**
    * Reference to the client (for multi-tenant warehouses).
    */
-  clientId: string | null
+  clientId: string | null;
   /**
    * Timestamp when the rule was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether this rule is currently active.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * Preferred location type for this product.
    */
-  locationType: WmsLocationTypeEnum | null
+  locationType: WmsLocationTypeEnum | null;
   /**
    * Maximum quantity threshold for this rule to apply.
    */
-  maxQuantity: number | null
+  maxQuantity: number | null;
   /**
    * Minimum quantity threshold for this rule to apply.
    */
-  minQuantity: number | null
+  minQuantity: number | null;
   /**
    * Reference to the preferred storage location.
    */
-  preferredLocationId: string | null
+  preferredLocationId: string | null;
   /**
    * Rule precedence when multiple rules could apply (lower = higher priority).
    */
-  priority: Generated<number>
+  priority: Generated<number>;
   /**
    * Reference to the product the rule applies to (from IMS).
    */
-  productId: string
+  productId: string;
   /**
    * Whether this rule requires hazmat approved locations.
    */
-  requiresHazmatApproval: Generated<boolean | null>
+  requiresHazmatApproval: Generated<boolean | null>;
   /**
    * Whether this rule requires temperature controlled locations.
    */
-  requiresTemperatureControl: Generated<boolean | null>
+  requiresTemperatureControl: Generated<boolean | null>;
   /**
    * Timestamp when the rule was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Volume threshold for this rule to apply.
    */
-  volumeThreshold: number | null
+  volumeThreshold: number | null;
   /**
    * Reference to the warehouse this rule applies to.
    */
-  warehouseId: string
+  warehouseId: string;
   /**
    * Weight threshold for this rule to apply.
    */
-  weightThreshold: number | null
+  weightThreshold: number | null;
 }
 
 export interface WmsReorderPoint {
   /**
    * Timestamp when the reorder point was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The product to monitor.
    */
-  productId: string
+  productId: string;
   /**
    * The minimum quantity that triggers the alert.
    */
-  threshold: number
+  threshold: number;
   /**
    * Timestamp when the reorder point was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * The specific warehouse to monitor the stock level in.
    */
-  warehouseId: string
+  warehouseId: string;
 }
 
 export interface WmsReturnItem {
   /**
    * The condition of the returned item using return_item_condition_enum.
    */
-  condition: WmsReturnItemConditionEnum | null
+  condition: WmsReturnItemConditionEnum | null;
   /**
    * Timestamp when the return item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The product being returned.
    */
-  productId: string
+  productId: string;
   /**
    * The quantity the client stated they would return.
    */
-  quantityExpected: number
+  quantityExpected: number;
   /**
    * The actual quantity received at the warehouse.
    */
-  quantityReceived: number | null
+  quantityReceived: number | null;
   /**
    * The difference between received and expected return quantities (automatically calculated).
    */
-  quantityVariance: Generated<number | null>
+  quantityVariance: Generated<number | null>;
   /**
    * A reference to the parent return record.
    */
-  returnId: string
+  returnId: string;
   /**
    * Timestamp when the return item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsReturn {
   /**
    * The client initiating the return.
    */
-  clientId: string
+  clientId: string;
   /**
    * Timestamp when the return was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The reason for the return.
    */
-  reason: string | null
+  reason: string | null;
   /**
    * A unique identifier for the return.
    */
-  returnNumber: string
+  returnNumber: string;
   /**
    * A reference to the original sales order being returned.
    */
-  salesOrderId: string | null
+  salesOrderId: string | null;
   /**
    * The status of the return using return_status_enum.
    */
-  status: Generated<WmsReturnStatusEnum | null>
+  status: Generated<WmsReturnStatusEnum | null>;
   /**
    * Timestamp when the return was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsSalesOrderItem {
   /**
    * Timestamp when the sales order item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The product being ordered.
    */
-  productId: string
+  productId: string;
   /**
    * The quantity of the product requested by the customer.
    */
-  quantityOrdered: number
+  quantityOrdered: number;
   /**
    * A reference to the parent sales order.
    */
-  salesOrderId: string
+  salesOrderId: string;
   /**
    * Timestamp when the sales order item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsSalesOrder {
   /**
    * The client company that placed the order.
    */
-  clientId: string
+  clientId: string;
   /**
    * Timestamp when the sales order was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * A link back to the original opportunity in the CRM.
    */
-  crmOpportunityId: string | null
+  crmOpportunityId: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * A unique identifier for the sales order.
    */
-  orderNumber: string
+  orderNumber: string;
   /**
    * The address where the order should be shipped.
    */
-  shippingAddress: string | null
+  shippingAddress: string | null;
   /**
    * The fulfillment status of the order using sales_order_status_enum.
    */
-  status: Generated<WmsSalesOrderStatusEnum | null>
+  status: Generated<WmsSalesOrderStatusEnum | null>;
   /**
    * Timestamp when the sales order was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsStockTransfer {
   /**
    * Timestamp when the stock transfer was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * The warehouse the stock is moving to.
    */
-  destinationWarehouseId: string
+  destinationWarehouseId: string;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The product being transferred.
    */
-  productId: string
+  productId: string;
   /**
    * The amount of stock being transferred.
    */
-  quantity: number
+  quantity: number;
   /**
    * The warehouse the stock is moving from.
    */
-  sourceWarehouseId: string
+  sourceWarehouseId: string;
   /**
    * The status of the transfer using stock_transfer_status_enum.
    */
-  status: Generated<WmsStockTransferStatusEnum | null>
+  status: Generated<WmsStockTransferStatusEnum | null>;
   /**
    * Timestamp when the stock transfer was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsSupplier {
   /**
    * The primary contact at the supplier.
    */
-  contactPerson: string | null
+  contactPerson: string | null;
   /**
    * Timestamp when the supplier was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * The supplier's contact email.
    */
-  email: string | null
+  email: string | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * The name of the supplier company.
    */
-  name: string
+  name: string;
   /**
    * The supplier's contact phone number.
    */
-  phoneNumber: string | null
+  phoneNumber: string | null;
   /**
    * Timestamp when the supplier was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsTaskItem {
   /**
    * Reference to the specific batch being handled (from IMS).
    */
-  batchId: string | null
+  batchId: string | null;
   /**
    * When this task item was completed.
    */
-  completedAt: Timestamp | null
+  completedAt: Timestamp | null;
   /**
    * Timestamp when the task item was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Reference to where the product should be moved to.
    */
-  destinationLocationId: string | null
+  destinationLocationId: string | null;
   /**
    * Expiry date of the items being handled.
    */
-  expiryDate: Timestamp | null
+  expiryDate: Timestamp | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Lot number for traceability.
    */
-  lotNumber: string | null
+  lotNumber: string | null;
   /**
    * Additional notes about this task item.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Reference to the product being handled (from IMS).
    */
-  productId: string
+  productId: string;
   /**
    * Amount of product actually handled.
    */
-  quantityCompleted: Generated<number>
+  quantityCompleted: Generated<number>;
   /**
    * Remaining quantity to be handled (automatically calculated from quantity_required - quantity_completed).
    */
-  quantityRemaining: Generated<number | null>
+  quantityRemaining: Generated<number | null>;
   /**
    * Amount of product that needs to be handled.
    */
-  quantityRequired: number
+  quantityRequired: number;
   /**
    * Array of serial numbers for serialized items.
    */
-  serialNumbers: string[] | null
+  serialNumbers: string[] | null;
   /**
    * Reference to where the product should be picked from.
    */
-  sourceLocationId: string | null
+  sourceLocationId: string | null;
   /**
    * Completion status of this specific item using task_item_status_enum.
    */
-  status: Generated<WmsTaskItemStatusEnum | null>
+  status: Generated<WmsTaskItemStatusEnum | null>;
   /**
    * Reference to the parent task.
    */
-  taskId: string
+  taskId: string;
   /**
    * Timestamp when the task item was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface WmsTask {
   /**
    * Actual time taken to complete the task (in minutes).
    */
-  actualDuration: number | null
+  actualDuration: number | null;
   /**
    * Timestamp when the task was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Total time taken to complete the task in seconds (automatically calculated from start_time and end_time).
    */
-  durationSeconds: Generated<number | null>
+  durationSeconds: Generated<number | null>;
   /**
    * When the task was completed.
    */
-  endTime: Timestamp | null
+  endTime: Timestamp | null;
   /**
    * Estimated time to complete the task (in minutes).
    */
-  estimatedDuration: number | null
+  estimatedDuration: number | null;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Detailed instructions for completing the task.
    */
-  instructions: string | null
+  instructions: string | null;
   /**
    * Additional notes or comments about the task.
    */
-  notes: string | null
+  notes: string | null;
   /**
    * Reference to associated pick batch if applicable.
    */
-  pickBatchId: string | null
+  pickBatchId: string | null;
   /**
    * Task priority for execution order (lower = higher priority).
    */
-  priority: Generated<number | null>
+  priority: Generated<number | null>;
   /**
    * Reference to the entity that triggered the task (e.g., inbound_shipment_id, pick_batch_id).
    */
-  sourceEntityId: string | null
+  sourceEntityId: string | null;
   /**
    * Type of the source entity (e.g., "inbound_shipment", "pick_batch", "return").
    */
-  sourceEntityType: string | null
+  sourceEntityType: string | null;
   /**
    * When the task was started.
    */
-  startTime: Timestamp | null
+  startTime: Timestamp | null;
   /**
    * Current task status using task_status_enum.
    */
-  status: Generated<WmsTaskStatusEnum | null>
+  status: Generated<WmsTaskStatusEnum | null>;
   /**
    * Unique identifier for the task.
    */
-  taskNumber: string
+  taskNumber: string;
   /**
    * Category of warehouse task using task_type_enum.
    */
-  type: WmsTaskTypeEnum
+  type: WmsTaskTypeEnum;
   /**
    * Timestamp when the task was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
   /**
    * Reference to the assigned warehouse worker.
    */
-  userId: string | null
+  userId: string | null;
   /**
    * Reference to the warehouse where the task is performed.
    */
-  warehouseId: string
+  warehouseId: string;
 }
 
 export interface WmsWarehouse {
   /**
    * The physical street address of the warehouse.
    */
-  address: string | null
+  address: string | null;
   /**
    * The city where the warehouse is located.
    */
-  city: string | null
+  city: string | null;
   /**
    * The contact email for the warehouse.
    */
-  contactEmail: string | null
+  contactEmail: string | null;
   /**
    * The primary contact person at the warehouse.
    */
-  contactPerson: string | null
+  contactPerson: string | null;
   /**
    * The contact phone number for the warehouse.
    */
-  contactPhone: string | null
+  contactPhone: string | null;
   /**
    * The country where the warehouse is located.
    */
-  country: string | null
+  country: string | null;
   /**
    * Timestamp when the warehouse was created.
    */
-  createdAt: Generated<Timestamp | null>
+  createdAt: Generated<Timestamp | null>;
   /**
    * Primary key
    */
-  id: Generated<string>
+  id: Generated<string>;
   /**
    * Whether the warehouse is currently active and operational.
    */
-  isActive: Generated<boolean | null>
+  isActive: Generated<boolean | null>;
   /**
    * The name of the warehouse (e.g., "West Coast Distribution Center").
    */
-  name: string
+  name: string;
   /**
    * The postal code or ZIP code of the warehouse.
    */
-  postalCode: string | null
+  postalCode: string | null;
   /**
    * The state or province where the warehouse is located.
    */
-  state: string | null
+  state: string | null;
   /**
    * The timezone of the warehouse for scheduling operations.
    */
-  timezone: string | null
+  timezone: string | null;
   /**
    * Timestamp when the warehouse was last updated.
    */
-  updatedAt: Generated<Timestamp | null>
+  updatedAt: Generated<Timestamp | null>;
 }
 
 export interface DB {
-  account: Account
-  'billing.accountingSyncLog': BillingAccountingSyncLog
-  'billing.accountTransactions': BillingAccountTransaction
-  'billing.clientAccounts': BillingClientAccount
-  'billing.creditNotes': BillingCreditNote
-  'billing.disputes': BillingDispute
-  'billing.documents': BillingDocument
-  'billing.invoiceLineItems': BillingInvoiceLineItem
-  'billing.invoices': BillingInvoice
-  'billing.payments': BillingPayment
-  'billing.quotes': BillingQuote
-  'billing.rateCards': BillingRateCard
-  'billing.rateRules': BillingRateRule
-  'billing.surcharges': BillingSurcharge
-  'crm.attachments': CrmAttachment
-  'crm.campaigns': CrmCampaign
-  'crm.cases': CrmCase
-  'crm.companies': CrmCompany
-  'crm.contacts': CrmContact
-  'crm.interactions': CrmInteraction
-  'crm.invoiceItems': CrmInvoiceItem
-  'crm.invoices': CrmInvoice
-  'crm.leads': CrmLead
-  'crm.notifications': CrmNotification
-  'crm.opportunities': CrmOpportunity
-  'crm.opportunityProducts': CrmOpportunityProduct
-  'crm.products': CrmProduct
-  'dms.customerTrackingLinks': DmsCustomerTrackingLink
-  'dms.deliveryRoutes': DmsDeliveryRoute
-  'dms.deliveryTasks': DmsDeliveryTask
-  'dms.driverLocations': DmsDriverLocation
-  'dms.proofOfDeliveries': DmsProofOfDelivery
-  'dms.taskEvents': DmsTaskEvent
-  session: Session
-  'tms.carrierRates': TmsCarrierRate
-  'tms.carriers': TmsCarrier
-  'tms.drivers': TmsDriver
-  'tms.driverSchedules': TmsDriverSchedule
-  'tms.expenses': TmsExpense
-  'tms.geofenceEvents': TmsGeofenceEvent
-  'tms.geofences': TmsGeofence
-  'tms.gpsPings': TmsGpsPing
-  'tms.partnerInvoiceItems': TmsPartnerInvoiceItem
-  'tms.partnerInvoices': TmsPartnerInvoice
-  'tms.proofOfDeliveries': TmsProofOfDelivery
-  'tms.routes': TmsRoute
-  'tms.shipmentLegEvents': TmsShipmentLegEvent
-  'tms.shipmentLegs': TmsShipmentLeg
-  'tms.trips': TmsTrip
-  'tms.tripStops': TmsTripStop
-  'tms.vehicleMaintenance': TmsVehicleMaintenance
-  'tms.vehicles': TmsVehicle
-  user: User
-  verification: Verification
-  'wms.binThresholds': WmsBinThreshold
-  'wms.inboundShipmentItems': WmsInboundShipmentItem
-  'wms.inboundShipments': WmsInboundShipment
-  'wms.inventoryAdjustments': WmsInventoryAdjustment
-  'wms.inventoryBatches': WmsInventoryBatch
-  'wms.inventoryStock': WmsInventoryStock
-  'wms.locations': WmsLocation
-  'wms.outboundShipmentItems': WmsOutboundShipmentItem
-  'wms.outboundShipments': WmsOutboundShipment
-  'wms.packageItems': WmsPackageItem
-  'wms.packages': WmsPackage
-  'wms.pickBatches': WmsPickBatch
-  'wms.pickBatchItems': WmsPickBatchItem
-  'wms.products': WmsProduct
-  'wms.putawayRules': WmsPutawayRule
-  'wms.reorderPoints': WmsReorderPoint
-  'wms.returnItems': WmsReturnItem
-  'wms.returns': WmsReturn
-  'wms.salesOrderItems': WmsSalesOrderItem
-  'wms.salesOrders': WmsSalesOrder
-  'wms.stockTransfers': WmsStockTransfer
-  'wms.suppliers': WmsSupplier
-  'wms.taskItems': WmsTaskItem
-  'wms.tasks': WmsTask
-  'wms.warehouses': WmsWarehouse
+  account: Account;
+  "billing.accountingSyncLog": BillingAccountingSyncLog;
+  "billing.accountTransactions": BillingAccountTransaction;
+  "billing.clientAccounts": BillingClientAccount;
+  "billing.creditNotes": BillingCreditNote;
+  "billing.disputes": BillingDispute;
+  "billing.documents": BillingDocument;
+  "billing.invoiceLineItems": BillingInvoiceLineItem;
+  "billing.invoices": BillingInvoice;
+  "billing.payments": BillingPayment;
+  "billing.quotes": BillingQuote;
+  "billing.rateCards": BillingRateCard;
+  "billing.rateRules": BillingRateRule;
+  "billing.surcharges": BillingSurcharge;
+  "crm.attachments": CrmAttachment;
+  "crm.campaigns": CrmCampaign;
+  "crm.cases": CrmCase;
+  "crm.companies": CrmCompany;
+  "crm.contacts": CrmContact;
+  "crm.interactions": CrmInteraction;
+  "crm.invoiceItems": CrmInvoiceItem;
+  "crm.invoices": CrmInvoice;
+  "crm.leads": CrmLead;
+  "crm.notifications": CrmNotification;
+  "crm.opportunities": CrmOpportunity;
+  "crm.opportunityProducts": CrmOpportunityProduct;
+  "crm.products": CrmProduct;
+  "dms.customerTrackingLinks": DmsCustomerTrackingLink;
+  "dms.deliveryRoutes": DmsDeliveryRoute;
+  "dms.deliveryTasks": DmsDeliveryTask;
+  "dms.driverLocations": DmsDriverLocation;
+  "dms.proofOfDeliveries": DmsProofOfDelivery;
+  "dms.taskEvents": DmsTaskEvent;
+  session: Session;
+  "tms.carrierRates": TmsCarrierRate;
+  "tms.carriers": TmsCarrier;
+  "tms.drivers": TmsDriver;
+  "tms.driverSchedules": TmsDriverSchedule;
+  "tms.expenses": TmsExpense;
+  "tms.geofenceEvents": TmsGeofenceEvent;
+  "tms.geofences": TmsGeofence;
+  "tms.gpsPings": TmsGpsPing;
+  "tms.partnerInvoiceItems": TmsPartnerInvoiceItem;
+  "tms.partnerInvoices": TmsPartnerInvoice;
+  "tms.proofOfDeliveries": TmsProofOfDelivery;
+  "tms.routes": TmsRoute;
+  "tms.shipmentLegEvents": TmsShipmentLegEvent;
+  "tms.shipmentLegs": TmsShipmentLeg;
+  "tms.trips": TmsTrip;
+  "tms.tripStops": TmsTripStop;
+  "tms.vehicleMaintenance": TmsVehicleMaintenance;
+  "tms.vehicles": TmsVehicle;
+  user: User;
+  verification: Verification;
+  "wms.binThresholds": WmsBinThreshold;
+  "wms.inboundShipmentItems": WmsInboundShipmentItem;
+  "wms.inboundShipments": WmsInboundShipment;
+  "wms.inventoryAdjustments": WmsInventoryAdjustment;
+  "wms.inventoryBatches": WmsInventoryBatch;
+  "wms.inventoryStock": WmsInventoryStock;
+  "wms.locations": WmsLocation;
+  "wms.outboundShipmentItems": WmsOutboundShipmentItem;
+  "wms.outboundShipments": WmsOutboundShipment;
+  "wms.packageItems": WmsPackageItem;
+  "wms.packages": WmsPackage;
+  "wms.pickBatches": WmsPickBatch;
+  "wms.pickBatchItems": WmsPickBatchItem;
+  "wms.products": WmsProduct;
+  "wms.putawayRules": WmsPutawayRule;
+  "wms.reorderPoints": WmsReorderPoint;
+  "wms.returnItems": WmsReturnItem;
+  "wms.returns": WmsReturn;
+  "wms.salesOrderItems": WmsSalesOrderItem;
+  "wms.salesOrders": WmsSalesOrder;
+  "wms.stockTransfers": WmsStockTransfer;
+  "wms.suppliers": WmsSupplier;
+  "wms.taskItems": WmsTaskItem;
+  "wms.tasks": WmsTask;
+  "wms.warehouses": WmsWarehouse;
 }

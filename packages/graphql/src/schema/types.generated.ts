@@ -398,6 +398,7 @@ export type BillingQueryAccountTransactionsArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<TransactionType>;
 };
 
 
@@ -411,6 +412,7 @@ export type BillingQueryAccountingSyncLogsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<SyncStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -425,6 +427,7 @@ export type BillingQueryBillingInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<BillingInvoiceStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -467,6 +470,7 @@ export type BillingQueryDisputesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DisputeStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -492,8 +496,10 @@ export type BillingQueryPaymentArgs = {
 export type BillingQueryPaymentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  paymentMethod?: InputMaybe<PaymentMethod>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PaymentStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -508,6 +514,7 @@ export type BillingQueryQuotesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<QuoteStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -522,6 +529,7 @@ export type BillingQueryRateCardsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  serviceType?: InputMaybe<ServiceType>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -535,6 +543,7 @@ export type BillingQueryRateRulesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  pricingModel?: InputMaybe<PricingModel>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -546,6 +555,7 @@ export type BillingQuerySurchargeArgs = {
 
 
 export type BillingQuerySurchargesArgs = {
+  calculationMethod?: InputMaybe<SurchargeCalculationMethod>;
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -1824,8 +1834,11 @@ export type CrmQueryCasesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  priority?: InputMaybe<CasePriority>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<CaseStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<CaseType>;
 };
 
 
@@ -1864,6 +1877,7 @@ export type CrmQueryInteractionArgs = {
 
 export type CrmQueryInteractionsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
+  interactionType?: InputMaybe<InteractionType>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
@@ -1879,8 +1893,10 @@ export type CrmQueryInvoiceArgs = {
 export type CrmQueryInvoicesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  paymentMethod?: InputMaybe<PaymentMethod>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<InvoiceStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1892,9 +1908,11 @@ export type CrmQueryLeadArgs = {
 
 export type CrmQueryLeadsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
+  leadSource?: InputMaybe<LeadSource>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<LeadStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1918,6 +1936,8 @@ export type CrmQueryOpportunitiesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<OpportunitySource>;
+  stage?: InputMaybe<OpportunityStage>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1938,6 +1958,7 @@ export type CrmQueryProductsArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ProductType>;
 };
 
 export type Currency =
@@ -2234,6 +2255,7 @@ export type DmsQueryDeliveryRoutesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryRouteStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -2244,10 +2266,12 @@ export type DmsQueryDeliveryTaskArgs = {
 
 
 export type DmsQueryDeliveryTasksArgs = {
+  failureReason?: InputMaybe<DeliveryFailureReason>;
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryTaskStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -2258,6 +2282,7 @@ export type DmsQueryDmsProofOfDeliveriesArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ProofOfDeliveryType>;
 };
 
 
@@ -2289,6 +2314,7 @@ export type DmsQueryTaskEventsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskEventStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3795,6 +3821,7 @@ export type TmsQueryDriversArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DriverStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3805,11 +3832,14 @@ export type TmsQueryExpenseArgs = {
 
 
 export type TmsQueryExpensesArgs = {
+  currency?: InputMaybe<Currency>;
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ExpenseStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ExpenseType>;
 };
 
 
@@ -3850,6 +3880,7 @@ export type TmsQueryPartnerInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PartnerInvoiceStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3860,6 +3891,7 @@ export type TmsQueryProofOfDeliveriesArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ProofType>;
 };
 
 
@@ -3892,6 +3924,7 @@ export type TmsQueryShipmentLegsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ShipmentLegStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3906,6 +3939,7 @@ export type TmsQueryTripsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TripStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3920,6 +3954,7 @@ export type TmsQueryVehiclesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<VehicleStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5380,6 +5415,8 @@ export type WmsQuery = {
   reorderPoint: ReorderPoints;
   reorderPoints: Array<ReorderPoints>;
   return: Returns;
+  returnItem: ReturnItems;
+  returnItems: Array<ReturnItems>;
   returns: Array<Returns>;
   salesOrder: SalesOrders;
   salesOrders: Array<SalesOrders>;
@@ -5388,6 +5425,8 @@ export type WmsQuery = {
   supplier: Suppliers;
   suppliers: Array<Suppliers>;
   task: Tasks;
+  taskItem: TaskItems;
+  taskItems: Array<TaskItems>;
   tasks: Array<Tasks>;
   warehouse: Warehouses;
   warehouses: Array<Warehouses>;
@@ -5418,6 +5457,7 @@ export type WmsQueryInboundShipmentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InboundShipmentStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5431,6 +5471,7 @@ export type WmsQueryInventoryAdjustmentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  reason?: InputMaybe<InventoryAdjustmentReason>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -5459,6 +5500,7 @@ export type WmsQueryInventoryStocksArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InventoryStockStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5474,6 +5516,7 @@ export type WmsQueryLocationsArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<LocationType>;
 };
 
 
@@ -5487,6 +5530,7 @@ export type WmsQueryOutboundShipmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<OutboundShipmentStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5515,6 +5559,8 @@ export type WmsQueryPickBatchesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PickBatchStatus>;
+  strategy?: InputMaybe<PickStrategy>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5526,6 +5572,7 @@ export type WmsQueryPutawayRuleArgs = {
 
 export type WmsQueryPutawayRulesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
+  locationType?: InputMaybe<LocationType>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
@@ -5550,11 +5597,27 @@ export type WmsQueryReturnArgs = {
 };
 
 
+export type WmsQueryReturnItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type WmsQueryReturnItemsArgs = {
+  condition?: InputMaybe<ReturnItemCondition>;
+  from?: InputMaybe<Scalars['Date']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+
 export type WmsQueryReturnsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ReturnStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5569,6 +5632,7 @@ export type WmsQuerySalesOrdersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<SalesOrderStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5583,6 +5647,7 @@ export type WmsQueryStockTransfersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<StockTransferStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5606,12 +5671,29 @@ export type WmsQueryTaskArgs = {
 };
 
 
+export type WmsQueryTaskItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type WmsQueryTaskItemsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskItemStatus>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+
 export type WmsQueryTasksArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<TaskType>;
 };
 
 
@@ -5639,6 +5721,7 @@ export type WmsQueryWmsProductsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ProductStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -6015,7 +6098,7 @@ export type ResolversTypes = {
   Warehouses: ResolverTypeWrapper<Omit<Warehouses, 'destinationStockTransfers' | 'inboundShipments' | 'locations' | 'outboundShipments' | 'packages' | 'pickBatches' | 'putawayRules' | 'sourceStockTransfers' | 'tasks'> & { destinationStockTransfers?: Maybe<Array<ResolversTypes['StockTransfers']>>, inboundShipments?: Maybe<Array<ResolversTypes['InboundShipments']>>, locations?: Maybe<Array<ResolversTypes['Locations']>>, outboundShipments?: Maybe<Array<ResolversTypes['OutboundShipments']>>, packages?: Maybe<Array<ResolversTypes['Packages']>>, pickBatches?: Maybe<Array<ResolversTypes['PickBatches']>>, putawayRules?: Maybe<Array<ResolversTypes['PutawayRules']>>, sourceStockTransfers?: Maybe<Array<ResolversTypes['StockTransfers']>>, tasks?: Maybe<Array<ResolversTypes['Tasks']>> }>;
   WmsMutation: ResolverTypeWrapper<Omit<WmsMutation, 'createBinThreshold' | 'createInboundShipment' | 'createInboundShipmentItem' | 'createInventoryAdjustment' | 'createInventoryBatch' | 'createInventoryStock' | 'createLocation' | 'createOutboundShipment' | 'createOutboundShipmentItem' | 'createPackage' | 'createPackageItem' | 'createPickBatch' | 'createPickBatchItem' | 'createPutawayRule' | 'createReorderPoint' | 'createReturn' | 'createReturnItem' | 'createSalesOrder' | 'createSalesOrderItem' | 'createStockTransfer' | 'createSupplier' | 'createTask' | 'createTaskItem' | 'createWarehouse' | 'createWmsProduct' | 'updateBinThreshold' | 'updateInboundShipment' | 'updateInboundShipmentItem' | 'updateInventoryAdjustment' | 'updateInventoryBatch' | 'updateInventoryStock' | 'updateLocation' | 'updateOutboundShipment' | 'updateOutboundShipmentItem' | 'updatePackage' | 'updatePackageItem' | 'updatePickBatch' | 'updatePickBatchItem' | 'updatePutawayRule' | 'updateReorderPoint' | 'updateReturn' | 'updateReturnItem' | 'updateSalesOrder' | 'updateSalesOrderItem' | 'updateStockTransfer' | 'updateSupplier' | 'updateTask' | 'updateTaskItem' | 'updateWarehouse' | 'updateWmsProduct'> & { createBinThreshold: ResolversTypes['BinThresholds'], createInboundShipment: ResolversTypes['InboundShipments'], createInboundShipmentItem: ResolversTypes['InboundShipmentItems'], createInventoryAdjustment: ResolversTypes['InventoryAdjustments'], createInventoryBatch: ResolversTypes['InventoryBatches'], createInventoryStock: ResolversTypes['InventoryStock'], createLocation: ResolversTypes['Locations'], createOutboundShipment: ResolversTypes['OutboundShipments'], createOutboundShipmentItem: ResolversTypes['OutboundShipmentItems'], createPackage: ResolversTypes['Packages'], createPackageItem: ResolversTypes['PackageItems'], createPickBatch: ResolversTypes['PickBatches'], createPickBatchItem: ResolversTypes['PickBatchItems'], createPutawayRule: ResolversTypes['PutawayRules'], createReorderPoint: ResolversTypes['ReorderPoints'], createReturn: ResolversTypes['Returns'], createReturnItem: ResolversTypes['ReturnItems'], createSalesOrder: ResolversTypes['SalesOrders'], createSalesOrderItem: ResolversTypes['SalesOrderItems'], createStockTransfer: ResolversTypes['StockTransfers'], createSupplier: ResolversTypes['Suppliers'], createTask: ResolversTypes['Tasks'], createTaskItem: ResolversTypes['TaskItems'], createWarehouse: ResolversTypes['Warehouses'], createWmsProduct: ResolversTypes['WmsProducts'], updateBinThreshold: ResolversTypes['BinThresholds'], updateInboundShipment: ResolversTypes['InboundShipments'], updateInboundShipmentItem: ResolversTypes['InboundShipmentItems'], updateInventoryAdjustment: ResolversTypes['InventoryAdjustments'], updateInventoryBatch: ResolversTypes['InventoryBatches'], updateInventoryStock: ResolversTypes['InventoryStock'], updateLocation: ResolversTypes['Locations'], updateOutboundShipment: ResolversTypes['OutboundShipments'], updateOutboundShipmentItem: ResolversTypes['OutboundShipmentItems'], updatePackage: ResolversTypes['Packages'], updatePackageItem: ResolversTypes['PackageItems'], updatePickBatch: ResolversTypes['PickBatches'], updatePickBatchItem: ResolversTypes['PickBatchItems'], updatePutawayRule: ResolversTypes['PutawayRules'], updateReorderPoint: ResolversTypes['ReorderPoints'], updateReturn: ResolversTypes['Returns'], updateReturnItem: ResolversTypes['ReturnItems'], updateSalesOrder: ResolversTypes['SalesOrders'], updateSalesOrderItem: ResolversTypes['SalesOrderItems'], updateStockTransfer: ResolversTypes['StockTransfers'], updateSupplier: ResolversTypes['Suppliers'], updateTask: ResolversTypes['Tasks'], updateTaskItem: ResolversTypes['TaskItems'], updateWarehouse: ResolversTypes['Warehouses'], updateWmsProduct: ResolversTypes['WmsProducts'] }>;
   WmsProducts: ResolverTypeWrapper<Omit<WmsProducts, 'adjustments' | 'batches' | 'binThresholds' | 'client' | 'inboundShipmentItems' | 'inventoryStock' | 'outboundShipmentItems' | 'packageItems' | 'putawayRules' | 'reorderPoints' | 'returnItems' | 'salesOrderItems' | 'status' | 'stockTransfers' | 'supplier' | 'taskItems'> & { adjustments?: Maybe<Array<ResolversTypes['InventoryAdjustments']>>, batches?: Maybe<Array<ResolversTypes['InventoryBatches']>>, binThresholds?: Maybe<Array<ResolversTypes['BinThresholds']>>, client?: Maybe<ResolversTypes['Companies']>, inboundShipmentItems?: Maybe<Array<ResolversTypes['InboundShipmentItems']>>, inventoryStock?: Maybe<Array<ResolversTypes['InventoryStock']>>, outboundShipmentItems?: Maybe<Array<ResolversTypes['OutboundShipmentItems']>>, packageItems?: Maybe<Array<ResolversTypes['PackageItems']>>, putawayRules?: Maybe<Array<ResolversTypes['PutawayRules']>>, reorderPoints?: Maybe<Array<ResolversTypes['ReorderPoints']>>, returnItems?: Maybe<Array<ResolversTypes['ReturnItems']>>, salesOrderItems?: Maybe<Array<ResolversTypes['SalesOrderItems']>>, status?: Maybe<ResolversTypes['ProductStatus']>, stockTransfers?: Maybe<Array<ResolversTypes['StockTransfers']>>, supplier?: Maybe<ResolversTypes['Suppliers']>, taskItems?: Maybe<Array<ResolversTypes['TaskItems']>> }>;
-  WmsQuery: ResolverTypeWrapper<Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipments' | 'package' | 'packages' | 'pickBatch' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returns' | 'salesOrder' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversTypes['BinThresholds'], binThresholds: Array<ResolversTypes['BinThresholds']>, inboundShipment: ResolversTypes['InboundShipments'], inboundShipments: Array<ResolversTypes['InboundShipments']>, inventoryAdjustment: ResolversTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversTypes['InventoryAdjustments']>, inventoryBatch: ResolversTypes['InventoryBatches'], inventoryBatches: Array<ResolversTypes['InventoryBatches']>, inventoryStock: ResolversTypes['InventoryStock'], inventoryStocks: Array<ResolversTypes['InventoryStock']>, location: ResolversTypes['Locations'], locations: Array<ResolversTypes['Locations']>, outboundShipment: ResolversTypes['OutboundShipments'], outboundShipments: Array<ResolversTypes['OutboundShipments']>, package: ResolversTypes['Packages'], packages: Array<ResolversTypes['Packages']>, pickBatch: ResolversTypes['PickBatches'], pickBatches: Array<ResolversTypes['PickBatches']>, putawayRule: ResolversTypes['PutawayRules'], putawayRules: Array<ResolversTypes['PutawayRules']>, reorderPoint: ResolversTypes['ReorderPoints'], reorderPoints: Array<ResolversTypes['ReorderPoints']>, return: ResolversTypes['Returns'], returns: Array<ResolversTypes['Returns']>, salesOrder: ResolversTypes['SalesOrders'], salesOrders: Array<ResolversTypes['SalesOrders']>, stockTransfer: ResolversTypes['StockTransfers'], stockTransfers: Array<ResolversTypes['StockTransfers']>, supplier: ResolversTypes['Suppliers'], suppliers: Array<ResolversTypes['Suppliers']>, task: ResolversTypes['Tasks'], tasks: Array<ResolversTypes['Tasks']>, warehouse: ResolversTypes['Warehouses'], warehouses: Array<ResolversTypes['Warehouses']>, wmsProduct: ResolversTypes['WmsProducts'], wmsProducts: Array<ResolversTypes['WmsProducts']> }>;
+  WmsQuery: ResolverTypeWrapper<Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipments' | 'package' | 'packages' | 'pickBatch' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returnItem' | 'returnItems' | 'returns' | 'salesOrder' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'taskItem' | 'taskItems' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversTypes['BinThresholds'], binThresholds: Array<ResolversTypes['BinThresholds']>, inboundShipment: ResolversTypes['InboundShipments'], inboundShipments: Array<ResolversTypes['InboundShipments']>, inventoryAdjustment: ResolversTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversTypes['InventoryAdjustments']>, inventoryBatch: ResolversTypes['InventoryBatches'], inventoryBatches: Array<ResolversTypes['InventoryBatches']>, inventoryStock: ResolversTypes['InventoryStock'], inventoryStocks: Array<ResolversTypes['InventoryStock']>, location: ResolversTypes['Locations'], locations: Array<ResolversTypes['Locations']>, outboundShipment: ResolversTypes['OutboundShipments'], outboundShipments: Array<ResolversTypes['OutboundShipments']>, package: ResolversTypes['Packages'], packages: Array<ResolversTypes['Packages']>, pickBatch: ResolversTypes['PickBatches'], pickBatches: Array<ResolversTypes['PickBatches']>, putawayRule: ResolversTypes['PutawayRules'], putawayRules: Array<ResolversTypes['PutawayRules']>, reorderPoint: ResolversTypes['ReorderPoints'], reorderPoints: Array<ResolversTypes['ReorderPoints']>, return: ResolversTypes['Returns'], returnItem: ResolversTypes['ReturnItems'], returnItems: Array<ResolversTypes['ReturnItems']>, returns: Array<ResolversTypes['Returns']>, salesOrder: ResolversTypes['SalesOrders'], salesOrders: Array<ResolversTypes['SalesOrders']>, stockTransfer: ResolversTypes['StockTransfers'], stockTransfers: Array<ResolversTypes['StockTransfers']>, supplier: ResolversTypes['Suppliers'], suppliers: Array<ResolversTypes['Suppliers']>, task: ResolversTypes['Tasks'], taskItem: ResolversTypes['TaskItems'], taskItems: Array<ResolversTypes['TaskItems']>, tasks: Array<ResolversTypes['Tasks']>, warehouse: ResolversTypes['Warehouses'], warehouses: Array<ResolversTypes['Warehouses']>, wmsProduct: ResolversTypes['WmsProducts'], wmsProducts: Array<ResolversTypes['WmsProducts']> }>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -6264,7 +6347,7 @@ export type ResolversParentTypes = {
   Warehouses: Omit<Warehouses, 'destinationStockTransfers' | 'inboundShipments' | 'locations' | 'outboundShipments' | 'packages' | 'pickBatches' | 'putawayRules' | 'sourceStockTransfers' | 'tasks'> & { destinationStockTransfers?: Maybe<Array<ResolversParentTypes['StockTransfers']>>, inboundShipments?: Maybe<Array<ResolversParentTypes['InboundShipments']>>, locations?: Maybe<Array<ResolversParentTypes['Locations']>>, outboundShipments?: Maybe<Array<ResolversParentTypes['OutboundShipments']>>, packages?: Maybe<Array<ResolversParentTypes['Packages']>>, pickBatches?: Maybe<Array<ResolversParentTypes['PickBatches']>>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, sourceStockTransfers?: Maybe<Array<ResolversParentTypes['StockTransfers']>>, tasks?: Maybe<Array<ResolversParentTypes['Tasks']>> };
   WmsMutation: Omit<WmsMutation, 'createBinThreshold' | 'createInboundShipment' | 'createInboundShipmentItem' | 'createInventoryAdjustment' | 'createInventoryBatch' | 'createInventoryStock' | 'createLocation' | 'createOutboundShipment' | 'createOutboundShipmentItem' | 'createPackage' | 'createPackageItem' | 'createPickBatch' | 'createPickBatchItem' | 'createPutawayRule' | 'createReorderPoint' | 'createReturn' | 'createReturnItem' | 'createSalesOrder' | 'createSalesOrderItem' | 'createStockTransfer' | 'createSupplier' | 'createTask' | 'createTaskItem' | 'createWarehouse' | 'createWmsProduct' | 'updateBinThreshold' | 'updateInboundShipment' | 'updateInboundShipmentItem' | 'updateInventoryAdjustment' | 'updateInventoryBatch' | 'updateInventoryStock' | 'updateLocation' | 'updateOutboundShipment' | 'updateOutboundShipmentItem' | 'updatePackage' | 'updatePackageItem' | 'updatePickBatch' | 'updatePickBatchItem' | 'updatePutawayRule' | 'updateReorderPoint' | 'updateReturn' | 'updateReturnItem' | 'updateSalesOrder' | 'updateSalesOrderItem' | 'updateStockTransfer' | 'updateSupplier' | 'updateTask' | 'updateTaskItem' | 'updateWarehouse' | 'updateWmsProduct'> & { createBinThreshold: ResolversParentTypes['BinThresholds'], createInboundShipment: ResolversParentTypes['InboundShipments'], createInboundShipmentItem: ResolversParentTypes['InboundShipmentItems'], createInventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], createInventoryBatch: ResolversParentTypes['InventoryBatches'], createInventoryStock: ResolversParentTypes['InventoryStock'], createLocation: ResolversParentTypes['Locations'], createOutboundShipment: ResolversParentTypes['OutboundShipments'], createOutboundShipmentItem: ResolversParentTypes['OutboundShipmentItems'], createPackage: ResolversParentTypes['Packages'], createPackageItem: ResolversParentTypes['PackageItems'], createPickBatch: ResolversParentTypes['PickBatches'], createPickBatchItem: ResolversParentTypes['PickBatchItems'], createPutawayRule: ResolversParentTypes['PutawayRules'], createReorderPoint: ResolversParentTypes['ReorderPoints'], createReturn: ResolversParentTypes['Returns'], createReturnItem: ResolversParentTypes['ReturnItems'], createSalesOrder: ResolversParentTypes['SalesOrders'], createSalesOrderItem: ResolversParentTypes['SalesOrderItems'], createStockTransfer: ResolversParentTypes['StockTransfers'], createSupplier: ResolversParentTypes['Suppliers'], createTask: ResolversParentTypes['Tasks'], createTaskItem: ResolversParentTypes['TaskItems'], createWarehouse: ResolversParentTypes['Warehouses'], createWmsProduct: ResolversParentTypes['WmsProducts'], updateBinThreshold: ResolversParentTypes['BinThresholds'], updateInboundShipment: ResolversParentTypes['InboundShipments'], updateInboundShipmentItem: ResolversParentTypes['InboundShipmentItems'], updateInventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], updateInventoryBatch: ResolversParentTypes['InventoryBatches'], updateInventoryStock: ResolversParentTypes['InventoryStock'], updateLocation: ResolversParentTypes['Locations'], updateOutboundShipment: ResolversParentTypes['OutboundShipments'], updateOutboundShipmentItem: ResolversParentTypes['OutboundShipmentItems'], updatePackage: ResolversParentTypes['Packages'], updatePackageItem: ResolversParentTypes['PackageItems'], updatePickBatch: ResolversParentTypes['PickBatches'], updatePickBatchItem: ResolversParentTypes['PickBatchItems'], updatePutawayRule: ResolversParentTypes['PutawayRules'], updateReorderPoint: ResolversParentTypes['ReorderPoints'], updateReturn: ResolversParentTypes['Returns'], updateReturnItem: ResolversParentTypes['ReturnItems'], updateSalesOrder: ResolversParentTypes['SalesOrders'], updateSalesOrderItem: ResolversParentTypes['SalesOrderItems'], updateStockTransfer: ResolversParentTypes['StockTransfers'], updateSupplier: ResolversParentTypes['Suppliers'], updateTask: ResolversParentTypes['Tasks'], updateTaskItem: ResolversParentTypes['TaskItems'], updateWarehouse: ResolversParentTypes['Warehouses'], updateWmsProduct: ResolversParentTypes['WmsProducts'] };
   WmsProducts: Omit<WmsProducts, 'adjustments' | 'batches' | 'binThresholds' | 'client' | 'inboundShipmentItems' | 'inventoryStock' | 'outboundShipmentItems' | 'packageItems' | 'putawayRules' | 'reorderPoints' | 'returnItems' | 'salesOrderItems' | 'stockTransfers' | 'supplier' | 'taskItems'> & { adjustments?: Maybe<Array<ResolversParentTypes['InventoryAdjustments']>>, batches?: Maybe<Array<ResolversParentTypes['InventoryBatches']>>, binThresholds?: Maybe<Array<ResolversParentTypes['BinThresholds']>>, client?: Maybe<ResolversParentTypes['Companies']>, inboundShipmentItems?: Maybe<Array<ResolversParentTypes['InboundShipmentItems']>>, inventoryStock?: Maybe<Array<ResolversParentTypes['InventoryStock']>>, outboundShipmentItems?: Maybe<Array<ResolversParentTypes['OutboundShipmentItems']>>, packageItems?: Maybe<Array<ResolversParentTypes['PackageItems']>>, putawayRules?: Maybe<Array<ResolversParentTypes['PutawayRules']>>, reorderPoints?: Maybe<Array<ResolversParentTypes['ReorderPoints']>>, returnItems?: Maybe<Array<ResolversParentTypes['ReturnItems']>>, salesOrderItems?: Maybe<Array<ResolversParentTypes['SalesOrderItems']>>, stockTransfers?: Maybe<Array<ResolversParentTypes['StockTransfers']>>, supplier?: Maybe<ResolversParentTypes['Suppliers']>, taskItems?: Maybe<Array<ResolversParentTypes['TaskItems']>> };
-  WmsQuery: Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipments' | 'package' | 'packages' | 'pickBatch' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returns' | 'salesOrder' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversParentTypes['BinThresholds'], binThresholds: Array<ResolversParentTypes['BinThresholds']>, inboundShipment: ResolversParentTypes['InboundShipments'], inboundShipments: Array<ResolversParentTypes['InboundShipments']>, inventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversParentTypes['InventoryAdjustments']>, inventoryBatch: ResolversParentTypes['InventoryBatches'], inventoryBatches: Array<ResolversParentTypes['InventoryBatches']>, inventoryStock: ResolversParentTypes['InventoryStock'], inventoryStocks: Array<ResolversParentTypes['InventoryStock']>, location: ResolversParentTypes['Locations'], locations: Array<ResolversParentTypes['Locations']>, outboundShipment: ResolversParentTypes['OutboundShipments'], outboundShipments: Array<ResolversParentTypes['OutboundShipments']>, package: ResolversParentTypes['Packages'], packages: Array<ResolversParentTypes['Packages']>, pickBatch: ResolversParentTypes['PickBatches'], pickBatches: Array<ResolversParentTypes['PickBatches']>, putawayRule: ResolversParentTypes['PutawayRules'], putawayRules: Array<ResolversParentTypes['PutawayRules']>, reorderPoint: ResolversParentTypes['ReorderPoints'], reorderPoints: Array<ResolversParentTypes['ReorderPoints']>, return: ResolversParentTypes['Returns'], returns: Array<ResolversParentTypes['Returns']>, salesOrder: ResolversParentTypes['SalesOrders'], salesOrders: Array<ResolversParentTypes['SalesOrders']>, stockTransfer: ResolversParentTypes['StockTransfers'], stockTransfers: Array<ResolversParentTypes['StockTransfers']>, supplier: ResolversParentTypes['Suppliers'], suppliers: Array<ResolversParentTypes['Suppliers']>, task: ResolversParentTypes['Tasks'], tasks: Array<ResolversParentTypes['Tasks']>, warehouse: ResolversParentTypes['Warehouses'], warehouses: Array<ResolversParentTypes['Warehouses']>, wmsProduct: ResolversParentTypes['WmsProducts'], wmsProducts: Array<ResolversParentTypes['WmsProducts']> };
+  WmsQuery: Omit<WmsQuery, 'binThreshold' | 'binThresholds' | 'inboundShipment' | 'inboundShipments' | 'inventoryAdjustment' | 'inventoryAdjustments' | 'inventoryBatch' | 'inventoryBatches' | 'inventoryStock' | 'inventoryStocks' | 'location' | 'locations' | 'outboundShipment' | 'outboundShipments' | 'package' | 'packages' | 'pickBatch' | 'pickBatches' | 'putawayRule' | 'putawayRules' | 'reorderPoint' | 'reorderPoints' | 'return' | 'returnItem' | 'returnItems' | 'returns' | 'salesOrder' | 'salesOrders' | 'stockTransfer' | 'stockTransfers' | 'supplier' | 'suppliers' | 'task' | 'taskItem' | 'taskItems' | 'tasks' | 'warehouse' | 'warehouses' | 'wmsProduct' | 'wmsProducts'> & { binThreshold: ResolversParentTypes['BinThresholds'], binThresholds: Array<ResolversParentTypes['BinThresholds']>, inboundShipment: ResolversParentTypes['InboundShipments'], inboundShipments: Array<ResolversParentTypes['InboundShipments']>, inventoryAdjustment: ResolversParentTypes['InventoryAdjustments'], inventoryAdjustments: Array<ResolversParentTypes['InventoryAdjustments']>, inventoryBatch: ResolversParentTypes['InventoryBatches'], inventoryBatches: Array<ResolversParentTypes['InventoryBatches']>, inventoryStock: ResolversParentTypes['InventoryStock'], inventoryStocks: Array<ResolversParentTypes['InventoryStock']>, location: ResolversParentTypes['Locations'], locations: Array<ResolversParentTypes['Locations']>, outboundShipment: ResolversParentTypes['OutboundShipments'], outboundShipments: Array<ResolversParentTypes['OutboundShipments']>, package: ResolversParentTypes['Packages'], packages: Array<ResolversParentTypes['Packages']>, pickBatch: ResolversParentTypes['PickBatches'], pickBatches: Array<ResolversParentTypes['PickBatches']>, putawayRule: ResolversParentTypes['PutawayRules'], putawayRules: Array<ResolversParentTypes['PutawayRules']>, reorderPoint: ResolversParentTypes['ReorderPoints'], reorderPoints: Array<ResolversParentTypes['ReorderPoints']>, return: ResolversParentTypes['Returns'], returnItem: ResolversParentTypes['ReturnItems'], returnItems: Array<ResolversParentTypes['ReturnItems']>, returns: Array<ResolversParentTypes['Returns']>, salesOrder: ResolversParentTypes['SalesOrders'], salesOrders: Array<ResolversParentTypes['SalesOrders']>, stockTransfer: ResolversParentTypes['StockTransfers'], stockTransfers: Array<ResolversParentTypes['StockTransfers']>, supplier: ResolversParentTypes['Suppliers'], suppliers: Array<ResolversParentTypes['Suppliers']>, task: ResolversParentTypes['Tasks'], taskItem: ResolversParentTypes['TaskItems'], taskItems: Array<ResolversParentTypes['TaskItems']>, tasks: Array<ResolversParentTypes['Tasks']>, warehouse: ResolversParentTypes['Warehouses'], warehouses: Array<ResolversParentTypes['Warehouses']>, wmsProduct: ResolversParentTypes['WmsProducts'], wmsProducts: Array<ResolversParentTypes['WmsProducts']> };
 };
 
 export type AccountTransactionsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountTransactions'] = ResolversParentTypes['AccountTransactions']> = {
@@ -7887,6 +7970,8 @@ export type WmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   reorderPoint?: Resolver<ResolversTypes['ReorderPoints'], ParentType, ContextType, RequireFields<WmsQueryReorderPointArgs, 'id'>>;
   reorderPoints?: Resolver<Array<ResolversTypes['ReorderPoints']>, ParentType, ContextType, Partial<WmsQueryReorderPointsArgs>>;
   return?: Resolver<ResolversTypes['Returns'], ParentType, ContextType, RequireFields<WmsQueryReturnArgs, 'id'>>;
+  returnItem?: Resolver<ResolversTypes['ReturnItems'], ParentType, ContextType, RequireFields<WmsQueryReturnItemArgs, 'id'>>;
+  returnItems?: Resolver<Array<ResolversTypes['ReturnItems']>, ParentType, ContextType, Partial<WmsQueryReturnItemsArgs>>;
   returns?: Resolver<Array<ResolversTypes['Returns']>, ParentType, ContextType, Partial<WmsQueryReturnsArgs>>;
   salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType, RequireFields<WmsQuerySalesOrderArgs, 'id'>>;
   salesOrders?: Resolver<Array<ResolversTypes['SalesOrders']>, ParentType, ContextType, Partial<WmsQuerySalesOrdersArgs>>;
@@ -7895,6 +7980,8 @@ export type WmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   supplier?: Resolver<ResolversTypes['Suppliers'], ParentType, ContextType, RequireFields<WmsQuerySupplierArgs, 'id'>>;
   suppliers?: Resolver<Array<ResolversTypes['Suppliers']>, ParentType, ContextType, Partial<WmsQuerySuppliersArgs>>;
   task?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType, RequireFields<WmsQueryTaskArgs, 'id'>>;
+  taskItem?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType, RequireFields<WmsQueryTaskItemArgs, 'id'>>;
+  taskItems?: Resolver<Array<ResolversTypes['TaskItems']>, ParentType, ContextType, Partial<WmsQueryTaskItemsArgs>>;
   tasks?: Resolver<Array<ResolversTypes['Tasks']>, ParentType, ContextType, Partial<WmsQueryTasksArgs>>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType, RequireFields<WmsQueryWarehouseArgs, 'id'>>;
   warehouses?: Resolver<Array<ResolversTypes['Warehouses']>, ParentType, ContextType, Partial<WmsQueryWarehousesArgs>>;

@@ -34,7 +34,7 @@ type Invoices {
 }
 
 extend type CrmQuery {
-  invoices(page: Int, perPage: Int, from: Date, to: Date, search: String): [Invoices!]!
+  invoices(page: Int, perPage: Int, from: Date, to: Date, search: String, status: InvoiceStatus, paymentMethod: PaymentMethod): [Invoices!]!
   invoice(id: ID!): Invoices!
 }
 

@@ -22,8 +22,6 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'lead'|'leads'> = {
         eb.or([
           eb("name", "ilike", `%${args.search}%`),
           eb("email", "ilike", `%${args.search}%`),
-          eb("leadSource", "=", args.search as any),
-          eb("status", "=", args.search as any),
         ])
       );
     }

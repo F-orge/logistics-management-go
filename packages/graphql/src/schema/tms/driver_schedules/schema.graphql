@@ -30,6 +30,7 @@ input UpdateDriverScheduleInput {
   reason: DriverScheduleReason
 }
 
+
 extend type TmsMutation {
   createDriverSchedule(value: CreateDriverScheduleInput!): DriverSchedules!
   updateDriverSchedule(id: ID!, value: UpdateDriverScheduleInput): DriverSchedules!

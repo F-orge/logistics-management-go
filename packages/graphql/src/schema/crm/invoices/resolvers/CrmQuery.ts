@@ -18,11 +18,7 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'invoice'|'invoices'> = {
 
     if (args.search) {
       query = query.where((eb) =>
-        eb.or([
-          eb("id", "ilike", `%${args.search}%`),
-          eb("status", "=", args.search as any),
-          eb("paymentMethod", "=", args.search as any),
-        ])
+        eb.or([eb("id", "ilike", `%${args.search}%`)])
       );
     }
     const results = await query.execute();

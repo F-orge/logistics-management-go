@@ -41,7 +41,7 @@ type Locations {
 }
 
 extend type WmsQuery {
-  locations(page: Int, perPage: Int, from: Date, to: Date, search: String): [Locations!]!
+  locations(page: Int, perPage: Int, from: Date, to: Date, search: String, type: LocationType): [Locations!]!
   location(id: ID!): Locations!
 }
 

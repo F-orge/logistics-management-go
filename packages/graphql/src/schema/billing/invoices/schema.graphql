@@ -38,7 +38,7 @@ type BillingInvoices {
 }
 
 extend type BillingQuery {
-  billingInvoices(page: Int, perPage: Int, from: Date, to: Date, search: String): [BillingInvoices!]!
+  billingInvoices(page: Int, perPage: Int, from: Date, to: Date, search: String, status: BillingInvoiceStatus): [BillingInvoices!]!
   billingInvoice(id: ID!): BillingInvoices!
 }
 

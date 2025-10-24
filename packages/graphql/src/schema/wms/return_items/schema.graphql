@@ -34,6 +34,12 @@ input UpdateReturnItemInput {
   condition: ReturnItemCondition
 }
 
+
+extend type WmsQuery {
+  returnItems(page: Int, perPage: Int, from: Date, to: Date, search: String, condition: ReturnItemCondition): [ReturnItems!]!
+  returnItem(id: ID!): ReturnItems!
+}
+
 extend type WmsMutation {
   createReturnItem(value: CreateReturnItemInput!): ReturnItems!
   updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!

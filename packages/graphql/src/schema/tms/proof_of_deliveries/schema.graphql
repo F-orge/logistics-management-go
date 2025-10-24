@@ -18,7 +18,7 @@ type ProofOfDeliveries {
 }
 
 extend type TmsQuery {
-  proofOfDeliveries(page: Int, perPage: Int, from: Date, to: Date, search: String): [ProofOfDeliveries!]!
+  proofOfDeliveries(page: Int, perPage: Int, from: Date, to: Date, search: String, type: ProofType): [ProofOfDeliveries!]!
   proofOfDelivery(id: ID!): ProofOfDeliveries!
 }
 

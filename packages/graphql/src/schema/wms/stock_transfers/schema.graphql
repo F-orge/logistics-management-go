@@ -17,7 +17,7 @@ type StockTransfers {
 }
 
 extend type WmsQuery {
-  stockTransfers(page: Int, perPage: Int, from: Date, to: Date, search: String): [StockTransfers!]!
+  stockTransfers(page: Int, perPage: Int, from: Date, to: Date, search: String, status: StockTransferStatus): [StockTransfers!]!
   stockTransfer(id: ID!): StockTransfers!
 }
 

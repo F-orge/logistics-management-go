@@ -1,3 +1,4 @@
+import { CrmInteractionType } from "../../../../db.types";
 import { Interactions } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, 'interaction'|'interactions'> =
@@ -26,6 +27,15 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'interaction'|'interactions'> =
           ])
         );
       }
+
+      if (args.interactionType) {
+        query = query.where(
+          "type",
+          "=",
+          CrmInteractionType[args.interactionType]
+        );
+      }
+
       const results = await query.execute();
       return results as unknown as Interactions[];
     },

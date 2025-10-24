@@ -19,7 +19,7 @@ type Returns {
 }
 
 extend type WmsQuery {
-  returns(page: Int, perPage: Int, from: Date, to: Date, search: String): [Returns!]!
+  returns(page: Int, perPage: Int, from: Date, to: Date, search: String, status: ReturnStatus): [Returns!]!
   return(id: ID!): Returns!
 }
 

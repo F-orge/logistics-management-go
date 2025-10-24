@@ -395,6 +395,7 @@ export type BillingQueryAccountTransactionsArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<TransactionType>;
 };
 
 
@@ -408,6 +409,7 @@ export type BillingQueryAccountingSyncLogsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<SyncStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -422,6 +424,7 @@ export type BillingQueryBillingInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<BillingInvoiceStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -464,6 +467,7 @@ export type BillingQueryDisputesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DisputeStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -489,8 +493,10 @@ export type BillingQueryPaymentArgs = {
 export type BillingQueryPaymentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  paymentMethod?: InputMaybe<PaymentMethod>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PaymentStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -505,6 +511,7 @@ export type BillingQueryQuotesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<QuoteStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -519,6 +526,7 @@ export type BillingQueryRateCardsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  serviceType?: InputMaybe<ServiceType>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -532,6 +540,7 @@ export type BillingQueryRateRulesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  pricingModel?: InputMaybe<PricingModel>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -543,6 +552,7 @@ export type BillingQuerySurchargeArgs = {
 
 
 export type BillingQuerySurchargesArgs = {
+  calculationMethod?: InputMaybe<SurchargeCalculationMethod>;
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -1825,8 +1835,11 @@ export type CrmQueryCasesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  priority?: InputMaybe<CasePriority>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<CaseStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<CaseType>;
 };
 
 
@@ -1865,6 +1878,7 @@ export type CrmQueryInteractionArgs = {
 
 export type CrmQueryInteractionsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
+  interactionType?: InputMaybe<InteractionType>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
@@ -1880,8 +1894,10 @@ export type CrmQueryInvoiceArgs = {
 export type CrmQueryInvoicesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  paymentMethod?: InputMaybe<PaymentMethod>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<InvoiceStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1893,9 +1909,11 @@ export type CrmQueryLeadArgs = {
 
 export type CrmQueryLeadsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
+  leadSource?: InputMaybe<LeadSource>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<LeadStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1919,6 +1937,8 @@ export type CrmQueryOpportunitiesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<OpportunitySource>;
+  stage?: InputMaybe<OpportunityStage>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -1939,6 +1959,7 @@ export type CrmQueryProductsArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ProductType>;
 };
 
 export enum Currency {
@@ -2240,6 +2261,7 @@ export type DmsQueryDeliveryRoutesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryRouteStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -2250,10 +2272,12 @@ export type DmsQueryDeliveryTaskArgs = {
 
 
 export type DmsQueryDeliveryTasksArgs = {
+  failureReason?: InputMaybe<DeliveryFailureReason>;
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryTaskStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -2264,6 +2288,7 @@ export type DmsQueryDmsProofOfDeliveriesArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ProofOfDeliveryType>;
 };
 
 
@@ -2295,6 +2320,7 @@ export type DmsQueryTaskEventsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskEventStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3842,6 +3868,7 @@ export type TmsQueryDriversArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DriverStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3852,11 +3879,14 @@ export type TmsQueryExpenseArgs = {
 
 
 export type TmsQueryExpensesArgs = {
+  currency?: InputMaybe<Currency>;
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ExpenseStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ExpenseType>;
 };
 
 
@@ -3897,6 +3927,7 @@ export type TmsQueryPartnerInvoicesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PartnerInvoiceStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3907,6 +3938,7 @@ export type TmsQueryProofOfDeliveriesArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<ProofType>;
 };
 
 
@@ -3939,6 +3971,7 @@ export type TmsQueryShipmentLegsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ShipmentLegStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3953,6 +3986,7 @@ export type TmsQueryTripsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TripStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -3967,6 +4001,7 @@ export type TmsQueryVehiclesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<VehicleStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5432,6 +5467,8 @@ export type WmsQuery = {
   reorderPoint: ReorderPoints;
   reorderPoints: Array<ReorderPoints>;
   return: Returns;
+  returnItem: ReturnItems;
+  returnItems: Array<ReturnItems>;
   returns: Array<Returns>;
   salesOrder: SalesOrders;
   salesOrders: Array<SalesOrders>;
@@ -5440,6 +5477,8 @@ export type WmsQuery = {
   supplier: Suppliers;
   suppliers: Array<Suppliers>;
   task: Tasks;
+  taskItem: TaskItems;
+  taskItems: Array<TaskItems>;
   tasks: Array<Tasks>;
   warehouse: Warehouses;
   warehouses: Array<Warehouses>;
@@ -5470,6 +5509,7 @@ export type WmsQueryInboundShipmentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InboundShipmentStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5483,6 +5523,7 @@ export type WmsQueryInventoryAdjustmentsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  reason?: InputMaybe<InventoryAdjustmentReason>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -5511,6 +5552,7 @@ export type WmsQueryInventoryStocksArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InventoryStockStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5526,6 +5568,7 @@ export type WmsQueryLocationsArgs = {
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<LocationType>;
 };
 
 
@@ -5539,6 +5582,7 @@ export type WmsQueryOutboundShipmentsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<OutboundShipmentStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5567,6 +5611,8 @@ export type WmsQueryPickBatchesArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PickBatchStatus>;
+  strategy?: InputMaybe<PickStrategy>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5578,6 +5624,7 @@ export type WmsQueryPutawayRuleArgs = {
 
 export type WmsQueryPutawayRulesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
+  locationType?: InputMaybe<LocationType>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   to?: InputMaybe<Scalars['Date']['input']>;
@@ -5602,11 +5649,27 @@ export type WmsQueryReturnArgs = {
 };
 
 
+export type WmsQueryReturnItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type WmsQueryReturnItemsArgs = {
+  condition?: InputMaybe<ReturnItemCondition>;
+  from?: InputMaybe<Scalars['Date']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+
 export type WmsQueryReturnsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ReturnStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5621,6 +5684,7 @@ export type WmsQuerySalesOrdersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<SalesOrderStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5635,6 +5699,7 @@ export type WmsQueryStockTransfersArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<StockTransferStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
@@ -5658,12 +5723,29 @@ export type WmsQueryTaskArgs = {
 };
 
 
+export type WmsQueryTaskItemArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type WmsQueryTaskItemsArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskItemStatus>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+
 export type WmsQueryTasksArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+  type?: InputMaybe<TaskType>;
 };
 
 
@@ -5691,6 +5773,7 @@ export type WmsQueryWmsProductsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ProductStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 

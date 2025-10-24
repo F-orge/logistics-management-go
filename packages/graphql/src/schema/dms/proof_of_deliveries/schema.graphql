@@ -22,7 +22,7 @@ type DmsProofOfDeliveries {
 }
 
 extend type DmsQuery {
-  dmsProofOfDeliveries(page: Int, perPage: Int, from: Date, to: Date, search: String): [DmsProofOfDeliveries!]!
+  dmsProofOfDeliveries(page: Int, perPage: Int, from: Date, to: Date, search: String, type: ProofOfDeliveryType): [DmsProofOfDeliveries!]!
   dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
 }
 

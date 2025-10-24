@@ -23,7 +23,7 @@ type SalesOrders {
 }
 
 extend type WmsQuery {
-  salesOrders(page: Int, perPage: Int, from: Date, to: Date, search: String): [SalesOrders!]!
+  salesOrders(page: Int, perPage: Int, from: Date, to: Date, search: String, status: SalesOrderStatus): [SalesOrders!]!
   salesOrder(id: ID!): SalesOrders!
 }
 

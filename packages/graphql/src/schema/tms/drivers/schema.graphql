@@ -21,7 +21,7 @@ type Drivers {
 }
 
 extend type TmsQuery {
-  drivers(page: Int, perPage: Int, from: Date, to: Date, search: String): [Drivers!]!
+  drivers(page: Int, perPage: Int, from: Date, to: Date, search: String, status: DriverStatus): [Drivers!]!
   driver(id: ID!): Drivers!
 }
 
