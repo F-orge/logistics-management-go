@@ -6,7 +6,7 @@ enum InvoiceStatus {
   CANCELLED
 }
 
-enum PaymentMethod {
+enum CrmInvoicePaymentMethod {
   CREDIT_CARD
   BANK_TRANSFER
   CASH
@@ -34,7 +34,7 @@ type Invoices {
 }
 
 extend type CrmQuery {
-  invoices(page: Int, perPage: Int, from: Date, to: Date, search: String, status: InvoiceStatus, paymentMethod: PaymentMethod): [Invoices!]!
+  invoices(page: Int, perPage: Int, from: Date, to: Date, search: String, status: InvoiceStatus, paymentMethod: CrmInvoicePaymentMethod): [Invoices!]!
   invoice(id: ID!): Invoices!
 }
 

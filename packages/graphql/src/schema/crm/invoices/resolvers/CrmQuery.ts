@@ -1,3 +1,4 @@
+import { CrmInvoiceStatus, CrmPaymentMethod } from "../../../../db.types";
 import { Invoices } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, 'invoice'|'invoices'> = {
@@ -21,6 +22,19 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'invoice'|'invoices'> = {
         eb.or([eb("id", "ilike", `%${args.search}%`)])
       );
     }
+
+    if (args.status) {
+      query = query.where("status", "=", CrmInvoiceStatus[args.status]);
+    }
+
+    if (args.paymentMethod) {
+      query = query.where(
+        "paymentMethod",
+        "=",
+        CrmPaymentMethod[args.paymentMethod]
+      );
+    }
+
     const results = await query.execute();
     return results as unknown as Invoices[];
   },

@@ -1525,6 +1525,18 @@ export type CreditNotes = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export enum CrmInvoicePaymentMethod {
+  "bank-transfer" = 'BANK_TRANSFER',
+  "cash" = 'CASH',
+  "check" = 'CHECK',
+  "credit-card" = 'CREDIT_CARD',
+  "maya" = 'MAYA',
+  "other" = 'OTHER',
+  "paypal" = 'PAYPAL',
+  "stripe" = 'STRIPE',
+  "wire-transfer" = 'WIRE_TRANSFER'
+}
+
 export type CrmMutation = {
   __typename?: 'CrmMutation';
   createAttachment: Attachments;
@@ -1894,7 +1906,7 @@ export type CrmQueryInvoiceArgs = {
 export type CrmQueryInvoicesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
-  paymentMethod?: InputMaybe<PaymentMethod>;
+  paymentMethod?: InputMaybe<CrmInvoicePaymentMethod>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<InvoiceStatus>;
@@ -2647,7 +2659,7 @@ export type Invoices = {
 };
 
 export enum LeadSource {
-  "advertisement" = 'ADVERTISEMENT',
+  "advertisment" = 'ADVERTISMENT',
   "cold-call" = 'COLD_CALL',
   "email-campaign" = 'EMAIL_CAMPAIGN',
   "event" = 'EVENT',
@@ -2775,7 +2787,7 @@ export type OpportunityProducts = {
 };
 
 export enum OpportunitySource {
-  "advertisement" = 'ADVERTISEMENT',
+  "advertisment" = 'ADVERTISMENT',
   "cold-call" = 'COLD_CALL',
   "email-campaign" = 'EMAIL_CAMPAIGN',
   "event" = 'EVENT',
@@ -2911,13 +2923,8 @@ export enum PaymentMethod {
   "client-credit" = 'CLIENT_CREDIT',
   "credit-card" = 'CREDIT_CARD',
   "debit-card" = 'DEBIT_CARD',
-  "maya" = 'MAYA',
-  "other" = 'OTHER',
-  "paypal" = 'PAYPAL',
   "qr-ph" = 'QR_PH',
-  "stripe" = 'STRIPE',
-  "wallet" = 'WALLET',
-  "wire-transfer" = 'WIRE_TRANSFER'
+  "wallet" = 'WALLET'
 }
 
 export enum PaymentStatus {
@@ -5797,6 +5804,8 @@ export const CasePrioritySchema = z.enum(CasePriority);
 export const CaseStatusSchema = z.enum(CaseStatus);
 
 export const CaseTypeSchema = z.enum(CaseType);
+
+export const CrmInvoicePaymentMethodSchema = z.enum(CrmInvoicePaymentMethod);
 
 export const CurrencySchema = z.enum(Currency);
 

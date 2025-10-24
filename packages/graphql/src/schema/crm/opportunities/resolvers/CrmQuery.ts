@@ -1,3 +1,4 @@
+import { CrmOpportunitySource, CrmOpportunityStage } from "../../../../db.types";
 import { Opportunities } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, 'opportunities'|'opportunity'> = {
@@ -24,6 +25,14 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'opportunities'|'opportunity'> = 
           eb("lostReason", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.stage) {
+      query = query.where("stage", "=", CrmOpportunityStage[args.stage]);
+    }
+
+    if (args.source) {
+      query = query.where("source", "=", CrmOpportunitySource[args.source]);
     }
     const results = await query.execute();
     return results as unknown as Opportunities[];

@@ -1106,6 +1106,18 @@ type CreditNotes {
   updatedAt: String
 }
 
+enum CrmInvoicePaymentMethod {
+  BANK_TRANSFER
+  CASH
+  CHECK
+  CREDIT_CARD
+  MAYA
+  OTHER
+  PAYPAL
+  STRIPE
+  WIRE_TRANSFER
+}
+
 type CrmMutation {
   createAttachment(value: CreateAttachmentInput!): Attachments!
   createCampaign(value: CreateCampaignInput!): Campaigns!
@@ -1161,7 +1173,7 @@ type CrmQuery {
   interaction(id: ID!): Interactions!
   interactions(from: Date, interactionType: InteractionType, page: Int, perPage: Int, search: String, to: Date): [Interactions!]!
   invoice(id: ID!): Invoices!
-  invoices(from: Date, page: Int, paymentMethod: PaymentMethod, perPage: Int, search: String, status: InvoiceStatus, to: Date): [Invoices!]!
+  invoices(from: Date, page: Int, paymentMethod: CrmInvoicePaymentMethod, perPage: Int, search: String, status: InvoiceStatus, to: Date): [Invoices!]!
   lead(id: ID!): Leads!
   leads(from: Date, leadSource: LeadSource, page: Int, perPage: Int, search: String, status: LeadStatus, to: Date): [Leads!]!
   notification(id: ID!): Notifications!
@@ -1652,7 +1664,7 @@ type Invoices {
 }
 
 enum LeadSource {
-  ADVERTISEMENT
+  ADVERTISMENT
   COLD_CALL
   EMAIL_CAMPAIGN
   EVENT
@@ -1774,7 +1786,7 @@ type OpportunityProducts {
 }
 
 enum OpportunitySource {
-  ADVERTISEMENT
+  ADVERTISMENT
   COLD_CALL
   EMAIL_CAMPAIGN
   EVENT
@@ -1904,13 +1916,8 @@ enum PaymentMethod {
   CLIENT_CREDIT
   CREDIT_CARD
   DEBIT_CARD
-  MAYA
-  OTHER
-  PAYPAL
   QR_PH
-  STRIPE
   WALLET
-  WIRE_TRANSFER
 }
 
 enum PaymentStatus {

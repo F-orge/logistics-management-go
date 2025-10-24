@@ -1,3 +1,4 @@
+import { CrmCasePriority, CrmCaseStatus, CrmCaseType } from "../../../../db.types";
 import { Cases } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, 'case'|'cases'> = {
@@ -25,6 +26,19 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'case'|'cases'> = {
         ])
       );
     }
+
+    if (args.status) {
+      query = query.where("status", "=", CrmCaseStatus[args.status]);
+    }
+
+    if (args.priority) {
+      query = query.where("priority", "=", CrmCasePriority[args.priority]);
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", CrmCaseType[args.type]);
+    }
+
     const results = await query.execute();
     return results as unknown as Cases[];
   },

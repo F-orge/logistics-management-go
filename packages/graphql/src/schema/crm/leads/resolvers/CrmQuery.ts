@@ -1,3 +1,4 @@
+import { CrmLeadSource, CrmLeadStatus } from "../../../../db.types";
 import { Leads } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, 'lead'|'leads'> = {
@@ -24,6 +25,14 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'lead'|'leads'> = {
           eb("email", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.leadSource) {
+      query = query.where("leadSource", "=", CrmLeadSource[args.leadSource]);
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", CrmLeadStatus[args.status]);
     }
 
     const results = await query.execute();

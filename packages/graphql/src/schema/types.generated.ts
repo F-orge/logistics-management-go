@@ -1524,6 +1524,17 @@ export type CreditNotes = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type CrmInvoicePaymentMethod =
+  | 'BANK_TRANSFER'
+  | 'CASH'
+  | 'CHECK'
+  | 'CREDIT_CARD'
+  | 'MAYA'
+  | 'OTHER'
+  | 'PAYPAL'
+  | 'STRIPE'
+  | 'WIRE_TRANSFER';
+
 export type CrmMutation = {
   __typename?: 'CrmMutation';
   createAttachment: Attachments;
@@ -1893,7 +1904,7 @@ export type CrmQueryInvoiceArgs = {
 export type CrmQueryInvoicesArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
-  paymentMethod?: InputMaybe<PaymentMethod>;
+  paymentMethod?: InputMaybe<CrmInvoicePaymentMethod>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<InvoiceStatus>;
@@ -2630,7 +2641,7 @@ export type Invoices = {
 };
 
 export type LeadSource =
-  | 'ADVERTISEMENT'
+  | 'ADVERTISMENT'
   | 'COLD_CALL'
   | 'EMAIL_CAMPAIGN'
   | 'EVENT'
@@ -2755,7 +2766,7 @@ export type OpportunityProducts = {
 };
 
 export type OpportunitySource =
-  | 'ADVERTISEMENT'
+  | 'ADVERTISMENT'
   | 'COLD_CALL'
   | 'EMAIL_CAMPAIGN'
   | 'EVENT'
@@ -2887,13 +2898,8 @@ export type PaymentMethod =
   | 'CLIENT_CREDIT'
   | 'CREDIT_CARD'
   | 'DEBIT_CARD'
-  | 'MAYA'
-  | 'OTHER'
-  | 'PAYPAL'
   | 'QR_PH'
-  | 'STRIPE'
-  | 'WALLET'
-  | 'WIRE_TRANSFER';
+  | 'WALLET';
 
 export type PaymentStatus =
   | 'CANCELLED'
@@ -5898,6 +5904,7 @@ export type ResolversTypes = {
   CreateWarehouseInput: CreateWarehouseInput;
   CreateWmsProductInput: CreateWmsProductInput;
   CreditNotes: ResolverTypeWrapper<Omit<CreditNotes, 'dispute' | 'invoice'> & { dispute?: Maybe<ResolversTypes['Disputes']>, invoice: ResolversTypes['BillingInvoices'] }>;
+  CrmInvoicePaymentMethod: ResolverTypeWrapper<'CREDIT_CARD' | 'BANK_TRANSFER' | 'CASH' | 'CHECK' | 'PAYPAL' | 'STRIPE' | 'WIRE_TRANSFER' | 'OTHER' | 'MAYA'>;
   CrmMutation: ResolverTypeWrapper<Omit<CrmMutation, 'createAttachment' | 'createCase' | 'createCompany' | 'createContact' | 'createInteraction' | 'createInvoice' | 'createInvoiceItem' | 'createLead' | 'createOpportunity' | 'createOpportunityProduct' | 'createProduct' | 'updateCase' | 'updateCompany' | 'updateContact' | 'updateInteraction' | 'updateInvoice' | 'updateInvoiceItem' | 'updateLead' | 'updateOpportunity' | 'updateOpportunityProduct' | 'updateProduct'> & { createAttachment: ResolversTypes['Attachments'], createCase: ResolversTypes['Cases'], createCompany: ResolversTypes['Companies'], createContact: ResolversTypes['Contacts'], createInteraction: ResolversTypes['Interactions'], createInvoice: ResolversTypes['Invoices'], createInvoiceItem: ResolversTypes['InvoiceItems'], createLead: ResolversTypes['Leads'], createOpportunity: ResolversTypes['Opportunities'], createOpportunityProduct: ResolversTypes['OpportunityProducts'], createProduct: ResolversTypes['Products'], updateCase: ResolversTypes['Cases'], updateCompany: ResolversTypes['Companies'], updateContact: ResolversTypes['Contacts'], updateInteraction: ResolversTypes['Interactions'], updateInvoice: ResolversTypes['Invoices'], updateInvoiceItem: ResolversTypes['InvoiceItems'], updateLead: ResolversTypes['Leads'], updateOpportunity: ResolversTypes['Opportunities'], updateOpportunityProduct: ResolversTypes['OpportunityProducts'], updateProduct: ResolversTypes['Products'] }>;
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
@@ -5943,7 +5950,7 @@ export type ResolversTypes = {
   InvoiceLineItems: ResolverTypeWrapper<Omit<InvoiceLineItems, 'disputes' | 'invoice'> & { disputes?: Maybe<Array<ResolversTypes['Disputes']>>, invoice: ResolversTypes['BillingInvoices'] }>;
   InvoiceStatus: ResolverTypeWrapper<'DRAFT' | 'SENT' | 'PAID' | 'OVERDUE' | 'CANCELLED'>;
   Invoices: ResolverTypeWrapper<Omit<Invoices, 'items' | 'opportunity' | 'paymentMethod' | 'status'> & { items?: Maybe<Array<ResolversTypes['InvoiceItems']>>, opportunity?: Maybe<ResolversTypes['Opportunities']>, paymentMethod?: Maybe<ResolversTypes['PaymentMethod']>, status?: Maybe<ResolversTypes['InvoiceStatus']> }>;
-  LeadSource: ResolverTypeWrapper<'WEBSITE' | 'REFERRAL' | 'SOCIAL_MEDIA' | 'EMAIL_CAMPAIGN' | 'COLD_CALL' | 'EVENT' | 'ADVERTISEMENT' | 'PARTNER' | 'OTHER'>;
+  LeadSource: ResolverTypeWrapper<'WEBSITE' | 'REFERRAL' | 'SOCIAL_MEDIA' | 'EMAIL_CAMPAIGN' | 'COLD_CALL' | 'EVENT' | 'ADVERTISMENT' | 'PARTNER' | 'OTHER'>;
   LeadStatus: ResolverTypeWrapper<'NEW' | 'CONTACTED' | 'QUALIFIED' | 'UNQUALIFIED' | 'CONVERTED'>;
   Leads: ResolverTypeWrapper<Omit<Leads, 'convertedCompany' | 'convertedContact' | 'convertedOpportunity' | 'leadSource' | 'status'> & { convertedCompany?: Maybe<ResolversTypes['Companies']>, convertedContact?: Maybe<ResolversTypes['Contacts']>, convertedOpportunity?: Maybe<ResolversTypes['Opportunities']>, leadSource?: Maybe<ResolversTypes['LeadSource']>, status?: Maybe<ResolversTypes['LeadStatus']> }>;
   LocationType: ResolverTypeWrapper<'RECEIVING_DOCK' | 'PICK_BIN' | 'PACKING_STATION' | 'CROSS_DOCK_AREA' | 'BULK_STORAGE' | 'RESERVE_STORAGE' | 'DAMAGED_GOODS' | 'STAGING_AREA' | 'QUALITY_CONTROL' | 'RETURNS_AREA'>;
@@ -5952,7 +5959,7 @@ export type ResolversTypes = {
   Notifications: ResolverTypeWrapper<Notifications>;
   Opportunities: ResolverTypeWrapper<Omit<Opportunities, 'company' | 'contact' | 'products' | 'salesOrders' | 'source' | 'stage'> & { company?: Maybe<ResolversTypes['Companies']>, contact?: Maybe<ResolversTypes['Contacts']>, products?: Maybe<Array<ResolversTypes['OpportunityProducts']>>, salesOrders?: Maybe<Array<ResolversTypes['SalesOrders']>>, source?: Maybe<ResolversTypes['OpportunitySource']>, stage?: Maybe<ResolversTypes['OpportunityStage']> }>;
   OpportunityProducts: ResolverTypeWrapper<Omit<OpportunityProducts, 'opportunity' | 'product'> & { opportunity: ResolversTypes['Opportunities'], product: ResolversTypes['Products'] }>;
-  OpportunitySource: ResolverTypeWrapper<'WEBSITE' | 'REFERRAL' | 'SOCIAL_MEDIA' | 'EMAIL_CAMPAIGN' | 'COLD_CALL' | 'EVENT' | 'ADVERTISEMENT' | 'PARTNER' | 'EXISTING_CUSTOMER' | 'OTHER'>;
+  OpportunitySource: ResolverTypeWrapper<'WEBSITE' | 'REFERRAL' | 'SOCIAL_MEDIA' | 'EMAIL_CAMPAIGN' | 'COLD_CALL' | 'EVENT' | 'ADVERTISMENT' | 'PARTNER' | 'EXISTING_CUSTOMER' | 'OTHER'>;
   OpportunityStage: ResolverTypeWrapper<'PROSPECTING' | 'QUALIFICATION' | 'NEED_ANALYSIS' | 'DEMO' | 'PROPOSAL' | 'NEGOTIATION' | 'CLOSED_WON' | 'CLOSED_LOST'>;
   OutboundShipmentItems: ResolverTypeWrapper<Omit<OutboundShipmentItems, 'batch' | 'outboundShipment' | 'product' | 'salesOrderItem'> & { batch?: Maybe<ResolversTypes['InventoryBatches']>, outboundShipment: ResolversTypes['OutboundShipments'], product: ResolversTypes['WmsProducts'], salesOrderItem: ResolversTypes['SalesOrderItems'] }>;
   OutboundShipmentStatus: ResolverTypeWrapper<'PICKING' | 'PACKED' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED'>;
@@ -5962,7 +5969,7 @@ export type ResolversTypes = {
   PartnerInvoiceItems: ResolverTypeWrapper<Omit<PartnerInvoiceItems, 'partnerInvoice' | 'shipmentLeg'> & { partnerInvoice: ResolversTypes['PartnerInvoices'], shipmentLeg: ResolversTypes['ShipmentLegs'] }>;
   PartnerInvoiceStatus: ResolverTypeWrapper<'PENDING' | 'PAID' | 'DISPUTED' | 'OVERDUE' | 'CANCELLED'>;
   PartnerInvoices: ResolverTypeWrapper<Omit<PartnerInvoices, 'carrier' | 'items' | 'status'> & { carrier: ResolversTypes['Carriers'], items?: Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, status?: Maybe<ResolversTypes['PartnerInvoiceStatus']> }>;
-  PaymentMethod: ResolverTypeWrapper<'BANK_TRANSFER' | 'CASH' | 'CHECK' | 'CLIENT_CREDIT' | 'CREDIT_CARD' | 'DEBIT_CARD' | 'MAYA' | 'OTHER' | 'PAYPAL' | 'QR_PH' | 'STRIPE' | 'WALLET' | 'WIRE_TRANSFER'>;
+  PaymentMethod: ResolverTypeWrapper<'CREDIT_CARD' | 'DEBIT_CARD' | 'WALLET' | 'QR_PH' | 'CLIENT_CREDIT' | 'BANK_TRANSFER' | 'CASH' | 'CHECK'>;
   PaymentStatus: ResolverTypeWrapper<'PENDING' | 'PROCESSING' | 'SUCCESSFUL' | 'FAILED' | 'CANCELLED' | 'REFUNDED'>;
   Payments: ResolverTypeWrapper<Omit<Payments, 'invoice' | 'paymentMethod' | 'status'> & { invoice: ResolversTypes['BillingInvoices'], paymentMethod: ResolversTypes['PaymentMethod'], status?: Maybe<ResolversTypes['PaymentStatus']> }>;
   PickBatchItems: ResolverTypeWrapper<Omit<PickBatchItems, 'pickBatch' | 'salesOrder'> & { pickBatch: ResolversTypes['PickBatches'], salesOrder: ResolversTypes['SalesOrders'] }>;
@@ -6630,6 +6637,8 @@ export type CreditNotesResolvers<ContextType = GraphQLContext, ParentType extend
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
+export type CrmInvoicePaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CREDIT_CARD?: any, MAYA?: any, OTHER?: any, PAYPAL?: any, STRIPE?: any, WIRE_TRANSFER?: any }, ResolversTypes['CrmInvoicePaymentMethod']>;
+
 export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CrmMutation'] = ResolversParentTypes['CrmMutation']> = {
   createAttachment?: Resolver<ResolversTypes['Attachments'], ParentType, ContextType, RequireFields<CrmMutationCreateAttachmentArgs, 'value'>>;
   createCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationCreateCampaignArgs, 'value'>>;
@@ -7076,7 +7085,7 @@ export type InvoicesResolvers<ContextType = GraphQLContext, ParentType extends R
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
-export type LeadSourceResolvers = EnumResolverSignature<{ ADVERTISEMENT?: any, COLD_CALL?: any, EMAIL_CAMPAIGN?: any, EVENT?: any, OTHER?: any, PARTNER?: any, REFERRAL?: any, SOCIAL_MEDIA?: any, WEBSITE?: any }, ResolversTypes['LeadSource']>;
+export type LeadSourceResolvers = EnumResolverSignature<{ ADVERTISMENT?: any, COLD_CALL?: any, EMAIL_CAMPAIGN?: any, EVENT?: any, OTHER?: any, PARTNER?: any, REFERRAL?: any, SOCIAL_MEDIA?: any, WEBSITE?: any }, ResolversTypes['LeadSource']>;
 
 export type LeadStatusResolvers = EnumResolverSignature<{ CONTACTED?: any, CONVERTED?: any, NEW?: any, QUALIFIED?: any, UNQUALIFIED?: any }, ResolversTypes['LeadStatus']>;
 
@@ -7171,7 +7180,7 @@ export type OpportunityProductsResolvers<ContextType = GraphQLContext, ParentTyp
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
 };
 
-export type OpportunitySourceResolvers = EnumResolverSignature<{ ADVERTISEMENT?: any, COLD_CALL?: any, EMAIL_CAMPAIGN?: any, EVENT?: any, EXISTING_CUSTOMER?: any, OTHER?: any, PARTNER?: any, REFERRAL?: any, SOCIAL_MEDIA?: any, WEBSITE?: any }, ResolversTypes['OpportunitySource']>;
+export type OpportunitySourceResolvers = EnumResolverSignature<{ ADVERTISMENT?: any, COLD_CALL?: any, EMAIL_CAMPAIGN?: any, EVENT?: any, EXISTING_CUSTOMER?: any, OTHER?: any, PARTNER?: any, REFERRAL?: any, SOCIAL_MEDIA?: any, WEBSITE?: any }, ResolversTypes['OpportunitySource']>;
 
 export type OpportunityStageResolvers = EnumResolverSignature<{ CLOSED_LOST?: any, CLOSED_WON?: any, DEMO?: any, NEED_ANALYSIS?: any, NEGOTIATION?: any, PROPOSAL?: any, PROSPECTING?: any, QUALIFICATION?: any }, ResolversTypes['OpportunityStage']>;
 
@@ -7263,7 +7272,7 @@ export type PartnerInvoicesResolvers<ContextType = GraphQLContext, ParentType ex
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
-export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CLIENT_CREDIT?: any, CREDIT_CARD?: any, DEBIT_CARD?: any, MAYA?: any, OTHER?: any, PAYPAL?: any, QR_PH?: any, STRIPE?: any, WALLET?: any, WIRE_TRANSFER?: any }, ResolversTypes['PaymentMethod']>;
+export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CLIENT_CREDIT?: any, CREDIT_CARD?: any, DEBIT_CARD?: any, QR_PH?: any, WALLET?: any }, ResolversTypes['PaymentMethod']>;
 
 export type PaymentStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, FAILED?: any, PENDING?: any, PROCESSING?: any, REFUNDED?: any, SUCCESSFUL?: any }, ResolversTypes['PaymentStatus']>;
 
@@ -8010,6 +8019,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
   Companies?: CompaniesResolvers<ContextType>;
   Contacts?: ContactsResolvers<ContextType>;
   CreditNotes?: CreditNotesResolvers<ContextType>;
+  CrmInvoicePaymentMethod?: CrmInvoicePaymentMethodResolvers;
   CrmMutation?: CrmMutationResolvers<ContextType>;
   CrmQuery?: CrmQueryResolvers<ContextType>;
   Currency?: CurrencyResolvers;

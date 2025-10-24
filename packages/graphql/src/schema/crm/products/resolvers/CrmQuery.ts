@@ -1,3 +1,4 @@
+import { CrmProductType } from "../../../../db.types";
 import { Products } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, 'product'|'products'> = {
@@ -25,6 +26,10 @@ export const CrmQuery: Pick<CrmQueryResolvers, 'product'|'products'> = {
           eb("description", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", CrmProductType[args.type]);
     }
     const products = await query.execute();
     return products as unknown as Products[];
