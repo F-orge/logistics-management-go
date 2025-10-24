@@ -1,3 +1,4 @@
+import { WmsLocationTypeEnum } from "../../../../db.types";
 import { PutawayRules } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'putawayRule'|'putawayRules'> =
@@ -16,6 +17,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'putawayRule'|'putawayRules'> =
           .clearOffset()
           .where("createdAt", ">=", args.from as Date)
           .where("createdAt", "<=", args.to as Date);
+      }
+
+      if (args.locationType) {
+        query = query.where("locationType", "=", WmsLocationTypeEnum[args.locationType]);
       }
 
       const results = await query.execute();

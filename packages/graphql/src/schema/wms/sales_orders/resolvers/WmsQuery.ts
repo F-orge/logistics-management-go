@@ -1,3 +1,4 @@
+import { WmsSalesOrderStatusEnum } from "../../../../db.types";
 import { SalesOrders } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'salesOrder'|'salesOrders'> = {
@@ -24,6 +25,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'salesOrder'|'salesOrders'> = {
           eb("shippingAddress", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsSalesOrderStatusEnum[args.status]);
     }
 
     const results = await query.execute();

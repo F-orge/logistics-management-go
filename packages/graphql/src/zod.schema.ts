@@ -5474,8 +5474,6 @@ export type WmsQuery = {
   reorderPoint: ReorderPoints;
   reorderPoints: Array<ReorderPoints>;
   return: Returns;
-  returnItem: ReturnItems;
-  returnItems: Array<ReturnItems>;
   returns: Array<Returns>;
   salesOrder: SalesOrders;
   salesOrders: Array<SalesOrders>;
@@ -5484,8 +5482,6 @@ export type WmsQuery = {
   supplier: Suppliers;
   suppliers: Array<Suppliers>;
   task: Tasks;
-  taskItem: TaskItems;
-  taskItems: Array<TaskItems>;
   tasks: Array<Tasks>;
   warehouse: Warehouses;
   warehouses: Array<Warehouses>;
@@ -5656,21 +5652,6 @@ export type WmsQueryReturnArgs = {
 };
 
 
-export type WmsQueryReturnItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryReturnItemsArgs = {
-  condition?: InputMaybe<ReturnItemCondition>;
-  from?: InputMaybe<Scalars['Date']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  to?: InputMaybe<Scalars['Date']['input']>;
-};
-
-
 export type WmsQueryReturnsArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -5705,7 +5686,6 @@ export type WmsQueryStockTransfersArgs = {
   from?: InputMaybe<Scalars['Date']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<StockTransferStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
 };
@@ -5727,21 +5707,6 @@ export type WmsQuerySuppliersArgs = {
 
 export type WmsQueryTaskArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryTaskItemArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type WmsQueryTaskItemsArgs = {
-  from?: InputMaybe<Scalars['Date']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<TaskItemStatus>;
-  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 

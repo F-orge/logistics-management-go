@@ -1,3 +1,4 @@
+import { TmsShipmentLegStatusEnum } from "../../../../db.types";
 import { ShipmentLegs } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'shipmentLeg'|'shipmentLegs'> =
@@ -25,6 +26,10 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'shipmentLeg'|'shipmentLegs'> =
             eb("endLocation", "ilike", `%${args.search}%`),
           ])
         );
+      }
+
+      if (args.status) {
+        query = query.where("status", "=", TmsShipmentLegStatusEnum[args.status]);
       }
 
       const results = await query.execute();

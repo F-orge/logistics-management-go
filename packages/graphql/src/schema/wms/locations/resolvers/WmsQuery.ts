@@ -1,3 +1,4 @@
+import { WmsLocationTypeEnum } from "../../../../db.types";
 import { Locations } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'location'|'locations'> = {
@@ -25,6 +26,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'location'|'locations'> = {
           eb("path", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", WmsLocationTypeEnum[args.type]);
     }
 
     const results = await query.execute();

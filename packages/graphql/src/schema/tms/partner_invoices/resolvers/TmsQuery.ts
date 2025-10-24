@@ -1,3 +1,4 @@
+import { TmsPartnerInvoiceStatusEnum } from "../../../../db.types";
 import { PartnerInvoices } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'partnerInvoice'|'partnerInvoices'> = {
@@ -21,6 +22,10 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'partnerInvoice'|'partnerInvoices
       query = query.where((eb) =>
         eb.or([eb("invoiceNumber", "ilike", `%${args.search}%`)])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", TmsPartnerInvoiceStatusEnum[args.status]);
     }
 
     const results = await query.execute();

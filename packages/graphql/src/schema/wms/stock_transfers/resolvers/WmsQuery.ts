@@ -1,3 +1,4 @@
+import { WmsStockTransferStatusEnum } from "../../../../db.types";
 import { StockTransfers } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'stockTransfer'|'stockTransfers'> = {
@@ -15,6 +16,14 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'stockTransfer'|'stockTransfers'>
         .clearOffset()
         .where("createdAt", ">=", args.from as Date)
         .where("createdAt", "<=", args.to as Date);
+    }
+
+    if (args.status) {
+      query = query.where(
+        "status",
+        "=",
+        WmsStockTransferStatusEnum[args.status]
+      );
     }
 
     const results = await query.execute();

@@ -1,3 +1,4 @@
+import { WmsInboundShipmentStatusEnum } from "../../../../db.types";
 import { InboundShipments } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'inboundShipment'|'inboundShipments'> = {
@@ -15,6 +16,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'inboundShipment'|'inboundShipmen
         .clearOffset()
         .where("createdAt", ">=", args.from as Date)
         .where("createdAt", "<=", args.to as Date);
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsInboundShipmentStatusEnum[args.status]);
     }
 
     const results = await query.execute();

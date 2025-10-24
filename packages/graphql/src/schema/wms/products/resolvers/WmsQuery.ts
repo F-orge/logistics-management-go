@@ -1,3 +1,4 @@
+import { WmsProductStatusEnum } from "../../../../db.types";
 import { WmsProducts } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'wmsProduct'|'wmsProducts'> = {
@@ -26,6 +27,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'wmsProduct'|'wmsProducts'> = {
           eb("description", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsProductStatusEnum[args.status]);
     }
 
     const results = await query.execute();

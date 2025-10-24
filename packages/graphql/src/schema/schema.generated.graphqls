@@ -3582,18 +3582,14 @@ type WmsQuery {
   reorderPoint(id: ID!): ReorderPoints!
   reorderPoints(from: Date, page: Int, perPage: Int, to: Date): [ReorderPoints!]!
   return(id: ID!): Returns!
-  returnItem(id: ID!): ReturnItems!
-  returnItems(condition: ReturnItemCondition, from: Date, page: Int, perPage: Int, search: String, to: Date): [ReturnItems!]!
   returns(from: Date, page: Int, perPage: Int, search: String, status: ReturnStatus, to: Date): [Returns!]!
   salesOrder(id: ID!): SalesOrders!
   salesOrders(from: Date, page: Int, perPage: Int, search: String, status: SalesOrderStatus, to: Date): [SalesOrders!]!
   stockTransfer(id: ID!): StockTransfers!
-  stockTransfers(from: Date, page: Int, perPage: Int, search: String, status: StockTransferStatus, to: Date): [StockTransfers!]!
+  stockTransfers(from: Date, page: Int, perPage: Int, status: StockTransferStatus, to: Date): [StockTransfers!]!
   supplier(id: ID!): Suppliers!
   suppliers(from: Date, page: Int, perPage: Int, search: String, to: Date): [Suppliers!]!
   task(id: ID!): Tasks!
-  taskItem(id: ID!): TaskItems!
-  taskItems(from: Date, page: Int, perPage: Int, search: String, status: TaskItemStatus, to: Date): [TaskItems!]!
   tasks(from: Date, page: Int, perPage: Int, search: String, status: TaskStatus, to: Date, type: TaskType): [Tasks!]!
   warehouse(id: ID!): Warehouses!
   warehouses(from: Date, page: Int, perPage: Int, search: String, to: Date): [Warehouses!]!

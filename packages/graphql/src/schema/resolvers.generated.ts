@@ -214,12 +214,10 @@ import    { WmsQuery as pick_batches_WmsQuery } from './wms/pick_batches/resolve
 import    { WmsQuery as putaway_rules_WmsQuery } from './wms/putaway_rules/resolvers/WmsQuery';
 import    { WmsQuery as reorder_points_WmsQuery } from './wms/reorder_points/resolvers/WmsQuery';
 import    { WmsQuery as returns_WmsQuery } from './wms/returns/resolvers/WmsQuery';
-import    { WmsQuery as return_items_WmsQuery } from './wms/return_items/resolvers/WmsQuery';
 import    { WmsQuery as sales_orders_WmsQuery } from './wms/sales_orders/resolvers/WmsQuery';
 import    { WmsQuery as stock_transfers_WmsQuery } from './wms/stock_transfers/resolvers/WmsQuery';
 import    { WmsQuery as suppliers_WmsQuery } from './wms/suppliers/resolvers/WmsQuery';
 import    { WmsQuery as tasks_WmsQuery } from './wms/tasks/resolvers/WmsQuery';
-import    { WmsQuery as task_items_WmsQuery } from './wms/task_items/resolvers/WmsQuery';
 import    { WmsQuery as warehouses_WmsQuery } from './wms/warehouses/resolvers/WmsQuery';
 import    { WmsQuery as products_WmsQuery } from './wms/products/resolvers/WmsQuery';
 import    { File } from './base/resolvers/File';
@@ -314,7 +312,7 @@ Vehicles: Vehicles,
 Warehouses: Warehouses,
 WmsMutation: { ...bin_thresholds_WmsMutation,...inbound_shipments_WmsMutation,...inbound_shipment_items_WmsMutation,...inventory_adjustments_WmsMutation,...inventory_batches_WmsMutation,...inventory_stock_WmsMutation,...locations_WmsMutation,...outbound_shipments_WmsMutation,...outbound_shipment_items_WmsMutation,...packages_WmsMutation,...package_items_WmsMutation,...pick_batches_WmsMutation,...pick_batch_items_WmsMutation,...putaway_rules_WmsMutation,...reorder_points_WmsMutation,...returns_WmsMutation,...return_items_WmsMutation,...sales_orders_WmsMutation,...sales_order_items_WmsMutation,...stock_transfers_WmsMutation,...suppliers_WmsMutation,...tasks_WmsMutation,...task_items_WmsMutation,...warehouses_WmsMutation,...products_WmsMutation },
 WmsProducts: WmsProducts,
-WmsQuery: { ...bin_thresholds_WmsQuery,...inbound_shipments_WmsQuery,...inventory_adjustments_WmsQuery,...inventory_batches_WmsQuery,...inventory_stock_WmsQuery,...locations_WmsQuery,...outbound_shipments_WmsQuery,...packages_WmsQuery,...pick_batches_WmsQuery,...putaway_rules_WmsQuery,...reorder_points_WmsQuery,...returns_WmsQuery,...return_items_WmsQuery,...sales_orders_WmsQuery,...stock_transfers_WmsQuery,...suppliers_WmsQuery,...tasks_WmsQuery,...task_items_WmsQuery,...warehouses_WmsQuery,...products_WmsQuery },
+WmsQuery: { ...bin_thresholds_WmsQuery,...inbound_shipments_WmsQuery,...inventory_adjustments_WmsQuery,...inventory_batches_WmsQuery,...inventory_stock_WmsQuery,...locations_WmsQuery,...outbound_shipments_WmsQuery,...packages_WmsQuery,...pick_batches_WmsQuery,...putaway_rules_WmsQuery,...reorder_points_WmsQuery,...returns_WmsQuery,...sales_orders_WmsQuery,...stock_transfers_WmsQuery,...suppliers_WmsQuery,...tasks_WmsQuery,...warehouses_WmsQuery,...products_WmsQuery },
 File: File,
 Date: DateResolver
     }

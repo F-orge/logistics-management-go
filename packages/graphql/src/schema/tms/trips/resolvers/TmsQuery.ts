@@ -1,3 +1,4 @@
+import { TmsTripStatusEnum } from "../../../../db.types";
 import { Trips } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'trip'|'trips'> = {
@@ -24,6 +25,10 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'trip'|'trips'> = {
           eb("startLocation", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", TmsTripStatusEnum[args.status]);
     }
 
     const results = await query.execute();

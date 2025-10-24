@@ -1,3 +1,4 @@
+import { WmsPickBatchStatusEnum, WmsPickStrategyEnum } from "../../../../db.types";
 import { PickBatches } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'pickBatch'|'pickBatches'> = {
@@ -24,6 +25,14 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'pickBatch'|'pickBatches'> = {
           eb("waveId", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsPickBatchStatusEnum[args.status]);
+    }
+
+    if (args.strategy) {
+      query = query.where("strategy", "=", WmsPickStrategyEnum[args.strategy]);
     }
 
     const results = await query.execute();

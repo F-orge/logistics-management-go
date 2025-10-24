@@ -1,3 +1,4 @@
+import { WmsTaskStatusEnum, WmsTaskTypeEnum } from "../../../../db.types";
 import { Tasks } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'task'|'tasks'> = {
@@ -26,6 +27,14 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'task'|'tasks'> = {
           eb("notes", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", WmsTaskTypeEnum[args.type]);
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsTaskStatusEnum[args.status]);
     }
 
     const results = await query.execute();

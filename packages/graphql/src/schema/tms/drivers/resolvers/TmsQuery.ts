@@ -1,3 +1,4 @@
+import { TmsDriverStatusEnum } from "../../../../db.types";
 import { Drivers } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'driver'|'drivers'> = {
@@ -24,6 +25,10 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'driver'|'drivers'> = {
           eb("contactPhone", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", TmsDriverStatusEnum[args.status]);
     }
 
     const results = await query.execute();

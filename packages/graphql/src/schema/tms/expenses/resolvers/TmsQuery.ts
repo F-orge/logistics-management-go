@@ -1,3 +1,4 @@
+import { TmsCurrencyEnum, TmsExpenseStatusEnum, TmsExpenseTypeEnum } from "../../../../db.types";
 import { Expenses } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'expense'|'expenses'> = {
@@ -24,6 +25,18 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'expense'|'expenses'> = {
           eb("description", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", TmsExpenseTypeEnum[args.type]);
+    }
+
+    if (args.currency) {
+      query = query.where("currency", "=", TmsCurrencyEnum[args.currency]);
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", TmsExpenseStatusEnum[args.status]);
     }
 
     const results = await query.execute();

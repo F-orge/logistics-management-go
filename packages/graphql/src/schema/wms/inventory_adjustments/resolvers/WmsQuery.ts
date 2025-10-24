@@ -1,3 +1,4 @@
+import { WmsInventoryAdjustmentReasonEnum } from "../../../../db.types";
 import { InventoryAdjustments } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'inventoryAdjustment'|'inventoryAdjustments'> = {
@@ -23,6 +24,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'inventoryAdjustment'|'inventoryA
           eb("notes", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.reason) {
+      query = query.where("reason", "=", WmsInventoryAdjustmentReasonEnum[args.reason]);
     }
 
     const results = await query.execute();

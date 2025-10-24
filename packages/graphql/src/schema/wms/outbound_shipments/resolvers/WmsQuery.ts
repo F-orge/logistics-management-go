@@ -1,3 +1,4 @@
+import { WmsOutboundShipmentStatusEnum } from "../../../../db.types";
 import { OutboundShipments } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'outboundShipment'|'outboundShipments'> = {
@@ -24,6 +25,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'outboundShipment'|'outboundShipm
           eb("carrier", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsOutboundShipmentStatusEnum[args.status]);
     }
 
     const results = await query.execute();

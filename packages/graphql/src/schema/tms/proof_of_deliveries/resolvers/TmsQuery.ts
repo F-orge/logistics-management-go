@@ -1,3 +1,4 @@
+import { TmsProofTypeEnum } from "../../../../db.types";
 import { ProofOfDeliveries } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'proofOfDeliveries'|'proofOfDelivery'> = {
@@ -21,6 +22,10 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'proofOfDeliveries'|'proofOfDeliv
       query = query.where((eb) =>
         eb.or([eb("filePath", "ilike", `%${args.search}%`)])
       );
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", TmsProofTypeEnum[args.type]);
     }
 
     const results = await query.execute();

@@ -1,3 +1,4 @@
+import { TmsVehicleStatusEnum } from "../../../../db.types";
 import { Vehicles } from "../../../../zod.schema";
 import type { TmsQueryResolvers } from "./../../../types.generated";
 export const TmsQuery: Pick<TmsQueryResolvers, 'vehicle'|'vehicles'> = {
@@ -26,6 +27,10 @@ export const TmsQuery: Pick<TmsQueryResolvers, 'vehicle'|'vehicles'> = {
           eb("vin", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", TmsVehicleStatusEnum[args.status]);
     }
 
     const results = await query.execute();

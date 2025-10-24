@@ -1,3 +1,4 @@
+import { WmsReturnStatusEnum } from "../../../../db.types";
 import { Returns } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
 export const WmsQuery: Pick<WmsQueryResolvers, 'return'|'returns'> = {
@@ -24,6 +25,10 @@ export const WmsQuery: Pick<WmsQueryResolvers, 'return'|'returns'> = {
           eb("reason", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", WmsReturnStatusEnum[args.status]);
     }
 
     const results = await query.execute();
