@@ -11,10 +11,10 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: {
-      "@packages/ui": "../../packages/ui",
-      "@packages/db": "../../packages/db",
-    },
+    // alias: {
+    //   "@packages/ui": "../../packages/ui",
+    //   "@packages/db": "../../packages/db",
+    // },
   },
   tools: {
     postcss: {

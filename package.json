@@ -1,6 +1,6 @@
 {
   "name": "logistics-management-system",
-  "version": "1.10",
+  "version": "1.11",
   "private": true,
   "workspaces": [
     "packages/*",
@@ -40,6 +40,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
     "@faker-js/faker": "^10.0.0",
+    "@graphql-codegen/cli": "^6.0.1",
     "@types/node": "^24.6.2",
     "concurrently": "^9.2.1",
     "tsc-alias": "^1.8.16",
@@ -51,5 +52,8 @@
     "react-dom": "^19.2.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0"
+  },
+  "dependencies": {
+    "graphql": "^16.11.0"
   }
 }
