@@ -23,6 +23,7 @@
     "lint:fix": "biome lint --write src"
   },
   "dependencies": {
+    "@autoform/zod": "^5.0.0",
     "drizzle-orm": "^0.44.6",
     "drizzle-seed": "^0.3.1",
     "drizzle-zod": "^0.8.3",
