@@ -1,3 +1,4 @@
+import { DmsDeliveryRouteStatusEnum } from "../../../../db.types";
 import { DeliveryRoutes } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
 export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryRoute'|'deliveryRoutes'> = {
@@ -21,6 +22,10 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryRoute'|'deliveryRoutes'>
       query = query.where((eb) =>
         eb.or([eb("optimizedRouteData", "ilike", `%${args.search}%`)])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", DmsDeliveryRouteStatusEnum[args.status]);
     }
 
     const results = await query.execute();

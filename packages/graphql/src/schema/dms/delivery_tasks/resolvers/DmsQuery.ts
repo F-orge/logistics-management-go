@@ -1,3 +1,4 @@
+import { DmsDeliveryFailureReasonEnum, DmsDeliveryTaskStatusEnum } from "../../../../db.types";
 import { DeliveryTasks } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
 export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryTask'|'deliveryTasks'> = {
@@ -25,6 +26,18 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'deliveryTask'|'deliveryTasks'> =
           eb("recipientPhone", "ilike", `%${args.search}%`),
           eb("deliveryInstructions", "ilike", `%${args.search}%`),
         ])
+      );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", DmsDeliveryTaskStatusEnum[args.status]);
+    }
+
+    if (args.failureReason) {
+      query = query.where(
+        "failureReason",
+        "=",
+        DmsDeliveryFailureReasonEnum[args.failureReason]
       );
     }
 

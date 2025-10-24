@@ -1,3 +1,4 @@
+import { DmsProofOfDeliveryTypeEnum } from "../../../../db.types";
 import { DmsProofOfDeliveries } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
 export const DmsQuery: Pick<DmsQueryResolvers, 'dmsProofOfDeliveries'|'dmsProofOfDelivery'> = {
@@ -26,6 +27,10 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'dmsProofOfDeliveries'|'dmsProofO
           eb("verificationCode", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.type) {
+      query = query.where("type", "=", DmsProofOfDeliveryTypeEnum[args.type]);
     }
 
     const results = await query.execute();

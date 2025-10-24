@@ -1,3 +1,4 @@
+import { DmsTaskEventStatusEnum } from "../../../../db.types";
 import { TaskEvents } from "../../../../zod.schema";
 import type { DmsQueryResolvers } from "./../../../types.generated";
 export const DmsQuery: Pick<DmsQueryResolvers, 'taskEvent'|'taskEvents'> = {
@@ -24,6 +25,10 @@ export const DmsQuery: Pick<DmsQueryResolvers, 'taskEvent'|'taskEvents'> = {
           eb("notes", "ilike", `%${args.search}%`),
         ])
       );
+    }
+
+    if (args.status) {
+      query = query.where("status", "=", DmsTaskEventStatusEnum[args.status]);
     }
 
     const results = await query.execute();
