@@ -6080,6 +6080,15 @@ export type RemoveCompanyMutationVariables = Exact<{
 
 export type RemoveCompanyMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeCompany: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableCompanyQueryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableCompanyQueryQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', name: string, annualRevenue?: string | null, phoneNumber?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, updatedAt?: string | null, website?: string | null, city?: string | null, country?: string | null, createdAt?: string | null, id: string, industry?: string | null, owner?: { __typename?: 'User', email: string, image?: string | null, name: string } | null, clientAccount?: { __typename?: 'ClientAccounts', walletBalance?: number | null, creditLimit?: number | null, currency?: string | null } | null }> } | null };
+
 export type CreateContactMutationVariables = Exact<{
   contact: CreateContactInput;
 }>;
@@ -7797,6 +7806,37 @@ export const RemoveCompanyDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveCompanyMutation, RemoveCompanyMutationVariables>;
+export const TableCompanyQueryDocument = new TypedDocumentString(`
+    query TableCompanyQuery($page: Int, $perPage: Int, $search: String) {
+  crm {
+    companies(page: $page, perPage: $perPage, search: $search) {
+      name
+      owner {
+        email
+        image
+        name
+      }
+      annualRevenue
+      phoneNumber
+      postalCode
+      state
+      street
+      updatedAt
+      website
+      city
+      clientAccount {
+        walletBalance
+        creditLimit
+        currency
+      }
+      country
+      createdAt
+      id
+      industry
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableCompanyQueryQuery, TableCompanyQueryQueryVariables>;
 export const CreateContactDocument = new TypedDocumentString(`
     mutation CreateContact($contact: CreateContactInput!) {
   crm {

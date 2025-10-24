@@ -60,6 +60,7 @@ type Documents = {
     "\n  mutation CreateCompany($company: CreateCompanyInput!) {\n    crm {\n      createCompany(value: $company) {\n        id\n      }\n    }\n  }\n": typeof types.CreateCompanyDocument,
     "\n  mutation UpdateCompany($id: ID!, $company: UpdateCompanyInput!) {\n    crm {\n      updateCompany(id: $id, value: $company) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateCompanyDocument,
     "\n  mutation RemoveCompany($id: ID!) {\n    crm {\n      removeCompany(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveCompanyDocument,
+    "\n  query TableCompanyQuery($page: Int, $perPage: Int, $search: String) {\n    crm {\n      companies(page: $page, perPage: $perPage, search: $search) {\n        name\n        owner {\n          email\n          image\n          name\n        }\n        annualRevenue\n        phoneNumber\n        postalCode\n        state\n        street\n        updatedAt\n        website\n        city\n        clientAccount {\n          walletBalance\n          creditLimit\n          currency\n        }\n        country\n        createdAt\n        id\n        industry\n      }\n    }\n  }\n": typeof types.TableCompanyQueryDocument,
     "\n  mutation CreateContact($contact: CreateContactInput!) {\n    crm {\n      createContact(value: $contact) {\n        id\n      }\n    }\n  }\n": typeof types.CreateContactDocument,
     "\n  mutation UpdateContact($id: ID!, $contact: UpdateContactInput!) {\n    crm {\n      updateContact(id: $id, value: $contact) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateContactDocument,
     "\n  mutation RemoveContact($id: ID!) {\n    crm {\n      removeContact(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveContactDocument,
@@ -281,6 +282,7 @@ const documents: Documents = {
     "\n  mutation CreateCompany($company: CreateCompanyInput!) {\n    crm {\n      createCompany(value: $company) {\n        id\n      }\n    }\n  }\n": types.CreateCompanyDocument,
     "\n  mutation UpdateCompany($id: ID!, $company: UpdateCompanyInput!) {\n    crm {\n      updateCompany(id: $id, value: $company) {\n        id\n      }\n    }\n  }\n": types.UpdateCompanyDocument,
     "\n  mutation RemoveCompany($id: ID!) {\n    crm {\n      removeCompany(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveCompanyDocument,
+    "\n  query TableCompanyQuery($page: Int, $perPage: Int, $search: String) {\n    crm {\n      companies(page: $page, perPage: $perPage, search: $search) {\n        name\n        owner {\n          email\n          image\n          name\n        }\n        annualRevenue\n        phoneNumber\n        postalCode\n        state\n        street\n        updatedAt\n        website\n        city\n        clientAccount {\n          walletBalance\n          creditLimit\n          currency\n        }\n        country\n        createdAt\n        id\n        industry\n      }\n    }\n  }\n": types.TableCompanyQueryDocument,
     "\n  mutation CreateContact($contact: CreateContactInput!) {\n    crm {\n      createContact(value: $contact) {\n        id\n      }\n    }\n  }\n": types.CreateContactDocument,
     "\n  mutation UpdateContact($id: ID!, $contact: UpdateContactInput!) {\n    crm {\n      updateContact(id: $id, value: $contact) {\n        id\n      }\n    }\n  }\n": types.UpdateContactDocument,
     "\n  mutation RemoveContact($id: ID!) {\n    crm {\n      removeContact(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveContactDocument,
@@ -637,6 +639,10 @@ export function graphql(source: "\n  mutation UpdateCompany($id: ID!, $company: 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation RemoveCompany($id: ID!) {\n    crm {\n      removeCompany(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveCompanyDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query TableCompanyQuery($page: Int, $perPage: Int, $search: String) {\n    crm {\n      companies(page: $page, perPage: $perPage, search: $search) {\n        name\n        owner {\n          email\n          image\n          name\n        }\n        annualRevenue\n        phoneNumber\n        postalCode\n        state\n        street\n        updatedAt\n        website\n        city\n        clientAccount {\n          walletBalance\n          creditLimit\n          currency\n        }\n        country\n        createdAt\n        id\n        industry\n      }\n    }\n  }\n"): typeof import('./graphql').TableCompanyQueryDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
