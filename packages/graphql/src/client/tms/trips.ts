@@ -30,3 +30,44 @@ export const RemoveTripMutation = graphql(`
     }
   }
 `);
+
+export const TableTripQuery = graphql(`
+  query TableTrip(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: TripStatus
+  ) {
+    tms {
+      trips(page: $page, perPage: $perPage, search: $search, status: $status) {
+        createdAt
+        endLocation
+        endTime
+        id
+        startLocation
+        startTime
+        status
+        updatedAt
+        driver {
+          user {
+            email
+            id
+            image
+            name
+          }
+          licenseNumber
+          contactPhone
+          status
+        }
+        vehicle {
+          vin
+          year
+          registrationNumber
+          model
+          make
+          status
+        }
+      }
+    }
+  }
+`);

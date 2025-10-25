@@ -35,3 +35,61 @@ export const RemoveProofOfDeliveryMutation = graphql(`
     }
   }
 `);
+
+export const TableTmsProofOfDeliveryQuery = graphql(`
+  query TableTmsProofOfDelivery(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $type: ProofType
+  ) {
+    tms {
+      proofOfDeliveries(
+        page: $page
+        perPage: $perPage
+        search: $search
+        type: $type
+      ) {
+        createdAt
+        filePath
+        id
+        latitude
+        longitude
+        timestamp
+        type
+        updatedAt
+        tripStop {
+          actualArrivalTime
+          actualDepartureTime
+          address
+          status
+          id
+          shipment {
+            trackingNumber
+            status
+            carrier
+            id
+          }
+          trip {
+            endLocation
+            startLocation
+            status
+            vehicle {
+              registrationNumber
+              vin
+              year
+              make
+              model
+              gpsPings {
+                latitude
+                longitude
+                timestamp
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`);

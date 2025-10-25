@@ -30,3 +30,35 @@ export const RemoveDriverMutation = graphql(`
     }
   }
 `);
+
+export const TableDriverQuery = graphql(`
+  query TableDriver(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: DriverStatus
+  ) {
+    tms {
+      drivers(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        contactPhone
+        createdAt
+        id
+        licenseExpiryDate
+        licenseNumber
+        status
+        updatedAt
+        user {
+          email
+          id
+          image
+          name
+        }
+      }
+    }
+  }
+`);

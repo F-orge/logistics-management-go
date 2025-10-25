@@ -6616,6 +6616,15 @@ export type RemoveCarrierMutationVariables = Exact<{
 
 export type RemoveCarrierMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeCarrier: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableCarrierQueryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableCarrierQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', carriers: Array<{ __typename?: 'Carriers', contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, createdAt?: string | null, id: string, name: string, servicesOffered?: string | null, updatedAt?: string | null, partnerInvoices?: Array<{ __typename?: 'PartnerInvoices', invoiceNumber: string, invoiceDate: string, status?: PartnerInvoiceStatus | null, totalAmount: number, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', status?: ShipmentLegStatus | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, createdAt?: string | null, id: string, status?: OutboundShipmentStatus | null, warehouseId: string } | null } }> | null }> | null, rates?: Array<{ __typename?: 'CarrierRates', destination?: string | null, id: string, origin?: string | null, rate: number, serviceType?: string | null, unit?: CarrierRateUnit | null }> | null }> } | null };
+
 export type CreateDriverScheduleMutationVariables = Exact<{
   driverSchedule: CreateDriverScheduleInput;
 }>;
@@ -6660,6 +6669,16 @@ export type RemoveDriverMutationVariables = Exact<{
 
 export type RemoveDriverMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeDriver: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableDriverQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DriverStatus>;
+}>;
+
+
+export type TableDriverQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', contactPhone?: string | null, createdAt?: string | null, id: string, licenseExpiryDate?: string | null, licenseNumber: string, status?: DriverStatus | null, updatedAt?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
+
 export type CreateExpenseMutationVariables = Exact<{
   expense: CreateExpenseInput;
 }>;
@@ -6681,6 +6700,18 @@ export type RemoveExpenseMutationVariables = Exact<{
 
 
 export type RemoveExpenseMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeExpense: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableExpenseQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ExpenseStatus>;
+  type?: InputMaybe<ExpenseType>;
+  currency?: InputMaybe<Currency>;
+}>;
+
+
+export type TableExpenseQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', amount: number, createdAt?: string | null, currency?: Currency | null, description?: string | null, expenseDate?: string | null, fuelQuantity?: number | null, id: string, odometerReading?: number | null, receiptUrl?: string | null, status?: ExpenseStatus | null, type?: ExpenseType | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, trip?: { __typename?: 'Trips', createdAt?: string | null, endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, startTime?: string | null, endTime?: string | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, model?: string | null, make?: string | null, id: string, registrationNumber: string } | null } | null }> } | null };
 
 export type CreateGeofenceEventMutationVariables = Exact<{
   geofenceEvent: CreateGeofenceEventInput;
@@ -6726,6 +6757,15 @@ export type RemoveGeofenceMutationVariables = Exact<{
 
 export type RemoveGeofenceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGeofence: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableGeofenceQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableGeofenceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', geofences: Array<{ __typename?: 'Geofences', createdAt?: string | null, id: string, latitude?: number | null, longitude?: number | null, name: string, updatedAt?: string | null, events?: Array<{ __typename?: 'GeofenceEvents', eventType: GeofenceEventType, id: string, timestamp: string, vehicle: { __typename?: 'Vehicles', model?: string | null, vin?: string | null, year?: number | null, registrationNumber: string, make?: string | null, id: string } }> | null }> } | null };
+
 export type CreateGpsPingMutationVariables = Exact<{
   gpsPing: CreateGpsPingInput;
 }>;
@@ -6747,6 +6787,14 @@ export type RemoveGpsPingMutationVariables = Exact<{
 
 
 export type RemoveGpsPingMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGpsPing: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableGpsPingQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type TableGpsPingQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', gpsPings: Array<{ __typename?: 'GpsPings', id: string, latitude: number, longitude: number, timestamp: string, vehicle: { __typename?: 'Vehicles', year?: number | null, vin?: string | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null, id: string } }> } | null };
 
 export type CreatePartnerInvoiceItemMutationVariables = Exact<{
   partnerInvoiceItem: CreatePartnerInvoiceItemInput;
@@ -6792,6 +6840,16 @@ export type RemovePartnerInvoiceMutationVariables = Exact<{
 
 export type RemovePartnerInvoiceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removePartnerInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TablePartnerInvoiceQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PartnerInvoiceStatus>;
+}>;
+
+
+export type TablePartnerInvoiceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', createdAt?: string | null, id: string, invoiceDate: string, invoiceNumber: string, status?: PartnerInvoiceStatus | null, totalAmount: number, updatedAt?: string | null, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', startLocation?: string | null, endLocation?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null } | null } }> | null }> } | null };
+
 export type CreateProofOfDeliveryMutationVariables = Exact<{
   proofOfDelivery: CreateProofOfDeliveryInput;
 }>;
@@ -6814,6 +6872,16 @@ export type RemoveProofOfDeliveryMutationVariables = Exact<{
 
 export type RemoveProofOfDeliveryMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeProofOfDelivery: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableTmsProofOfDeliveryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ProofType>;
+}>;
+
+
+export type TableTmsProofOfDeliveryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', createdAt?: string | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, timestamp: string, type?: ProofType | null, updatedAt?: string | null, tripStop: { __typename?: 'TripStops', actualArrivalTime?: string | null, actualDepartureTime?: string | null, address?: string | null, status?: TripStopStatus | null, id: string, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, status?: OutboundShipmentStatus | null, carrier?: string | null, id: string } | null, trip: { __typename?: 'Trips', endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, vehicle?: { __typename?: 'Vehicles', registrationNumber: string, vin?: string | null, year?: number | null, make?: string | null, model?: string | null, gpsPings?: Array<{ __typename?: 'GpsPings', latitude: number, longitude: number, timestamp: string, id: string }> | null } | null } } }> } | null };
+
 export type CreateRouteMutationVariables = Exact<{
   route: CreateRouteInput;
 }>;
@@ -6835,6 +6903,15 @@ export type RemoveRouteMutationVariables = Exact<{
 
 
 export type RemoveRouteMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeRoute: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableRouteQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableRouteQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', routes: Array<{ __typename?: 'Routes', optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, id: string, trip: { __typename?: 'Trips', startLocation?: string | null, endTime?: string | null, endLocation?: string | null, createdAt?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, id: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null } }> } | null };
 
 export type CreateShipmentLegEventMutationVariables = Exact<{
   shipmentLegEvent: CreateShipmentLegEventInput;
@@ -6880,6 +6957,16 @@ export type RemoveShipmentLegMutationVariables = Exact<{
 
 export type RemoveShipmentLegMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeShipmentLeg: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableShipmentLegQueryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ShipmentLegStatus>;
+}>;
+
+
+export type TableShipmentLegQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', createdAt?: string | null, endLocation?: string | null, id: string, legSequence: number, startLocation?: string | null, status?: ShipmentLegStatus | null, updatedAt?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, status?: OutboundShipmentStatus | null } | null, partnerInvoiceItems?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string }> | null, events?: Array<{ __typename?: 'ShipmentLegEvents', location?: string | null, statusMessage?: string | null, eventTimestamp: string, id: string }> | null }> } | null };
+
 export type CreateTripStopMutationVariables = Exact<{
   tripStop: CreateTripStopInput;
 }>;
@@ -6924,6 +7011,16 @@ export type RemoveTripMutationVariables = Exact<{
 
 export type RemoveTripMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeTrip: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableTripQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TripStatus>;
+}>;
+
+
+export type TableTripQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', createdAt?: string | null, endLocation?: string | null, endTime?: string | null, id: string, startLocation?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null } | null }> } | null };
+
 export type CreateVehicleMaintenanceMutationVariables = Exact<{
   vehicleMaintenance: CreateVehicleMaintenanceInput;
 }>;
@@ -6967,6 +7064,16 @@ export type RemoveVehicleMutationVariables = Exact<{
 
 
 export type RemoveVehicleMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeVehicle: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableVehicleQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<VehicleStatus>;
+}>;
+
+
+export type TableVehicleQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, createdAt?: string | null, currentMileage?: number | null, id: string, lastMaintenanceDate?: string | null, make?: string | null, model?: string | null, registrationNumber: string, status?: VehicleStatus | null, updatedAt?: string | null, vin?: string | null, year?: number | null, maintenances?: Array<{ __typename?: 'VehicleMaintenance', cost?: number | null, createdAt?: string | null, id: string, notes?: string | null, serviceDate: string, serviceType?: VehicleServiceType | null, updatedAt?: string | null }> | null }> } | null };
 
 export type CreateBinThresholdMutationVariables = Exact<{
   binThreshold: CreateBinThresholdInput;
@@ -9019,6 +9126,51 @@ export const RemoveCarrierDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveCarrierMutation, RemoveCarrierMutationVariables>;
+export const TableCarrierQueryDocument = new TypedDocumentString(`
+    query TableCarrierQuery($page: Int, $perPage: Int, $search: String) {
+  tms {
+    carriers(page: $page, perPage: $perPage, search: $search) {
+      contactEmail
+      contactPerson
+      contactPhone
+      createdAt
+      id
+      name
+      servicesOffered
+      updatedAt
+      partnerInvoices {
+        invoiceNumber
+        invoiceDate
+        status
+        totalAmount
+        items {
+          amount
+          id
+          shipmentLeg {
+            status
+            shipment {
+              trackingNumber
+              carrier
+              createdAt
+              id
+              status
+              warehouseId
+            }
+          }
+        }
+      }
+      rates {
+        destination
+        id
+        origin
+        rate
+        serviceType
+        unit
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableCarrierQueryQuery, TableCarrierQueryQueryVariables>;
 export const CreateDriverScheduleDocument = new TypedDocumentString(`
     mutation CreateDriverSchedule($driverSchedule: CreateDriverScheduleInput!) {
   tms {
@@ -9075,6 +9227,27 @@ export const RemoveDriverDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveDriverMutation, RemoveDriverMutationVariables>;
+export const TableDriverDocument = new TypedDocumentString(`
+    query TableDriver($page: Int, $perPage: Int, $search: String, $status: DriverStatus) {
+  tms {
+    drivers(page: $page, perPage: $perPage, search: $search, status: $status) {
+      contactPhone
+      createdAt
+      id
+      licenseExpiryDate
+      licenseNumber
+      status
+      updatedAt
+      user {
+        email
+        id
+        image
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableDriverQuery, TableDriverQueryVariables>;
 export const CreateExpenseDocument = new TypedDocumentString(`
     mutation CreateExpense($expense: CreateExpenseInput!) {
   tms {
@@ -9103,6 +9276,60 @@ export const RemoveExpenseDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveExpenseMutation, RemoveExpenseMutationVariables>;
+export const TableExpenseDocument = new TypedDocumentString(`
+    query TableExpense($page: Int, $perPage: Int, $search: String, $status: ExpenseStatus, $type: ExpenseType, $currency: Currency) {
+  tms {
+    expenses(
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+      type: $type
+      currency: $currency
+    ) {
+      amount
+      createdAt
+      currency
+      description
+      driver {
+        user {
+          email
+          id
+          image
+          name
+        }
+        licenseNumber
+        contactPhone
+        status
+      }
+      expenseDate
+      fuelQuantity
+      id
+      odometerReading
+      receiptUrl
+      status
+      type
+      updatedAt
+      trip {
+        createdAt
+        endLocation
+        startLocation
+        status
+        startTime
+        endTime
+        vehicle {
+          vin
+          year
+          model
+          make
+          id
+          registrationNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableExpenseQuery, TableExpenseQueryVariables>;
 export const CreateGeofenceEventDocument = new TypedDocumentString(`
     mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {
   tms {
@@ -9159,6 +9386,33 @@ export const RemoveGeofenceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveGeofenceMutation, RemoveGeofenceMutationVariables>;
+export const TableGeofenceDocument = new TypedDocumentString(`
+    query TableGeofence($page: Int, $perPage: Int, $search: String) {
+  tms {
+    geofences(page: $page, perPage: $perPage, search: $search) {
+      createdAt
+      id
+      latitude
+      longitude
+      name
+      updatedAt
+      events {
+        eventType
+        id
+        timestamp
+        vehicle {
+          model
+          vin
+          year
+          registrationNumber
+          make
+          id
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableGeofenceQuery, TableGeofenceQueryVariables>;
 export const CreateGpsPingDocument = new TypedDocumentString(`
     mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {
   tms {
@@ -9187,6 +9441,27 @@ export const RemoveGpsPingDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveGpsPingMutation, RemoveGpsPingMutationVariables>;
+export const TableGpsPingDocument = new TypedDocumentString(`
+    query TableGpsPing($page: Int, $perPage: Int) {
+  tms {
+    gpsPings(page: $page, perPage: $perPage) {
+      id
+      latitude
+      longitude
+      timestamp
+      vehicle {
+        year
+        vin
+        registrationNumber
+        model
+        make
+        status
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableGpsPingQuery, TableGpsPingQueryVariables>;
 export const CreatePartnerInvoiceItemDocument = new TypedDocumentString(`
     mutation CreatePartnerInvoiceItem($partnerInvoiceItem: CreatePartnerInvoiceItemInput!) {
   tms {
@@ -9243,6 +9518,38 @@ export const RemovePartnerInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemovePartnerInvoiceMutation, RemovePartnerInvoiceMutationVariables>;
+export const TablePartnerInvoiceDocument = new TypedDocumentString(`
+    query TablePartnerInvoice($page: Int, $perPage: Int, $search: String, $status: PartnerInvoiceStatus) {
+  tms {
+    partnerInvoices(
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+    ) {
+      createdAt
+      id
+      invoiceDate
+      invoiceNumber
+      status
+      totalAmount
+      updatedAt
+      items {
+        amount
+        id
+        shipmentLeg {
+          startLocation
+          endLocation
+          shipment {
+            trackingNumber
+            carrier
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TablePartnerInvoiceQuery, TablePartnerInvoiceQueryVariables>;
 export const CreateProofOfDeliveryDocument = new TypedDocumentString(`
     mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {
   tms {
@@ -9271,6 +9578,53 @@ export const RemoveProofOfDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveProofOfDeliveryMutation, RemoveProofOfDeliveryMutationVariables>;
+export const TableTmsProofOfDeliveryDocument = new TypedDocumentString(`
+    query TableTmsProofOfDelivery($page: Int, $perPage: Int, $search: String, $type: ProofType) {
+  tms {
+    proofOfDeliveries(page: $page, perPage: $perPage, search: $search, type: $type) {
+      createdAt
+      filePath
+      id
+      latitude
+      longitude
+      timestamp
+      type
+      updatedAt
+      tripStop {
+        actualArrivalTime
+        actualDepartureTime
+        address
+        status
+        id
+        shipment {
+          trackingNumber
+          status
+          carrier
+          id
+        }
+        trip {
+          endLocation
+          startLocation
+          status
+          vehicle {
+            registrationNumber
+            vin
+            year
+            make
+            model
+            gpsPings {
+              latitude
+              longitude
+              timestamp
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableTmsProofOfDeliveryQuery, TableTmsProofOfDeliveryQueryVariables>;
 export const CreateRouteDocument = new TypedDocumentString(`
     mutation CreateRoute($route: CreateRouteInput!) {
   tms {
@@ -9299,6 +9653,38 @@ export const RemoveRouteDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveRouteMutation, RemoveRouteMutationVariables>;
+export const TableRouteDocument = new TypedDocumentString(`
+    query TableRoute($page: Int, $perPage: Int, $search: String) {
+  tms {
+    routes(page: $page, perPage: $perPage, search: $search) {
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      id
+      trip {
+        startLocation
+        endTime
+        endLocation
+        createdAt
+        startTime
+        status
+        updatedAt
+        driver {
+          user {
+            email
+            id
+            image
+            name
+          }
+          licenseNumber
+          contactPhone
+          id
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableRouteQuery, TableRouteQueryVariables>;
 export const CreateShipmentLegEventDocument = new TypedDocumentString(`
     mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {
   tms {
@@ -9355,6 +9741,36 @@ export const RemoveShipmentLegDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveShipmentLegMutation, RemoveShipmentLegMutationVariables>;
+export const TableShipmentLegQueryDocument = new TypedDocumentString(`
+    query TableShipmentLegQuery($page: Int, $perPage: Int, $search: String, $status: ShipmentLegStatus) {
+  tms {
+    shipmentLegs(page: $page, perPage: $perPage, search: $search, status: $status) {
+      createdAt
+      endLocation
+      id
+      legSequence
+      startLocation
+      status
+      updatedAt
+      shipment {
+        trackingNumber
+        carrier
+        status
+      }
+      partnerInvoiceItems {
+        amount
+        id
+      }
+      events {
+        location
+        statusMessage
+        eventTimestamp
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableShipmentLegQueryQuery, TableShipmentLegQueryQueryVariables>;
 export const CreateTripStopDocument = new TypedDocumentString(`
     mutation CreateTripStop($tripStop: CreateTripStopInput!) {
   tms {
@@ -9411,6 +9827,41 @@ export const RemoveTripDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveTripMutation, RemoveTripMutationVariables>;
+export const TableTripDocument = new TypedDocumentString(`
+    query TableTrip($page: Int, $perPage: Int, $search: String, $status: TripStatus) {
+  tms {
+    trips(page: $page, perPage: $perPage, search: $search, status: $status) {
+      createdAt
+      endLocation
+      endTime
+      id
+      startLocation
+      startTime
+      status
+      updatedAt
+      driver {
+        user {
+          email
+          id
+          image
+          name
+        }
+        licenseNumber
+        contactPhone
+        status
+      }
+      vehicle {
+        vin
+        year
+        registrationNumber
+        model
+        make
+        status
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableTripQuery, TableTripQueryVariables>;
 export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
     mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {
   tms {
@@ -9467,6 +9918,36 @@ export const RemoveVehicleDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveVehicleMutation, RemoveVehicleMutationVariables>;
+export const TableVehicleDocument = new TypedDocumentString(`
+    query TableVehicle($page: Int, $perPage: Int, $search: String, $status: VehicleStatus) {
+  tms {
+    vehicles(page: $page, perPage: $perPage, search: $search, status: $status) {
+      capacityVolume
+      capacityWeight
+      createdAt
+      currentMileage
+      id
+      lastMaintenanceDate
+      make
+      model
+      registrationNumber
+      status
+      updatedAt
+      vin
+      year
+      maintenances {
+        cost
+        createdAt
+        id
+        notes
+        serviceDate
+        serviceType
+        updatedAt
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableVehicleQuery, TableVehicleQueryVariables>;
 export const CreateBinThresholdDocument = new TypedDocumentString(`
     mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {
   wms {

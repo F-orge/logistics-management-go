@@ -30,3 +30,36 @@ export const RemoveRouteMutation = graphql(`
     }
   }
 `);
+
+export const TableRouteQuery = graphql(`
+  query TableRoute($page: Int, $perPage: Int, $search: String) {
+    tms {
+      routes(page: $page, perPage: $perPage, search: $search) {
+        optimizedRouteData
+        totalDistance
+        totalDuration
+        id
+        trip {
+          startLocation
+          endTime
+          endLocation
+          createdAt
+          startTime
+          status
+          updatedAt
+          driver {
+            user {
+              email
+              id
+              image
+              name
+            }
+            licenseNumber
+            contactPhone
+            id
+          }
+        }
+      }
+    }
+  }
+`);

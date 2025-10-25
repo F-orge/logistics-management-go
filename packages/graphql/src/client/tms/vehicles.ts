@@ -30,3 +30,44 @@ export const RemoveVehicleMutation = graphql(`
     }
   }
 `);
+
+export const TableVehicleQuery = graphql(`
+  query TableVehicle(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: VehicleStatus
+  ) {
+    tms {
+      vehicles(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        capacityVolume
+        capacityWeight
+        createdAt
+        currentMileage
+        id
+        lastMaintenanceDate
+        make
+        model
+        registrationNumber
+        status
+        updatedAt
+        vin
+        year
+        maintenances {
+          cost
+          createdAt
+          id
+          notes
+          serviceDate
+          serviceType
+          updatedAt
+        }
+      }
+    }
+  }
+`);

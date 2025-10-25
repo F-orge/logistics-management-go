@@ -33,3 +33,41 @@ export const RemovePartnerInvoiceMutation = graphql(`
     }
   }
 `);
+
+export const TablePartnerInvoice = graphql(`
+  query TablePartnerInvoice(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: PartnerInvoiceStatus
+  ) {
+    tms {
+      partnerInvoices(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        createdAt
+        id
+        invoiceDate
+        invoiceNumber
+        status
+        totalAmount
+        updatedAt
+        items {
+          amount
+          id
+          shipmentLeg {
+            startLocation
+            endLocation
+            shipment {
+              trackingNumber
+              carrier
+            }
+          }
+        }
+      }
+    }
+  }
+`);

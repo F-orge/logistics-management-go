@@ -30,3 +30,31 @@ export const RemoveGeofenceMutation = graphql(`
     }
   }
 `);
+
+export const TableGeofenceQuery = graphql(`
+  query TableGeofence($page: Int, $perPage: Int, $search: String) {
+    tms {
+      geofences(page: $page, perPage: $perPage, search: $search) {
+        createdAt
+        id
+        latitude
+        longitude
+        name
+        updatedAt
+        events {
+          eventType
+          id
+          timestamp
+          vehicle {
+            model
+            vin
+            year
+            registrationNumber
+            make
+            id
+          }
+        }
+      }
+    }
+  }
+`);

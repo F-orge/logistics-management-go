@@ -30,3 +30,49 @@ export const RemoveCarrierMutation = graphql(`
     }
   }
 `);
+
+export const TableCarrierQuery = graphql(`
+  query TableCarrierQuery($page: Int, $perPage: Int, $search: String) {
+    tms {
+      carriers(page: $page, perPage: $perPage, search: $search) {
+        contactEmail
+        contactPerson
+        contactPhone
+        createdAt
+        id
+        name
+        servicesOffered
+        updatedAt
+        partnerInvoices {
+          invoiceNumber
+          invoiceDate
+          status
+          totalAmount
+          items {
+            amount
+            id
+            shipmentLeg {
+              status
+              shipment {
+                trackingNumber
+                carrier
+                createdAt
+                id
+                status
+                warehouseId
+              }
+            }
+          }
+        }
+        rates {
+          destination
+          id
+          origin
+          rate
+          serviceType
+          unit
+        }
+      }
+    }
+  }
+`);

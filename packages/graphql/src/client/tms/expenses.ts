@@ -30,3 +30,65 @@ export const RemoveExpenseMutation = graphql(`
     }
   }
 `);
+
+export const TableExpenseQuery = graphql(`
+  query TableExpense(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: ExpenseStatus
+    $type: ExpenseType
+    $currency: Currency
+  ) {
+    tms {
+      expenses(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+        type: $type
+        currency: $currency
+      ) {
+        amount
+        createdAt
+        currency
+        description
+        driver {
+          user {
+            email
+            id
+            image
+            name
+          }
+          licenseNumber
+          contactPhone
+          status
+        }
+        expenseDate
+        fuelQuantity
+        id
+        odometerReading
+        receiptUrl
+        status
+        type
+        updatedAt
+        trip {
+          createdAt
+          endLocation
+          startLocation
+          status
+          startTime
+          endTime
+          vehicle {
+            vin
+            year
+            model
+            make
+            id
+            registrationNumber
+          }
+        }
+      }
+    }
+  }
+`);

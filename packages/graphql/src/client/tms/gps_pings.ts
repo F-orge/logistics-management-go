@@ -30,3 +30,25 @@ export const RemoveGpsPingMutation = graphql(`
     }
   }
 `);
+
+export const TableGpsPingQuery = graphql(`
+  query TableGpsPing($page: Int, $perPage: Int) {
+    tms {
+      gpsPings(page: $page, perPage: $perPage) {
+        id
+        latitude
+        longitude
+        timestamp
+        vehicle {
+          year
+          vin
+          registrationNumber
+          model
+          make
+          status
+          id
+        }
+      }
+    }
+  }
+`);
