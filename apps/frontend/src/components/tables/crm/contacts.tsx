@@ -1,14 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableContactQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.contacts>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the contact type from the TableContactQuery
+type Contact = NonNullable<TableContactQuery["crm"]>["contacts"][number];
+
+export const columns: ColumnDef<Contact>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -18,27 +14,28 @@ export const columns: ColumnDef<
     header: "Email",
   },
   {
-    accessorKey: "companyId",
-    header: "Company ID",
+    accessorKey: "phoneNumber",
+    header: "Phone Number",
   },
   {
     accessorKey: "jobTitle",
     header: "Job Title",
   },
   {
-    accessorKey: "ownerId",
-    header: "Owner ID",
+    accessorKey: "company.name",
+    header: "Company",
   },
   {
-    accessorKey: "phoneNumber",
-    header: "Phone Number",
+    accessorKey: "owner.name",
+    header: "Owner",
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

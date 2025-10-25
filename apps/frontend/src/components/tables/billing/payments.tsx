@@ -1,76 +1,55 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TablePaymentQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.billing.shape.payments>
->[] = [
+// Extract the payment type from the TablePaymentQuery
+type Payment = NonNullable<TablePaymentQuery["billing"]>["payments"][number];
+
+export const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
+    accessorKey: "invoice.invoiceNumber",
+    header: "Invoice Number",
   },
   {
     accessorKey: "amount",
     header: "Amount",
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "currency",
-    header: "Currency",
-  },
-  {
-    accessorKey: "exchangeRate",
-    header: "Exchange Rate",
+    cell: ({ row }) => {
+      const amount = row.getValue("amount") as number | null;
+      const currency = row.original.currency;
+      if (amount === null || amount === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency || "PHP",
+      }).format(amount);
+    },
   },
   {
     accessorKey: "fees",
     header: "Fees",
+    cell: ({ row }) => {
+      const fees = row.getValue("fees") as number | null;
+      const currency = row.original.currency;
+      if (fees === null || fees === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency || "PHP",
+      }).format(fees);
+    },
   },
   {
     accessorKey: "gatewayReference",
     header: "Gateway Reference",
   },
   {
-    accessorKey: "invoiceId",
-    header: "Invoice ID",
+    accessorKey: "processedByUser.name",
+    header: "Processed By",
   },
   {
-    accessorKey: "netAmount",
-    header: "Net Amount",
-  },
-  {
-    accessorKey: "notes",
-    header: "Notes",
-  },
-  {
-    accessorKey: "paymentDate",
-    header: "Payment Date",
-  },
-  {
-    accessorKey: "paymentMethod",
-    header: "Payment Method",
-  },
-  {
-    accessorKey: "processedAt",
-    header: "Processed At",
-  },
-  {
-    accessorKey: "processedByUserId",
-    header: "Processed By User ID",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "transactionId",
-    header: "Transaction ID",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

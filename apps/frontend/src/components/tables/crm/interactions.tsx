@@ -1,48 +1,46 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableInteractionQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.interactions>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "contactId",
-    header: "Contact ID",
-  },
-  {
-    accessorKey: "caseId",
-    header: "Case ID",
-  },
-  {
-    accessorKey: "userId",
-    header: "User ID",
-  },
+// Extract the interaction type from the TableInteractionQuery
+type Interaction = NonNullable<TableInteractionQuery["crm"]>["interactions"][number];
+
+export const columns: ColumnDef<Interaction>[] = [
   {
     accessorKey: "type",
     header: "Type",
-  },
-  {
-    accessorKey: "interactionDate",
-    header: "Interaction Date",
-  },
-  {
-    accessorKey: "notes",
-    header: "Notes",
   },
   {
     accessorKey: "outcome",
     header: "Outcome",
   },
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "interactionDate",
+    header: "Interaction Date",
+    cell: ({ row }) => {
+      const interactionDate = row.getValue("interactionDate") as string | null;
+      if (!interactionDate) return "-";
+      return new Date(interactionDate).toLocaleDateString();
+    },
   },
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "user.name",
+    header: "User",
+  },
+  {
+    accessorKey: "contact.name",
+    header: "Contact",
+  },
+  {
+    accessorKey: "case.caseNumber",
+    header: "Case Number",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

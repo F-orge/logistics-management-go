@@ -1,29 +1,13 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableCaseQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.cases>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the case type from the TableCaseQuery
+type Case = NonNullable<TableCaseQuery["crm"]>["cases"][number];
+
+export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: "caseNumber",
     header: "Case Number",
-  },
-  {
-    accessorKey: "contactId",
-    header: "Contact ID",
-  },
-  {
-    accessorKey: "description",
-    header: "Description",
-  },
-  {
-    accessorKey: "ownerId",
-    header: "Owner ID",
   },
   {
     accessorKey: "priority",
@@ -38,11 +22,20 @@ export const columns: ColumnDef<
     header: "Type",
   },
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "contact.name",
+    header: "Contact Name",
   },
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "owner.name",
+    header: "Owner Name",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

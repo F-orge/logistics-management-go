@@ -1,25 +1,13 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableProductQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.products>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the product type from the TableProductQuery
+type Product = NonNullable<TableProductQuery["crm"]>["products"][number];
+
+export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "name",
     header: "Name",
-  },
-  {
-    accessorKey: "description",
-    header: "Description",
-  },
-  {
-    accessorKey: "price",
-    header: "Price",
   },
   {
     accessorKey: "sku",
@@ -30,11 +18,24 @@ export const columns: ColumnDef<
     header: "Type",
   },
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => {
+      const price = row.getValue("price") as number | null;
+      if (price === null || price === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "PHP",
+      }).format(price);
+    },
   },
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

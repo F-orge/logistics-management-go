@@ -1,18 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableTaskQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.wms.shape.tasks>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "warehouseId",
-    header: "Warehouse ID",
-  },
+// Extract the task type from the TableTaskQuery
+type Task = NonNullable<TableTaskQuery["wms"]>["tasks"][number];
+
+export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "taskNumber",
     header: "Task Number",
@@ -26,59 +18,42 @@ export const columns: ColumnDef<
     header: "Status",
   },
   {
-    accessorKey: "userId",
-    header: "User ID",
-  },
-  {
-    accessorKey: "pickBatchId",
-    header: "Pick Batch ID",
-  },
-  {
     accessorKey: "priority",
     header: "Priority",
   },
   {
-    accessorKey: "instructions",
-    header: "Instructions",
+    accessorKey: "user.name",
+    header: "Assigned To",
   },
   {
-    accessorKey: "notes",
-    header: "Notes",
-  },
-  {
-    accessorKey: "sourceEntityId",
-    header: "Source Entity ID",
-  },
-  {
-    accessorKey: "sourceEntityType",
-    header: "Source Entity Type",
-  },
-  {
-    accessorKey: "estimatedDuration",
-    header: "Estimated Duration",
-  },
-  {
-    accessorKey: "actualDuration",
-    header: "Actual Duration",
-  },
-  {
-    accessorKey: "durationSeconds",
-    header: "Duration Seconds",
+    accessorKey: "warehouse.name",
+    header: "Warehouse",
   },
   {
     accessorKey: "startTime",
     header: "Start Time",
+    cell: ({ row }) => {
+      const startTime = row.getValue("startTime") as string | null;
+      if (!startTime) return "-";
+      return new Date(startTime).toLocaleString();
+    },
   },
   {
     accessorKey: "endTime",
     header: "End Time",
+    cell: ({ row }) => {
+      const endTime = row.getValue("endTime") as string | null;
+      if (!endTime) return "-";
+      return new Date(endTime).toLocaleString();
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

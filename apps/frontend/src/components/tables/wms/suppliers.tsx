@@ -1,14 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableSupplierQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.wms.shape.suppliers>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the supplier type from the TableSupplierQuery
+type Supplier = NonNullable<TableSupplierQuery["wms"]>["suppliers"][number];
+
+export const columns: ColumnDef<Supplier>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -27,10 +23,11 @@ export const columns: ColumnDef<
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

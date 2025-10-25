@@ -1,33 +1,17 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TableSurchargeQuery } from "@packages/graphql/client/generated/graphql";
+import { TableRateCardQuery } from "@packages/graphql/client/generated/graphql";
 
-// Extract the surcharge type from the TableSurchargeQuery
-type Surcharge = NonNullable<TableSurchargeQuery["billing"]>["surcharges"][number];
+// Extract the rate card type from the TableRateCardQuery
+type RateCard = NonNullable<TableRateCardQuery["billing"]>["rateCards"][number];
 
-export const columns: ColumnDef<Surcharge>[] = [
+export const columns: ColumnDef<RateCard>[] = [
   {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "type",
-    header: "Type",
-  },
-  {
-    accessorKey: "calculationMethod",
-    header: "Calculation Method",
-  },
-  {
-    accessorKey: "amount",
-    header: "Amount",
-    cell: ({ row }) => {
-      const amount = row.getValue("amount") as number | null;
-      if (amount === null || amount === undefined) return "-";
-      return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "PHP", // Assuming PHP as default currency
-      }).format(amount);
-    },
+    accessorKey: "serviceType",
+    header: "Service Type",
   },
   {
     accessorKey: "isActive",
@@ -54,6 +38,10 @@ export const columns: ColumnDef<Surcharge>[] = [
       if (!validTo) return "-";
       return new Date(validTo).toLocaleDateString();
     },
+  },
+  {
+    accessorKey: "createdByUser.name",
+    header: "Created By",
   },
   {
     accessorKey: "createdAt",

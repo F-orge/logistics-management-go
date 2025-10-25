@@ -1,80 +1,58 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableQuoteQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.billing.shape.quotes>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "clientId",
-    header: "Client ID",
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "createdByUserId",
-    header: "Created By User ID",
-  },
-  {
-    accessorKey: "destinationDetails",
-    header: "Destination Details",
-  },
-  {
-    accessorKey: "expiresAt",
-    header: "Expires At",
-  },
-  {
-    accessorKey: "height",
-    header: "Height",
-  },
-  {
-    accessorKey: "length",
-    header: "Length",
-  },
-  {
-    accessorKey: "notes",
-    header: "Notes",
-  },
-  {
-    accessorKey: "originDetails",
-    header: "Origin Details",
-  },
-  {
-    accessorKey: "quotedPrice",
-    header: "Quoted Price",
-  },
+// Extract the quote type from the TableQuoteQuery
+type Quote = NonNullable<TableQuoteQuery["billing"]>["quotes"][number];
+
+export const columns: ColumnDef<Quote>[] = [
   {
     accessorKey: "quoteNumber",
     header: "Quote Number",
-  },
-  {
-    accessorKey: "serviceLevel",
-    header: "Service Level",
   },
   {
     accessorKey: "status",
     header: "Status",
   },
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "client.name",
+    header: "Client Name",
   },
   {
-    accessorKey: "volume",
-    header: "Volume",
+    accessorKey: "quotedPrice",
+    header: "Quoted Price",
+    cell: ({ row }) => {
+      const quotedPrice = row.getValue("quotedPrice") as number | null;
+      if (quotedPrice === null || quotedPrice === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "PHP", // Assuming PHP as default currency
+      }).format(quotedPrice);
+    },
   },
   {
-    accessorKey: "weight",
-    header: "Weight",
+    accessorKey: "serviceLevel",
+    header: "Service Level",
   },
   {
-    accessorKey: "width",
-    header: "Width",
+    accessorKey: "expiresAt",
+    header: "Expires At",
+    cell: ({ row }) => {
+      const expiresAt = row.getValue("expiresAt") as string | null;
+      if (!expiresAt) return "-";
+      return new Date(expiresAt).toLocaleDateString();
+    },
+  },
+  {
+    accessorKey: "createdByUser.name",
+    header: "Created By",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

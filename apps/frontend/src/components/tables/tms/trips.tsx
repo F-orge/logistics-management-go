@@ -1,48 +1,55 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableTripQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.tms.shape.trips>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "driverId",
-    header: "Driver ID",
-  },
-  {
-    accessorKey: "vehicleId",
-    header: "Vehicle ID",
-  },
+// Extract the trip type from the TableTripQuery
+type Trip = NonNullable<TableTripQuery["tms"]>["trips"][number];
+
+export const columns: ColumnDef<Trip>[] = [
   {
     accessorKey: "status",
     header: "Status",
-  },
-  {
-    accessorKey: "endLocation",
-    header: "End Location",
-  },
-  {
-    accessorKey: "endTime",
-    header: "End Time",
   },
   {
     accessorKey: "startLocation",
     header: "Start Location",
   },
   {
+    accessorKey: "endLocation",
+    header: "End Location",
+  },
+  {
     accessorKey: "startTime",
     header: "Start Time",
+    cell: ({ row }) => {
+      const startTime = row.getValue("startTime") as string | null;
+      if (!startTime) return "-";
+      return new Date(startTime).toLocaleString();
+    },
+  },
+  {
+    accessorKey: "endTime",
+    header: "End Time",
+    cell: ({ row }) => {
+      const endTime = row.getValue("endTime") as string | null;
+      if (!endTime) return "-";
+      return new Date(endTime).toLocaleString();
+    },
+  },
+  {
+    accessorKey: "driver.user.name",
+    header: "Driver",
+  },
+  {
+    accessorKey: "vehicle.registrationNumber",
+    header: "Vehicle",
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

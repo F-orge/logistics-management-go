@@ -1,25 +1,21 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { TableReturnQuery } from "@packages/graphql/client/generated/graphql";
+import { TableOutboundShipmentQuery } from "@packages/graphql/client/generated/graphql";
 
-// Extract the return type from the TableReturnQuery
-type Return = NonNullable<TableReturnQuery["wms"]>["returns"][number];
+// Extract the outbound shipment type from the TableOutboundShipmentQuery
+type OutboundShipment = NonNullable<TableOutboundShipmentQuery["wms"]>["outboundShipments"][number];
 
-export const columns: ColumnDef<Return>[] = [
+export const columns: ColumnDef<OutboundShipment>[] = [
   {
-    accessorKey: "returnNumber",
-    header: "Return Number",
+    accessorKey: "trackingNumber",
+    header: "Tracking Number",
   },
   {
     accessorKey: "status",
     header: "Status",
   },
   {
-    accessorKey: "reason",
-    header: "Reason",
-  },
-  {
-    accessorKey: "client.name",
-    header: "Client Name",
+    accessorKey: "carrier",
+    header: "Carrier",
   },
   {
     accessorKey: "salesOrder.orderNumber",

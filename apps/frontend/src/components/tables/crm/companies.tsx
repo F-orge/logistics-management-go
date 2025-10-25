@@ -1,53 +1,37 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableCompanyQueryQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.companies>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the company type from the TableCompanyQuery
+type Company = NonNullable<TableCompanyQueryQuery["crm"]>["companies"][number];
+
+export const columns: ColumnDef<Company>[] = [
   {
     accessorKey: "name",
     header: "Name",
-  },
-  {
-    accessorKey: "ownerId",
-    header: "Owner ID",
-  },
-  {
-    accessorKey: "annualRevenue",
-    header: "Annual Revenue",
-  },
-  {
-    accessorKey: "city",
-    header: "City",
-  },
-  {
-    accessorKey: "country",
-    header: "Country",
   },
   {
     accessorKey: "industry",
     header: "Industry",
   },
   {
+    accessorKey: "owner.name",
+    header: "Owner",
+  },
+  {
+    accessorKey: "annualRevenue",
+    header: "Annual Revenue",
+    cell: ({ row }) => {
+      const annualRevenue = row.getValue("annualRevenue") as number | null;
+      if (annualRevenue === null || annualRevenue === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "PHP",
+      }).format(annualRevenue);
+    },
+  },
+  {
     accessorKey: "phoneNumber",
     header: "Phone Number",
-  },
-  {
-    accessorKey: "postalCode",
-    header: "Postal Code",
-  },
-  {
-    accessorKey: "state",
-    header: "State",
-  },
-  {
-    accessorKey: "street",
-    header: "Street",
   },
   {
     accessorKey: "website",
@@ -55,10 +39,11 @@ export const columns: ColumnDef<
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

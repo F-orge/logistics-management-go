@@ -1,21 +1,17 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableRouteQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.tms.shape.routes>
->[] = [
+// Extract the route type from the TableRouteQuery
+type Route = NonNullable<TableRouteQuery["tms"]>["routes"][number];
+
+export const columns: ColumnDef<Route>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
+    accessorKey: "trip.startLocation",
+    header: "Start Location",
   },
   {
-    accessorKey: "tripId",
-    header: "Trip ID",
-  },
-  {
-    accessorKey: "optimizedRouteData",
-    header: "Optimized Route Data",
+    accessorKey: "trip.endLocation",
+    header: "End Location",
   },
   {
     accessorKey: "totalDistance",
@@ -26,11 +22,7 @@ export const columns: ColumnDef<
     header: "Total Duration",
   },
   {
-    accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "trip.driver.user.name",
+    header: "Driver",
   },
 ];

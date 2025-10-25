@@ -1,14 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableLeadQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.leads>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the lead type from the TableLeadQuery
+type Lead = NonNullable<TableLeadQuery["crm"]>["leads"][number];
+
+export const columns: ColumnDef<Lead>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -18,47 +14,32 @@ export const columns: ColumnDef<
     header: "Email",
   },
   {
-    accessorKey: "ownerId",
-    header: "Owner ID",
+    accessorKey: "status",
+    header: "Status",
   },
   {
-    accessorKey: "campaignId",
-    header: "Campaign ID",
-  },
-  {
-    accessorKey: "convertedAt",
-    header: "Converted At",
-  },
-  {
-    accessorKey: "convertedCompanyId",
-    header: "Converted Company ID",
-  },
-  {
-    accessorKey: "convertedContactId",
-    header: "Converted Contact ID",
-  },
-  {
-    accessorKey: "convertedOpportunityId",
-    header: "Converted Opportunity ID",
+    accessorKey: "leadSource",
+    header: "Source",
   },
   {
     accessorKey: "leadScore",
     header: "Lead Score",
   },
   {
-    accessorKey: "leadSource",
-    header: "Lead Source",
+    accessorKey: "owner.name",
+    header: "Owner",
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "campaign.name",
+    header: "Campaign",
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

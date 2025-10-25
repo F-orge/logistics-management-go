@@ -1,22 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TablePackageQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.wms.shape.packages>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "salesOrderId",
-    header: "Sales Order ID",
-  },
-  {
-    accessorKey: "warehouseId",
-    header: "Warehouse ID",
-  },
+// Extract the package type from the TablePackageQuery
+type Package = NonNullable<TablePackageQuery["wms"]>["packages"][number];
+
+export const columns: ColumnDef<Package>[] = [
   {
     accessorKey: "packageNumber",
     header: "Package Number",
@@ -30,67 +18,40 @@ export const columns: ColumnDef<
     header: "Carrier",
   },
   {
-    accessorKey: "serviceLevel",
-    header: "Service Level",
-  },
-  {
     accessorKey: "packageType",
     header: "Package Type",
   },
   {
-    accessorKey: "weight",
-    header: "Weight",
-  },
-  {
-    accessorKey: "length",
-    header: "Length",
-  },
-  {
-    accessorKey: "width",
-    header: "Width",
-  },
-  {
-    accessorKey: "height",
-    header: "Height",
-  },
-  {
-    accessorKey: "volume",
-    header: "Volume",
-  },
-  {
-    accessorKey: "insuranceValue",
-    header: "Insurance Value",
-  },
-  {
     accessorKey: "isFragile",
-    header: "Is Fragile",
+    header: "Fragile",
+    cell: ({ row }) => {
+      const isFragile = row.getValue("isFragile") as boolean | null;
+      return isFragile ? "Yes" : "No";
+    },
   },
   {
     accessorKey: "isHazmat",
-    header: "Is Hazmat",
+    header: "Hazmat",
+    cell: ({ row }) => {
+      const isHazmat = row.getValue("isHazmat") as boolean | null;
+      return isHazmat ? "Yes" : "No";
+    },
   },
   {
     accessorKey: "requiresSignature",
     header: "Requires Signature",
-  },
-  {
-    accessorKey: "packedAt",
-    header: "Packed At",
-  },
-  {
-    accessorKey: "packedByUserId",
-    header: "Packed By User ID",
-  },
-  {
-    accessorKey: "shippedAt",
-    header: "Shipped At",
+    cell: ({ row }) => {
+      const requiresSignature = row.getValue("requiresSignature") as boolean | null;
+      return requiresSignature ? "Yes" : "No";
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

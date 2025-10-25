@@ -1,14 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableWmsProductQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.wms.shape.products>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the product type from the TableWmsProductQuery
+type WmsProduct = NonNullable<TableWmsProductQuery["wms"]>["wmsProducts"][number];
+
+export const columns: ColumnDef<WmsProduct>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -18,55 +14,36 @@ export const columns: ColumnDef<
     header: "SKU",
   },
   {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
     accessorKey: "barcode",
     header: "Barcode",
   },
   {
-    accessorKey: "clientId",
-    header: "Client ID",
+    accessorKey: "status",
+    header: "Status",
   },
   {
     accessorKey: "costPrice",
     header: "Cost Price",
+    cell: ({ row }) => {
+      const costPrice = row.getValue("costPrice") as number | null;
+      if (costPrice === null || costPrice === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "PHP",
+      }).format(costPrice);
+    },
   },
   {
-    accessorKey: "description",
-    header: "Description",
-  },
-  {
-    accessorKey: "height",
-    header: "Height",
-  },
-  {
-    accessorKey: "length",
-    header: "Length",
-  },
-  {
-    accessorKey: "supplierId",
-    header: "Supplier ID",
-  },
-  {
-    accessorKey: "volume",
-    header: "Volume",
-  },
-  {
-    accessorKey: "weight",
-    header: "Weight",
-  },
-  {
-    accessorKey: "width",
-    header: "Width",
+    accessorKey: "supplier.name",
+    header: "Supplier",
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

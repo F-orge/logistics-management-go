@@ -1,64 +1,62 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableOpportunityQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.crm.shape.opportunities>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the opportunity type from the TableOpportunityQuery
+type Opportunity = NonNullable<TableOpportunityQuery["crm"]>["opportunities"][number];
+
+export const columns: ColumnDef<Opportunity>[] = [
   {
     accessorKey: "name",
     header: "Name",
-  },
-  {
-    accessorKey: "ownerId",
-    header: "Owner ID",
-  },
-  {
-    accessorKey: "campaignId",
-    header: "Campaign ID",
-  },
-  {
-    accessorKey: "companyId",
-    header: "Company ID",
-  },
-  {
-    accessorKey: "contactId",
-    header: "Contact ID",
-  },
-  {
-    accessorKey: "dealValue",
-    header: "Deal Value",
-  },
-  {
-    accessorKey: "expectedCloseDate",
-    header: "Expected Close Date",
-  },
-  {
-    accessorKey: "lostReason",
-    header: "Lost Reason",
-  },
-  {
-    accessorKey: "probability",
-    header: "Probability",
-  },
-  {
-    accessorKey: "source",
-    header: "Source",
   },
   {
     accessorKey: "stage",
     header: "Stage",
   },
   {
-    accessorKey: "createdAt",
-    header: "Created At",
+    accessorKey: "dealValue",
+    header: "Deal Value",
+    cell: ({ row }) => {
+      const dealValue = row.getValue("dealValue") as number | null;
+      if (dealValue === null || dealValue === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "PHP",
+      }).format(dealValue);
+    },
   },
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    accessorKey: "expectedCloseDate",
+    header: "Expected Close Date",
+    cell: ({ row }) => {
+      const expectedCloseDate = row.getValue("expectedCloseDate") as string | null;
+      if (!expectedCloseDate) return "-";
+      return new Date(expectedCloseDate).toLocaleDateString();
+    },
+  },
+  {
+    accessorKey: "company.name",
+    header: "Company",
+  },
+  {
+    accessorKey: "contact.name",
+    header: "Contact",
+  },
+  {
+    accessorKey: "owner.name",
+    header: "Owner",
+  },
+  {
+    accessorKey: "campaign.name",
+    header: "Campaign",
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

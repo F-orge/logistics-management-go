@@ -1,26 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableVehicleQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.tms.shape.vehicles>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "model",
-    header: "Model",
-  },
-  {
-    accessorKey: "capacityVolume",
-    header: "Capacity Volume",
-  },
-  {
-    accessorKey: "capacityWeight",
-    header: "Capacity Weight",
-  },
+// Extract the vehicle type from the TableVehicleQuery
+type Vehicle = NonNullable<TableVehicleQuery["tms"]>["vehicles"][number];
+
+export const columns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: "registrationNumber",
     header: "Registration Number",
@@ -30,12 +14,12 @@ export const columns: ColumnDef<
     header: "Make",
   },
   {
-    accessorKey: "year",
-    header: "Year",
+    accessorKey: "model",
+    header: "Model",
   },
   {
-    accessorKey: "vin",
-    header: "VIN",
+    accessorKey: "year",
+    header: "Year",
   },
   {
     accessorKey: "status",
@@ -48,13 +32,19 @@ export const columns: ColumnDef<
   {
     accessorKey: "lastMaintenanceDate",
     header: "Last Maintenance Date",
+    cell: ({ row }) => {
+      const lastMaintenanceDate = row.getValue("lastMaintenanceDate") as string | null;
+      if (!lastMaintenanceDate) return "-";
+      return new Date(lastMaintenanceDate).toLocaleDateString();
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

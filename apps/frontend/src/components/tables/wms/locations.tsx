@@ -1,18 +1,10 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableLocationQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.wms.shape.locations>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "warehouseId",
-    header: "Warehouse ID",
-  },
+// Extract the location type from the TableLocationQuery
+type Location = NonNullable<TableLocationQuery["wms"]>["locations"][number];
+
+export const columns: ColumnDef<Location>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -26,67 +18,40 @@ export const columns: ColumnDef<
     header: "Barcode",
   },
   {
-    accessorKey: "hazmatApproved",
-    header: "Hazmat Approved",
+    accessorKey: "warehouse.name",
+    header: "Warehouse",
   },
   {
     accessorKey: "isActive",
-    header: "Is Active",
+    header: "Active",
+    cell: ({ row }) => {
+      const isActive = row.getValue("isActive") as boolean | null;
+      return isActive ? "Yes" : "No";
+    },
   },
   {
     accessorKey: "isPickable",
-    header: "Is Pickable",
+    header: "Pickable",
+    cell: ({ row }) => {
+      const isPickable = row.getValue("isPickable") as boolean | null;
+      return isPickable ? "Yes" : "No";
+    },
   },
   {
     accessorKey: "isReceivable",
-    header: "Is Receivable",
-  },
-  {
-    accessorKey: "level",
-    header: "Level",
-  },
-  {
-    accessorKey: "maxPallets",
-    header: "Max Pallets",
-  },
-  {
-    accessorKey: "maxVolume",
-    header: "Max Volume",
-  },
-  {
-    accessorKey: "maxWeight",
-    header: "Max Weight",
-  },
-  {
-    accessorKey: "parentLocationId",
-    header: "Parent Location ID",
-  },
-  {
-    accessorKey: "path",
-    header: "Path",
-  },
-  {
-    accessorKey: "temperatureControlled",
-    header: "Temperature Controlled",
-  },
-  {
-    accessorKey: "xCoordinate",
-    header: "X Coordinate",
-  },
-  {
-    accessorKey: "yCoordinate",
-    header: "Y Coordinate",
-  },
-  {
-    accessorKey: "zCoordinate",
-    header: "Z Coordinate",
+    header: "Receivable",
+    cell: ({ row }) => {
+      const isReceivable = row.getValue("isReceivable") as boolean | null;
+      return isReceivable ? "Yes" : "No";
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

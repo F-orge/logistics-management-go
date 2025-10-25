@@ -1,17 +1,13 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableExpenseQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.tms.shape.expenses>
->[] = [
+// Extract the expense type from the TableExpenseQuery
+type Expense = NonNullable<TableExpenseQuery["tms"]>["expenses"][number];
+
+export const columns: ColumnDef<Expense>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
-    accessorKey: "tripId",
-    header: "Trip ID",
+    accessorKey: "description",
+    header: "Description",
   },
   {
     accessorKey: "type",
@@ -22,43 +18,42 @@ export const columns: ColumnDef<
     header: "Status",
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: "amount",
+    header: "Amount",
+    cell: ({ row }) => {
+      const amount = row.getValue("amount") as number | null;
+      const currency = row.original.currency;
+      if (amount === null || amount === undefined) return "-";
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: currency || "PHP",
+      }).format(amount);
+    },
   },
   {
     accessorKey: "expenseDate",
     header: "Expense Date",
+    cell: ({ row }) => {
+      const expenseDate = row.getValue("expenseDate") as string | null;
+      if (!expenseDate) return "-";
+      return new Date(expenseDate).toLocaleDateString();
+    },
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "driver.user.name",
+    header: "Driver",
   },
   {
-    accessorKey: "currency",
-    header: "Currency",
-  },
-  {
-    accessorKey: "driverId",
-    header: "Driver ID",
-  },
-  {
-    accessorKey: "fuelQuantity",
-    header: "Fuel Quantity",
-  },
-  {
-    accessorKey: "odometerReading",
-    header: "Odometer Reading",
-  },
-  {
-    accessorKey: "receiptUrl",
-    header: "Receipt URL",
+    accessorKey: "trip.vehicle.registrationNumber",
+    header: "Vehicle",
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];

@@ -1,36 +1,44 @@
-import type { DbSchema } from "@packages/db";
-import type { ColumnDef } from "@tanstack/react-table";
-import type z from "zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { TableCarrierQueryQuery } from "@packages/graphql/client/generated/graphql";
 
-export const columns: ColumnDef<
-  z.infer<typeof DbSchema.shape.tms.shape.carriers>
->[] = [
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+// Extract the carrier type from the TableCarrierQuery
+type Carrier = NonNullable<TableCarrierQueryQuery["tms"]>["carriers"][number];
+
+export const columns: ColumnDef<Carrier>[] = [
   {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "contactDetails",
-    header: "Contact Details",
+    accessorKey: "contactPerson",
+    header: "Contact Person",
   },
   {
-    accessorKey: "address",
-    header: "Address",
+    accessorKey: "contactEmail",
+    header: "Contact Email",
+  },
+  {
+    accessorKey: "contactPhone",
+    header: "Contact Phone",
   },
   {
     accessorKey: "servicesOffered",
     header: "Services Offered",
+    cell: ({ row }) => {
+      const servicesOffered = row.getValue("servicesOffered") as
+        | string[]
+        | null;
+      if (!servicesOffered || servicesOffered.length === 0) return "-";
+      return servicesOffered.join(", ");
+    },
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
-  },
-  {
-    accessorKey: "updatedAt",
-    header: "Updated At",
+    header: "Created",
+    cell: ({ row }) => {
+      const createdAt = row.getValue("createdAt") as string | null;
+      if (!createdAt) return "-";
+      return new Date(createdAt).toLocaleDateString();
+    },
   },
 ];
