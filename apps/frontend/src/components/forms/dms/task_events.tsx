@@ -10,6 +10,7 @@ import {
   CreateTaskEventInputSchema,
   UpdateTaskEventInputSchema,
 } from "@packages/graphql/client/zod";
+import { SearchDeliveryTasksQuery, execute } from "@packages/graphql/client";
 import z from "zod";
 
 export const createTaskEventSchema = CreateTaskEventInputSchema();
@@ -29,12 +30,16 @@ export const CreateTaskEventForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Task Event</FieldLegend>
-        <FieldDescription>Fill in the details for the new task event.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new task event.
+        </FieldDescription>
         <FieldGroup>
           {/* Event Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Event Details</FieldLegend>
-            <FieldDescription>Event status and reason information.</FieldDescription>
+            <FieldDescription>
+              Event status and reason information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -47,7 +52,7 @@ export const CreateTaskEventForm = withForm({
               </form.AppField>
               <form.AppField name="reason">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Reason"
                     description="Reason for the status change."
                     placeholder="e.g., Traffic delay, Customer not available"
@@ -56,7 +61,7 @@ export const CreateTaskEventForm = withForm({
               </form.AppField>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional notes about this event."
                     placeholder="Any additional notes..."
@@ -69,7 +74,9 @@ export const CreateTaskEventForm = withForm({
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Geographic location where this event occurred.</FieldDescription>
+            <FieldDescription>
+              Geographic location where this event occurred.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -101,7 +108,9 @@ export const CreateTaskEventForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>When this event occurred and associated delivery task.</FieldDescription>
+            <FieldDescription>
+              When this event occurred and associated delivery task.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -114,10 +123,24 @@ export const CreateTaskEventForm = withForm({
               </form.AppField>
               <form.AppField name="deliveryTaskId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryTasksQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.dms?.deliveryTasks || []).map((item) => ({
+                        value: item.value,
+                        label: item.label || item.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Task *"
                     description="The delivery task this event is associated with."
-                    placeholder="Delivery Task ID"
+                    placeholder="Search delivery task..."
                   />
                 )}
               </form.AppField>
@@ -135,12 +158,16 @@ export const UpdateTaskEventForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Task Event</FieldLegend>
-        <FieldDescription>Update the details for the task event.</FieldDescription>
+        <FieldDescription>
+          Update the details for the task event.
+        </FieldDescription>
         <FieldGroup>
           {/* Event Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Event Details</FieldLegend>
-            <FieldDescription>Update event status and reason information.</FieldDescription>
+            <FieldDescription>
+              Update event status and reason information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -153,7 +180,7 @@ export const UpdateTaskEventForm = withForm({
               </form.AppField>
               <form.AppField name="reason">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Reason"
                     description="Reason for the status change."
                     placeholder="e.g., Traffic delay, Customer not available"
@@ -162,7 +189,7 @@ export const UpdateTaskEventForm = withForm({
               </form.AppField>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional notes about this event."
                     placeholder="Any additional notes..."
@@ -175,7 +202,9 @@ export const UpdateTaskEventForm = withForm({
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Update geographic location where this event occurred.</FieldDescription>
+            <FieldDescription>
+              Update geographic location where this event occurred.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -207,7 +236,9 @@ export const UpdateTaskEventForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>Update timestamp and associated delivery task.</FieldDescription>
+            <FieldDescription>
+              Update timestamp and associated delivery task.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -220,10 +251,24 @@ export const UpdateTaskEventForm = withForm({
               </form.AppField>
               <form.AppField name="deliveryTaskId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryTasksQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.dms?.deliveryTasks || []).map((item) => ({
+                        value: item.value,
+                        label: item.label || item.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Task"
                     description="The delivery task this event is associated with."
-                    placeholder="Delivery Task ID"
+                    placeholder="Search delivery task..."
                   />
                 )}
               </form.AppField>

@@ -35,20 +35,3 @@ export const RemoveInvoiceLineItemMutation = graphql(`
     }
   }
 `);
-
-export const AnalyticsInvoiceLineItemsQuery = graphql(`
-  query AnalyticsInvoiceLineItems($from: Date, $to: Date) {
-    billing {
-      invoiceLineItems(from: $from, to: $to) {
-        quantity
-        unitPrice
-        totalPrice
-        taxRate
-        taxAmount
-        discountRate
-        discountAmount
-        lineTotal
-      }
-    }
-  }
-`);

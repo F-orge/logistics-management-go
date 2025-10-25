@@ -9,11 +9,45 @@ import {
 import {
   CreateOpportunityInputSchema,
   UpdateOpportunityInputSchema,
-} from "@packages/graphql/client/zod";
+  OpportunityStage,
+  OpportunitySource,
+  SearchCompaniesQuery,
+  SearchContactsQuery,
+  SearchCampaignsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createOpportunitySchema = CreateOpportunityInputSchema();
 export const updateOpportunitySchema = UpdateOpportunityInputSchema();
+
+// Opportunity Stage Options
+const OPPORTUNITY_STAGE_OPTIONS = [
+  { label: "Prospecting", value: OpportunityStage.Prospecting },
+  { label: "Qualification", value: OpportunityStage.Qualification },
+  { label: "Need Analysis", value: OpportunityStage.NeedAnalysis },
+  { label: "Demo", value: OpportunityStage.Demo },
+  { label: "Proposal", value: OpportunityStage.Proposal },
+  { label: "Negotiation", value: OpportunityStage.Negotiation },
+  { label: "Closed Won", value: OpportunityStage.ClosedWon },
+  { label: "Closed Lost", value: OpportunityStage.ClosedLost },
+];
+
+// Opportunity Source Options
+const OPPORTUNITY_SOURCE_OPTIONS = [
+  { label: "Website", value: OpportunitySource.Website },
+  { label: "Referral", value: OpportunitySource.Referral },
+  { label: "Social Media", value: OpportunitySource.SocialMedia },
+  { label: "Email Campaign", value: OpportunitySource.EmailCampaign },
+  { label: "Cold Call", value: OpportunitySource.ColdCall },
+  { label: "Event", value: OpportunitySource.Event },
+  { label: "Advertisement", value: OpportunitySource.Advertisment },
+  { label: "Partner", value: OpportunitySource.Partner },
+  { label: "Existing Customer", value: OpportunitySource.ExistingCustomer },
+  { label: "Other", value: OpportunitySource.Other },
+];
+
+// No standalone fetcher functions needed - they'll be defined inline
 
 export const createOpportunityFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createOpportunitySchema>,
@@ -29,12 +63,16 @@ export const CreateOpportunityForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Opportunity</FieldLegend>
-        <FieldDescription>Fill in the details for the new opportunity.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new opportunity.
+        </FieldDescription>
         <FieldGroup>
           {/* Opportunity Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Opportunity Details</FieldLegend>
-            <FieldDescription>Basic information about the sales opportunity.</FieldDescription>
+            <FieldDescription>
+              Basic information about the sales opportunity.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="name">
                 {(field) => (
@@ -47,10 +85,11 @@ export const CreateOpportunityForm = withForm({
               </form.AppField>
               <form.AppField name="source">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Source"
                     description="How the opportunity was sourced."
-                    placeholder="e.g., Inbound Lead, Referral, Marketing Campaign"
+                    options={OPPORTUNITY_SOURCE_OPTIONS}
+                    placeholder="Select source"
                   />
                 )}
               </form.AppField>
@@ -60,14 +99,17 @@ export const CreateOpportunityForm = withForm({
           {/* Deal Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Deal Information</FieldLegend>
-            <FieldDescription>Financial and stage details of the deal.</FieldDescription>
+            <FieldDescription>
+              Financial and stage details of the deal.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="stage">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Stage *"
                     description="Current stage in the sales pipeline."
-                    placeholder="e.g., Qualification, Proposal, Negotiation, Closed Won"
+                    options={OPPORTUNITY_STAGE_OPTIONS}
+                    placeholder="Select stage"
                   />
                 )}
               </form.AppField>
@@ -106,7 +148,7 @@ export const CreateOpportunityForm = withForm({
               </form.AppField>
               <form.AppField name="lostReason">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Lost Reason"
                     description="If lost, explain why."
                     placeholder="e.g., Budget constraints, Competitor, No decision"
@@ -119,32 +161,67 @@ export const CreateOpportunityForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this opportunity to contacts, companies, and campaigns.</FieldDescription>
+            <FieldDescription>
+              Link this opportunity to contacts, companies, and campaigns.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="companyId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCompaniesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.companies || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Company *"
                     description="The company associated with this opportunity."
-                    placeholder="Company ID"
+                    placeholder="Search company..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="contactId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchContactsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.contacts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Contact"
                     description="The primary contact for this opportunity."
-                    placeholder="Contact ID"
+                    placeholder="Search contact..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="campaignId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCampaignsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.campaigns || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Campaign"
                     description="The campaign that led to this opportunity."
-                    placeholder="Campaign ID"
+                    placeholder="Search campaign..."
                   />
                 )}
               </form.AppField>
@@ -171,12 +248,16 @@ export const UpdateOpportunityForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Opportunity</FieldLegend>
-        <FieldDescription>Update the details for the opportunity.</FieldDescription>
+        <FieldDescription>
+          Update the details for the opportunity.
+        </FieldDescription>
         <FieldGroup>
           {/* Opportunity Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Opportunity Details</FieldLegend>
-            <FieldDescription>Basic information about the sales opportunity.</FieldDescription>
+            <FieldDescription>
+              Basic information about the sales opportunity.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="name">
                 {(field) => (
@@ -189,10 +270,11 @@ export const UpdateOpportunityForm = withForm({
               </form.AppField>
               <form.AppField name="source">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Source"
                     description="How the opportunity was sourced."
-                    placeholder="e.g., Inbound Lead, Referral, Marketing Campaign"
+                    options={OPPORTUNITY_SOURCE_OPTIONS}
+                    placeholder="Select source"
                   />
                 )}
               </form.AppField>
@@ -202,14 +284,17 @@ export const UpdateOpportunityForm = withForm({
           {/* Deal Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Deal Information</FieldLegend>
-            <FieldDescription>Financial and stage details of the deal.</FieldDescription>
+            <FieldDescription>
+              Financial and stage details of the deal.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="stage">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Stage"
                     description="Current stage in the sales pipeline."
-                    placeholder="e.g., Qualification, Proposal, Negotiation, Closed Won"
+                    options={OPPORTUNITY_STAGE_OPTIONS}
+                    placeholder="Select stage"
                   />
                 )}
               </form.AppField>
@@ -248,7 +333,7 @@ export const UpdateOpportunityForm = withForm({
               </form.AppField>
               <form.AppField name="lostReason">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Lost Reason"
                     description="If lost, explain why."
                     placeholder="e.g., Budget constraints, Competitor, No decision"
@@ -261,32 +346,67 @@ export const UpdateOpportunityForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this opportunity to contacts, companies, and campaigns.</FieldDescription>
+            <FieldDescription>
+              Link this opportunity to contacts, companies, and campaigns.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="companyId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCompaniesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.companies || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Company"
                     description="The company associated with this opportunity."
-                    placeholder="Company ID"
+                    placeholder="Search company..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="contactId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchContactsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.contacts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Contact"
                     description="The primary contact for this opportunity."
-                    placeholder="Contact ID"
+                    placeholder="Search contact..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="campaignId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCampaignsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.campaigns || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Campaign"
                     description="The campaign that led to this opportunity."
-                    placeholder="Campaign ID"
+                    placeholder="Search campaign..."
                   />
                 )}
               </form.AppField>

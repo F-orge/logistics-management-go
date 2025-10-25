@@ -9,11 +9,15 @@ import {
 import {
   CreateDmsProofOfDeliveryInputSchema,
   UpdateDmsProofOfDeliveryInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchDeliveryTasksQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
-export const createDmsProofOfDeliverySchema = CreateDmsProofOfDeliveryInputSchema();
-export const updateDmsProofOfDeliverySchema = UpdateDmsProofOfDeliveryInputSchema();
+export const createDmsProofOfDeliverySchema =
+  CreateDmsProofOfDeliveryInputSchema();
+export const updateDmsProofOfDeliverySchema =
+  UpdateDmsProofOfDeliveryInputSchema();
 
 export const createDmsProofOfDeliveryFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createDmsProofOfDeliverySchema>,
@@ -29,12 +33,16 @@ export const CreateDmsProofOfDeliveryForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Proof of Delivery</FieldLegend>
-        <FieldDescription>Fill in the details for the new proof of delivery.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new proof of delivery.
+        </FieldDescription>
         <FieldGroup>
           {/* Proof Documentation Section */}
           <FieldSet>
             <FieldLegend variant="label">Proof Documentation</FieldLegend>
-            <FieldDescription>Evidence and media files for delivery proof.</FieldDescription>
+            <FieldDescription>
+              Evidence and media files for delivery proof.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="type">
                 {(field) => (
@@ -47,7 +55,7 @@ export const CreateDmsProofOfDeliveryForm = withForm({
               </form.AppField>
               <form.AppField name="filePath">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="File Path"
                     description="Path to the proof file (photo, video, etc.)."
                     placeholder="/files/delivery_proof_20241001.jpg"
@@ -56,7 +64,7 @@ export const CreateDmsProofOfDeliveryForm = withForm({
               </form.AppField>
               <form.AppField name="signatureData">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Signature Data"
                     description="Digital signature data if applicable."
                     placeholder="Signature data (base64 or SVG)..."
@@ -69,7 +77,9 @@ export const CreateDmsProofOfDeliveryForm = withForm({
           {/* Recipient Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Recipient Information</FieldLegend>
-            <FieldDescription>Details of the person who received the delivery.</FieldDescription>
+            <FieldDescription>
+              Details of the person who received the delivery.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="recipientName">
                 {(field) => (
@@ -95,7 +105,9 @@ export const CreateDmsProofOfDeliveryForm = withForm({
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Geographic location where delivery was completed.</FieldDescription>
+            <FieldDescription>
+              Geographic location where delivery was completed.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -127,7 +139,9 @@ export const CreateDmsProofOfDeliveryForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>When delivery was completed and associated delivery task.</FieldDescription>
+            <FieldDescription>
+              When delivery was completed and associated delivery task.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -140,10 +154,24 @@ export const CreateDmsProofOfDeliveryForm = withForm({
               </form.AppField>
               <form.AppField name="deliveryTaskId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryTasksQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.dms?.deliveryTasks || []).map((item) => ({
+                        value: item.value,
+                        label: item.label || item.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Task *"
                     description="The delivery task this proof is for."
-                    placeholder="Delivery Task ID"
+                    placeholder="Search delivery task..."
                   />
                 )}
               </form.AppField>
@@ -161,12 +189,16 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Proof of Delivery</FieldLegend>
-        <FieldDescription>Update the details for the proof of delivery.</FieldDescription>
+        <FieldDescription>
+          Update the details for the proof of delivery.
+        </FieldDescription>
         <FieldGroup>
           {/* Proof Documentation Section */}
           <FieldSet>
             <FieldLegend variant="label">Proof Documentation</FieldLegend>
-            <FieldDescription>Update evidence and media files for delivery proof.</FieldDescription>
+            <FieldDescription>
+              Update evidence and media files for delivery proof.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="type">
                 {(field) => (
@@ -179,7 +211,7 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
               </form.AppField>
               <form.AppField name="filePath">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="File Path"
                     description="Path to the proof file (photo, video, etc.)."
                     placeholder="/files/delivery_proof_20241001.jpg"
@@ -188,7 +220,7 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
               </form.AppField>
               <form.AppField name="signatureData">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Signature Data"
                     description="Digital signature data if applicable."
                     placeholder="Signature data (base64 or SVG)..."
@@ -201,7 +233,9 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
           {/* Recipient Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Recipient Information</FieldLegend>
-            <FieldDescription>Update details of the person who received the delivery.</FieldDescription>
+            <FieldDescription>
+              Update details of the person who received the delivery.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="recipientName">
                 {(field) => (
@@ -227,7 +261,9 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Update geographic location where delivery was completed.</FieldDescription>
+            <FieldDescription>
+              Update geographic location where delivery was completed.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -259,7 +295,9 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>Update timestamp and associated delivery task.</FieldDescription>
+            <FieldDescription>
+              Update timestamp and associated delivery task.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -272,10 +310,24 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
               </form.AppField>
               <form.AppField name="deliveryTaskId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryTasksQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.dms?.deliveryTasks || []).map((item) => ({
+                        value: item.value,
+                        label: item.label || item.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Task"
                     description="The delivery task this proof is for."
-                    placeholder="Delivery Task ID"
+                    placeholder="Search delivery task..."
                   />
                 )}
               </form.AppField>

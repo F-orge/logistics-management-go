@@ -9,11 +9,15 @@ import {
 import {
   CreateCustomerTrackingLinkInputSchema,
   UpdateCustomerTrackingLinkInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchDeliveryTasksQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
-export const createCustomerTrackingLinkSchema = CreateCustomerTrackingLinkInputSchema();
-export const updateCustomerTrackingLinkSchema = UpdateCustomerTrackingLinkInputSchema();
+export const createCustomerTrackingLinkSchema =
+  CreateCustomerTrackingLinkInputSchema();
+export const updateCustomerTrackingLinkSchema =
+  UpdateCustomerTrackingLinkInputSchema();
 
 export const createCustomerTrackingLinkFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createCustomerTrackingLinkSchema>,
@@ -29,12 +33,16 @@ export const CreateCustomerTrackingLinkForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Customer Tracking Link</FieldLegend>
-        <FieldDescription>Fill in the details for the new customer tracking link.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new customer tracking link.
+        </FieldDescription>
         <FieldGroup>
           {/* Link Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Link Information</FieldLegend>
-            <FieldDescription>Generate and configure the tracking link for the customer.</FieldDescription>
+            <FieldDescription>
+              Generate and configure the tracking link for the customer.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="trackingToken">
                 {(field) => (
@@ -47,8 +55,7 @@ export const CreateCustomerTrackingLinkForm = withForm({
               </form.AppField>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Whether this tracking link is currently active."
                   />
@@ -60,7 +67,9 @@ export const CreateCustomerTrackingLinkForm = withForm({
           {/* Access Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Access Information</FieldLegend>
-            <FieldDescription>Track access statistics and expiration for this link.</FieldDescription>
+            <FieldDescription>
+              Track access statistics and expiration for this link.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="accessCount">
@@ -99,14 +108,30 @@ export const CreateCustomerTrackingLinkForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this tracking token to a delivery task.</FieldDescription>
+            <FieldDescription>
+              Link this tracking token to a delivery task.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="deliveryTaskId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryTasksQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.dms?.deliveryTasks || []).map((item) => ({
+                        value: item.value,
+                        label: item.label || item.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Task *"
                     description="The delivery task this tracking link is for."
-                    placeholder="Delivery Task ID"
+                    placeholder="Search delivery task..."
                   />
                 )}
               </form.AppField>
@@ -124,12 +149,16 @@ export const UpdateCustomerTrackingLinkForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Customer Tracking Link</FieldLegend>
-        <FieldDescription>Update the details for the customer tracking link.</FieldDescription>
+        <FieldDescription>
+          Update the details for the customer tracking link.
+        </FieldDescription>
         <FieldGroup>
           {/* Link Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Link Information</FieldLegend>
-            <FieldDescription>Update the tracking link configuration.</FieldDescription>
+            <FieldDescription>
+              Update the tracking link configuration.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="trackingToken">
                 {(field) => (
@@ -142,8 +171,7 @@ export const UpdateCustomerTrackingLinkForm = withForm({
               </form.AppField>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Whether this tracking link is currently active."
                   />
@@ -155,7 +183,9 @@ export const UpdateCustomerTrackingLinkForm = withForm({
           {/* Access Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Access Information</FieldLegend>
-            <FieldDescription>Update access statistics and expiration for this link.</FieldDescription>
+            <FieldDescription>
+              Update access statistics and expiration for this link.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="accessCount">
@@ -194,14 +224,30 @@ export const UpdateCustomerTrackingLinkForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update the delivery task association.</FieldDescription>
+            <FieldDescription>
+              Update the delivery task association.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="deliveryTaskId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryTasksQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.dms?.deliveryTasks || []).map((item) => ({
+                        value: item.value,
+                        label: item.label || item.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Task"
                     description="The delivery task this tracking link is for."
-                    placeholder="Delivery Task ID"
+                    placeholder="Search delivery task..."
                   />
                 )}
               </form.AppField>

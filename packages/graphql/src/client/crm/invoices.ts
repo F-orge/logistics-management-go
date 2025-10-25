@@ -84,6 +84,18 @@ export const TableInvoiceQuery = graphql(`
   }
 `);
 
+export const SearchInvoicesQuery = graphql(`
+  query SearchInvoices($search: String!) {
+    crm {
+      invoices(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: id
+        total
+      }
+    }
+  }
+`);
+
 export const AnalyticsInvoicesQuery = graphql(`
   query AnalyticsInvoices($from: Date, $to: Date) {
     crm {

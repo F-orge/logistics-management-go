@@ -9,11 +9,20 @@ import {
 import {
   CreateProductInputSchema,
   UpdateProductInputSchema,
-} from "@packages/graphql/client/zod";
+  ProductType,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createProductSchema = CreateProductInputSchema();
 export const updateProductSchema = UpdateProductInputSchema();
+
+// Product Type Options
+const PRODUCT_TYPE_OPTIONS = [
+  { label: "Service", value: ProductType.Service },
+  { label: "Good", value: ProductType.Good },
+  { label: "Digital", value: ProductType.Digital },
+  { label: "Subscription", value: ProductType.Subscription },
+];
 
 export const createProductFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createProductSchema>,
@@ -56,10 +65,11 @@ export const CreateProductForm = withForm({
               </form.AppField>
               <form.AppField name="type">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Type"
                     description="Category or type of product."
-                    placeholder="e.g., Physical, Digital, Service"
+                    options={PRODUCT_TYPE_OPTIONS}
+                    placeholder="Select product type"
                   />
                 )}
               </form.AppField>
@@ -92,7 +102,7 @@ export const CreateProductForm = withForm({
             <FieldGroup>
               <form.AppField name="description">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Description"
                     description="Detailed information about the product."
                     placeholder="Enter product description..."
@@ -140,10 +150,11 @@ export const UpdateProductForm = withForm({
               </form.AppField>
               <form.AppField name="type">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Type"
                     description="Category or type of product."
-                    placeholder="e.g., Physical, Digital, Service"
+                    options={PRODUCT_TYPE_OPTIONS}
+                    placeholder="Select product type"
                   />
                 )}
               </form.AppField>
@@ -176,7 +187,7 @@ export const UpdateProductForm = withForm({
             <FieldGroup>
               <form.AppField name="description">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Description"
                     description="Detailed information about the product."
                     placeholder="Enter product description..."

@@ -9,11 +9,23 @@ import {
 import {
   CreateInteractionInputSchema,
   UpdateInteractionInputSchema,
-} from "@packages/graphql/client/zod";
+  InteractionType,
+  SearchContactsQuery,
+  SearchCasesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createInteractionSchema = CreateInteractionInputSchema();
 export const updateInteractionSchema = UpdateInteractionInputSchema();
+
+// Interaction Type Options
+const INTERACTION_TYPE_OPTIONS = [
+  { label: "Call", value: InteractionType.Call },
+  { label: "Email", value: InteractionType.Email },
+  { label: "Meeting", value: InteractionType.Meeting },
+  { label: "Text", value: InteractionType.Text },
+];
 
 export const createInteractionFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createInteractionSchema>,
@@ -29,19 +41,24 @@ export const CreateInteractionForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Interaction</FieldLegend>
-        <FieldDescription>Fill in the details for the new interaction.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new interaction.
+        </FieldDescription>
         <FieldGroup>
           {/* Interaction Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Interaction Details</FieldLegend>
-            <FieldDescription>Basic interaction information and type.</FieldDescription>
+            <FieldDescription>
+              Basic interaction information and type.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="type">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Type *"
                     description="Type of interaction (call, email, meeting, etc.)."
-                    placeholder="e.g., Call, Email, Meeting"
+                    options={INTERACTION_TYPE_OPTIONS}
+                    placeholder="Select interaction type"
                   />
                 )}
               </form.AppField>
@@ -65,7 +82,7 @@ export const CreateInteractionForm = withForm({
               </form.AppField>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional details about the interaction."
                     placeholder="Details about the interaction..."
@@ -78,23 +95,47 @@ export const CreateInteractionForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this interaction to contacts and cases.</FieldDescription>
+            <FieldDescription>
+              Link this interaction to contacts and cases.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="contactId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchContactsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.contacts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Contact *"
                     description="The contact involved in this interaction."
-                    placeholder="Contact ID"
+                    placeholder="Search contact..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="caseId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCasesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.cases || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Case"
                     description="Related case (optional)."
-                    placeholder="Case ID"
+                    placeholder="Search case..."
                   />
                 )}
               </form.AppField>
@@ -121,19 +162,24 @@ export const UpdateInteractionForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Interaction</FieldLegend>
-        <FieldDescription>Update the details for the interaction.</FieldDescription>
+        <FieldDescription>
+          Update the details for the interaction.
+        </FieldDescription>
         <FieldGroup>
           {/* Interaction Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Interaction Details</FieldLegend>
-            <FieldDescription>Basic interaction information and type.</FieldDescription>
+            <FieldDescription>
+              Basic interaction information and type.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="type">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Type"
                     description="Type of interaction (call, email, meeting, etc.)."
-                    placeholder="e.g., Call, Email, Meeting"
+                    options={INTERACTION_TYPE_OPTIONS}
+                    placeholder="Select interaction type"
                   />
                 )}
               </form.AppField>
@@ -157,7 +203,7 @@ export const UpdateInteractionForm = withForm({
               </form.AppField>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional details about the interaction."
                     placeholder="Details about the interaction..."
@@ -170,23 +216,47 @@ export const UpdateInteractionForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this interaction to contacts and cases.</FieldDescription>
+            <FieldDescription>
+              Link this interaction to contacts and cases.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="contactId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchContactsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.contacts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Contact"
                     description="The contact involved in this interaction."
-                    placeholder="Contact ID"
+                    placeholder="Search contact..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="caseId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCasesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.cases || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Case"
                     description="Related case (optional)."
-                    placeholder="Case ID"
+                    placeholder="Search case..."
                   />
                 )}
               </form.AppField>

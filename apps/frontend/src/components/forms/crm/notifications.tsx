@@ -29,12 +29,16 @@ export const CreateNotificationForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Notification</FieldLegend>
-        <FieldDescription>Fill in the details for the new notification.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new notification.
+        </FieldDescription>
         <FieldGroup>
           {/* Notification Content Section */}
           <FieldSet>
             <FieldLegend variant="label">Notification Content</FieldLegend>
-            <FieldDescription>The message and related content for this notification.</FieldDescription>
+            <FieldDescription>
+              The message and related content for this notification.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="message">
                 {(field) => (
@@ -61,12 +65,13 @@ export const CreateNotificationForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Mark this notification as read or unread.</FieldDescription>
+            <FieldDescription>
+              Mark this notification as read or unread.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="isRead">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Mark as Read"
                     description="Check if this notification has been read."
                   />
@@ -78,7 +83,9 @@ export const CreateNotificationForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this notification to a user.</FieldDescription>
+            <FieldDescription>
+              Link this notification to a user.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="userId">
                 {(field) => (
@@ -103,12 +110,16 @@ export const UpdateNotificationForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Notification</FieldLegend>
-        <FieldDescription>Update the details for the notification.</FieldDescription>
+        <FieldDescription>
+          Update the details for the notification.
+        </FieldDescription>
         <FieldGroup>
           {/* Notification Content Section */}
           <FieldSet>
             <FieldLegend variant="label">Notification Content</FieldLegend>
-            <FieldDescription>The message and related content for this notification.</FieldDescription>
+            <FieldDescription>
+              The message and related content for this notification.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="message">
                 {(field) => (
@@ -135,12 +146,13 @@ export const UpdateNotificationForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Mark this notification as read or unread.</FieldDescription>
+            <FieldDescription>
+              Mark this notification as read or unread.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="isRead">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Mark as Read"
                     description="Check if this notification has been read."
                   />
@@ -152,7 +164,9 @@ export const UpdateNotificationForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link this notification to a user.</FieldDescription>
+            <FieldDescription>
+              Link this notification to a user.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="userId">
                 {(field) => (

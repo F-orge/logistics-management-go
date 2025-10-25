@@ -5985,6 +5985,28 @@ export type AnalyticsDisputesQueryVariables = Exact<{
 
 export type AnalyticsDisputesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', disputedAmount?: number | null, status?: DisputeStatus | null }> } | null };
 
+export type CreateInvoiceLineItemMutationVariables = Exact<{
+  invoiceLineItem: CreateInvoiceLineItemInput;
+}>;
+
+
+export type CreateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
+
+export type UpdateInvoiceLineItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  invoiceLineItem: UpdateInvoiceLineItemInput;
+}>;
+
+
+export type UpdateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
+
+export type RemoveInvoiceLineItemMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeInvoiceLineItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
 export type CreateBillingInvoiceMutationVariables = Exact<{
   billingInvoice: CreateBillingInvoiceInput;
 }>;
@@ -6023,6 +6045,14 @@ export type SearchBillingInvoicesQueryVariables = Exact<{
 
 
 export type SearchBillingInvoicesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', billingInvoices: Array<{ __typename?: 'BillingInvoices', value: string, label: string }> } | null };
+
+export type AnalyticsBillingInvoicesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsBillingInvoicesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', billingInvoices: Array<{ __typename?: 'BillingInvoices', totalAmount: number, amountPaid?: number | null, amountOutstanding?: number | null, taxAmount?: number | null, discountAmount?: number | null, subtotal?: number | null, status?: BillingInvoiceStatus | null }> } | null };
 
 export type CreatePaymentMutationVariables = Exact<{
   payment: CreatePaymentInput;
@@ -6064,6 +6094,14 @@ export type SearchPaymentsQueryVariables = Exact<{
 
 export type SearchPaymentsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', payments: Array<{ __typename?: 'Payments', value: string, label?: string | null }> } | null };
 
+export type AnalyticsPaymentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsPaymentsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', payments: Array<{ __typename?: 'Payments', amount: number, exchangeRate?: number | null, fees?: number | null, netAmount?: number | null, paymentMethod: PaymentMethod, status?: PaymentStatus | null }> } | null };
+
 export type CreateQuoteMutationVariables = Exact<{
   quote: CreateQuoteInput;
 }>;
@@ -6102,6 +6140,14 @@ export type SearchQuotesQueryVariables = Exact<{
 
 
 export type SearchQuotesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', quotes: Array<{ __typename?: 'Quotes', value: string, label?: string | null }> } | null };
+
+export type AnalyticsQuotesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsQuotesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', quotes: Array<{ __typename?: 'Quotes', weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, quotedPrice: number, status?: QuoteStatus | null }> } | null };
 
 export type CreateRateCardMutationVariables = Exact<{
   rateCard: CreateRateCardInput;
@@ -6142,6 +6188,14 @@ export type SearchRateCardsQueryVariables = Exact<{
 
 export type SearchRateCardsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateCards: Array<{ __typename?: 'RateCards', value: string, label: string }> } | null };
 
+export type AnalyticsRateCardsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsRateCardsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateCards: Array<{ __typename?: 'RateCards', serviceType: ServiceType }> } | null };
+
 export type CreateRateRuleMutationVariables = Exact<{
   rateRule: CreateRateRuleInput;
 }>;
@@ -6181,6 +6235,14 @@ export type SearchRateRulesQueryVariables = Exact<{
 
 export type SearchRateRulesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateRules: Array<{ __typename?: 'RateRules', value: string, label: string }> } | null };
 
+export type AnalyticsRateRulesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsRateRulesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateRules: Array<{ __typename?: 'RateRules', price: number, minValue?: number | null, maxValue?: number | null, priority?: number | null, pricingModel: PricingModel }> } | null };
+
 export type CreateSurchargeMutationVariables = Exact<{
   surcharge: CreateSurchargeInput;
 }>;
@@ -6219,6 +6281,14 @@ export type SearchSurchargesQueryVariables = Exact<{
 
 
 export type SearchSurchargesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', value: string, label: string }> } | null };
+
+export type AnalyticsSurchargesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsSurchargesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', amount: number, calculationMethod: SurchargeCalculationMethod }> } | null };
 
 export type CreateCampaignMutationVariables = Exact<{
   campaign: CreateCampaignInput;
@@ -6420,6 +6490,13 @@ export type RemoveInteractionMutationVariables = Exact<{
 
 export type RemoveInteractionMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInteraction: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type SearchInteractionsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchInteractionsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', interactions: Array<{ __typename?: 'Interactions', value: string, label?: string | null }> } | null };
+
 export type TableInteractionQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -6492,6 +6569,13 @@ export type TableInvoiceQueryVariables = Exact<{
 
 
 export type TableInvoiceQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', createdAt?: string | null, dueDate?: string | null, id: string, issueDate?: string | null, paidAt?: string | null, paymentMethod?: PaymentMethod | null, sentAt?: string | null, status?: InvoiceStatus | null, total?: number | null, updatedAt?: string | null, items?: Array<{ __typename?: 'InvoiceItems', price: number, quantity: number, updatedAt?: string | null, id: string, createdAt?: string | null, product: { __typename?: 'Products', name: string, price: number, type?: ProductType | null, sku?: string | null, id: string, description?: string | null } }> | null, opportunity?: { __typename?: 'Opportunities', name: string, stage?: OpportunityStage | null, id: string, expectedCloseDate?: string | null, dealValue?: number | null } | null }> } | null };
+
+export type SearchInvoicesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchInvoicesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', total?: number | null, value: string, label: string }> } | null };
 
 export type AnalyticsInvoicesQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -9017,6 +9101,34 @@ export const AnalyticsDisputesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsDisputesQuery, AnalyticsDisputesQueryVariables>;
+export const CreateInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {
+  billing {
+    createInvoiceLineItem(value: $invoiceLineItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateInvoiceLineItemMutation, CreateInvoiceLineItemMutationVariables>;
+export const UpdateInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {
+  billing {
+    updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateInvoiceLineItemMutation, UpdateInvoiceLineItemMutationVariables>;
+export const RemoveInvoiceLineItemDocument = new TypedDocumentString(`
+    mutation RemoveInvoiceLineItem($id: ID!) {
+  billing {
+    removeInvoiceLineItem(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveInvoiceLineItemMutation, RemoveInvoiceLineItemMutationVariables>;
 export const CreateBillingInvoiceDocument = new TypedDocumentString(`
     mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {
   billing {
@@ -9101,6 +9213,21 @@ export const SearchBillingInvoicesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchBillingInvoicesQuery, SearchBillingInvoicesQueryVariables>;
+export const AnalyticsBillingInvoicesDocument = new TypedDocumentString(`
+    query AnalyticsBillingInvoices($from: Date, $to: Date) {
+  billing {
+    billingInvoices(from: $from, to: $to) {
+      totalAmount
+      amountPaid
+      amountOutstanding
+      taxAmount
+      discountAmount
+      subtotal
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsBillingInvoicesQuery, AnalyticsBillingInvoicesQueryVariables>;
 export const CreatePaymentDocument = new TypedDocumentString(`
     mutation CreatePayment($payment: CreatePaymentInput!) {
   billing {
@@ -9178,6 +9305,20 @@ export const SearchPaymentsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchPaymentsQuery, SearchPaymentsQueryVariables>;
+export const AnalyticsPaymentsDocument = new TypedDocumentString(`
+    query AnalyticsPayments($from: Date, $to: Date) {
+  billing {
+    payments(from: $from, to: $to) {
+      amount
+      exchangeRate
+      fees
+      netAmount
+      paymentMethod
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsPaymentsQuery, AnalyticsPaymentsQueryVariables>;
 export const CreateQuoteDocument = new TypedDocumentString(`
     mutation CreateQuote($quote: CreateQuoteInput!) {
   billing {
@@ -9264,6 +9405,21 @@ export const SearchQuotesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchQuotesQuery, SearchQuotesQueryVariables>;
+export const AnalyticsQuotesDocument = new TypedDocumentString(`
+    query AnalyticsQuotes($from: Date, $to: Date) {
+  billing {
+    quotes(from: $from, to: $to) {
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsQuotesQuery, AnalyticsQuotesQueryVariables>;
 export const CreateRateCardDocument = new TypedDocumentString(`
     mutation CreateRateCard($rateCard: CreateRateCardInput!) {
   billing {
@@ -9341,6 +9497,15 @@ export const SearchRateCardsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchRateCardsQuery, SearchRateCardsQueryVariables>;
+export const AnalyticsRateCardsDocument = new TypedDocumentString(`
+    query AnalyticsRateCards($from: Date, $to: Date) {
+  billing {
+    rateCards(from: $from, to: $to) {
+      serviceType
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsRateCardsQuery, AnalyticsRateCardsQueryVariables>;
 export const CreateRateRuleDocument = new TypedDocumentString(`
     mutation CreateRateRule($rateRule: CreateRateRuleInput!) {
   billing {
@@ -9420,6 +9585,19 @@ export const SearchRateRulesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchRateRulesQuery, SearchRateRulesQueryVariables>;
+export const AnalyticsRateRulesDocument = new TypedDocumentString(`
+    query AnalyticsRateRules($from: Date, $to: Date) {
+  billing {
+    rateRules(from: $from, to: $to) {
+      price
+      minValue
+      maxValue
+      priority
+      pricingModel
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsRateRulesQuery, AnalyticsRateRulesQueryVariables>;
 export const CreateSurchargeDocument = new TypedDocumentString(`
     mutation CreateSurcharge($surcharge: CreateSurchargeInput!) {
   billing {
@@ -9482,6 +9660,16 @@ export const SearchSurchargesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchSurchargesQuery, SearchSurchargesQueryVariables>;
+export const AnalyticsSurchargesDocument = new TypedDocumentString(`
+    query AnalyticsSurcharges($from: Date, $to: Date) {
+  billing {
+    surcharges(from: $from, to: $to) {
+      amount
+      calculationMethod
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsSurchargesQuery, AnalyticsSurchargesQueryVariables>;
 export const CreateCampaignDocument = new TypedDocumentString(`
     mutation CreateCampaign($campaign: CreateCampaignInput!) {
   crm {
@@ -9800,6 +9988,16 @@ export const RemoveInteractionDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInteractionMutation, RemoveInteractionMutationVariables>;
+export const SearchInteractionsDocument = new TypedDocumentString(`
+    query SearchInteractions($search: String!) {
+  crm {
+    interactions(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: outcome
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchInteractionsQuery, SearchInteractionsQueryVariables>;
 export const TableInteractionDocument = new TypedDocumentString(`
     query TableInteraction($page: Int, $perPage: Int, $interactionType: InteractionType, $search: String) {
   crm {
@@ -9951,6 +10149,17 @@ export const TableInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInvoiceQuery, TableInvoiceQueryVariables>;
+export const SearchInvoicesDocument = new TypedDocumentString(`
+    query SearchInvoices($search: String!) {
+  crm {
+    invoices(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: id
+      total
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchInvoicesQuery, SearchInvoicesQueryVariables>;
 export const AnalyticsInvoicesDocument = new TypedDocumentString(`
     query AnalyticsInvoices($from: Date, $to: Date) {
   crm {

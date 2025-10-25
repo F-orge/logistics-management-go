@@ -34,7 +34,9 @@ export const CreateTaskForm = withForm({
           {/* Task Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Task Details</FieldLegend>
-            <FieldDescription>Task number, type, and assignment.</FieldDescription>
+            <FieldDescription>
+              Task number, type, and assignment.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="taskNumber">
@@ -82,7 +84,9 @@ export const CreateTaskForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link to warehouse, user, and batch.</FieldDescription>
+            <FieldDescription>
+              Link to warehouse, user, and batch.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
@@ -119,7 +123,9 @@ export const CreateTaskForm = withForm({
           {/* Source & Entity Section */}
           <FieldSet>
             <FieldLegend variant="label">Source & Entity</FieldLegend>
-            <FieldDescription>Source entity and type for task.</FieldDescription>
+            <FieldDescription>
+              Source entity and type for task.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="sourceEntityId">
@@ -144,27 +150,12 @@ export const CreateTaskForm = withForm({
             </FieldGroup>
           </FieldSet>
 
-          {/* Constraints Section */}
-          <FieldSet>
-            <FieldLegend variant="label">Constraints</FieldLegend>
-            <FieldDescription>Zone restrictions and task constraints.</FieldDescription>
-            <FieldGroup>
-              <form.AppField name="zoneRestrictions">
-                {(field) => (
-                  <field.InputField
-                    label="Zone Restrictions"
-                    description="Zone restrictions for task (optional)."
-                    placeholder="e.g., Zone A, Zone B"
-                  />
-                )}
-              </form.AppField>
-            </FieldGroup>
-          </FieldSet>
-
           {/* Timing & Progress Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing & Progress</FieldLegend>
-            <FieldDescription>Duration estimates and progress tracking.</FieldDescription>
+            <FieldDescription>
+              Duration estimates and progress tracking.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="estimatedDuration">
@@ -226,7 +217,9 @@ export const CreateTaskForm = withForm({
           {/* Instructions & Notes Section */}
           <FieldSet>
             <FieldLegend variant="label">Instructions & Notes</FieldLegend>
-            <FieldDescription>Task instructions and additional notes.</FieldDescription>
+            <FieldDescription>
+              Task instructions and additional notes.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="instructions">
                 {(field) => (
@@ -265,7 +258,9 @@ export const UpdateTaskForm = withForm({
           {/* Task Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Task Details</FieldLegend>
-            <FieldDescription>Update task number, type, and priority.</FieldDescription>
+            <FieldDescription>
+              Update task number, type, and priority.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="taskNumber">
@@ -313,7 +308,9 @@ export const UpdateTaskForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update warehouse, user, and batch associations.</FieldDescription>
+            <FieldDescription>
+              Update warehouse, user, and batch associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
@@ -375,23 +372,6 @@ export const UpdateTaskForm = withForm({
             </FieldGroup>
           </FieldSet>
 
-          {/* Constraints Section */}
-          <FieldSet>
-            <FieldLegend variant="label">Constraints</FieldLegend>
-            <FieldDescription>Update zone restrictions.</FieldDescription>
-            <FieldGroup>
-              <form.AppField name="zoneRestrictions">
-                {(field) => (
-                  <field.InputField
-                    label="Zone Restrictions"
-                    description="Zone restrictions for task (optional)."
-                    placeholder="e.g., Zone A, Zone B"
-                  />
-                )}
-              </form.AppField>
-            </FieldGroup>
-          </FieldSet>
-
           {/* Timing & Progress Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing & Progress</FieldLegend>
@@ -427,7 +407,9 @@ export const UpdateTaskForm = withForm({
           {/* Timestamps Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamps</FieldLegend>
-            <FieldDescription>Update task start and end times.</FieldDescription>
+            <FieldDescription>
+              Update task start and end times.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="startTime">
@@ -457,7 +439,9 @@ export const UpdateTaskForm = withForm({
           {/* Instructions & Notes Section */}
           <FieldSet>
             <FieldLegend variant="label">Instructions & Notes</FieldLegend>
-            <FieldDescription>Update task instructions and notes.</FieldDescription>
+            <FieldDescription>
+              Update task instructions and notes.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="instructions">
                 {(field) => (

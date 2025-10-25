@@ -9,7 +9,10 @@ import {
 import {
   CreateDeliveryTaskInputSchema,
   UpdateDeliveryTaskInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchPackagesQuery,
+  SearchDeliveryRoutesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createDeliveryTaskSchema = CreateDeliveryTaskInputSchema();
@@ -29,12 +32,16 @@ export const CreateDeliveryTaskForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Delivery Task</FieldLegend>
-        <FieldDescription>Fill in the details for the new delivery task.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new delivery task.
+        </FieldDescription>
         <FieldGroup>
           {/* Recipient Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Recipient Information</FieldLegend>
-            <FieldDescription>Details of the person receiving the delivery.</FieldDescription>
+            <FieldDescription>
+              Details of the person receiving the delivery.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="recipientName">
                 {(field) => (
@@ -61,7 +68,9 @@ export const CreateDeliveryTaskForm = withForm({
           {/* Delivery Address Section */}
           <FieldSet>
             <FieldLegend variant="label">Delivery Address</FieldLegend>
-            <FieldDescription>Where the package should be delivered.</FieldDescription>
+            <FieldDescription>
+              Where the package should be delivered.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="deliveryAddress">
                 {(field) => (
@@ -74,7 +83,7 @@ export const CreateDeliveryTaskForm = withForm({
               </form.AppField>
               <form.AppField name="deliveryInstructions">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Delivery Instructions"
                     description="Special instructions for the delivery."
                     placeholder="e.g., Ring doorbell twice, leave with neighbor..."
@@ -87,23 +96,47 @@ export const CreateDeliveryTaskForm = withForm({
           {/* Package & Route Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Package & Route</FieldLegend>
-            <FieldDescription>Package and route assignment details.</FieldDescription>
+            <FieldDescription>
+              Package and route assignment details.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="packageId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchPackagesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.packages || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Package *"
                     description="The package to be delivered."
-                    placeholder="Package ID"
+                    placeholder="Search package..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="deliveryRouteId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryRoutesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.dms?.deliveryRoutes || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Route *"
                     description="The route this task is part of."
-                    placeholder="Route ID"
+                    placeholder="Search route..."
                   />
                 )}
               </form.AppField>
@@ -124,7 +157,9 @@ export const CreateDeliveryTaskForm = withForm({
           {/* Timing Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing</FieldLegend>
-            <FieldDescription>Estimated and actual delivery times.</FieldDescription>
+            <FieldDescription>
+              Estimated and actual delivery times.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="estimatedArrivalTime">
@@ -161,7 +196,9 @@ export const CreateDeliveryTaskForm = withForm({
           {/* Status & Attempts Section */}
           <FieldSet>
             <FieldLegend variant="label">Status & Attempts</FieldLegend>
-            <FieldDescription>Current status and delivery attempt information.</FieldDescription>
+            <FieldDescription>
+              Current status and delivery attempt information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -186,7 +223,7 @@ export const CreateDeliveryTaskForm = withForm({
                 </form.AppField>
                 <form.AppField name="failureReason">
                   {(field) => (
-                    <field.InputField
+                    <field.TextAreaField
                       label="Failure Reason"
                       description="Reason for failed delivery attempts."
                       placeholder="e.g., Address not found, Recipient unavailable"
@@ -208,12 +245,16 @@ export const UpdateDeliveryTaskForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Delivery Task</FieldLegend>
-        <FieldDescription>Update the details for the delivery task.</FieldDescription>
+        <FieldDescription>
+          Update the details for the delivery task.
+        </FieldDescription>
         <FieldGroup>
           {/* Recipient Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Recipient Information</FieldLegend>
-            <FieldDescription>Details of the person receiving the delivery.</FieldDescription>
+            <FieldDescription>
+              Details of the person receiving the delivery.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="recipientName">
                 {(field) => (
@@ -240,7 +281,9 @@ export const UpdateDeliveryTaskForm = withForm({
           {/* Delivery Address Section */}
           <FieldSet>
             <FieldLegend variant="label">Delivery Address</FieldLegend>
-            <FieldDescription>Where the package should be delivered.</FieldDescription>
+            <FieldDescription>
+              Where the package should be delivered.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="deliveryAddress">
                 {(field) => (
@@ -253,7 +296,7 @@ export const UpdateDeliveryTaskForm = withForm({
               </form.AppField>
               <form.AppField name="deliveryInstructions">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Delivery Instructions"
                     description="Special instructions for the delivery."
                     placeholder="e.g., Ring doorbell twice, leave with neighbor..."
@@ -266,23 +309,47 @@ export const UpdateDeliveryTaskForm = withForm({
           {/* Package & Route Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Package & Route</FieldLegend>
-            <FieldDescription>Package and route assignment details.</FieldDescription>
+            <FieldDescription>
+              Package and route assignment details.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="packageId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchPackagesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.packages || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Package"
                     description="The package to be delivered."
-                    placeholder="Package ID"
+                    placeholder="Search package..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="deliveryRouteId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDeliveryRoutesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.dms?.deliveryRoutes || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Delivery Route"
                     description="The route this task is part of."
-                    placeholder="Route ID"
+                    placeholder="Search route..."
                   />
                 )}
               </form.AppField>
@@ -303,7 +370,9 @@ export const UpdateDeliveryTaskForm = withForm({
           {/* Timing Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing</FieldLegend>
-            <FieldDescription>Update estimated and actual delivery times.</FieldDescription>
+            <FieldDescription>
+              Update estimated and actual delivery times.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="estimatedArrivalTime">
@@ -340,7 +409,9 @@ export const UpdateDeliveryTaskForm = withForm({
           {/* Status & Attempts Section */}
           <FieldSet>
             <FieldLegend variant="label">Status & Attempts</FieldLegend>
-            <FieldDescription>Update status and delivery attempt information.</FieldDescription>
+            <FieldDescription>
+              Update status and delivery attempt information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -365,7 +436,7 @@ export const UpdateDeliveryTaskForm = withForm({
                 </form.AppField>
                 <form.AppField name="failureReason">
                   {(field) => (
-                    <field.InputField
+                    <field.TextAreaField
                       label="Failure Reason"
                       description="Reason for failed delivery attempts."
                       placeholder="e.g., Address not found, Recipient unavailable"

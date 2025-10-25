@@ -9,11 +9,37 @@ import {
 import {
   CreateLeadInputSchema,
   UpdateLeadInputSchema,
-} from "@packages/graphql/client/zod";
+  LeadSource,
+  LeadStatus,
+  SearchCampaignsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createLeadSchema = CreateLeadInputSchema();
 export const updateLeadSchema = UpdateLeadInputSchema();
+
+// Lead Source Options
+const LEAD_SOURCE_OPTIONS = [
+  { label: "Website", value: LeadSource.Website },
+  { label: "Referral", value: LeadSource.Referral },
+  { label: "Social Media", value: LeadSource.SocialMedia },
+  { label: "Email Campaign", value: LeadSource.EmailCampaign },
+  { label: "Cold Call", value: LeadSource.ColdCall },
+  { label: "Event", value: LeadSource.Event },
+  { label: "Advertisement", value: LeadSource.Advertisment },
+  { label: "Partner", value: LeadSource.Partner },
+  { label: "Other", value: LeadSource.Other },
+];
+
+// Lead Status Options
+const LEAD_STATUS_OPTIONS = [
+  { label: "New", value: LeadStatus.New },
+  { label: "Contacted", value: LeadStatus.Contacted },
+  { label: "Qualified", value: LeadStatus.Qualified },
+  { label: "Unqualified", value: LeadStatus.Unqualified },
+  { label: "Converted", value: LeadStatus.Converted },
+];
 
 export const createLeadFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createLeadSchema>,
@@ -61,10 +87,11 @@ export const CreateLeadForm = withForm({
               </form.AppField>
               <form.AppField name="leadSource">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Lead Source"
                     description="How the lead was acquired."
-                    placeholder="e.g., Website, Referral"
+                    options={LEAD_SOURCE_OPTIONS}
+                    placeholder="Select lead source"
                   />
                 )}
               </form.AppField>
@@ -80,10 +107,11 @@ export const CreateLeadForm = withForm({
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Status"
                     description="Current lead status."
-                    placeholder="e.g., New, Qualified"
+                    options={LEAD_STATUS_OPTIONS}
+                    placeholder="Select status"
                   />
                 )}
               </form.AppField>
@@ -109,10 +137,21 @@ export const CreateLeadForm = withForm({
             <FieldGroup>
               <form.AppField name="campaignId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCampaignsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.campaigns || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Campaign"
                     description="Associated marketing campaign."
-                    placeholder="Campaign ID"
+                    placeholder="Search campaign..."
                   />
                 )}
               </form.AppField>
@@ -169,10 +208,11 @@ export const UpdateLeadForm = withForm({
               </form.AppField>
               <form.AppField name="leadSource">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Lead Source"
                     description="How the lead was acquired."
-                    placeholder="e.g., Website, Referral"
+                    options={LEAD_SOURCE_OPTIONS}
+                    placeholder="Select lead source"
                   />
                 )}
               </form.AppField>
@@ -188,10 +228,11 @@ export const UpdateLeadForm = withForm({
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Status"
                     description="Current lead status."
-                    placeholder="e.g., New, Qualified"
+                    options={LEAD_STATUS_OPTIONS}
+                    placeholder="Select status"
                   />
                 )}
               </form.AppField>
@@ -217,10 +258,21 @@ export const UpdateLeadForm = withForm({
             <FieldGroup>
               <form.AppField name="campaignId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCampaignsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.campaigns || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Campaign"
                     description="Associated marketing campaign."
-                    placeholder="Campaign ID"
+                    placeholder="Search campaign..."
                   />
                 )}
               </form.AppField>

@@ -9,11 +9,46 @@ import {
 import {
   CreateCaseInputSchema,
   UpdateCaseInputSchema,
-} from "@packages/graphql/client/zod";
+  CaseType,
+  CasePriority,
+  CaseStatus,
+  SearchContactsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createCaseSchema = CreateCaseInputSchema();
 export const updateCaseSchema = UpdateCaseInputSchema();
+
+// Case Type Options
+const CASE_TYPE_OPTIONS = [
+  { label: "Question", value: CaseType.Question },
+  { label: "Problem", value: CaseType.Problem },
+  { label: "Complaint", value: CaseType.Complaint },
+  { label: "Feature Request", value: CaseType.FeatureRequest },
+  { label: "Bug Report", value: CaseType.BugReport },
+  { label: "Technical Support", value: CaseType.TechnicalSupport },
+];
+
+// Case Priority Options
+const CASE_PRIORITY_OPTIONS = [
+  { label: "Low", value: CasePriority.Low },
+  { label: "Medium", value: CasePriority.Medium },
+  { label: "High", value: CasePriority.High },
+  { label: "Critical", value: CasePriority.Critical },
+];
+
+// Case Status Options
+const CASE_STATUS_OPTIONS = [
+  { label: "New", value: CaseStatus.New },
+  { label: "In Progress", value: CaseStatus.InProgress },
+  { label: "Waiting for Customer", value: CaseStatus.WaitingForCustomer },
+  { label: "Waiting for Internal", value: CaseStatus.WaitingForInternal },
+  { label: "Escalated", value: CaseStatus.Escalated },
+  { label: "Resolved", value: CaseStatus.Resolved },
+  { label: "Closed", value: CaseStatus.Closed },
+  { label: "Cancelled", value: CaseStatus.Cancelled },
+];
 
 export const createCaseFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createCaseSchema>,
@@ -29,12 +64,16 @@ export const CreateCaseForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Case</FieldLegend>
-        <FieldDescription>Fill in the details for the new case.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new case.
+        </FieldDescription>
         <FieldGroup>
           {/* Case Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Case Details</FieldLegend>
-            <FieldDescription>Basic case information and classification.</FieldDescription>
+            <FieldDescription>
+              Basic case information and classification.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="caseNumber">
                 {(field) => (
@@ -47,34 +86,37 @@ export const CreateCaseForm = withForm({
               </form.AppField>
               <form.AppField name="type">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Type *"
                     description="Category or type of the case."
-                    placeholder="e.g., Bug, Feature Request"
+                    options={CASE_TYPE_OPTIONS}
+                    placeholder="Select case type"
                   />
                 )}
               </form.AppField>
               <form.AppField name="priority">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Priority *"
                     description="Urgency level of the case."
-                    placeholder="e.g., High, Medium, Low"
+                    options={CASE_PRIORITY_OPTIONS}
+                    placeholder="Select priority"
                   />
                 )}
               </form.AppField>
               <form.AppField name="status">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Status *"
                     description="Current status of the case."
-                    placeholder="e.g., Open, In Progress, Closed"
+                    options={CASE_STATUS_OPTIONS}
+                    placeholder="Select status"
                   />
                 )}
               </form.AppField>
               <form.AppField name="description">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Description"
                     description="Detailed information about the case."
                     placeholder="Describe the case..."
@@ -87,14 +129,27 @@ export const CreateCaseForm = withForm({
           {/* Assignment Section */}
           <FieldSet>
             <FieldLegend variant="label">Assignment</FieldLegend>
-            <FieldDescription>Link this case to contacts and assign ownership.</FieldDescription>
+            <FieldDescription>
+              Link this case to contacts and assign ownership.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="contactId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchContactsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.contacts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Contact"
                     description="The contact associated with this case."
-                    placeholder="Contact ID"
+                    placeholder="Search contact..."
                   />
                 )}
               </form.AppField>
@@ -126,7 +181,9 @@ export const UpdateCaseForm = withForm({
           {/* Case Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Case Details</FieldLegend>
-            <FieldDescription>Basic case information and classification.</FieldDescription>
+            <FieldDescription>
+              Basic case information and classification.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="caseNumber">
                 {(field) => (
@@ -139,34 +196,37 @@ export const UpdateCaseForm = withForm({
               </form.AppField>
               <form.AppField name="type">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Type"
                     description="Category or type of the case."
-                    placeholder="e.g., Bug, Feature Request"
+                    options={CASE_TYPE_OPTIONS}
+                    placeholder="Select case type"
                   />
                 )}
               </form.AppField>
               <form.AppField name="priority">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Priority"
                     description="Urgency level of the case."
-                    placeholder="e.g., High, Medium, Low"
+                    options={CASE_PRIORITY_OPTIONS}
+                    placeholder="Select priority"
                   />
                 )}
               </form.AppField>
               <form.AppField name="status">
                 {(field) => (
-                  <field.InputField
+                  <field.SelectField
                     label="Status"
                     description="Current status of the case."
-                    placeholder="e.g., Open, In Progress, Closed"
+                    options={CASE_STATUS_OPTIONS}
+                    placeholder="Select status"
                   />
                 )}
               </form.AppField>
               <form.AppField name="description">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Description"
                     description="Detailed information about the case."
                     placeholder="Describe the case..."
@@ -179,14 +239,27 @@ export const UpdateCaseForm = withForm({
           {/* Assignment Section */}
           <FieldSet>
             <FieldLegend variant="label">Assignment</FieldLegend>
-            <FieldDescription>Link this case to contacts and assign ownership.</FieldDescription>
+            <FieldDescription>
+              Link this case to contacts and assign ownership.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="contactId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchContactsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.crm?.contacts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Contact"
                     description="The contact associated with this case."
-                    placeholder="Contact ID"
+                    placeholder="Search contact..."
                   />
                 )}
               </form.AppField>

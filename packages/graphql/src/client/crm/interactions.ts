@@ -31,6 +31,17 @@ export const RemoveInteractionMutation = graphql(`
   }
 `);
 
+export const SearchInteractionsQuery = graphql(`
+  query SearchInteractions($search: String!) {
+    crm {
+      interactions(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: outcome
+      }
+    }
+  }
+`);
+
 export const TableInteractionQuery = graphql(`
   query TableInteraction(
     $page: Int

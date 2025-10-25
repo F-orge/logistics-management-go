@@ -15,7 +15,11 @@ export type AsyncSelectFieldProps = {
 };
 
 export function AsyncSelectField<T>(
-  props: React.ComponentProps<typeof AsyncSelect<T>> & AsyncSelectFieldProps
+  props: Omit<
+    React.ComponentProps<typeof AsyncSelect<T>>,
+    "value" | "onChange"
+  > &
+    AsyncSelectFieldProps
 ) {
   const field = useFieldContext<string>();
 
