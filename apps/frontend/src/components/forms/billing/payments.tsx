@@ -9,7 +9,9 @@ import {
 import {
   CreatePaymentInputSchema,
   UpdatePaymentInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchBillingInvoicesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPaymentSchema = CreatePaymentInputSchema();
@@ -39,10 +41,21 @@ export const CreatePaymentForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="invoiceId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchBillingInvoicesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.billingInvoices || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Invoice *"
                       description="Invoice being paid."
-                      placeholder="Invoice ID"
+                      placeholder="Search invoice..."
                     />
                   )}
                 </form.AppField>
@@ -227,10 +240,21 @@ export const UpdatePaymentForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="invoiceId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchBillingInvoicesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.billingInvoices || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Invoice"
                       description="Invoice being paid."
-                      placeholder="Invoice ID"
+                      placeholder="Search invoice..."
                     />
                   )}
                 </form.AppField>

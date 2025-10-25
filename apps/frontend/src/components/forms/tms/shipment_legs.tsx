@@ -9,7 +9,9 @@ import {
 import {
   CreateShipmentLegInputSchema,
   UpdateShipmentLegInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchTripsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createShipmentLegSchema = CreateShipmentLegInputSchema();
@@ -110,10 +112,21 @@ export const CreateShipmentLegForm = withForm({
               </form.AppField>
               <form.AppField name="internalTripId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchTripsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.trips || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Internal Trip"
                     description="The internal trip ID for this leg."
-                    placeholder="Trip ID"
+                    placeholder="Search trip..."
                   />
                 )}
               </form.AppField>
@@ -212,10 +225,21 @@ export const UpdateShipmentLegForm = withForm({
               </form.AppField>
               <form.AppField name="internalTripId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchTripsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.trips || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Internal Trip"
                     description="The internal trip ID for this leg."
-                    placeholder="Trip ID"
+                    placeholder="Search trip..."
                   />
                 )}
               </form.AppField>

@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -29,7 +32,9 @@ export const CreateCampaignForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Campaign</FieldLegend>
-        <FieldDescription>Fill in the details for the new campaign.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new campaign.
+        </FieldDescription>
         <FieldGroup>
           {/* Campaign Details Section */}
           <FieldSet>
@@ -98,7 +103,9 @@ export const UpdateCampaignForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Campaign</FieldLegend>
-        <FieldDescription>Update the details for the campaign.</FieldDescription>
+        <FieldDescription>
+          Update the details for the campaign.
+        </FieldDescription>
         <FieldGroup>
           {/* Campaign Details Section */}
           <FieldSet>
@@ -160,3 +167,22 @@ export const UpdateCampaignForm = withForm({
     );
   },
 });
+
+export const NewCampaignDialogForm = () => {
+  const form = useAppForm({
+    ...createCampaignFormOption,
+    onSubmit: (value) => {},
+  });
+
+  return (
+    <Dialog>
+      <DialogContent>
+        <form.AppForm>
+          <form.Subscribe>
+            {el => <Button disabled={el.isSubmitting}>Create</Button>}
+          </form.Subscribe>
+        </form.AppForm>
+      </DialogContent>
+    </Dialog>
+  );
+};

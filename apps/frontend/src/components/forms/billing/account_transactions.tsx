@@ -9,7 +9,9 @@ import {
 import {
   CreateAccountTransactionInputSchema,
   UpdateAccountTransactionInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchClientAccountsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createAccountTransactionSchema = CreateAccountTransactionInputSchema();
@@ -39,10 +41,21 @@ export const CreateAccountTransactionForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientAccountId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchClientAccountsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.clientAccounts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client Account *"
                       description="Client account for this transaction."
-                      placeholder="Account ID"
+                      placeholder="Search client account..."
                     />
                   )}
                 </form.AppField>
@@ -177,10 +190,21 @@ export const UpdateAccountTransactionForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientAccountId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchClientAccountsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.clientAccounts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client Account"
                       description="Client account for this transaction."
-                      placeholder="Account ID"
+                      placeholder="Search client account..."
                     />
                   )}
                 </form.AppField>

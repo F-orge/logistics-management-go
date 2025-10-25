@@ -9,7 +9,9 @@ import {
 import {
   CreateCarrierRateInputSchema,
   UpdateCarrierRateInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCarriersQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createCarrierRateSchema = CreateCarrierRateInputSchema();
@@ -103,10 +105,21 @@ export const CreateCarrierRateForm = withForm({
             <FieldGroup>
               <form.AppField name="carrierId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCarriersQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.carriers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Carrier *"
                     description="The carrier this rate applies to."
-                    placeholder="Carrier ID"
+                    placeholder="Search carrier..."
                   />
                 )}
               </form.AppField>
@@ -198,10 +211,21 @@ export const UpdateCarrierRateForm = withForm({
             <FieldGroup>
               <form.AppField name="carrierId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCarriersQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.carriers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Carrier"
                     description="The carrier this rate applies to."
-                    placeholder="Carrier ID"
+                    placeholder="Search carrier..."
                   />
                 )}
               </form.AppField>

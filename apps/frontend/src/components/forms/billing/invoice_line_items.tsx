@@ -9,7 +9,9 @@ import {
 import {
   CreateInvoiceLineItemInputSchema,
   UpdateInvoiceLineItemInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchBillingInvoicesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createInvoiceLineItemSchema = CreateInvoiceLineItemInputSchema();
@@ -39,10 +41,21 @@ export const CreateInvoiceLineItemForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="invoiceId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchBillingInvoicesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.billingInvoices || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Invoice *"
                       description="Invoice for this line item."
-                      placeholder="Invoice ID"
+                      placeholder="Search invoice..."
                     />
                   )}
                 </form.AppField>
@@ -160,10 +173,21 @@ export const UpdateInvoiceLineItemForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="invoiceId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchBillingInvoicesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.billingInvoices || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Invoice"
                       description="Invoice for this line item."
-                      placeholder="Invoice ID"
+                      placeholder="Search invoice..."
                     />
                   )}
                 </form.AppField>

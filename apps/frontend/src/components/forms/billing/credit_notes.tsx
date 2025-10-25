@@ -9,7 +9,10 @@ import {
 import {
   CreateCreditNoteInputSchema,
   UpdateCreditNoteInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchBillingInvoicesQuery,
+  SearchDisputesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createCreditNoteSchema = CreateCreditNoteInputSchema();
@@ -39,19 +42,41 @@ export const CreateCreditNoteForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="invoiceId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchBillingInvoicesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.billingInvoices || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Invoice *"
                       description="Original invoice for this credit note."
-                      placeholder="Invoice ID"
+                      placeholder="Search invoice..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="disputeId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchDisputesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.disputes || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Dispute"
                       description="Associated dispute (optional)."
-                      placeholder="Dispute ID"
+                      placeholder="Search dispute..."
                     />
                   )}
                 </form.AppField>
@@ -186,19 +211,41 @@ export const UpdateCreditNoteForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="invoiceId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchBillingInvoicesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.billingInvoices || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Invoice"
                       description="Original invoice."
-                      placeholder="Invoice ID"
+                      placeholder="Search invoice..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="disputeId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchDisputesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.billing?.disputes || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Dispute"
                       description="Associated dispute."
-                      placeholder="Dispute ID"
+                      placeholder="Search dispute..."
                     />
                   )}
                 </form.AppField>

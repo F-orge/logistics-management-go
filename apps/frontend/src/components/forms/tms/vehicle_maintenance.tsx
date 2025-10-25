@@ -9,7 +9,9 @@ import {
 import {
   CreateVehicleMaintenanceInputSchema,
   UpdateVehicleMaintenanceInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchVehiclesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createVehicleMaintenanceSchema = CreateVehicleMaintenanceInputSchema();
@@ -84,10 +86,21 @@ export const CreateVehicleMaintenanceForm = withForm({
               </form.AppField>
               <form.AppField name="vehicleId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchVehiclesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.vehicles || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Vehicle *"
                     description="The vehicle that was serviced."
-                    placeholder="Vehicle ID"
+                    placeholder="Search vehicle..."
                   />
                 )}
               </form.AppField>
@@ -160,10 +173,21 @@ export const UpdateVehicleMaintenanceForm = withForm({
               </form.AppField>
               <form.AppField name="vehicleId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchVehiclesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.vehicles || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Vehicle"
                     description="The vehicle that was serviced."
-                    placeholder="Vehicle ID"
+                    placeholder="Search vehicle..."
                   />
                 )}
               </form.AppField>

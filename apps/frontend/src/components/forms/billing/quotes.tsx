@@ -9,7 +9,9 @@ import {
 import {
   CreateQuoteInputSchema,
   UpdateQuoteInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCompaniesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createQuoteSchema = CreateQuoteInputSchema();
@@ -67,10 +69,21 @@ export const CreateQuoteForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="Client for this quote."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -275,10 +288,21 @@ export const UpdateQuoteForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="Client for quote."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>

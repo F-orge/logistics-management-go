@@ -129,12 +129,9 @@ export const CreateSurchargeForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Active status.</FieldDescription>
-            <FieldGroup>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Surcharge is active."
                   />
@@ -258,8 +255,7 @@ export const UpdateSurchargeForm = withForm({
             <FieldGroup>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Surcharge is active."
                   />

@@ -9,7 +9,9 @@ import {
 import {
   CreateRateRuleInputSchema,
   UpdateRateRuleInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchRateCardsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createRateRuleSchema = CreateRateRuleInputSchema();
@@ -38,10 +40,21 @@ export const CreateRateRuleForm = withForm({
             <FieldGroup>
               <form.AppField name="rateCardId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchRateCardsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.billing?.rateCards || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Rate Card *"
                     description="Rate card this rule belongs to."
-                    placeholder="Rate Card ID"
+                    placeholder="Search rate card..."
                   />
                 )}
               </form.AppField>
@@ -131,31 +144,14 @@ export const CreateRateRuleForm = withForm({
           {/* Priority & Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Priority & Status</FieldLegend>
-            <FieldDescription>Rule priority and active status.</FieldDescription>
-            <FieldGroup>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <form.AppField name="priority">
-                  {(field) => (
-                    <field.InputField
-                      type="number"
-                      label="Priority"
-                      description="Rule priority (higher = applied first)."
-                      placeholder="1"
-                      step="1"
-                    />
-                  )}
-                </form.AppField>
                 <form.AppField name="isActive">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Active"
                       description="Rule is active."
                     />
                   )}
                 </form.AppField>
-              </div>
-            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -178,10 +174,21 @@ export const UpdateRateRuleForm = withForm({
             <FieldGroup>
               <form.AppField name="rateCardId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchRateCardsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.billing?.rateCards || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Rate Card"
                     description="Rate card this rule belongs to."
-                    placeholder="Rate Card ID"
+                    placeholder="Search rate card..."
                   />
                 )}
               </form.AppField>
@@ -287,8 +294,7 @@ export const UpdateRateRuleForm = withForm({
                 </form.AppField>
                 <form.AppField name="isActive">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Active"
                       description="Rule is active."
                     />

@@ -9,7 +9,9 @@ import {
 import {
   CreateDisputeInputSchema,
   UpdateDisputeInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCompaniesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createDisputeSchema = CreateDisputeInputSchema();
@@ -48,10 +50,21 @@ export const CreateDisputeForm = withForm({
                 </form.AppField>
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="Client submitting dispute."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -182,10 +195,21 @@ export const UpdateDisputeForm = withForm({
                 </form.AppField>
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="Client for dispute."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>

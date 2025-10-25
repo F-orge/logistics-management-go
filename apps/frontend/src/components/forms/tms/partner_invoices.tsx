@@ -9,7 +9,9 @@ import {
 import {
   CreatePartnerInvoiceInputSchema,
   UpdatePartnerInvoiceInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCarriersQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPartnerInvoiceSchema = CreatePartnerInvoiceInputSchema();
@@ -92,10 +94,21 @@ export const CreatePartnerInvoiceForm = withForm({
             <FieldGroup>
               <form.AppField name="carrierId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCarriersQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.carriers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Carrier *"
                     description="The carrier/partner this invoice is from."
-                    placeholder="Carrier ID"
+                    placeholder="Search carrier..."
                   />
                 )}
               </form.AppField>
@@ -176,10 +189,21 @@ export const UpdatePartnerInvoiceForm = withForm({
             <FieldGroup>
               <form.AppField name="carrierId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchCarriersQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.carriers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Carrier"
                     description="The carrier/partner this invoice is from."
-                    placeholder="Carrier ID"
+                    placeholder="Search carrier..."
                   />
                 )}
               </form.AppField>

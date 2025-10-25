@@ -9,7 +9,9 @@ import {
 import {
   CreateDriverScheduleInputSchema,
   UpdateDriverScheduleInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchDriversQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createDriverScheduleSchema = CreateDriverScheduleInputSchema();
@@ -75,10 +77,21 @@ export const CreateDriverScheduleForm = withForm({
             <FieldGroup>
               <form.AppField name="driverId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDriversQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.drivers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Driver *"
                     description="The driver this schedule applies to."
-                    placeholder="Driver ID"
+                    placeholder="Search driver..."
                   />
                 )}
               </form.AppField>
@@ -142,10 +155,21 @@ export const UpdateDriverScheduleForm = withForm({
             <FieldGroup>
               <form.AppField name="driverId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDriversQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.drivers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Driver"
                     description="The driver this schedule applies to."
-                    placeholder="Driver ID"
+                    placeholder="Search driver..."
                   />
                 )}
               </form.AppField>

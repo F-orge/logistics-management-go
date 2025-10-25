@@ -9,7 +9,10 @@ import {
 import {
   CreateExpenseInputSchema,
   UpdateExpenseInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchTripsQuery,
+  SearchDriversQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createExpenseSchema = CreateExpenseInputSchema();
@@ -29,12 +32,16 @@ export const CreateExpenseForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Expense</FieldLegend>
-        <FieldDescription>Fill in the details for the new expense.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new expense.
+        </FieldDescription>
         <FieldGroup>
           {/* Expense Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Expense Details</FieldLegend>
-            <FieldDescription>Basic expense information and type.</FieldDescription>
+            <FieldDescription>
+              Basic expense information and type.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="type">
                 {(field) => (
@@ -82,7 +89,9 @@ export const CreateExpenseForm = withForm({
           {/* Fuel & Vehicle Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Fuel & Vehicle Details</FieldLegend>
-            <FieldDescription>Fuel and odometer information for the trip.</FieldDescription>
+            <FieldDescription>
+              Fuel and odometer information for the trip.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="fuelQuantity">
@@ -114,7 +123,9 @@ export const CreateExpenseForm = withForm({
           {/* Timeline & Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Timeline & Status</FieldLegend>
-            <FieldDescription>Expense date and approval status.</FieldDescription>
+            <FieldDescription>
+              Expense date and approval status.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="expenseDate">
                 {(field) => (
@@ -150,23 +161,53 @@ export const CreateExpenseForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link expense to a trip and driver.</FieldDescription>
+            <FieldDescription>
+              Link expense to a trip and driver.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="tripId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchTripsQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.tms?.trips || []).map((trip) => ({
+                        label: trip.label || trip.value,
+                        value: trip.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Trip *"
                     description="The trip this expense is for."
-                    placeholder="Trip ID"
+                    placeholder="Search trip..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="driverId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDriversQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.tms?.drivers || []).map((driver) => ({
+                        label: driver.label || driver.value,
+                        value: driver.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Driver *"
                     description="The driver who incurred this expense."
-                    placeholder="Driver ID"
+                    placeholder="Search driver..."
                   />
                 )}
               </form.AppField>
@@ -189,7 +230,9 @@ export const UpdateExpenseForm = withForm({
           {/* Expense Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Expense Details</FieldLegend>
-            <FieldDescription>Update basic expense information and type.</FieldDescription>
+            <FieldDescription>
+              Update basic expense information and type.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="type">
                 {(field) => (
@@ -237,7 +280,9 @@ export const UpdateExpenseForm = withForm({
           {/* Fuel & Vehicle Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Fuel & Vehicle Details</FieldLegend>
-            <FieldDescription>Update fuel and odometer information for the trip.</FieldDescription>
+            <FieldDescription>
+              Update fuel and odometer information for the trip.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="fuelQuantity">
@@ -269,7 +314,9 @@ export const UpdateExpenseForm = withForm({
           {/* Timeline & Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Timeline & Status</FieldLegend>
-            <FieldDescription>Update expense date and approval status.</FieldDescription>
+            <FieldDescription>
+              Update expense date and approval status.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="expenseDate">
                 {(field) => (
@@ -305,23 +352,53 @@ export const UpdateExpenseForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update trip and driver associations.</FieldDescription>
+            <FieldDescription>
+              Update trip and driver associations.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="tripId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchTripsQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.tms?.trips || []).map((trip) => ({
+                        label: trip.label || trip.value,
+                        value: trip.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Trip"
                     description="The trip this expense is for."
-                    placeholder="Trip ID"
+                    placeholder="Search trip..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="driverId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDriversQuery,
+                        { search: query || "" }
+                      );
+                      return (data?.tms?.drivers || []).map((driver) => ({
+                        label: driver.label || driver.value,
+                        value: driver.value,
+                      }));
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Driver"
                     description="The driver who incurred this expense."
-                    placeholder="Driver ID"
+                    placeholder="Search driver..."
                   />
                 )}
               </form.AppField>

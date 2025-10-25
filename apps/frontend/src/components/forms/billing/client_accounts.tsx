@@ -9,7 +9,9 @@ import {
 import {
   CreateClientAccountInputSchema,
   UpdateClientAccountInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCompaniesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createClientAccountSchema = CreateClientAccountInputSchema();
@@ -39,10 +41,21 @@ export const CreateClientAccountForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="The client for this account."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -62,42 +75,14 @@ export const CreateClientAccountForm = withForm({
           {/* Credit Settings Section */}
           <FieldSet>
             <FieldLegend variant="label">Credit Settings</FieldLegend>
-            <FieldDescription>Credit limits and approval status.</FieldDescription>
-            <FieldGroup>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <form.AppField name="creditLimit">
-                  {(field) => (
-                    <field.InputField
-                      type="number"
-                      label="Credit Limit *"
-                      description="Maximum credit amount."
-                      placeholder="0.00"
-                      step="any"
-                    />
-                  )}
-                </form.AppField>
-                <form.AppField name="availableCredit">
-                  {(field) => (
-                    <field.InputField
-                      type="number"
-                      label="Available Credit *"
-                      description="Remaining available credit."
-                      placeholder="0.00"
-                      step="any"
-                    />
-                  )}
-                </form.AppField>
-              </div>
               <form.AppField name="isCreditApproved">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Credit Approved"
                     description="Credit terms have been approved."
                   />
                 )}
               </form.AppField>
-            </FieldGroup>
           </FieldSet>
 
           {/* Balance & Payment Section */}
@@ -163,10 +148,21 @@ export const UpdateClientAccountForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="The client for this account."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -214,8 +210,7 @@ export const UpdateClientAccountForm = withForm({
               </div>
               <form.AppField name="isCreditApproved">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Credit Approved"
                     description="Credit terms have been approved."
                   />

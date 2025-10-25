@@ -9,7 +9,9 @@ import {
 import {
   CreateGpsPingInputSchema,
   UpdateGpsPingInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchVehiclesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createGpsPingSchema = CreateGpsPingInputSchema();
@@ -29,12 +31,16 @@ export const CreateGpsPingForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create GPS Ping</FieldLegend>
-        <FieldDescription>Fill in the details for the new GPS ping.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new GPS ping.
+        </FieldDescription>
         <FieldGroup>
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Geographic coordinates of the vehicle location.</FieldDescription>
+            <FieldDescription>
+              Geographic coordinates of the vehicle location.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -66,7 +72,9 @@ export const CreateGpsPingForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>When the location was recorded and which vehicle.</FieldDescription>
+            <FieldDescription>
+              When the location was recorded and which vehicle.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -79,10 +87,21 @@ export const CreateGpsPingForm = withForm({
               </form.AppField>
               <form.AppField name="vehicleId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchVehiclesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.vehicles || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Vehicle *"
                     description="The vehicle that sent this ping."
-                    placeholder="Vehicle ID"
+                    placeholder="Search vehicle..."
                   />
                 )}
               </form.AppField>
@@ -100,12 +119,16 @@ export const UpdateGpsPingForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update GPS Ping</FieldLegend>
-        <FieldDescription>Update the details for the GPS ping.</FieldDescription>
+        <FieldDescription>
+          Update the details for the GPS ping.
+        </FieldDescription>
         <FieldGroup>
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Update geographic coordinates of the vehicle location.</FieldDescription>
+            <FieldDescription>
+              Update geographic coordinates of the vehicle location.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -137,7 +160,9 @@ export const UpdateGpsPingForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>Update the timestamp and vehicle association.</FieldDescription>
+            <FieldDescription>
+              Update the timestamp and vehicle association.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -150,10 +175,21 @@ export const UpdateGpsPingForm = withForm({
               </form.AppField>
               <form.AppField name="vehicleId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchVehiclesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.vehicles || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Vehicle"
                     description="The vehicle that sent this ping."
-                    placeholder="Vehicle ID"
+                    placeholder="Search vehicle..."
                   />
                 )}
               </form.AppField>

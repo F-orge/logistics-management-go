@@ -9,7 +9,10 @@ import {
 import {
   CreateTripInputSchema,
   UpdateTripInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchDriversQuery,
+  SearchVehiclesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createTripSchema = CreateTripInputSchema();
@@ -29,28 +32,54 @@ export const CreateTripForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Trip</FieldLegend>
-        <FieldDescription>Fill in the details for the new trip.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new trip.
+        </FieldDescription>
         <FieldGroup>
           {/* Trip Assignment Section */}
           <FieldSet>
             <FieldLegend variant="label">Trip Assignment</FieldLegend>
-            <FieldDescription>Driver and vehicle assigned to this trip.</FieldDescription>
+            <FieldDescription>
+              Driver and vehicle assigned to this trip.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="driverId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDriversQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.drivers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Driver *"
                     description="The driver assigned to this trip."
-                    placeholder="Driver ID"
+                    placeholder="Search driver..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="vehicleId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchVehiclesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.vehicles || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Vehicle *"
                     description="The vehicle assigned to this trip."
-                    placeholder="Vehicle ID"
+                    placeholder="Search vehicle..."
                   />
                 )}
               </form.AppField>
@@ -60,7 +89,9 @@ export const CreateTripForm = withForm({
           {/* Trip Locations Section */}
           <FieldSet>
             <FieldLegend variant="label">Trip Locations</FieldLegend>
-            <FieldDescription>Starting and ending locations for the trip.</FieldDescription>
+            <FieldDescription>
+              Starting and ending locations for the trip.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="startLocation">
                 {(field) => (
@@ -86,7 +117,9 @@ export const CreateTripForm = withForm({
           {/* Timeline Section */}
           <FieldSet>
             <FieldLegend variant="label">Timeline</FieldLegend>
-            <FieldDescription>Planned start and end times for the trip.</FieldDescription>
+            <FieldDescription>
+              Planned start and end times for the trip.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="startTime">
@@ -144,23 +177,47 @@ export const UpdateTripForm = withForm({
           {/* Trip Assignment Section */}
           <FieldSet>
             <FieldLegend variant="label">Trip Assignment</FieldLegend>
-            <FieldDescription>Update driver and vehicle assignment for this trip.</FieldDescription>
+            <FieldDescription>
+              Update driver and vehicle assignment for this trip.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="driverId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchDriversQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.drivers || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Driver"
                     description="The driver assigned to this trip."
-                    placeholder="Driver ID"
+                    placeholder="Search driver..."
                   />
                 )}
               </form.AppField>
               <form.AppField name="vehicleId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchVehiclesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.vehicles || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Vehicle"
                     description="The vehicle assigned to this trip."
-                    placeholder="Vehicle ID"
+                    placeholder="Search vehicle..."
                   />
                 )}
               </form.AppField>
@@ -170,7 +227,9 @@ export const UpdateTripForm = withForm({
           {/* Trip Locations Section */}
           <FieldSet>
             <FieldLegend variant="label">Trip Locations</FieldLegend>
-            <FieldDescription>Update starting and ending locations for the trip.</FieldDescription>
+            <FieldDescription>
+              Update starting and ending locations for the trip.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="startLocation">
                 {(field) => (
@@ -196,7 +255,9 @@ export const UpdateTripForm = withForm({
           {/* Timeline Section */}
           <FieldSet>
             <FieldLegend variant="label">Timeline</FieldLegend>
-            <FieldDescription>Update planned start and end times for the trip.</FieldDescription>
+            <FieldDescription>
+              Update planned start and end times for the trip.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="startTime">
@@ -224,7 +285,9 @@ export const UpdateTripForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Update current status of the trip.</FieldDescription>
+            <FieldDescription>
+              Update current status of the trip.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (

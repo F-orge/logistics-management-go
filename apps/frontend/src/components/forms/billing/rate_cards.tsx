@@ -104,8 +104,7 @@ export const CreateRateCardForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="isActive">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Active"
                       description="Rate card is active."
                     />
@@ -210,8 +209,7 @@ export const UpdateRateCardForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="isActive">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Active"
                       description="Rate card is active."
                     />

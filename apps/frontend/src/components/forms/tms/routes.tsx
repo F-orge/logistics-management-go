@@ -9,7 +9,9 @@ import {
 import {
   CreateRouteInputSchema,
   UpdateRouteInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchTripsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createRouteSchema = CreateRouteInputSchema();
@@ -87,10 +89,21 @@ export const CreateRouteForm = withForm({
             <FieldGroup>
               <form.AppField name="tripId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchTripsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.trips || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Trip *"
                     description="The trip this route is associated with."
-                    placeholder="Trip ID"
+                    placeholder="Search trip..."
                   />
                 )}
               </form.AppField>
@@ -166,10 +179,21 @@ export const UpdateRouteForm = withForm({
             <FieldGroup>
               <form.AppField name="tripId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchTripsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.tms?.trips || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Trip"
                     description="The trip this route is associated with."
-                    placeholder="Trip ID"
+                    placeholder="Search trip..."
                   />
                 )}
               </form.AppField>
