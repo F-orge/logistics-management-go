@@ -63,3 +63,13 @@ export const SearchCustomerTrackingLinksQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsCustomerTrackingLinksQuery = graphql(`
+  query AnalyticsCustomerTrackingLinks($from: Date, $to: Date) {
+    dms {
+      customerTrackingLinks(from: $from, to: $to) {
+        accessCount
+      }
+    }
+  }
+`);

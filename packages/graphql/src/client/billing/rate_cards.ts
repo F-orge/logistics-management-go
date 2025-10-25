@@ -86,3 +86,13 @@ export const SearchRateCardsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsRateCardsQuery = graphql(`
+  query AnalyticsRateCards($from: Date, $to: Date) {
+    billing {
+      rateCards(from: $from, to: $to) {
+        serviceType
+      }
+    }
+  }
+`);

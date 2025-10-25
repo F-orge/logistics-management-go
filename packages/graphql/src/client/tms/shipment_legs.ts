@@ -82,3 +82,13 @@ export const SearchShipmentLegsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsShipmentLegsQuery = graphql(`
+  query AnalyticsShipmentLegs($from: Date, $to: Date) {
+    tms {
+      shipmentLegs(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

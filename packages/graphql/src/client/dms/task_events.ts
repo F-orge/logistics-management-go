@@ -83,3 +83,13 @@ export const SearchTaskEventsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsTaskEventsQuery = graphql(`
+  query AnalyticsTaskEvents($from: Date, $to: Date) {
+    dms {
+      taskEvents(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

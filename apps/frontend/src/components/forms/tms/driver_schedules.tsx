@@ -29,24 +29,60 @@ export const CreateDriverScheduleForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Driver Schedule</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new driver schedule.
-        </FieldDescription>
+        <FieldDescription>Fill in the details for the new driver schedule.</FieldDescription>
         <FieldGroup>
+          {/* Schedule Details Section */}
           <FieldSet>
-            <FieldLegend>Schedule Details</FieldLegend>
-            <form.AppField name="driverId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="startDate">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="endDate">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="reason">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Schedule Details</FieldLegend>
+            <FieldDescription>Set the date range and reason for the schedule.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="startDate">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="Start Date *"
+                      description="When the schedule begins."
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="endDate">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="End Date *"
+                      description="When the schedule ends."
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="reason">
+                {(field) => (
+                  <field.InputField
+                    label="Reason"
+                    description="Reason for the schedule (e.g., vacation, training, maintenance)."
+                    placeholder="e.g., Vacation, Training, Medical Leave"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Link this schedule to a driver.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="driverId">
+                {(field) => (
+                  <field.InputField
+                    label="Driver *"
+                    description="The driver this schedule applies to."
+                    placeholder="Driver ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -60,24 +96,60 @@ export const UpdateDriverScheduleForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Driver Schedule</FieldLegend>
-        <FieldDescription>
-          Update the details for the driver schedule.
-        </FieldDescription>
+        <FieldDescription>Update the details for the driver schedule.</FieldDescription>
         <FieldGroup>
+          {/* Schedule Details Section */}
           <FieldSet>
-            <FieldLegend>Schedule Details</FieldLegend>
-            <form.AppField name="driverId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="startDate">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="endDate">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="reason">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Schedule Details</FieldLegend>
+            <FieldDescription>Update the date range and reason for the schedule.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="startDate">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="Start Date"
+                      description="When the schedule begins."
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="endDate">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="End Date"
+                      description="When the schedule ends."
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="reason">
+                {(field) => (
+                  <field.InputField
+                    label="Reason"
+                    description="Reason for the schedule (e.g., vacation, training, maintenance)."
+                    placeholder="e.g., Vacation, Training, Medical Leave"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Update the driver association.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="driverId">
+                {(field) => (
+                  <field.InputField
+                    label="Driver"
+                    description="The driver this schedule applies to."
+                    placeholder="Driver ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

@@ -87,3 +87,18 @@ export const SearchPaymentsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsPaymentsQuery = graphql(`
+  query AnalyticsPayments($from: Date, $to: Date) {
+    billing {
+      payments(from: $from, to: $to) {
+        amount
+        exchangeRate
+        fees
+        netAmount
+        paymentMethod
+        status
+      }
+    }
+  }
+`);

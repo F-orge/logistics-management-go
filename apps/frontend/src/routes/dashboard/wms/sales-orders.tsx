@@ -1,4 +1,4 @@
-import { columns } from "@/components/tables/wms/sales-orders";
+import { columns } from "@/components/tables/wms/sales_orders";
 import {
   SalesOrderStatus,
   execute,

@@ -82,3 +82,16 @@ export const SearchVehiclesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsVehiclesQuery = graphql(`
+  query AnalyticsVehicles($from: Date, $to: Date) {
+    tms {
+      vehicles(from: $from, to: $to) {
+        capacityVolume
+        capacityWeight
+        currentMileage
+        status
+      }
+    }
+  }
+`);

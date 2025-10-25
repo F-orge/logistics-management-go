@@ -29,36 +29,114 @@ export const CreateInvoiceLineItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Invoice Line Item</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new invoice line item.
-        </FieldDescription>
+        <FieldDescription>Add line item to invoice.</FieldDescription>
         <FieldGroup>
+          {/* Relations Section */}
           <FieldSet>
-            <FieldLegend>Line Item Details</FieldLegend>
-            <form.AppField name="invoiceId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="sourceRecordId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="sourceRecordType">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="description">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="quantity">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="unitPrice">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="taxRate">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="discountRate">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Link line item to invoice and source record.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="invoiceId">
+                  {(field) => (
+                    <field.InputField
+                      label="Invoice *"
+                      description="Invoice for this line item."
+                      placeholder="Invoice ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="sourceRecordId">
+                  {(field) => (
+                    <field.InputField
+                      label="Source Record ID"
+                      description="ID of source record (shipment, service, etc)."
+                      placeholder="Record ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="sourceRecordType">
+                {(field) => (
+                  <field.InputField
+                    label="Source Record Type"
+                    description="Type of source record."
+                    placeholder="e.g., Shipment, Service, Labor"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Item Details Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Item Details</FieldLegend>
+            <FieldDescription>Description and quantity information.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="description">
+                {(field) => (
+                  <field.InputField
+                    label="Description *"
+                    description="Item description."
+                    placeholder="e.g., Standard Shipping, Processing Fee"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="quantity">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Quantity *"
+                    description="Item quantity."
+                    placeholder="1"
+                    step="any"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Pricing Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Pricing</FieldLegend>
+            <FieldDescription>Unit price and rate information.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="unitPrice">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Unit Price *"
+                      description="Price per unit."
+                      placeholder="0.00"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="taxRate">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Tax Rate"
+                      description="Tax rate percentage (0-100)."
+                      placeholder="0.00"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="discountRate">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Discount Rate"
+                    description="Discount percentage (0-100)."
+                    placeholder="0.00"
+                    step="any"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -72,36 +150,114 @@ export const UpdateInvoiceLineItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Invoice Line Item</FieldLegend>
-        <FieldDescription>
-          Update the details for the invoice line item.
-        </FieldDescription>
+        <FieldDescription>Update line item details.</FieldDescription>
         <FieldGroup>
+          {/* Relations Section */}
           <FieldSet>
-            <FieldLegend>Line Item Details</FieldLegend>
-            <form.AppField name="invoiceId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="sourceRecordId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="sourceRecordType">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="description">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="quantity">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="unitPrice">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="taxRate">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="discountRate">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Update invoice and source record associations.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="invoiceId">
+                  {(field) => (
+                    <field.InputField
+                      label="Invoice"
+                      description="Invoice for this line item."
+                      placeholder="Invoice ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="sourceRecordId">
+                  {(field) => (
+                    <field.InputField
+                      label="Source Record ID"
+                      description="ID of source record."
+                      placeholder="Record ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="sourceRecordType">
+                {(field) => (
+                  <field.InputField
+                    label="Source Record Type"
+                    description="Type of source record."
+                    placeholder="e.g., Shipment, Service, Labor"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Item Details Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Item Details</FieldLegend>
+            <FieldDescription>Update description and quantity.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="description">
+                {(field) => (
+                  <field.InputField
+                    label="Description"
+                    description="Item description."
+                    placeholder="e.g., Standard Shipping, Fee"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="quantity">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Quantity"
+                    description="Item quantity."
+                    placeholder="1"
+                    step="any"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Pricing Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Pricing</FieldLegend>
+            <FieldDescription>Update pricing and rates.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="unitPrice">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Unit Price"
+                      description="Price per unit."
+                      placeholder="0.00"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="taxRate">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Tax Rate"
+                      description="Tax rate percentage."
+                      placeholder="0.00"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="discountRate">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Discount Rate"
+                    description="Discount percentage."
+                    placeholder="0.00"
+                    step="any"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

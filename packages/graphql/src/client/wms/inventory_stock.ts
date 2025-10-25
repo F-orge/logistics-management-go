@@ -76,3 +76,16 @@ export const TableInventoryStockQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsInventoryStockQuery = graphql(`
+  query AnalyticsInventoryStock($from: Date, $to: Date) {
+    wms {
+      inventoryStocks(from: $from, to: $to) {
+        quantity
+        reservedQuantity
+        availableQuantity
+        status
+      }
+    }
+  }
+`);

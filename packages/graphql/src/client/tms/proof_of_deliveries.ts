@@ -104,3 +104,13 @@ export const SearchProofOfDeliveriesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsProofOfDeliveriesQuery = graphql(`
+  query AnalyticsTmsProofOfDeliveries($from: Date, $to: Date) {
+    tms {
+      proofOfDeliveries(from: $from, to: $to) {
+        type
+      }
+    }
+  }
+`);

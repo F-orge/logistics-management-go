@@ -71,3 +71,14 @@ export const SearchSurchargesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsSurchargesQuery = graphql(`
+  query AnalyticsSurcharges($from: Date, $to: Date) {
+    billing {
+      surcharges(from: $from, to: $to) {
+        amount
+        calculationMethod
+      }
+    }
+  }
+`);

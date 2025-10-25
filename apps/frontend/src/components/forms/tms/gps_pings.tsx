@@ -29,24 +29,64 @@ export const CreateGpsPingForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create GPS Ping</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new GPS ping.
-        </FieldDescription>
+        <FieldDescription>Fill in the details for the new GPS ping.</FieldDescription>
         <FieldGroup>
+          {/* Location Information Section */}
           <FieldSet>
-            <FieldLegend>GPS Ping Details</FieldLegend>
-            <form.AppField name="vehicleId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="latitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="longitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="timestamp">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
+            <FieldLegend variant="label">Location Information</FieldLegend>
+            <FieldDescription>Geographic coordinates of the vehicle location.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="latitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Latitude *"
+                      description="Latitude coordinate."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="longitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Longitude *"
+                      description="Longitude coordinate."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timestamp & Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
+            <FieldDescription>When the location was recorded and which vehicle.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="timestamp">
+                {(field) => (
+                  <field.InputField
+                    type="datetime-local"
+                    label="Timestamp *"
+                    description="When this GPS location was recorded."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="vehicleId">
+                {(field) => (
+                  <field.InputField
+                    label="Vehicle *"
+                    description="The vehicle that sent this ping."
+                    placeholder="Vehicle ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -60,24 +100,64 @@ export const UpdateGpsPingForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update GPS Ping</FieldLegend>
-        <FieldDescription>
-          Update the details for the GPS ping.
-        </FieldDescription>
+        <FieldDescription>Update the details for the GPS ping.</FieldDescription>
         <FieldGroup>
+          {/* Location Information Section */}
           <FieldSet>
-            <FieldLegend>GPS Ping Details</FieldLegend>
-            <form.AppField name="vehicleId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="latitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="longitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="timestamp">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
+            <FieldLegend variant="label">Location Information</FieldLegend>
+            <FieldDescription>Update geographic coordinates of the vehicle location.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="latitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Latitude"
+                      description="Latitude coordinate."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="longitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Longitude"
+                      description="Longitude coordinate."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timestamp & Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
+            <FieldDescription>Update the timestamp and vehicle association.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="timestamp">
+                {(field) => (
+                  <field.InputField
+                    type="datetime-local"
+                    label="Timestamp"
+                    description="When this GPS location was recorded."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="vehicleId">
+                {(field) => (
+                  <field.InputField
+                    label="Vehicle"
+                    description="The vehicle that sent this ping."
+                    placeholder="Vehicle ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

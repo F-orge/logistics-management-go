@@ -86,3 +86,16 @@ export const SearchLocationsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsLocationsQuery = graphql(`
+  query AnalyticsLocations($from: Date, $to: Date) {
+    wms {
+      locations(from: $from, to: $to) {
+        maxWeight
+        maxVolume
+        maxPallets
+        type
+      }
+    }
+  }
+`);

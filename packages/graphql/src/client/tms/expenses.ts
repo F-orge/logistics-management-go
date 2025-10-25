@@ -103,3 +103,15 @@ export const SearchExpensesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsExpensesQuery = graphql(`
+  query AnalyticsExpenses($from: Date, $to: Date) {
+    tms {
+      expenses(from: $from, to: $to) {
+        amount
+        type
+        status
+      }
+    }
+  }
+`);

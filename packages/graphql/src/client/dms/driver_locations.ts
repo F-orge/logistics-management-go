@@ -64,3 +64,13 @@ export const TableDriverLocationQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsDriverLocationsQuery = graphql(`
+  query AnalyticsDriverLocations($from: Date, $to: Date) {
+    dms {
+      driverLocations(from: $from, to: $to) {
+        speedKmh
+      }
+    }
+  }
+`);

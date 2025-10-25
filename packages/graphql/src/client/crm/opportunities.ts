@@ -117,3 +117,16 @@ export const SearchOpportunitiesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsOpportunitiesQuery = graphql(`
+  query AnalyticsOpportunities($from: Date, $to: Date) {
+    crm {
+      opportunities(from: $from, to: $to) {
+        dealValue
+        probability
+        stage
+        source
+      }
+    }
+  }
+`);

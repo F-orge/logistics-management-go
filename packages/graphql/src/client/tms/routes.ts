@@ -63,3 +63,14 @@ export const TableRouteQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsRoutesQuery = graphql(`
+  query AnalyticsRoutes($from: Date, $to: Date) {
+    tms {
+      routes(from: $from, to: $to) {
+        totalDistance
+        totalDuration
+      }
+    }
+  }
+`);

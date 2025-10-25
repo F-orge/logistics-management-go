@@ -96,3 +96,19 @@ export const SearchBillingInvoicesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsBillingInvoicesQuery = graphql(`
+  query AnalyticsBillingInvoices($from: Date, $to: Date) {
+    billing {
+      billingInvoices(from: $from, to: $to) {
+        totalAmount
+        amountPaid
+        amountOutstanding
+        taxAmount
+        discountAmount
+        subtotal
+        status
+      }
+    }
+  }
+`);

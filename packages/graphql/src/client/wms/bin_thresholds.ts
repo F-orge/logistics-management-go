@@ -58,3 +58,16 @@ export const TableBinThresholdQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsBinThresholdsQuery = graphql(`
+  query AnalyticsBinThresholds($from: Date, $to: Date) {
+    wms {
+      binThresholds(from: $from, to: $to) {
+        minQuantity
+        maxQuantity
+        reorderQuantity
+        alertThreshold
+      }
+    }
+  }
+`);

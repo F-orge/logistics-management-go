@@ -29,21 +29,45 @@ export const CreateReorderPointForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Reorder Point</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new reorder point.
-        </FieldDescription>
+        <FieldDescription>Set inventory reorder thresholds.</FieldDescription>
         <FieldGroup>
+          {/* Relations & Threshold Section */}
           <FieldSet>
-            <FieldLegend>Reorder Point Details</FieldLegend>
-            <form.AppField name="productId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="warehouseId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="threshold">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
+            <FieldLegend variant="label">Reorder Configuration</FieldLegend>
+            <FieldDescription>Product, warehouse, and threshold quantity.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="productId">
+                  {(field) => (
+                    <field.InputField
+                      label="Product *"
+                      description="Product for reorder point."
+                      placeholder="Product ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="warehouseId">
+                  {(field) => (
+                    <field.InputField
+                      label="Warehouse *"
+                      description="Warehouse location."
+                      placeholder="Warehouse ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="threshold">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Threshold *"
+                    description="Quantity to trigger reorder."
+                    placeholder="0"
+                    step="1"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -57,21 +81,45 @@ export const UpdateReorderPointForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Reorder Point</FieldLegend>
-        <FieldDescription>
-          Update the details for the reorder point.
-        </FieldDescription>
+        <FieldDescription>Update inventory reorder thresholds.</FieldDescription>
         <FieldGroup>
+          {/* Relations & Threshold Section */}
           <FieldSet>
-            <FieldLegend>Reorder Point Details</FieldLegend>
-            <form.AppField name="productId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="warehouseId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="threshold">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
+            <FieldLegend variant="label">Reorder Configuration</FieldLegend>
+            <FieldDescription>Update product, warehouse, and threshold.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="productId">
+                  {(field) => (
+                    <field.InputField
+                      label="Product"
+                      description="Product for reorder point."
+                      placeholder="Product ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="warehouseId">
+                  {(field) => (
+                    <field.InputField
+                      label="Warehouse"
+                      description="Warehouse location."
+                      placeholder="Warehouse ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="threshold">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Threshold"
+                    description="Quantity to trigger reorder."
+                    placeholder="0"
+                    step="1"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

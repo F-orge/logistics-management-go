@@ -83,3 +83,18 @@ export const TablePutawayRuleQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsPutawayRulesQuery = graphql(`
+  query AnalyticsPutawayRules($from: Date, $to: Date) {
+    wms {
+      putawayRules(from: $from, to: $to) {
+        priority
+        minQuantity
+        maxQuantity
+        weightThreshold
+        volumeThreshold
+        locationType
+      }
+    }
+  }
+`);

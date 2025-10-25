@@ -63,3 +63,13 @@ export const SearchProductsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsProductsQuery = graphql(`
+  query AnalyticsProducts($from: Date, $to: Date) {
+    crm {
+      products(from: $from, to: $to) {
+        price
+      }
+    }
+  }
+`);

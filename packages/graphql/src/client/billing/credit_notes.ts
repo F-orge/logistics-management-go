@@ -92,3 +92,13 @@ export const SearchCreditNotesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsCreditNotesQuery = graphql(`
+  query AnalyticsCreditNotes($from: Date, $to: Date) {
+    billing {
+      creditNotes(from: $from, to: $to) {
+        amount
+      }
+    }
+  }
+`);

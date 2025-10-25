@@ -83,3 +83,18 @@ export const SearchPackagesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsPackagesQuery = graphql(`
+  query AnalyticsPackages($from: Date, $to: Date) {
+    wms {
+      packages(from: $from, to: $to) {
+        weight
+        length
+        width
+        height
+        volume
+        insuranceValue
+      }
+    }
+  }
+`);

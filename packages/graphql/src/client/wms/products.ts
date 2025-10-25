@@ -80,3 +80,19 @@ export const SearchWmsProductsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsWmsProductsQuery = graphql(`
+  query AnalyticsWmsProducts($from: Date, $to: Date) {
+    wms {
+      wmsProducts(from: $from, to: $to) {
+        costPrice
+        length
+        width
+        height
+        volume
+        weight
+        status
+      }
+    }
+  }
+`);

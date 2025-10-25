@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { execute } from "@packages/graphql/client";
 import { TableCampaignQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
@@ -41,7 +42,7 @@ export const columns: ColumnDef<Campaign>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: "Created",
     cell: ({ row }) => {
       const createdAt = row.getValue("createdAt") as string | null;
       if (!createdAt) return "-";

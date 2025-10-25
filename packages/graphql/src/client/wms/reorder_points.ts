@@ -62,3 +62,13 @@ export const TableReorderPointQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsReorderPointsQuery = graphql(`
+  query AnalyticsReorderPoints($from: Date, $to: Date) {
+    wms {
+      reorderPoints(from: $from, to: $to) {
+        threshold
+      }
+    }
+  }
+`);

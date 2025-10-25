@@ -86,3 +86,14 @@ export const SearchInventoryAdjustmentsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsInventoryAdjustmentsQuery = graphql(`
+  query AnalyticsInventoryAdjustments($from: Date, $to: Date) {
+    wms {
+      inventoryAdjustments(from: $from, to: $to) {
+        quantityChange
+        reason
+      }
+    }
+  }
+`);

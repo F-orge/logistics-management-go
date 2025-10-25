@@ -96,3 +96,15 @@ export const SearchAccountTransactionsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsAccountTransactionsQuery = graphql(`
+  query AnalyticsAccountTransactions($from: Date, $to: Date) {
+    billing {
+      accountTransactions(from: $from, to: $to) {
+        amount
+        runningBalance
+        type
+      }
+    }
+  }
+`);

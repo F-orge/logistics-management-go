@@ -82,3 +82,13 @@ export const SearchTripsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsTripsQuery = graphql(`
+  query AnalyticsTrips($from: Date, $to: Date) {
+    tms {
+      trips(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

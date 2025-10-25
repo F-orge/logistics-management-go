@@ -29,39 +29,125 @@ export const CreateDmsProofOfDeliveryForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Proof of Delivery</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new proof of delivery.
-        </FieldDescription>
+        <FieldDescription>Fill in the details for the new proof of delivery.</FieldDescription>
         <FieldGroup>
+          {/* Proof Documentation Section */}
           <FieldSet>
-            <FieldLegend>Proof of Delivery Details</FieldLegend>
-            <form.AppField name="deliveryTaskId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="type">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="filePath">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="signatureData">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="recipientName">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="verificationCode">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="latitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="longitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="timestamp">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
+            <FieldLegend variant="label">Proof Documentation</FieldLegend>
+            <FieldDescription>Evidence and media files for delivery proof.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="type">
+                {(field) => (
+                  <field.InputField
+                    label="Type *"
+                    description="Type of proof (photo, signature, video, etc.)."
+                    placeholder="e.g., Photo, Signature, Video"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="filePath">
+                {(field) => (
+                  <field.InputField
+                    label="File Path"
+                    description="Path to the proof file (photo, video, etc.)."
+                    placeholder="/files/delivery_proof_20241001.jpg"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="signatureData">
+                {(field) => (
+                  <field.InputField
+                    label="Signature Data"
+                    description="Digital signature data if applicable."
+                    placeholder="Signature data (base64 or SVG)..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Recipient Information Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Recipient Information</FieldLegend>
+            <FieldDescription>Details of the person who received the delivery.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="recipientName">
+                {(field) => (
+                  <field.InputField
+                    label="Recipient Name"
+                    description="Name of the person who received the delivery."
+                    placeholder="Enter recipient name..."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="verificationCode">
+                {(field) => (
+                  <field.InputField
+                    label="Verification Code"
+                    description="Code or PIN verified by recipient."
+                    placeholder="e.g., OTP or confirmation code"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Location Information Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Location Information</FieldLegend>
+            <FieldDescription>Geographic location where delivery was completed.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="latitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Latitude"
+                      description="Latitude coordinate of delivery location."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="longitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Longitude"
+                      description="Longitude coordinate of delivery location."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timestamp & Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
+            <FieldDescription>When delivery was completed and associated delivery task.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="timestamp">
+                {(field) => (
+                  <field.InputField
+                    type="datetime-local"
+                    label="Timestamp *"
+                    description="When the proof of delivery was recorded."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="deliveryTaskId">
+                {(field) => (
+                  <field.InputField
+                    label="Delivery Task *"
+                    description="The delivery task this proof is for."
+                    placeholder="Delivery Task ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -75,39 +161,125 @@ export const UpdateDmsProofOfDeliveryForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Proof of Delivery</FieldLegend>
-        <FieldDescription>
-          Update the details for the proof of delivery.
-        </FieldDescription>
+        <FieldDescription>Update the details for the proof of delivery.</FieldDescription>
         <FieldGroup>
+          {/* Proof Documentation Section */}
           <FieldSet>
-            <FieldLegend>Proof of Delivery Details</FieldLegend>
-            <form.AppField name="deliveryTaskId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="type">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="filePath">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="signatureData">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="recipientName">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="verificationCode">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="latitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="longitude">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="timestamp">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
+            <FieldLegend variant="label">Proof Documentation</FieldLegend>
+            <FieldDescription>Update evidence and media files for delivery proof.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="type">
+                {(field) => (
+                  <field.InputField
+                    label="Type"
+                    description="Type of proof (photo, signature, video, etc.)."
+                    placeholder="e.g., Photo, Signature, Video"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="filePath">
+                {(field) => (
+                  <field.InputField
+                    label="File Path"
+                    description="Path to the proof file (photo, video, etc.)."
+                    placeholder="/files/delivery_proof_20241001.jpg"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="signatureData">
+                {(field) => (
+                  <field.InputField
+                    label="Signature Data"
+                    description="Digital signature data if applicable."
+                    placeholder="Signature data (base64 or SVG)..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Recipient Information Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Recipient Information</FieldLegend>
+            <FieldDescription>Update details of the person who received the delivery.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="recipientName">
+                {(field) => (
+                  <field.InputField
+                    label="Recipient Name"
+                    description="Name of the person who received the delivery."
+                    placeholder="Enter recipient name..."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="verificationCode">
+                {(field) => (
+                  <field.InputField
+                    label="Verification Code"
+                    description="Code or PIN verified by recipient."
+                    placeholder="e.g., OTP or confirmation code"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Location Information Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Location Information</FieldLegend>
+            <FieldDescription>Update geographic location where delivery was completed.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="latitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Latitude"
+                      description="Latitude coordinate of delivery location."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="longitude">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Longitude"
+                      description="Longitude coordinate of delivery location."
+                      placeholder="0.000000"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timestamp & Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
+            <FieldDescription>Update timestamp and associated delivery task.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="timestamp">
+                {(field) => (
+                  <field.InputField
+                    type="datetime-local"
+                    label="Timestamp"
+                    description="When the proof of delivery was recorded."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="deliveryTaskId">
+                {(field) => (
+                  <field.InputField
+                    label="Delivery Task"
+                    description="The delivery task this proof is for."
+                    placeholder="Delivery Task ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

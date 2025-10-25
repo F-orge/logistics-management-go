@@ -88,3 +88,19 @@ export const SearchPickBatchesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsPickBatchesQuery = graphql(`
+  query AnalyticsPickBatches($from: Date, $to: Date) {
+    wms {
+      pickBatches(from: $from, to: $to) {
+        priority
+        estimatedDuration
+        actualDuration
+        totalItems
+        completedItems
+        status
+        strategy
+      }
+    }
+  }
+`);

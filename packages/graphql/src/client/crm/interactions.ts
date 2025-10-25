@@ -76,3 +76,13 @@ export const TableInteractionQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsInteractionsQuery = graphql(`
+  query AnalyticsInteractions($from: Date, $to: Date) {
+    crm {
+      interactions(from: $from, to: $to) {
+        type
+      }
+    }
+  }
+`);

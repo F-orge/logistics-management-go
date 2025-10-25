@@ -5791,6 +5791,14 @@ export type SearchAccountTransactionsQueryVariables = Exact<{
 
 export type SearchAccountTransactionsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountTransactions: Array<{ __typename?: 'AccountTransactions', value: string, label?: string | null }> } | null };
 
+export type AnalyticsAccountTransactionsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsAccountTransactionsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountTransactions: Array<{ __typename?: 'AccountTransactions', amount: number, runningBalance?: number | null, type: TransactionType }> } | null };
+
 export type CreateAccountingSyncLogMutationVariables = Exact<{
   accountingSyncLog: CreateAccountingSyncLogInput;
 }>;
@@ -5830,6 +5838,14 @@ export type SearchAccountingSyncLogsQueryVariables = Exact<{
 
 export type SearchAccountingSyncLogsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountingSyncLogs: Array<{ __typename?: 'AccountingSyncLogs', value: string, label: string }> } | null };
 
+export type AnalyticsAccountingSyncLogsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsAccountingSyncLogsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountingSyncLogs: Array<{ __typename?: 'AccountingSyncLogs', status?: SyncStatus | null, retryCount?: number | null }> } | null };
+
 export type CreateClientAccountMutationVariables = Exact<{
   clientAccount: CreateClientAccountInput;
 }>;
@@ -5868,6 +5884,14 @@ export type SearchClientAccountsQueryVariables = Exact<{
 
 export type SearchClientAccountsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', clientAccounts: Array<{ __typename?: 'ClientAccounts', value: string, label?: string | null }> } | null };
 
+export type AnalyticsClientAccountsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsClientAccountsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', clientAccounts: Array<{ __typename?: 'ClientAccounts', creditLimit?: number | null, availableCredit?: number | null, walletBalance?: number | null, paymentTermsDays?: number | null }> } | null };
+
 export type CreateCreditNoteMutationVariables = Exact<{
   creditNote: CreateCreditNoteInput;
 }>;
@@ -5905,6 +5929,14 @@ export type SearchCreditNotesQueryVariables = Exact<{
 
 
 export type SearchCreditNotesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', creditNotes: Array<{ __typename?: 'CreditNotes', value: string, label: string }> } | null };
+
+export type AnalyticsCreditNotesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsCreditNotesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', creditNotes: Array<{ __typename?: 'CreditNotes', amount: number }> } | null };
 
 export type CreateDisputeMutationVariables = Exact<{
   dispute: CreateDisputeInput;
@@ -5945,27 +5977,13 @@ export type SearchDisputesQueryVariables = Exact<{
 
 export type SearchDisputesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', value: string, label: string }> } | null };
 
-export type CreateInvoiceLineItemMutationVariables = Exact<{
-  invoiceLineItem: CreateInvoiceLineItemInput;
+export type AnalyticsDisputesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
 }>;
 
 
-export type CreateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
-
-export type UpdateInvoiceLineItemMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  invoiceLineItem: UpdateInvoiceLineItemInput;
-}>;
-
-
-export type UpdateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
-
-export type RemoveInvoiceLineItemMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeInvoiceLineItem: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+export type AnalyticsDisputesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', disputedAmount?: number | null, status?: DisputeStatus | null }> } | null };
 
 export type CreateBillingInvoiceMutationVariables = Exact<{
   billingInvoice: CreateBillingInvoiceInput;
@@ -6240,6 +6258,14 @@ export type SearchCampaignsQueryVariables = Exact<{
 
 export type SearchCampaignsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', value: string, label: string }> } | null };
 
+export type AnalyticsCampaignsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsCampaignsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', budget?: number | null }> } | null };
+
 export type CreateCaseMutationVariables = Exact<{
   case: CreateCaseInput;
 }>;
@@ -6280,6 +6306,14 @@ export type SearchCasesQueryVariables = Exact<{
 
 export type SearchCasesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', value: string, label: string }> } | null };
 
+export type AnalyticsCasesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsCasesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', status?: CaseStatus | null, priority?: CasePriority | null, type?: CaseType | null }> } | null };
+
 export type CreateCompanyMutationVariables = Exact<{
   company: CreateCompanyInput;
 }>;
@@ -6317,6 +6351,14 @@ export type SearchCompaniesQueryVariables = Exact<{
 
 
 export type SearchCompaniesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', value: string, label: string }> } | null };
+
+export type AnalyticsCompaniesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsCompaniesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', annualRevenue?: string | null }> } | null };
 
 export type CreateContactMutationVariables = Exact<{
   contact: CreateContactInput;
@@ -6388,6 +6430,14 @@ export type TableInteractionQueryVariables = Exact<{
 
 export type TableInteractionQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', interactions: Array<{ __typename?: 'Interactions', createdAt?: string | null, id: string, interactionDate?: string | null, notes?: string | null, outcome?: string | null, type?: InteractionType | null, updatedAt?: string | null, user: { __typename?: 'User', id: string, email: string, image?: string | null, name: string }, case?: { __typename?: 'Cases', id: string, caseNumber: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null } | null, contact: { __typename?: 'Contacts', id: string, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null } }> } | null };
 
+export type AnalyticsInteractionsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsInteractionsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', interactions: Array<{ __typename?: 'Interactions', type?: InteractionType | null }> } | null };
+
 export type CreateInvoiceItemMutationVariables = Exact<{
   invoiceItem: CreateInvoiceItemInput;
 }>;
@@ -6443,6 +6493,14 @@ export type TableInvoiceQueryVariables = Exact<{
 
 export type TableInvoiceQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', createdAt?: string | null, dueDate?: string | null, id: string, issueDate?: string | null, paidAt?: string | null, paymentMethod?: PaymentMethod | null, sentAt?: string | null, status?: InvoiceStatus | null, total?: number | null, updatedAt?: string | null, items?: Array<{ __typename?: 'InvoiceItems', price: number, quantity: number, updatedAt?: string | null, id: string, createdAt?: string | null, product: { __typename?: 'Products', name: string, price: number, type?: ProductType | null, sku?: string | null, id: string, description?: string | null } }> | null, opportunity?: { __typename?: 'Opportunities', name: string, stage?: OpportunityStage | null, id: string, expectedCloseDate?: string | null, dealValue?: number | null } | null }> } | null };
 
+export type AnalyticsInvoicesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsInvoicesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', total?: number | null, status?: InvoiceStatus | null, paymentMethod?: PaymentMethod | null }> } | null };
+
 export type CreateLeadMutationVariables = Exact<{
   lead: CreateLeadInput;
 }>;
@@ -6482,6 +6540,14 @@ export type SearchLeadsQueryVariables = Exact<{
 
 
 export type SearchLeadsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', value: string, label: string }> } | null };
+
+export type AnalyticsLeadsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsLeadsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', leadScore?: number | null, status?: LeadStatus | null, leadSource?: LeadSource | null }> } | null };
 
 export type CreateNotificationMutationVariables = Exact<{
   notification: CreateNotificationInput;
@@ -6561,6 +6627,14 @@ export type SearchOpportunitiesQueryVariables = Exact<{
 
 export type SearchOpportunitiesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', value: string, label: string }> } | null };
 
+export type AnalyticsOpportunitiesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsOpportunitiesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', dealValue?: number | null, probability?: number | null, stage?: OpportunityStage | null, source?: OpportunitySource | null }> } | null };
+
 export type CreateOpportunityProductMutationVariables = Exact<{
   opportunityProduct: CreateOpportunityProductInput;
 }>;
@@ -6624,6 +6698,14 @@ export type SearchProductsQueryVariables = Exact<{
 
 export type SearchProductsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', value: string, label: string }> } | null };
 
+export type AnalyticsProductsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsProductsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', price: number }> } | null };
+
 export type CreateCustomerTrackingLinkMutationVariables = Exact<{
   customerTrackingLink: CreateCustomerTrackingLinkInput;
 }>;
@@ -6661,6 +6743,14 @@ export type SearchCustomerTrackingLinksQueryVariables = Exact<{
 
 
 export type SearchCustomerTrackingLinksQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', value: string, label: string }> } | null };
+
+export type AnalyticsCustomerTrackingLinksQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsCustomerTrackingLinksQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', accessCount?: number | null }> } | null };
 
 export type CreateDeliveryRouteMutationVariables = Exact<{
   deliveryRoute: CreateDeliveryRouteInput;
@@ -6700,6 +6790,14 @@ export type SearchDeliveryRoutesQueryVariables = Exact<{
 
 
 export type SearchDeliveryRoutesQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', value: string, label: string }> } | null };
+
+export type AnalyticsDeliveryRoutesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsDeliveryRoutesQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', totalDistanceKm?: number | null, estimatedDurationMinutes?: number | null, actualDurationMinutes?: number | null, status?: DeliveryRouteStatus | null }> } | null };
 
 export type CreateDeliveryTaskMutationVariables = Exact<{
   deliveryTask: CreateDeliveryTaskInput;
@@ -6741,6 +6839,14 @@ export type SearchDeliveryTasksQueryVariables = Exact<{
 
 export type SearchDeliveryTasksQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', value: string, label?: string | null }> } | null };
 
+export type AnalyticsDeliveryTasksQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsDeliveryTasksQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', attemptCount?: number | null, status?: DeliveryTaskStatus | null, failureReason?: DeliveryFailureReason | null }> } | null };
+
 export type CreateDriverLocationMutationVariables = Exact<{
   driverLocation: CreateDriverLocationInput;
 }>;
@@ -6770,6 +6876,14 @@ export type TableDriverLocationQueryVariables = Exact<{
 
 
 export type TableDriverLocationQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', driverLocations: Array<{ __typename?: 'DriverLocations', accuracy?: number | null, altitude?: number | null, createdAt?: string | null, heading?: number | null, id: string, latitude: number, longitude: number, speedKmh?: number | null, timestamp?: string | null, updatedAt?: string | null, driver: { __typename?: 'Drivers', id: string, contactPhone?: string | null, licenseExpiryDate?: string | null, licenseNumber: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
+
+export type AnalyticsDriverLocationsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsDriverLocationsQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', driverLocations: Array<{ __typename?: 'DriverLocations', speedKmh?: number | null }> } | null };
 
 export type CreateDmsProofOfDeliveryMutationVariables = Exact<{
   dmsProofOfDelivery: CreateDmsProofOfDeliveryInput;
@@ -6810,6 +6924,14 @@ export type SearchDmsProofOfDeliveriesQueryVariables = Exact<{
 
 export type SearchDmsProofOfDeliveriesQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', value: string, label?: string | null }> } | null };
 
+export type AnalyticsProofOfDeliveriesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsProofOfDeliveriesQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', type: ProofOfDeliveryType }> } | null };
+
 export type CreateTaskEventMutationVariables = Exact<{
   taskEvent: CreateTaskEventInput;
 }>;
@@ -6848,6 +6970,14 @@ export type SearchTaskEventsQueryVariables = Exact<{
 
 
 export type SearchTaskEventsQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', value: string, label?: string | null }> } | null };
+
+export type AnalyticsTaskEventsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsTaskEventsQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', status: TaskEventStatus }> } | null };
 
 export type CreateCarrierRateMutationVariables = Exact<{
   carrierRate: CreateCarrierRateInput;
@@ -6970,6 +7100,14 @@ export type SearchDriversQueryVariables = Exact<{
 
 export type SearchDriversQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', value: string, label: string }> } | null };
 
+export type AnalyticsDriversQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsDriversQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', status?: DriverStatus | null }> } | null };
+
 export type CreateExpenseMutationVariables = Exact<{
   expense: CreateExpenseInput;
 }>;
@@ -7010,6 +7148,14 @@ export type SearchExpensesQueryVariables = Exact<{
 
 
 export type SearchExpensesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', value: string, label?: string | null }> } | null };
+
+export type AnalyticsExpensesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsExpensesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', amount: number, type?: ExpenseType | null, status?: ExpenseStatus | null }> } | null };
 
 export type CreateGeofenceEventMutationVariables = Exact<{
   geofenceEvent: CreateGeofenceEventInput;
@@ -7162,6 +7308,14 @@ export type SearchPartnerInvoicesQueryVariables = Exact<{
 
 export type SearchPartnerInvoicesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', value: string, label: string }> } | null };
 
+export type AnalyticsPartnerInvoicesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsPartnerInvoicesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', totalAmount: number, status?: PartnerInvoiceStatus | null }> } | null };
+
 export type CreateProofOfDeliveryMutationVariables = Exact<{
   proofOfDelivery: CreateProofOfDeliveryInput;
 }>;
@@ -7201,6 +7355,14 @@ export type SearchProofOfDeliveriesQueryVariables = Exact<{
 
 export type SearchProofOfDeliveriesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', value: string, label?: string | null }> } | null };
 
+export type AnalyticsTmsProofOfDeliveriesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsTmsProofOfDeliveriesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', type?: ProofType | null }> } | null };
+
 export type CreateRouteMutationVariables = Exact<{
   route: CreateRouteInput;
 }>;
@@ -7231,6 +7393,14 @@ export type TableRouteQueryVariables = Exact<{
 
 
 export type TableRouteQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', routes: Array<{ __typename?: 'Routes', optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, id: string, trip: { __typename?: 'Trips', startLocation?: string | null, endTime?: string | null, endLocation?: string | null, createdAt?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, id: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null } }> } | null };
+
+export type AnalyticsRoutesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsRoutesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', routes: Array<{ __typename?: 'Routes', totalDistance?: number | null, totalDuration?: number | null }> } | null };
 
 export type CreateShipmentLegEventMutationVariables = Exact<{
   shipmentLegEvent: CreateShipmentLegEventInput;
@@ -7293,6 +7463,14 @@ export type SearchShipmentLegsQueryVariables = Exact<{
 
 export type SearchShipmentLegsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', value: string, label?: string | null }> } | null };
 
+export type AnalyticsShipmentLegsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsShipmentLegsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', status?: ShipmentLegStatus | null }> } | null };
+
 export type CreateTripStopMutationVariables = Exact<{
   tripStop: CreateTripStopInput;
 }>;
@@ -7353,6 +7531,14 @@ export type SearchTripsQueryVariables = Exact<{
 
 
 export type SearchTripsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', value: string, label?: string | null }> } | null };
+
+export type AnalyticsTripsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsTripsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', status?: TripStatus | null }> } | null };
 
 export type CreateVehicleMaintenanceMutationVariables = Exact<{
   vehicleMaintenance: CreateVehicleMaintenanceInput;
@@ -7415,6 +7601,14 @@ export type SearchVehiclesQueryVariables = Exact<{
 
 export type SearchVehiclesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', value: string, label: string }> } | null };
 
+export type AnalyticsVehiclesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsVehiclesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, currentMileage?: number | null, status?: VehicleStatus | null }> } | null };
+
 export type CreateBinThresholdMutationVariables = Exact<{
   binThreshold: CreateBinThresholdInput;
 }>;
@@ -7444,6 +7638,14 @@ export type TableBinThresholdQueryVariables = Exact<{
 
 
 export type TableBinThresholdQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', binThresholds: Array<{ __typename?: 'BinThresholds', alertThreshold?: number | null, createdAt?: string | null, id: string, isActive?: boolean | null, maxQuantity: number, minQuantity: number, reorderQuantity?: number | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', name: string, description?: string | null, id: string, sku: string, status?: ProductStatus | null, barcode?: string | null } }> } | null };
+
+export type AnalyticsBinThresholdsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsBinThresholdsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', binThresholds: Array<{ __typename?: 'BinThresholds', minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null }> } | null };
 
 export type CreateInboundShipmentItemMutationVariables = Exact<{
   inboundShipmentItem: CreateInboundShipmentItemInput;
@@ -7498,6 +7700,14 @@ export type TableInboundShipmentQueryVariables = Exact<{
 
 export type TableInboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inboundShipments: Array<{ __typename?: 'InboundShipments', actualArrivalDate?: string | null, createdAt?: string | null, expectedArrivalDate?: string | null, id: string, status?: InboundShipmentStatus | null, updatedAt?: string | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, country?: string | null, website?: string | null } | null }> } | null };
 
+export type AnalyticsInboundShipmentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsInboundShipmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inboundShipments: Array<{ __typename?: 'InboundShipments', status?: InboundShipmentStatus | null }> } | null };
+
 export type CreateInventoryAdjustmentMutationVariables = Exact<{
   inventoryAdjustment: CreateInventoryAdjustmentInput;
 }>;
@@ -7536,6 +7746,14 @@ export type SearchInventoryAdjustmentsQueryVariables = Exact<{
 
 
 export type SearchInventoryAdjustmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', value: string, label?: string | null }> } | null };
+
+export type AnalyticsInventoryAdjustmentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsInventoryAdjustmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', quantityChange: number, reason?: InventoryAdjustmentReason | null }> } | null };
 
 export type CreateInventoryBatchMutationVariables = Exact<{
   inventoryBatch: CreateInventoryBatchInput;
@@ -7606,6 +7824,14 @@ export type TableInventoryStockQueryVariables = Exact<{
 
 export type TableInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, createdAt?: string | null, id: string, lastCountedAt?: string | null, lastMovementAt?: string | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, status?: ProductStatus | null, sku: string, volume?: number | null, weight?: number | null, width?: number | null }, location: { __typename?: 'Locations', id: string, barcode?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, name: string } }> } | null };
 
+export type AnalyticsInventoryStockQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', quantity: number, reservedQuantity: number, availableQuantity?: number | null, status?: InventoryStockStatus | null }> } | null };
+
 export type CreateLocationMutationVariables = Exact<{
   location: CreateLocationInput;
 }>;
@@ -7644,6 +7870,14 @@ export type SearchLocationsQueryVariables = Exact<{
 
 
 export type SearchLocationsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', value: string, label: string }> } | null };
+
+export type AnalyticsLocationsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsLocationsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, type: LocationType }> } | null };
 
 export type CreateOutboundShipmentItemMutationVariables = Exact<{
   outboundShipmentItem: CreateOutboundShipmentItemInput;
@@ -7706,6 +7940,14 @@ export type SearchOutboundShipmentsQueryVariables = Exact<{
 
 export type SearchOutboundShipmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', value: string, label?: string | null }> } | null };
 
+export type AnalyticsOutboundShipmentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsOutboundShipmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', status?: OutboundShipmentStatus | null }> } | null };
+
 export type CreatePackageItemMutationVariables = Exact<{
   packageItem: CreatePackageItemInput;
 }>;
@@ -7765,6 +8007,14 @@ export type SearchPackagesQueryVariables = Exact<{
 
 
 export type SearchPackagesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', value: string, label: string }> } | null };
+
+export type AnalyticsPackagesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsPackagesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, insuranceValue?: number | null }> } | null };
 
 export type CreatePickBatchItemMutationVariables = Exact<{
   pickBatchItem: CreatePickBatchItemInput;
@@ -7828,6 +8078,14 @@ export type SearchPickBatchesQueryVariables = Exact<{
 
 export type SearchPickBatchesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', value: string, label: string }> } | null };
 
+export type AnalyticsPickBatchesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsPickBatchesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', priority?: number | null, estimatedDuration?: number | null, actualDuration?: number | null, totalItems?: number | null, completedItems?: number | null, status?: PickBatchStatus | null, strategy: PickStrategy }> } | null };
+
 export type CreateWmsProductMutationVariables = Exact<{
   wmsProduct: CreateWmsProductInput;
 }>;
@@ -7867,6 +8125,14 @@ export type SearchWmsProductsQueryVariables = Exact<{
 
 export type SearchWmsProductsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', value: string, label: string }> } | null };
 
+export type AnalyticsWmsProductsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsWmsProductsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', costPrice?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, weight?: number | null, status?: ProductStatus | null }> } | null };
+
 export type CreatePutawayRuleMutationVariables = Exact<{
   putawayRule: CreatePutawayRuleInput;
 }>;
@@ -7898,6 +8164,14 @@ export type TablePutawayRuleQueryVariables = Exact<{
 
 export type TablePutawayRuleQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', putawayRules: Array<{ __typename?: 'PutawayRules', createdAt?: string | null, isActive?: boolean | null, id: string, locationType?: LocationType | null, maxQuantity?: number | null, minQuantity?: number | null, priority: number, requiresHazmatApproval?: boolean | null, requiresTemperatureControl?: boolean | null, updatedAt?: string | null, volumeThreshold?: number | null, weightThreshold?: number | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, country?: string | null, city?: string | null, website?: string | null, phoneNumber?: string | null } | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, name: string, isActive?: boolean | null } }> } | null };
 
+export type AnalyticsPutawayRulesQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsPutawayRulesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', putawayRules: Array<{ __typename?: 'PutawayRules', priority: number, minQuantity?: number | null, maxQuantity?: number | null, weightThreshold?: number | null, volumeThreshold?: number | null, locationType?: LocationType | null }> } | null };
+
 export type CreateReorderPointMutationVariables = Exact<{
   reorderPoint: CreateReorderPointInput;
 }>;
@@ -7927,6 +8201,14 @@ export type TableReorderPointQueryVariables = Exact<{
 
 
 export type TableReorderPointQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', reorderPoints: Array<{ __typename?: 'ReorderPoints', createdAt?: string | null, id: string, threshold: number, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, costPrice?: number | null, id: string, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string } }> } | null };
+
+export type AnalyticsReorderPointsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsReorderPointsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', reorderPoints: Array<{ __typename?: 'ReorderPoints', threshold: number }> } | null };
 
 export type CreateReturnItemMutationVariables = Exact<{
   returnItem: CreateReturnItemInput;
@@ -7989,6 +8271,14 @@ export type SearchReturnsQueryVariables = Exact<{
 
 export type SearchReturnsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', value: string, label: string }> } | null };
 
+export type AnalyticsReturnsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsReturnsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', status?: ReturnStatus | null }> } | null };
+
 export type CreateSalesOrderItemMutationVariables = Exact<{
   salesOrderItem: CreateSalesOrderItemInput;
 }>;
@@ -8050,6 +8340,14 @@ export type SearchSalesOrdersQueryVariables = Exact<{
 
 export type SearchSalesOrdersQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', value: string, label: string }> } | null };
 
+export type AnalyticsSalesOrdersQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsSalesOrdersQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', status?: SalesOrderStatus | null }> } | null };
+
 export type CreateStockTransferMutationVariables = Exact<{
   stockTransfer: CreateStockTransferInput;
 }>;
@@ -8080,6 +8378,14 @@ export type TableStockTransferQueryVariables = Exact<{
 
 
 export type TableStockTransferQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', stockTransfers: Array<{ __typename?: 'StockTransfers', createdAt?: string | null, id: string, quantity: number, status?: StockTransferStatus | null, updatedAt?: string | null, destinationWarehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string, timezone?: string | null, isActive?: boolean | null }, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, height?: number | null, sku: string, status?: ProductStatus | null }, sourceWarehouse: { __typename?: 'Warehouses', address?: string | null, country?: string | null, isActive?: boolean | null, name: string, city?: string | null, id: string, timezone?: string | null } }> } | null };
+
+export type AnalyticsStockTransfersQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsStockTransfersQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', stockTransfers: Array<{ __typename?: 'StockTransfers', quantity: number, status?: StockTransferStatus | null }> } | null };
 
 export type CreateSupplierMutationVariables = Exact<{
   supplier: CreateSupplierInput;
@@ -8180,6 +8486,14 @@ export type SearchTasksQueryVariables = Exact<{
 
 
 export type SearchTasksQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', value: string, label: string }> } | null };
+
+export type AnalyticsTasksQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsTasksQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', priority?: number | null, estimatedDuration?: number | null, actualDuration?: number | null, durationSeconds?: number | null, type: TaskType, status?: TaskStatus | null }> } | null };
 
 export type CreateWarehouseMutationVariables = Exact<{
   warehouse: CreateWarehouseInput;
@@ -8320,6 +8634,17 @@ export const SearchAccountTransactionsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchAccountTransactionsQuery, SearchAccountTransactionsQueryVariables>;
+export const AnalyticsAccountTransactionsDocument = new TypedDocumentString(`
+    query AnalyticsAccountTransactions($from: Date, $to: Date) {
+  billing {
+    accountTransactions(from: $from, to: $to) {
+      amount
+      runningBalance
+      type
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsAccountTransactionsQuery, AnalyticsAccountTransactionsQueryVariables>;
 export const CreateAccountingSyncLogDocument = new TypedDocumentString(`
     mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {
   billing {
@@ -8385,6 +8710,16 @@ export const SearchAccountingSyncLogsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchAccountingSyncLogsQuery, SearchAccountingSyncLogsQueryVariables>;
+export const AnalyticsAccountingSyncLogsDocument = new TypedDocumentString(`
+    query AnalyticsAccountingSyncLogs($from: Date, $to: Date) {
+  billing {
+    accountingSyncLogs(from: $from, to: $to) {
+      status
+      retryCount
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsAccountingSyncLogsQuery, AnalyticsAccountingSyncLogsQueryVariables>;
 export const CreateClientAccountDocument = new TypedDocumentString(`
     mutation CreateClientAccount($clientAccount: CreateClientAccountInput!) {
   billing {
@@ -8460,6 +8795,18 @@ export const SearchClientAccountsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchClientAccountsQuery, SearchClientAccountsQueryVariables>;
+export const AnalyticsClientAccountsDocument = new TypedDocumentString(`
+    query AnalyticsClientAccounts($from: Date, $to: Date) {
+  billing {
+    clientAccounts(from: $from, to: $to) {
+      creditLimit
+      availableCredit
+      walletBalance
+      paymentTermsDays
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsClientAccountsQuery, AnalyticsClientAccountsQueryVariables>;
 export const CreateCreditNoteDocument = new TypedDocumentString(`
     mutation CreateCreditNote($creditNote: CreateCreditNoteInput!) {
   billing {
@@ -8548,6 +8895,15 @@ export const SearchCreditNotesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchCreditNotesQuery, SearchCreditNotesQueryVariables>;
+export const AnalyticsCreditNotesDocument = new TypedDocumentString(`
+    query AnalyticsCreditNotes($from: Date, $to: Date) {
+  billing {
+    creditNotes(from: $from, to: $to) {
+      amount
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsCreditNotesQuery, AnalyticsCreditNotesQueryVariables>;
 export const CreateDisputeDocument = new TypedDocumentString(`
     mutation CreateDispute($dispute: CreateDisputeInput!) {
   billing {
@@ -8651,34 +9007,16 @@ export const SearchDisputesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchDisputesQuery, SearchDisputesQueryVariables>;
-export const CreateInvoiceLineItemDocument = new TypedDocumentString(`
-    mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {
+export const AnalyticsDisputesDocument = new TypedDocumentString(`
+    query AnalyticsDisputes($from: Date, $to: Date) {
   billing {
-    createInvoiceLineItem(value: $invoiceLineItem) {
-      id
+    disputes(from: $from, to: $to) {
+      disputedAmount
+      status
     }
   }
 }
-    `) as unknown as TypedDocumentString<CreateInvoiceLineItemMutation, CreateInvoiceLineItemMutationVariables>;
-export const UpdateInvoiceLineItemDocument = new TypedDocumentString(`
-    mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {
-  billing {
-    updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateInvoiceLineItemMutation, UpdateInvoiceLineItemMutationVariables>;
-export const RemoveInvoiceLineItemDocument = new TypedDocumentString(`
-    mutation RemoveInvoiceLineItem($id: ID!) {
-  billing {
-    removeInvoiceLineItem(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveInvoiceLineItemMutation, RemoveInvoiceLineItemMutationVariables>;
+    `) as unknown as TypedDocumentString<AnalyticsDisputesQuery, AnalyticsDisputesQueryVariables>;
 export const CreateBillingInvoiceDocument = new TypedDocumentString(`
     mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {
   billing {
@@ -9197,6 +9535,15 @@ export const SearchCampaignsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchCampaignsQuery, SearchCampaignsQueryVariables>;
+export const AnalyticsCampaignsDocument = new TypedDocumentString(`
+    query AnalyticsCampaigns($from: Date, $to: Date) {
+  crm {
+    campaigns(from: $from, to: $to) {
+      budget
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsCampaignsQuery, AnalyticsCampaignsQueryVariables>;
 export const CreateCaseDocument = new TypedDocumentString(`
     mutation CreateCase($case: CreateCaseInput!) {
   crm {
@@ -9270,6 +9617,17 @@ export const SearchCasesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchCasesQuery, SearchCasesQueryVariables>;
+export const AnalyticsCasesDocument = new TypedDocumentString(`
+    query AnalyticsCases($from: Date, $to: Date) {
+  crm {
+    cases(from: $from, to: $to) {
+      status
+      priority
+      type
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsCasesQuery, AnalyticsCasesQueryVariables>;
 export const CreateCompanyDocument = new TypedDocumentString(`
     mutation CreateCompany($company: CreateCompanyInput!) {
   crm {
@@ -9339,6 +9697,15 @@ export const SearchCompaniesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchCompaniesQuery, SearchCompaniesQueryVariables>;
+export const AnalyticsCompaniesDocument = new TypedDocumentString(`
+    query AnalyticsCompanies($from: Date, $to: Date) {
+  crm {
+    companies(from: $from, to: $to) {
+      annualRevenue
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsCompaniesQuery, AnalyticsCompaniesQueryVariables>;
 export const CreateContactDocument = new TypedDocumentString(`
     mutation CreateContact($contact: CreateContactInput!) {
   crm {
@@ -9473,6 +9840,15 @@ export const TableInteractionDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInteractionQuery, TableInteractionQueryVariables>;
+export const AnalyticsInteractionsDocument = new TypedDocumentString(`
+    query AnalyticsInteractions($from: Date, $to: Date) {
+  crm {
+    interactions(from: $from, to: $to) {
+      type
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsInteractionsQuery, AnalyticsInteractionsQueryVariables>;
 export const CreateInvoiceItemDocument = new TypedDocumentString(`
     mutation CreateInvoiceItem($invoiceItem: CreateInvoiceItemInput!) {
   crm {
@@ -9575,6 +9951,17 @@ export const TableInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInvoiceQuery, TableInvoiceQueryVariables>;
+export const AnalyticsInvoicesDocument = new TypedDocumentString(`
+    query AnalyticsInvoices($from: Date, $to: Date) {
+  crm {
+    invoices(from: $from, to: $to) {
+      total
+      status
+      paymentMethod
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsInvoicesQuery, AnalyticsInvoicesQueryVariables>;
 export const CreateLeadDocument = new TypedDocumentString(`
     mutation CreateLead($lead: CreateLeadInput!) {
   crm {
@@ -9674,6 +10061,17 @@ export const SearchLeadsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchLeadsQuery, SearchLeadsQueryVariables>;
+export const AnalyticsLeadsDocument = new TypedDocumentString(`
+    query AnalyticsLeads($from: Date, $to: Date) {
+  crm {
+    leads(from: $from, to: $to) {
+      leadScore
+      status
+      leadSource
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsLeadsQuery, AnalyticsLeadsQueryVariables>;
 export const CreateNotificationDocument = new TypedDocumentString(`
     mutation CreateNotification($notification: CreateNotificationInput!) {
   crm {
@@ -9839,6 +10237,18 @@ export const SearchOpportunitiesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchOpportunitiesQuery, SearchOpportunitiesQueryVariables>;
+export const AnalyticsOpportunitiesDocument = new TypedDocumentString(`
+    query AnalyticsOpportunities($from: Date, $to: Date) {
+  crm {
+    opportunities(from: $from, to: $to) {
+      dealValue
+      probability
+      stage
+      source
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsOpportunitiesQuery, AnalyticsOpportunitiesQueryVariables>;
 export const CreateOpportunityProductDocument = new TypedDocumentString(`
     mutation CreateOpportunityProduct($opportunityProduct: CreateOpportunityProductInput!) {
   crm {
@@ -9935,6 +10345,15 @@ export const SearchProductsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchProductsQuery, SearchProductsQueryVariables>;
+export const AnalyticsProductsDocument = new TypedDocumentString(`
+    query AnalyticsProducts($from: Date, $to: Date) {
+  crm {
+    products(from: $from, to: $to) {
+      price
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsProductsQuery, AnalyticsProductsQueryVariables>;
 export const CreateCustomerTrackingLinkDocument = new TypedDocumentString(`
     mutation CreateCustomerTrackingLink($customerTrackingLink: CreateCustomerTrackingLinkInput!) {
   dms {
@@ -9989,6 +10408,15 @@ export const SearchCustomerTrackingLinksDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchCustomerTrackingLinksQuery, SearchCustomerTrackingLinksQueryVariables>;
+export const AnalyticsCustomerTrackingLinksDocument = new TypedDocumentString(`
+    query AnalyticsCustomerTrackingLinks($from: Date, $to: Date) {
+  dms {
+    customerTrackingLinks(from: $from, to: $to) {
+      accessCount
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsCustomerTrackingLinksQuery, AnalyticsCustomerTrackingLinksQueryVariables>;
 export const CreateDeliveryRouteDocument = new TypedDocumentString(`
     mutation CreateDeliveryRoute($deliveryRoute: CreateDeliveryRouteInput!) {
   dms {
@@ -10058,6 +10486,18 @@ export const SearchDeliveryRoutesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchDeliveryRoutesQuery, SearchDeliveryRoutesQueryVariables>;
+export const AnalyticsDeliveryRoutesDocument = new TypedDocumentString(`
+    query AnalyticsDeliveryRoutes($from: Date, $to: Date) {
+  dms {
+    deliveryRoutes(from: $from, to: $to) {
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsDeliveryRoutesQuery, AnalyticsDeliveryRoutesQueryVariables>;
 export const CreateDeliveryTaskDocument = new TypedDocumentString(`
     mutation CreateDeliveryTask($deliveryTask: CreateDeliveryTaskInput!) {
   dms {
@@ -10153,6 +10593,17 @@ export const SearchDeliveryTasksDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchDeliveryTasksQuery, SearchDeliveryTasksQueryVariables>;
+export const AnalyticsDeliveryTasksDocument = new TypedDocumentString(`
+    query AnalyticsDeliveryTasks($from: Date, $to: Date) {
+  dms {
+    deliveryTasks(from: $from, to: $to) {
+      attemptCount
+      status
+      failureReason
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsDeliveryTasksQuery, AnalyticsDeliveryTasksQueryVariables>;
 export const CreateDriverLocationDocument = new TypedDocumentString(`
     mutation CreateDriverLocation($driverLocation: CreateDriverLocationInput!) {
   dms {
@@ -10211,6 +10662,15 @@ export const TableDriverLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableDriverLocationQuery, TableDriverLocationQueryVariables>;
+export const AnalyticsDriverLocationsDocument = new TypedDocumentString(`
+    query AnalyticsDriverLocations($from: Date, $to: Date) {
+  dms {
+    driverLocations(from: $from, to: $to) {
+      speedKmh
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsDriverLocationsQuery, AnalyticsDriverLocationsQueryVariables>;
 export const CreateDmsProofOfDeliveryDocument = new TypedDocumentString(`
     mutation CreateDmsProofOfDelivery($dmsProofOfDelivery: CreateDmsProofOfDeliveryInput!) {
   dms {
@@ -10295,6 +10755,15 @@ export const SearchDmsProofOfDeliveriesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchDmsProofOfDeliveriesQuery, SearchDmsProofOfDeliveriesQueryVariables>;
+export const AnalyticsProofOfDeliveriesDocument = new TypedDocumentString(`
+    query AnalyticsProofOfDeliveries($from: Date, $to: Date) {
+  dms {
+    dmsProofOfDeliveries(from: $from, to: $to) {
+      type
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsProofOfDeliveriesQuery, AnalyticsProofOfDeliveriesQueryVariables>;
 export const CreateTaskEventDocument = new TypedDocumentString(`
     mutation CreateTaskEvent($taskEvent: CreateTaskEventInput!) {
   dms {
@@ -10364,6 +10833,15 @@ export const SearchTaskEventsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchTaskEventsQuery, SearchTaskEventsQueryVariables>;
+export const AnalyticsTaskEventsDocument = new TypedDocumentString(`
+    query AnalyticsTaskEvents($from: Date, $to: Date) {
+  dms {
+    taskEvents(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsTaskEventsQuery, AnalyticsTaskEventsQueryVariables>;
 export const CreateCarrierRateDocument = new TypedDocumentString(`
     mutation CreateCarrierRate($carrierRate: CreateCarrierRateInput!) {
   tms {
@@ -10562,6 +11040,15 @@ export const SearchDriversDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchDriversQuery, SearchDriversQueryVariables>;
+export const AnalyticsDriversDocument = new TypedDocumentString(`
+    query AnalyticsDrivers($from: Date, $to: Date) {
+  tms {
+    drivers(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsDriversQuery, AnalyticsDriversQueryVariables>;
 export const CreateExpenseDocument = new TypedDocumentString(`
     mutation CreateExpense($expense: CreateExpenseInput!) {
   tms {
@@ -10654,6 +11141,17 @@ export const SearchExpensesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchExpensesQuery, SearchExpensesQueryVariables>;
+export const AnalyticsExpensesDocument = new TypedDocumentString(`
+    query AnalyticsExpenses($from: Date, $to: Date) {
+  tms {
+    expenses(from: $from, to: $to) {
+      amount
+      type
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsExpensesQuery, AnalyticsExpensesQueryVariables>;
 export const CreateGeofenceEventDocument = new TypedDocumentString(`
     mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {
   tms {
@@ -10894,6 +11392,16 @@ export const SearchPartnerInvoicesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchPartnerInvoicesQuery, SearchPartnerInvoicesQueryVariables>;
+export const AnalyticsPartnerInvoicesDocument = new TypedDocumentString(`
+    query AnalyticsPartnerInvoices($from: Date, $to: Date) {
+  tms {
+    partnerInvoices(from: $from, to: $to) {
+      totalAmount
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsPartnerInvoicesQuery, AnalyticsPartnerInvoicesQueryVariables>;
 export const CreateProofOfDeliveryDocument = new TypedDocumentString(`
     mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {
   tms {
@@ -10979,6 +11487,15 @@ export const SearchProofOfDeliveriesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchProofOfDeliveriesQuery, SearchProofOfDeliveriesQueryVariables>;
+export const AnalyticsTmsProofOfDeliveriesDocument = new TypedDocumentString(`
+    query AnalyticsTmsProofOfDeliveries($from: Date, $to: Date) {
+  tms {
+    proofOfDeliveries(from: $from, to: $to) {
+      type
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsTmsProofOfDeliveriesQuery, AnalyticsTmsProofOfDeliveriesQueryVariables>;
 export const CreateRouteDocument = new TypedDocumentString(`
     mutation CreateRoute($route: CreateRouteInput!) {
   tms {
@@ -11039,6 +11556,16 @@ export const TableRouteDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableRouteQuery, TableRouteQueryVariables>;
+export const AnalyticsRoutesDocument = new TypedDocumentString(`
+    query AnalyticsRoutes($from: Date, $to: Date) {
+  tms {
+    routes(from: $from, to: $to) {
+      totalDistance
+      totalDuration
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsRoutesQuery, AnalyticsRoutesQueryVariables>;
 export const CreateShipmentLegEventDocument = new TypedDocumentString(`
     mutation CreateShipmentLegEvent($shipmentLegEvent: CreateShipmentLegEventInput!) {
   tms {
@@ -11135,6 +11662,15 @@ export const SearchShipmentLegsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchShipmentLegsQuery, SearchShipmentLegsQueryVariables>;
+export const AnalyticsShipmentLegsDocument = new TypedDocumentString(`
+    query AnalyticsShipmentLegs($from: Date, $to: Date) {
+  tms {
+    shipmentLegs(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsShipmentLegsQuery, AnalyticsShipmentLegsQueryVariables>;
 export const CreateTripStopDocument = new TypedDocumentString(`
     mutation CreateTripStop($tripStop: CreateTripStopInput!) {
   tms {
@@ -11236,6 +11772,15 @@ export const SearchTripsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchTripsQuery, SearchTripsQueryVariables>;
+export const AnalyticsTripsDocument = new TypedDocumentString(`
+    query AnalyticsTrips($from: Date, $to: Date) {
+  tms {
+    trips(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsTripsQuery, AnalyticsTripsQueryVariables>;
 export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
     mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {
   tms {
@@ -11332,6 +11877,18 @@ export const SearchVehiclesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchVehiclesQuery, SearchVehiclesQueryVariables>;
+export const AnalyticsVehiclesDocument = new TypedDocumentString(`
+    query AnalyticsVehicles($from: Date, $to: Date) {
+  tms {
+    vehicles(from: $from, to: $to) {
+      capacityVolume
+      capacityWeight
+      currentMileage
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsVehiclesQuery, AnalyticsVehiclesQueryVariables>;
 export const CreateBinThresholdDocument = new TypedDocumentString(`
     mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {
   wms {
@@ -11384,6 +11941,18 @@ export const TableBinThresholdDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableBinThresholdQuery, TableBinThresholdQueryVariables>;
+export const AnalyticsBinThresholdsDocument = new TypedDocumentString(`
+    query AnalyticsBinThresholds($from: Date, $to: Date) {
+  wms {
+    binThresholds(from: $from, to: $to) {
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsBinThresholdsQuery, AnalyticsBinThresholdsQueryVariables>;
 export const CreateInboundShipmentItemDocument = new TypedDocumentString(`
     mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {
   wms {
@@ -11461,6 +12030,15 @@ export const TableInboundShipmentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInboundShipmentQuery, TableInboundShipmentQueryVariables>;
+export const AnalyticsInboundShipmentsDocument = new TypedDocumentString(`
+    query AnalyticsInboundShipments($from: Date, $to: Date) {
+  wms {
+    inboundShipments(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsInboundShipmentsQuery, AnalyticsInboundShipmentsQueryVariables>;
 export const CreateInventoryAdjustmentDocument = new TypedDocumentString(`
     mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {
   wms {
@@ -11533,6 +12111,16 @@ export const SearchInventoryAdjustmentsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchInventoryAdjustmentsQuery, SearchInventoryAdjustmentsQueryVariables>;
+export const AnalyticsInventoryAdjustmentsDocument = new TypedDocumentString(`
+    query AnalyticsInventoryAdjustments($from: Date, $to: Date) {
+  wms {
+    inventoryAdjustments(from: $from, to: $to) {
+      quantityChange
+      reason
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsInventoryAdjustmentsQuery, AnalyticsInventoryAdjustmentsQueryVariables>;
 export const CreateInventoryBatchDocument = new TypedDocumentString(`
     mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {
   wms {
@@ -11665,6 +12253,18 @@ export const TableInventoryStockDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInventoryStockQuery, TableInventoryStockQueryVariables>;
+export const AnalyticsInventoryStockDocument = new TypedDocumentString(`
+    query AnalyticsInventoryStock($from: Date, $to: Date) {
+  wms {
+    inventoryStocks(from: $from, to: $to) {
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsInventoryStockQuery, AnalyticsInventoryStockQueryVariables>;
 export const CreateLocationDocument = new TypedDocumentString(`
     mutation CreateLocation($location: CreateLocationInput!) {
   wms {
@@ -11742,6 +12342,18 @@ export const SearchLocationsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchLocationsQuery, SearchLocationsQueryVariables>;
+export const AnalyticsLocationsDocument = new TypedDocumentString(`
+    query AnalyticsLocations($from: Date, $to: Date) {
+  wms {
+    locations(from: $from, to: $to) {
+      maxWeight
+      maxVolume
+      maxPallets
+      type
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsLocationsQuery, AnalyticsLocationsQueryVariables>;
 export const CreateOutboundShipmentItemDocument = new TypedDocumentString(`
     mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {
   wms {
@@ -11834,6 +12446,15 @@ export const SearchOutboundShipmentsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchOutboundShipmentsQuery, SearchOutboundShipmentsQueryVariables>;
+export const AnalyticsOutboundShipmentsDocument = new TypedDocumentString(`
+    query AnalyticsOutboundShipments($from: Date, $to: Date) {
+  wms {
+    outboundShipments(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsOutboundShipmentsQuery, AnalyticsOutboundShipmentsQueryVariables>;
 export const CreatePackageItemDocument = new TypedDocumentString(`
     mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
   wms {
@@ -11941,6 +12562,20 @@ export const SearchPackagesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchPackagesQuery, SearchPackagesQueryVariables>;
+export const AnalyticsPackagesDocument = new TypedDocumentString(`
+    query AnalyticsPackages($from: Date, $to: Date) {
+  wms {
+    packages(from: $from, to: $to) {
+      weight
+      length
+      width
+      height
+      volume
+      insuranceValue
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsPackagesQuery, AnalyticsPackagesQueryVariables>;
 export const CreatePickBatchItemDocument = new TypedDocumentString(`
     mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {
   wms {
@@ -12047,6 +12682,21 @@ export const SearchPickBatchesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchPickBatchesQuery, SearchPickBatchesQueryVariables>;
+export const AnalyticsPickBatchesDocument = new TypedDocumentString(`
+    query AnalyticsPickBatches($from: Date, $to: Date) {
+  wms {
+    pickBatches(from: $from, to: $to) {
+      priority
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      status
+      strategy
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsPickBatchesQuery, AnalyticsPickBatchesQueryVariables>;
 export const CreateWmsProductDocument = new TypedDocumentString(`
     mutation CreateWmsProduct($wmsProduct: CreateWmsProductInput!) {
   wms {
@@ -12113,6 +12763,21 @@ export const SearchWmsProductsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchWmsProductsQuery, SearchWmsProductsQueryVariables>;
+export const AnalyticsWmsProductsDocument = new TypedDocumentString(`
+    query AnalyticsWmsProducts($from: Date, $to: Date) {
+  wms {
+    wmsProducts(from: $from, to: $to) {
+      costPrice
+      length
+      width
+      height
+      volume
+      weight
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsWmsProductsQuery, AnalyticsWmsProductsQueryVariables>;
 export const CreatePutawayRuleDocument = new TypedDocumentString(`
     mutation CreatePutawayRule($putawayRule: CreatePutawayRuleInput!) {
   wms {
@@ -12185,6 +12850,20 @@ export const TablePutawayRuleDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TablePutawayRuleQuery, TablePutawayRuleQueryVariables>;
+export const AnalyticsPutawayRulesDocument = new TypedDocumentString(`
+    query AnalyticsPutawayRules($from: Date, $to: Date) {
+  wms {
+    putawayRules(from: $from, to: $to) {
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      locationType
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsPutawayRulesQuery, AnalyticsPutawayRulesQueryVariables>;
 export const CreateReorderPointDocument = new TypedDocumentString(`
     mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {
   wms {
@@ -12241,6 +12920,15 @@ export const TableReorderPointDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableReorderPointQuery, TableReorderPointQueryVariables>;
+export const AnalyticsReorderPointsDocument = new TypedDocumentString(`
+    query AnalyticsReorderPoints($from: Date, $to: Date) {
+  wms {
+    reorderPoints(from: $from, to: $to) {
+      threshold
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsReorderPointsQuery, AnalyticsReorderPointsQueryVariables>;
 export const CreateReturnItemDocument = new TypedDocumentString(`
     mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {
   wms {
@@ -12352,6 +13040,15 @@ export const SearchReturnsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchReturnsQuery, SearchReturnsQueryVariables>;
+export const AnalyticsReturnsDocument = new TypedDocumentString(`
+    query AnalyticsReturns($from: Date, $to: Date) {
+  wms {
+    returns(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsReturnsQuery, AnalyticsReturnsQueryVariables>;
 export const CreateSalesOrderItemDocument = new TypedDocumentString(`
     mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
   wms {
@@ -12445,6 +13142,15 @@ export const SearchSalesOrdersDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchSalesOrdersQuery, SearchSalesOrdersQueryVariables>;
+export const AnalyticsSalesOrdersDocument = new TypedDocumentString(`
+    query AnalyticsSalesOrders($from: Date, $to: Date) {
+  wms {
+    salesOrders(from: $from, to: $to) {
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsSalesOrdersQuery, AnalyticsSalesOrdersQueryVariables>;
 export const CreateStockTransferDocument = new TypedDocumentString(`
     mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {
   wms {
@@ -12512,6 +13218,16 @@ export const TableStockTransferDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableStockTransferQuery, TableStockTransferQueryVariables>;
+export const AnalyticsStockTransfersDocument = new TypedDocumentString(`
+    query AnalyticsStockTransfers($from: Date, $to: Date) {
+  wms {
+    stockTransfers(from: $from, to: $to) {
+      quantity
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsStockTransfersQuery, AnalyticsStockTransfersQueryVariables>;
 export const CreateSupplierDocument = new TypedDocumentString(`
     mutation CreateSupplier($supplier: CreateSupplierInput!) {
   wms {
@@ -12716,6 +13432,20 @@ export const SearchTasksDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchTasksQuery, SearchTasksQueryVariables>;
+export const AnalyticsTasksDocument = new TypedDocumentString(`
+    query AnalyticsTasks($from: Date, $to: Date) {
+  wms {
+    tasks(from: $from, to: $to) {
+      priority
+      estimatedDuration
+      actualDuration
+      durationSeconds
+      type
+      status
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsTasksQuery, AnalyticsTasksQueryVariables>;
 export const CreateWarehouseDocument = new TypedDocumentString(`
     mutation CreateWarehouse($warehouse: CreateWarehouseInput!) {
   wms {

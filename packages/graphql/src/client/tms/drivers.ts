@@ -73,3 +73,13 @@ export const SearchDriversQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsDriversQuery = graphql(`
+  query AnalyticsDrivers($from: Date, $to: Date) {
+    tms {
+      drivers(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

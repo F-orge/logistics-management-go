@@ -124,3 +124,18 @@ export const SearchTasksQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsTasksQuery = graphql(`
+  query AnalyticsTasks($from: Date, $to: Date) {
+    wms {
+      tasks(from: $from, to: $to) {
+        priority
+        estimatedDuration
+        actualDuration
+        durationSeconds
+        type
+        status
+      }
+    }
+  }
+`);

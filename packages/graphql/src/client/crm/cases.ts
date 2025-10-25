@@ -83,3 +83,15 @@ export const SearchCasesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsCasesQuery = graphql(`
+  query AnalyticsCases($from: Date, $to: Date) {
+    crm {
+      cases(from: $from, to: $to) {
+        status
+        priority
+        type
+      }
+    }
+  }
+`);

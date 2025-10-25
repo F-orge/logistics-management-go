@@ -77,3 +77,14 @@ export const TableStockTransferQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsStockTransfersQuery = graphql(`
+  query AnalyticsStockTransfers($from: Date, $to: Date) {
+    wms {
+      stockTransfers(from: $from, to: $to) {
+        quantity
+        status
+      }
+    }
+  }
+`);

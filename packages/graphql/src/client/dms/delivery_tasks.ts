@@ -108,3 +108,15 @@ export const SearchDeliveryTasksQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsDeliveryTasksQuery = graphql(`
+  query AnalyticsDeliveryTasks($from: Date, $to: Date) {
+    dms {
+      deliveryTasks(from: $from, to: $to) {
+        attemptCount
+        status
+        failureReason
+      }
+    }
+  }
+`);

@@ -82,3 +82,16 @@ export const SearchClientAccountsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsClientAccountsQuery = graphql(`
+  query AnalyticsClientAccounts($from: Date, $to: Date) {
+    billing {
+      clientAccounts(from: $from, to: $to) {
+        creditLimit
+        availableCredit
+        walletBalance
+        paymentTermsDays
+      }
+    }
+  }
+`);

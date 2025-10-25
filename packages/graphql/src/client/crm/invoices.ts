@@ -83,3 +83,15 @@ export const TableInvoiceQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsInvoicesQuery = graphql(`
+  query AnalyticsInvoices($from: Date, $to: Date) {
+    crm {
+      invoices(from: $from, to: $to) {
+        total
+        status
+        paymentMethod
+      }
+    }
+  }
+`);

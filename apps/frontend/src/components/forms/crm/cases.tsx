@@ -29,33 +29,85 @@ export const CreateCaseForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Case</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new case.
-        </FieldDescription>
+        <FieldDescription>Fill in the details for the new case.</FieldDescription>
         <FieldGroup>
+          {/* Case Details Section */}
           <FieldSet>
-            <FieldLegend>Case Details</FieldLegend>
-            <form.AppField name="caseNumber">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="status">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="priority">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="type">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="ownerId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="contactId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="description">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Case Details</FieldLegend>
+            <FieldDescription>Basic case information and classification.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="caseNumber">
+                {(field) => (
+                  <field.InputField
+                    label="Case Number"
+                    description="Unique identifier for this case."
+                    placeholder="e.g., CASE-001"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="type">
+                {(field) => (
+                  <field.InputField
+                    label="Type *"
+                    description="Category or type of the case."
+                    placeholder="e.g., Bug, Feature Request"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="priority">
+                {(field) => (
+                  <field.InputField
+                    label="Priority *"
+                    description="Urgency level of the case."
+                    placeholder="e.g., High, Medium, Low"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="status">
+                {(field) => (
+                  <field.InputField
+                    label="Status *"
+                    description="Current status of the case."
+                    placeholder="e.g., Open, In Progress, Closed"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="description">
+                {(field) => (
+                  <field.InputField
+                    label="Description"
+                    description="Detailed information about the case."
+                    placeholder="Describe the case..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Assignment Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Assignment</FieldLegend>
+            <FieldDescription>Link this case to contacts and assign ownership.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="contactId">
+                {(field) => (
+                  <field.InputField
+                    label="Contact"
+                    description="The contact associated with this case."
+                    placeholder="Contact ID"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="ownerId">
+                {(field) => (
+                  <field.InputField
+                    label="Case Owner"
+                    description="The person responsible for resolving this case."
+                    placeholder="Owner ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -69,33 +121,85 @@ export const UpdateCaseForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Case</FieldLegend>
-        <FieldDescription>
-          Update the details for the case.
-        </FieldDescription>
+        <FieldDescription>Update the details for the case.</FieldDescription>
         <FieldGroup>
+          {/* Case Details Section */}
           <FieldSet>
-            <FieldLegend>Case Details</FieldLegend>
-            <form.AppField name="caseNumber">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="status">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="priority">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="type">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="ownerId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="contactId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="description">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Case Details</FieldLegend>
+            <FieldDescription>Basic case information and classification.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="caseNumber">
+                {(field) => (
+                  <field.InputField
+                    label="Case Number"
+                    description="Unique identifier for this case."
+                    placeholder="e.g., CASE-001"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="type">
+                {(field) => (
+                  <field.InputField
+                    label="Type"
+                    description="Category or type of the case."
+                    placeholder="e.g., Bug, Feature Request"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="priority">
+                {(field) => (
+                  <field.InputField
+                    label="Priority"
+                    description="Urgency level of the case."
+                    placeholder="e.g., High, Medium, Low"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="status">
+                {(field) => (
+                  <field.InputField
+                    label="Status"
+                    description="Current status of the case."
+                    placeholder="e.g., Open, In Progress, Closed"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="description">
+                {(field) => (
+                  <field.InputField
+                    label="Description"
+                    description="Detailed information about the case."
+                    placeholder="Describe the case..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Assignment Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Assignment</FieldLegend>
+            <FieldDescription>Link this case to contacts and assign ownership.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="contactId">
+                {(field) => (
+                  <field.InputField
+                    label="Contact"
+                    description="The contact associated with this case."
+                    placeholder="Contact ID"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="ownerId">
+                {(field) => (
+                  <field.InputField
+                    label="Case Owner"
+                    description="The person responsible for resolving this case."
+                    placeholder="Owner ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

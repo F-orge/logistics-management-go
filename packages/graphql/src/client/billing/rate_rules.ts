@@ -88,3 +88,17 @@ export const SearchRateRulesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsRateRulesQuery = graphql(`
+  query AnalyticsRateRules($from: Date, $to: Date) {
+    billing {
+      rateRules(from: $from, to: $to) {
+        price
+        minValue
+        maxValue
+        priority
+        pricingModel
+      }
+    }
+  }
+`);

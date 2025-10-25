@@ -61,3 +61,13 @@ export const TableInboundShipmentQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsInboundShipmentsQuery = graphql(`
+  query AnalyticsInboundShipments($from: Date, $to: Date) {
+    wms {
+      inboundShipments(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

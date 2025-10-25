@@ -97,3 +97,13 @@ export const SearchReturnsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsReturnsQuery = graphql(`
+  query AnalyticsReturns($from: Date, $to: Date) {
+    wms {
+      returns(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

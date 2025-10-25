@@ -29,51 +29,172 @@ export const CreateDeliveryTaskForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Delivery Task</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new delivery task.
-        </FieldDescription>
+        <FieldDescription>Fill in the details for the new delivery task.</FieldDescription>
         <FieldGroup>
+          {/* Recipient Information Section */}
           <FieldSet>
-            <FieldLegend>Task Details</FieldLegend>
-            <form.AppField name="packageId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="deliveryRouteId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="routeSequence">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
-            <form.AppField name="deliveryAddress">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="recipientName">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="recipientPhone">
-              {(field) => <field.InputField type="tel" />}
-            </form.AppField>
-            <form.AppField name="deliveryInstructions">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="estimatedArrivalTime">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
-            <form.AppField name="actualArrivalTime">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
-            <form.AppField name="deliveryTime">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
-            <form.AppField name="status">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="failureReason">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="attemptCount">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
+            <FieldLegend variant="label">Recipient Information</FieldLegend>
+            <FieldDescription>Details of the person receiving the delivery.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="recipientName">
+                {(field) => (
+                  <field.InputField
+                    label="Recipient Name *"
+                    description="Full name of the recipient."
+                    placeholder="Enter recipient name..."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="recipientPhone">
+                {(field) => (
+                  <field.InputField
+                    type="tel"
+                    label="Recipient Phone *"
+                    description="Contact number of the recipient."
+                    placeholder="+1-234-567-8900"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Delivery Address Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Delivery Address</FieldLegend>
+            <FieldDescription>Where the package should be delivered.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="deliveryAddress">
+                {(field) => (
+                  <field.InputField
+                    label="Address *"
+                    description="Full delivery address."
+                    placeholder="Enter complete delivery address..."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="deliveryInstructions">
+                {(field) => (
+                  <field.InputField
+                    label="Delivery Instructions"
+                    description="Special instructions for the delivery."
+                    placeholder="e.g., Ring doorbell twice, leave with neighbor..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Package & Route Information Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Package & Route</FieldLegend>
+            <FieldDescription>Package and route assignment details.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="packageId">
+                {(field) => (
+                  <field.InputField
+                    label="Package *"
+                    description="The package to be delivered."
+                    placeholder="Package ID"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="deliveryRouteId">
+                {(field) => (
+                  <field.InputField
+                    label="Delivery Route *"
+                    description="The route this task is part of."
+                    placeholder="Route ID"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="routeSequence">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Route Sequence *"
+                    description="Order of this task in the route."
+                    placeholder="1"
+                    step="1"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timing Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timing</FieldLegend>
+            <FieldDescription>Estimated and actual delivery times.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="estimatedArrivalTime">
+                  {(field) => (
+                    <field.InputField
+                      type="datetime-local"
+                      label="Estimated Arrival"
+                      description="Estimated time to arrive at the location."
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="actualArrivalTime">
+                  {(field) => (
+                    <field.InputField
+                      type="datetime-local"
+                      label="Actual Arrival"
+                      description="When the driver actually arrived."
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="deliveryTime">
+                {(field) => (
+                  <field.InputField
+                    type="datetime-local"
+                    label="Delivery Time"
+                    description="When the package was delivered."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Status & Attempts Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Status & Attempts</FieldLegend>
+            <FieldDescription>Current status and delivery attempt information.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="status">
+                {(field) => (
+                  <field.InputField
+                    label="Status *"
+                    description="Current status of the delivery task."
+                    placeholder="e.g., Pending, In Transit, Delivered, Failed"
+                  />
+                )}
+              </form.AppField>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="attemptCount">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Attempt Count"
+                      description="Number of delivery attempts made."
+                      placeholder="1"
+                      step="1"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="failureReason">
+                  {(field) => (
+                    <field.InputField
+                      label="Failure Reason"
+                      description="Reason for failed delivery attempts."
+                      placeholder="e.g., Address not found, Recipient unavailable"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -87,51 +208,172 @@ export const UpdateDeliveryTaskForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Delivery Task</FieldLegend>
-        <FieldDescription>
-          Update the details for the delivery task.
-        </FieldDescription>
+        <FieldDescription>Update the details for the delivery task.</FieldDescription>
         <FieldGroup>
+          {/* Recipient Information Section */}
           <FieldSet>
-            <FieldLegend>Task Details</FieldLegend>
-            <form.AppField name="packageId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="deliveryRouteId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="routeSequence">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
-            <form.AppField name="deliveryAddress">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="recipientName">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="recipientPhone">
-              {(field) => <field.InputField type="tel" />}
-            </form.AppField>
-            <form.AppField name="deliveryInstructions">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="estimatedArrivalTime">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
-            <form.AppField name="actualArrivalTime">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
-            <form.AppField name="deliveryTime">
-              {(field) => <field.InputField type="datetime-local" />}
-            </form.AppField>
-            <form.AppField name="status">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="failureReason">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="attemptCount">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
+            <FieldLegend variant="label">Recipient Information</FieldLegend>
+            <FieldDescription>Details of the person receiving the delivery.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="recipientName">
+                {(field) => (
+                  <field.InputField
+                    label="Recipient Name"
+                    description="Full name of the recipient."
+                    placeholder="Enter recipient name..."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="recipientPhone">
+                {(field) => (
+                  <field.InputField
+                    type="tel"
+                    label="Recipient Phone"
+                    description="Contact number of the recipient."
+                    placeholder="+1-234-567-8900"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Delivery Address Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Delivery Address</FieldLegend>
+            <FieldDescription>Where the package should be delivered.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="deliveryAddress">
+                {(field) => (
+                  <field.InputField
+                    label="Address"
+                    description="Full delivery address."
+                    placeholder="Enter complete delivery address..."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="deliveryInstructions">
+                {(field) => (
+                  <field.InputField
+                    label="Delivery Instructions"
+                    description="Special instructions for the delivery."
+                    placeholder="e.g., Ring doorbell twice, leave with neighbor..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Package & Route Information Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Package & Route</FieldLegend>
+            <FieldDescription>Package and route assignment details.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="packageId">
+                {(field) => (
+                  <field.InputField
+                    label="Package"
+                    description="The package to be delivered."
+                    placeholder="Package ID"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="deliveryRouteId">
+                {(field) => (
+                  <field.InputField
+                    label="Delivery Route"
+                    description="The route this task is part of."
+                    placeholder="Route ID"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="routeSequence">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Route Sequence"
+                    description="Order of this task in the route."
+                    placeholder="1"
+                    step="1"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timing Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timing</FieldLegend>
+            <FieldDescription>Update estimated and actual delivery times.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="estimatedArrivalTime">
+                  {(field) => (
+                    <field.InputField
+                      type="datetime-local"
+                      label="Estimated Arrival"
+                      description="Estimated time to arrive at the location."
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="actualArrivalTime">
+                  {(field) => (
+                    <field.InputField
+                      type="datetime-local"
+                      label="Actual Arrival"
+                      description="When the driver actually arrived."
+                    />
+                  )}
+                </form.AppField>
+              </div>
+              <form.AppField name="deliveryTime">
+                {(field) => (
+                  <field.InputField
+                    type="datetime-local"
+                    label="Delivery Time"
+                    description="When the package was delivered."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Status & Attempts Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Status & Attempts</FieldLegend>
+            <FieldDescription>Update status and delivery attempt information.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="status">
+                {(field) => (
+                  <field.InputField
+                    label="Status"
+                    description="Current status of the delivery task."
+                    placeholder="e.g., Pending, In Transit, Delivered, Failed"
+                  />
+                )}
+              </form.AppField>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="attemptCount">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Attempt Count"
+                      description="Number of delivery attempts made."
+                      placeholder="1"
+                      step="1"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="failureReason">
+                  {(field) => (
+                    <field.InputField
+                      label="Failure Reason"
+                      description="Reason for failed delivery attempts."
+                      placeholder="e.g., Address not found, Recipient unavailable"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

@@ -29,36 +29,118 @@ export const CreateSurchargeForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Surcharge</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new surcharge.
-        </FieldDescription>
+        <FieldDescription>Add additional charge or fee.</FieldDescription>
         <FieldGroup>
+          {/* Surcharge Details Section */}
           <FieldSet>
-            <FieldLegend>Surcharge Details</FieldLegend>
-            <form.AppField name="name">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="type">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="amount">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="calculationMethod">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="isActive">
-              {(field) => <field.InputField type="checkbox" />}
-            </form.AppField>
-            <form.AppField name="validFrom">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="validTo">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="description">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Surcharge Details</FieldLegend>
+            <FieldDescription>Name, type, and description.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="name">
+                {(field) => (
+                  <field.InputField
+                    label="Name *"
+                    description="Surcharge name."
+                    placeholder="e.g., Fuel Surcharge, Hazmat Fee"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="type">
+                {(field) => (
+                  <field.InputField
+                    label="Type *"
+                    description="Type of surcharge."
+                    placeholder="e.g., Fuel, Hazmat, Weather, Insurance"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="description">
+                {(field) => (
+                  <field.InputField
+                    label="Description"
+                    description="Detailed description."
+                    placeholder="Enter description..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Pricing Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Pricing</FieldLegend>
+            <FieldDescription>Amount and calculation method.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="amount">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Amount *"
+                      description="Surcharge amount."
+                      placeholder="0.00"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="calculationMethod">
+                  {(field) => (
+                    <field.InputField
+                      label="Calculation Method *"
+                      description="How surcharge is applied."
+                      placeholder="e.g., Fixed, Percentage, Per Unit"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Validity Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Validity</FieldLegend>
+            <FieldDescription>Surcharge validity period.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="validFrom">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="Valid From *"
+                      description="When surcharge becomes effective."
+                      placeholder="YYYY-MM-DD"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="validTo">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="Valid To *"
+                      description="When surcharge expires."
+                      placeholder="YYYY-MM-DD"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Status Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Status</FieldLegend>
+            <FieldDescription>Active status.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="isActive">
+                {(field) => (
+                  <field.InputField
+                    type="checkbox"
+                    label="Active"
+                    description="Surcharge is active."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -72,36 +154,118 @@ export const UpdateSurchargeForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Surcharge</FieldLegend>
-        <FieldDescription>
-          Update the details for the surcharge.
-        </FieldDescription>
+        <FieldDescription>Update surcharge details.</FieldDescription>
         <FieldGroup>
+          {/* Surcharge Details Section */}
           <FieldSet>
-            <FieldLegend>Surcharge Details</FieldLegend>
-            <form.AppField name="name">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="type">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="amount">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="calculationMethod">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="isActive">
-              {(field) => <field.InputField type="checkbox" />}
-            </form.AppField>
-            <form.AppField name="validFrom">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="validTo">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="description">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Surcharge Details</FieldLegend>
+            <FieldDescription>Update name, type, and description.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="name">
+                {(field) => (
+                  <field.InputField
+                    label="Name"
+                    description="Surcharge name."
+                    placeholder="e.g., Fuel Surcharge, Hazmat Fee"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="type">
+                {(field) => (
+                  <field.InputField
+                    label="Type"
+                    description="Type of surcharge."
+                    placeholder="e.g., Fuel, Hazmat, Weather"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="description">
+                {(field) => (
+                  <field.InputField
+                    label="Description"
+                    description="Description."
+                    placeholder="Enter description..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Pricing Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Pricing</FieldLegend>
+            <FieldDescription>Update amount and calculation method.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="amount">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Amount"
+                      description="Surcharge amount."
+                      placeholder="0.00"
+                      step="any"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="calculationMethod">
+                  {(field) => (
+                    <field.InputField
+                      label="Calculation Method"
+                      description="How surcharge is applied."
+                      placeholder="e.g., Fixed, Percentage, Per Unit"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Validity Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Validity</FieldLegend>
+            <FieldDescription>Update validity period.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="validFrom">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="Valid From"
+                      description="When surcharge becomes effective."
+                      placeholder="YYYY-MM-DD"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="validTo">
+                  {(field) => (
+                    <field.InputField
+                      type="date"
+                      label="Valid To"
+                      description="When surcharge expires."
+                      placeholder="YYYY-MM-DD"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Status Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Status</FieldLegend>
+            <FieldDescription>Update active status.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="isActive">
+                {(field) => (
+                  <field.InputField
+                    type="checkbox"
+                    label="Active"
+                    description="Surcharge is active."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

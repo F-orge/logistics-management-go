@@ -29,27 +29,69 @@ export const CreateVehicleMaintenanceForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Vehicle Maintenance</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new vehicle maintenance record.
-        </FieldDescription>
+        <FieldDescription>Fill in the details for the new vehicle maintenance record.</FieldDescription>
         <FieldGroup>
+          {/* Maintenance Details Section */}
           <FieldSet>
-            <FieldLegend>Maintenance Details</FieldLegend>
-            <form.AppField name="vehicleId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="serviceDate">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="serviceType">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="cost">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="notes">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Maintenance Details</FieldLegend>
+            <FieldDescription>Service type and cost information.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="serviceType">
+                {(field) => (
+                  <field.InputField
+                    label="Service Type *"
+                    description="Type of maintenance performed."
+                    placeholder="e.g., Oil Change, Tire Rotation, Inspection"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="cost">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Cost *"
+                    description="Cost of the maintenance service."
+                    placeholder="0.00"
+                    step="any"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="notes">
+                {(field) => (
+                  <field.InputField
+                    label="Notes"
+                    description="Additional notes about the maintenance."
+                    placeholder="Enter maintenance notes..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timeline & Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timeline & Relations</FieldLegend>
+            <FieldDescription>Service date and associated vehicle.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="serviceDate">
+                {(field) => (
+                  <field.InputField
+                    type="date"
+                    label="Service Date *"
+                    description="When the maintenance was performed."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="vehicleId">
+                {(field) => (
+                  <field.InputField
+                    label="Vehicle *"
+                    description="The vehicle that was serviced."
+                    placeholder="Vehicle ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -63,27 +105,69 @@ export const UpdateVehicleMaintenanceForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Vehicle Maintenance</FieldLegend>
-        <FieldDescription>
-          Update the details for the vehicle maintenance record.
-        </FieldDescription>
+        <FieldDescription>Update the details for the vehicle maintenance record.</FieldDescription>
         <FieldGroup>
+          {/* Maintenance Details Section */}
           <FieldSet>
-            <FieldLegend>Maintenance Details</FieldLegend>
-            <form.AppField name="vehicleId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="serviceDate">
-              {(field) => <field.InputField type="date" />}
-            </form.AppField>
-            <form.AppField name="serviceType">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="cost">
-              {(field) => <field.InputField type="number" step="any" />}
-            </form.AppField>
-            <form.AppField name="notes">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Maintenance Details</FieldLegend>
+            <FieldDescription>Update service type and cost information.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="serviceType">
+                {(field) => (
+                  <field.InputField
+                    label="Service Type"
+                    description="Type of maintenance performed."
+                    placeholder="e.g., Oil Change, Tire Rotation, Inspection"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="cost">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Cost"
+                    description="Cost of the maintenance service."
+                    placeholder="0.00"
+                    step="any"
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="notes">
+                {(field) => (
+                  <field.InputField
+                    label="Notes"
+                    description="Additional notes about the maintenance."
+                    placeholder="Enter maintenance notes..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Timeline & Relations Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Timeline & Relations</FieldLegend>
+            <FieldDescription>Update service date and vehicle association.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="serviceDate">
+                {(field) => (
+                  <field.InputField
+                    type="date"
+                    label="Service Date"
+                    description="When the maintenance was performed."
+                  />
+                )}
+              </form.AppField>
+              <form.AppField name="vehicleId">
+                {(field) => (
+                  <field.InputField
+                    label="Vehicle"
+                    description="The vehicle that was serviced."
+                    placeholder="Vehicle ID"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

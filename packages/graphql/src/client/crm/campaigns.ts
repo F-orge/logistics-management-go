@@ -57,3 +57,13 @@ export const SearchCampaignsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsCampaignsQuery = graphql(`
+  query AnalyticsCampaigns($from: Date, $to: Date) {
+    crm {
+      campaigns(from: $from, to: $to) {
+        budget
+      }
+    }
+  }
+`);

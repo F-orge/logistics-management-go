@@ -29,27 +29,83 @@ export const CreateInboundShipmentItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Inbound Shipment Item</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new inbound shipment item.
-        </FieldDescription>
+        <FieldDescription>Add product line items to inbound shipment.</FieldDescription>
         <FieldGroup>
+          {/* Relations Section */}
           <FieldSet>
-            <FieldLegend>Item Details</FieldLegend>
-            <form.AppField name="inboundShipmentId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="productId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="expectedQuantity">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
-            <form.AppField name="receivedQuantity">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
-            <form.AppField name="discrepancyNotes">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Link item to shipment and product.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="inboundShipmentId">
+                  {(field) => (
+                    <field.InputField
+                      label="Inbound Shipment *"
+                      description="The inbound shipment this item belongs to."
+                      placeholder="Shipment ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="productId">
+                  {(field) => (
+                    <field.InputField
+                      label="Product *"
+                      description="The product in this line item."
+                      placeholder="Product ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Quantity Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Quantities</FieldLegend>
+            <FieldDescription>Expected and actual received quantities.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="expectedQuantity">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Expected Quantity *"
+                      description="Quantity expected to receive."
+                      placeholder="0"
+                      step="1"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="receivedQuantity">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Received Quantity *"
+                      description="Actual quantity received."
+                      placeholder="0"
+                      step="1"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Notes Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Discrepancy Notes</FieldLegend>
+            <FieldDescription>Notes about any quantity discrepancies.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="discrepancyNotes">
+                {(field) => (
+                  <field.InputField
+                    label="Notes"
+                    description="Details about quantity differences or issues."
+                    placeholder="Enter discrepancy notes..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -63,27 +119,83 @@ export const UpdateInboundShipmentItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Inbound Shipment Item</FieldLegend>
-        <FieldDescription>
-          Update the details for the inbound shipment item.
-        </FieldDescription>
+        <FieldDescription>Update product line items in inbound shipment.</FieldDescription>
         <FieldGroup>
+          {/* Relations Section */}
           <FieldSet>
-            <FieldLegend>Item Details</FieldLegend>
-            <form.AppField name="inboundShipmentId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="productId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="expectedQuantity">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
-            <form.AppField name="receivedQuantity">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
-            <form.AppField name="discrepancyNotes">
-              {(field) => <field.InputField />}
-            </form.AppField>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Update shipment and product associations.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="inboundShipmentId">
+                  {(field) => (
+                    <field.InputField
+                      label="Inbound Shipment"
+                      description="The inbound shipment this item belongs to."
+                      placeholder="Shipment ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="productId">
+                  {(field) => (
+                    <field.InputField
+                      label="Product"
+                      description="The product in this line item."
+                      placeholder="Product ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Quantity Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Quantities</FieldLegend>
+            <FieldDescription>Update expected and actual received quantities.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="expectedQuantity">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Expected Quantity"
+                      description="Quantity expected to receive."
+                      placeholder="0"
+                      step="1"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="receivedQuantity">
+                  {(field) => (
+                    <field.InputField
+                      type="number"
+                      label="Received Quantity"
+                      description="Actual quantity received."
+                      placeholder="0"
+                      step="1"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Notes Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Discrepancy Notes</FieldLegend>
+            <FieldDescription>Update notes about quantity discrepancies.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="discrepancyNotes">
+                {(field) => (
+                  <field.InputField
+                    label="Notes"
+                    description="Details about quantity differences or issues."
+                    placeholder="Enter discrepancy notes..."
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

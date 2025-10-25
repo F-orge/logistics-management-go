@@ -79,3 +79,13 @@ export const SearchSalesOrdersQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsSalesOrdersQuery = graphql(`
+  query AnalyticsSalesOrders($from: Date, $to: Date) {
+    wms {
+      salesOrders(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

@@ -78,3 +78,13 @@ export const SearchOutboundShipmentsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsOutboundShipmentsQuery = graphql(`
+  query AnalyticsOutboundShipments($from: Date, $to: Date) {
+    wms {
+      outboundShipments(from: $from, to: $to) {
+        status
+      }
+    }
+  }
+`);

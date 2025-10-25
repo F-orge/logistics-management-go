@@ -79,3 +79,14 @@ export const SearchAccountingSyncLogsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsAccountingSyncLogsQuery = graphql(`
+  query AnalyticsAccountingSyncLogs($from: Date, $to: Date) {
+    billing {
+      accountingSyncLogs(from: $from, to: $to) {
+        status
+        retryCount
+      }
+    }
+  }
+`);

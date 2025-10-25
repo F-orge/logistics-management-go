@@ -73,3 +73,13 @@ export const SearchCompaniesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsCompaniesQuery = graphql(`
+  query AnalyticsCompanies($from: Date, $to: Date) {
+    crm {
+      companies(from: $from, to: $to) {
+        annualRevenue
+      }
+    }
+  }
+`);

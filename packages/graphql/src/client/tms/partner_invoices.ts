@@ -82,3 +82,14 @@ export const SearchPartnerInvoicesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsPartnerInvoicesQuery = graphql(`
+  query AnalyticsPartnerInvoices($from: Date, $to: Date) {
+    tms {
+      partnerInvoices(from: $from, to: $to) {
+        totalAmount
+        status
+      }
+    }
+  }
+`);

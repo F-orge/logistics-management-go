@@ -109,3 +109,15 @@ export const SearchLeadsQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsLeadsQuery = graphql(`
+  query AnalyticsLeads($from: Date, $to: Date) {
+    crm {
+      leads(from: $from, to: $to) {
+        leadScore
+        status
+        leadSource
+      }
+    }
+  }
+`);

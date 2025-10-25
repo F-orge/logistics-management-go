@@ -29,21 +29,53 @@ export const CreateSalesOrderItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Sales Order Item</FieldLegend>
-        <FieldDescription>
-          Fill in the details for the new sales order item.
-        </FieldDescription>
+        <FieldDescription>Add product line to sales order.</FieldDescription>
         <FieldGroup>
+          {/* Relations Section */}
           <FieldSet>
-            <FieldLegend>Item Details</FieldLegend>
-            <form.AppField name="salesOrderId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="productId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="quantityOrdered">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Link item to sales order and product.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="salesOrderId">
+                  {(field) => (
+                    <field.InputField
+                      label="Sales Order *"
+                      description="The sales order this item belongs to."
+                      placeholder="Sales Order ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="productId">
+                  {(field) => (
+                    <field.InputField
+                      label="Product *"
+                      description="The product ordered."
+                      placeholder="Product ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Quantity Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Quantity</FieldLegend>
+            <FieldDescription>Order quantity.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="quantityOrdered">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Quantity Ordered *"
+                    description="Quantity of product ordered."
+                    placeholder="0"
+                    step="1"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>
@@ -57,21 +89,53 @@ export const UpdateSalesOrderItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Sales Order Item</FieldLegend>
-        <FieldDescription>
-          Update the details for the sales order item.
-        </FieldDescription>
+        <FieldDescription>Update product line in sales order.</FieldDescription>
         <FieldGroup>
+          {/* Relations Section */}
           <FieldSet>
-            <FieldLegend>Item Details</FieldLegend>
-            <form.AppField name="salesOrderId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="productId">
-              {(field) => <field.InputField />}
-            </form.AppField>
-            <form.AppField name="quantityOrdered">
-              {(field) => <field.InputField type="number" />}
-            </form.AppField>
+            <FieldLegend variant="label">Relations</FieldLegend>
+            <FieldDescription>Update sales order and product associations.</FieldDescription>
+            <FieldGroup>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <form.AppField name="salesOrderId">
+                  {(field) => (
+                    <field.InputField
+                      label="Sales Order"
+                      description="The sales order this item belongs to."
+                      placeholder="Sales Order ID"
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="productId">
+                  {(field) => (
+                    <field.InputField
+                      label="Product"
+                      description="The product ordered."
+                      placeholder="Product ID"
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+
+          {/* Quantity Section */}
+          <FieldSet>
+            <FieldLegend variant="label">Quantity</FieldLegend>
+            <FieldDescription>Update order quantity.</FieldDescription>
+            <FieldGroup>
+              <form.AppField name="quantityOrdered">
+                {(field) => (
+                  <field.InputField
+                    type="number"
+                    label="Quantity Ordered"
+                    description="Quantity of product ordered."
+                    placeholder="0"
+                    step="1"
+                  />
+                )}
+              </form.AppField>
+            </FieldGroup>
           </FieldSet>
         </FieldGroup>
       </FieldSet>

@@ -117,3 +117,14 @@ export const SearchDisputesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsDisputesQuery = graphql(`
+  query AnalyticsDisputes($from: Date, $to: Date) {
+    billing {
+      disputes(from: $from, to: $to) {
+        disputedAmount
+        status
+      }
+    }
+  }
+`);

@@ -95,3 +95,19 @@ export const SearchQuotesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsQuotesQuery = graphql(`
+  query AnalyticsQuotes($from: Date, $to: Date) {
+    billing {
+      quotes(from: $from, to: $to) {
+        weight
+        length
+        width
+        height
+        volume
+        quotedPrice
+        status
+      }
+    }
+  }
+`);

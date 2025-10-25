@@ -86,3 +86,16 @@ export const SearchDeliveryRoutesQuery = graphql(`
     }
   }
 `);
+
+export const AnalyticsDeliveryRoutesQuery = graphql(`
+  query AnalyticsDeliveryRoutes($from: Date, $to: Date) {
+    dms {
+      deliveryRoutes(from: $from, to: $to) {
+        totalDistanceKm
+        estimatedDurationMinutes
+        actualDurationMinutes
+        status
+      }
+    }
+  }
+`);
