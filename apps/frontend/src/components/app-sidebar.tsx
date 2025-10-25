@@ -75,25 +75,25 @@ const data: SidebarType = {
       name: "Warehouse Management",
       logo: GalleryVerticalEnd,
       urlToMatch: "/dashboard/wms",
-      href: "/dashboard/wms/product",
+      href: "/dashboard/wms/products",
     },
     {
       name: "Billing Management",
       logo: GalleryVerticalEnd,
       urlToMatch: "/dashboard/billing",
-      href: "/dashboard/billing/invoice",
+      href: "/dashboard/billing/invoices",
     },
     {
       name: "Transport Management",
       logo: GalleryVerticalEnd,
       urlToMatch: "/dashboard/tms",
-      href: "/dashboard/tms/trip",
+      href: "/dashboard/tms/trips",
     },
     {
       name: "Delivery Management",
       logo: GalleryVerticalEnd,
       urlToMatch: "/dashboard/dms",
-      href: "/dashboard/dms/deliveryTasks",
+      href: "/dashboard/dms/delivery-tasks",
     },
   ],
   navMain: [
@@ -186,17 +186,17 @@ const data: SidebarType = {
             {
               title: "Inventory Stock",
               icon: ListOrdered,
-              url: "/dashboard/wms/inventoryStocks",
+              url: "/dashboard/wms/inventory-stock",
             },
             {
               title: "Inventory Batch",
               icon: Bot,
-              url: "/dashboard/wms/inventoryBatches",
+              url: "/dashboard/wms/inventory-batches",
             },
             {
               title: "Inventory Adjustment",
               icon: Settings2,
-              url: "/dashboard/wms/inventoryAdjustments",
+              url: "/dashboard/wms/inventory-adjustments",
             },
           ],
         },
@@ -206,7 +206,7 @@ const data: SidebarType = {
             {
               title: "Warehouses",
               icon: Building,
-              url: "/dashboard/wms/warehouse",
+              url: "/dashboard/wms/warehouses",
             },
             {
               title: "Locations",
@@ -221,12 +221,12 @@ const data: SidebarType = {
             {
               title: "Pick Batches",
               icon: PackageSearch,
-              url: "/dashboard/wms/pickBatches",
+              url: "/dashboard/wms/pick-batches",
             },
             {
               title: "Stock Transfers",
               icon: SquareTerminal,
-              url: "/dashboard/wms/stockTransfers",
+              url: "/dashboard/wms/stock-transfers",
             },
             {
               title: "Returns",
@@ -246,17 +246,17 @@ const data: SidebarType = {
             {
               title: "Sales Orders",
               icon: FileText,
-              url: "/dashboard/wms/salesOrders",
+              url: "/dashboard/wms/sales-orders",
             },
             {
               title: "Inbound Shipments",
               icon: TrendingUp,
-              url: "/dashboard/wms/inboundShipments",
+              url: "/dashboard/wms/inbound-shipments",
             },
             {
               title: "Outbound Shipments",
               icon: TrendingUp,
-              url: "/dashboard/wms/outboundShipments",
+              url: "/dashboard/wms/outbound-shipments",
             },
           ],
         },
@@ -266,17 +266,17 @@ const data: SidebarType = {
             {
               title: "Reorder Points",
               icon: AudioWaveform,
-              url: "/dashboard/wms/reorderPoints",
+              url: "/dashboard/wms/reorder-points",
             },
             {
               title: "Bin Thresholds",
               icon: Frame,
-              url: "/dashboard/wms/binThresholds",
+              url: "/dashboard/wms/bin-thresholds",
             },
             {
               title: "Putaway Rules",
               icon: Command,
-              url: "/dashboard/wms/putawayRules",
+              url: "/dashboard/wms/putaway-rules",
             },
           ],
         },
@@ -301,7 +301,7 @@ const data: SidebarType = {
             {
               title: "Credit Notes",
               icon: FileText,
-              url: "/dashboard/billing/creditNotes",
+              url: "/dashboard/billing/credit-notes",
             },
             {
               title: "Quotes",
@@ -316,7 +316,7 @@ const data: SidebarType = {
             {
               title: "Client Accounts",
               icon: User2,
-              url: "/dashboard/billing/clientAccount",
+              url: "/dashboard/billing/client-accounts",
             },
             {
               title: "Disputes",
@@ -331,22 +331,22 @@ const data: SidebarType = {
             {
               title: "Rate Cards",
               icon: FileText,
-              url: "/dashboard/billing/rateCard",
+              url: "/dashboard/billing/rate-cards",
             },
             {
               title: "Rate Rules",
               icon: FileText,
-              url: "/dashboard/billing/rateRule",
+              url: "/dashboard/billing/rate-rules",
             },
             {
               title: "Surcharges",
               icon: FileText,
-              url: "/dashboard/billing/surcharge",
+              url: "/dashboard/billing/surcharges",
             },
             {
               title: "Accounting Sync Logs",
               icon: FileText,
-              url: "/dashboard/billing/accountingSyncLog",
+              url: "/dashboard/billing/accounting-sync-log",
             },
           ],
         },
@@ -371,12 +371,12 @@ const data: SidebarType = {
             {
               title: "Shipment Legs",
               icon: SquareTerminal,
-              url: "/dashboard/tms/shipmentLegs",
+              url: "/dashboard/tms/shipment-legs",
             },
             {
               title: "Proof of Delivery",
               icon: Check,
-              url: "/dashboard/tms/proofOfDeliveries",
+              url: "/dashboard/tms/proof-of-deliveries",
             },
           ],
         },
@@ -386,22 +386,22 @@ const data: SidebarType = {
             {
               title: "Drivers",
               icon: User2,
-              url: "/dashboard/tms/driver",
+              url: "/dashboard/tms/drivers",
             },
             {
               title: "Vehicles",
               icon: Building,
-              url: "/dashboard/tms/vehicle",
+              url: "/dashboard/tms/vehicles",
             },
             {
               title: "GPS Pings",
               icon: Map,
-              url: "/dashboard/tms/gpsPings",
+              url: "/dashboard/tms/gps-pings",
             },
             {
               title: "Geofences",
               icon: Frame,
-              url: "/dashboard/tms/geofence",
+              url: "/dashboard/tms/geofences",
             },
           ],
         },
@@ -411,12 +411,12 @@ const data: SidebarType = {
             {
               title: "Expenses",
               icon: FileText,
-              url: "/dashboard/tms/expense",
+              url: "/dashboard/tms/expenses",
             },
             {
               title: "Partner Invoices",
               icon: FileText,
-              url: "/dashboard/tms/partnerInvoices",
+              url: "/dashboard/tms/partner-invoices",
             },
           ],
         },
@@ -431,27 +431,27 @@ const data: SidebarType = {
             {
               title: "Delivery Tasks",
               icon: Command,
-              url: "/dashboard/dms/deliveryTasks",
+              url: "/dashboard/dms/delivery-tasks",
             },
             {
               title: "Delivery Routes",
               icon: Map,
-              url: "/dashboard/dms/deliveryRoutes",
+              url: "/dashboard/dms/delivery-routes",
             },
             {
               title: "Proof of Delivery",
               icon: Check,
-              url: "/dashboard/dms/proofOfDeliveries",
+              url: "/dashboard/dms/proof-of-deliveries",
             },
             {
               title: "Task Events",
               icon: ListOrdered,
-              url: "/dashboard/dms/taskEvents",
+              url: "/dashboard/dms/task-events",
             },
             {
               title: "Customer Tracking Links",
               icon: Link,
-              url: "/dashboard/dms/customerTrackingLinks",
+              url: "/dashboard/dms/customer-tracking-links",
             },
           ],
         },

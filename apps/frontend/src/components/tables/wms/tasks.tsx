@@ -1,59 +1,89 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { TableTaskQuery } from "@packages/graphql/client/generated/graphql";
+import { format } from "date-fns";
 
 // Extract the task type from the TableTaskQuery
 type Task = NonNullable<TableTaskQuery["wms"]>["tasks"][number];
 
 export const columns: ColumnDef<Task>[] = [
   {
-    accessorKey: "taskNumber",
-    header: "Task Number",
+    header: "Task Details",
+    columns: [
+      {
+        accessorKey: "taskNumber",
+        header: "Task Number",
+      },
+      {
+        accessorKey: "type",
+        header: "Type",
+      },
+      {
+        accessorKey: "status",
+        header: "Status",
+      },
+      {
+        accessorKey: "priority",
+        header: "Priority",
+      },
+      {
+        accessorKey: "startTime",
+        header: "Start Time",
+        cell: ({ row }) => {
+          const startTime = row.getValue("startTime") as string | null;
+          if (!startTime) return "-";
+          return format(new Date(Number(startTime)), "Pp");
+        },
+      },
+      {
+        accessorKey: "endTime",
+        header: "End Time",
+        cell: ({ row }) => {
+          const endTime = row.getValue("endTime") as string | null;
+          if (!endTime) return "-";
+          return format(new Date(Number(endTime)), "Pp");
+        },
+      },
+      {
+        accessorKey: "createdAt",
+        header: "Created At",
+        cell: ({ row }) => {
+          const createdAt = row.getValue("createdAt") as string | null;
+          if (!createdAt) return "-";
+          return format(new Date(Number(createdAt)), "PPP");
+        },
+      },
+    ],
   },
   {
-    accessorKey: "type",
-    header: "Type",
+    id: "user",
+    header: "User Information",
+    columns: [
+      {
+        accessorKey: "user.name",
+        header: "Name",
+        accessorFn: (row) => row.user?.name,
+      },
+      {
+        accessorKey: "user.email",
+        header: "Email",
+        accessorFn: (row) => row.user?.email,
+      },
+    ],
   },
   {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
-    accessorKey: "priority",
-    header: "Priority",
-  },
-  {
-    accessorKey: "user.name",
-    header: "Assigned To",
-  },
-  {
-    accessorKey: "warehouse.name",
-    header: "Warehouse",
-  },
-  {
-    accessorKey: "startTime",
-    header: "Start Time",
-    cell: ({ row }) => {
-      const startTime = row.getValue("startTime") as string | null;
-      if (!startTime) return "-";
-      return new Date(startTime).toLocaleString();
-    },
-  },
-  {
-    accessorKey: "endTime",
-    header: "End Time",
-    cell: ({ row }) => {
-      const endTime = row.getValue("endTime") as string | null;
-      if (!endTime) return "-";
-      return new Date(endTime).toLocaleString();
-    },
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Created",
-    cell: ({ row }) => {
-      const createdAt = row.getValue("createdAt") as string | null;
-      if (!createdAt) return "-";
-      return new Date(createdAt).toLocaleDateString();
-    },
+    id: "warehouse",
+    header: "Warehouse Information",
+    columns: [
+      {
+        accessorKey: "warehouse.name",
+        header: "Name",
+        accessorFn: (row) => row.warehouse?.name,
+      },
+      {
+        accessorKey: "warehouse.city",
+        header: "City",
+        accessorFn: (row) => row.warehouse?.city,
+      },
+    ],
   },
 ];

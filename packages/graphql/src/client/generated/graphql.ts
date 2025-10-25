@@ -9229,8 +9229,8 @@ export const TableCaseDocument = new TypedDocumentString(`
     query TableCase($page: Int, $perPage: Int, $priority: CasePriority, $status: CaseStatus, $type: CaseType) {
   crm {
     cases(
-      perPage: $page
-      page: $perPage
+      perPage: $perPage
+      page: $page
       priority: $priority
       status: $status
       type: $type

@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { execute } from "@packages/graphql/client";
 import { TableCampaignQuery } from "@packages/graphql/client/generated/graphql";
+import { format } from "date-fns";
 
 type Campaign = NonNullable<TableCampaignQuery["crm"]>["campaigns"][number];
 
@@ -27,7 +27,7 @@ export const columns: ColumnDef<Campaign>[] = [
     cell: ({ row }) => {
       const startDate = row.getValue("startDate") as string | null;
       if (!startDate) return "-";
-      return new Date(startDate).toLocaleDateString();
+      return format(new Date(Number(startDate)), "PPP");
     },
   },
   {
@@ -36,16 +36,16 @@ export const columns: ColumnDef<Campaign>[] = [
     cell: ({ row }) => {
       const endDate = row.getValue("endDate") as string | null;
       if (!endDate) return "-";
-      return new Date(endDate).toLocaleDateString();
+      return format(new Date(Number(endDate)), "PPP");
     },
   },
   {
     accessorKey: "createdAt",
-    header: "Created",
+    header: "Created At",
     cell: ({ row }) => {
       const createdAt = row.getValue("createdAt") as string | null;
       if (!createdAt) return "-";
-      return new Date(createdAt).toLocaleDateString();
+      return format(new Date(Number(createdAt)), "PPP");
     },
   },
 ];

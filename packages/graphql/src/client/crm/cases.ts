@@ -41,8 +41,8 @@ export const TableCaseQuery = graphql(`
   ) {
     crm {
       cases(
-        perPage: $page
-        page: $perPage
+        perPage: $perPage
+        page: $page
         priority: $priority
         status: $status
         type: $type
