@@ -7,13 +7,6 @@ import {
   FieldError,
   FieldLabel,
 } from "@/components/ui/field";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { AsyncSelect } from "@/components/ui/async-select";
 
 export type AsyncSelectFieldProps = {

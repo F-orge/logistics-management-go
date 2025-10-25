@@ -7,6 +7,8 @@ import SelectField from "./fields/select-field";
 import SliderField from "./fields/slider-field";
 import SwitchField from "./fields/switch-field";
 import TextAreaField from "./fields/textarea-field";
+import { AsyncSelectField } from "./fields/async-select-field";
+import FileField from "./fields/file-field";
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
@@ -23,6 +25,8 @@ export const { useAppForm, withFieldGroup, withForm } = createFormHook({
     SliderField,
     SwitchField,
     TextAreaField,
+    AsyncSelectField,
+    FileField,
   },
   formComponents: {},
 });
