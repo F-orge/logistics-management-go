@@ -71,3 +71,14 @@ export const TableTripQuery = graphql(`
     }
   }
 `);
+
+export const SearchTripsQuery = graphql(`
+  query SearchTrips($search: String!) {
+    tms {
+      trips(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: startLocation
+      }
+    }
+  }
+`);

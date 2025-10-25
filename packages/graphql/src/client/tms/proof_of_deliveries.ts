@@ -93,3 +93,14 @@ export const TableTmsProofOfDeliveryQuery = graphql(`
     }
   }
 `);
+
+export const SearchProofOfDeliveriesQuery = graphql(`
+  query SearchProofOfDeliveries($search: String!) {
+    tms {
+      proofOfDeliveries(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: filePath
+      }
+    }
+  }
+`);

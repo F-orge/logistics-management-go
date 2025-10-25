@@ -76,3 +76,14 @@ export const TableCarrierQuery = graphql(`
     }
   }
 `);
+
+export const SearchCarriersQuery = graphql(`
+  query SearchCarriers($search: String!) {
+    tms {
+      carriers(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

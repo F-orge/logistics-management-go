@@ -71,3 +71,14 @@ export const TablePartnerInvoice = graphql(`
     }
   }
 `);
+
+export const SearchPartnerInvoicesQuery = graphql(`
+  query SearchPartnerInvoices($search: String!) {
+    tms {
+      partnerInvoices(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: invoiceNumber
+      }
+    }
+  }
+`);

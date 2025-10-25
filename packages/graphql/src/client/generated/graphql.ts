@@ -6825,6 +6825,13 @@ export type TableCarrierQueryQueryVariables = Exact<{
 
 export type TableCarrierQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', carriers: Array<{ __typename?: 'Carriers', contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, createdAt?: string | null, id: string, name: string, servicesOffered?: string | null, updatedAt?: string | null, partnerInvoices?: Array<{ __typename?: 'PartnerInvoices', invoiceNumber: string, invoiceDate: string, status?: PartnerInvoiceStatus | null, totalAmount: number, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', status?: ShipmentLegStatus | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, createdAt?: string | null, id: string, status?: OutboundShipmentStatus | null, warehouseId: string } | null } }> | null }> | null, rates?: Array<{ __typename?: 'CarrierRates', destination?: string | null, id: string, origin?: string | null, rate: number, serviceType?: string | null, unit?: CarrierRateUnit | null }> | null }> } | null };
 
+export type SearchCarriersQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCarriersQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', carriers: Array<{ __typename?: 'Carriers', value: string, label: string }> } | null };
+
 export type CreateDriverScheduleMutationVariables = Exact<{
   driverSchedule: CreateDriverScheduleInput;
 }>;
@@ -6879,6 +6886,13 @@ export type TableDriverQueryVariables = Exact<{
 
 export type TableDriverQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', contactPhone?: string | null, createdAt?: string | null, id: string, licenseExpiryDate?: string | null, licenseNumber: string, status?: DriverStatus | null, updatedAt?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
 
+export type SearchDriversQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchDriversQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', value: string, label: string }> } | null };
+
 export type CreateExpenseMutationVariables = Exact<{
   expense: CreateExpenseInput;
 }>;
@@ -6912,6 +6926,13 @@ export type TableExpenseQueryVariables = Exact<{
 
 
 export type TableExpenseQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', amount: number, createdAt?: string | null, currency?: Currency | null, description?: string | null, expenseDate?: string | null, fuelQuantity?: number | null, id: string, odometerReading?: number | null, receiptUrl?: string | null, status?: ExpenseStatus | null, type?: ExpenseType | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, trip?: { __typename?: 'Trips', createdAt?: string | null, endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, startTime?: string | null, endTime?: string | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, model?: string | null, make?: string | null, id: string, registrationNumber: string } | null } | null }> } | null };
+
+export type SearchExpensesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchExpensesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', value: string, label?: string | null }> } | null };
 
 export type CreateGeofenceEventMutationVariables = Exact<{
   geofenceEvent: CreateGeofenceEventInput;
@@ -6965,6 +6986,13 @@ export type TableGeofenceQueryVariables = Exact<{
 
 
 export type TableGeofenceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', geofences: Array<{ __typename?: 'Geofences', createdAt?: string | null, id: string, latitude?: number | null, longitude?: number | null, name: string, updatedAt?: string | null, events?: Array<{ __typename?: 'GeofenceEvents', eventType: GeofenceEventType, id: string, timestamp: string, vehicle: { __typename?: 'Vehicles', model?: string | null, vin?: string | null, year?: number | null, registrationNumber: string, make?: string | null, id: string } }> | null }> } | null };
+
+export type SearchGeofencesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchGeofencesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', geofences: Array<{ __typename?: 'Geofences', value: string, label: string }> } | null };
 
 export type CreateGpsPingMutationVariables = Exact<{
   gpsPing: CreateGpsPingInput;
@@ -7050,6 +7078,13 @@ export type TablePartnerInvoiceQueryVariables = Exact<{
 
 export type TablePartnerInvoiceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', createdAt?: string | null, id: string, invoiceDate: string, invoiceNumber: string, status?: PartnerInvoiceStatus | null, totalAmount: number, updatedAt?: string | null, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', startLocation?: string | null, endLocation?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null } | null } }> | null }> } | null };
 
+export type SearchPartnerInvoicesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchPartnerInvoicesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', value: string, label: string }> } | null };
+
 export type CreateProofOfDeliveryMutationVariables = Exact<{
   proofOfDelivery: CreateProofOfDeliveryInput;
 }>;
@@ -7081,6 +7116,13 @@ export type TableTmsProofOfDeliveryQueryVariables = Exact<{
 
 
 export type TableTmsProofOfDeliveryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', createdAt?: string | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, timestamp: string, type?: ProofType | null, updatedAt?: string | null, tripStop: { __typename?: 'TripStops', actualArrivalTime?: string | null, actualDepartureTime?: string | null, address?: string | null, status?: TripStopStatus | null, id: string, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, status?: OutboundShipmentStatus | null, carrier?: string | null, id: string } | null, trip: { __typename?: 'Trips', endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, vehicle?: { __typename?: 'Vehicles', registrationNumber: string, vin?: string | null, year?: number | null, make?: string | null, model?: string | null, gpsPings?: Array<{ __typename?: 'GpsPings', latitude: number, longitude: number, timestamp: string, id: string }> | null } | null } } }> } | null };
+
+export type SearchProofOfDeliveriesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchProofOfDeliveriesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', value: string, label?: string | null }> } | null };
 
 export type CreateRouteMutationVariables = Exact<{
   route: CreateRouteInput;
@@ -7167,6 +7209,13 @@ export type TableShipmentLegQueryQueryVariables = Exact<{
 
 export type TableShipmentLegQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', createdAt?: string | null, endLocation?: string | null, id: string, legSequence: number, startLocation?: string | null, status?: ShipmentLegStatus | null, updatedAt?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, status?: OutboundShipmentStatus | null } | null, partnerInvoiceItems?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string }> | null, events?: Array<{ __typename?: 'ShipmentLegEvents', location?: string | null, statusMessage?: string | null, eventTimestamp: string, id: string }> | null }> } | null };
 
+export type SearchShipmentLegsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchShipmentLegsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', value: string, label?: string | null }> } | null };
+
 export type CreateTripStopMutationVariables = Exact<{
   tripStop: CreateTripStopInput;
 }>;
@@ -7221,6 +7270,13 @@ export type TableTripQueryVariables = Exact<{
 
 export type TableTripQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', createdAt?: string | null, endLocation?: string | null, endTime?: string | null, id: string, startLocation?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null } | null }> } | null };
 
+export type SearchTripsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchTripsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', value: string, label?: string | null }> } | null };
+
 export type CreateVehicleMaintenanceMutationVariables = Exact<{
   vehicleMaintenance: CreateVehicleMaintenanceInput;
 }>;
@@ -7274,6 +7330,13 @@ export type TableVehicleQueryVariables = Exact<{
 
 
 export type TableVehicleQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, createdAt?: string | null, currentMileage?: number | null, id: string, lastMaintenanceDate?: string | null, make?: string | null, model?: string | null, registrationNumber: string, status?: VehicleStatus | null, updatedAt?: string | null, vin?: string | null, year?: number | null, maintenances?: Array<{ __typename?: 'VehicleMaintenance', cost?: number | null, createdAt?: string | null, id: string, notes?: string | null, serviceDate: string, serviceType?: VehicleServiceType | null, updatedAt?: string | null }> | null }> } | null };
+
+export type SearchVehiclesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchVehiclesQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', value: string, label: string }> } | null };
 
 export type CreateBinThresholdMutationVariables = Exact<{
   binThreshold: CreateBinThresholdInput;
@@ -7389,6 +7452,13 @@ export type TableInventoryAdjustmentQueryVariables = Exact<{
 
 
 export type TableInventoryAdjustmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', createdAt?: string | null, id: string, notes?: string | null, quantityChange: number, reason?: InventoryAdjustmentReason | null, updatedAt?: string | null, warehouseId: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string }, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> } | null };
+
+export type SearchInventoryAdjustmentsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchInventoryAdjustmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', value: string, label?: string | null }> } | null };
 
 export type CreateInventoryBatchMutationVariables = Exact<{
   inventoryBatch: CreateInventoryBatchInput;
@@ -10131,6 +10201,16 @@ export const TableCarrierQueryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableCarrierQueryQuery, TableCarrierQueryQueryVariables>;
+export const SearchCarriersDocument = new TypedDocumentString(`
+    query SearchCarriers($search: String!) {
+  tms {
+    carriers(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchCarriersQuery, SearchCarriersQueryVariables>;
 export const CreateDriverScheduleDocument = new TypedDocumentString(`
     mutation CreateDriverSchedule($driverSchedule: CreateDriverScheduleInput!) {
   tms {
@@ -10208,6 +10288,16 @@ export const TableDriverDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableDriverQuery, TableDriverQueryVariables>;
+export const SearchDriversDocument = new TypedDocumentString(`
+    query SearchDrivers($search: String!) {
+  tms {
+    drivers(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: licenseNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchDriversQuery, SearchDriversQueryVariables>;
 export const CreateExpenseDocument = new TypedDocumentString(`
     mutation CreateExpense($expense: CreateExpenseInput!) {
   tms {
@@ -10290,6 +10380,16 @@ export const TableExpenseDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableExpenseQuery, TableExpenseQueryVariables>;
+export const SearchExpensesDocument = new TypedDocumentString(`
+    query SearchExpenses($search: String!) {
+  tms {
+    expenses(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: description
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchExpensesQuery, SearchExpensesQueryVariables>;
 export const CreateGeofenceEventDocument = new TypedDocumentString(`
     mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {
   tms {
@@ -10373,6 +10473,16 @@ export const TableGeofenceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableGeofenceQuery, TableGeofenceQueryVariables>;
+export const SearchGeofencesDocument = new TypedDocumentString(`
+    query SearchGeofences($search: String!) {
+  tms {
+    geofences(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchGeofencesQuery, SearchGeofencesQueryVariables>;
 export const CreateGpsPingDocument = new TypedDocumentString(`
     mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {
   tms {
@@ -10510,6 +10620,16 @@ export const TablePartnerInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TablePartnerInvoiceQuery, TablePartnerInvoiceQueryVariables>;
+export const SearchPartnerInvoicesDocument = new TypedDocumentString(`
+    query SearchPartnerInvoices($search: String!) {
+  tms {
+    partnerInvoices(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: invoiceNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchPartnerInvoicesQuery, SearchPartnerInvoicesQueryVariables>;
 export const CreateProofOfDeliveryDocument = new TypedDocumentString(`
     mutation CreateProofOfDelivery($proofOfDelivery: CreateProofOfDeliveryInput!) {
   tms {
@@ -10585,6 +10705,16 @@ export const TableTmsProofOfDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableTmsProofOfDeliveryQuery, TableTmsProofOfDeliveryQueryVariables>;
+export const SearchProofOfDeliveriesDocument = new TypedDocumentString(`
+    query SearchProofOfDeliveries($search: String!) {
+  tms {
+    proofOfDeliveries(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: filePath
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchProofOfDeliveriesQuery, SearchProofOfDeliveriesQueryVariables>;
 export const CreateRouteDocument = new TypedDocumentString(`
     mutation CreateRoute($route: CreateRouteInput!) {
   tms {
@@ -10731,6 +10861,16 @@ export const TableShipmentLegQueryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableShipmentLegQueryQuery, TableShipmentLegQueryQueryVariables>;
+export const SearchShipmentLegsDocument = new TypedDocumentString(`
+    query SearchShipmentLegs($search: String!) {
+  tms {
+    shipmentLegs(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: startLocation
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchShipmentLegsQuery, SearchShipmentLegsQueryVariables>;
 export const CreateTripStopDocument = new TypedDocumentString(`
     mutation CreateTripStop($tripStop: CreateTripStopInput!) {
   tms {
@@ -10822,6 +10962,16 @@ export const TableTripDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableTripQuery, TableTripQueryVariables>;
+export const SearchTripsDocument = new TypedDocumentString(`
+    query SearchTrips($search: String!) {
+  tms {
+    trips(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: startLocation
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchTripsQuery, SearchTripsQueryVariables>;
 export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
     mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {
   tms {
@@ -10908,6 +11058,16 @@ export const TableVehicleDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableVehicleQuery, TableVehicleQueryVariables>;
+export const SearchVehiclesDocument = new TypedDocumentString(`
+    query SearchVehicles($search: String!) {
+  tms {
+    vehicles(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: registrationNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchVehiclesQuery, SearchVehiclesQueryVariables>;
 export const CreateBinThresholdDocument = new TypedDocumentString(`
     mutation CreateBinThreshold($binThreshold: CreateBinThresholdInput!) {
   wms {
@@ -11099,6 +11259,16 @@ export const TableInventoryAdjustmentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInventoryAdjustmentQuery, TableInventoryAdjustmentQueryVariables>;
+export const SearchInventoryAdjustmentsDocument = new TypedDocumentString(`
+    query SearchInventoryAdjustments($search: String!) {
+  wms {
+    inventoryAdjustments(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: notes
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchInventoryAdjustmentsQuery, SearchInventoryAdjustmentsQueryVariables>;
 export const CreateInventoryBatchDocument = new TypedDocumentString(`
     mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {
   wms {

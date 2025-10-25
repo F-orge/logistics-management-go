@@ -75,3 +75,14 @@ export const TableInventoryAdjustmentQuery = graphql(`
     }
   }
 `);
+
+export const SearchInventoryAdjustmentsQuery = graphql(`
+  query SearchInventoryAdjustments($search: String!) {
+    wms {
+      inventoryAdjustments(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: notes
+      }
+    }
+  }
+`);

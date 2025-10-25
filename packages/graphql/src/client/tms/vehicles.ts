@@ -71,3 +71,14 @@ export const TableVehicleQuery = graphql(`
     }
   }
 `);
+
+export const SearchVehiclesQuery = graphql(`
+  query SearchVehicles($search: String!) {
+    tms {
+      vehicles(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: registrationNumber
+      }
+    }
+  }
+`);

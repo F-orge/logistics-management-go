@@ -71,3 +71,14 @@ export const TableShipmentLegQuery = graphql(`
     }
   }
 `);
+
+export const SearchShipmentLegsQuery = graphql(`
+  query SearchShipmentLegs($search: String!) {
+    tms {
+      shipmentLegs(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: startLocation
+      }
+    }
+  }
+`);

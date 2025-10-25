@@ -62,3 +62,14 @@ export const TableDriverQuery = graphql(`
     }
   }
 `);
+
+export const SearchDriversQuery = graphql(`
+  query SearchDrivers($search: String!) {
+    tms {
+      drivers(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: licenseNumber
+      }
+    }
+  }
+`);

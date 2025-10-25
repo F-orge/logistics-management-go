@@ -58,3 +58,14 @@ export const TableGeofenceQuery = graphql(`
     }
   }
 `);
+
+export const SearchGeofencesQuery = graphql(`
+  query SearchGeofences($search: String!) {
+    tms {
+      geofences(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

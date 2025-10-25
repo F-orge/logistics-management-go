@@ -92,3 +92,14 @@ export const TableExpenseQuery = graphql(`
     }
   }
 `);
+
+export const SearchExpensesQuery = graphql(`
+  query SearchExpenses($search: String!) {
+    tms {
+      expenses(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: description
+      }
+    }
+  }
+`);

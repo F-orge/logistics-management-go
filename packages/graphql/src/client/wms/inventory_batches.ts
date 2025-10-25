@@ -62,3 +62,14 @@ export const TableInventoryBatchQuery = graphql(`
     }
   }
 `);
+
+export const SearchInventoryBatchesQuery = graphql(`
+  query SearchInventoryBatches($search: String!) {
+    wms {
+      inventoryBatches(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: batchNumber
+      }
+    }
+  }
+`);
