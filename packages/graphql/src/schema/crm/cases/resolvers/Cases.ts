@@ -7,7 +7,7 @@ export const Cases: CasesResolvers = {
       .selectAll("crm.contacts")
       .innerJoin("crm.cases", "crm.cases.contactId", "crm.contacts.id")
       .where("crm.cases.id", "=", parent.id as string)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirst();
 
     return result as unknown as Contacts;
   },

@@ -2760,6 +2760,7 @@ export type Opportunities = {
 
 export type OpportunityProducts = {
   __typename?: 'OpportunityProducts';
+  id: Scalars['ID']['output'];
   opportunity: Opportunities;
   product: Products;
   quantity: Scalars['Int']['output'];
@@ -4806,6 +4807,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
@@ -7140,6 +7142,7 @@ export type OpportunitiesResolvers<ContextType = GraphQLContext, ParentType exte
 };
 
 export type OpportunityProductsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['OpportunityProducts'] = ResolversParentTypes['OpportunityProducts']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   opportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['Products'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -7745,6 +7748,7 @@ export type TripsResolvers<ContextType = GraphQLContext, ParentType extends Reso
 export type UserResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };

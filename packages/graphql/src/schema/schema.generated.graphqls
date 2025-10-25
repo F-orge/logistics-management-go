@@ -1780,6 +1780,7 @@ type Opportunities {
 }
 
 type OpportunityProducts {
+  id: ID!
   opportunity: Opportunities!
   product: Products!
   quantity: Int!
@@ -3371,6 +3372,7 @@ input UpdateWmsProductInput {
 type User {
   email: String!
   emailVerified: Boolean!
+  id: ID!
   image: String
   name: String!
 }

@@ -2782,6 +2782,7 @@ export type Opportunities = {
 
 export type OpportunityProducts = {
   __typename?: 'OpportunityProducts';
+  id: Scalars['ID']['output'];
   opportunity: Opportunities;
   product: Products;
   quantity: Scalars['Int']['output'];
@@ -4858,6 +4859,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };
@@ -6036,6 +6038,15 @@ export type RemoveCampaignMutationVariables = Exact<{
 
 export type RemoveCampaignMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeCampaign: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableCampaignQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableCampaignQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', budget?: number | null, createdAt?: string | null, endDate?: string | null, id: string, name: string, startDate?: string | null, updatedAt?: string | null }> } | null };
+
 export type CreateCaseMutationVariables = Exact<{
   case: CreateCaseInput;
 }>;
@@ -6057,6 +6068,17 @@ export type RemoveCaseMutationVariables = Exact<{
 
 
 export type RemoveCaseMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeCase: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableCaseQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  priority?: InputMaybe<CasePriority>;
+  status?: InputMaybe<CaseStatus>;
+  type?: InputMaybe<CaseType>;
+}>;
+
+
+export type TableCaseQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', caseNumber: string, createdAt?: string | null, description?: string | null, id: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null, updatedAt?: string | null, contact?: { __typename?: 'Contacts', id: string, email: string, name: string, phoneNumber?: string | null, jobTitle?: string | null } | null, owner: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } }> } | null };
 
 export type CreateCompanyMutationVariables = Exact<{
   company: CreateCompanyInput;
@@ -6111,6 +6133,15 @@ export type RemoveContactMutationVariables = Exact<{
 
 export type RemoveContactMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeContact: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableContactQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableContactQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', contacts: Array<{ __typename?: 'Contacts', createdAt?: string | null, email: string, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, owner: { __typename?: 'User', id: string, email: string, image?: string | null, name: string }, company?: { __typename?: 'Companies', id: string, phoneNumber?: string | null, name: string, industry?: string | null, website?: string | null } | null }> } | null };
+
 export type CreateInteractionMutationVariables = Exact<{
   interaction: CreateInteractionInput;
 }>;
@@ -6132,6 +6163,16 @@ export type RemoveInteractionMutationVariables = Exact<{
 
 
 export type RemoveInteractionMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInteraction: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableInteractionQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  interactionType?: InputMaybe<InteractionType>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableInteractionQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', interactions: Array<{ __typename?: 'Interactions', createdAt?: string | null, id: string, interactionDate?: string | null, notes?: string | null, outcome?: string | null, type?: InteractionType | null, updatedAt?: string | null, user: { __typename?: 'User', id: string, email: string, image?: string | null, name: string }, case?: { __typename?: 'Cases', id: string, caseNumber: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null } | null, contact: { __typename?: 'Contacts', id: string, name: string, email: string, jobTitle?: string | null, phoneNumber?: string | null } }> } | null };
 
 export type CreateInvoiceItemMutationVariables = Exact<{
   invoiceItem: CreateInvoiceItemInput;
@@ -6177,6 +6218,17 @@ export type RemoveInvoiceMutationVariables = Exact<{
 
 export type RemoveInvoiceMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableInvoiceQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  paymentMethod?: InputMaybe<CrmInvoicePaymentMethod>;
+  status?: InputMaybe<InvoiceStatus>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableInvoiceQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', createdAt?: string | null, dueDate?: string | null, id: string, issueDate?: string | null, paidAt?: string | null, paymentMethod?: PaymentMethod | null, sentAt?: string | null, status?: InvoiceStatus | null, total?: number | null, updatedAt?: string | null, items?: Array<{ __typename?: 'InvoiceItems', price: number, quantity: number, updatedAt?: string | null, id: string, createdAt?: string | null, product: { __typename?: 'Products', name: string, price: number, type?: ProductType | null, sku?: string | null, id: string, description?: string | null } }> | null, opportunity?: { __typename?: 'Opportunities', name: string, stage?: OpportunityStage | null, id: string, expectedCloseDate?: string | null, dealValue?: number | null } | null }> } | null };
+
 export type CreateLeadMutationVariables = Exact<{
   lead: CreateLeadInput;
 }>;
@@ -6198,6 +6250,17 @@ export type RemoveLeadMutationVariables = Exact<{
 
 
 export type RemoveLeadMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeLead: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableLeadQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<LeadStatus>;
+  source?: InputMaybe<LeadSource>;
+}>;
+
+
+export type TableLeadQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', convertedAt?: string | null, createdAt?: string | null, email: string, leadScore?: number | null, leadSource?: LeadSource | null, name: string, id: string, status?: LeadStatus | null, updatedAt?: string | null, owner: { __typename?: 'User', id: string, email: string, image?: string | null, name: string }, campaign?: { __typename?: 'Campaigns', name: string, endDate?: string | null, startDate?: string | null, budget?: number | null } | null, convertedCompany?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, website?: string | null, id: string } | null, convertedContact?: { __typename?: 'Contacts', email: string, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string } | null } | null, convertedOpportunity?: { __typename?: 'Opportunities', name: string, dealValue?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null } | null }> } | null };
 
 export type CreateNotificationMutationVariables = Exact<{
   notification: CreateNotificationInput;
@@ -6221,6 +6284,15 @@ export type RemoveNotificationMutationVariables = Exact<{
 
 export type RemoveNotificationMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeNotification: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableNotificationQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableNotificationQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', notifications: Array<{ __typename?: 'Notifications', createdAt?: string | null, id: string, isRead?: boolean | null, link?: string | null, message: string, updatedAt?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
+
 export type CreateOpportunityMutationVariables = Exact<{
   opportunity: CreateOpportunityInput;
 }>;
@@ -6242,6 +6314,17 @@ export type RemoveOpportunityMutationVariables = Exact<{
 
 
 export type RemoveOpportunityMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeOpportunity: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableOpportunityQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<OpportunitySource>;
+  stage?: InputMaybe<OpportunityStage>;
+}>;
+
+
+export type TableOpportunityQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', createdAt?: string | null, dealValue?: number | null, expectedCloseDate?: string | null, id: string, lostReason?: string | null, name: string, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string, country?: string | null, phoneNumber?: string | null } | null, contact?: { __typename?: 'Contacts', email: string, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null } | null } | null, owner: { __typename?: 'User', email: string, id: string, image?: string | null, name: string }, products?: Array<{ __typename?: 'OpportunityProducts', quantity: number, product: { __typename?: 'Products', id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, description?: string | null } }> | null, campaign?: { __typename?: 'Campaigns', name: string, budget?: number | null, endDate?: string | null, startDate?: string | null, id: string } | null }> } | null };
 
 export type CreateOpportunityProductMutationVariables = Exact<{
   opportunityProduct: CreateOpportunityProductInput;
@@ -6288,6 +6371,16 @@ export type RemoveProductMutationVariables = Exact<{
 
 
 export type RemoveProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeProduct: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableProductQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ProductType>;
+}>;
+
+
+export type TableProductQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', createdAt?: string | null, description?: string | null, id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, updatedAt?: string | null }> } | null };
 
 export type CreateCustomerTrackingLinkMutationVariables = Exact<{
   customerTrackingLink: CreateCustomerTrackingLinkInput;
@@ -7750,6 +7843,21 @@ export const RemoveCampaignDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveCampaignMutation, RemoveCampaignMutationVariables>;
+export const TableCampaignDocument = new TypedDocumentString(`
+    query TableCampaign($page: Int, $perPage: Int, $search: String) {
+  crm {
+    campaigns(page: $page, perPage: $perPage, search: $search) {
+      budget
+      createdAt
+      endDate
+      id
+      name
+      startDate
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableCampaignQuery, TableCampaignQueryVariables>;
 export const CreateCaseDocument = new TypedDocumentString(`
     mutation CreateCase($case: CreateCaseInput!) {
   crm {
@@ -7778,6 +7886,41 @@ export const RemoveCaseDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveCaseMutation, RemoveCaseMutationVariables>;
+export const TableCaseDocument = new TypedDocumentString(`
+    query TableCase($page: Int, $perPage: Int, $priority: CasePriority, $status: CaseStatus, $type: CaseType) {
+  crm {
+    cases(
+      perPage: $page
+      page: $perPage
+      priority: $priority
+      status: $status
+      type: $type
+    ) {
+      caseNumber
+      createdAt
+      description
+      id
+      priority
+      status
+      type
+      updatedAt
+      contact {
+        id
+        email
+        name
+        phoneNumber
+        jobTitle
+      }
+      owner {
+        id
+        email
+        image
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableCaseQuery, TableCaseQueryVariables>;
 export const CreateCompanyDocument = new TypedDocumentString(`
     mutation CreateCompany($company: CreateCompanyInput!) {
   crm {
@@ -7865,6 +8008,34 @@ export const RemoveContactDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveContactMutation, RemoveContactMutationVariables>;
+export const TableContactDocument = new TypedDocumentString(`
+    query TableContact($page: Int, $perPage: Int, $search: String) {
+  crm {
+    contacts(page: $page, perPage: $perPage, search: $search) {
+      createdAt
+      email
+      id
+      jobTitle
+      name
+      phoneNumber
+      updatedAt
+      owner {
+        id
+        email
+        image
+        name
+      }
+      company {
+        id
+        phoneNumber
+        name
+        industry
+        website
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableContactQuery, TableContactQueryVariables>;
 export const CreateInteractionDocument = new TypedDocumentString(`
     mutation CreateInteraction($interaction: CreateInteractionInput!) {
   crm {
@@ -7893,6 +8064,46 @@ export const RemoveInteractionDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInteractionMutation, RemoveInteractionMutationVariables>;
+export const TableInteractionDocument = new TypedDocumentString(`
+    query TableInteraction($page: Int, $perPage: Int, $interactionType: InteractionType, $search: String) {
+  crm {
+    interactions(
+      interactionType: $interactionType
+      page: $page
+      perPage: $perPage
+      search: $search
+    ) {
+      createdAt
+      id
+      interactionDate
+      notes
+      outcome
+      type
+      updatedAt
+      user {
+        id
+        email
+        image
+        name
+      }
+      case {
+        id
+        caseNumber
+        priority
+        status
+        type
+      }
+      contact {
+        id
+        name
+        email
+        jobTitle
+        phoneNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableInteractionQuery, TableInteractionQueryVariables>;
 export const CreateInvoiceItemDocument = new TypedDocumentString(`
     mutation CreateInvoiceItem($invoiceItem: CreateInvoiceItemInput!) {
   crm {
@@ -7949,6 +8160,52 @@ export const RemoveInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInvoiceMutation, RemoveInvoiceMutationVariables>;
+export const TableInvoiceDocument = new TypedDocumentString(`
+    query TableInvoice($page: Int, $perPage: Int, $paymentMethod: CrmInvoicePaymentMethod, $status: InvoiceStatus, $search: String) {
+  crm {
+    invoices(
+      page: $page
+      paymentMethod: $paymentMethod
+      perPage: $perPage
+      search: $search
+      status: $status
+    ) {
+      createdAt
+      dueDate
+      id
+      issueDate
+      paidAt
+      paymentMethod
+      sentAt
+      status
+      total
+      updatedAt
+      items {
+        price
+        quantity
+        updatedAt
+        id
+        createdAt
+        product {
+          name
+          price
+          type
+          sku
+          id
+          description
+        }
+      }
+      opportunity {
+        name
+        stage
+        id
+        expectedCloseDate
+        dealValue
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableInvoiceQuery, TableInvoiceQueryVariables>;
 export const CreateLeadDocument = new TypedDocumentString(`
     mutation CreateLead($lead: CreateLeadInput!) {
   crm {
@@ -7977,6 +8234,67 @@ export const RemoveLeadDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveLeadMutation, RemoveLeadMutationVariables>;
+export const TableLeadDocument = new TypedDocumentString(`
+    query TableLead($page: Int, $perPage: Int, $search: String, $status: LeadStatus, $source: LeadSource) {
+  crm {
+    leads(
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+      leadSource: $source
+    ) {
+      convertedAt
+      createdAt
+      email
+      leadScore
+      leadSource
+      name
+      id
+      status
+      updatedAt
+      owner {
+        id
+        email
+        image
+        name
+      }
+      campaign {
+        name
+        endDate
+        startDate
+        budget
+      }
+      convertedCompany {
+        name
+        industry
+        phoneNumber
+        website
+        id
+      }
+      convertedContact {
+        email
+        id
+        jobTitle
+        name
+        phoneNumber
+        updatedAt
+        company {
+          name
+          industry
+          id
+        }
+      }
+      convertedOpportunity {
+        name
+        dealValue
+        source
+        stage
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableLeadQuery, TableLeadQueryVariables>;
 export const CreateNotificationDocument = new TypedDocumentString(`
     mutation CreateNotification($notification: CreateNotificationInput!) {
   crm {
@@ -8005,6 +8323,26 @@ export const RemoveNotificationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveNotificationMutation, RemoveNotificationMutationVariables>;
+export const TableNotificationDocument = new TypedDocumentString(`
+    query TableNotification($page: Int, $perPage: Int, $search: String) {
+  crm {
+    notifications(page: $page, perPage: $perPage, search: $search) {
+      createdAt
+      id
+      isRead
+      link
+      message
+      updatedAt
+      user {
+        email
+        id
+        image
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableNotificationQuery, TableNotificationQueryVariables>;
 export const CreateOpportunityDocument = new TypedDocumentString(`
     mutation CreateOpportunity($opportunity: CreateOpportunityInput!) {
   crm {
@@ -8033,6 +8371,75 @@ export const RemoveOpportunityDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveOpportunityMutation, RemoveOpportunityMutationVariables>;
+export const TableOpportunityDocument = new TypedDocumentString(`
+    query TableOpportunity($page: Int, $perPage: Int, $search: String, $source: OpportunitySource, $stage: OpportunityStage) {
+  crm {
+    opportunities(
+      page: $page
+      perPage: $perPage
+      search: $search
+      source: $source
+      stage: $stage
+    ) {
+      createdAt
+      dealValue
+      expectedCloseDate
+      id
+      lostReason
+      name
+      probability
+      source
+      stage
+      updatedAt
+      company {
+        name
+        industry
+        id
+        country
+        phoneNumber
+      }
+      contact {
+        email
+        id
+        jobTitle
+        name
+        phoneNumber
+        updatedAt
+        company {
+          name
+          phoneNumber
+          industry
+          country
+        }
+      }
+      owner {
+        email
+        id
+        image
+        name
+      }
+      products {
+        quantity
+        product {
+          id
+          name
+          price
+          sku
+          type
+          description
+        }
+      }
+      campaign {
+        name
+        budget
+        endDate
+        startDate
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableOpportunityQuery, TableOpportunityQueryVariables>;
 export const CreateOpportunityProductDocument = new TypedDocumentString(`
     mutation CreateOpportunityProduct($opportunityProduct: CreateOpportunityProductInput!) {
   crm {
@@ -8103,6 +8510,22 @@ export const RemoveProductDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveProductMutation, RemoveProductMutationVariables>;
+export const TableProductDocument = new TypedDocumentString(`
+    query TableProduct($page: Int, $perPage: Int, $search: String, $type: ProductType) {
+  crm {
+    products(page: $page, perPage: $perPage, search: $search, type: $type) {
+      createdAt
+      description
+      id
+      name
+      price
+      sku
+      type
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableProductQuery, TableProductQueryVariables>;
 export const CreateCustomerTrackingLinkDocument = new TypedDocumentString(`
     mutation CreateCustomerTrackingLink($customerTrackingLink: CreateCustomerTrackingLinkInput!) {
   dms {

@@ -30,3 +30,25 @@ export const RemoveProductMutation = graphql(`
     }
   }
 `);
+
+export const TableProductQuery = graphql(`
+  query TableProduct(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $type: ProductType
+  ) {
+    crm {
+      products(page: $page, perPage: $perPage, search: $search, type: $type) {
+        createdAt
+        description
+        id
+        name
+        price
+        sku
+        type
+        updatedAt
+      }
+    }
+  }
+`);

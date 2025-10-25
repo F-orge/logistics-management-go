@@ -30,3 +30,56 @@ export const RemoveInvoiceMutation = graphql(`
     }
   }
 `);
+
+export const TableInvoiceQuery = graphql(`
+  query TableInvoice(
+    $page: Int
+    $perPage: Int
+    $paymentMethod: CrmInvoicePaymentMethod
+    $status: InvoiceStatus
+    $search: String
+  ) {
+    crm {
+      invoices(
+        page: $page
+        paymentMethod: $paymentMethod
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        createdAt
+        dueDate
+        id
+        issueDate
+        paidAt
+        paymentMethod
+        sentAt
+        status
+        total
+        updatedAt
+        items {
+          price
+          quantity
+          updatedAt
+          id
+          createdAt
+          product {
+            name
+            price
+            type
+            sku
+            id
+            description
+          }
+        }
+        opportunity {
+          name
+          stage
+          id
+          expectedCloseDate
+          dealValue
+        }
+      }
+    }
+  }
+`);

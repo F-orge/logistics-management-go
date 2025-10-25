@@ -10,7 +10,7 @@ export const OpportunityProducts: OpportunityProductsResolvers = {
         "crm.opportunityProducts.opportunityId",
         "crm.opportunities.id"
       )
-      .where("crm.opportunityProducts.id", "=", parent.opportunity.id as string)
+      .where("crm.opportunityProducts.id", "=", parent.id as string)
       .executeTakeFirst();
 
     return result as unknown as Opportunities;
@@ -24,7 +24,7 @@ export const OpportunityProducts: OpportunityProductsResolvers = {
         "crm.opportunityProducts.productId",
         "crm.products.id"
       )
-      .where("crm.opportunityProducts.id", "=", parent.product.id as string)
+      .where("crm.opportunityProducts.id", "=", parent.id as string)
       .executeTakeFirst();
 
     return result as unknown as Products;

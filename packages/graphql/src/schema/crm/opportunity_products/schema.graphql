@@ -1,4 +1,5 @@
 type OpportunityProducts {
+  id: ID!
   opportunity: Opportunities!
   product: Products!
   quantity: Int!

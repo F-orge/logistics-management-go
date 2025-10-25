@@ -30,3 +30,49 @@ export const RemoveInteractionMutation = graphql(`
     }
   }
 `);
+
+export const TableInteractionQuery = graphql(`
+  query TableInteraction(
+    $page: Int
+    $perPage: Int
+    $interactionType: InteractionType
+    $search: String
+  ) {
+    crm {
+      interactions(
+        interactionType: $interactionType
+        page: $page
+        perPage: $perPage
+        search: $search
+      ) {
+        createdAt
+        id
+        interactionDate
+        notes
+        outcome
+        type
+        updatedAt
+        user {
+          id
+          email
+          image
+          name
+        }
+        case {
+          id
+          caseNumber
+          priority
+          status
+          type
+        }
+        contact {
+          id
+          name
+          email
+          jobTitle
+          phoneNumber
+        }
+      }
+    }
+  }
+`);

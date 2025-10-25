@@ -30,3 +30,79 @@ export const RemoveOpportunityMutation = graphql(`
     }
   }
 `);
+
+export const TableOpportunityQuery = graphql(`
+  query TableOpportunity(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $source: OpportunitySource
+    $stage: OpportunityStage
+  ) {
+    crm {
+      opportunities(
+        page: $page
+        perPage: $perPage
+        search: $search
+        source: $source
+        stage: $stage
+      ) {
+        createdAt
+        dealValue
+        expectedCloseDate
+        id
+        lostReason
+        name
+        probability
+        source
+        stage
+        updatedAt
+        company {
+          name
+          industry
+          id
+          country
+          phoneNumber
+        }
+        contact {
+          email
+          id
+          jobTitle
+          name
+          phoneNumber
+          updatedAt
+          company {
+            name
+            phoneNumber
+            industry
+            country
+          }
+        }
+        owner {
+          email
+          id
+          image
+          name
+        }
+        products {
+          quantity
+          product {
+            id
+            name
+            price
+            sku
+            type
+            description
+          }
+        }
+        campaign {
+          name
+          budget
+          endDate
+          startDate
+          id
+        }
+      }
+    }
+  }
+`);

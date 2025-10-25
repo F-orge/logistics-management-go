@@ -30,3 +30,71 @@ export const RemoveLeadMutation = graphql(`
     }
   }
 `);
+
+export const TableLeadQuery = graphql(`
+  query TableLead(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: LeadStatus
+    $source: LeadSource
+  ) {
+    crm {
+      leads(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+        leadSource: $source
+      ) {
+        convertedAt
+        createdAt
+        email
+        leadScore
+        leadSource
+        name
+        id
+        status
+        updatedAt
+        owner {
+          id
+          email
+          image
+          name
+        }
+        campaign {
+          name
+          endDate
+          startDate
+          budget
+        }
+        convertedCompany {
+          name
+          industry
+          phoneNumber
+          website
+          id
+        }
+        convertedContact {
+          email
+          id
+          jobTitle
+          name
+          phoneNumber
+          updatedAt
+          company {
+            name
+            industry
+            id
+          }
+        }
+        convertedOpportunity {
+          name
+          dealValue
+          source
+          stage
+        }
+      }
+    }
+  }
+`);

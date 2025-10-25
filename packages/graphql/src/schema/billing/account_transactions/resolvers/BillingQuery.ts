@@ -1,10 +1,7 @@
 import { BillingTransactionTypeEnum } from "../../../../db.types";
 import { AccountTransactions } from "../../../../zod.schema";
 import type { BillingQueryResolvers } from "./../../../types.generated";
-export const BillingQuery: Pick<
-  BillingQueryResolvers,
-  "accountTransaction" | "accountTransactions"
-> = {
+export const BillingQuery: Pick<BillingQueryResolvers, 'accountTransaction'|'accountTransactions'> = {
   accountTransactions: async (parent, args, ctx) => {
     let query = ctx.db.selectFrom("billing.accountTransactions").selectAll();
 

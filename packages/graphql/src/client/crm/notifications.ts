@@ -33,3 +33,24 @@ export const RemoveNotificationMutation = graphql(`
     }
   }
 `);
+
+export const TableNotificationQuery = graphql(`
+  query TableNotification($page: Int, $perPage: Int, $search: String) {
+    crm {
+      notifications(page: $page, perPage: $perPage, search: $search) {
+        createdAt
+        id
+        isRead
+        link
+        message
+        updatedAt
+        user {
+          email
+          id
+          image
+          name
+        }
+      }
+    }
+  }
+`);

@@ -30,3 +30,19 @@ export const RemoveCampaignMutation = graphql(`
     }
   }
 `);
+
+export const TableCampaignQuery = graphql(`
+  query TableCampaign($page: Int, $perPage: Int, $search: String) {
+    crm {
+      campaigns(page: $page, perPage: $perPage, search: $search) {
+        budget
+        createdAt
+        endDate
+        id
+        name
+        startDate
+        updatedAt
+      }
+    }
+  }
+`);

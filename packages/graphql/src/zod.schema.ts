@@ -2781,6 +2781,7 @@ export type Opportunities = {
 
 export type OpportunityProducts = {
   __typename?: 'OpportunityProducts';
+  id: Scalars['ID']['output'];
   opportunity: Opportunities;
   product: Products;
   quantity: Scalars['Int']['output'];
@@ -4857,6 +4858,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
 };

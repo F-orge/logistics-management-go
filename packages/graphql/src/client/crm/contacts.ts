@@ -30,3 +30,32 @@ export const RemoveContactMutation = graphql(`
     }
   }
 `);
+
+export const TableContactQuery = graphql(`
+  query TableContact($page: Int, $perPage: Int, $search: String) {
+    crm {
+      contacts(page: $page, perPage: $perPage, search: $search) {
+        createdAt
+        email
+        id
+        jobTitle
+        name
+        phoneNumber
+        updatedAt
+        owner {
+          id
+          email
+          image
+          name
+        }
+        company {
+          id
+          phoneNumber
+          name
+          industry
+          website
+        }
+      }
+    }
+  }
+`);

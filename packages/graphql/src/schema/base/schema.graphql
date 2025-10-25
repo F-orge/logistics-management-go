@@ -10,6 +10,7 @@ type DeleteResult {
 }
 
 type User {
+  id: ID!
   name: String!
   email: String!
   emailVerified: Boolean!
