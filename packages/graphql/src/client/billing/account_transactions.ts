@@ -35,3 +35,53 @@ export const RemoveAccountTransactionMutation = graphql(`
     }
   }
 `);
+
+export const AccountTransactionsQuery = graphql(`
+  query AccountTransactions(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $type: TransactionType
+  ) {
+    billing {
+      accountTransactions(
+        page: $page
+        perPage: $perPage
+        search: $search
+        type: $type
+      ) {
+        amount
+        createdAt
+        description
+        id
+        referenceNumber
+        runningBalance
+        sourceRecordId
+        sourceRecordType
+        transactionDate
+        type
+        processedByUser {
+          name
+          image
+          email
+          id
+        }
+        updatedAt
+        clientAccount {
+          availableCredit
+          paymentTermsDays
+          updatedAt
+          walletBalance
+          createdAt
+          client {
+            annualRevenue
+            id
+            industry
+            name
+            phoneNumber
+          }
+        }
+      }
+    }
+  }
+`);

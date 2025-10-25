@@ -30,3 +30,33 @@ export const RemoveSurchargeMutation = graphql(`
     }
   }
 `);
+
+export const TableSurchargeQuery = graphql(`
+  query TableSurcharge(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $calculationMethod: SurchargeCalculationMethod
+  ) {
+    billing {
+      surcharges(
+        page: $page
+        perPage: $perPage
+        search: $search
+        calculationMethod: $calculationMethod
+      ) {
+        amount
+        calculationMethod
+        createdAt
+        description
+        id
+        isActive
+        name
+        type
+        updatedAt
+        validFrom
+        validTo
+      }
+    }
+  }
+`);

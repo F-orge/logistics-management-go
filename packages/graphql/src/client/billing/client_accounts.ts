@@ -33,3 +33,41 @@ export const RemoveClientAccountMutation = graphql(`
     }
   }
 `);
+
+export const TableClientAccountQuery = graphql(`
+  query TableClientAccount($page: Int, $perPage: Int, $search: String) {
+    billing {
+      clientAccounts(page: $page, perPage: $perPage, search: $search) {
+        availableCredit
+        client {
+          annualRevenue
+          country
+          industry
+          name
+          phoneNumber
+          updatedAt
+          website
+        }
+        creditLimit
+        currency
+        isCreditApproved
+        lastPaymentDate
+        paymentTermsDays
+        updatedAt
+        walletBalance
+        id
+        transactions {
+          amount
+          description
+          id
+          referenceNumber
+          runningBalance
+          sourceRecordId
+          sourceRecordType
+          transactionDate
+          type
+        }
+      }
+    }
+  }
+`);

@@ -30,3 +30,48 @@ export const RemoveRateCardMutation = graphql(`
     }
   }
 `);
+
+export const TableRateCardQuery = graphql(`
+  query TableRateCard(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $serviceType: ServiceType
+  ) {
+    billing {
+      rateCards(
+        page: $page
+        perPage: $perPage
+        search: $search
+        serviceType: $serviceType
+      ) {
+        createdAt
+        description
+        id
+        isActive
+        name
+        serviceType
+        updatedAt
+        validFrom
+        validTo
+        createdByUser {
+          email
+          emailVerified
+          image
+          name
+        }
+        rules {
+          condition
+          id
+          isActive
+          maxValue
+          minValue
+          price
+          pricingModel
+          priority
+          value
+        }
+      }
+    }
+  }
+`);

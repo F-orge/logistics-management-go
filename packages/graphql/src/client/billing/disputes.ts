@@ -30,3 +30,79 @@ export const RemoveDisputeMutation = graphql(`
     }
   }
 `);
+
+export const TableDisputeQuery = graphql(`
+  query TableDispute(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: DisputeStatus
+  ) {
+    billing {
+      disputes(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        createdAt
+        client {
+          annualRevenue
+          city
+          id
+          industry
+          name
+          website
+          phoneNumber
+        }
+        disputedAmount
+        id
+        reason
+        resolutionNotes
+        resolvedAt
+        status
+        submittedAt
+        updatedAt
+        resolvedByUser {
+          email
+          id
+          image
+          name
+        }
+        lineItem {
+          discountAmount
+          discountRate
+          description
+          id
+          lineTotal
+          quantity
+          sourceRecordId
+          sourceRecordType
+          taxAmount
+          taxRate
+          totalPrice
+          unitPrice
+          updatedAt
+          invoice {
+            amountPaid
+            currency
+            discountAmount
+            dueDate
+            id
+            invoiceNumber
+            issueDate
+            notes
+            paidAt
+            paymentTerms
+            sentAt
+            status
+            subtotal
+            taxAmount
+            totalAmount
+            updatedAt
+          }
+        }
+      }
+    }
+  }
+`);

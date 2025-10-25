@@ -30,3 +30,49 @@ export const RemovePaymentMutation = graphql(`
     }
   }
 `);
+
+export const TablePaymentQuery = graphql(`
+  query TablePayment(
+    $page: Int
+    $paymentMethod: PaymentMethod
+    $perPage: Int
+    $search: String
+    $status: PaymentStatus
+  ) {
+    billing {
+      payments(
+        page: $page
+        paymentMethod: $paymentMethod
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        amount
+        createdAt
+        currency
+        exchangeRate
+        fees
+        gatewayReference
+        id
+        invoice {
+          invoiceNumber
+          id
+          issueDate
+          paidAt
+          paymentTerms
+          sentAt
+          status
+          discountAmount
+          amountPaid
+          amountOutstanding
+        }
+        processedByUser {
+          email
+          id
+          image
+          name
+        }
+      }
+    }
+  }
+`);

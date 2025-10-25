@@ -30,3 +30,50 @@ export const RemoveRateRuleMutation = graphql(`
     }
   }
 `);
+
+export const TableRateRuleQuery = graphql(`
+  query TableRateRule(
+    $page: Int
+    $perPage: Int
+    $pricingModel: PricingModel
+    $search: String
+  ) {
+    billing {
+      rateRules(
+        page: $page
+        perPage: $perPage
+        pricingModel: $pricingModel
+        search: $search
+      ) {
+        condition
+        createdAt
+        id
+        isActive
+        maxValue
+        minValue
+        price
+        pricingModel
+        priority
+        updatedAt
+        value
+        rateCard {
+          createdAt
+          createdByUser {
+            email
+            id
+            image
+            name
+          }
+          description
+          id
+          isActive
+          name
+          serviceType
+          updatedAt
+          validFrom
+          validTo
+        }
+      }
+    }
+  }
+`);

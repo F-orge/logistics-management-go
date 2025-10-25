@@ -33,3 +33,55 @@ export const RemoveBillingInvoiceMutation = graphql(`
     }
   }
 `);
+
+export const TableBillingInvoiceQuery = graphql(`
+  query TableBillingInvoice(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: BillingInvoiceStatus
+  ) {
+    billing {
+      billingInvoices(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        amountOutstanding
+        amountPaid
+        createdAt
+        currency
+        discountAmount
+        dueDate
+        id
+        invoiceNumber
+        issueDate
+        notes
+        paidAt
+        paymentTerms
+        sentAt
+        status
+        subtotal
+        taxAmount
+        totalAmount
+        updatedAt
+        lineItems {
+          description
+          discountAmount
+          discountRate
+          id
+          quantity
+          taxAmount
+          lineTotal
+          sourceRecordId
+          sourceRecordType
+          taxRate
+          totalPrice
+          unitPrice
+          updatedAt
+        }
+      }
+    }
+  }
+`);

@@ -30,3 +30,54 @@ export const RemoveCreditNoteMutation = graphql(`
     }
   }
 `);
+
+export const TableCreditNoteQuery = graphql(`
+  query TableCreditNote($page: Int, $perPage: Int, $search: String) {
+    billing {
+      creditNotes(page: $page, perPage: $perPage, search: $search) {
+        appliedAt
+        amount
+        createdAt
+        createdByUser {
+          email
+          id
+          image
+          name
+        }
+        creditNoteNumber
+        currency
+        id
+        issueDate
+        notes
+        reason
+        updatedAt
+        invoice {
+          amountPaid
+          invoiceNumber
+          issueDate
+          paidAt
+          notes
+          sentAt
+          status
+          subtotal
+          taxAmount
+          totalAmount
+          updatedAt
+          paymentTerms
+          discountAmount
+          dueDate
+          currency
+        }
+        dispute {
+          disputedAmount
+          id
+          reason
+          resolutionNotes
+          resolvedAt
+          status
+          submittedAt
+        }
+      }
+    }
+  }
+`);
