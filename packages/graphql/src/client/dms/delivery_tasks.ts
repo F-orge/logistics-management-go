@@ -33,3 +33,67 @@ export const RemoveDeliveryTaskMutation = graphql(`
     }
   }
 `);
+
+export const TableDeliveryTaskQuery = graphql(`
+  query TableDeliveryTask(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: DeliveryTaskStatus
+    $failureReason: DeliveryFailureReason
+  ) {
+    dms {
+      deliveryTasks(
+        failureReason: $failureReason
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        actualArrivalTime
+        attemptCount
+        createdAt
+        deliveryAddress
+        deliveryInstructions
+        deliveryTime
+        estimatedArrivalTime
+        failureReason
+        id
+        recipientName
+        recipientPhone
+        routeSequence
+        status
+        updatedAt
+        deliveryRoute {
+          id
+          totalDistanceKm
+          optimizedRouteData
+          status
+          driver {
+            id
+            user {
+              email
+              id
+              image
+              name
+            }
+            licenseNumber
+            status
+            contactPhone
+          }
+        }
+        package {
+          id
+          carrier
+          packageNumber
+          trackingNumber
+          warehouse {
+            id
+            address
+            country
+          }
+        }
+      }
+    }
+  }
+`);

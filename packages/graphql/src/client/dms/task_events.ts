@@ -30,3 +30,45 @@ export const RemoveTaskEventMutation = graphql(`
     }
   }
 `);
+
+export const TableTaskEventQuery = graphql(`
+  query TableTaskEvent(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: TaskEventStatus
+  ) {
+    dms {
+      taskEvents(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        createdAt
+        id
+        latitude
+        longitude
+        notes
+        reason
+        status
+        timestamp
+        updatedAt
+        deliveryTask {
+          id
+          recipientName
+          recipientPhone
+          deliveryInstructions
+          deliveryAddress
+          status
+          package {
+            id
+            trackingNumber
+            packageNumber
+            packageType
+          }
+        }
+      }
+    }
+  }
+`);

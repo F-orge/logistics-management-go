@@ -6404,6 +6404,15 @@ export type RemoveCustomerTrackingLinkMutationVariables = Exact<{
 
 export type RemoveCustomerTrackingLinkMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeCustomerTrackingLink: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableCustomerTrackingLinkQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableCustomerTrackingLinkQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', accessCount?: number | null, createdAt?: string | null, expiresAt?: string | null, id: string, isActive?: boolean | null, lastAccessedAt?: string | null, trackingToken: string, updatedAt?: string | null }> } | null };
+
 export type CreateDeliveryRouteMutationVariables = Exact<{
   deliveryRoute: CreateDeliveryRouteInput;
 }>;
@@ -6425,6 +6434,16 @@ export type RemoveDeliveryRouteMutationVariables = Exact<{
 
 
 export type RemoveDeliveryRouteMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDeliveryRoute: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableDeliveryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryRouteStatus>;
+}>;
+
+
+export type TableDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', actualDurationMinutes?: number | null, completedAt?: string | null, createdAt?: string | null, estimatedDurationMinutes?: number | null, id: string, optimizedRouteData?: string | null, routeDate: string, startedAt?: string | null, status?: DeliveryRouteStatus | null, totalDistanceKm?: number | null, updatedAt?: string | null, driver: { __typename?: 'Drivers', id: string, status?: DriverStatus | null, licenseNumber: string, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
 
 export type CreateDeliveryTaskMutationVariables = Exact<{
   deliveryTask: CreateDeliveryTaskInput;
@@ -6448,6 +6467,17 @@ export type RemoveDeliveryTaskMutationVariables = Exact<{
 
 export type RemoveDeliveryTaskMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDeliveryTask: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableDeliveryTaskQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<DeliveryTaskStatus>;
+  failureReason?: InputMaybe<DeliveryFailureReason>;
+}>;
+
+
+export type TableDeliveryTaskQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, attemptCount?: number | null, createdAt?: string | null, deliveryAddress: string, deliveryInstructions?: string | null, deliveryTime?: string | null, estimatedArrivalTime?: string | null, failureReason?: DeliveryFailureReason | null, id: string, recipientName?: string | null, recipientPhone?: string | null, routeSequence: number, status?: DeliveryTaskStatus | null, updatedAt?: string | null, deliveryRoute: { __typename?: 'DeliveryRoutes', id: string, totalDistanceKm?: number | null, optimizedRouteData?: string | null, status?: DeliveryRouteStatus | null, driver: { __typename?: 'Drivers', id: string, licenseNumber: string, status?: DriverStatus | null, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }, package: { __typename?: 'Packages', id: string, carrier?: string | null, packageNumber: string, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, country?: string | null } } }> } | null };
+
 export type CreateDriverLocationMutationVariables = Exact<{
   driverLocation: CreateDriverLocationInput;
 }>;
@@ -6469,6 +6499,14 @@ export type RemoveDriverLocationMutationVariables = Exact<{
 
 
 export type RemoveDriverLocationMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDriverLocation: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableDriverLocationQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type TableDriverLocationQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', driverLocations: Array<{ __typename?: 'DriverLocations', accuracy?: number | null, altitude?: number | null, createdAt?: string | null, heading?: number | null, id: string, latitude: number, longitude: number, speedKmh?: number | null, timestamp?: string | null, updatedAt?: string | null, driver: { __typename?: 'Drivers', id: string, contactPhone?: string | null, licenseExpiryDate?: string | null, licenseNumber: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
 
 export type CreateDmsProofOfDeliveryMutationVariables = Exact<{
   dmsProofOfDelivery: CreateDmsProofOfDeliveryInput;
@@ -6492,6 +6530,16 @@ export type RemoveDmsProofOfDeliveryMutationVariables = Exact<{
 
 export type RemoveDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDmsProofOfDelivery: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableProofOfDeliveryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ProofOfDeliveryType>;
+}>;
+
+
+export type TableProofOfDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', createdAt?: string | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, recipientName?: string | null, signatureData?: string | null, timestamp?: string | null, type: ProofOfDeliveryType, updatedAt?: string | null, verificationCode?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, failureReason?: DeliveryFailureReason | null, recipientName?: string | null, recipientPhone?: string | null, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, packageNumber: string, packageType?: string | null, requiresSignature?: boolean | null, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, city?: string | null, country?: string | null } } } }> } | null };
+
 export type CreateTaskEventMutationVariables = Exact<{
   taskEvent: CreateTaskEventInput;
 }>;
@@ -6513,6 +6561,16 @@ export type RemoveTaskEventMutationVariables = Exact<{
 
 
 export type RemoveTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeTaskEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableTaskEventQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskEventStatus>;
+}>;
+
+
+export type TableTaskEventQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', createdAt?: string | null, id: string, latitude?: number | null, longitude?: number | null, notes?: string | null, reason?: string | null, status: TaskEventStatus, timestamp?: string | null, updatedAt?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', id: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, trackingNumber?: string | null, packageNumber: string, packageType?: string | null } } }> } | null };
 
 export type CreateCarrierRateMutationVariables = Exact<{
   carrierRate: CreateCarrierRateInput;
@@ -8554,6 +8612,22 @@ export const RemoveCustomerTrackingLinkDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveCustomerTrackingLinkMutation, RemoveCustomerTrackingLinkMutationVariables>;
+export const TableCustomerTrackingLinkDocument = new TypedDocumentString(`
+    query TableCustomerTrackingLink($page: Int, $perPage: Int, $search: String) {
+  dms {
+    customerTrackingLinks(page: $page, perPage: $perPage, search: $search) {
+      accessCount
+      createdAt
+      expiresAt
+      id
+      isActive
+      lastAccessedAt
+      trackingToken
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableCustomerTrackingLinkQuery, TableCustomerTrackingLinkQueryVariables>;
 export const CreateDeliveryRouteDocument = new TypedDocumentString(`
     mutation CreateDeliveryRoute($deliveryRoute: CreateDeliveryRouteInput!) {
   dms {
@@ -8582,6 +8656,37 @@ export const RemoveDeliveryRouteDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveDeliveryRouteMutation, RemoveDeliveryRouteMutationVariables>;
+export const TableDeliveryDocument = new TypedDocumentString(`
+    query TableDelivery($page: Int, $perPage: Int, $search: String, $status: DeliveryRouteStatus) {
+  dms {
+    deliveryRoutes(page: $page, perPage: $perPage, search: $search, status: $status) {
+      actualDurationMinutes
+      completedAt
+      createdAt
+      estimatedDurationMinutes
+      id
+      optimizedRouteData
+      routeDate
+      startedAt
+      status
+      totalDistanceKm
+      updatedAt
+      driver {
+        id
+        user {
+          email
+          id
+          image
+          name
+        }
+        status
+        licenseNumber
+        contactPhone
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableDeliveryQuery, TableDeliveryQueryVariables>;
 export const CreateDeliveryTaskDocument = new TypedDocumentString(`
     mutation CreateDeliveryTask($deliveryTask: CreateDeliveryTaskInput!) {
   dms {
@@ -8610,6 +8715,63 @@ export const RemoveDeliveryTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveDeliveryTaskMutation, RemoveDeliveryTaskMutationVariables>;
+export const TableDeliveryTaskDocument = new TypedDocumentString(`
+    query TableDeliveryTask($page: Int, $perPage: Int, $search: String, $status: DeliveryTaskStatus, $failureReason: DeliveryFailureReason) {
+  dms {
+    deliveryTasks(
+      failureReason: $failureReason
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+    ) {
+      actualArrivalTime
+      attemptCount
+      createdAt
+      deliveryAddress
+      deliveryInstructions
+      deliveryTime
+      estimatedArrivalTime
+      failureReason
+      id
+      recipientName
+      recipientPhone
+      routeSequence
+      status
+      updatedAt
+      deliveryRoute {
+        id
+        totalDistanceKm
+        optimizedRouteData
+        status
+        driver {
+          id
+          user {
+            email
+            id
+            image
+            name
+          }
+          licenseNumber
+          status
+          contactPhone
+        }
+      }
+      package {
+        id
+        carrier
+        packageNumber
+        trackingNumber
+        warehouse {
+          id
+          address
+          country
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableDeliveryTaskQuery, TableDeliveryTaskQueryVariables>;
 export const CreateDriverLocationDocument = new TypedDocumentString(`
     mutation CreateDriverLocation($driverLocation: CreateDriverLocationInput!) {
   dms {
@@ -8638,6 +8800,36 @@ export const RemoveDriverLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveDriverLocationMutation, RemoveDriverLocationMutationVariables>;
+export const TableDriverLocationDocument = new TypedDocumentString(`
+    query TableDriverLocation($page: Int, $perPage: Int) {
+  dms {
+    driverLocations(page: $page, perPage: $perPage) {
+      accuracy
+      altitude
+      createdAt
+      heading
+      id
+      latitude
+      longitude
+      speedKmh
+      timestamp
+      updatedAt
+      driver {
+        id
+        contactPhone
+        licenseExpiryDate
+        licenseNumber
+        user {
+          email
+          id
+          image
+          name
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableDriverLocationQuery, TableDriverLocationQueryVariables>;
 export const CreateDmsProofOfDeliveryDocument = new TypedDocumentString(`
     mutation CreateDmsProofOfDelivery($dmsProofOfDelivery: CreateDmsProofOfDeliveryInput!) {
   dms {
@@ -8666,6 +8858,52 @@ export const RemoveDmsProofOfDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveDmsProofOfDeliveryMutation, RemoveDmsProofOfDeliveryMutationVariables>;
+export const TableProofOfDeliveryDocument = new TypedDocumentString(`
+    query TableProofOfDelivery($page: Int, $perPage: Int, $search: String, $type: ProofOfDeliveryType) {
+  dms {
+    dmsProofOfDeliveries(
+      page: $page
+      perPage: $perPage
+      search: $search
+      type: $type
+    ) {
+      createdAt
+      filePath
+      id
+      latitude
+      longitude
+      recipientName
+      signatureData
+      timestamp
+      type
+      updatedAt
+      verificationCode
+      deliveryTask {
+        package {
+          id
+          packageNumber
+          packageType
+          requiresSignature
+          trackingNumber
+          warehouse {
+            id
+            address
+            city
+            country
+          }
+        }
+        actualArrivalTime
+        deliveryInstructions
+        deliveryAddress
+        failureReason
+        recipientName
+        recipientPhone
+        status
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableProofOfDeliveryQuery, TableProofOfDeliveryQueryVariables>;
 export const CreateTaskEventDocument = new TypedDocumentString(`
     mutation CreateTaskEvent($taskEvent: CreateTaskEventInput!) {
   dms {
@@ -8694,6 +8932,37 @@ export const RemoveTaskEventDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveTaskEventMutation, RemoveTaskEventMutationVariables>;
+export const TableTaskEventDocument = new TypedDocumentString(`
+    query TableTaskEvent($page: Int, $perPage: Int, $search: String, $status: TaskEventStatus) {
+  dms {
+    taskEvents(page: $page, perPage: $perPage, search: $search, status: $status) {
+      createdAt
+      id
+      latitude
+      longitude
+      notes
+      reason
+      status
+      timestamp
+      updatedAt
+      deliveryTask {
+        id
+        recipientName
+        recipientPhone
+        deliveryInstructions
+        deliveryAddress
+        status
+        package {
+          id
+          trackingNumber
+          packageNumber
+          packageType
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableTaskEventQuery, TableTaskEventQueryVariables>;
 export const CreateCarrierRateDocument = new TypedDocumentString(`
     mutation CreateCarrierRate($carrierRate: CreateCarrierRateInput!) {
   tms {

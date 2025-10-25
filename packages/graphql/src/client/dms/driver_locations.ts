@@ -33,3 +33,34 @@ export const RemoveDriverLocationMutation = graphql(`
     }
   }
 `);
+
+export const TableDriverLocationQuery = graphql(`
+  query TableDriverLocation($page: Int, $perPage: Int) {
+    dms {
+      driverLocations(page: $page, perPage: $perPage) {
+        accuracy
+        altitude
+        createdAt
+        heading
+        id
+        latitude
+        longitude
+        speedKmh
+        timestamp
+        updatedAt
+        driver {
+          id
+          contactPhone
+          licenseExpiryDate
+          licenseNumber
+          user {
+            email
+            id
+            image
+            name
+          }
+        }
+      }
+    }
+  }
+`);

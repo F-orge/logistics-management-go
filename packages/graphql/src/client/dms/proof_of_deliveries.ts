@@ -35,3 +35,55 @@ export const RemoveDmsProofOfDeliveryMutation = graphql(`
     }
   }
 `);
+
+export const TableProofOfDeliveryQuery = graphql(`
+  query TableProofOfDelivery(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $type: ProofOfDeliveryType
+  ) {
+    dms {
+      dmsProofOfDeliveries(
+        page: $page
+        perPage: $perPage
+        search: $search
+        type: $type
+      ) {
+        createdAt
+        filePath
+        id
+        latitude
+        longitude
+        recipientName
+        signatureData
+        timestamp
+        type
+        updatedAt
+        verificationCode
+        deliveryTask {
+          package {
+            id
+            packageNumber
+            packageType
+            requiresSignature
+            trackingNumber
+            warehouse {
+              id
+              address
+              city
+              country
+            }
+          }
+          actualArrivalTime
+          deliveryInstructions
+          deliveryAddress
+          failureReason
+          recipientName
+          recipientPhone
+          status
+        }
+      }
+    }
+  }
+`);

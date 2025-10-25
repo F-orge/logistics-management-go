@@ -35,3 +35,20 @@ export const RemoveCustomerTrackingLinkMutation = graphql(`
     }
   }
 `);
+
+export const CustomerTrackingLinkQuery = graphql(`
+  query TableCustomerTrackingLink($page: Int, $perPage: Int, $search: String) {
+    dms {
+      customerTrackingLinks(page: $page, perPage: $perPage, search: $search) {
+        accessCount
+        createdAt
+        expiresAt
+        id
+        isActive
+        lastAccessedAt
+        trackingToken
+        updatedAt
+      }
+    }
+  }
+`);

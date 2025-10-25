@@ -33,3 +33,45 @@ export const RemoveDeliveryRouteMutation = graphql(`
     }
   }
 `);
+
+export const TableDeliveryRoute = graphql(`
+  query TableDelivery(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: DeliveryRouteStatus
+  ) {
+    dms {
+      deliveryRoutes(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        actualDurationMinutes
+        completedAt
+        createdAt
+        estimatedDurationMinutes
+        id
+        optimizedRouteData
+        routeDate
+        startedAt
+        status
+        totalDistanceKm
+        updatedAt
+        driver {
+          id
+          user {
+            email
+            id
+            image
+            name
+          }
+          status
+          licenseNumber
+          contactPhone
+        }
+      }
+    }
+  }
+`);
