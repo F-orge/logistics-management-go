@@ -3,6 +3,7 @@ import {
   OutboundShipments,
   PartnerInvoiceItems,
   ShipmentLegEvents,
+  Trips,
 } from "../../../../zod.schema";
 import type { ShipmentLegsResolvers } from "./../../../types.generated";
 export const ShipmentLegs: ShipmentLegsResolvers = {
@@ -51,5 +52,19 @@ export const ShipmentLegs: ShipmentLegsResolvers = {
       .execute();
 
     return results as unknown as PartnerInvoiceItems[];
+  },
+  internalTrip: async (parent, _args, ctx) => {
+    const results = await ctx.db
+      .selectFrom("tms.trips")
+      .selectAll("tms.trips")
+      .innerJoin(
+        "tms.shipmentLegs",
+        "tms.shipmentLegs.internalTripId",
+        "tms.trips.id"
+      )
+      .where("tms.shipmentLegs.id", "=", parent.id as string)
+      .executeTakeFirst();
+
+    return results as unknown as Trips;
   },
 };

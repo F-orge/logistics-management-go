@@ -1,4 +1,4 @@
-import { Trips } from "../../../../zod.schema";
+import { Drivers, Trips } from "../../../../zod.schema";
 import type { ExpensesResolvers } from "./../../../types.generated";
 export const Expenses: ExpensesResolvers = {
   trip: async (parent, _args, ctx) => {
@@ -10,5 +10,15 @@ export const Expenses: ExpensesResolvers = {
       .executeTakeFirst();
 
     return result as unknown as Trips;
+  },
+  driver: async (parent, _args, ctx) => {
+    const result = await ctx.db
+      .selectFrom("tms.drivers")
+      .selectAll("tms.drivers")
+      .innerJoin("tms.expenses", "tms.expenses.driverId", "tms.drivers.id")
+      .where("tms.expenses.id", "=", parent.id as string)
+      .executeTakeFirst();
+
+    return result as unknown as Drivers;
   },
 };

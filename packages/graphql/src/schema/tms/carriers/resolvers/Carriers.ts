@@ -1,4 +1,8 @@
-import { PartnerInvoices, ShipmentLegs } from "../../../../zod.schema";
+import {
+  CarrierRates,
+  PartnerInvoices,
+  ShipmentLegs,
+} from "../../../../zod.schema";
 import type { CarriersResolvers } from "./../../../types.generated";
 export const Carriers: CarriersResolvers = {
   partnerInvoices: async (parent, _args, ctx) => {
@@ -18,5 +22,14 @@ export const Carriers: CarriersResolvers = {
       .execute();
 
     return results as unknown as ShipmentLegs[];
+  },
+  rates: async (parent, _args, ctx) => {
+    const results = await ctx.db
+      .selectFrom("tms.carrierRates")
+      .selectAll("tms.carrierRates")
+      .where("tms.carrierRates.carrierId", "=", parent.id as string)
+      .execute();
+
+    return results as unknown as CarrierRates[];
   },
 };

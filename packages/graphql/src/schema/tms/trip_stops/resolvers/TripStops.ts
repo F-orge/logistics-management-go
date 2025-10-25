@@ -1,4 +1,8 @@
-import { OutboundShipments, ProofOfDeliveries } from "../../../../zod.schema";
+import {
+  OutboundShipments,
+  ProofOfDeliveries,
+  Trips,
+} from "../../../../zod.schema";
 import type { TripStopsResolvers } from "./../../../types.generated";
 export const TripStops: TripStopsResolvers = {
   shipment: async (parent, _args, ctx) => {
@@ -23,5 +27,15 @@ export const TripStops: TripStopsResolvers = {
       .execute();
 
     return results as unknown as ProofOfDeliveries[];
+  },
+  trip: async (parent, _args, ctx) => {
+    const result = await ctx.db
+      .selectFrom("tms.trips")
+      .selectAll("tms.trips")
+      .innerJoin("tms.tripStops", "tms.tripStops.tripId", "tms.trips.id")
+      .where("tms.tripStops.id", "=", parent.id as string)
+      .executeTakeFirst();
+
+    return result as unknown as Trips;
   },
 };
