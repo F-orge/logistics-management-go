@@ -6,9 +6,17 @@ import {
   FieldLegend,
   FieldSet,
 } from "@packages/ui";
+import { CreateCompanyMutation } from "@packages/graphql/client";
+import {
+  CreateCompanyInputSchema,
+  UpdateCompanyInputSchema,
+} from "@packages/graphql/client/zod";
+import z from "zod";
+
+export const schema = CreateCompanyInputSchema();
 
 export const companyFormOption = formOptions({
-  defaultValues: {},
+  defaultValues: {} as z.infer<typeof schema>,
 });
 
 export const CompanyForm = withForm({
@@ -16,8 +24,12 @@ export const CompanyForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Title</FieldLegend>
-        <FieldDescription>Descriptio</FieldDescription>
-        <FieldGroup>{/* Forms */}</FieldGroup>
+        <FieldDescription>Description</FieldDescription>
+        <FieldGroup>
+          <form.AppField name="name">
+            {(field) => <field.InputField />}
+          </form.AppField>
+        </FieldGroup>
       </FieldSet>
     );
   },

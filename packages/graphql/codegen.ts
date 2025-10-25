@@ -19,8 +19,14 @@ const config: CodegenConfig = {
       plugins: ["typescript", "typescript-validation-schema"],
       config: {
         schema: "zodv4",
+        strictScalars: true,
+        scalars: {
+          File: "File",
+          Date: "Date",
+        },
         scalarSchemas: {
           File: "z.file()",
+          Date: "z.date()",
         },
       },
     },
