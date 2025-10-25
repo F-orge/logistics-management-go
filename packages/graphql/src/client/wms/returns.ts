@@ -86,3 +86,14 @@ export const TableReturnQuery = graphql(`
     }
   }
 `);
+
+export const SearchReturnsQuery = graphql(`
+  query SearchReturns($search: String!) {
+    wms {
+      returns(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: returnNumber
+      }
+    }
+  }
+`);

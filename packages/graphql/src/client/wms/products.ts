@@ -69,3 +69,14 @@ export const TableWmsProductQuery = graphql(`
     }
   }
 `);
+
+export const SearchWmsProductsQuery = graphql(`
+  query SearchWmsProducts($search: String!) {
+    wms {
+      wmsProducts(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

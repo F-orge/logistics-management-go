@@ -81,3 +81,14 @@ export const TableCreditNoteQuery = graphql(`
     }
   }
 `);
+
+export const SearchCreditNotesQuery = graphql(`
+  query SearchCreditNotes($search: String!) {
+    billing {
+      creditNotes(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: creditNoteNumber
+      }
+    }
+  }
+`);

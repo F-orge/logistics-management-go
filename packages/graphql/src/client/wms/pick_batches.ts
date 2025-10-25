@@ -77,3 +77,14 @@ export const TablePickBatchQuery = graphql(`
     }
   }
 `);
+
+export const SearchPickBatchesQuery = graphql(`
+  query SearchPickBatches($search: String!) {
+    wms {
+      pickBatches(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: batchNumber
+      }
+    }
+  }
+`);

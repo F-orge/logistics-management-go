@@ -5784,6 +5784,13 @@ export type AccountTransactionsQueryVariables = Exact<{
 
 export type AccountTransactionsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountTransactions: Array<{ __typename?: 'AccountTransactions', amount: number, createdAt?: string | null, description?: string | null, id: string, referenceNumber?: string | null, runningBalance?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, transactionDate?: string | null, type: TransactionType, updatedAt?: string | null, processedByUser?: { __typename?: 'User', name: string, image?: string | null, email: string, id: string } | null, clientAccount: { __typename?: 'ClientAccounts', availableCredit?: number | null, paymentTermsDays?: number | null, updatedAt?: string | null, walletBalance?: number | null, createdAt?: string | null, client: { __typename?: 'Companies', annualRevenue?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } } }> } | null };
 
+export type SearchAccountTransactionsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchAccountTransactionsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountTransactions: Array<{ __typename?: 'AccountTransactions', value: string, label?: string | null }> } | null };
+
 export type CreateAccountingSyncLogMutationVariables = Exact<{
   accountingSyncLog: CreateAccountingSyncLogInput;
 }>;
@@ -5816,6 +5823,13 @@ export type AccountingSyncLogsQueryVariables = Exact<{
 
 export type AccountingSyncLogsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountingSyncLogs: Array<{ __typename?: 'AccountingSyncLogs', createdAt?: string | null, errorMessage?: string | null, externalId?: string | null, externalSystem: string, id: string, lastSyncAt?: string | null, nextRetryAt?: string | null, recordId: string, recordType: string, requestPayload?: string | null, responsePayload?: string | null, retryCount?: number | null, status?: SyncStatus | null, updatedAt?: string | null }> } | null };
 
+export type SearchAccountingSyncLogsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchAccountingSyncLogsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountingSyncLogs: Array<{ __typename?: 'AccountingSyncLogs', value: string, label: string }> } | null };
+
 export type CreateClientAccountMutationVariables = Exact<{
   clientAccount: CreateClientAccountInput;
 }>;
@@ -5846,6 +5860,13 @@ export type TableClientAccountQueryVariables = Exact<{
 
 
 export type TableClientAccountQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', clientAccounts: Array<{ __typename?: 'ClientAccounts', availableCredit?: number | null, creditLimit?: number | null, currency?: string | null, isCreditApproved?: boolean | null, lastPaymentDate?: string | null, paymentTermsDays?: number | null, updatedAt?: string | null, walletBalance?: number | null, id: string, client: { __typename?: 'Companies', annualRevenue?: string | null, country?: string | null, industry?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, website?: string | null }, transactions?: Array<{ __typename?: 'AccountTransactions', amount: number, description?: string | null, id: string, referenceNumber?: string | null, runningBalance?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, transactionDate?: string | null, type: TransactionType }> | null }> } | null };
+
+export type SearchClientAccountsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchClientAccountsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', clientAccounts: Array<{ __typename?: 'ClientAccounts', value: string, label?: string | null }> } | null };
 
 export type CreateCreditNoteMutationVariables = Exact<{
   creditNote: CreateCreditNoteInput;
@@ -5878,6 +5899,13 @@ export type TableCreditNoteQueryVariables = Exact<{
 
 export type TableCreditNoteQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', creditNotes: Array<{ __typename?: 'CreditNotes', appliedAt?: string | null, amount: number, createdAt?: string | null, creditNoteNumber: string, currency?: string | null, id: string, issueDate: string, notes?: string | null, reason: string, updatedAt?: string | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, invoice: { __typename?: 'BillingInvoices', amountPaid?: number | null, invoiceNumber: string, issueDate: string, paidAt?: string | null, notes?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: string | null, paymentTerms?: string | null, discountAmount?: number | null, dueDate: string, currency?: string | null }, dispute?: { __typename?: 'Disputes', disputedAmount?: number | null, id: string, reason: string, resolutionNotes?: string | null, resolvedAt?: string | null, status?: DisputeStatus | null, submittedAt?: string | null } | null }> } | null };
 
+export type SearchCreditNotesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCreditNotesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', creditNotes: Array<{ __typename?: 'CreditNotes', value: string, label: string }> } | null };
+
 export type CreateDisputeMutationVariables = Exact<{
   dispute: CreateDisputeInput;
 }>;
@@ -5909,6 +5937,13 @@ export type TableDisputeQueryVariables = Exact<{
 
 
 export type TableDisputeQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', createdAt?: string | null, disputedAmount?: number | null, id: string, reason: string, resolutionNotes?: string | null, resolvedAt?: string | null, status?: DisputeStatus | null, submittedAt?: string | null, updatedAt?: string | null, client: { __typename?: 'Companies', annualRevenue?: string | null, city?: string | null, id: string, industry?: string | null, name: string, website?: string | null, phoneNumber?: string | null }, resolvedByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, lineItem: { __typename?: 'InvoiceLineItems', discountAmount?: number | null, discountRate?: number | null, description: string, id: string, lineTotal?: number | null, quantity: number, sourceRecordId?: string | null, sourceRecordType?: string | null, taxAmount?: number | null, taxRate?: number | null, totalPrice?: number | null, unitPrice: number, updatedAt?: string | null, invoice: { __typename?: 'BillingInvoices', amountPaid?: number | null, currency?: string | null, discountAmount?: number | null, dueDate: string, id: string, invoiceNumber: string, issueDate: string, notes?: string | null, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: string | null } } }> } | null };
+
+export type SearchDisputesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchDisputesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', value: string, label: string }> } | null };
 
 export type CreateInvoiceLineItemMutationVariables = Exact<{
   invoiceLineItem: CreateInvoiceLineItemInput;
@@ -5964,6 +5999,13 @@ export type TableBillingInvoiceQueryVariables = Exact<{
 
 export type TableBillingInvoiceQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', billingInvoices: Array<{ __typename?: 'BillingInvoices', amountOutstanding?: number | null, amountPaid?: number | null, createdAt?: string | null, currency?: string | null, discountAmount?: number | null, dueDate: string, id: string, invoiceNumber: string, issueDate: string, notes?: string | null, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: string | null, lineItems?: Array<{ __typename?: 'InvoiceLineItems', description: string, discountAmount?: number | null, discountRate?: number | null, id: string, quantity: number, taxAmount?: number | null, lineTotal?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, taxRate?: number | null, totalPrice?: number | null, unitPrice: number, updatedAt?: string | null }> | null }> } | null };
 
+export type SearchBillingInvoicesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchBillingInvoicesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', billingInvoices: Array<{ __typename?: 'BillingInvoices', value: string, label: string }> } | null };
+
 export type CreatePaymentMutationVariables = Exact<{
   payment: CreatePaymentInput;
 }>;
@@ -5997,6 +6039,13 @@ export type TablePaymentQueryVariables = Exact<{
 
 export type TablePaymentQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', payments: Array<{ __typename?: 'Payments', amount: number, createdAt?: string | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, gatewayReference?: string | null, id: string, invoice: { __typename?: 'BillingInvoices', invoiceNumber: string, id: string, issueDate: string, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, discountAmount?: number | null, amountPaid?: number | null, amountOutstanding?: number | null }, processedByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> } | null };
 
+export type SearchPaymentsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchPaymentsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', payments: Array<{ __typename?: 'Payments', value: string, label?: string | null }> } | null };
+
 export type CreateQuoteMutationVariables = Exact<{
   quote: CreateQuoteInput;
 }>;
@@ -6028,6 +6077,13 @@ export type TableQuoteQueryVariables = Exact<{
 
 
 export type TableQuoteQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', quotes: Array<{ __typename?: 'Quotes', createdAt?: string | null, destinationDetails: string, expiresAt?: string | null, height?: number | null, id: string, length?: number | null, notes?: string | null, originDetails: string, quoteNumber?: string | null, quotedPrice: number, serviceLevel?: string | null, status?: QuoteStatus | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null, website?: string | null, billingInvoices?: Array<{ __typename?: 'BillingInvoices', amountOutstanding?: number | null, amountPaid?: number | null, currency?: string | null, discountAmount?: number | null, dueDate: string, invoiceNumber: string, issueDate: string }> | null } | null }> } | null };
+
+export type SearchQuotesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchQuotesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', quotes: Array<{ __typename?: 'Quotes', value: string, label?: string | null }> } | null };
 
 export type CreateRateCardMutationVariables = Exact<{
   rateCard: CreateRateCardInput;
@@ -6061,6 +6117,13 @@ export type TableRateCardQueryVariables = Exact<{
 
 export type TableRateCardQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateCards: Array<{ __typename?: 'RateCards', createdAt?: string | null, description?: string | null, id: string, isActive?: boolean | null, name: string, serviceType: ServiceType, updatedAt?: string | null, validFrom: string, validTo?: string | null, createdByUser?: { __typename?: 'User', email: string, emailVerified: boolean, image?: string | null, name: string } | null, rules?: Array<{ __typename?: 'RateRules', condition: string, id: string, isActive?: boolean | null, maxValue?: number | null, minValue?: number | null, price: number, pricingModel: PricingModel, priority?: number | null, value: string }> | null }> } | null };
 
+export type SearchRateCardsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchRateCardsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateCards: Array<{ __typename?: 'RateCards', value: string, label: string }> } | null };
+
 export type CreateRateRuleMutationVariables = Exact<{
   rateRule: CreateRateRuleInput;
 }>;
@@ -6093,6 +6156,13 @@ export type TableRateRuleQueryVariables = Exact<{
 
 export type TableRateRuleQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateRules: Array<{ __typename?: 'RateRules', condition: string, createdAt?: string | null, id: string, isActive?: boolean | null, maxValue?: number | null, minValue?: number | null, price: number, pricingModel: PricingModel, priority?: number | null, updatedAt?: string | null, value: string, rateCard: { __typename?: 'RateCards', createdAt?: string | null, description?: string | null, id: string, isActive?: boolean | null, name: string, serviceType: ServiceType, updatedAt?: string | null, validFrom: string, validTo?: string | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null } }> } | null };
 
+export type SearchRateRulesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchRateRulesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateRules: Array<{ __typename?: 'RateRules', value: string, label: string }> } | null };
+
 export type CreateSurchargeMutationVariables = Exact<{
   surcharge: CreateSurchargeInput;
 }>;
@@ -6124,6 +6194,13 @@ export type TableSurchargeQueryVariables = Exact<{
 
 
 export type TableSurchargeQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', amount: number, calculationMethod: SurchargeCalculationMethod, createdAt?: string | null, description?: string | null, id: string, isActive?: boolean | null, name: string, type: string, updatedAt?: string | null, validFrom?: string | null, validTo?: string | null }> } | null };
+
+export type SearchSurchargesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchSurchargesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', value: string, label: string }> } | null };
 
 export type CreateCampaignMutationVariables = Exact<{
   campaign: CreateCampaignInput;
@@ -7491,6 +7568,13 @@ export type TableInventoryBatchQueryVariables = Exact<{
 
 export type TableInventoryBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', batchNumber: string, createdAt?: string | null, expirationDate?: string | null, id: string, updatedAt?: string | null, inventoryStock?: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, product: { __typename?: 'WmsProducts', barcode?: string | null, name: string, sku: string, status?: ProductStatus | null, description?: string | null, id: string, costPrice?: number | null } }> | null }> } | null };
 
+export type SearchInventoryBatchesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchInventoryBatchesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', value: string, label: string }> } | null };
+
 export type CreateInventoryStockMutationVariables = Exact<{
   inventoryStock: CreateInventoryStockInput;
 }>;
@@ -7554,6 +7638,13 @@ export type TableLocationQueryVariables = Exact<{
 
 export type TableLocationQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', barcode?: string | null, createdAt?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, id: string, hazmatApproved?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, temperatureControlled?: boolean | null, type: LocationType, updatedAt?: string | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, parentLocation?: { __typename?: 'Locations', id: string, name: string, path?: string | null } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, name: string, id: string, isActive?: boolean | null } }> } | null };
 
+export type SearchLocationsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchLocationsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', value: string, label: string }> } | null };
+
 export type CreateOutboundShipmentItemMutationVariables = Exact<{
   outboundShipmentItem: CreateOutboundShipmentItemInput;
 }>;
@@ -7608,6 +7699,13 @@ export type TableOutboundShipmentQueryVariables = Exact<{
 
 export type TableOutboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', carrier?: string | null, createdAt?: string | null, id: string, status?: OutboundShipmentStatus | null, trackingNumber?: string | null, updatedAt?: string | null, warehouseId: string, salesOrder: { __typename?: 'SalesOrders', id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null } }> } | null };
 
+export type SearchOutboundShipmentsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchOutboundShipmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', value: string, label?: string | null }> } | null };
+
 export type CreatePackageItemMutationVariables = Exact<{
   packageItem: CreatePackageItemInput;
 }>;
@@ -7660,6 +7758,13 @@ export type TablePackageQueryVariables = Exact<{
 
 
 export type TablePackageQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', carrier?: string | null, createdAt?: string | null, height?: number | null, id: string, insuranceValue?: number | null, isFragile?: boolean | null, isHazmat?: boolean | null, length?: number | null, packageNumber: string, packageType?: string | null, packedAt?: string | null, requiresSignature?: boolean | null, serviceLevel?: string | null, shippedAt?: string | null, trackingNumber?: string | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, items?: Array<{ __typename?: 'PackageItems', lotNumber?: string | null, quantity: number, serialNumbers?: Array<string | null> | null, totalWeight?: number | null, unitWeight?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+
+export type SearchPackagesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchPackagesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', value: string, label: string }> } | null };
 
 export type CreatePickBatchItemMutationVariables = Exact<{
   pickBatchItem: CreatePickBatchItemInput;
@@ -7716,6 +7821,13 @@ export type TablePickBatchQueryVariables = Exact<{
 
 export type TablePickBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', actualDuration?: number | null, batchNumber: string, completedAt?: string | null, completedItems?: number | null, createdAt?: string | null, estimatedDuration?: number | null, id: string, priority?: number | null, startedAt?: string | null, status?: PickBatchStatus | null, strategy: PickStrategy, totalItems?: number | null, updatedAt?: string | null, waveId?: string | null, zoneRestrictions?: Array<string | null> | null, items?: Array<{ __typename?: 'PickBatchItems', id: string, estimatedPickTime?: number | null, actualPickTime?: number | null, orderPriority?: number | null, salesOrder: { __typename?: 'SalesOrders', status?: SalesOrderStatus | null, shippingAddress?: string | null, orderNumber: string } }> | null }> } | null };
 
+export type SearchPickBatchesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchPickBatchesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', value: string, label: string }> } | null };
+
 export type CreateWmsProductMutationVariables = Exact<{
   wmsProduct: CreateWmsProductInput;
 }>;
@@ -7747,6 +7859,13 @@ export type TableWmsProductQueryVariables = Exact<{
 
 
 export type TableWmsProductQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, createdAt?: string | null, height?: number | null, description?: string | null, id: string, length?: number | null, name: string, sku: string, status?: ProductStatus | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, supplier?: { __typename?: 'Suppliers', contactPerson?: string | null, email?: string | null, name: string, phoneNumber?: string | null } | null }> } | null };
+
+export type SearchWmsProductsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchWmsProductsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', value: string, label: string }> } | null };
 
 export type CreatePutawayRuleMutationVariables = Exact<{
   putawayRule: CreatePutawayRuleInput;
@@ -7863,6 +7982,13 @@ export type TableReturnQueryQueryVariables = Exact<{
 
 export type TableReturnQueryQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', createdAt?: string | null, id: string, reason?: string | null, returnNumber: string, status?: ReturnStatus | null, updatedAt?: string | null, client: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null, city?: string | null, website?: string | null }, salesOrder?: { __typename?: 'SalesOrders', orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: string | null, id: string } | null, items?: Array<{ __typename?: 'ReturnItems', condition?: ReturnItemCondition | null, id: string, quantityExpected: number, quantityReceived?: number | null, quantityVariance?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
 
+export type SearchReturnsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchReturnsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', value: string, label: string }> } | null };
+
 export type CreateSalesOrderItemMutationVariables = Exact<{
   salesOrderItem: CreateSalesOrderItemInput;
 }>;
@@ -7916,6 +8042,13 @@ export type TableSalesOrderQueryVariables = Exact<{
 
 
 export type TableSalesOrderQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', createdAt?: string | null, id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: string | null, items?: Array<{ __typename?: 'SalesOrderItems', id: string, quantityOrdered: number, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, description?: string | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+
+export type SearchSalesOrdersQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchSalesOrdersQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', value: string, label: string }> } | null };
 
 export type CreateStockTransferMutationVariables = Exact<{
   stockTransfer: CreateStockTransferInput;
@@ -7979,6 +8112,13 @@ export type TableSupplierQueryVariables = Exact<{
 
 export type TableSupplierQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', suppliers: Array<{ __typename?: 'Suppliers', contactPerson?: string | null, createdAt?: string | null, email?: string | null, id: string, name: string, phoneNumber?: string | null, updatedAt?: string | null, products?: Array<{ __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }> | null }> } | null };
 
+export type SearchSuppliersQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchSuppliersQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', suppliers: Array<{ __typename?: 'Suppliers', value: string, label: string }> } | null };
+
 export type CreateTaskItemMutationVariables = Exact<{
   taskItem: CreateTaskItemInput;
 }>;
@@ -8034,6 +8174,13 @@ export type TableTaskQueryVariables = Exact<{
 
 export type TableTaskQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', actualDuration?: number | null, createdAt?: string | null, durationSeconds?: number | null, endTime?: string | null, estimatedDuration?: number | null, id: string, instructions?: string | null, notes?: string | null, priority?: number | null, sourceEntityId?: string | null, sourceEntityType?: string | null, startTime?: string | null, status?: TaskStatus | null, taskNumber: string, type: TaskType, updatedAt?: string | null, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, isActive?: boolean | null, name: string, timezone?: string | null }, items?: Array<{ __typename?: 'TaskItems', completedAt?: string | null, createdAt?: string | null, expiryDate?: string | null, id: string, lotNumber?: string | null, notes?: string | null, quantityCompleted: number, quantityRemaining?: number | null, quantityRequired: number, serialNumbers?: Array<string | null> | null, status?: TaskItemStatus | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, sourceLocation?: { __typename?: 'Locations', barcode?: string | null, hazmatApproved?: boolean | null, id: string, path?: string | null, name: string, type: LocationType } | null }> | null }> } | null };
 
+export type SearchTasksQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchTasksQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', value: string, label: string }> } | null };
+
 export type CreateWarehouseMutationVariables = Exact<{
   warehouse: CreateWarehouseInput;
 }>;
@@ -8064,6 +8211,13 @@ export type TableWarehouseQueryVariables = Exact<{
 
 
 export type TableWarehouseQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', warehouses: Array<{ __typename?: 'Warehouses', address?: string | null, city?: string | null, contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, country?: string | null, createdAt?: string | null, id: string, isActive?: boolean | null, name: string, postalCode?: string | null, state?: string | null, timezone?: string | null, updatedAt?: string | null, tasks?: Array<{ __typename?: 'Tasks', instructions?: string | null, id: string, notes?: string | null, priority?: number | null, taskNumber: string, type: TaskType, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> | null, locations?: Array<{ __typename?: 'Locations', barcode?: string | null, id: string, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, type: LocationType, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, hazmatApproved?: boolean | null }> | null, inboundShipments?: Array<{ __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, updatedAt?: string | null, warehouseId: string, items?: Array<{ __typename?: 'InboundShipmentItems', discrepancyNotes?: string | null, discrepancyQuantity?: number | null, expectedQuantity: number, id: string, createdAt?: string | null, receivedQuantity?: number | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, inboundShipment: { __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, id: string, expectedArrivalDate?: string | null, updatedAt?: string | null, actualArrivalDate?: string | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } | null } }> | null }> | null }> } | null };
+
+export type SearchWarehousesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchWarehousesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', warehouses: Array<{ __typename?: 'Warehouses', value: string, label: string }> } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -8156,6 +8310,16 @@ export const AccountTransactionsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AccountTransactionsQuery, AccountTransactionsQueryVariables>;
+export const SearchAccountTransactionsDocument = new TypedDocumentString(`
+    query SearchAccountTransactions($search: String!) {
+  billing {
+    accountTransactions(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: referenceNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchAccountTransactionsQuery, SearchAccountTransactionsQueryVariables>;
 export const CreateAccountingSyncLogDocument = new TypedDocumentString(`
     mutation CreateAccountingSyncLog($accountingSyncLog: CreateAccountingSyncLogInput!) {
   billing {
@@ -8211,6 +8375,16 @@ export const AccountingSyncLogsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AccountingSyncLogsQuery, AccountingSyncLogsQueryVariables>;
+export const SearchAccountingSyncLogsDocument = new TypedDocumentString(`
+    query SearchAccountingSyncLogs($search: String!) {
+  billing {
+    accountingSyncLogs(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: recordType
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchAccountingSyncLogsQuery, SearchAccountingSyncLogsQueryVariables>;
 export const CreateClientAccountDocument = new TypedDocumentString(`
     mutation CreateClientAccount($clientAccount: CreateClientAccountInput!) {
   billing {
@@ -8276,6 +8450,16 @@ export const TableClientAccountDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableClientAccountQuery, TableClientAccountQueryVariables>;
+export const SearchClientAccountsDocument = new TypedDocumentString(`
+    query SearchClientAccounts($search: String!) {
+  billing {
+    clientAccounts(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: currency
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchClientAccountsQuery, SearchClientAccountsQueryVariables>;
 export const CreateCreditNoteDocument = new TypedDocumentString(`
     mutation CreateCreditNote($creditNote: CreateCreditNoteInput!) {
   billing {
@@ -8354,6 +8538,16 @@ export const TableCreditNoteDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableCreditNoteQuery, TableCreditNoteQueryVariables>;
+export const SearchCreditNotesDocument = new TypedDocumentString(`
+    query SearchCreditNotes($search: String!) {
+  billing {
+    creditNotes(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: creditNoteNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchCreditNotesQuery, SearchCreditNotesQueryVariables>;
 export const CreateDisputeDocument = new TypedDocumentString(`
     mutation CreateDispute($dispute: CreateDisputeInput!) {
   billing {
@@ -8447,6 +8641,16 @@ export const TableDisputeDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableDisputeQuery, TableDisputeQueryVariables>;
+export const SearchDisputesDocument = new TypedDocumentString(`
+    query SearchDisputes($search: String!) {
+  billing {
+    disputes(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: reason
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchDisputesQuery, SearchDisputesQueryVariables>;
 export const CreateInvoiceLineItemDocument = new TypedDocumentString(`
     mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {
   billing {
@@ -8549,6 +8753,16 @@ export const TableBillingInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableBillingInvoiceQuery, TableBillingInvoiceQueryVariables>;
+export const SearchBillingInvoicesDocument = new TypedDocumentString(`
+    query SearchBillingInvoices($search: String!) {
+  billing {
+    billingInvoices(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: invoiceNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchBillingInvoicesQuery, SearchBillingInvoicesQueryVariables>;
 export const CreatePaymentDocument = new TypedDocumentString(`
     mutation CreatePayment($payment: CreatePaymentInput!) {
   billing {
@@ -8616,6 +8830,16 @@ export const TablePaymentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TablePaymentQuery, TablePaymentQueryVariables>;
+export const SearchPaymentsDocument = new TypedDocumentString(`
+    query SearchPayments($search: String!) {
+  billing {
+    payments(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: transactionId
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchPaymentsQuery, SearchPaymentsQueryVariables>;
 export const CreateQuoteDocument = new TypedDocumentString(`
     mutation CreateQuote($quote: CreateQuoteInput!) {
   billing {
@@ -8692,6 +8916,16 @@ export const TableQuoteDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableQuoteQuery, TableQuoteQueryVariables>;
+export const SearchQuotesDocument = new TypedDocumentString(`
+    query SearchQuotes($search: String!) {
+  billing {
+    quotes(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: quoteNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchQuotesQuery, SearchQuotesQueryVariables>;
 export const CreateRateCardDocument = new TypedDocumentString(`
     mutation CreateRateCard($rateCard: CreateRateCardInput!) {
   billing {
@@ -8759,6 +8993,16 @@ export const TableRateCardDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableRateCardQuery, TableRateCardQueryVariables>;
+export const SearchRateCardsDocument = new TypedDocumentString(`
+    query SearchRateCards($search: String!) {
+  billing {
+    rateCards(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchRateCardsQuery, SearchRateCardsQueryVariables>;
 export const CreateRateRuleDocument = new TypedDocumentString(`
     mutation CreateRateRule($rateRule: CreateRateRuleInput!) {
   billing {
@@ -8828,6 +9072,16 @@ export const TableRateRuleDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableRateRuleQuery, TableRateRuleQueryVariables>;
+export const SearchRateRulesDocument = new TypedDocumentString(`
+    query SearchRateRules($search: String!) {
+  billing {
+    rateRules(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: condition
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchRateRulesQuery, SearchRateRulesQueryVariables>;
 export const CreateSurchargeDocument = new TypedDocumentString(`
     mutation CreateSurcharge($surcharge: CreateSurchargeInput!) {
   billing {
@@ -8880,6 +9134,16 @@ export const TableSurchargeDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableSurchargeQuery, TableSurchargeQueryVariables>;
+export const SearchSurchargesDocument = new TypedDocumentString(`
+    query SearchSurcharges($search: String!) {
+  billing {
+    surcharges(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchSurchargesQuery, SearchSurchargesQueryVariables>;
 export const CreateCampaignDocument = new TypedDocumentString(`
     mutation CreateCampaign($campaign: CreateCampaignInput!) {
   crm {
@@ -11325,6 +11589,16 @@ export const TableInventoryBatchDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableInventoryBatchQuery, TableInventoryBatchQueryVariables>;
+export const SearchInventoryBatchesDocument = new TypedDocumentString(`
+    query SearchInventoryBatches($search: String!) {
+  wms {
+    inventoryBatches(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: batchNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchInventoryBatchesQuery, SearchInventoryBatchesQueryVariables>;
 export const CreateInventoryStockDocument = new TypedDocumentString(`
     mutation CreateInventoryStock($inventoryStock: CreateInventoryStockInput!) {
   wms {
@@ -11458,6 +11732,16 @@ export const TableLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableLocationQuery, TableLocationQueryVariables>;
+export const SearchLocationsDocument = new TypedDocumentString(`
+    query SearchLocations($search: String!) {
+  wms {
+    locations(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchLocationsQuery, SearchLocationsQueryVariables>;
 export const CreateOutboundShipmentItemDocument = new TypedDocumentString(`
     mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {
   wms {
@@ -11540,6 +11824,16 @@ export const TableOutboundShipmentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableOutboundShipmentQuery, TableOutboundShipmentQueryVariables>;
+export const SearchOutboundShipmentsDocument = new TypedDocumentString(`
+    query SearchOutboundShipments($search: String!) {
+  wms {
+    outboundShipments(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: trackingNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchOutboundShipmentsQuery, SearchOutboundShipmentsQueryVariables>;
 export const CreatePackageItemDocument = new TypedDocumentString(`
     mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
   wms {
@@ -11637,6 +11931,16 @@ export const TablePackageDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TablePackageQuery, TablePackageQueryVariables>;
+export const SearchPackagesDocument = new TypedDocumentString(`
+    query SearchPackages($search: String!) {
+  wms {
+    packages(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: packageNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchPackagesQuery, SearchPackagesQueryVariables>;
 export const CreatePickBatchItemDocument = new TypedDocumentString(`
     mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {
   wms {
@@ -11733,6 +12037,16 @@ export const TablePickBatchDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TablePickBatchQuery, TablePickBatchQueryVariables>;
+export const SearchPickBatchesDocument = new TypedDocumentString(`
+    query SearchPickBatches($search: String!) {
+  wms {
+    pickBatches(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: batchNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchPickBatchesQuery, SearchPickBatchesQueryVariables>;
 export const CreateWmsProductDocument = new TypedDocumentString(`
     mutation CreateWmsProduct($wmsProduct: CreateWmsProductInput!) {
   wms {
@@ -11789,6 +12103,16 @@ export const TableWmsProductDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableWmsProductQuery, TableWmsProductQueryVariables>;
+export const SearchWmsProductsDocument = new TypedDocumentString(`
+    query SearchWmsProducts($search: String!) {
+  wms {
+    wmsProducts(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchWmsProductsQuery, SearchWmsProductsQueryVariables>;
 export const CreatePutawayRuleDocument = new TypedDocumentString(`
     mutation CreatePutawayRule($putawayRule: CreatePutawayRuleInput!) {
   wms {
@@ -12018,6 +12342,16 @@ export const TableReturnQueryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableReturnQueryQuery, TableReturnQueryQueryVariables>;
+export const SearchReturnsDocument = new TypedDocumentString(`
+    query SearchReturns($search: String!) {
+  wms {
+    returns(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: returnNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchReturnsQuery, SearchReturnsQueryVariables>;
 export const CreateSalesOrderItemDocument = new TypedDocumentString(`
     mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
   wms {
@@ -12101,6 +12435,16 @@ export const TableSalesOrderDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableSalesOrderQuery, TableSalesOrderQueryVariables>;
+export const SearchSalesOrdersDocument = new TypedDocumentString(`
+    query SearchSalesOrders($search: String!) {
+  wms {
+    salesOrders(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: orderNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchSalesOrdersQuery, SearchSalesOrdersQueryVariables>;
 export const CreateStockTransferDocument = new TypedDocumentString(`
     mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {
   wms {
@@ -12220,6 +12564,16 @@ export const TableSupplierDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableSupplierQuery, TableSupplierQueryVariables>;
+export const SearchSuppliersDocument = new TypedDocumentString(`
+    query SearchSuppliers($search: String!) {
+  wms {
+    suppliers(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchSuppliersQuery, SearchSuppliersQueryVariables>;
 export const CreateTaskItemDocument = new TypedDocumentString(`
     mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {
   wms {
@@ -12352,6 +12706,16 @@ export const TableTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableTaskQuery, TableTaskQueryVariables>;
+export const SearchTasksDocument = new TypedDocumentString(`
+    query SearchTasks($search: String!) {
+  wms {
+    tasks(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: taskNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchTasksQuery, SearchTasksQueryVariables>;
 export const CreateWarehouseDocument = new TypedDocumentString(`
     mutation CreateWarehouse($warehouse: CreateWarehouseInput!) {
   wms {
@@ -12472,3 +12836,13 @@ export const TableWarehouseDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableWarehouseQuery, TableWarehouseQueryVariables>;
+export const SearchWarehousesDocument = new TypedDocumentString(`
+    query SearchWarehouses($search: String!) {
+  wms {
+    warehouses(search: $search, page: 1, perPage: 10) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchWarehousesQuery, SearchWarehousesQueryVariables>;

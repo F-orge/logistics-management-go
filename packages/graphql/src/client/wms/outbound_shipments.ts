@@ -67,3 +67,14 @@ export const TableOutboundShipmentQuery = graphql(`
     }
   }
 `);
+
+export const SearchOutboundShipmentsQuery = graphql(`
+  query SearchOutboundShipments($search: String!) {
+    wms {
+      outboundShipments(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: trackingNumber
+      }
+    }
+  }
+`);

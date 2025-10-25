@@ -76,3 +76,14 @@ export const TablePaymentQuery = graphql(`
     }
   }
 `);
+
+export const SearchPaymentsQuery = graphql(`
+  query SearchPayments($search: String!) {
+    billing {
+      payments(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: transactionId
+      }
+    }
+  }
+`);

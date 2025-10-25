@@ -112,10 +112,10 @@ export const seedWmsLocation = (
   ),
 });
 
-// WMS Product - No foreign keys required
+// WMS Product - Requires clientId
 export const seedWmsProduct = (
   faker: Faker,
-  options: { clientId?: string; supplierId?: string }
+  options: { clientId: string; supplierId?: string }
 ): Insertable<WmsProduct> => {
   const weight = faker.number.float({ min: 0.1, max: 100, fractionDigits: 3 });
   const length = faker.number.float({ min: 1, max: 200, fractionDigits: 2 });
@@ -233,10 +233,10 @@ export const seedWmsReorderPoint = (
   threshold: faker.number.int({ min: 10, max: 200 }),
 });
 
-// WMS Inbound Shipment - Requires warehouseId
+// WMS Inbound Shipment - Requires warehouseId and clientId
 export const seedWmsInboundShipment = (
   faker: Faker,
-  options: { warehouseId: string; clientId?: string }
+  options: { warehouseId: string; clientId: string }
 ): Insertable<WmsInboundShipment> => ({
   warehouseId: options.warehouseId,
   clientId: options.clientId,
@@ -297,10 +297,10 @@ export const seedWmsOutboundShipmentItem = (
   salesOrderItemId: options.salesOrderItemId,
 });
 
-// WMS Sales Order - Optional clientId
+// WMS Sales Order - Requires clientId and crmOpportunityId
 export const seedWmsSalesOrder = (
   faker: Faker,
-  options: { clientId: string; crmOpportunityId?: string }
+  options: { clientId: string; crmOpportunityId: string }
 ): Insertable<WmsSalesOrder> => ({
   orderNumber: faker.string.alphanumeric(10).toUpperCase(),
   clientId: options.clientId,

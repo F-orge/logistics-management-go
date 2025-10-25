@@ -83,17 +83,17 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${suppliers.length} suppliers`);
 
-  // 3. Seed Products (depends on suppliers)
+  // 3. Seed Products (depends on suppliers and CRM companies)
   console.log("Seeding WMS Products...");
   const productData = Array.from({ length: 500 }, () => {
     const supplierId = faker.helpers.maybe(
       () => suppliers[Math.floor(Math.random() * suppliers.length)].id,
       { probability: 0.8 }
     );
-    const clientId = faker.helpers.maybe(
-      () => crmCompanies[Math.floor(Math.random() * crmCompanies.length)]?.id,
-      { probability: 0.7 }
-    );
+    // Ensure all products have a client relationship
+    const clientId = crmCompanies.length > 0
+      ? crmCompanies[Math.floor(Math.random() * crmCompanies.length)].id
+      : undefined;
 
     return seedWmsProduct(faker, { supplierId, clientId });
   });
@@ -330,18 +330,23 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${inboundShipmentItems.length} inbound shipment items`);
 
-  // 12. Seed Sales Orders (depends on CRM opportunities)
+  // 12. Seed Sales Orders (requires CRM companies and opportunities)
   console.log("Seeding WMS Sales Orders...");
   const salesOrderData = Array.from({ length: 200 }, () => {
-    const clientId =
-      crmCompanies[Math.floor(Math.random() * crmCompanies.length)]?.id;
+    // Require a valid client ID
+    const clientId = crmCompanies.length > 0
+      ? crmCompanies[Math.floor(Math.random() * crmCompanies.length)].id
+      : (() => {
+          throw new Error("No CRM companies available for sales orders");
+        })();
 
-    const crmOpportunityId = faker.helpers.maybe(
-      () =>
-        crmOpportunities[Math.floor(Math.random() * crmOpportunities.length)]
-          ?.id,
-      { probability: 0.6 }
-    );
+    // Link to CRM opportunities more frequently
+    const crmOpportunityId = crmOpportunities.length > 0
+      ? faker.helpers.maybe(
+          () => crmOpportunities[Math.floor(Math.random() * crmOpportunities.length)].id,
+          { probability: 0.8 }
+        )
+      : undefined;
 
     return seedWmsSalesOrder(faker, { clientId, crmOpportunityId });
   });
@@ -383,15 +388,20 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${salesOrderItems.length} sales order items`);
 
-  // 14. Seed Outbound Shipments (depends on warehouses and sales orders)
+  // 14. Seed Outbound Shipments (depends on warehouses, sales orders, and CRM companies)
   console.log("Seeding WMS Outbound Shipments...");
   const outboundShipmentData = Array.from({ length: 180 }, () => {
     const warehouse = warehouses[Math.floor(Math.random() * warehouses.length)];
-    const clientId =
-      crmCompanies[Math.floor(Math.random() * crmCompanies.length)]?.id;
+    // Ensure every outbound shipment has a valid sales order
+    const salesOrderId = salesOrders.length > 0
+      ? salesOrders[Math.floor(Math.random() * salesOrders.length)].id
+      : (() => {
+          throw new Error("No sales orders available for outbound shipments");
+        })();
 
-    const salesOrderId =
-      salesOrders[Math.floor(Math.random() * salesOrders.length)].id;
+    const clientId = crmCompanies.length > 0
+      ? crmCompanies[Math.floor(Math.random() * crmCompanies.length)].id
+      : undefined;
 
     return seedWmsOutboundShipment(faker, {
       warehouseId: warehouse.id,

@@ -75,3 +75,14 @@ export const TableRateCardQuery = graphql(`
     }
   }
 `);
+
+export const SearchRateCardsQuery = graphql(`
+  query SearchRateCards($search: String!) {
+    billing {
+      rateCards(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

@@ -161,7 +161,20 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${invoices.length} invoices`);
 
-  // 7. Seed Invoice Line Items (depends on invoices)
+  // Get reference data from other schemas for proper linking
+  const wmsOutboundShipments = await db
+    .selectFrom("wms.outboundShipments")
+    .select(["id"])
+    .execute();
+
+  const tmsTrips = await db.selectFrom("tms.trips").select(["id"]).execute();
+
+  const wmsPackages = await db
+    .selectFrom("wms.packages")
+    .select(["id"])
+    .execute();
+
+  // 7. Seed Invoice Line Items (depends on invoices and actual shipments/trips/packages)
   console.log("Seeding Billing Invoice Line Items...");
   const invoiceLineItemData: Array<
     ReturnType<typeof seedBillingInvoiceLineItem>
@@ -171,13 +184,32 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     // Each invoice has 1-6 line items
     const itemCount = faker.number.int({ min: 1, max: 6 });
     for (let i = 0; i < itemCount; i++) {
-      const sourceRecordType = faker.helpers.maybe(
-        () => faker.helpers.arrayElement(["trip", "shipment", "package"]),
-        { probability: 0.7 }
-      );
-      const sourceRecordId = faker.helpers.maybe(() => faker.string.uuid(), {
-        probability: 0.7,
-      });
+      // Link to actual entities instead of random UUIDs
+      let sourceRecordType: string | undefined;
+      let sourceRecordId: string | undefined;
+
+      const entityType = faker.helpers.arrayElement([
+        "shipment",
+        "trip",
+        "package",
+      ]);
+
+      if (entityType === "shipment" && wmsOutboundShipments.length > 0) {
+        sourceRecordType = "wms_outbound_shipment";
+        sourceRecordId =
+          wmsOutboundShipments[
+            Math.floor(Math.random() * wmsOutboundShipments.length)
+          ].id;
+      } else if (entityType === "trip" && tmsTrips.length > 0) {
+        sourceRecordType = "tms_trip";
+        sourceRecordId =
+          tmsTrips[Math.floor(Math.random() * tmsTrips.length)].id;
+      } else if (entityType === "package" && wmsPackages.length > 0) {
+        sourceRecordType = "wms_package";
+        sourceRecordId =
+          wmsPackages[Math.floor(Math.random() * wmsPackages.length)].id;
+      }
+
       invoiceLineItemData.push(
         seedBillingInvoiceLineItem(faker, {
           invoiceId: invoice.id,
@@ -219,7 +251,7 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${payments.length} payments`);
 
-  // 9. Seed Account Transactions (depends on client accounts and users)
+  // 9. Seed Account Transactions (depends on client accounts, users, and actual records)
   console.log("Seeding Billing Account Transactions...");
   const accountTransactionData = Array.from({ length: 500 }, () => {
     const clientAccount =
@@ -227,13 +259,20 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     const processedByUserId = faker.helpers.maybe(() => getRandomUserId(), {
       probability: 0.8,
     });
-    const sourceRecordType = faker.helpers.maybe(
-      () => faker.helpers.arrayElement(["invoice", "payment", "credit_note"]),
-      { probability: 0.8 }
-    );
-    const sourceRecordId = faker.helpers.maybe(() => faker.string.uuid(), {
-      probability: 0.8,
-    });
+
+    // Link to actual invoices, payments, or credit notes
+    let sourceRecordType: string | undefined;
+    let sourceRecordId: string | undefined;
+
+    const recordType = faker.helpers.arrayElement(["invoice", "payment"]);
+
+    if (recordType === "invoice" && invoices.length > 0) {
+      sourceRecordType = "billing_invoice";
+      sourceRecordId = invoices[Math.floor(Math.random() * invoices.length)].id;
+    } else if (recordType === "payment" && payments.length > 0) {
+      sourceRecordType = "billing_payment";
+      sourceRecordId = payments[Math.floor(Math.random() * payments.length)].id;
+    }
 
     return seedBillingAccountTransaction(faker, {
       clientAccountId: clientAccount.id,

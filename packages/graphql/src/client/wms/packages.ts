@@ -72,3 +72,14 @@ export const TablePackageQuery = graphql(`
     }
   }
 `);
+
+export const SearchPackagesQuery = graphql(`
+  query SearchPackages($search: String!) {
+    wms {
+      packages(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: packageNumber
+      }
+    }
+  }
+`);

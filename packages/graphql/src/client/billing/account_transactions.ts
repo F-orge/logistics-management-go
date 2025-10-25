@@ -85,3 +85,14 @@ export const AccountTransactionsQuery = graphql(`
     }
   }
 `);
+
+export const SearchAccountTransactionsQuery = graphql(`
+  query SearchAccountTransactions($search: String!) {
+    billing {
+      accountTransactions(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: referenceNumber
+      }
+    }
+  }
+`);

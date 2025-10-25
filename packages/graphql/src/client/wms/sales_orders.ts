@@ -68,3 +68,14 @@ export const TableSalesOrderQuery = graphql(`
     }
   }
 `);
+
+export const SearchSalesOrdersQuery = graphql(`
+  query SearchSalesOrders($search: String!) {
+    wms {
+      salesOrders(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: orderNumber
+      }
+    }
+  }
+`);

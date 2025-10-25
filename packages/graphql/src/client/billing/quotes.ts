@@ -84,3 +84,14 @@ export const TableQuoteQuery = graphql(`
     }
   }
 `);
+
+export const SearchQuotesQuery = graphql(`
+  query SearchQuotes($search: String!) {
+    billing {
+      quotes(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: quoteNumber
+      }
+    }
+  }
+`);

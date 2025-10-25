@@ -60,3 +60,14 @@ export const TableSurchargeQuery = graphql(`
     }
   }
 `);
+
+export const SearchSurchargesQuery = graphql(`
+  query SearchSurcharges($search: String!) {
+    billing {
+      surcharges(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

@@ -173,7 +173,13 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${trips.length} trips`);
 
-  // 8. Seed Trip Stops (depends on trips)
+  // Get WMS outbound shipments for trip stop linkage
+  const wmsOutboundShipments = await db
+    .selectFrom("wms.outboundShipments")
+    .select(["id"])
+    .execute();
+
+  // 8. Seed Trip Stops (depends on trips and WMS outbound shipments)
   console.log("Seeding TMS Trip Stops...");
   const tripStopData: Array<ReturnType<typeof seedTmsTripStop>> = [];
 
@@ -181,9 +187,13 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     // Each trip has 2-8 stops
     const stopCount = faker.number.int({ min: 2, max: 8 });
     for (let i = 0; i < stopCount; i++) {
-      // Set shipmentId to undefined for now since WMS hasn't been seeded yet
-      // This will be updated later when WMS shipments are available
-      const shipmentId = undefined;
+      // Link to actual WMS outbound shipments if available
+      const shipmentId = wmsOutboundShipments.length > 0 
+        ? faker.helpers.maybe(
+            () => wmsOutboundShipments[Math.floor(Math.random() * wmsOutboundShipments.length)].id,
+            { probability: 0.7 }
+          )
+        : undefined;
 
       tripStopData.push(
         seedTmsTripStop(faker, {
@@ -327,13 +337,16 @@ export async function seed(db: Kysely<DB>): Promise<void> {
 
   console.log(`Seeded ${geofenceEvents.length} geofence events`);
 
-  // 15. Seed Shipment Legs (depends on carriers and trips)
+  // 15. Seed Shipment Legs (depends on carriers, trips, and WMS outbound shipments)
   console.log("Seeding TMS Shipment Legs...");
   const shipmentLegData: Array<ReturnType<typeof seedTmsShipmentLeg>> = [];
 
   // Create shipment legs for external carriers and internal trips
   for (let i = 0; i < 200; i++) {
-    const shipmentId = undefined;
+    // Link to actual WMS outbound shipments if available
+    const shipmentId = wmsOutboundShipments.length > 0
+      ? wmsOutboundShipments[Math.floor(Math.random() * wmsOutboundShipments.length)].id
+      : undefined;
     const legCount = faker.number.int({ min: 1, max: 3 });
 
     for (let j = 0; j < legCount; j++) {

@@ -68,3 +68,14 @@ export const AccountingSyncLogsQuery = graphql(`
     }
   }
 `);
+
+export const SearchAccountingSyncLogsQuery = graphql(`
+  query SearchAccountingSyncLogs($search: String!) {
+    billing {
+      accountingSyncLogs(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: recordType
+      }
+    }
+  }
+`);

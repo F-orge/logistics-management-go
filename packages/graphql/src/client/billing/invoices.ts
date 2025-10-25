@@ -85,3 +85,14 @@ export const TableBillingInvoiceQuery = graphql(`
     }
   }
 `);
+
+export const SearchBillingInvoicesQuery = graphql(`
+  query SearchBillingInvoices($search: String!) {
+    billing {
+      billingInvoices(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: invoiceNumber
+      }
+    }
+  }
+`);

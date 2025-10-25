@@ -71,3 +71,14 @@ export const TableClientAccountQuery = graphql(`
     }
   }
 `);
+
+export const SearchClientAccountsQuery = graphql(`
+  query SearchClientAccounts($search: String!) {
+    billing {
+      clientAccounts(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: currency
+      }
+    }
+  }
+`);

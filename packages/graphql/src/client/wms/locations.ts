@@ -75,3 +75,14 @@ export const TableLocationQuery = graphql(`
     }
   }
 `);
+
+export const SearchLocationsQuery = graphql(`
+  query SearchLocations($search: String!) {
+    wms {
+      locations(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

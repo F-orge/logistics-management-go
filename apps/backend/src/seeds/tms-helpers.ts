@@ -169,7 +169,7 @@ export const seedTmsTrip = (
 // TMS Trip Stop - Requires tripId
 export const seedTmsTripStop = (
   faker: Faker,
-  options: { tripId: string; shipmentId?: string }
+  options: { tripId: string; shipmentId: string }
 ): Insertable<TmsTripStop> => {
   const estimatedArrivalTime = faker.date.recent({ days: 7 });
   const estimatedDepartureTime = faker.date.soon({
@@ -224,7 +224,7 @@ export const seedTmsRoute = (
 // TMS Shipment Leg - Requires tripId
 export const seedTmsShipmentLeg = (
   faker: Faker,
-  options: { tripId?: string; carrierId?: string; shipmentId?: string }
+  options: { tripId?: string; carrierId?: string; shipmentId: string }
 ): Insertable<TmsShipmentLeg> => ({
   carrierId: options.carrierId,
   legSequence: faker.number.int({ min: 1, max: 5 }),

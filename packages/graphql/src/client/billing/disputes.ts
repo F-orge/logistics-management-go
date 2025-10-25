@@ -106,3 +106,14 @@ export const TableDisputeQuery = graphql(`
     }
   }
 `);
+
+export const SearchDisputesQuery = graphql(`
+  query SearchDisputes($search: String!) {
+    billing {
+      disputes(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: reason
+      }
+    }
+  }
+`);

@@ -123,3 +123,14 @@ export const TableWarehouseQuery = graphql(`
     }
   }
 `);
+
+export const SearchWarehousesQuery = graphql(`
+  query SearchWarehouses($search: String!) {
+    wms {
+      warehouses(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

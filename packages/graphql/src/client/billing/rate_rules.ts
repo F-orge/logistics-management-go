@@ -77,3 +77,14 @@ export const TableRateRuleQuery = graphql(`
     }
   }
 `);
+
+export const SearchRateRulesQuery = graphql(`
+  query SearchRateRules($search: String!) {
+    billing {
+      rateRules(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: condition
+      }
+    }
+  }
+`);

@@ -113,3 +113,14 @@ export const TableTaskQuery = graphql(`
     }
   }
 `);
+
+export const SearchTasksQuery = graphql(`
+  query SearchTasks($search: String!) {
+    wms {
+      tasks(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: taskNumber
+      }
+    }
+  }
+`);

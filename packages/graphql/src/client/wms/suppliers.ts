@@ -55,3 +55,14 @@ export const TableSupplierQuery = graphql(`
     }
   }
 `);
+
+export const SearchSuppliersQuery = graphql(`
+  query SearchSuppliers($search: String!) {
+    wms {
+      suppliers(search: $search, page: 1, perPage: 10) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);
