@@ -30,3 +30,41 @@ export const RemoveSalesOrderMutation = graphql(`
     }
   }
 `);
+
+export const TableSalesOrderQuery = graphql(`
+  query TableSalesOrder(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: SalesOrderStatus
+  ) {
+    wms {
+      salesOrders(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        createdAt
+        id
+        orderNumber
+        shippingAddress
+        status
+        updatedAt
+        items {
+          id
+          quantityOrdered
+          updatedAt
+          product {
+            barcode
+            id
+            description
+            name
+            sku
+            status
+          }
+        }
+      }
+    }
+  }
+`);

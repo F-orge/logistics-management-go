@@ -1,4 +1,9 @@
-import { Companies, Locations, WmsProducts } from "../../../../zod.schema";
+import {
+  Companies,
+  Locations,
+  Warehouses,
+  WmsProducts,
+} from "../../../../zod.schema";
 import type { PutawayRulesResolvers } from "./../../../types.generated";
 export const PutawayRules: PutawayRulesResolvers = {
   product: async (parent, _args, ctx) => {
@@ -42,5 +47,19 @@ export const PutawayRules: PutawayRulesResolvers = {
       .executeTakeFirst();
 
     return result as unknown as Locations;
+  },
+  warehouse: async (parent, _args, ctx) => {
+    const result = await ctx.db
+      .selectFrom("wms.warehouses")
+      .selectAll("wms.warehouses")
+      .innerJoin(
+        "wms.putawayRules",
+        "wms.putawayRules.warehouseId",
+        "wms.warehouses.id"
+      )
+      .where("wms.putawayRules.id", "=", parent.id as string)
+      .executeTakeFirst();
+
+    return result as unknown as Warehouses;
   },
 };

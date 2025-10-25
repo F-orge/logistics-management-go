@@ -7097,6 +7097,14 @@ export type RemoveBinThresholdMutationVariables = Exact<{
 
 export type RemoveBinThresholdMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeBinThreshold: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableBinThresholdQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type TableBinThresholdQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', binThresholds: Array<{ __typename?: 'BinThresholds', alertThreshold?: number | null, createdAt?: string | null, id: string, isActive?: boolean | null, maxQuantity: number, minQuantity: number, reorderQuantity?: number | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', name: string, description?: string | null, id: string, sku: string, status?: ProductStatus | null, barcode?: string | null } }> } | null };
+
 export type CreateInboundShipmentItemMutationVariables = Exact<{
   inboundShipmentItem: CreateInboundShipmentItemInput;
 }>;
@@ -7141,6 +7149,15 @@ export type RemoveInboundShipmentMutationVariables = Exact<{
 
 export type RemoveInboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInboundShipment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableInboundShipmentQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InboundShipmentStatus>;
+}>;
+
+
+export type TableInboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inboundShipments: Array<{ __typename?: 'InboundShipments', actualArrivalDate?: string | null, createdAt?: string | null, expectedArrivalDate?: string | null, id: string, status?: InboundShipmentStatus | null, updatedAt?: string | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, country?: string | null, website?: string | null } | null }> } | null };
+
 export type CreateInventoryAdjustmentMutationVariables = Exact<{
   inventoryAdjustment: CreateInventoryAdjustmentInput;
 }>;
@@ -7162,6 +7179,16 @@ export type RemoveInventoryAdjustmentMutationVariables = Exact<{
 
 
 export type RemoveInventoryAdjustmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInventoryAdjustment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableInventoryAdjustmentQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  reason?: InputMaybe<InventoryAdjustmentReason>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableInventoryAdjustmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', createdAt?: string | null, id: string, notes?: string | null, quantityChange: number, reason?: InventoryAdjustmentReason | null, updatedAt?: string | null, warehouseId: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string }, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> } | null };
 
 export type CreateInventoryBatchMutationVariables = Exact<{
   inventoryBatch: CreateInventoryBatchInput;
@@ -7185,6 +7212,15 @@ export type RemoveInventoryBatchMutationVariables = Exact<{
 
 export type RemoveInventoryBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInventoryBatch: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableInventoryBatchQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableInventoryBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', batchNumber: string, createdAt?: string | null, expirationDate?: string | null, id: string, updatedAt?: string | null, inventoryStock?: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, product: { __typename?: 'WmsProducts', barcode?: string | null, name: string, sku: string, status?: ProductStatus | null, description?: string | null, id: string, costPrice?: number | null } }> | null }> } | null };
+
 export type CreateInventoryStockMutationVariables = Exact<{
   inventoryStock: CreateInventoryStockInput;
 }>;
@@ -7207,6 +7243,15 @@ export type RemoveInventoryStockMutationVariables = Exact<{
 
 export type RemoveInventoryStockMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeInventoryStock: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableInventoryStockQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<InventoryStockStatus>;
+}>;
+
+
+export type TableInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, createdAt?: string | null, id: string, lastCountedAt?: string | null, lastMovementAt?: string | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, status?: ProductStatus | null, sku: string, volume?: number | null, weight?: number | null, width?: number | null }, location: { __typename?: 'Locations', id: string, barcode?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, name: string } }> } | null };
+
 export type CreateLocationMutationVariables = Exact<{
   location: CreateLocationInput;
 }>;
@@ -7228,6 +7273,16 @@ export type RemoveLocationMutationVariables = Exact<{
 
 
 export type RemoveLocationMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeLocation: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableLocationQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<LocationType>;
+}>;
+
+
+export type TableLocationQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', barcode?: string | null, createdAt?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, id: string, hazmatApproved?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, temperatureControlled?: boolean | null, type: LocationType, updatedAt?: string | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, parentLocation?: { __typename?: 'Locations', id: string, name: string, path?: string | null } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, name: string, id: string, isActive?: boolean | null } }> } | null };
 
 export type CreateOutboundShipmentItemMutationVariables = Exact<{
   outboundShipmentItem: CreateOutboundShipmentItemInput;
@@ -7273,6 +7328,16 @@ export type RemoveOutboundShipmentMutationVariables = Exact<{
 
 export type RemoveOutboundShipmentMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeOutboundShipment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableOutboundShipmentQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<OutboundShipmentStatus>;
+}>;
+
+
+export type TableOutboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', carrier?: string | null, createdAt?: string | null, id: string, status?: OutboundShipmentStatus | null, trackingNumber?: string | null, updatedAt?: string | null, warehouseId: string, salesOrder: { __typename?: 'SalesOrders', id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null } }> } | null };
+
 export type CreatePackageItemMutationVariables = Exact<{
   packageItem: CreatePackageItemInput;
 }>;
@@ -7316,6 +7381,15 @@ export type RemovePackageMutationVariables = Exact<{
 
 
 export type RemovePackageMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePackage: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TablePackageQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TablePackageQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', carrier?: string | null, createdAt?: string | null, height?: number | null, id: string, insuranceValue?: number | null, isFragile?: boolean | null, isHazmat?: boolean | null, length?: number | null, packageNumber: string, packageType?: string | null, packedAt?: string | null, requiresSignature?: boolean | null, serviceLevel?: string | null, shippedAt?: string | null, trackingNumber?: string | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, items?: Array<{ __typename?: 'PackageItems', lotNumber?: string | null, quantity: number, serialNumbers?: Array<string | null> | null, totalWeight?: number | null, unitWeight?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
 
 export type CreatePickBatchItemMutationVariables = Exact<{
   pickBatchItem: CreatePickBatchItemInput;
@@ -7361,6 +7435,17 @@ export type RemovePickBatchMutationVariables = Exact<{
 
 export type RemovePickBatchMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePickBatch: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TablePickBatchQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<PickBatchStatus>;
+  strategy?: InputMaybe<PickStrategy>;
+}>;
+
+
+export type TablePickBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', actualDuration?: number | null, batchNumber: string, completedAt?: string | null, completedItems?: number | null, createdAt?: string | null, estimatedDuration?: number | null, id: string, priority?: number | null, startedAt?: string | null, status?: PickBatchStatus | null, strategy: PickStrategy, totalItems?: number | null, updatedAt?: string | null, waveId?: string | null, zoneRestrictions?: Array<string | null> | null, items?: Array<{ __typename?: 'PickBatchItems', id: string, estimatedPickTime?: number | null, actualPickTime?: number | null, orderPriority?: number | null, salesOrder: { __typename?: 'SalesOrders', status?: SalesOrderStatus | null, shippingAddress?: string | null, orderNumber: string } }> | null }> } | null };
+
 export type CreateWmsProductMutationVariables = Exact<{
   wmsProduct: CreateWmsProductInput;
 }>;
@@ -7382,6 +7467,16 @@ export type RemoveWmsProductMutationVariables = Exact<{
 
 
 export type RemoveWmsProductMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeWmsProduct: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableWmsProductQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<ProductStatus>;
+}>;
+
+
+export type TableWmsProductQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, createdAt?: string | null, height?: number | null, description?: string | null, id: string, length?: number | null, name: string, sku: string, status?: ProductStatus | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, supplier?: { __typename?: 'Suppliers', contactPerson?: string | null, email?: string | null, name: string, phoneNumber?: string | null } | null }> } | null };
 
 export type CreatePutawayRuleMutationVariables = Exact<{
   putawayRule: CreatePutawayRuleInput;
@@ -7405,6 +7500,15 @@ export type RemovePutawayRuleMutationVariables = Exact<{
 
 export type RemovePutawayRuleMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removePutawayRule: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TablePutawayRuleQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  locationType?: InputMaybe<LocationType>;
+}>;
+
+
+export type TablePutawayRuleQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', putawayRules: Array<{ __typename?: 'PutawayRules', createdAt?: string | null, isActive?: boolean | null, id: string, locationType?: LocationType | null, maxQuantity?: number | null, minQuantity?: number | null, priority: number, requiresHazmatApproval?: boolean | null, requiresTemperatureControl?: boolean | null, updatedAt?: string | null, volumeThreshold?: number | null, weightThreshold?: number | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, country?: string | null, city?: string | null, website?: string | null, phoneNumber?: string | null } | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, name: string, isActive?: boolean | null } }> } | null };
+
 export type CreateReorderPointMutationVariables = Exact<{
   reorderPoint: CreateReorderPointInput;
 }>;
@@ -7426,6 +7530,14 @@ export type RemoveReorderPointMutationVariables = Exact<{
 
 
 export type RemoveReorderPointMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeReorderPoint: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableReorderPointQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type TableReorderPointQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', reorderPoints: Array<{ __typename?: 'ReorderPoints', createdAt?: string | null, id: string, threshold: number, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, costPrice?: number | null, id: string, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string } }> } | null };
 
 export type CreateReturnItemMutationVariables = Exact<{
   returnItem: CreateReturnItemInput;
@@ -7471,6 +7583,16 @@ export type RemoveReturnMutationVariables = Exact<{
 
 export type RemoveReturnMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeReturn: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableReturnQueryQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<ReturnStatus>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableReturnQueryQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', createdAt?: string | null, id: string, reason?: string | null, returnNumber: string, status?: ReturnStatus | null, updatedAt?: string | null, client: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null, city?: string | null, website?: string | null }, salesOrder?: { __typename?: 'SalesOrders', orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: string | null, id: string } | null, items?: Array<{ __typename?: 'ReturnItems', condition?: ReturnItemCondition | null, id: string, quantityExpected: number, quantityReceived?: number | null, quantityVariance?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+
 export type CreateSalesOrderItemMutationVariables = Exact<{
   salesOrderItem: CreateSalesOrderItemInput;
 }>;
@@ -7515,6 +7637,16 @@ export type RemoveSalesOrderMutationVariables = Exact<{
 
 export type RemoveSalesOrderMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeSalesOrder: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableSalesOrderQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<SalesOrderStatus>;
+}>;
+
+
+export type TableSalesOrderQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', createdAt?: string | null, id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: string | null, items?: Array<{ __typename?: 'SalesOrderItems', id: string, quantityOrdered: number, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, description?: string | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+
 export type CreateStockTransferMutationVariables = Exact<{
   stockTransfer: CreateStockTransferInput;
 }>;
@@ -7537,6 +7669,15 @@ export type RemoveStockTransferMutationVariables = Exact<{
 
 export type RemoveStockTransferMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeStockTransfer: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableStockTransferQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  status?: InputMaybe<StockTransferStatus>;
+}>;
+
+
+export type TableStockTransferQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', stockTransfers: Array<{ __typename?: 'StockTransfers', createdAt?: string | null, id: string, quantity: number, status?: StockTransferStatus | null, updatedAt?: string | null, destinationWarehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string, timezone?: string | null, isActive?: boolean | null }, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, height?: number | null, sku: string, status?: ProductStatus | null }, sourceWarehouse: { __typename?: 'Warehouses', address?: string | null, country?: string | null, isActive?: boolean | null, name: string, city?: string | null, id: string, timezone?: string | null } }> } | null };
+
 export type CreateSupplierMutationVariables = Exact<{
   supplier: CreateSupplierInput;
 }>;
@@ -7558,6 +7699,15 @@ export type RemoveSupplierMutationVariables = Exact<{
 
 
 export type RemoveSupplierMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeSupplier: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableSupplierQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableSupplierQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', suppliers: Array<{ __typename?: 'Suppliers', contactPerson?: string | null, createdAt?: string | null, email?: string | null, id: string, name: string, phoneNumber?: string | null, updatedAt?: string | null, products?: Array<{ __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }> | null }> } | null };
 
 export type CreateTaskItemMutationVariables = Exact<{
   taskItem: CreateTaskItemInput;
@@ -7603,6 +7753,17 @@ export type RemoveTaskMutationVariables = Exact<{
 
 export type RemoveTaskMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeTask: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
+export type TableTaskQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<TaskStatus>;
+  type?: InputMaybe<TaskType>;
+}>;
+
+
+export type TableTaskQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', actualDuration?: number | null, createdAt?: string | null, durationSeconds?: number | null, endTime?: string | null, estimatedDuration?: number | null, id: string, instructions?: string | null, notes?: string | null, priority?: number | null, sourceEntityId?: string | null, sourceEntityType?: string | null, startTime?: string | null, status?: TaskStatus | null, taskNumber: string, type: TaskType, updatedAt?: string | null, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, isActive?: boolean | null, name: string, timezone?: string | null }, items?: Array<{ __typename?: 'TaskItems', completedAt?: string | null, createdAt?: string | null, expiryDate?: string | null, id: string, lotNumber?: string | null, notes?: string | null, quantityCompleted: number, quantityRemaining?: number | null, quantityRequired: number, serialNumbers?: Array<string | null> | null, status?: TaskItemStatus | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, sourceLocation?: { __typename?: 'Locations', barcode?: string | null, hazmatApproved?: boolean | null, id: string, path?: string | null, name: string, type: LocationType } | null }> | null }> } | null };
+
 export type CreateWarehouseMutationVariables = Exact<{
   warehouse: CreateWarehouseInput;
 }>;
@@ -7624,6 +7785,15 @@ export type RemoveWarehouseMutationVariables = Exact<{
 
 
 export type RemoveWarehouseMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', removeWarehouse: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableWarehouseQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableWarehouseQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', warehouses: Array<{ __typename?: 'Warehouses', address?: string | null, city?: string | null, contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, country?: string | null, createdAt?: string | null, id: string, isActive?: boolean | null, name: string, postalCode?: string | null, state?: string | null, timezone?: string | null, updatedAt?: string | null, tasks?: Array<{ __typename?: 'Tasks', instructions?: string | null, id: string, notes?: string | null, priority?: number | null, taskNumber: string, type: TaskType, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> | null, locations?: Array<{ __typename?: 'Locations', barcode?: string | null, id: string, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, type: LocationType, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, hazmatApproved?: boolean | null }> | null, inboundShipments?: Array<{ __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, updatedAt?: string | null, warehouseId: string, items?: Array<{ __typename?: 'InboundShipmentItems', discrepancyNotes?: string | null, discrepancyQuantity?: number | null, expectedQuantity: number, id: string, createdAt?: string | null, receivedQuantity?: number | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, inboundShipment: { __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, id: string, expectedArrivalDate?: string | null, updatedAt?: string | null, actualArrivalDate?: string | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } | null } }> | null }> | null }> } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -9976,6 +10146,30 @@ export const RemoveBinThresholdDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveBinThresholdMutation, RemoveBinThresholdMutationVariables>;
+export const TableBinThresholdDocument = new TypedDocumentString(`
+    query TableBinThreshold($page: Int, $perPage: Int) {
+  wms {
+    binThresholds(page: $page, perPage: $perPage) {
+      alertThreshold
+      createdAt
+      id
+      isActive
+      maxQuantity
+      minQuantity
+      reorderQuantity
+      updatedAt
+      product {
+        name
+        description
+        id
+        sku
+        status
+        barcode
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableBinThresholdQuery, TableBinThresholdQueryVariables>;
 export const CreateInboundShipmentItemDocument = new TypedDocumentString(`
     mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {
   wms {
@@ -10032,6 +10226,27 @@ export const RemoveInboundShipmentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInboundShipmentMutation, RemoveInboundShipmentMutationVariables>;
+export const TableInboundShipmentDocument = new TypedDocumentString(`
+    query TableInboundShipment($page: Int, $perPage: Int, $status: InboundShipmentStatus) {
+  wms {
+    inboundShipments(page: $page, perPage: $perPage, status: $status) {
+      actualArrivalDate
+      createdAt
+      expectedArrivalDate
+      id
+      status
+      updatedAt
+      client {
+        name
+        industry
+        phoneNumber
+        country
+        website
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableInboundShipmentQuery, TableInboundShipmentQueryVariables>;
 export const CreateInventoryAdjustmentDocument = new TypedDocumentString(`
     mutation CreateInventoryAdjustment($inventoryAdjustment: CreateInventoryAdjustmentInput!) {
   wms {
@@ -10060,6 +10275,40 @@ export const RemoveInventoryAdjustmentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInventoryAdjustmentMutation, RemoveInventoryAdjustmentMutationVariables>;
+export const TableInventoryAdjustmentDocument = new TypedDocumentString(`
+    query TableInventoryAdjustment($page: Int, $perPage: Int, $reason: InventoryAdjustmentReason, $search: String) {
+  wms {
+    inventoryAdjustments(
+      page: $page
+      perPage: $perPage
+      reason: $reason
+      search: $search
+    ) {
+      createdAt
+      id
+      notes
+      quantityChange
+      reason
+      updatedAt
+      warehouseId
+      user {
+        email
+        id
+        image
+        name
+      }
+      product {
+        barcode
+        description
+        id
+        name
+        sku
+        status
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableInventoryAdjustmentQuery, TableInventoryAdjustmentQueryVariables>;
 export const CreateInventoryBatchDocument = new TypedDocumentString(`
     mutation CreateInventoryBatch($inventoryBatch: CreateInventoryBatchInput!) {
   wms {
@@ -10088,6 +10337,34 @@ export const RemoveInventoryBatchDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInventoryBatchMutation, RemoveInventoryBatchMutationVariables>;
+export const TableInventoryBatchDocument = new TypedDocumentString(`
+    query TableInventoryBatch($page: Int, $perPage: Int, $search: String) {
+  wms {
+    inventoryBatches(page: $page, perPage: $perPage, search: $search) {
+      batchNumber
+      createdAt
+      expirationDate
+      id
+      updatedAt
+      inventoryStock {
+        availableQuantity
+        product {
+          barcode
+          name
+          sku
+          status
+          description
+          id
+          costPrice
+        }
+        quantity
+        reservedQuantity
+        status
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableInventoryBatchQuery, TableInventoryBatchQueryVariables>;
 export const CreateInventoryStockDocument = new TypedDocumentString(`
     mutation CreateInventoryStock($inventoryStock: CreateInventoryStockInput!) {
   wms {
@@ -10116,6 +10393,44 @@ export const RemoveInventoryStockDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveInventoryStockMutation, RemoveInventoryStockMutationVariables>;
+export const TableInventoryStockDocument = new TypedDocumentString(`
+    query TableInventoryStock($page: Int, $perPage: Int, $status: InventoryStockStatus) {
+  wms {
+    inventoryStocks(page: $page, perPage: $perPage, status: $status) {
+      availableQuantity
+      createdAt
+      id
+      lastCountedAt
+      lastMovementAt
+      quantity
+      reservedQuantity
+      status
+      updatedAt
+      product {
+        barcode
+        costPrice
+        description
+        id
+        name
+        status
+        sku
+        volume
+        weight
+        width
+      }
+      location {
+        id
+        barcode
+        isActive
+        isPickable
+        isReceivable
+        level
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableInventoryStockQuery, TableInventoryStockQueryVariables>;
 export const CreateLocationDocument = new TypedDocumentString(`
     mutation CreateLocation($location: CreateLocationInput!) {
   wms {
@@ -10144,6 +10459,45 @@ export const RemoveLocationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveLocationMutation, RemoveLocationMutationVariables>;
+export const TableLocationDocument = new TypedDocumentString(`
+    query TableLocation($page: Int, $perPage: Int, $search: String, $type: LocationType) {
+  wms {
+    locations(page: $page, perPage: $perPage, search: $search, type: $type) {
+      barcode
+      createdAt
+      isActive
+      isPickable
+      isReceivable
+      id
+      hazmatApproved
+      level
+      maxPallets
+      maxVolume
+      maxWeight
+      name
+      path
+      temperatureControlled
+      type
+      updatedAt
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      parentLocation {
+        id
+        name
+        path
+      }
+      warehouse {
+        address
+        city
+        name
+        id
+        isActive
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableLocationQuery, TableLocationQueryVariables>;
 export const CreateOutboundShipmentItemDocument = new TypedDocumentString(`
     mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {
   wms {
@@ -10200,6 +10554,32 @@ export const RemoveOutboundShipmentDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveOutboundShipmentMutation, RemoveOutboundShipmentMutationVariables>;
+export const TableOutboundShipmentDocument = new TypedDocumentString(`
+    query TableOutboundShipment($page: Int, $perPage: Int, $search: String, $status: OutboundShipmentStatus) {
+  wms {
+    outboundShipments(
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+    ) {
+      carrier
+      createdAt
+      id
+      status
+      trackingNumber
+      updatedAt
+      warehouseId
+      salesOrder {
+        id
+        orderNumber
+        shippingAddress
+        status
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableOutboundShipmentQuery, TableOutboundShipmentQueryVariables>;
 export const CreatePackageItemDocument = new TypedDocumentString(`
     mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
   wms {
@@ -10256,6 +10636,47 @@ export const RemovePackageDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemovePackageMutation, RemovePackageMutationVariables>;
+export const TablePackageDocument = new TypedDocumentString(`
+    query TablePackage($page: Int, $perPage: Int, $search: String) {
+  wms {
+    packages(page: $page, perPage: $perPage, search: $search) {
+      carrier
+      createdAt
+      height
+      id
+      insuranceValue
+      isFragile
+      isHazmat
+      length
+      packageNumber
+      packageType
+      packedAt
+      requiresSignature
+      serviceLevel
+      shippedAt
+      trackingNumber
+      updatedAt
+      volume
+      weight
+      width
+      items {
+        lotNumber
+        quantity
+        product {
+          barcode
+          costPrice
+          name
+          sku
+          status
+        }
+        serialNumbers
+        totalWeight
+        unitWeight
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TablePackageQuery, TablePackageQueryVariables>;
 export const CreatePickBatchItemDocument = new TypedDocumentString(`
     mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {
   wms {
@@ -10312,6 +10733,46 @@ export const RemovePickBatchDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemovePickBatchMutation, RemovePickBatchMutationVariables>;
+export const TablePickBatchDocument = new TypedDocumentString(`
+    query TablePickBatch($page: Int, $perPage: Int, $search: String, $status: PickBatchStatus, $strategy: PickStrategy) {
+  wms {
+    pickBatches(
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+      strategy: $strategy
+    ) {
+      actualDuration
+      batchNumber
+      completedAt
+      completedItems
+      createdAt
+      estimatedDuration
+      id
+      priority
+      startedAt
+      status
+      strategy
+      totalItems
+      updatedAt
+      waveId
+      zoneRestrictions
+      items {
+        id
+        estimatedPickTime
+        actualPickTime
+        orderPriority
+        salesOrder {
+          status
+          shippingAddress
+          orderNumber
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TablePickBatchQuery, TablePickBatchQueryVariables>;
 export const CreateWmsProductDocument = new TypedDocumentString(`
     mutation CreateWmsProduct($wmsProduct: CreateWmsProductInput!) {
   wms {
@@ -10340,6 +10801,34 @@ export const RemoveWmsProductDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveWmsProductMutation, RemoveWmsProductMutationVariables>;
+export const TableWmsProductDocument = new TypedDocumentString(`
+    query TableWmsProduct($page: Int, $perPage: Int, $search: String, $status: ProductStatus) {
+  wms {
+    wmsProducts(page: $page, perPage: $perPage, search: $search, status: $status) {
+      barcode
+      costPrice
+      createdAt
+      height
+      description
+      id
+      length
+      name
+      sku
+      status
+      updatedAt
+      volume
+      weight
+      width
+      supplier {
+        contactPerson
+        email
+        name
+        phoneNumber
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableWmsProductQuery, TableWmsProductQueryVariables>;
 export const CreatePutawayRuleDocument = new TypedDocumentString(`
     mutation CreatePutawayRule($putawayRule: CreatePutawayRuleInput!) {
   wms {
@@ -10368,6 +10857,50 @@ export const RemovePutawayRuleDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemovePutawayRuleMutation, RemovePutawayRuleMutationVariables>;
+export const TablePutawayRuleDocument = new TypedDocumentString(`
+    query TablePutawayRule($page: Int, $perPage: Int, $locationType: LocationType) {
+  wms {
+    putawayRules(locationType: $locationType, page: $page, perPage: $perPage) {
+      createdAt
+      isActive
+      id
+      locationType
+      maxQuantity
+      minQuantity
+      priority
+      requiresHazmatApproval
+      requiresTemperatureControl
+      updatedAt
+      volumeThreshold
+      weightThreshold
+      client {
+        name
+        industry
+        country
+        city
+        website
+        phoneNumber
+      }
+      product {
+        barcode
+        id
+        costPrice
+        description
+        name
+        sku
+        status
+      }
+      warehouse {
+        address
+        city
+        country
+        name
+        isActive
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TablePutawayRuleQuery, TablePutawayRuleQueryVariables>;
 export const CreateReorderPointDocument = new TypedDocumentString(`
     mutation CreateReorderPoint($reorderPoint: CreateReorderPointInput!) {
   wms {
@@ -10396,6 +10929,34 @@ export const RemoveReorderPointDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveReorderPointMutation, RemoveReorderPointMutationVariables>;
+export const TableReorderPointDocument = new TypedDocumentString(`
+    query TableReorderPoint($page: Int, $perPage: Int) {
+  wms {
+    reorderPoints(page: $page, perPage: $perPage) {
+      createdAt
+      id
+      threshold
+      updatedAt
+      product {
+        barcode
+        description
+        costPrice
+        id
+        name
+        sku
+        status
+      }
+      warehouse {
+        address
+        city
+        country
+        id
+        name
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableReorderPointQuery, TableReorderPointQueryVariables>;
 export const CreateReturnItemDocument = new TypedDocumentString(`
     mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {
   wms {
@@ -10452,6 +11013,51 @@ export const RemoveReturnDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveReturnMutation, RemoveReturnMutationVariables>;
+export const TableReturnQueryDocument = new TypedDocumentString(`
+    query TableReturnQuery($page: Int, $perPage: Int, $status: ReturnStatus, $search: String) {
+  wms {
+    returns(page: $page, perPage: $perPage, search: $search, status: $status) {
+      createdAt
+      id
+      reason
+      returnNumber
+      status
+      updatedAt
+      client {
+        name
+        phoneNumber
+        industry
+        country
+        city
+        website
+      }
+      salesOrder {
+        orderNumber
+        shippingAddress
+        status
+        updatedAt
+        id
+      }
+      items {
+        condition
+        id
+        quantityExpected
+        quantityReceived
+        quantityVariance
+        product {
+          barcode
+          costPrice
+          description
+          id
+          name
+          sku
+          status
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableReturnQueryQuery, TableReturnQueryQueryVariables>;
 export const CreateSalesOrderItemDocument = new TypedDocumentString(`
     mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
   wms {
@@ -10508,6 +11114,33 @@ export const RemoveSalesOrderDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveSalesOrderMutation, RemoveSalesOrderMutationVariables>;
+export const TableSalesOrderDocument = new TypedDocumentString(`
+    query TableSalesOrder($page: Int, $perPage: Int, $search: String, $status: SalesOrderStatus) {
+  wms {
+    salesOrders(page: $page, perPage: $perPage, search: $search, status: $status) {
+      createdAt
+      id
+      orderNumber
+      shippingAddress
+      status
+      updatedAt
+      items {
+        id
+        quantityOrdered
+        updatedAt
+        product {
+          barcode
+          id
+          description
+          name
+          sku
+          status
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableSalesOrderQuery, TableSalesOrderQueryVariables>;
 export const CreateStockTransferDocument = new TypedDocumentString(`
     mutation CreateStockTransfer($stockTransfer: CreateStockTransferInput!) {
   wms {
@@ -10536,6 +11169,45 @@ export const RemoveStockTransferDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveStockTransferMutation, RemoveStockTransferMutationVariables>;
+export const TableStockTransferDocument = new TypedDocumentString(`
+    query TableStockTransfer($page: Int, $perPage: Int, $status: StockTransferStatus) {
+  wms {
+    stockTransfers(page: $page, perPage: $perPage, status: $status) {
+      createdAt
+      id
+      quantity
+      status
+      updatedAt
+      destinationWarehouse {
+        address
+        city
+        country
+        id
+        name
+        timezone
+        isActive
+      }
+      product {
+        barcode
+        costPrice
+        name
+        height
+        sku
+        status
+      }
+      sourceWarehouse {
+        address
+        country
+        isActive
+        name
+        city
+        id
+        timezone
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableStockTransferQuery, TableStockTransferQueryVariables>;
 export const CreateSupplierDocument = new TypedDocumentString(`
     mutation CreateSupplier($supplier: CreateSupplierInput!) {
   wms {
@@ -10564,6 +11236,30 @@ export const RemoveSupplierDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveSupplierMutation, RemoveSupplierMutationVariables>;
+export const TableSupplierDocument = new TypedDocumentString(`
+    query TableSupplier($page: Int, $perPage: Int, $search: String) {
+  wms {
+    suppliers(page: $page, perPage: $perPage, search: $search) {
+      contactPerson
+      createdAt
+      email
+      id
+      name
+      phoneNumber
+      updatedAt
+      products {
+        barcode
+        id
+        costPrice
+        description
+        name
+        sku
+        status
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableSupplierQuery, TableSupplierQueryVariables>;
 export const CreateTaskItemDocument = new TypedDocumentString(`
     mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {
   wms {
@@ -10620,6 +11316,82 @@ export const RemoveTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveTaskMutation, RemoveTaskMutationVariables>;
+export const TableTaskDocument = new TypedDocumentString(`
+    query TableTask($page: Int, $perPage: Int, $search: String, $status: TaskStatus, $type: TaskType) {
+  wms {
+    tasks(
+      page: $page
+      perPage: $perPage
+      search: $search
+      status: $status
+      type: $type
+    ) {
+      actualDuration
+      createdAt
+      durationSeconds
+      endTime
+      estimatedDuration
+      id
+      instructions
+      notes
+      priority
+      sourceEntityId
+      sourceEntityType
+      startTime
+      status
+      taskNumber
+      type
+      updatedAt
+      user {
+        email
+        id
+        image
+        name
+      }
+      warehouse {
+        address
+        city
+        country
+        id
+        isActive
+        name
+        timezone
+      }
+      items {
+        completedAt
+        createdAt
+        expiryDate
+        id
+        lotNumber
+        notes
+        quantityCompleted
+        quantityRemaining
+        quantityRequired
+        serialNumbers
+        status
+        updatedAt
+        product {
+          barcode
+          costPrice
+          description
+          id
+          name
+          sku
+          status
+        }
+        sourceLocation {
+          barcode
+          hazmatApproved
+          id
+          path
+          name
+          type
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableTaskQuery, TableTaskQueryVariables>;
 export const CreateWarehouseDocument = new TypedDocumentString(`
     mutation CreateWarehouse($warehouse: CreateWarehouseInput!) {
   wms {
@@ -10648,3 +11420,95 @@ export const RemoveWarehouseDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<RemoveWarehouseMutation, RemoveWarehouseMutationVariables>;
+export const TableWarehouseDocument = new TypedDocumentString(`
+    query TableWarehouse($page: Int, $perPage: Int, $search: String) {
+  wms {
+    warehouses(page: $page, perPage: $perPage, search: $search) {
+      address
+      city
+      contactEmail
+      contactPerson
+      contactPhone
+      country
+      createdAt
+      id
+      isActive
+      name
+      postalCode
+      state
+      timezone
+      updatedAt
+      tasks {
+        instructions
+        id
+        notes
+        priority
+        taskNumber
+        type
+        user {
+          email
+          id
+          image
+          name
+        }
+      }
+      locations {
+        barcode
+        id
+        isActive
+        isPickable
+        isReceivable
+        level
+        maxPallets
+        maxVolume
+        maxWeight
+        name
+        path
+        type
+        xCoordinate
+        yCoordinate
+        zCoordinate
+        hazmatApproved
+      }
+      inboundShipments {
+        status
+        updatedAt
+        warehouseId
+        items {
+          discrepancyNotes
+          discrepancyQuantity
+          expectedQuantity
+          id
+          createdAt
+          receivedQuantity
+          updatedAt
+          product {
+            barcode
+            costPrice
+            description
+            id
+            name
+            sku
+            status
+          }
+          inboundShipment {
+            status
+            id
+            expectedArrivalDate
+            updatedAt
+            actualArrivalDate
+            client {
+              city
+              country
+              id
+              industry
+              name
+              phoneNumber
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableWarehouseQuery, TableWarehouseQueryVariables>;

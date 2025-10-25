@@ -35,3 +35,43 @@ export const RemoveInventoryAdjustmentMutation = graphql(`
     }
   }
 `);
+
+export const TableInventoryAdjustmentQuery = graphql(`
+  query TableInventoryAdjustment(
+    $page: Int
+    $perPage: Int
+    $reason: InventoryAdjustmentReason
+    $search: String
+  ) {
+    wms {
+      inventoryAdjustments(
+        page: $page
+        perPage: $perPage
+        reason: $reason
+        search: $search
+      ) {
+        createdAt
+        id
+        notes
+        quantityChange
+        reason
+        updatedAt
+        warehouseId
+        user {
+          email
+          id
+          image
+          name
+        }
+        product {
+          barcode
+          description
+          id
+          name
+          sku
+          status
+        }
+      }
+    }
+  }
+`);

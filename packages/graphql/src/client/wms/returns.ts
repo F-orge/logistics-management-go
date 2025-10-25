@@ -30,3 +30,59 @@ export const RemoveReturnMutation = graphql(`
     }
   }
 `);
+
+export const TableReturnQuery = graphql(`
+  query TableReturnQuery(
+    $page: Int
+    $perPage: Int
+    $status: ReturnStatus
+    $search: String
+  ) {
+    wms {
+      returns(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        createdAt
+        id
+        reason
+        returnNumber
+        status
+        updatedAt
+        client {
+          name
+          phoneNumber
+          industry
+          country
+          city
+          website
+        }
+        salesOrder {
+          orderNumber
+          shippingAddress
+          status
+          updatedAt
+          id
+        }
+        items {
+          condition
+          id
+          quantityExpected
+          quantityReceived
+          quantityVariance
+          product {
+            barcode
+            costPrice
+            description
+            id
+            name
+            sku
+            status
+          }
+        }
+      }
+    }
+  }
+`);

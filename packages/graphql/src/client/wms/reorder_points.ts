@@ -33,3 +33,32 @@ export const RemoveReorderPointMutation = graphql(`
     }
   }
 `);
+
+export const TableReorderPointQuery = graphql(`
+  query TableReorderPoint($page: Int, $perPage: Int) {
+    wms {
+      reorderPoints(page: $page, perPage: $perPage) {
+        createdAt
+        id
+        threshold
+        updatedAt
+        product {
+          barcode
+          description
+          costPrice
+          id
+          name
+          sku
+          status
+        }
+        warehouse {
+          address
+          city
+          country
+          id
+          name
+        }
+      }
+    }
+  }
+`);

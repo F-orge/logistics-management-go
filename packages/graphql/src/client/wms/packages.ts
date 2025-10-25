@@ -30,3 +30,45 @@ export const RemovePackageMutation = graphql(`
     }
   }
 `);
+
+export const TablePackageQuery = graphql(`
+  query TablePackage($page: Int, $perPage: Int, $search: String) {
+    wms {
+      packages(page: $page, perPage: $perPage, search: $search) {
+        carrier
+        createdAt
+        height
+        id
+        insuranceValue
+        isFragile
+        isHazmat
+        length
+        packageNumber
+        packageType
+        packedAt
+        requiresSignature
+        serviceLevel
+        shippedAt
+        trackingNumber
+        updatedAt
+        volume
+        weight
+        width
+        items {
+          lotNumber
+          quantity
+          product {
+            barcode
+            costPrice
+            name
+            sku
+            status
+          }
+          serialNumbers
+          totalWeight
+          unitWeight
+        }
+      }
+    }
+  }
+`);

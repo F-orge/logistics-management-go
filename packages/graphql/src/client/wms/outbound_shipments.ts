@@ -35,3 +35,35 @@ export const RemoveOutboundShipmentMutation = graphql(`
     }
   }
 `);
+
+export const TableOutboundShipmentQuery = graphql(`
+  query TableOutboundShipment(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: OutboundShipmentStatus
+  ) {
+    wms {
+      outboundShipments(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        carrier
+        createdAt
+        id
+        status
+        trackingNumber
+        updatedAt
+        warehouseId
+        salesOrder {
+          id
+          orderNumber
+          shippingAddress
+          status
+        }
+      }
+    }
+  }
+`);

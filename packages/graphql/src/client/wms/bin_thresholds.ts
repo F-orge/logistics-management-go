@@ -33,3 +33,28 @@ export const RemoveBinThresholdMutation = graphql(`
     }
   }
 `);
+
+export const TableBinThresholdQuery = graphql(`
+  query TableBinThreshold($page: Int, $perPage: Int) {
+    wms {
+      binThresholds(page: $page, perPage: $perPage) {
+        alertThreshold
+        createdAt
+        id
+        isActive
+        maxQuantity
+        minQuantity
+        reorderQuantity
+        updatedAt
+        product {
+          name
+          description
+          id
+          sku
+          status
+          barcode
+        }
+      }
+    }
+  }
+`);

@@ -30,3 +30,48 @@ export const RemoveLocationMutation = graphql(`
     }
   }
 `);
+
+export const TableLocationQuery = graphql(`
+  query TableLocation(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $type: LocationType
+  ) {
+    wms {
+      locations(page: $page, perPage: $perPage, search: $search, type: $type) {
+        barcode
+        createdAt
+        isActive
+        isPickable
+        isReceivable
+        id
+        hazmatApproved
+        level
+        maxPallets
+        maxVolume
+        maxWeight
+        name
+        path
+        temperatureControlled
+        type
+        updatedAt
+        xCoordinate
+        yCoordinate
+        zCoordinate
+        parentLocation {
+          id
+          name
+          path
+        }
+        warehouse {
+          address
+          city
+          name
+          id
+          isActive
+        }
+      }
+    }
+  }
+`);

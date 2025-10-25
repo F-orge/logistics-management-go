@@ -30,3 +30,56 @@ export const RemovePutawayRuleMutation = graphql(`
     }
   }
 `);
+
+export const TablePutawayRuleQuery = graphql(`
+  query TablePutawayRule(
+    $page: Int
+    $perPage: Int
+    $locationType: LocationType
+  ) {
+    wms {
+      putawayRules(
+        locationType: $locationType
+        page: $page
+        perPage: $perPage
+      ) {
+        createdAt
+        isActive
+        id
+        locationType
+        maxQuantity
+        minQuantity
+        priority
+        requiresHazmatApproval
+        requiresTemperatureControl
+        updatedAt
+        volumeThreshold
+        weightThreshold
+        client {
+          name
+          industry
+          country
+          city
+          website
+          phoneNumber
+        }
+        product {
+          barcode
+          id
+          costPrice
+          description
+          name
+          sku
+          status
+        }
+        warehouse {
+          address
+          city
+          country
+          name
+          isActive
+        }
+      }
+    }
+  }
+`);

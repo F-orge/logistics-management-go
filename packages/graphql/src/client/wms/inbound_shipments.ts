@@ -35,3 +35,29 @@ export const RemoveInboundShipmentMutation = graphql(`
     }
   }
 `);
+
+export const TableInboundShipmentQuery = graphql(`
+  query TableInboundShipment(
+    $page: Int
+    $perPage: Int
+    $status: InboundShipmentStatus
+  ) {
+    wms {
+      inboundShipments(page: $page, perPage: $perPage, status: $status) {
+        actualArrivalDate
+        createdAt
+        expectedArrivalDate
+        id
+        status
+        updatedAt
+        client {
+          name
+          industry
+          phoneNumber
+          country
+          website
+        }
+      }
+    }
+  }
+`);

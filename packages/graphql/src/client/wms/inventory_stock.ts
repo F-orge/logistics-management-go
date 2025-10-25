@@ -33,3 +33,46 @@ export const RemoveInventoryStockMutation = graphql(`
     }
   }
 `);
+
+export const TableInventoryStockQuery = graphql(`
+  query TableInventoryStock(
+    $page: Int
+    $perPage: Int
+    $status: InventoryStockStatus
+  ) {
+    wms {
+      inventoryStocks(page: $page, perPage: $perPage, status: $status) {
+        availableQuantity
+        createdAt
+        id
+        lastCountedAt
+        lastMovementAt
+        quantity
+        reservedQuantity
+        status
+        updatedAt
+        product {
+          barcode
+          costPrice
+          description
+          id
+          name
+          status
+          sku
+          volume
+          weight
+          width
+        }
+        location {
+          id
+          barcode
+          isActive
+          isPickable
+          isReceivable
+          level
+          name
+        }
+      }
+    }
+  }
+`);

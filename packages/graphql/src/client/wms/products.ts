@@ -30,3 +30,42 @@ export const RemoveWmsProductMutation = graphql(`
     }
   }
 `);
+
+export const TableWmsProductQuery = graphql(`
+  query TableWmsProduct(
+    $page: Int
+    $perPage: Int
+    $search: String
+    $status: ProductStatus
+  ) {
+    wms {
+      wmsProducts(
+        page: $page
+        perPage: $perPage
+        search: $search
+        status: $status
+      ) {
+        barcode
+        costPrice
+        createdAt
+        height
+        description
+        id
+        length
+        name
+        sku
+        status
+        updatedAt
+        volume
+        weight
+        width
+        supplier {
+          contactPerson
+          email
+          name
+          phoneNumber
+        }
+      }
+    }
+  }
+`);

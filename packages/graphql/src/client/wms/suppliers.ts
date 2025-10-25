@@ -30,3 +30,28 @@ export const RemoveSupplierMutation = graphql(`
     }
   }
 `);
+
+export const TableSupplierQuery = graphql(`
+  query TableSupplier($page: Int, $perPage: Int, $search: String) {
+    wms {
+      suppliers(page: $page, perPage: $perPage, search: $search) {
+        contactPerson
+        createdAt
+        email
+        id
+        name
+        phoneNumber
+        updatedAt
+        products {
+          barcode
+          id
+          costPrice
+          description
+          name
+          sku
+          status
+        }
+      }
+    }
+  }
+`);

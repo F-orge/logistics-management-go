@@ -33,3 +33,32 @@ export const RemoveInventoryBatchMutation = graphql(`
     }
   }
 `);
+
+export const TableInventoryBatchQuery = graphql(`
+  query TableInventoryBatch($page: Int, $perPage: Int, $search: String) {
+    wms {
+      inventoryBatches(page: $page, perPage: $perPage, search: $search) {
+        batchNumber
+        createdAt
+        expirationDate
+        id
+        updatedAt
+        inventoryStock {
+          availableQuantity
+          product {
+            barcode
+            name
+            sku
+            status
+            description
+            id
+            costPrice
+          }
+          quantity
+          reservedQuantity
+          status
+        }
+      }
+    }
+  }
+`);
