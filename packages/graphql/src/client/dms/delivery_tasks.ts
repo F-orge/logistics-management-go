@@ -97,3 +97,14 @@ export const TableDeliveryTaskQuery = graphql(`
     }
   }
 `);
+
+export const SearchDeliveryTasksQuery = graphql(`
+  query SearchDeliveryTasks($search: String!) {
+    dms {
+      deliveryTasks(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: recipientName
+      }
+    }
+  }
+`);

@@ -6156,6 +6156,13 @@ export type TableCampaignQueryVariables = Exact<{
 
 export type TableCampaignQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', budget?: number | null, createdAt?: string | null, endDate?: string | null, id: string, name: string, startDate?: string | null, updatedAt?: string | null }> } | null };
 
+export type SearchCampaignsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCampaignsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', value: string, label: string }> } | null };
+
 export type CreateCaseMutationVariables = Exact<{
   case: CreateCaseInput;
 }>;
@@ -6189,6 +6196,13 @@ export type TableCaseQueryVariables = Exact<{
 
 export type TableCaseQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', caseNumber: string, createdAt?: string | null, description?: string | null, id: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null, updatedAt?: string | null, contact?: { __typename?: 'Contacts', id: string, email: string, name: string, phoneNumber?: string | null, jobTitle?: string | null } | null, owner: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } }> } | null };
 
+export type SearchCasesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCasesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', value: string, label: string }> } | null };
+
 export type CreateCompanyMutationVariables = Exact<{
   company: CreateCompanyInput;
 }>;
@@ -6220,6 +6234,13 @@ export type TableCompanyQueryQueryVariables = Exact<{
 
 export type TableCompanyQueryQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', name: string, annualRevenue?: string | null, phoneNumber?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, updatedAt?: string | null, website?: string | null, city?: string | null, country?: string | null, createdAt?: string | null, id: string, industry?: string | null, owner?: { __typename?: 'User', email: string, image?: string | null, name: string } | null, clientAccount?: { __typename?: 'ClientAccounts', walletBalance?: number | null, creditLimit?: number | null, currency?: string | null } | null }> } | null };
 
+export type SearchCompaniesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCompaniesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', value: string, label: string }> } | null };
+
 export type CreateContactMutationVariables = Exact<{
   contact: CreateContactInput;
 }>;
@@ -6250,6 +6271,13 @@ export type TableContactQueryVariables = Exact<{
 
 
 export type TableContactQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', contacts: Array<{ __typename?: 'Contacts', createdAt?: string | null, email: string, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, owner: { __typename?: 'User', id: string, email: string, image?: string | null, name: string }, company?: { __typename?: 'Companies', id: string, phoneNumber?: string | null, name: string, industry?: string | null, website?: string | null } | null }> } | null };
+
+export type SearchContactsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchContactsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', contacts: Array<{ __typename?: 'Contacts', value: string, label: string }> } | null };
 
 export type CreateInteractionMutationVariables = Exact<{
   interaction: CreateInteractionInput;
@@ -6371,6 +6399,13 @@ export type TableLeadQueryVariables = Exact<{
 
 export type TableLeadQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', convertedAt?: string | null, createdAt?: string | null, email: string, leadScore?: number | null, leadSource?: LeadSource | null, name: string, id: string, status?: LeadStatus | null, updatedAt?: string | null, owner: { __typename?: 'User', id: string, email: string, image?: string | null, name: string }, campaign?: { __typename?: 'Campaigns', name: string, endDate?: string | null, startDate?: string | null, budget?: number | null } | null, convertedCompany?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, website?: string | null, id: string } | null, convertedContact?: { __typename?: 'Contacts', email: string, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string } | null } | null, convertedOpportunity?: { __typename?: 'Opportunities', name: string, dealValue?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null } | null }> } | null };
 
+export type SearchLeadsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchLeadsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', value: string, label: string }> } | null };
+
 export type CreateNotificationMutationVariables = Exact<{
   notification: CreateNotificationInput;
 }>;
@@ -6401,6 +6436,13 @@ export type TableNotificationQueryVariables = Exact<{
 
 
 export type TableNotificationQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', notifications: Array<{ __typename?: 'Notifications', createdAt?: string | null, id: string, isRead?: boolean | null, link?: string | null, message: string, updatedAt?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
+
+export type SearchNotificationsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchNotificationsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', notifications: Array<{ __typename?: 'Notifications', value: string, label: string }> } | null };
 
 export type CreateOpportunityMutationVariables = Exact<{
   opportunity: CreateOpportunityInput;
@@ -6434,6 +6476,13 @@ export type TableOpportunityQueryVariables = Exact<{
 
 
 export type TableOpportunityQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', createdAt?: string | null, dealValue?: number | null, expectedCloseDate?: string | null, id: string, lostReason?: string | null, name: string, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string, country?: string | null, phoneNumber?: string | null } | null, contact?: { __typename?: 'Contacts', email: string, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null } | null } | null, owner: { __typename?: 'User', email: string, id: string, image?: string | null, name: string }, products?: Array<{ __typename?: 'OpportunityProducts', quantity: number, product: { __typename?: 'Products', id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, description?: string | null } }> | null, campaign?: { __typename?: 'Campaigns', name: string, budget?: number | null, endDate?: string | null, startDate?: string | null, id: string } | null }> } | null };
+
+export type SearchOpportunitiesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchOpportunitiesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', value: string, label: string }> } | null };
 
 export type CreateOpportunityProductMutationVariables = Exact<{
   opportunityProduct: CreateOpportunityProductInput;
@@ -6491,6 +6540,13 @@ export type TableProductQueryVariables = Exact<{
 
 export type TableProductQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', createdAt?: string | null, description?: string | null, id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, updatedAt?: string | null }> } | null };
 
+export type SearchProductsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchProductsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', value: string, label: string }> } | null };
+
 export type CreateCustomerTrackingLinkMutationVariables = Exact<{
   customerTrackingLink: CreateCustomerTrackingLinkInput;
 }>;
@@ -6521,6 +6577,13 @@ export type TableCustomerTrackingLinkQueryVariables = Exact<{
 
 
 export type TableCustomerTrackingLinkQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', accessCount?: number | null, createdAt?: string | null, expiresAt?: string | null, id: string, isActive?: boolean | null, lastAccessedAt?: string | null, trackingToken: string, updatedAt?: string | null }> } | null };
+
+export type SearchCustomerTrackingLinksQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchCustomerTrackingLinksQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', value: string, label: string }> } | null };
 
 export type CreateDeliveryRouteMutationVariables = Exact<{
   deliveryRoute: CreateDeliveryRouteInput;
@@ -6554,6 +6617,13 @@ export type TableDeliveryQueryVariables = Exact<{
 
 export type TableDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', actualDurationMinutes?: number | null, completedAt?: string | null, createdAt?: string | null, estimatedDurationMinutes?: number | null, id: string, optimizedRouteData?: string | null, routeDate: string, startedAt?: string | null, status?: DeliveryRouteStatus | null, totalDistanceKm?: number | null, updatedAt?: string | null, driver: { __typename?: 'Drivers', id: string, status?: DriverStatus | null, licenseNumber: string, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
 
+export type SearchDeliveryRoutesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchDeliveryRoutesQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', value: string, label: string }> } | null };
+
 export type CreateDeliveryTaskMutationVariables = Exact<{
   deliveryTask: CreateDeliveryTaskInput;
 }>;
@@ -6586,6 +6656,13 @@ export type TableDeliveryTaskQueryVariables = Exact<{
 
 
 export type TableDeliveryTaskQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, attemptCount?: number | null, createdAt?: string | null, deliveryAddress: string, deliveryInstructions?: string | null, deliveryTime?: string | null, estimatedArrivalTime?: string | null, failureReason?: DeliveryFailureReason | null, id: string, recipientName?: string | null, recipientPhone?: string | null, routeSequence: number, status?: DeliveryTaskStatus | null, updatedAt?: string | null, deliveryRoute: { __typename?: 'DeliveryRoutes', id: string, totalDistanceKm?: number | null, optimizedRouteData?: string | null, status?: DeliveryRouteStatus | null, driver: { __typename?: 'Drivers', id: string, licenseNumber: string, status?: DriverStatus | null, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }, package: { __typename?: 'Packages', id: string, carrier?: string | null, packageNumber: string, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, country?: string | null } } }> } | null };
+
+export type SearchDeliveryTasksQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchDeliveryTasksQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', value: string, label?: string | null }> } | null };
 
 export type CreateDriverLocationMutationVariables = Exact<{
   driverLocation: CreateDriverLocationInput;
@@ -6649,6 +6726,13 @@ export type TableProofOfDeliveryQueryVariables = Exact<{
 
 export type TableProofOfDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', createdAt?: string | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, recipientName?: string | null, signatureData?: string | null, timestamp?: string | null, type: ProofOfDeliveryType, updatedAt?: string | null, verificationCode?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, failureReason?: DeliveryFailureReason | null, recipientName?: string | null, recipientPhone?: string | null, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, packageNumber: string, packageType?: string | null, requiresSignature?: boolean | null, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, city?: string | null, country?: string | null } } } }> } | null };
 
+export type SearchDmsProofOfDeliveriesQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchDmsProofOfDeliveriesQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', value: string, label?: string | null }> } | null };
+
 export type CreateTaskEventMutationVariables = Exact<{
   taskEvent: CreateTaskEventInput;
 }>;
@@ -6680,6 +6764,13 @@ export type TableTaskEventQueryVariables = Exact<{
 
 
 export type TableTaskEventQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', createdAt?: string | null, id: string, latitude?: number | null, longitude?: number | null, notes?: string | null, reason?: string | null, status: TaskEventStatus, timestamp?: string | null, updatedAt?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', id: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, trackingNumber?: string | null, packageNumber: string, packageType?: string | null } } }> } | null };
+
+export type SearchTaskEventsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchTaskEventsQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', value: string, label?: string | null }> } | null };
 
 export type CreateCarrierRateMutationVariables = Exact<{
   carrierRate: CreateCarrierRateInput;
@@ -8762,6 +8853,16 @@ export const TableCampaignDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableCampaignQuery, TableCampaignQueryVariables>;
+export const SearchCampaignsDocument = new TypedDocumentString(`
+    query SearchCampaigns($search: String!) {
+  crm {
+    campaigns(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchCampaignsQuery, SearchCampaignsQueryVariables>;
 export const CreateCaseDocument = new TypedDocumentString(`
     mutation CreateCase($case: CreateCaseInput!) {
   crm {
@@ -8825,6 +8926,16 @@ export const TableCaseDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableCaseQuery, TableCaseQueryVariables>;
+export const SearchCasesDocument = new TypedDocumentString(`
+    query SearchCases($search: String!) {
+  crm {
+    cases(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: caseNumber
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchCasesQuery, SearchCasesQueryVariables>;
 export const CreateCompanyDocument = new TypedDocumentString(`
     mutation CreateCompany($company: CreateCompanyInput!) {
   crm {
@@ -8884,6 +8995,16 @@ export const TableCompanyQueryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableCompanyQueryQuery, TableCompanyQueryQueryVariables>;
+export const SearchCompaniesDocument = new TypedDocumentString(`
+    query SearchCompanies($search: String!) {
+  crm {
+    companies(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchCompaniesQuery, SearchCompaniesQueryVariables>;
 export const CreateContactDocument = new TypedDocumentString(`
     mutation CreateContact($contact: CreateContactInput!) {
   crm {
@@ -8940,6 +9061,16 @@ export const TableContactDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableContactQuery, TableContactQueryVariables>;
+export const SearchContactsDocument = new TypedDocumentString(`
+    query SearchContacts($search: String!) {
+  crm {
+    contacts(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchContactsQuery, SearchContactsQueryVariables>;
 export const CreateInteractionDocument = new TypedDocumentString(`
     mutation CreateInteraction($interaction: CreateInteractionInput!) {
   crm {
@@ -9199,6 +9330,16 @@ export const TableLeadDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableLeadQuery, TableLeadQueryVariables>;
+export const SearchLeadsDocument = new TypedDocumentString(`
+    query SearchLeads($search: String!) {
+  crm {
+    leads(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchLeadsQuery, SearchLeadsQueryVariables>;
 export const CreateNotificationDocument = new TypedDocumentString(`
     mutation CreateNotification($notification: CreateNotificationInput!) {
   crm {
@@ -9247,6 +9388,16 @@ export const TableNotificationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableNotificationQuery, TableNotificationQueryVariables>;
+export const SearchNotificationsDocument = new TypedDocumentString(`
+    query SearchNotifications($search: String!) {
+  crm {
+    notifications(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchNotificationsQuery, SearchNotificationsQueryVariables>;
 export const CreateOpportunityDocument = new TypedDocumentString(`
     mutation CreateOpportunity($opportunity: CreateOpportunityInput!) {
   crm {
@@ -9344,6 +9495,16 @@ export const TableOpportunityDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableOpportunityQuery, TableOpportunityQueryVariables>;
+export const SearchOpportunitiesDocument = new TypedDocumentString(`
+    query SearchOpportunities($search: String!) {
+  crm {
+    opportunities(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchOpportunitiesQuery, SearchOpportunitiesQueryVariables>;
 export const CreateOpportunityProductDocument = new TypedDocumentString(`
     mutation CreateOpportunityProduct($opportunityProduct: CreateOpportunityProductInput!) {
   crm {
@@ -9430,6 +9591,16 @@ export const TableProductDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableProductQuery, TableProductQueryVariables>;
+export const SearchProductsDocument = new TypedDocumentString(`
+    query SearchProducts($search: String!) {
+  crm {
+    products(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchProductsQuery, SearchProductsQueryVariables>;
 export const CreateCustomerTrackingLinkDocument = new TypedDocumentString(`
     mutation CreateCustomerTrackingLink($customerTrackingLink: CreateCustomerTrackingLinkInput!) {
   dms {
@@ -9474,6 +9645,16 @@ export const TableCustomerTrackingLinkDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableCustomerTrackingLinkQuery, TableCustomerTrackingLinkQueryVariables>;
+export const SearchCustomerTrackingLinksDocument = new TypedDocumentString(`
+    query SearchCustomerTrackingLinks($search: String!) {
+  dms {
+    customerTrackingLinks(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: trackingToken
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchCustomerTrackingLinksQuery, SearchCustomerTrackingLinksQueryVariables>;
 export const CreateDeliveryRouteDocument = new TypedDocumentString(`
     mutation CreateDeliveryRoute($deliveryRoute: CreateDeliveryRouteInput!) {
   dms {
@@ -9533,6 +9714,16 @@ export const TableDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableDeliveryQuery, TableDeliveryQueryVariables>;
+export const SearchDeliveryRoutesDocument = new TypedDocumentString(`
+    query SearchDeliveryRoutes($search: String!) {
+  dms {
+    deliveryRoutes(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: routeDate
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchDeliveryRoutesQuery, SearchDeliveryRoutesQueryVariables>;
 export const CreateDeliveryTaskDocument = new TypedDocumentString(`
     mutation CreateDeliveryTask($deliveryTask: CreateDeliveryTaskInput!) {
   dms {
@@ -9618,6 +9809,16 @@ export const TableDeliveryTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableDeliveryTaskQuery, TableDeliveryTaskQueryVariables>;
+export const SearchDeliveryTasksDocument = new TypedDocumentString(`
+    query SearchDeliveryTasks($search: String!) {
+  dms {
+    deliveryTasks(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: recipientName
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchDeliveryTasksQuery, SearchDeliveryTasksQueryVariables>;
 export const CreateDriverLocationDocument = new TypedDocumentString(`
     mutation CreateDriverLocation($driverLocation: CreateDriverLocationInput!) {
   dms {
@@ -9750,6 +9951,16 @@ export const TableProofOfDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableProofOfDeliveryQuery, TableProofOfDeliveryQueryVariables>;
+export const SearchDmsProofOfDeliveriesDocument = new TypedDocumentString(`
+    query SearchDmsProofOfDeliveries($search: String!) {
+  dms {
+    dmsProofOfDeliveries(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: recipientName
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchDmsProofOfDeliveriesQuery, SearchDmsProofOfDeliveriesQueryVariables>;
 export const CreateTaskEventDocument = new TypedDocumentString(`
     mutation CreateTaskEvent($taskEvent: CreateTaskEventInput!) {
   dms {
@@ -9809,6 +10020,16 @@ export const TableTaskEventDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableTaskEventQuery, TableTaskEventQueryVariables>;
+export const SearchTaskEventsDocument = new TypedDocumentString(`
+    query SearchTaskEvents($search: String!) {
+  dms {
+    taskEvents(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: reason
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchTaskEventsQuery, SearchTaskEventsQueryVariables>;
 export const CreateCarrierRateDocument = new TypedDocumentString(`
     mutation CreateCarrierRate($carrierRate: CreateCarrierRateInput!) {
   tms {

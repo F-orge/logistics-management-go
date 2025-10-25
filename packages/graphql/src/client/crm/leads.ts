@@ -98,3 +98,14 @@ export const TableLeadQuery = graphql(`
     }
   }
 `);
+
+export const SearchLeadsQuery = graphql(`
+  query SearchLeads($search: String!) {
+    crm {
+      leads(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

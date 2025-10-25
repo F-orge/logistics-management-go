@@ -52,3 +52,14 @@ export const CustomerTrackingLinkQuery = graphql(`
     }
   }
 `);
+
+export const SearchCustomerTrackingLinksQuery = graphql(`
+  query SearchCustomerTrackingLinks($search: String!) {
+    dms {
+      customerTrackingLinks(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: trackingToken
+      }
+    }
+  }
+`);

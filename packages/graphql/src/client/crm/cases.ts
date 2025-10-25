@@ -72,3 +72,14 @@ export const TableCaseQuery = graphql(`
     }
   }
 `);
+
+export const SearchCasesQuery = graphql(`
+  query SearchCases($search: String!) {
+    crm {
+      cases(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: caseNumber
+      }
+    }
+  }
+`);

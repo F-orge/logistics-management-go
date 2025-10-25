@@ -87,3 +87,14 @@ export const TableProofOfDeliveryQuery = graphql(`
     }
   }
 `);
+
+export const SearchDmsProofOfDeliveriesQuery = graphql(`
+  query SearchDmsProofOfDeliveries($search: String!) {
+    dms {
+      dmsProofOfDeliveries(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: recipientName
+      }
+    }
+  }
+`);

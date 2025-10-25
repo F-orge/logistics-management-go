@@ -54,3 +54,14 @@ export const TableNotificationQuery = graphql(`
     }
   }
 `);
+
+export const SearchNotificationsQuery = graphql(`
+  query SearchNotifications($search: String!) {
+    crm {
+      notifications(page: 1, perPage: 10,search: $search) {
+        value: id
+        label: message
+      }
+    }
+  }
+`);

@@ -106,3 +106,14 @@ export const TableOpportunityQuery = graphql(`
     }
   }
 `);
+
+export const SearchOpportunitiesQuery = graphql(`
+  query SearchOpportunities($search: String!) {
+    crm {
+      opportunities(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

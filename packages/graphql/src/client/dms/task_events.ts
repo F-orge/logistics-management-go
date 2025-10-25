@@ -72,3 +72,14 @@ export const TableTaskEventQuery = graphql(`
     }
   }
 `);
+
+export const SearchTaskEventsQuery = graphql(`
+  query SearchTaskEvents($search: String!) {
+    dms {
+      taskEvents(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: reason
+      }
+    }
+  }
+`);

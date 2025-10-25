@@ -46,3 +46,14 @@ export const TableCampaignQuery = graphql(`
     }
   }
 `);
+
+export const SearchCampaignsQuery = graphql(`
+  query SearchCampaigns($search: String!) {
+    crm {
+      campaigns(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

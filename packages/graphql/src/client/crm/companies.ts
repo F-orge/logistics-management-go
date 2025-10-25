@@ -62,3 +62,14 @@ export const TableCompanyQuery = graphql(`
     }
   }
 `);
+
+export const SearchCompaniesQuery = graphql(`
+  query SearchCompanies($search: String!) {
+    crm {
+      companies(page: 1, perPage: 10,search: $search) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

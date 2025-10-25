@@ -52,3 +52,14 @@ export const TableProductQuery = graphql(`
     }
   }
 `);
+
+export const SearchProductsQuery = graphql(`
+  query SearchProducts($search: String!) {
+    crm {
+      products(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);

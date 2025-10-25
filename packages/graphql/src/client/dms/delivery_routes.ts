@@ -75,3 +75,14 @@ export const TableDeliveryRoute = graphql(`
     }
   }
 `);
+
+export const SearchDeliveryRoutesQuery = graphql(`
+  query SearchDeliveryRoutes($search: String!) {
+    dms {
+      deliveryRoutes(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: routeDate
+      }
+    }
+  }
+`);

@@ -59,3 +59,14 @@ export const TableContactQuery = graphql(`
     }
   }
 `);
+
+export const SearchContactsQuery = graphql(`
+  query SearchContacts($search: String!) {
+    crm {
+      contacts(page: 1, perPage: 10, search: $search) {
+        value: id
+        label: name
+      }
+    }
+  }
+`);
