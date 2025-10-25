@@ -9,7 +9,11 @@ import {
 import {
   CreateTaskItemInputSchema,
   UpdateTaskItemInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  SearchInventoryBatchesQuery,
+  SearchLocationsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createTaskItemSchema = CreateTaskItemInputSchema();
@@ -48,10 +52,21 @@ export const CreateTaskItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="The product for this task item."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -59,29 +74,62 @@ export const CreateTaskItemForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="batchId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchInventoryBatchesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.inventoryBatches || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Batch"
                       description="Product batch (optional)."
-                      placeholder="Batch ID"
+                      placeholder="Search batch..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="sourceLocationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Source Location"
                       description="Source location for task."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
               </div>
               <form.AppField name="destinationLocationId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchLocationsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.locations || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Destination Location"
                     description="Destination location for task."
-                    placeholder="Location ID"
+                    placeholder="Search location..."
                   />
                 )}
               </form.AppField>
@@ -91,7 +139,9 @@ export const CreateTaskItemForm = withForm({
           {/* Quantity Section */}
           <FieldSet>
             <FieldLegend variant="label">Quantity</FieldLegend>
-            <FieldDescription>Required and completed quantities.</FieldDescription>
+            <FieldDescription>
+              Required and completed quantities.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantityRequired">
@@ -123,7 +173,9 @@ export const CreateTaskItemForm = withForm({
           {/* Item Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Item Details</FieldLegend>
-            <FieldDescription>Lot number, serial numbers, and status.</FieldDescription>
+            <FieldDescription>
+              Lot number, serial numbers, and status.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="lotNumber">
@@ -160,7 +212,9 @@ export const CreateTaskItemForm = withForm({
           {/* Expiry & Timestamp Section */}
           <FieldSet>
             <FieldLegend variant="label">Expiry & Timestamp</FieldLegend>
-            <FieldDescription>Expiration date and completion timestamp.</FieldDescription>
+            <FieldDescription>
+              Expiration date and completion timestamp.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="expiryDate">
@@ -220,7 +274,9 @@ export const UpdateTaskItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update task, product, and location associations.</FieldDescription>
+            <FieldDescription>
+              Update task, product, and location associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="taskId">
@@ -234,10 +290,21 @@ export const UpdateTaskItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="The product for this task item."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -245,29 +312,62 @@ export const UpdateTaskItemForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="batchId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchInventoryBatchesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.inventoryBatches || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Batch"
                       description="Product batch (optional)."
-                      placeholder="Batch ID"
+                      placeholder="Search batch..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="sourceLocationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Source Location"
                       description="Source location for task."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
               </div>
               <form.AppField name="destinationLocationId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchLocationsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.locations || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Destination Location"
                     description="Destination location for task."
-                    placeholder="Location ID"
+                    placeholder="Search location..."
                   />
                 )}
               </form.AppField>
@@ -277,7 +377,9 @@ export const UpdateTaskItemForm = withForm({
           {/* Quantity Section */}
           <FieldSet>
             <FieldLegend variant="label">Quantity</FieldLegend>
-            <FieldDescription>Update required and completed quantities.</FieldDescription>
+            <FieldDescription>
+              Update required and completed quantities.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantityRequired">
@@ -309,7 +411,9 @@ export const UpdateTaskItemForm = withForm({
           {/* Item Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Item Details</FieldLegend>
-            <FieldDescription>Update lot number, serial numbers, and status.</FieldDescription>
+            <FieldDescription>
+              Update lot number, serial numbers, and status.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="lotNumber">
@@ -346,7 +450,9 @@ export const UpdateTaskItemForm = withForm({
           {/* Expiry & Timestamp Section */}
           <FieldSet>
             <FieldLegend variant="label">Expiry & Timestamp</FieldLegend>
-            <FieldDescription>Update expiration date and completion timestamp.</FieldDescription>
+            <FieldDescription>
+              Update expiration date and completion timestamp.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="expiryDate">
@@ -376,7 +482,9 @@ export const UpdateTaskItemForm = withForm({
           {/* Notes Section */}
           <FieldSet>
             <FieldLegend variant="label">Notes</FieldLegend>
-            <FieldDescription>Update additional task item notes.</FieldDescription>
+            <FieldDescription>
+              Update additional task item notes.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="notes">
                 {(field) => (

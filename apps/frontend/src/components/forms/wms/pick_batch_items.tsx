@@ -9,7 +9,9 @@ import {
 import {
   CreatePickBatchItemInputSchema,
   UpdatePickBatchItemInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchSalesOrdersQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPickBatchItemSchema = CreatePickBatchItemInputSchema();
@@ -34,7 +36,9 @@ export const CreatePickBatchItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link batch item to batch and sales order.</FieldDescription>
+            <FieldDescription>
+              Link batch item to batch and sales order.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="pickBatchId">
@@ -48,10 +52,21 @@ export const CreatePickBatchItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="salesOrderId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchSalesOrdersQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.salesOrders || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Sales Order *"
                       description="The sales order for this batch item."
-                      placeholder="Sales Order ID"
+                      placeholder="Search sales order..."
                     />
                   )}
                 </form.AppField>
@@ -62,7 +77,9 @@ export const CreatePickBatchItemForm = withForm({
           {/* Timing Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing</FieldLegend>
-            <FieldDescription>Priority and estimated/actual pick time.</FieldDescription>
+            <FieldDescription>
+              Priority and estimated/actual pick time.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="orderPriority">
@@ -118,7 +135,9 @@ export const UpdatePickBatchItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update batch and sales order associations.</FieldDescription>
+            <FieldDescription>
+              Update batch and sales order associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="pickBatchId">
@@ -132,10 +151,21 @@ export const UpdatePickBatchItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="salesOrderId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchSalesOrdersQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.salesOrders || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Sales Order"
                       description="The sales order for this batch item."
-                      placeholder="Sales Order ID"
+                      placeholder="Search sales order..."
                     />
                   )}
                 </form.AppField>
@@ -146,7 +176,9 @@ export const UpdatePickBatchItemForm = withForm({
           {/* Timing Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing</FieldLegend>
-            <FieldDescription>Update priority and timing information.</FieldDescription>
+            <FieldDescription>
+              Update priority and timing information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="orderPriority">

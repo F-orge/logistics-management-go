@@ -9,7 +9,9 @@ import {
 import {
   CreateSalesOrderItemInputSchema,
   UpdateSalesOrderItemInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createSalesOrderItemSchema = CreateSalesOrderItemInputSchema();
@@ -34,7 +36,9 @@ export const CreateSalesOrderItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link item to sales order and product.</FieldDescription>
+            <FieldDescription>
+              Link item to sales order and product.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="salesOrderId">
@@ -42,16 +46,27 @@ export const CreateSalesOrderItemForm = withForm({
                     <field.InputField
                       label="Sales Order *"
                       description="The sales order this item belongs to."
-                      placeholder="Sales Order ID"
+                      placeholder="Enter sales order ID..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="The product ordered."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -94,7 +109,9 @@ export const UpdateSalesOrderItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update sales order and product associations.</FieldDescription>
+            <FieldDescription>
+              Update sales order and product associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="salesOrderId">
@@ -102,16 +119,27 @@ export const UpdateSalesOrderItemForm = withForm({
                     <field.InputField
                       label="Sales Order"
                       description="The sales order this item belongs to."
-                      placeholder="Sales Order ID"
+                      placeholder="Enter sales order ID..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="The product ordered."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>

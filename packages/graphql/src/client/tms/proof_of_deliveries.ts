@@ -105,7 +105,7 @@ export const SearchProofOfDeliveriesQuery = graphql(`
   }
 `);
 
-export const AnalyticsProofOfDeliveriesQuery = graphql(`
+export const AnalyticsTmsProofOfDeliveriesQuery = graphql(`
   query AnalyticsTmsProofOfDeliveries($from: Date, $to: Date) {
     tms {
       proofOfDeliveries(from: $from, to: $to) {

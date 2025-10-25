@@ -9,7 +9,9 @@ import {
 import {
   CreateInventoryBatchInputSchema,
   UpdateInventoryBatchInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createInventoryBatchSchema = CreateInventoryBatchInputSchema();
@@ -29,7 +31,9 @@ export const CreateInventoryBatchForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Inventory Batch</FieldLegend>
-        <FieldDescription>Create a new inventory batch for product tracking.</FieldDescription>
+        <FieldDescription>
+          Create a new inventory batch for product tracking.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
@@ -38,10 +42,21 @@ export const CreateInventoryBatchForm = withForm({
             <FieldGroup>
               <form.AppField name="productId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchWmsProductsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.wmsProducts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Product *"
                     description="Product for this batch."
-                    placeholder="Product ID"
+                    placeholder="Search product..."
                   />
                 )}
               </form.AppField>
@@ -51,7 +66,9 @@ export const CreateInventoryBatchForm = withForm({
           {/* Batch Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Batch Details</FieldLegend>
-            <FieldDescription>Batch number and expiration information.</FieldDescription>
+            <FieldDescription>
+              Batch number and expiration information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="batchNumber">
@@ -96,10 +113,21 @@ export const UpdateInventoryBatchForm = withForm({
             <FieldGroup>
               <form.AppField name="productId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchWmsProductsQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.wmsProducts || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Product"
                     description="Product for this batch."
-                    placeholder="Product ID"
+                    placeholder="Search product..."
                   />
                 )}
               </form.AppField>
@@ -109,7 +137,9 @@ export const UpdateInventoryBatchForm = withForm({
           {/* Batch Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Batch Details</FieldLegend>
-            <FieldDescription>Update batch number and expiration information.</FieldDescription>
+            <FieldDescription>
+              Update batch number and expiration information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="batchNumber">

@@ -9,7 +9,9 @@ import {
 import {
   CreatePickBatchInputSchema,
   UpdatePickBatchInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPickBatchSchema = CreatePickBatchInputSchema();
@@ -29,20 +31,35 @@ export const CreatePickBatchForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Pick Batch</FieldLegend>
-        <FieldDescription>Create a new picking batch for warehouse operations.</FieldDescription>
+        <FieldDescription>
+          Create a new picking batch for warehouse operations.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link batch to warehouse and assignment.</FieldDescription>
+            <FieldDescription>
+              Link batch to warehouse and assignment.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse for this picking batch."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -71,7 +88,9 @@ export const CreatePickBatchForm = withForm({
           {/* Batch Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Batch Details</FieldLegend>
-            <FieldDescription>Batch number, status, and strategy.</FieldDescription>
+            <FieldDescription>
+              Batch number, status, and strategy.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="batchNumber">
@@ -125,7 +144,7 @@ export const CreatePickBatchForm = withForm({
             <FieldGroup>
               <form.AppField name="zoneRestrictions">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Zone Restrictions"
                     description="Restricted zones (comma-separated)."
                     placeholder="e.g., Zone A, Zone B"
@@ -138,7 +157,9 @@ export const CreatePickBatchForm = withForm({
           {/* Timing Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing & Progress</FieldLegend>
-            <FieldDescription>Duration estimates and completion tracking.</FieldDescription>
+            <FieldDescription>
+              Duration estimates and completion tracking.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="estimatedDuration">
@@ -194,7 +215,9 @@ export const CreatePickBatchForm = withForm({
           {/* Timestamps Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamps</FieldLegend>
-            <FieldDescription>When batch was started and completed.</FieldDescription>
+            <FieldDescription>
+              When batch was started and completed.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="startedAt">
@@ -235,15 +258,28 @@ export const UpdatePickBatchForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update warehouse and assignment.</FieldDescription>
+            <FieldDescription>
+              Update warehouse and assignment.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse for this picking batch."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -326,7 +362,7 @@ export const UpdatePickBatchForm = withForm({
             <FieldGroup>
               <form.AppField name="zoneRestrictions">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Zone Restrictions"
                     description="Restricted zones (comma-separated)."
                     placeholder="e.g., Zone A, Zone B"
@@ -339,7 +375,9 @@ export const UpdatePickBatchForm = withForm({
           {/* Timing Section */}
           <FieldSet>
             <FieldLegend variant="label">Timing & Progress</FieldLegend>
-            <FieldDescription>Update duration and completion tracking.</FieldDescription>
+            <FieldDescription>
+              Update duration and completion tracking.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="estimatedDuration">
@@ -395,7 +433,9 @@ export const UpdatePickBatchForm = withForm({
           {/* Timestamps Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamps</FieldLegend>
-            <FieldDescription>Update start and completion times.</FieldDescription>
+            <FieldDescription>
+              Update start and completion times.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="startedAt">

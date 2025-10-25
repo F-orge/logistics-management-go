@@ -29,12 +29,16 @@ export const CreateWmsProductForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create WMS Product</FieldLegend>
-        <FieldDescription>Create a new product in warehouse inventory.</FieldDescription>
+        <FieldDescription>
+          Create a new product in warehouse inventory.
+        </FieldDescription>
         <FieldGroup>
           {/* Product Identification Section */}
           <FieldSet>
             <FieldLegend variant="label">Product Identification</FieldLegend>
-            <FieldDescription>Name, SKU, barcode, and description.</FieldDescription>
+            <FieldDescription>
+              Name, SKU, barcode, and description.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="name">
@@ -67,7 +71,7 @@ export const CreateWmsProductForm = withForm({
               </form.AppField>
               <form.AppField name="description">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Description"
                     description="Detailed product description."
                     placeholder="Enter product description..."
@@ -80,7 +84,9 @@ export const CreateWmsProductForm = withForm({
           {/* Pricing Section */}
           <FieldSet>
             <FieldLegend variant="label">Pricing</FieldLegend>
-            <FieldDescription>Cost price for inventory valuation.</FieldDescription>
+            <FieldDescription>
+              Cost price for inventory valuation.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="costPrice">
                 {(field) => (
@@ -155,7 +161,9 @@ export const CreateWmsProductForm = withForm({
           {/* Status & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Status & Relations</FieldLegend>
-            <FieldDescription>Product status and supplier/client information.</FieldDescription>
+            <FieldDescription>
+              Product status and supplier/client information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -200,12 +208,16 @@ export const UpdateWmsProductForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update WMS Product</FieldLegend>
-        <FieldDescription>Update product in warehouse inventory.</FieldDescription>
+        <FieldDescription>
+          Update product in warehouse inventory.
+        </FieldDescription>
         <FieldGroup>
           {/* Product Identification Section */}
           <FieldSet>
             <FieldLegend variant="label">Product Identification</FieldLegend>
-            <FieldDescription>Update name, SKU, barcode, and description.</FieldDescription>
+            <FieldDescription>
+              Update name, SKU, barcode, and description.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="name">
@@ -238,7 +250,7 @@ export const UpdateWmsProductForm = withForm({
               </form.AppField>
               <form.AppField name="description">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Description"
                     description="Detailed product description."
                     placeholder="Enter product description..."
@@ -326,7 +338,9 @@ export const UpdateWmsProductForm = withForm({
           {/* Status & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Status & Relations</FieldLegend>
-            <FieldDescription>Update status and supplier/client information.</FieldDescription>
+            <FieldDescription>
+              Update status and supplier/client information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (

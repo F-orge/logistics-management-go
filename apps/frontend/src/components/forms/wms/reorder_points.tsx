@@ -9,7 +9,10 @@ import {
 import {
   CreateReorderPointInputSchema,
   UpdateReorderPointInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createReorderPointSchema = CreateReorderPointInputSchema();
@@ -34,24 +37,48 @@ export const CreateReorderPointForm = withForm({
           {/* Relations & Threshold Section */}
           <FieldSet>
             <FieldLegend variant="label">Reorder Configuration</FieldLegend>
-            <FieldDescription>Product, warehouse, and threshold quantity.</FieldDescription>
+            <FieldDescription>
+              Product, warehouse, and threshold quantity.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="Product for reorder point."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse location."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -81,29 +108,55 @@ export const UpdateReorderPointForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Reorder Point</FieldLegend>
-        <FieldDescription>Update inventory reorder thresholds.</FieldDescription>
+        <FieldDescription>
+          Update inventory reorder thresholds.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations & Threshold Section */}
           <FieldSet>
             <FieldLegend variant="label">Reorder Configuration</FieldLegend>
-            <FieldDescription>Update product, warehouse, and threshold.</FieldDescription>
+            <FieldDescription>
+              Update product, warehouse, and threshold.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="Product for reorder point."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse location."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>

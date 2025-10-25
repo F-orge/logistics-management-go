@@ -9,7 +9,10 @@ import {
 import {
   CreateOutboundShipmentInputSchema,
   UpdateOutboundShipmentInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchSalesOrdersQuery,
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createOutboundShipmentSchema = CreateOutboundShipmentInputSchema();
@@ -29,29 +32,55 @@ export const CreateOutboundShipmentForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Outbound Shipment</FieldLegend>
-        <FieldDescription>Create a new outgoing shipment from warehouse.</FieldDescription>
+        <FieldDescription>
+          Create a new outgoing shipment from warehouse.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link shipment to sales order and warehouse.</FieldDescription>
+            <FieldDescription>
+              Link shipment to sales order and warehouse.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="salesOrderId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchSalesOrdersQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.salesOrders || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Sales Order *"
                       description="The sales order for this shipment."
-                      placeholder="Sales Order ID"
+                      placeholder="Search sales order..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse shipping from."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -79,7 +108,9 @@ export const CreateOutboundShipmentForm = withForm({
           {/* Carrier Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Carrier Information</FieldLegend>
-            <FieldDescription>Shipping carrier and tracking details.</FieldDescription>
+            <FieldDescription>
+              Shipping carrier and tracking details.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="trackingNumber">
@@ -120,24 +151,48 @@ export const UpdateOutboundShipmentForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update sales order and warehouse associations.</FieldDescription>
+            <FieldDescription>
+              Update sales order and warehouse associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="salesOrderId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchSalesOrdersQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.salesOrders || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Sales Order"
                       description="The sales order for this shipment."
-                      placeholder="Sales Order ID"
+                      placeholder="Search sales order..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse shipping from."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -165,7 +220,9 @@ export const UpdateOutboundShipmentForm = withForm({
           {/* Carrier Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Carrier Information</FieldLegend>
-            <FieldDescription>Update shipping carrier and tracking details.</FieldDescription>
+            <FieldDescription>
+              Update shipping carrier and tracking details.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="trackingNumber">

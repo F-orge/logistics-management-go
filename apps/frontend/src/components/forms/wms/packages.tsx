@@ -9,7 +9,10 @@ import {
 import {
   CreatePackageInputSchema,
   UpdatePackageInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchSalesOrdersQuery,
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPackageSchema = CreatePackageInputSchema();
@@ -34,24 +37,48 @@ export const CreatePackageForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link package to sales order and warehouse.</FieldDescription>
+            <FieldDescription>
+              Link package to sales order and warehouse.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="salesOrderId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchSalesOrdersQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.salesOrders || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Sales Order *"
                       description="The sales order this package is for."
-                      placeholder="Sales Order ID"
+                      placeholder="Search sales order..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse where package is prepared."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -62,7 +89,9 @@ export const CreatePackageForm = withForm({
           {/* Package Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Package Information</FieldLegend>
-            <FieldDescription>Package number, type, and identification.</FieldDescription>
+            <FieldDescription>
+              Package number, type, and identification.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="packageNumber">
@@ -90,7 +119,9 @@ export const CreatePackageForm = withForm({
           {/* Dimensions Section */}
           <FieldSet>
             <FieldLegend variant="label">Dimensions & Weight</FieldLegend>
-            <FieldDescription>Physical dimensions and weight of package.</FieldDescription>
+            <FieldDescription>
+              Physical dimensions and weight of package.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="weight">
@@ -146,7 +177,9 @@ export const CreatePackageForm = withForm({
           {/* Shipping Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Shipping Information</FieldLegend>
-            <FieldDescription>Carrier, service level, and tracking details.</FieldDescription>
+            <FieldDescription>
+              Carrier, service level, and tracking details.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="trackingNumber">
@@ -220,13 +253,14 @@ export const CreatePackageForm = withForm({
           {/* Special Handling Section */}
           <FieldSet>
             <FieldLegend variant="label">Special Handling</FieldLegend>
-            <FieldDescription>Package flags and insurance information.</FieldDescription>
+            <FieldDescription>
+              Package flags and insurance information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="isFragile">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Fragile"
                       description="Package contains fragile items."
                     />
@@ -234,8 +268,7 @@ export const CreatePackageForm = withForm({
                 </form.AppField>
                 <form.AppField name="isHazmat">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Hazmat"
                       description="Package contains hazardous materials."
                     />
@@ -245,8 +278,7 @@ export const CreatePackageForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="requiresSignature">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Requires Signature"
                       description="Signature required upon delivery."
                     />
@@ -283,24 +315,48 @@ export const UpdatePackageForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update sales order and warehouse associations.</FieldDescription>
+            <FieldDescription>
+              Update sales order and warehouse associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="salesOrderId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchSalesOrdersQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.salesOrders || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Sales Order"
                       description="The sales order this package is for."
-                      placeholder="Sales Order ID"
+                      placeholder="Search sales order..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse where package is prepared."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -339,7 +395,9 @@ export const UpdatePackageForm = withForm({
           {/* Dimensions Section */}
           <FieldSet>
             <FieldLegend variant="label">Dimensions & Weight</FieldLegend>
-            <FieldDescription>Update physical dimensions and weight.</FieldDescription>
+            <FieldDescription>
+              Update physical dimensions and weight.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="weight">
@@ -395,7 +453,9 @@ export const UpdatePackageForm = withForm({
           {/* Shipping Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Shipping Information</FieldLegend>
-            <FieldDescription>Update carrier and service level.</FieldDescription>
+            <FieldDescription>
+              Update carrier and service level.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="trackingNumber">
@@ -469,13 +529,14 @@ export const UpdatePackageForm = withForm({
           {/* Special Handling Section */}
           <FieldSet>
             <FieldLegend variant="label">Special Handling</FieldLegend>
-            <FieldDescription>Update package flags and insurance.</FieldDescription>
+            <FieldDescription>
+              Update package flags and insurance.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="isFragile">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Fragile"
                       description="Package contains fragile items."
                     />
@@ -483,8 +544,7 @@ export const UpdatePackageForm = withForm({
                 </form.AppField>
                 <form.AppField name="isHazmat">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Hazmat"
                       description="Package contains hazardous materials."
                     />
@@ -494,8 +554,7 @@ export const UpdatePackageForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="requiresSignature">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Requires Signature"
                       description="Signature required upon delivery."
                     />

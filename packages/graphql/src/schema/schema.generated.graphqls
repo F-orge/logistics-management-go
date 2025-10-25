@@ -42,6 +42,11 @@ type Attachments {
   updatedAt: String
 }
 
+type AuthQuery {
+  user(id: ID!): User
+  users(from: Date, page: Int, perPage: Int, search: String, to: Date): [User!]
+}
+
 enum BillingInvoiceStatus {
   CANCELLED
   DISPUTED
@@ -2080,6 +2085,7 @@ type PutawayRules {
 }
 
 type Query {
+  auth: AuthQuery
   billing: BillingQuery
   crm: CrmQuery
   dms: DmsQuery

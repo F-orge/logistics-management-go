@@ -9,7 +9,11 @@ import {
 import {
   CreateInventoryStockInputSchema,
   UpdateInventoryStockInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchLocationsQuery,
+  SearchWmsProductsQuery,
+  SearchInventoryBatchesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createInventoryStockSchema = CreateInventoryStockInputSchema();
@@ -29,39 +33,76 @@ export const CreateInventoryStockForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Inventory Stock</FieldLegend>
-        <FieldDescription>Record stock levels at a warehouse location.</FieldDescription>
+        <FieldDescription>
+          Record stock levels at a warehouse location.
+        </FieldDescription>
         <FieldGroup>
           {/* Location & Product Section */}
           <FieldSet>
             <FieldLegend variant="label">Location & Product</FieldLegend>
-            <FieldDescription>Link stock to location, product, and batch.</FieldDescription>
+            <FieldDescription>
+              Link stock to location, product, and batch.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="locationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Location *"
                       description="Warehouse location where stock is stored."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="Product being stored."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
               </div>
               <form.AppField name="batchId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchInventoryBatchesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.inventoryBatches || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Batch"
                     description="Batch ID if applicable."
-                    placeholder="Batch ID"
+                    placeholder="Search batch..."
                   />
                 )}
               </form.AppField>
@@ -71,7 +112,9 @@ export const CreateInventoryStockForm = withForm({
           {/* Quantity Section */}
           <FieldSet>
             <FieldLegend variant="label">Quantities</FieldLegend>
-            <FieldDescription>Available and reserved stock quantities.</FieldDescription>
+            <FieldDescription>
+              Available and reserved stock quantities.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantity">
@@ -103,7 +146,9 @@ export const CreateInventoryStockForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Stock status and tracking information.</FieldDescription>
+            <FieldDescription>
+              Stock status and tracking information.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -120,7 +165,9 @@ export const CreateInventoryStockForm = withForm({
           {/* Timestamps Section */}
           <FieldSet>
             <FieldLegend variant="label">Tracking Timestamps</FieldLegend>
-            <FieldDescription>Last count and movement timestamps.</FieldDescription>
+            <FieldDescription>
+              Last count and movement timestamps.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="lastCountedAt">
@@ -156,39 +203,76 @@ export const UpdateInventoryStockForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Inventory Stock</FieldLegend>
-        <FieldDescription>Update stock levels at warehouse location.</FieldDescription>
+        <FieldDescription>
+          Update stock levels at warehouse location.
+        </FieldDescription>
         <FieldGroup>
           {/* Location & Product Section */}
           <FieldSet>
             <FieldLegend variant="label">Location & Product</FieldLegend>
-            <FieldDescription>Update location, product, and batch associations.</FieldDescription>
+            <FieldDescription>
+              Update location, product, and batch associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="locationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Location"
                       description="Warehouse location where stock is stored."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="Product being stored."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
               </div>
               <form.AppField name="batchId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchInventoryBatchesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.inventoryBatches || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Batch"
                     description="Batch ID if applicable."
-                    placeholder="Batch ID"
+                    placeholder="Search batch..."
                   />
                 )}
               </form.AppField>
@@ -198,7 +282,9 @@ export const UpdateInventoryStockForm = withForm({
           {/* Quantity Section */}
           <FieldSet>
             <FieldLegend variant="label">Quantities</FieldLegend>
-            <FieldDescription>Update available and reserved quantities.</FieldDescription>
+            <FieldDescription>
+              Update available and reserved quantities.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantity">
@@ -247,7 +333,9 @@ export const UpdateInventoryStockForm = withForm({
           {/* Timestamps Section */}
           <FieldSet>
             <FieldLegend variant="label">Tracking Timestamps</FieldLegend>
-            <FieldDescription>Update last count and movement timestamps.</FieldDescription>
+            <FieldDescription>
+              Update last count and movement timestamps.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="lastCountedAt">

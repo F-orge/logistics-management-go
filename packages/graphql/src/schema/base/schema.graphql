@@ -8,11 +8,3 @@ type DeleteResult {
   success: Boolean!
   numDeletedRows: Int!
 }
-
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  emailVerified: Boolean!
-  image: String
-}

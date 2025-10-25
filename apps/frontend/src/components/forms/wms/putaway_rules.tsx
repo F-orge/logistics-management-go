@@ -9,7 +9,12 @@ import {
 import {
   CreatePutawayRuleInputSchema,
   UpdatePutawayRuleInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  SearchCompaniesQuery,
+  SearchWarehousesQuery,
+  SearchLocationsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPutawayRuleSchema = CreatePutawayRuleInputSchema();
@@ -29,29 +34,55 @@ export const CreatePutawayRuleForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Putaway Rule</FieldLegend>
-        <FieldDescription>Define automated putaway location rules.</FieldDescription>
+        <FieldDescription>
+          Define automated putaway location rules.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link rule to product, client, and warehouse.</FieldDescription>
+            <FieldDescription>
+              Link rule to product, client, and warehouse.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="Product this rule applies to."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="Client for this rule."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -59,19 +90,41 @@ export const CreatePutawayRuleForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse for this rule."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="preferredLocationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Preferred Location"
                       description="Preferred storage location."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
@@ -82,7 +135,9 @@ export const CreatePutawayRuleForm = withForm({
           {/* Rule Configuration Section */}
           <FieldSet>
             <FieldLegend variant="label">Rule Configuration</FieldLegend>
-            <FieldDescription>Location type, priority, and quantity constraints.</FieldDescription>
+            <FieldDescription>
+              Location type, priority, and quantity constraints.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="locationType">
@@ -168,13 +223,14 @@ export const CreatePutawayRuleForm = withForm({
           {/* Special Requirements Section */}
           <FieldSet>
             <FieldLegend variant="label">Special Requirements</FieldLegend>
-            <FieldDescription>Environment and compliance requirements.</FieldDescription>
+            <FieldDescription>
+              Environment and compliance requirements.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="requiresTemperatureControl">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Requires Temperature Control"
                       description="Product needs temperature-controlled location."
                     />
@@ -182,8 +238,7 @@ export const CreatePutawayRuleForm = withForm({
                 </form.AppField>
                 <form.AppField name="requiresHazmatApproval">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Requires Hazmat Approval"
                       description="Product is hazmat-approved location only."
                     />
@@ -192,8 +247,7 @@ export const CreatePutawayRuleForm = withForm({
               </div>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Rule is active and in use."
                   />
@@ -213,29 +267,55 @@ export const UpdatePutawayRuleForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Putaway Rule</FieldLegend>
-        <FieldDescription>Update automated putaway location rules.</FieldDescription>
+        <FieldDescription>
+          Update automated putaway location rules.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update product, client, and warehouse associations.</FieldDescription>
+            <FieldDescription>
+              Update product, client, and warehouse associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="Product this rule applies to."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="Client for this rule."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -243,19 +323,41 @@ export const UpdatePutawayRuleForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse for this rule."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="preferredLocationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Preferred Location"
                       description="Preferred storage location."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
@@ -266,7 +368,9 @@ export const UpdatePutawayRuleForm = withForm({
           {/* Rule Configuration Section */}
           <FieldSet>
             <FieldLegend variant="label">Rule Configuration</FieldLegend>
-            <FieldDescription>Update location type and constraints.</FieldDescription>
+            <FieldDescription>
+              Update location type and constraints.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="locationType">
@@ -320,7 +424,9 @@ export const UpdatePutawayRuleForm = withForm({
           {/* Threshold Section */}
           <FieldSet>
             <FieldLegend variant="label">Thresholds</FieldLegend>
-            <FieldDescription>Update weight and volume limitations.</FieldDescription>
+            <FieldDescription>
+              Update weight and volume limitations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="weightThreshold">
@@ -352,13 +458,14 @@ export const UpdatePutawayRuleForm = withForm({
           {/* Special Requirements Section */}
           <FieldSet>
             <FieldLegend variant="label">Special Requirements</FieldLegend>
-            <FieldDescription>Update environment and compliance requirements.</FieldDescription>
+            <FieldDescription>
+              Update environment and compliance requirements.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="requiresTemperatureControl">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Requires Temperature Control"
                       description="Product needs temperature-controlled location."
                     />
@@ -366,8 +473,7 @@ export const UpdatePutawayRuleForm = withForm({
                 </form.AppField>
                 <form.AppField name="requiresHazmatApproval">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Requires Hazmat Approval"
                       description="Product is hazmat-approved location only."
                     />
@@ -376,8 +482,7 @@ export const UpdatePutawayRuleForm = withForm({
               </div>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Rule is active and in use."
                   />

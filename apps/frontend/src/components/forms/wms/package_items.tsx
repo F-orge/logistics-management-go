@@ -9,7 +9,10 @@ import {
 import {
   CreatePackageItemInputSchema,
   UpdatePackageItemInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  SearchInventoryBatchesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createPackageItemSchema = CreatePackageItemInputSchema();
@@ -34,7 +37,9 @@ export const CreatePackageItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link item to package, product, and batch.</FieldDescription>
+            <FieldDescription>
+              Link item to package, product, and batch.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="packageId">
@@ -48,20 +53,42 @@ export const CreatePackageItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="The product in this package item."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
               </div>
               <form.AppField name="batchId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchInventoryBatchesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.inventoryBatches || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Batch"
                     description="Batch ID if applicable."
-                    placeholder="Batch ID"
+                    placeholder="Search batch..."
                   />
                 )}
               </form.AppField>
@@ -71,7 +98,9 @@ export const CreatePackageItemForm = withForm({
           {/* Item Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Item Details</FieldLegend>
-            <FieldDescription>Quantity, lot number, and serial information.</FieldDescription>
+            <FieldDescription>
+              Quantity, lot number, and serial information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantity">
@@ -110,7 +139,9 @@ export const CreatePackageItemForm = withForm({
           {/* Weight & Expiry Section */}
           <FieldSet>
             <FieldLegend variant="label">Weight & Expiry</FieldLegend>
-            <FieldDescription>Unit weight and expiration date.</FieldDescription>
+            <FieldDescription>
+              Unit weight and expiration date.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="unitWeight">
@@ -148,12 +179,16 @@ export const UpdatePackageItemForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Package Item</FieldLegend>
-        <FieldDescription>Update product line items in package.</FieldDescription>
+        <FieldDescription>
+          Update product line items in package.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update package, product, and batch associations.</FieldDescription>
+            <FieldDescription>
+              Update package, product, and batch associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="packageId">
@@ -167,20 +202,42 @@ export const UpdatePackageItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="The product in this package item."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
               </div>
               <form.AppField name="batchId">
                 {(field) => (
-                  <field.InputField
+                  <field.AsyncSelectField<{ label: string; value: string }>
+                    fetcher={async (query) => {
+                      const { data } = await execute(
+                        "/api/graphql",
+                        SearchInventoryBatchesQuery,
+                        { search: query || "" }
+                      );
+                      return data?.wms?.inventoryBatches || [];
+                    }}
+                    renderOption={(option) => option.label}
+                    getOptionValue={(option) => option.value}
+                    getDisplayValue={(option) => option.label}
                     label="Batch"
                     description="Batch ID if applicable."
-                    placeholder="Batch ID"
+                    placeholder="Search batch..."
                   />
                 )}
               </form.AppField>
@@ -190,7 +247,9 @@ export const UpdatePackageItemForm = withForm({
           {/* Item Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Item Details</FieldLegend>
-            <FieldDescription>Update quantity, lot number, and serial information.</FieldDescription>
+            <FieldDescription>
+              Update quantity, lot number, and serial information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantity">
@@ -229,7 +288,9 @@ export const UpdatePackageItemForm = withForm({
           {/* Weight & Expiry Section */}
           <FieldSet>
             <FieldLegend variant="label">Weight & Expiry</FieldLegend>
-            <FieldDescription>Update unit weight and expiration date.</FieldDescription>
+            <FieldDescription>
+              Update unit weight and expiration date.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="unitWeight">

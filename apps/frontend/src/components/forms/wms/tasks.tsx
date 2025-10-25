@@ -9,7 +9,9 @@ import {
 import {
   CreateTaskInputSchema,
   UpdateTaskInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createTaskSchema = CreateTaskInputSchema();
@@ -91,10 +93,21 @@ export const CreateTaskForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse for this task."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -223,7 +236,7 @@ export const CreateTaskForm = withForm({
             <FieldGroup>
               <form.AppField name="instructions">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Instructions"
                     description="Detailed task instructions."
                     placeholder="Enter task instructions..."
@@ -232,7 +245,7 @@ export const CreateTaskForm = withForm({
               </form.AppField>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional task notes."
                     placeholder="Enter notes..."
@@ -315,10 +328,21 @@ export const UpdateTaskForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse for this task."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -445,7 +469,7 @@ export const UpdateTaskForm = withForm({
             <FieldGroup>
               <form.AppField name="instructions">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Instructions"
                     description="Detailed task instructions."
                     placeholder="Enter task instructions..."
@@ -454,7 +478,7 @@ export const UpdateTaskForm = withForm({
               </form.AppField>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional task notes."
                     placeholder="Enter notes..."

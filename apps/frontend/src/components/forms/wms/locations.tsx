@@ -9,7 +9,10 @@ import {
 import {
   CreateLocationInputSchema,
   UpdateLocationInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWarehousesQuery,
+  SearchLocationsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createLocationSchema = CreateLocationInputSchema();
@@ -29,29 +32,55 @@ export const CreateLocationForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Location</FieldLegend>
-        <FieldDescription>Create a new warehouse storage location.</FieldDescription>
+        <FieldDescription>
+          Create a new warehouse storage location.
+        </FieldDescription>
         <FieldGroup>
           {/* Location Hierarchy Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Hierarchy</FieldLegend>
-            <FieldDescription>Define location in warehouse structure.</FieldDescription>
+            <FieldDescription>
+              Define location in warehouse structure.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Parent warehouse for this location."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="parentLocationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Parent Location"
                       description="Parent location in hierarchy (if nested)."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
@@ -84,7 +113,9 @@ export const CreateLocationForm = withForm({
           {/* Location Identification Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Identification</FieldLegend>
-            <FieldDescription>Name, type, and barcode for location.</FieldDescription>
+            <FieldDescription>
+              Name, type, and barcode for location.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="name">
@@ -207,13 +238,14 @@ export const CreateLocationForm = withForm({
           {/* Operations Flags Section */}
           <FieldSet>
             <FieldLegend variant="label">Operations Flags</FieldLegend>
-            <FieldDescription>Location capabilities and restrictions.</FieldDescription>
+            <FieldDescription>
+              Location capabilities and restrictions.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="isPickable">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Pickable"
                       description="Can items be picked from this location."
                     />
@@ -221,8 +253,7 @@ export const CreateLocationForm = withForm({
                 </form.AppField>
                 <form.AppField name="isReceivable">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Receivable"
                       description="Can items be received at this location."
                     />
@@ -232,8 +263,7 @@ export const CreateLocationForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="temperatureControlled">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Temperature Controlled"
                       description="Location has temperature control."
                     />
@@ -241,8 +271,7 @@ export const CreateLocationForm = withForm({
                 </form.AppField>
                 <form.AppField name="hazmatApproved">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Hazmat Approved"
                       description="Can store hazardous materials."
                     />
@@ -251,8 +280,7 @@ export const CreateLocationForm = withForm({
               </div>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Location is active and available."
                   />
@@ -272,29 +300,55 @@ export const UpdateLocationForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Location</FieldLegend>
-        <FieldDescription>Update warehouse storage location details.</FieldDescription>
+        <FieldDescription>
+          Update warehouse storage location details.
+        </FieldDescription>
         <FieldGroup>
           {/* Location Hierarchy Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Hierarchy</FieldLegend>
-            <FieldDescription>Update location in warehouse structure.</FieldDescription>
+            <FieldDescription>
+              Update location in warehouse structure.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Parent warehouse for this location."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="parentLocationId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchLocationsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.locations || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Parent Location"
                       description="Parent location in hierarchy (if nested)."
-                      placeholder="Location ID"
+                      placeholder="Search location..."
                     />
                   )}
                 </form.AppField>
@@ -364,7 +418,9 @@ export const UpdateLocationForm = withForm({
           {/* Capacity Section */}
           <FieldSet>
             <FieldLegend variant="label">Capacity Limits</FieldLegend>
-            <FieldDescription>Update storage capacity constraints.</FieldDescription>
+            <FieldDescription>
+              Update storage capacity constraints.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="maxWeight">
@@ -407,7 +463,9 @@ export const UpdateLocationForm = withForm({
           {/* Coordinates Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Coordinates</FieldLegend>
-            <FieldDescription>Update physical position in warehouse.</FieldDescription>
+            <FieldDescription>
+              Update physical position in warehouse.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="xCoordinate">
@@ -450,13 +508,14 @@ export const UpdateLocationForm = withForm({
           {/* Operations Flags Section */}
           <FieldSet>
             <FieldLegend variant="label">Operations Flags</FieldLegend>
-            <FieldDescription>Update location capabilities and restrictions.</FieldDescription>
+            <FieldDescription>
+              Update location capabilities and restrictions.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="isPickable">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Pickable"
                       description="Can items be picked from this location."
                     />
@@ -464,8 +523,7 @@ export const UpdateLocationForm = withForm({
                 </form.AppField>
                 <form.AppField name="isReceivable">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Receivable"
                       description="Can items be received at this location."
                     />
@@ -475,8 +533,7 @@ export const UpdateLocationForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="temperatureControlled">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Temperature Controlled"
                       description="Location has temperature control."
                     />
@@ -484,8 +541,7 @@ export const UpdateLocationForm = withForm({
                 </form.AppField>
                 <form.AppField name="hazmatApproved">
                   {(field) => (
-                    <field.InputField
-                      type="checkbox"
+                    <field.CheckBoxField
                       label="Hazmat Approved"
                       description="Can store hazardous materials."
                     />
@@ -494,8 +550,7 @@ export const UpdateLocationForm = withForm({
               </div>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Location is active and available."
                   />

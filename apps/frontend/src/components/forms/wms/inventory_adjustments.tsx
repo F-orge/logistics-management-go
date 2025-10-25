@@ -9,11 +9,16 @@ import {
 import {
   CreateInventoryAdjustmentInputSchema,
   UpdateInventoryAdjustmentInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
-export const createInventoryAdjustmentSchema = CreateInventoryAdjustmentInputSchema();
-export const updateInventoryAdjustmentSchema = UpdateInventoryAdjustmentInputSchema();
+export const createInventoryAdjustmentSchema =
+  CreateInventoryAdjustmentInputSchema();
+export const updateInventoryAdjustmentSchema =
+  UpdateInventoryAdjustmentInputSchema();
 
 export const createInventoryAdjustmentFormOption = formOptions({
   defaultValues: {} as z.infer<typeof createInventoryAdjustmentSchema>,
@@ -29,29 +34,55 @@ export const CreateInventoryAdjustmentForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Inventory Adjustment</FieldLegend>
-        <FieldDescription>Record an adjustment to inventory stock.</FieldDescription>
+        <FieldDescription>
+          Record an adjustment to inventory stock.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Product, warehouse, and user involved in adjustment.</FieldDescription>
+            <FieldDescription>
+              Product, warehouse, and user involved in adjustment.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="Product being adjusted."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Warehouse location of adjustment."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -71,7 +102,9 @@ export const CreateInventoryAdjustmentForm = withForm({
           {/* Adjustment Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Adjustment Details</FieldLegend>
-            <FieldDescription>Quantity change and reason for adjustment.</FieldDescription>
+            <FieldDescription>
+              Quantity change and reason for adjustment.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantityChange">
@@ -87,7 +120,7 @@ export const CreateInventoryAdjustmentForm = withForm({
                 </form.AppField>
                 <form.AppField name="reason">
                   {(field) => (
-                    <field.InputField
+                    <field.TextAreaField
                       label="Reason *"
                       description="Reason for adjustment."
                       placeholder="e.g., Damage, Shrinkage, Correction"
@@ -101,11 +134,13 @@ export const CreateInventoryAdjustmentForm = withForm({
           {/* Notes Section */}
           <FieldSet>
             <FieldLegend variant="label">Notes</FieldLegend>
-            <FieldDescription>Additional details about this adjustment.</FieldDescription>
+            <FieldDescription>
+              Additional details about this adjustment.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional notes or comments."
                     placeholder="Enter adjustment notes..."
@@ -131,24 +166,48 @@ export const UpdateInventoryAdjustmentForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update product, warehouse, and user details.</FieldDescription>
+            <FieldDescription>
+              Update product, warehouse, and user details.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="Product being adjusted."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Warehouse location of adjustment."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -168,7 +227,9 @@ export const UpdateInventoryAdjustmentForm = withForm({
           {/* Adjustment Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Adjustment Details</FieldLegend>
-            <FieldDescription>Update quantity change and reason.</FieldDescription>
+            <FieldDescription>
+              Update quantity change and reason.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantityChange">
@@ -184,7 +245,7 @@ export const UpdateInventoryAdjustmentForm = withForm({
                 </form.AppField>
                 <form.AppField name="reason">
                   {(field) => (
-                    <field.InputField
+                    <field.TextAreaField
                       label="Reason"
                       description="Reason for adjustment."
                       placeholder="e.g., Damage, Shrinkage, Correction"
@@ -198,11 +259,13 @@ export const UpdateInventoryAdjustmentForm = withForm({
           {/* Notes Section */}
           <FieldSet>
             <FieldLegend variant="label">Notes</FieldLegend>
-            <FieldDescription>Update additional details about this adjustment.</FieldDescription>
+            <FieldDescription>
+              Update additional details about this adjustment.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="notes">
                 {(field) => (
-                  <field.InputField
+                  <field.TextAreaField
                     label="Notes"
                     description="Additional notes or comments."
                     placeholder="Enter adjustment notes..."

@@ -9,7 +9,11 @@ import {
 import {
   CreateStockTransferInputSchema,
   UpdateStockTransferInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  SearchWarehousesQuery,
+  SearchLocationsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createStockTransferSchema = CreateStockTransferInputSchema();
@@ -29,20 +33,35 @@ export const CreateStockTransferForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Stock Transfer</FieldLegend>
-        <FieldDescription>Create inter-warehouse stock transfer.</FieldDescription>
+        <FieldDescription>
+          Create inter-warehouse stock transfer.
+        </FieldDescription>
         <FieldGroup>
           {/* Transfer Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Transfer Information</FieldLegend>
-            <FieldDescription>Product and quantity being transferred.</FieldDescription>
+            <FieldDescription>
+              Product and quantity being transferred.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="Product being transferred."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -64,24 +83,48 @@ export const CreateStockTransferForm = withForm({
           {/* Warehouse Transfer Section */}
           <FieldSet>
             <FieldLegend variant="label">Warehouse Transfer</FieldLegend>
-            <FieldDescription>Source and destination warehouses.</FieldDescription>
+            <FieldDescription>
+              Source and destination warehouses.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="sourceWarehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Source Warehouse *"
                       description="Origin warehouse."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="destinationWarehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Destination Warehouse *"
                       description="Destination warehouse."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -117,7 +160,9 @@ export const UpdateStockTransferForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Stock Transfer</FieldLegend>
-        <FieldDescription>Update inter-warehouse stock transfer.</FieldDescription>
+        <FieldDescription>
+          Update inter-warehouse stock transfer.
+        </FieldDescription>
         <FieldGroup>
           {/* Transfer Information Section */}
           <FieldSet>
@@ -127,10 +172,21 @@ export const UpdateStockTransferForm = withForm({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="Product being transferred."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -152,24 +208,48 @@ export const UpdateStockTransferForm = withForm({
           {/* Warehouse Transfer Section */}
           <FieldSet>
             <FieldLegend variant="label">Warehouse Transfer</FieldLegend>
-            <FieldDescription>Update source and destination warehouses.</FieldDescription>
+            <FieldDescription>
+              Update source and destination warehouses.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="sourceWarehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Source Warehouse"
                       description="Origin warehouse."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="destinationWarehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Destination Warehouse"
                       description="Destination warehouse."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>

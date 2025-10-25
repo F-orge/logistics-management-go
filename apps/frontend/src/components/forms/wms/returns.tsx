@@ -9,7 +9,10 @@ import {
 import {
   CreateReturnInputSchema,
   UpdateReturnInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCompaniesQuery,
+  SearchWarehousesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createReturnSchema = CreateReturnInputSchema();
@@ -34,7 +37,9 @@ export const CreateReturnForm = withForm({
           {/* Return Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Return Information</FieldLegend>
-            <FieldDescription>Return number and identification.</FieldDescription>
+            <FieldDescription>
+              Return number and identification.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="returnNumber">
@@ -71,24 +76,28 @@ export const CreateReturnForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link return to sales order and client.</FieldDescription>
+            <FieldDescription>
+              Link return to sales order and client.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <form.AppField name="salesOrderId">
-                  {(field) => (
-                    <field.InputField
-                      label="Sales Order *"
-                      description="Original sales order."
-                      placeholder="Sales Order ID"
-                    />
-                  )}
-                </form.AppField>
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="Client initiating return."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
@@ -112,7 +121,9 @@ export const UpdateReturnForm = withForm({
           {/* Return Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Return Information</FieldLegend>
-            <FieldDescription>Update return number, status, and reason.</FieldDescription>
+            <FieldDescription>
+              Update return number, status, and reason.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="returnNumber">
@@ -149,24 +160,28 @@ export const UpdateReturnForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update sales order and client associations.</FieldDescription>
+            <FieldDescription>
+              Update sales order and client associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <form.AppField name="salesOrderId">
-                  {(field) => (
-                    <field.InputField
-                      label="Sales Order"
-                      description="Original sales order."
-                      placeholder="Sales Order ID"
-                    />
-                  )}
-                </form.AppField>
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="Client initiating return."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>

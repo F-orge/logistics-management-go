@@ -64,6 +64,26 @@ export type Attachments = {
   updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
+export type AuthQuery = {
+  __typename?: 'AuthQuery';
+  user?: Maybe<User>;
+  users?: Maybe<Array<User>>;
+};
+
+
+export type AuthQueryUserArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+export type AuthQueryUsersArgs = {
+  from?: InputMaybe<Scalars['Date']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+};
+
 export enum BillingInvoiceStatus {
   Cancelled = 'CANCELLED',
   Disputed = 'DISPUTED',
@@ -3094,6 +3114,7 @@ export type PutawayRules = {
 
 export type Query = {
   __typename?: 'Query';
+  auth?: Maybe<AuthQuery>;
   billing?: Maybe<BillingQuery>;
   crm?: Maybe<CrmQuery>;
   dms?: Maybe<DmsQuery>;

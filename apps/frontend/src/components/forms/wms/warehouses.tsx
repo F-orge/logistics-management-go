@@ -100,7 +100,9 @@ export const CreateWarehouseForm = withForm({
           {/* Contact Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Contact Information</FieldLegend>
-            <FieldDescription>Primary warehouse contact details.</FieldDescription>
+            <FieldDescription>
+              Primary warehouse contact details.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="contactPerson">
                 {(field) => (
@@ -139,7 +141,9 @@ export const CreateWarehouseForm = withForm({
           {/* Settings Section */}
           <FieldSet>
             <FieldLegend variant="label">Settings</FieldLegend>
-            <FieldDescription>Timezone and operational settings.</FieldDescription>
+            <FieldDescription>
+              Timezone and operational settings.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timezone">
                 {(field) => (
@@ -152,8 +156,7 @@ export const CreateWarehouseForm = withForm({
               </form.AppField>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Warehouse is active and operational."
                   />
@@ -178,7 +181,9 @@ export const UpdateWarehouseForm = withForm({
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Update warehouse name and address.</FieldDescription>
+            <FieldDescription>
+              Update warehouse name and address.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="name">
                 {(field) => (
@@ -283,7 +288,9 @@ export const UpdateWarehouseForm = withForm({
           {/* Settings Section */}
           <FieldSet>
             <FieldLegend variant="label">Settings</FieldLegend>
-            <FieldDescription>Update timezone and operational settings.</FieldDescription>
+            <FieldDescription>
+              Update timezone and operational settings.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timezone">
                 {(field) => (
@@ -296,8 +303,7 @@ export const UpdateWarehouseForm = withForm({
               </form.AppField>
               <form.AppField name="isActive">
                 {(field) => (
-                  <field.InputField
-                    type="checkbox"
+                  <field.CheckBoxField
                     label="Active"
                     description="Warehouse is active and operational."
                   />

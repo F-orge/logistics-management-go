@@ -9,7 +9,10 @@ import {
 import {
   CreateSalesOrderInputSchema,
   UpdateSalesOrderInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchCompaniesQuery,
+  SearchOpportunitiesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createSalesOrderSchema = CreateSalesOrderInputSchema();
@@ -34,7 +37,9 @@ export const CreateSalesOrderForm = withForm({
           {/* Order Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Order Information</FieldLegend>
-            <FieldDescription>Order number and identification.</FieldDescription>
+            <FieldDescription>
+              Order number and identification.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="orderNumber">
@@ -71,24 +76,48 @@ export const CreateSalesOrderForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link order to client and CRM opportunity.</FieldDescription>
+            <FieldDescription>
+              Link order to client and CRM opportunity.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="Customer placing order."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="crmOpportunityId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchOpportunitiesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.opportunities || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="CRM Opportunity"
                       description="Associated CRM opportunity (optional)."
-                      placeholder="Opportunity ID"
+                      placeholder="Search opportunity..."
                     />
                   )}
                 </form.AppField>
@@ -149,24 +178,48 @@ export const UpdateSalesOrderForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update client and CRM opportunity associations.</FieldDescription>
+            <FieldDescription>
+              Update client and CRM opportunity associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="Customer placing order."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="crmOpportunityId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchOpportunitiesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.opportunities || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="CRM Opportunity"
                       description="Associated CRM opportunity (optional)."
-                      placeholder="Opportunity ID"
+                      placeholder="Search opportunity..."
                     />
                   )}
                 </form.AppField>

@@ -9,7 +9,10 @@ import {
 import {
   CreateInboundShipmentInputSchema,
   UpdateInboundShipmentInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWarehousesQuery,
+  SearchCompaniesQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createInboundShipmentSchema = CreateInboundShipmentInputSchema();
@@ -29,29 +32,55 @@ export const CreateInboundShipmentForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Inbound Shipment</FieldLegend>
-        <FieldDescription>Create a new incoming shipment to warehouse.</FieldDescription>
+        <FieldDescription>
+          Create a new incoming shipment to warehouse.
+        </FieldDescription>
         <FieldGroup>
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link shipment to client and warehouse.</FieldDescription>
+            <FieldDescription>
+              Link shipment to client and warehouse.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client *"
                       description="Client or supplier sending this shipment."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse *"
                       description="Destination warehouse for this shipment."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -62,7 +91,9 @@ export const CreateInboundShipmentForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Current status of the inbound shipment.</FieldDescription>
+            <FieldDescription>
+              Current status of the inbound shipment.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -79,7 +110,9 @@ export const CreateInboundShipmentForm = withForm({
           {/* Timeline Section */}
           <FieldSet>
             <FieldLegend variant="label">Timeline</FieldLegend>
-            <FieldDescription>Expected and actual arrival dates.</FieldDescription>
+            <FieldDescription>
+              Expected and actual arrival dates.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="expectedArrivalDate">
@@ -120,24 +153,48 @@ export const UpdateInboundShipmentForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update client and warehouse associations.</FieldDescription>
+            <FieldDescription>
+              Update client and warehouse associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="clientId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchCompaniesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.crm?.companies || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Client"
                       description="Client or supplier sending this shipment."
-                      placeholder="Client ID"
+                      placeholder="Search client..."
                     />
                   )}
                 </form.AppField>
                 <form.AppField name="warehouseId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWarehousesQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.warehouses || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Warehouse"
                       description="Destination warehouse for this shipment."
-                      placeholder="Warehouse ID"
+                      placeholder="Search warehouse..."
                     />
                   )}
                 </form.AppField>
@@ -148,7 +205,9 @@ export const UpdateInboundShipmentForm = withForm({
           {/* Status Section */}
           <FieldSet>
             <FieldLegend variant="label">Status</FieldLegend>
-            <FieldDescription>Update status of the inbound shipment.</FieldDescription>
+            <FieldDescription>
+              Update status of the inbound shipment.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="status">
                 {(field) => (
@@ -165,7 +224,9 @@ export const UpdateInboundShipmentForm = withForm({
           {/* Timeline Section */}
           <FieldSet>
             <FieldLegend variant="label">Timeline</FieldLegend>
-            <FieldDescription>Update expected and actual arrival dates.</FieldDescription>
+            <FieldDescription>
+              Update expected and actual arrival dates.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="expectedArrivalDate">

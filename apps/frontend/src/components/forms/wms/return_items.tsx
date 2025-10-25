@@ -9,7 +9,9 @@ import {
 import {
   CreateReturnItemInputSchema,
   UpdateReturnItemInputSchema,
-} from "@packages/graphql/client/zod";
+  SearchWmsProductsQuery,
+  execute,
+} from "@packages/graphql/client";
 import z from "zod";
 
 export const createReturnItemSchema = CreateReturnItemInputSchema();
@@ -34,7 +36,9 @@ export const CreateReturnItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Link item to return and product.</FieldDescription>
+            <FieldDescription>
+              Link item to return and product.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="returnId">
@@ -48,10 +52,21 @@ export const CreateReturnItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product *"
                       description="The product being returned."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -62,7 +77,9 @@ export const CreateReturnItemForm = withForm({
           {/* Quantity & Condition Section */}
           <FieldSet>
             <FieldLegend variant="label">Quantity & Condition</FieldLegend>
-            <FieldDescription>Expected and received quantities, product condition.</FieldDescription>
+            <FieldDescription>
+              Expected and received quantities, product condition.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantityExpected">
@@ -116,7 +133,9 @@ export const UpdateReturnItemForm = withForm({
           {/* Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Relations</FieldLegend>
-            <FieldDescription>Update return and product associations.</FieldDescription>
+            <FieldDescription>
+              Update return and product associations.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="returnId">
@@ -130,10 +149,21 @@ export const UpdateReturnItemForm = withForm({
                 </form.AppField>
                 <form.AppField name="productId">
                   {(field) => (
-                    <field.InputField
+                    <field.AsyncSelectField<{ label: string; value: string }>
+                      fetcher={async (query) => {
+                        const { data } = await execute(
+                          "/api/graphql",
+                          SearchWmsProductsQuery,
+                          { search: query || "" }
+                        );
+                        return data?.wms?.wmsProducts || [];
+                      }}
+                      renderOption={(option) => option.label}
+                      getOptionValue={(option) => option.value}
+                      getDisplayValue={(option) => option.label}
                       label="Product"
                       description="The product being returned."
-                      placeholder="Product ID"
+                      placeholder="Search product..."
                     />
                   )}
                 </form.AppField>
@@ -144,7 +174,9 @@ export const UpdateReturnItemForm = withForm({
           {/* Quantity & Condition Section */}
           <FieldSet>
             <FieldLegend variant="label">Quantity & Condition</FieldLegend>
-            <FieldDescription>Update quantities and product condition.</FieldDescription>
+            <FieldDescription>
+              Update quantities and product condition.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="quantityExpected">
