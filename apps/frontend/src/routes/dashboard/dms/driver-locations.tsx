@@ -78,7 +78,7 @@ function RouteComponent() {
       </section>
       <section>
         <NewDriverLocationDialogForm />
-        <UpdateDriverLocationDialogForm data={data} />
+        <UpdateDriverLocationDialogForm data={data as any} />
       </section>
     </article>
   );

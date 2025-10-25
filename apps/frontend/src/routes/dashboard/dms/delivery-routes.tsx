@@ -127,7 +127,7 @@ function RouteComponent() {
       </section>
       <section>
         <NewDeliveryRouteDialogForm />
-        <UpdateDeliveryRouteDialogForm data={data} />
+        <UpdateDeliveryRouteDialogForm data={data as any} />
       </section>
     </article>
   );

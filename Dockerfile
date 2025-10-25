@@ -27,6 +27,7 @@ WORKDIR /app
 # Copy built output and server files
 COPY --from=base /build/apps/frontend/.output ./.output
 COPY --from=base /build/apps/backend/.output/server.js ./.output/server.js
+COPY --from=base /build/apps/backend/migrations ./.output/migrations
 
 # Expose port 3000
 EXPOSE 3000

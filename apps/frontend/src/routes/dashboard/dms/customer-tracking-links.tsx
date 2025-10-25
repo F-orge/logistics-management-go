@@ -106,7 +106,7 @@ function RouteComponent() {
       </section>
       <section>
         <NewCustomerTrackingLinkDialogForm />
-        <UpdateCustomerTrackingLinkDialogForm data={data} />
+        <UpdateCustomerTrackingLinkDialogForm data={data as any} />
       </section>
     </article>
   );

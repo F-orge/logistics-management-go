@@ -127,7 +127,7 @@ function RouteComponent() {
       </section>
       <section>
         <NewTaskEventDialogForm />
-        <UpdateTaskEventDialogForm data={data} />
+        <UpdateTaskEventDialogForm data={data as any} />
       </section>
     </article>
   );

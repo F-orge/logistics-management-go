@@ -127,7 +127,7 @@ function RouteComponent() {
       </section>
       <section>
         <NewDmsProofOfDeliveryDialogForm />
-        <UpdateDmsProofOfDeliveryDialogForm data={data} />
+        <UpdateDmsProofOfDeliveryDialogForm data={data as any} />
       </section>
     </article>
   );
