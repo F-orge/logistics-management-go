@@ -1,7 +1,8 @@
+import { DB } from "@packages/db/db.types";
 import type { Kysely } from "kysely";
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.
-export async function up(db: Kysely<any>): Promise<void> {
+export async function up(db: Kysely<DB>): Promise<void> {
   console.log("Adding foreign key constraints and updating null references...");
 
   try {
@@ -19,11 +20,12 @@ export async function up(db: Kysely<any>): Promise<void> {
       .where(
         "id",
         "in",
-        eb => eb
-          .selectFrom("tms.tripStops")
-          .select("id")
-          .where("shipmentId", "is", null)
-          .limit(100) // Update in batches to avoid locking issues
+        (eb) =>
+          eb
+            .selectFrom("tms.tripStops")
+            .select("id")
+            .where("shipmentId", "is", null)
+            .limit(100) // Update in batches to avoid locking issues
       )
       .execute();
 
@@ -38,10 +40,8 @@ export async function up(db: Kysely<any>): Promise<void> {
           .limit(1),
       }))
       .where("shipmentId", "is", null)
-      .where(
-        "id",
-        "in",
-        eb => eb
+      .where("id", "in", (eb) =>
+        eb
           .selectFrom("tms.shipmentLegs")
           .select("id")
           .where("shipmentId", "is", null)
@@ -60,10 +60,8 @@ export async function up(db: Kysely<any>): Promise<void> {
           .limit(1),
       }))
       .where("clientId", "is", null)
-      .where(
-        "id",
-        "in",
-        eb => eb
+      .where("id", "in", (eb) =>
+        eb
           .selectFrom("wms.products")
           .select("id")
           .where("clientId", "is", null)
@@ -82,10 +80,8 @@ export async function up(db: Kysely<any>): Promise<void> {
           .limit(1),
       }))
       .where("crmOpportunityId", "is", null)
-      .where(
-        "id",
-        "in",
-        eb => eb
+      .where("id", "in", (eb) =>
+        eb
           .selectFrom("wms.salesOrders")
           .select("id")
           .where("crmOpportunityId", "is", null)
@@ -106,10 +102,8 @@ export async function up(db: Kysely<any>): Promise<void> {
       }))
       .where("sourceRecordId", "is", null)
       .where("sourceRecordType", "is", null)
-      .where(
-        "id",
-        "in",
-        eb => eb
+      .where("id", "in", (eb) =>
+        eb
           .selectFrom("billing.invoiceLineItems")
           .select("id")
           .where("sourceRecordId", "is", null)
@@ -130,10 +124,8 @@ export async function up(db: Kysely<any>): Promise<void> {
       }))
       .where("sourceRecordId", "is", null)
       .where("sourceRecordType", "is", null)
-      .where(
-        "id",
-        "in",
-        eb => eb
+      .where("id", "in", (eb) =>
+        eb
           .selectFrom("billing.accountTransactions")
           .select("id")
           .where("sourceRecordId", "is", null)
@@ -193,7 +185,6 @@ export async function up(db: Kysely<any>): Promise<void> {
       .execute();
 
     console.log("Cross-schema foreign key constraints added successfully!");
-
   } catch (error) {
     console.error("Error in cross-schema foreign key migration:", error);
     throw error;
@@ -227,9 +218,11 @@ export async function down(db: Kysely<any>): Promise<void> {
       .execute();
 
     console.log("Cross-schema foreign key constraints removed successfully!");
-
   } catch (error) {
-    console.error("Error removing cross-schema foreign key constraints:", error);
+    console.error(
+      "Error removing cross-schema foreign key constraints:",
+      error
+    );
     throw error;
   }
 }

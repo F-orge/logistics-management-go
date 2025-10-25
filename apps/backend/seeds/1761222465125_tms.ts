@@ -188,12 +188,10 @@ export async function seed(db: Kysely<DB>): Promise<void> {
     const stopCount = faker.number.int({ min: 2, max: 8 });
     for (let i = 0; i < stopCount; i++) {
       // Link to actual WMS outbound shipments if available
-      const shipmentId = wmsOutboundShipments.length > 0 
-        ? faker.helpers.maybe(
-            () => wmsOutboundShipments[Math.floor(Math.random() * wmsOutboundShipments.length)].id,
-            { probability: 0.7 }
-          )
-        : undefined;
+      const shipmentId =
+        wmsOutboundShipments[
+          Math.floor(Math.random() * wmsOutboundShipments.length)
+        ].id;
 
       tripStopData.push(
         seedTmsTripStop(faker, {
@@ -344,9 +342,10 @@ export async function seed(db: Kysely<DB>): Promise<void> {
   // Create shipment legs for external carriers and internal trips
   for (let i = 0; i < 200; i++) {
     // Link to actual WMS outbound shipments if available
-    const shipmentId = wmsOutboundShipments.length > 0
-      ? wmsOutboundShipments[Math.floor(Math.random() * wmsOutboundShipments.length)].id
-      : undefined;
+    const shipmentId =
+      wmsOutboundShipments[
+        Math.floor(Math.random() * wmsOutboundShipments.length)
+      ].id;
     const legCount = faker.number.int({ min: 1, max: 3 });
 
     for (let j = 0; j < legCount; j++) {
