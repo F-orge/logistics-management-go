@@ -3,7 +3,9 @@ import { TableOpportunityQuery } from "@packages/graphql/client/generated/graphq
 import { format } from "date-fns";
 
 // Extract the opportunity type from the TableOpportunityQuery
-type Opportunity = NonNullable<TableOpportunityQuery["crm"]>["opportunities"][number];
+export type Opportunity = NonNullable<
+  TableOpportunityQuery["crm"]
+>["opportunities"][number];
 
 export const columns: ColumnDef<Opportunity>[] = [
   {
@@ -37,7 +39,9 @@ export const columns: ColumnDef<Opportunity>[] = [
         accessorKey: "expectedCloseDate",
         header: "Expected Close Date",
         cell: ({ row }) => {
-          const expectedCloseDate = row.getValue("expectedCloseDate") as string | null;
+          const expectedCloseDate = row.getValue("expectedCloseDate") as
+            | string
+            | null;
           if (!expectedCloseDate) return "-";
           return format(new Date(Number(expectedCloseDate)), "PPP");
         },

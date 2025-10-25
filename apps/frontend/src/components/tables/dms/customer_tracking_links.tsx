@@ -3,7 +3,7 @@ import { TableCustomerTrackingLinkQuery } from "@packages/graphql/client/generat
 import { format } from "date-fns";
 
 // Extract the customer tracking link type from the CustomerTrackingLinkQuery
-type CustomerTrackingLink = NonNullable<
+export type CustomerTrackingLink = NonNullable<
   TableCustomerTrackingLinkQuery["dms"]
 >["customerTrackingLinks"][number];
 

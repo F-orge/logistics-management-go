@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -15,8 +18,14 @@ import {
   SearchContactsQuery,
   SearchCampaignsQuery,
   execute,
+  CreateOpportunityMutation,
+  UpdateOpportunityMutation,
 } from "@packages/graphql/client";
 import z from "zod";
+import { toast } from "sonner";
+import { Opportunity } from "@/components/tables/crm/opportunities";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createOpportunitySchema = CreateOpportunityInputSchema();
 export const updateOpportunitySchema = UpdateOpportunityInputSchema();
@@ -426,3 +435,126 @@ export const UpdateOpportunityForm = withForm({
     );
   },
 });
+
+export const NewOpportunityDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/opportunities" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/opportunities" });
+
+  const form = useAppForm({
+    ...createOpportunityFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateOpportunityMutation,
+        { opportunity: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created opportunity");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateOpportunityForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateOpportunityDialogForm = ({
+  data,
+}: {
+  data: Opportunity[];
+}) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/opportunities" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/opportunities" });
+
+  const opportunity = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateOpportunityFormOption,
+    defaultValues: opportunity,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateOpportunityMutation,
+        { id: opportunity.id, opportunity: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated opportunity");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateOpportunityForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

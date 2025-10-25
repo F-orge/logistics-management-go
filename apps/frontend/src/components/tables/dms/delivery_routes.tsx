@@ -3,7 +3,7 @@ import { TableDeliveryQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
 // Extract the delivery route type from the TableDeliveryRoute
-type DeliveryRoute = NonNullable<
+export type DeliveryRoute = NonNullable<
   TableDeliveryQuery["dms"]
 >["deliveryRoutes"][number];
 

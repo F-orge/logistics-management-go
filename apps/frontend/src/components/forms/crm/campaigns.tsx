@@ -4,6 +4,7 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DialogTrigger,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -14,6 +15,15 @@ import {
   UpdateCampaignInputSchema,
 } from "@packages/graphql/client/zod";
 import z from "zod";
+import { toast } from "sonner";
+import {
+  CreateCampaignMutation,
+  execute,
+  UpdateCampaignMutation,
+} from "@packages/graphql/client";
+import { Campaign } from "@/components/tables/crm/campaigns";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createCampaignSchema = CreateCampaignInputSchema();
 export const updateCampaignSchema = UpdateCampaignInputSchema();
@@ -169,19 +179,119 @@ export const UpdateCampaignForm = withForm({
 });
 
 export const NewCampaignDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/campaigns" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/campaigns" });
+
   const form = useAppForm({
     ...createCampaignFormOption,
-    onSubmit: (value) => {},
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateCampaignMutation,
+        { campaign: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created campaign");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
   });
 
   return (
-    <Dialog>
-      <DialogContent>
-        <form.AppForm>
-          <form.Subscribe>
-            {el => <Button disabled={el.isSubmitting}>Create</Button>}
-          </form.Subscribe>
-        </form.AppForm>
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateCampaignForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateCampaignDialogForm = ({ data }: { data: Campaign[] }) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/campaigns" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/campaigns" });
+
+  const campaign = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateCampaignFormOption,
+    defaultValues: campaign,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateCampaignMutation,
+        { id: campaign.id, campaign: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created campaign");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateCampaignForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
       </DialogContent>
     </Dialog>
   );

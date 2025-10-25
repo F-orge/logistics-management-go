@@ -8,8 +8,8 @@ export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Mayb
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
-export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 export type EnumResolverSignature<T, AllowedValues = any> = { [key in keyof T]?: AllowedValues };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string | number; }
@@ -66,26 +66,6 @@ export type Attachments = {
   recordId?: Maybe<Scalars['ID']['output']>;
   recordType?: Maybe<RecordType>;
   updatedAt?: Maybe<Scalars['String']['output']>;
-};
-
-export type AuthQuery = {
-  __typename?: 'AuthQuery';
-  user?: Maybe<User>;
-  users?: Maybe<Array<User>>;
-};
-
-
-export type AuthQueryuserArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type AuthQueryusersArgs = {
-  from?: InputMaybe<Scalars['Date']['input']>;
-  page?: InputMaybe<Scalars['Int']['input']>;
-  perPage?: InputMaybe<Scalars['Int']['input']>;
-  search?: InputMaybe<Scalars['String']['input']>;
-  to?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type BillingInvoiceStatus =
@@ -3080,7 +3060,6 @@ export type PutawayRules = {
 
 export type Query = {
   __typename?: 'Query';
-  auth?: Maybe<AuthQuery>;
   billing?: Maybe<BillingQuery>;
   crm?: Maybe<CrmQuery>;
   dms?: Maybe<DmsQuery>;
@@ -5799,7 +5778,6 @@ export type ResolversTypes = {
   AccountingSyncLogs: ResolverTypeWrapper<Omit<AccountingSyncLogs, 'status'> & { status?: Maybe<ResolversTypes['SyncStatus']> }>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Attachments: ResolverTypeWrapper<Omit<Attachments, 'recordType'> & { recordType?: Maybe<ResolversTypes['RecordType']> }>;
-  AuthQuery: ResolverTypeWrapper<AuthQuery>;
   BillingInvoiceStatus: ResolverTypeWrapper<'DRAFT' | 'SENT' | 'VIEWED' | 'PAID' | 'PARTIAL_PAID' | 'PAST_DUE' | 'DISPUTED' | 'CANCELLED' | 'VOID'>;
   BillingInvoices: ResolverTypeWrapper<Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote' | 'status'> & { client: ResolversTypes['Companies'], creditNotes?: Maybe<Array<ResolversTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversTypes['Payments']>>, quote?: Maybe<ResolversTypes['Quotes']>, status?: Maybe<ResolversTypes['BillingInvoiceStatus']> }>;
   BillingMutation: ResolverTypeWrapper<Omit<BillingMutation, 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createInvoiceLineItem' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateAccountTransaction' | 'updateAccountingSyncLog' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { createAccountTransaction: ResolversTypes['AccountTransactions'], createAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], createBillingInvoice: ResolversTypes['BillingInvoices'], createClientAccount: ResolversTypes['ClientAccounts'], createCreditNote: ResolversTypes['CreditNotes'], createDispute: ResolversTypes['Disputes'], createDocument: ResolversTypes['Documents'], createInvoiceLineItem: ResolversTypes['InvoiceLineItems'], createPayment: ResolversTypes['Payments'], createQuote: ResolversTypes['Quotes'], createRateCard: ResolversTypes['RateCards'], createRateRule: ResolversTypes['RateRules'], createSurcharge: ResolversTypes['Surcharges'], updateAccountTransaction: ResolversTypes['AccountTransactions'], updateAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], updateBillingInvoice: ResolversTypes['BillingInvoices'], updateClientAccount: ResolversTypes['ClientAccounts'], updateCreditNote: ResolversTypes['CreditNotes'], updateDispute: ResolversTypes['Disputes'], updateDocument: ResolversTypes['Documents'], updateInvoiceLineItem: ResolversTypes['InvoiceLineItems'], updatePayment: ResolversTypes['Payments'], updateQuote: ResolversTypes['Quotes'], updateRateCard: ResolversTypes['RateCards'], updateRateRule: ResolversTypes['RateRules'], updateSurcharge: ResolversTypes['Surcharges'] }>;
@@ -6106,7 +6084,6 @@ export type ResolversParentTypes = {
   AccountingSyncLogs: AccountingSyncLogs;
   Int: Scalars['Int']['output'];
   Attachments: Attachments;
-  AuthQuery: AuthQuery;
   BillingInvoices: Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote'> & { client: ResolversParentTypes['Companies'], creditNotes?: Maybe<Array<ResolversParentTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversParentTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversParentTypes['Payments']>>, quote?: Maybe<ResolversParentTypes['Quotes']> };
   BillingMutation: Omit<BillingMutation, 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createInvoiceLineItem' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateAccountTransaction' | 'updateAccountingSyncLog' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { createAccountTransaction: ResolversParentTypes['AccountTransactions'], createAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], createBillingInvoice: ResolversParentTypes['BillingInvoices'], createClientAccount: ResolversParentTypes['ClientAccounts'], createCreditNote: ResolversParentTypes['CreditNotes'], createDispute: ResolversParentTypes['Disputes'], createDocument: ResolversParentTypes['Documents'], createInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], createPayment: ResolversParentTypes['Payments'], createQuote: ResolversParentTypes['Quotes'], createRateCard: ResolversParentTypes['RateCards'], createRateRule: ResolversParentTypes['RateRules'], createSurcharge: ResolversParentTypes['Surcharges'], updateAccountTransaction: ResolversParentTypes['AccountTransactions'], updateAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], updateBillingInvoice: ResolversParentTypes['BillingInvoices'], updateClientAccount: ResolversParentTypes['ClientAccounts'], updateCreditNote: ResolversParentTypes['CreditNotes'], updateDispute: ResolversParentTypes['Disputes'], updateDocument: ResolversParentTypes['Documents'], updateInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], updatePayment: ResolversParentTypes['Payments'], updateQuote: ResolversParentTypes['Quotes'], updateRateCard: ResolversParentTypes['RateCards'], updateRateRule: ResolversParentTypes['RateRules'], updateSurcharge: ResolversParentTypes['Surcharges'] };
   BillingQuery: Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversParentTypes['AccountTransactions'], accountTransactions: Array<ResolversParentTypes['AccountTransactions']>, accountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversParentTypes['AccountingSyncLogs']>, billingInvoice: ResolversParentTypes['BillingInvoices'], billingInvoices: Array<ResolversParentTypes['BillingInvoices']>, clientAccount: ResolversParentTypes['ClientAccounts'], clientAccounts: Array<ResolversParentTypes['ClientAccounts']>, creditNote: ResolversParentTypes['CreditNotes'], creditNotes: Array<ResolversParentTypes['CreditNotes']>, dispute: ResolversParentTypes['Disputes'], disputes: Array<ResolversParentTypes['Disputes']>, document: ResolversParentTypes['Documents'], documents: Array<ResolversParentTypes['Documents']>, payment: ResolversParentTypes['Payments'], payments: Array<ResolversParentTypes['Payments']>, quote: ResolversParentTypes['Quotes'], quotes: Array<ResolversParentTypes['Quotes']>, rateCard: ResolversParentTypes['RateCards'], rateCards: Array<ResolversParentTypes['RateCards']>, rateRule: ResolversParentTypes['RateRules'], rateRules: Array<ResolversParentTypes['RateRules']>, surcharge: ResolversParentTypes['Surcharges'], surcharges: Array<ResolversParentTypes['Surcharges']> };
@@ -6389,11 +6366,6 @@ export type AttachmentsResolvers<ContextType = GraphQLContext, ParentType extend
   recordId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   recordType?: Resolver<Maybe<ResolversTypes['RecordType']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-};
-
-export type AuthQueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AuthQuery'] = ResolversParentTypes['AuthQuery']> = {
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<AuthQueryuserArgs, 'id'>>;
-  users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType, Partial<AuthQueryusersArgs>>;
 };
 
 export type BillingInvoiceStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, DISPUTED?: any, DRAFT?: any, PAID?: any, PARTIAL_PAID?: any, PAST_DUE?: any, SENT?: any, VIEWED?: any, VOID?: any }, ResolversTypes['BillingInvoiceStatus']>;
@@ -7382,7 +7354,6 @@ export type PutawayRulesResolvers<ContextType = GraphQLContext, ParentType exten
 };
 
 export type QueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  auth?: Resolver<Maybe<ResolversTypes['AuthQuery']>, ParentType, ContextType>;
   billing?: Resolver<Maybe<ResolversTypes['BillingQuery']>, ParentType, ContextType>;
   crm?: Resolver<Maybe<ResolversTypes['CrmQuery']>, ParentType, ContextType>;
   dms?: Resolver<Maybe<ResolversTypes['DmsQuery']>, ParentType, ContextType>;
@@ -7996,7 +7967,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   AccountTransactions?: AccountTransactionsResolvers<ContextType>;
   AccountingSyncLogs?: AccountingSyncLogsResolvers<ContextType>;
   Attachments?: AttachmentsResolvers<ContextType>;
-  AuthQuery?: AuthQueryResolvers<ContextType>;
   BillingInvoiceStatus?: BillingInvoiceStatusResolvers;
   BillingInvoices?: BillingInvoicesResolvers<ContextType>;
   BillingMutation?: BillingMutationResolvers<ContextType>;

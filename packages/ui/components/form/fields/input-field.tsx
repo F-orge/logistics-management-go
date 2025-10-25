@@ -36,6 +36,7 @@ const InputField = (props: React.ComponentProps<"input"> & InputFieldProps) => {
         <>
           <FieldLabel htmlFor={field.name}>{props.label}</FieldLabel>
           <Input
+            {...props}
             name={field.name}
             value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}

@@ -3,7 +3,9 @@ import { TableDeliveryTaskQuery } from "@packages/graphql/client/generated/graph
 import { format } from "date-fns";
 
 // Extract the delivery task type from the TableDeliveryTaskQuery
-type DeliveryTask = NonNullable<TableDeliveryTaskQuery["dms"]>["deliveryTasks"][number];
+export type DeliveryTask = NonNullable<
+  TableDeliveryTaskQuery["dms"]
+>["deliveryTasks"][number];
 
 export const columns: ColumnDef<DeliveryTask>[] = [
   {
@@ -33,7 +35,9 @@ export const columns: ColumnDef<DeliveryTask>[] = [
         accessorKey: "estimatedArrivalTime",
         header: "Estimated Arrival",
         cell: ({ row }) => {
-          const estimatedArrivalTime = row.getValue("estimatedArrivalTime") as string | null;
+          const estimatedArrivalTime = row.getValue("estimatedArrivalTime") as
+            | string
+            | null;
           if (!estimatedArrivalTime) return "-";
           return format(new Date(Number(estimatedArrivalTime)), "PPP");
         },
@@ -42,7 +46,9 @@ export const columns: ColumnDef<DeliveryTask>[] = [
         accessorKey: "actualArrivalTime",
         header: "Actual Arrival",
         cell: ({ row }) => {
-          const actualArrivalTime = row.getValue("actualArrivalTime") as string | null;
+          const actualArrivalTime = row.getValue("actualArrivalTime") as
+            | string
+            | null;
           if (!actualArrivalTime) return "-";
           return format(new Date(Number(actualArrivalTime)), "PPP");
         },

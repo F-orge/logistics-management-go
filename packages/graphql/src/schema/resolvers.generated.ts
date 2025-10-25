@@ -1,7 +1,6 @@
 /* This file was automatically generated. DO NOT UPDATE MANUALLY. */
     import type   { Resolvers } from './types.generated';
-    import    { auth as Query_auth } from './auth/resolvers/Query/auth';
-import    { billing as Query_billing } from './billing/resolvers/Query/billing';
+    import    { billing as Query_billing } from './billing/resolvers/Query/billing';
 import    { crm as Query_crm } from './crm/resolvers/Query/crm';
 import    { dms as Query_dms } from './dms/resolvers/Query/dms';
 import    { tms as Query_tms } from './tms/resolvers/Query/tms';
@@ -14,7 +13,6 @@ import    { wms as Mutation_wms } from './wms/resolvers/Mutation/wms';
 import    { AccountTransactions } from './billing/account_transactions/resolvers/AccountTransactions';
 import    { AccountingSyncLogs } from './billing/accounting_sync_log/resolvers/AccountingSyncLogs';
 import    { Attachments } from './crm/attachments/resolvers/Attachments';
-import    { AuthQuery } from './auth/resolvers/AuthQuery';
 import    { BillingInvoices } from './billing/invoices/resolvers/BillingInvoices';
 import    { BillingMutation as account_transactions_BillingMutation } from './billing/account_transactions/resolvers/BillingMutation';
 import    { BillingMutation as accounting_sync_log_BillingMutation } from './billing/accounting_sync_log/resolvers/BillingMutation';
@@ -174,7 +172,7 @@ import    { TmsQuery as trips_TmsQuery } from './tms/trips/resolvers/TmsQuery';
 import    { TmsQuery as vehicles_TmsQuery } from './tms/vehicles/resolvers/TmsQuery';
 import    { TripStops } from './tms/trip_stops/resolvers/TripStops';
 import    { Trips } from './tms/trips/resolvers/Trips';
-import    { User } from './auth/resolvers/User';
+import    { User } from './base/resolvers/User';
 import    { VehicleMaintenance } from './tms/vehicle_maintenance/resolvers/VehicleMaintenance';
 import    { Vehicles } from './tms/vehicles/resolvers/Vehicles';
 import    { Warehouses } from './wms/warehouses/resolvers/Warehouses';
@@ -225,13 +223,12 @@ import    { WmsQuery as products_WmsQuery } from './wms/products/resolvers/WmsQu
 import    { File } from './base/resolvers/File';
 import    { DateResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
-      Query: { auth: Query_auth,billing: Query_billing,crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
+      Query: { billing: Query_billing,crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
       Mutation: { billing: Mutation_billing,crm: Mutation_crm,dms: Mutation_dms,tms: Mutation_tms,wms: Mutation_wms },
       
       AccountTransactions: AccountTransactions,
 AccountingSyncLogs: AccountingSyncLogs,
 Attachments: Attachments,
-AuthQuery: AuthQuery,
 BillingInvoices: BillingInvoices,
 BillingMutation: { ...account_transactions_BillingMutation,...accounting_sync_log_BillingMutation,...invoices_BillingMutation,...client_accounts_BillingMutation,...credit_notes_BillingMutation,...disputes_BillingMutation,...documents_BillingMutation,...invoice_line_items_BillingMutation,...payments_BillingMutation,...quotes_BillingMutation,...rate_cards_BillingMutation,...rate_rules_BillingMutation,...surcharges_BillingMutation },
 BillingQuery: { ...account_transactions_BillingQuery,...accounting_sync_log_BillingQuery,...invoices_BillingQuery,...client_accounts_BillingQuery,...credit_notes_BillingQuery,...disputes_BillingQuery,...documents_BillingQuery,...payments_BillingQuery,...quotes_BillingQuery,...rate_cards_BillingQuery,...rate_rules_BillingQuery,...surcharges_BillingQuery },

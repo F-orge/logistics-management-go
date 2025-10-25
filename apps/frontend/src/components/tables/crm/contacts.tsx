@@ -3,7 +3,7 @@ import { TableContactQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
 // Extract the contact type from the TableContactQuery
-type Contact = NonNullable<TableContactQuery["crm"]>["contacts"][number];
+export type Contact = NonNullable<TableContactQuery["crm"]>["contacts"][number];
 
 export const columns: ColumnDef<Contact>[] = [
   {

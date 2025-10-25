@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -9,7 +12,13 @@ import {
 import {
   CreateDriverLocationInputSchema,
   UpdateDriverLocationInputSchema,
-} from "@packages/graphql/client/zod";
+  CreateDriverLocationMutation,
+  UpdateDriverLocationMutation,
+  DriverLocations,
+  execute,
+} from "@packages/graphql/client";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { toast } from "sonner";
 import z from "zod";
 
 export const createDriverLocationSchema = CreateDriverLocationInputSchema();
@@ -29,12 +38,16 @@ export const CreateDriverLocationForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Driver Location</FieldLegend>
-        <FieldDescription>Fill in the details for the new driver location.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new driver location.
+        </FieldDescription>
         <FieldGroup>
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Geographic coordinates and accuracy information.</FieldDescription>
+            <FieldDescription>
+              Geographic coordinates and accuracy information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -90,7 +103,9 @@ export const CreateDriverLocationForm = withForm({
           {/* Movement Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Movement Information</FieldLegend>
-            <FieldDescription>Speed and direction of movement.</FieldDescription>
+            <FieldDescription>
+              Speed and direction of movement.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="speedKmh">
@@ -122,7 +137,9 @@ export const CreateDriverLocationForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>When this location was recorded and driver assignment.</FieldDescription>
+            <FieldDescription>
+              When this location was recorded and driver assignment.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -156,12 +173,16 @@ export const UpdateDriverLocationForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Update Driver Location</FieldLegend>
-        <FieldDescription>Update the details for the driver location.</FieldDescription>
+        <FieldDescription>
+          Update the details for the driver location.
+        </FieldDescription>
         <FieldGroup>
           {/* Location Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Location Information</FieldLegend>
-            <FieldDescription>Update geographic coordinates and accuracy information.</FieldDescription>
+            <FieldDescription>
+              Update geographic coordinates and accuracy information.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="latitude">
@@ -217,7 +238,9 @@ export const UpdateDriverLocationForm = withForm({
           {/* Movement Information Section */}
           <FieldSet>
             <FieldLegend variant="label">Movement Information</FieldLegend>
-            <FieldDescription>Update speed and direction of movement.</FieldDescription>
+            <FieldDescription>
+              Update speed and direction of movement.
+            </FieldDescription>
             <FieldGroup>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <form.AppField name="speedKmh">
@@ -249,7 +272,9 @@ export const UpdateDriverLocationForm = withForm({
           {/* Timestamp & Relations Section */}
           <FieldSet>
             <FieldLegend variant="label">Timestamp & Relations</FieldLegend>
-            <FieldDescription>Update timestamp and driver assignment.</FieldDescription>
+            <FieldDescription>
+              Update timestamp and driver assignment.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="timestamp">
                 {(field) => (
@@ -276,3 +301,126 @@ export const UpdateDriverLocationForm = withForm({
     );
   },
 });
+
+export const NewDriverLocationDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/dms/driver-locations" });
+  const searchQuery = useSearch({ from: "/dashboard/dms/driver-locations" });
+
+  const form = useAppForm({
+    ...createDriverLocationFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateDriverLocationMutation,
+        { driverLocation: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created driver location");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateDriverLocationForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateDriverLocationDialogForm = ({
+  data,
+}: {
+  data: DriverLocations[];
+}) => {
+  const navigate = useNavigate({ from: "/dashboard/dms/driver-locations" });
+  const searchQuery = useSearch({ from: "/dashboard/dms/driver-locations" });
+
+  const driverLocation = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateDriverLocationFormOption,
+    defaultValues: driverLocation,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateDriverLocationMutation,
+        { id: driverLocation.id, driverLocation: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated driver location");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateDriverLocationForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { columns } from "@/components/tables/crm/cases";
 import {
+  NewCaseDialogForm,
+  UpdateCaseDialogForm,
+} from "@/components/forms/crm/cases";
+import {
   CasePriority,
   CaseStatus,
   CaseType,
@@ -8,6 +12,7 @@ import {
   TableCaseQuery,
 } from "@packages/graphql/client";
 import {
+  Button,
   DataTable,
   InputGroup,
   InputGroupAddon,
@@ -30,6 +35,10 @@ export const Route = createFileRoute("/dashboard/crm/cases")({
       priority: z.enum(CasePriority).optional(),
       status: z.enum(CaseStatus).optional(),
       type: z.enum(CaseType).optional(),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -69,7 +78,7 @@ function RouteComponent() {
 
   return (
     <article className="grid grid-cols-12 gap-5">
-      <section className="col-span-full flex flex-row items-center gap-2.5">
+      <section className="col-span-full flex justify-between">
         <InputGroup className="w-1/4">
           <InputGroupInput
             onBlur={(e) =>
@@ -89,6 +98,15 @@ function RouteComponent() {
             {data.length} Results
           </InputGroupAddon>
         </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, new: true }) })
+          }
+        >
+          Create
+        </Button>
+      </section>
+      <section className="col-span-full flex flex-row items-center gap-2.5">
         <EnumSelect
           onValueChange={(v) =>
             navigate({
@@ -133,6 +151,10 @@ function RouteComponent() {
           onPaginationChange={setPagination}
           paginationState={pagination}
         />
+      </section>
+      <section>
+        <NewCaseDialogForm />
+        <UpdateCaseDialogForm data={data} />
       </section>
     </article>
   );

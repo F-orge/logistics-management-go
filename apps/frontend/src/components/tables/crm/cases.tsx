@@ -3,7 +3,7 @@ import { TableCaseQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
 // Extract the case type from the TableCaseQuery
-type Case = NonNullable<TableCaseQuery["crm"]>["cases"][number];
+export type Case = NonNullable<TableCaseQuery["crm"]>["cases"][number];
 
 export const columns: ColumnDef<Case>[] = [
   {

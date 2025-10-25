@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -13,8 +16,14 @@ import {
   SearchContactsQuery,
   SearchCasesQuery,
   execute,
+  CreateInteractionMutation,
+  UpdateInteractionMutation,
 } from "@packages/graphql/client";
 import z from "zod";
+import { toast } from "sonner";
+import { Interaction } from "@/components/tables/crm/interactions";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createInteractionSchema = CreateInteractionInputSchema();
 export const updateInteractionSchema = UpdateInteractionInputSchema();
@@ -276,3 +285,126 @@ export const UpdateInteractionForm = withForm({
     );
   },
 });
+
+export const NewInteractionDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/interactions" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/interactions" });
+
+  const form = useAppForm({
+    ...createInteractionFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateInteractionMutation,
+        { interaction: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created interaction");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateInteractionForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateInteractionDialogForm = ({
+  data,
+}: {
+  data: Interaction[];
+}) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/interactions" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/interactions" });
+
+  const interaction = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateInteractionFormOption,
+    defaultValues: interaction,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateInteractionMutation,
+        { id: interaction.id, interaction: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated interaction");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateInteractionForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -12,8 +15,13 @@ import {
   SearchPackagesQuery,
   SearchDeliveryRoutesQuery,
   execute,
+  CreateDeliveryTaskMutation,
+  UpdateDeliveryTaskMutation,
 } from "@packages/graphql/client";
 import z from "zod";
+import { toast } from "sonner";
+import { DeliveryTask } from "@/components/tables/dms/delivery_tasks";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createDeliveryTaskSchema = CreateDeliveryTaskInputSchema();
 export const updateDeliveryTaskSchema = UpdateDeliveryTaskInputSchema();
@@ -451,3 +459,126 @@ export const UpdateDeliveryTaskForm = withForm({
     );
   },
 });
+
+export const NewDeliveryTaskDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/dms/delivery-tasks" });
+  const searchQuery = useSearch({ from: "/dashboard/dms/delivery-tasks" });
+
+  const form = useAppForm({
+    ...createDeliveryTaskFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateDeliveryTaskMutation,
+        { deliveryTask: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created delivery task");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateDeliveryTaskForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateDeliveryTaskDialogForm = ({
+  data,
+}: {
+  data: DeliveryTask[];
+}) => {
+  const navigate = useNavigate({ from: "/dashboard/dms/delivery-tasks" });
+  const searchQuery = useSearch({ from: "/dashboard/dms/delivery-tasks" });
+
+  const deliveryTask = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateDeliveryTaskFormOption,
+    defaultValues: deliveryTask,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateDeliveryTaskMutation,
+        { id: deliveryTask.id, deliveryTask: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated delivery task");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateDeliveryTaskForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

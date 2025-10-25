@@ -1,11 +1,16 @@
 import { columns } from "@/components/tables/crm/leads";
 import {
+  NewLeadDialogForm,
+  UpdateLeadDialogForm,
+} from "@/components/forms/crm/leads";
+import {
   LeadSource,
   LeadStatus,
   execute,
   TableLeadQuery,
 } from "@packages/graphql/client";
 import {
+  Button,
   DataTable,
   InputGroup,
   InputGroupAddon,
@@ -28,6 +33,10 @@ export const Route = createFileRoute("/dashboard/crm/leads")({
       search: z.string().optional().default(""),
       status: z.enum(LeadStatus).optional(),
       source: z.enum(LeadSource).optional(),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -69,7 +78,7 @@ function RouteComponent() {
 
   return (
     <article className="grid grid-cols-12 gap-5">
-      <section className="col-span-full flex flex-row items-center gap-2.5">
+      <section className="col-span-full flex justify-between">
         <InputGroup className="w-1/4">
           <InputGroupInput
             onBlur={(e) =>
@@ -89,6 +98,15 @@ function RouteComponent() {
             {data.length} Results
           </InputGroupAddon>
         </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, new: true }) })
+          }
+        >
+          Create
+        </Button>
+      </section>
+      <section className="col-span-full flex flex-row items-center gap-2.5">
         <EnumSelect
           onValueChange={(v) =>
             navigate({
@@ -121,6 +139,10 @@ function RouteComponent() {
           onPaginationChange={setPagination}
           paginationState={pagination}
         />
+      </section>
+      <section>
+        <NewLeadDialogForm />
+        <UpdateLeadDialogForm data={data} />
       </section>
     </article>
   );

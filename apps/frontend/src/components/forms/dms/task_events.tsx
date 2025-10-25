@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -9,8 +12,13 @@ import {
 import {
   CreateTaskEventInputSchema,
   UpdateTaskEventInputSchema,
-} from "@packages/graphql/client/zod";
+  CreateTaskEventMutation,
+  UpdateTaskEventMutation,
+  TaskEvents,
+} from "@packages/graphql/client";
 import { SearchDeliveryTasksQuery, execute } from "@packages/graphql/client";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { toast } from "sonner";
 import z from "zod";
 
 export const createTaskEventSchema = CreateTaskEventInputSchema();
@@ -279,3 +287,122 @@ export const UpdateTaskEventForm = withForm({
     );
   },
 });
+
+export const NewTaskEventDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/dms/task-events" });
+  const searchQuery = useSearch({ from: "/dashboard/dms/task-events" });
+
+  const form = useAppForm({
+    ...createTaskEventFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateTaskEventMutation,
+        { taskEvent: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created task event");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateTaskEventForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateTaskEventDialogForm = ({ data }: { data: TaskEvents[] }) => {
+  const navigate = useNavigate({ from: "/dashboard/dms/task-events" });
+  const searchQuery = useSearch({ from: "/dashboard/dms/task-events" });
+
+  const taskEvent = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateTaskEventFormOption,
+    defaultValues: taskEvent,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateTaskEventMutation,
+        { id: taskEvent.id, taskEvent: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated task event");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateTaskEventForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

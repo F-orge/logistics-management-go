@@ -3,7 +3,7 @@ import { TableLeadQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
 // Extract the lead type from the TableLeadQuery
-type Lead = NonNullable<TableLeadQuery["crm"]>["leads"][number];
+export type Lead = NonNullable<TableLeadQuery["crm"]>["leads"][number];
 
 export const columns: ColumnDef<Lead>[] = [
   {

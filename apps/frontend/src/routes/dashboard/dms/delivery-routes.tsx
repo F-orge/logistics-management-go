@@ -1,10 +1,15 @@
 import { columns } from "@/components/tables/dms/delivery_routes";
 import {
+  NewDeliveryRouteDialogForm,
+  UpdateDeliveryRouteDialogForm,
+} from "@/components/forms/dms/delivery_routes";
+import {
   DeliveryRouteStatus,
   execute,
   TableDeliveryRoute,
 } from "@packages/graphql/client";
 import {
+  Button,
   DataTable,
   InputGroup,
   InputGroupAddon,
@@ -26,6 +31,10 @@ export const Route = createFileRoute("/dashboard/dms/delivery-routes")({
       perPage: z.number().min(10).default(10).catch(10),
       search: z.string().optional().default(""),
       status: z.enum(DeliveryRouteStatus).optional(),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -66,7 +75,7 @@ function RouteComponent() {
 
   return (
     <article className="grid grid-cols-12 gap-5">
-      <section className="col-span-full flex flex-row items-center gap-2.5">
+      <section className="col-span-full flex justify-between items-center gap-2.5">
         <InputGroup className="w-1/4">
           <InputGroupInput
             onBlur={(e) =>
@@ -86,18 +95,27 @@ function RouteComponent() {
             {data.length} Results
           </InputGroupAddon>
         </InputGroup>
-        <EnumSelect
-          onValueChange={(v) =>
-            navigate({
-              search: (prev) => ({ ...prev, status: v as any }),
-            })
-          }
-          options={Object.values(DeliveryRouteStatus).map((item) => ({
-            label: item,
-            value: item,
-          }))}
-          placeholder="Select status"
-        />
+        <div className="flex gap-2.5">
+          <EnumSelect
+            onValueChange={(v) =>
+              navigate({
+                search: (prev) => ({ ...prev, status: v as any }),
+              })
+            }
+            options={Object.values(DeliveryRouteStatus).map((item) => ({
+              label: item,
+              value: item,
+            }))}
+            placeholder="Select status"
+          />
+          <Button
+            onClick={() =>
+              navigate({ search: (prev) => ({ ...prev, new: true }) })
+            }
+          >
+            Create
+          </Button>
+        </div>
       </section>
       <section className="col-span-full">
         <DataTable
@@ -106,6 +124,10 @@ function RouteComponent() {
           onPaginationChange={setPagination}
           paginationState={pagination}
         />
+      </section>
+      <section>
+        <NewDeliveryRouteDialogForm />
+        <UpdateDeliveryRouteDialogForm data={data} />
       </section>
     </article>
   );

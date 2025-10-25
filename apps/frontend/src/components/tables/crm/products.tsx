@@ -3,7 +3,7 @@ import { TableProductQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
 // Extract the product type from the TableProductQuery
-type Product = NonNullable<TableProductQuery["crm"]>["products"][number];
+export type Product = NonNullable<TableProductQuery["crm"]>["products"][number];
 
 export const columns: ColumnDef<Product>[] = [
   {

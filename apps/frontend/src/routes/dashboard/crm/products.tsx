@@ -1,10 +1,15 @@
 import { columns } from "@/components/tables/crm/products";
 import {
+  NewProductDialogForm,
+  UpdateProductDialogForm,
+} from "@/components/forms/crm/products";
+import {
   ProductType,
   execute,
   TableProductQuery,
 } from "@packages/graphql/client";
 import {
+  Button,
   DataTable,
   InputGroup,
   InputGroupAddon,
@@ -26,6 +31,10 @@ export const Route = createFileRoute("/dashboard/crm/products")({
       perPage: z.number().min(10).default(10).catch(10),
       search: z.string().optional().default(""),
       type: z.enum(ProductType).optional(),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -66,7 +75,7 @@ function RouteComponent() {
 
   return (
     <article className="grid grid-cols-12 gap-5">
-      <section className="col-span-full flex flex-row items-center gap-2.5">
+      <section className="col-span-full flex justify-between">
         <InputGroup className="w-1/4">
           <InputGroupInput
             onBlur={(e) =>
@@ -86,6 +95,15 @@ function RouteComponent() {
             {data.length} Results
           </InputGroupAddon>
         </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, new: true }) })
+          }
+        >
+          Create
+        </Button>
+      </section>
+      <section className="col-span-full flex flex-row items-center gap-2.5">
         <EnumSelect
           onValueChange={(v) =>
             navigate({
@@ -106,6 +124,10 @@ function RouteComponent() {
           onPaginationChange={setPagination}
           paginationState={pagination}
         />
+      </section>
+      <section>
+        <NewProductDialogForm />
+        <UpdateProductDialogForm data={data} />
       </section>
     </article>
   );

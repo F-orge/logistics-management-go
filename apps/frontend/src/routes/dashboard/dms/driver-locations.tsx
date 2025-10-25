@@ -1,6 +1,10 @@
 import { columns } from "@/components/tables/dms/driver_locations";
+import {
+  NewDriverLocationDialogForm,
+  UpdateDriverLocationDialogForm,
+} from "@/components/forms/dms/driver_locations";
 import { execute, TableDriverLocationQuery } from "@packages/graphql/client";
-import { DataTable } from "@packages/ui";
+import { Button, DataTable } from "@packages/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import { PaginationState } from "@tanstack/react-table";
 import { zodValidator } from "@tanstack/zod-adapter";
@@ -13,6 +17,10 @@ export const Route = createFileRoute("/dashboard/dms/driver-locations")({
     z.object({
       page: z.number().min(1).default(1).catch(1),
       perPage: z.number().min(10).default(10).catch(10),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -51,6 +59,15 @@ function RouteComponent() {
 
   return (
     <article className="grid grid-cols-12 gap-5">
+      <section className="col-span-full flex justify-end">
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, new: true }) })
+          }
+        >
+          Create
+        </Button>
+      </section>
       <section className="col-span-full">
         <DataTable
           columns={columns}
@@ -58,6 +75,10 @@ function RouteComponent() {
           onPaginationChange={setPagination}
           paginationState={pagination}
         />
+      </section>
+      <section>
+        <NewDriverLocationDialogForm />
+        <UpdateDriverLocationDialogForm data={data} />
       </section>
     </article>
   );

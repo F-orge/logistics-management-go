@@ -1,11 +1,16 @@
 import { columns } from "@/components/tables/dms/delivery_tasks";
 import {
+  NewDeliveryTaskDialogForm,
+  UpdateDeliveryTaskDialogForm,
+} from "@/components/forms/dms/delivery_tasks";
+import {
   DeliveryFailureReason,
   DeliveryTaskStatus,
   execute,
   TableDeliveryTaskQuery,
 } from "@packages/graphql/client";
 import {
+  Button,
   DataTable,
   InputGroup,
   InputGroupAddon,
@@ -28,6 +33,9 @@ export const Route = createFileRoute("/dashboard/dms/delivery-tasks")({
       search: z.string().optional().default(""),
       status: z.enum(DeliveryTaskStatus).optional(),
       failureReason: z.enum(DeliveryFailureReason).optional(),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),

@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -10,8 +13,15 @@ import {
   CreateProductInputSchema,
   UpdateProductInputSchema,
   ProductType,
+  CreateProductMutation,
+  UpdateProductMutation,
+  execute,
 } from "@packages/graphql/client";
 import z from "zod";
+import { toast } from "sonner";
+import { Product } from "@/components/tables/crm/products";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createProductSchema = CreateProductInputSchema();
 export const updateProductSchema = UpdateProductInputSchema();
@@ -38,12 +48,16 @@ export const CreateProductForm = withForm({
     return (
       <FieldSet>
         <FieldLegend>Create Product</FieldLegend>
-        <FieldDescription>Fill in the details for the new product.</FieldDescription>
+        <FieldDescription>
+          Fill in the details for the new product.
+        </FieldDescription>
         <FieldGroup>
           {/* Product Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Product Details</FieldLegend>
-            <FieldDescription>Basic information about the product.</FieldDescription>
+            <FieldDescription>
+              Basic information about the product.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="name">
                 {(field) => (
@@ -79,7 +93,9 @@ export const CreateProductForm = withForm({
           {/* Pricing Section */}
           <FieldSet>
             <FieldLegend variant="label">Pricing</FieldLegend>
-            <FieldDescription>Set the pricing for this product.</FieldDescription>
+            <FieldDescription>
+              Set the pricing for this product.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="price">
                 {(field) => (
@@ -98,7 +114,9 @@ export const CreateProductForm = withForm({
           {/* Description Section */}
           <FieldSet>
             <FieldLegend variant="label">Description</FieldLegend>
-            <FieldDescription>Provide more details about this product.</FieldDescription>
+            <FieldDescription>
+              Provide more details about this product.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="description">
                 {(field) => (
@@ -128,7 +146,9 @@ export const UpdateProductForm = withForm({
           {/* Product Details Section */}
           <FieldSet>
             <FieldLegend variant="label">Product Details</FieldLegend>
-            <FieldDescription>Basic information about the product.</FieldDescription>
+            <FieldDescription>
+              Basic information about the product.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="name">
                 {(field) => (
@@ -164,7 +184,9 @@ export const UpdateProductForm = withForm({
           {/* Pricing Section */}
           <FieldSet>
             <FieldLegend variant="label">Pricing</FieldLegend>
-            <FieldDescription>Update the pricing for this product.</FieldDescription>
+            <FieldDescription>
+              Update the pricing for this product.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="price">
                 {(field) => (
@@ -183,7 +205,9 @@ export const UpdateProductForm = withForm({
           {/* Description Section */}
           <FieldSet>
             <FieldLegend variant="label">Description</FieldLegend>
-            <FieldDescription>Update details about this product.</FieldDescription>
+            <FieldDescription>
+              Update details about this product.
+            </FieldDescription>
             <FieldGroup>
               <form.AppField name="description">
                 {(field) => (
@@ -201,3 +225,122 @@ export const UpdateProductForm = withForm({
     );
   },
 });
+
+export const NewProductDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/products" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/products" });
+
+  const form = useAppForm({
+    ...createProductFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateProductMutation,
+        { product: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created product");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateProductForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateProductDialogForm = ({ data }: { data: Product[] }) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/products" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/products" });
+
+  const product = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateProductFormOption,
+    defaultValues: product,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateProductMutation,
+        { id: product.id, product: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated product");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateProductForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

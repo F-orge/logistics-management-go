@@ -3,7 +3,9 @@ import { TableInteractionQuery } from "@packages/graphql/client/generated/graphq
 import { format } from "date-fns";
 
 // Extract the interaction type from the TableInteractionQuery
-type Interaction = NonNullable<TableInteractionQuery["crm"]>["interactions"][number];
+export type Interaction = NonNullable<
+  TableInteractionQuery["crm"]
+>["interactions"][number];
 
 export const columns: ColumnDef<Interaction>[] = [
   {
@@ -25,7 +27,9 @@ export const columns: ColumnDef<Interaction>[] = [
         accessorKey: "interactionDate",
         header: "Interaction Date",
         cell: ({ row }) => {
-          const interactionDate = row.getValue("interactionDate") as string | null;
+          const interactionDate = row.getValue("interactionDate") as
+            | string
+            | null;
           if (!interactionDate) return "-";
           return format(new Date(Number(interactionDate)), "PPP");
         },

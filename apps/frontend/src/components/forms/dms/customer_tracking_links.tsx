@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -11,7 +14,12 @@ import {
   UpdateCustomerTrackingLinkInputSchema,
   SearchDeliveryTasksQuery,
   execute,
+  CreateCustomerTrackingLinkMutation,
+  UpdateCustomerTrackingLinkMutation,
+  CustomerTrackingLinks,
 } from "@packages/graphql/client";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { toast } from "sonner";
 import z from "zod";
 
 export const createCustomerTrackingLinkSchema =
@@ -258,3 +266,136 @@ export const UpdateCustomerTrackingLinkForm = withForm({
     );
   },
 });
+
+export const NewCustomerTrackingLinkDialogForm = () => {
+  const navigate = useNavigate({
+    from: "/dashboard/dms/customer-tracking-links",
+  });
+  const searchQuery = useSearch({
+    from: "/dashboard/dms/customer-tracking-links",
+  });
+
+  const form = useAppForm({
+    ...createCustomerTrackingLinkFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateCustomerTrackingLinkMutation,
+        { customerTrackingLink: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created customer tracking link");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateCustomerTrackingLinkForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateCustomerTrackingLinkDialogForm = ({
+  data,
+}: {
+  data: CustomerTrackingLinks[];
+}) => {
+  const navigate = useNavigate({
+    from: "/dashboard/dms/customer-tracking-links",
+  });
+  const searchQuery = useSearch({
+    from: "/dashboard/dms/customer-tracking-links",
+  });
+
+  const customerTrackingLink = data.find(
+    (value) => value.id === searchQuery.id
+  )!;
+
+  const form = useAppForm({
+    ...updateCustomerTrackingLinkFormOption,
+    defaultValues: customerTrackingLink,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateCustomerTrackingLinkMutation,
+        { id: customerTrackingLink.id, customerTrackingLink: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated customer tracking link");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateCustomerTrackingLinkForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

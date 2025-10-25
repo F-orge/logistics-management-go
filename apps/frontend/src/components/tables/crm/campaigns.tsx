@@ -3,7 +3,9 @@ import { execute } from "@packages/graphql/client";
 import { TableCampaignQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
-type Campaign = NonNullable<TableCampaignQuery["crm"]>["campaigns"][number];
+export type Campaign = NonNullable<
+  TableCampaignQuery["crm"]
+>["campaigns"][number];
 
 export const columns: ColumnDef<Campaign>[] = [
   {

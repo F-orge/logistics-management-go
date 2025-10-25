@@ -3,7 +3,9 @@ import { TableProofOfDeliveryQuery } from "@packages/graphql/client/generated/gr
 import { format } from "date-fns";
 
 // Extract the proof of delivery type from the TableProofOfDeliveryQuery
-type ProofOfDelivery = NonNullable<TableProofOfDeliveryQuery["dms"]>["dmsProofOfDeliveries"][number];
+export type ProofOfDelivery = NonNullable<
+  TableProofOfDeliveryQuery["dms"]
+>["dmsProofOfDeliveries"][number];
 
 export const columns: ColumnDef<ProofOfDelivery>[] = [
   {
@@ -82,7 +84,8 @@ export const columns: ColumnDef<ProofOfDelivery>[] = [
         header: "Actual Arrival Time",
         accessorFn: (row) => row.deliveryTask?.actualArrivalTime,
         cell: ({ row }) => {
-          const actualArrivalTime = row.original.deliveryTask?.actualArrivalTime;
+          const actualArrivalTime =
+            row.original.deliveryTask?.actualArrivalTime;
           if (!actualArrivalTime) return "-";
           return format(new Date(Number(actualArrivalTime)), "PPP p");
         },
@@ -110,7 +113,8 @@ export const columns: ColumnDef<ProofOfDelivery>[] = [
       {
         accessorKey: "deliveryTask.package.requiresSignature",
         header: "Requires Signature",
-        accessorFn: (row) => row.deliveryTask?.package?.requiresSignature ? "Yes" : "No",
+        accessorFn: (row) =>
+          row.deliveryTask?.package?.requiresSignature ? "Yes" : "No",
       },
       {
         accessorKey: "deliveryTask.package.warehouse.address",

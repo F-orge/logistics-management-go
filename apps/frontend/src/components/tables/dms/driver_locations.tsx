@@ -3,7 +3,9 @@ import { TableDriverLocationQuery } from "@packages/graphql/client/generated/gra
 import { format } from "date-fns";
 
 // Extract the driver location type from the TableDriverLocationQuery
-type DriverLocation = NonNullable<TableDriverLocationQuery["dms"]>["driverLocations"][number];
+export type DriverLocation = NonNullable<
+  TableDriverLocationQuery["dms"]
+>["driverLocations"][number];
 
 export const columns: ColumnDef<DriverLocation>[] = [
   {

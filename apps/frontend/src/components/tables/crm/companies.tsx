@@ -3,7 +3,9 @@ import { TableCompanyQueryQuery } from "@packages/graphql/client/generated/graph
 import { format } from "date-fns";
 
 // Extract the company type from the TableCompanyQuery
-type Company = NonNullable<TableCompanyQueryQuery["crm"]>["companies"][number];
+export type Company = NonNullable<
+  TableCompanyQueryQuery["crm"]
+>["companies"][number];
 
 export const columns: ColumnDef<Company>[] = [
   {

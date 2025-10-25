@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -11,6 +14,15 @@ import {
   UpdateNotificationInputSchema,
 } from "@packages/graphql/client/zod";
 import z from "zod";
+import { toast } from "sonner";
+import {
+  CreateNotificationMutation,
+  execute,
+  UpdateNotificationMutation,
+} from "@packages/graphql/client";
+import { Notification } from "@/components/tables/crm/notifications";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createNotificationSchema = CreateNotificationInputSchema();
 export const updateNotificationSchema = UpdateNotificationInputSchema();
@@ -184,3 +196,126 @@ export const UpdateNotificationForm = withForm({
     );
   },
 });
+
+export const NewNotificationDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/notifications" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/notifications" });
+
+  const form = useAppForm({
+    ...createNotificationFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateNotificationMutation,
+        { notification: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created notification");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateNotificationForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateNotificationDialogForm = ({
+  data,
+}: {
+  data: Notification[];
+}) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/notifications" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/notifications" });
+
+  const notification = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateNotificationFormOption,
+    defaultValues: notification,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateNotificationMutation,
+        { id: notification.id, notification: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated notification");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateNotificationForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

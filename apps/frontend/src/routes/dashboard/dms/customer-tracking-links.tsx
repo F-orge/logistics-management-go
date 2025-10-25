@@ -1,6 +1,11 @@
 import { columns } from "@/components/tables/dms/customer_tracking_links";
+import {
+  NewCustomerTrackingLinkDialogForm,
+  UpdateCustomerTrackingLinkDialogForm,
+} from "@/components/forms/dms/customer_tracking_links";
 import { execute, CustomerTrackingLinkQuery } from "@packages/graphql/client";
 import {
+  Button,
   DataTable,
   InputGroup,
   InputGroupAddon,
@@ -20,6 +25,10 @@ export const Route = createFileRoute("/dashboard/dms/customer-tracking-links")({
       page: z.number().min(1).default(1).catch(1),
       perPage: z.number().min(10).default(10).catch(10),
       search: z.string().optional().default(""),
+      new: z.boolean().optional(),
+      edit: z.boolean().optional(),
+      delete: z.boolean().optional(),
+      id: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -59,7 +68,7 @@ function RouteComponent() {
 
   return (
     <article className="grid grid-cols-12 gap-5">
-      <section className="col-span-full">
+      <section className="col-span-full flex justify-between">
         <InputGroup className="w-1/4">
           <InputGroupInput
             onBlur={(e) =>
@@ -79,6 +88,13 @@ function RouteComponent() {
             {data.length} Results
           </InputGroupAddon>
         </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, new: true }) })
+          }
+        >
+          Create
+        </Button>
       </section>
       <section className="col-span-full">
         <DataTable
@@ -87,6 +103,10 @@ function RouteComponent() {
           onPaginationChange={setPagination}
           paginationState={pagination}
         />
+      </section>
+      <section>
+        <NewCustomerTrackingLinkDialogForm />
+        <UpdateCustomerTrackingLinkDialogForm data={data} />
       </section>
     </article>
   );

@@ -3,7 +3,9 @@ import { TableTaskEventQuery } from "@packages/graphql/client/generated/graphql"
 import { format } from "date-fns";
 
 // Extract the task event type from the TableTaskEventQuery
-type TaskEvent = NonNullable<TableTaskEventQuery["dms"]>["taskEvents"][number];
+export type TaskEvent = NonNullable<
+  TableTaskEventQuery["dms"]
+>["taskEvents"][number];
 
 export const columns: ColumnDef<TaskEvent>[] = [
   {

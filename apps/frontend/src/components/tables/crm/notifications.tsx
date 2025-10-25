@@ -3,7 +3,9 @@ import { TableNotificationQuery } from "@packages/graphql/client/generated/graph
 import { format } from "date-fns";
 
 // Extract the notification type from the TableNotificationQuery
-type Notification = NonNullable<TableNotificationQuery["crm"]>["notifications"][number];
+export type Notification = NonNullable<
+  TableNotificationQuery["crm"]
+>["notifications"][number];
 
 export const columns: ColumnDef<Notification>[] = [
   {

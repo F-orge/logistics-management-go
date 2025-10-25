@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -13,8 +16,14 @@ import {
   LeadStatus,
   SearchCampaignsQuery,
   execute,
+  CreateLeadMutation,
+  UpdateLeadMutation,
 } from "@packages/graphql/client";
 import z from "zod";
+import { toast } from "sonner";
+import { Lead } from "@/components/tables/crm/leads";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export const createLeadSchema = CreateLeadInputSchema();
 export const updateLeadSchema = UpdateLeadInputSchema();
@@ -292,3 +301,122 @@ export const UpdateLeadForm = withForm({
     );
   },
 });
+
+export const NewLeadDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/leads" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/leads" });
+
+  const form = useAppForm({
+    ...createLeadFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateLeadMutation,
+        { lead: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created lead");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateLeadForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateLeadDialogForm = ({ data }: { data: Lead[] }) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/leads" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/leads" });
+
+  const lead = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateLeadFormOption,
+    defaultValues: lead,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateLeadMutation,
+        { id: lead.id, lead: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated lead");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateLeadForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

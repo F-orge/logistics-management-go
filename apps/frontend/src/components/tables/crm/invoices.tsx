@@ -3,7 +3,7 @@ import { TableInvoiceQuery } from "@packages/graphql/client/generated/graphql";
 import { format } from "date-fns";
 
 // Extract the invoice type from the TableInvoiceQuery
-type Invoice = NonNullable<TableInvoiceQuery["crm"]>["invoices"][number];
+export type Invoice = NonNullable<TableInvoiceQuery["crm"]>["invoices"][number];
 
 export const columns: ColumnDef<Invoice>[] = [
   {

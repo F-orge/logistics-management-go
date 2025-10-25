@@ -1,6 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
-import { withForm } from "@packages/ui/components/form/index";
+import { useAppForm, withForm } from "@packages/ui/components/form/index";
 import {
+  Button,
+  Dialog,
+  DialogContent,
   FieldDescription,
   FieldGroup,
   FieldLegend,
@@ -13,8 +16,14 @@ import {
   CrmInvoicePaymentMethod,
   execute,
   SearchOpportunitiesQuery,
+  CreateInvoiceMutation,
+  UpdateInvoiceMutation,
 } from "@packages/graphql/client";
 import z from "zod";
+import { toast } from "sonner";
+import { Invoice } from "@/components/tables/crm/invoices";
+import { Row } from "@tanstack/react-table";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { SearchOpportunitiesQuery as OpportunityQuery } from "@packages/graphql/client/generated/graphql";
 
 export const createInvoiceSchema = CreateInvoiceInputSchema();
@@ -323,3 +332,122 @@ export const UpdateInvoiceForm = withForm({
     );
   },
 });
+
+export const NewInvoiceDialogForm = () => {
+  const navigate = useNavigate({ from: "/dashboard/crm/invoices" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/invoices" });
+
+  const form = useAppForm({
+    ...createInvoiceFormOption,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        CreateInvoiceMutation,
+        { invoice: value }
+      );
+
+      if (data) {
+        toast.success("Successfully created invoice");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({ search: (prev) => ({ ...prev, new: undefined }) });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <CreateInvoiceForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Create
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export const UpdateInvoiceDialogForm = ({ data }: { data: Invoice[] }) => {
+  const navigate = useNavigate({ from: "/dashboard/crm/invoices" });
+  const searchQuery = useSearch({ from: "/dashboard/crm/invoices" });
+
+  const invoice = data.find((value) => value.id === searchQuery.id)!;
+
+  const form = useAppForm({
+    ...updateInvoiceFormOption,
+    defaultValues: invoice,
+    onSubmit: async ({ value }) => {
+      const { data, errors } = await execute(
+        "/api/graphql",
+        UpdateInvoiceMutation,
+        { id: invoice.id, invoice: value }
+      );
+
+      if (data) {
+        toast.success("Successfully updated invoice");
+      }
+
+      if (errors) {
+        toast.error("Operation Error");
+        console.error(errors);
+      }
+      navigate({
+        search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+      });
+    },
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.edit && !!searchQuery.id}
+      onOpenChange={() =>
+        navigate({
+          search: (prev) => ({ ...prev, edit: undefined, id: undefined }),
+        })
+      }
+    >
+      <DialogContent className="!max-h-3/4 overflow-y-auto">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <UpdateInvoiceForm form={form} />
+            <form.Subscribe>
+              {(el) => (
+                <Button type="submit" disabled={el.isSubmitting}>
+                  Update
+                </Button>
+              )}
+            </form.Subscribe>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
