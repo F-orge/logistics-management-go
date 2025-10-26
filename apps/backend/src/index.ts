@@ -12,16 +12,21 @@ import {
   Kysely,
   Migrator,
   PostgresDialect,
+  sql,
 } from "kysely";
 import nodemailer from "nodemailer";
 import * as path from "path";
 import { Pool } from "pg";
-import type { ZodError } from "zod";
 import { authFactory } from "./auth";
 import { BunStorageRepository } from "./storage";
-import handler from "./api/handler";
-import { createYoga, createSchema } from "graphql-yoga";
+import { createYoga, createSchema, useReadinessCheck } from "graphql-yoga";
 import { typeDefs, resolvers } from "@packages/graphql";
+import {
+  createInlineSigningKeyProvider,
+  createRemoteJwksSigningKeyProvider,
+  extractFromHeader,
+  useJWT,
+} from "@graphql-yoga/plugin-jwt";
 
 type ServerFactory = {
   pool: Pool;
@@ -61,7 +66,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   const migrationResult = await migrator.migrateToLatest();
 
   if (migrationResult.error) {
-    throw migrationResult.error;
+    console.error(migrationResult.error);
   }
 
   for (const migration of migrationResult.results || []) {
@@ -127,7 +132,46 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   const graphqlSchema = createSchema({ typeDefs, resolvers });
 
-  const yoga = createYoga({ schema: graphqlSchema });
+  const yoga = createYoga({
+    schema: graphqlSchema,
+    graphiql: process.env.NODE_ENV !== "production",
+    graphqlEndpoint: "/api/graphql",
+    plugins: [
+      useJWT({
+        signingKeyProviders: [
+          createInlineSigningKeyProvider(process.env.JWT_SIGNING_KEY!),
+        ],
+        tokenLookupLocations: [
+          extractFromHeader({ name: "authorization", prefix: "Bearer" }),
+        ],
+        tokenVerification: {
+          issuer:
+            process.env.NODE_ENV !== "production"
+              ? "http://localhost:3001"
+              : process.env.JWT_ISSUER!,
+          audience: process.env.JWT_AUDIENCE!,
+          algorithms: ["HS256"],
+        },
+        reject: {
+          invalidToken: true,
+        },
+      }),
+      useReadinessCheck({
+        endpoint: "/api/graphql/health",
+        check: async () => {
+          try {
+            await pool.query("SELECT 1");
+            return true;
+          } catch (error) {
+            console.error("Health check failed:", error);
+            return false;
+          }
+        },
+      }),
+    ],
+    logging: process.env.NODE_ENV !== "production" ? "debug" : "error",
+    healthCheckEndpoint: "/api/graphql/health",
+  });
 
   // graphql yoga handler
   router.use("/api/graphql/*", async (ctx) =>

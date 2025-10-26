@@ -1,8 +1,8 @@
-import { type Kysely, sql } from 'kysely'
+import { type Kysely, sql } from "kysely";
 
 export async function up(db: Kysely<any>): Promise<void> {
   await sql`
-		create table "user"(
+		create table if not exists "user"(
 			"id" text not null primary key,
 			"name" text not null,
 			"email" text not null unique,
@@ -16,7 +16,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			"ban_expires" timestamptz
 		);
 
-		create table "session"(
+		create table if not exists "session"(
 			"id" text not null primary key,
 			"expires_at" timestamptz not null,
 			"token" text not null unique,
@@ -28,7 +28,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			"impersonated_by" text
 		);
 
-		create table "account"(
+		create table if not exists "account"(
 			"id" text not null primary key,
 			"account_id" text not null,
 			"provider_id" text not null,
@@ -44,7 +44,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 			"updated_at" timestamptz not null
 		);
 
-		create table "verification"(
+		create table if not exists "verification"(
 			"id" text not null primary key,
 			"identifier" text not null,
 			"value" text not null,
@@ -52,17 +52,17 @@ export async function up(db: Kysely<any>): Promise<void> {
 			"created_at" timestamptz default current_timestamp not null,
 			"updated_at" timestamptz default current_timestamp not null
 		);
-	`.execute(db)
+	`.execute(db);
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
   await sql`
-		drop table "verification";
+		drop table if exists "verification";
 
-		drop table "account";
+		drop table if exists "account";
 
-		drop table "session";
+		drop table if exists "session";
 
-		drop table "user";
-	`.execute(db)
+		drop table if exists "user";
+	`.execute(db);
 }
