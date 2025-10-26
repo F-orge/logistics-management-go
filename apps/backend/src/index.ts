@@ -12,7 +12,6 @@ import {
   Kysely,
   Migrator,
   PostgresDialect,
-  sql,
 } from "kysely";
 import nodemailer from "nodemailer";
 import * as path from "path";
@@ -23,10 +22,10 @@ import { createYoga, createSchema, useReadinessCheck } from "graphql-yoga";
 import { typeDefs, resolvers } from "@packages/graphql";
 import {
   createInlineSigningKeyProvider,
-  createRemoteJwksSigningKeyProvider,
   extractFromHeader,
   useJWT,
 } from "@graphql-yoga/plugin-jwt";
+import { readdir } from "node:fs/promises";
 
 type ServerFactory = {
   pool: Pool;
@@ -117,7 +116,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
       origin:
         process.env.NODE_ENV === "production"
           ? process.env.DOMAIN_ORIGIN!
-          : "http://localhost:3001", // replace with your origin
+          : "http://localhost:3001",
       allowHeaders: ["Content-Type", "Authorization"],
       allowMethods: ["POST", "GET", "OPTIONS"],
       exposeHeaders: ["Content-Length"],

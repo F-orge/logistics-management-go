@@ -21,6 +21,21 @@
         "@modelcontextprotocol/server-filesystem",
         "/home/robeckk/marahuyo/logistics-management-go"
       ]
+    },
+    "postgres": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "DATABASE_URI",
+        "crystaldba/postgres-mcp",
+        "--access-mode=unrestricted"
+      ],
+      "env": {
+        "DATABASE_URI": "postgres://postgres:postgres@localhost:5432/postgres"
+      }
     }
   }
 }
