@@ -40,4 +40,14 @@ export type DmsEvents = {
     deliveryTaskId: string;
     newStatus: DmsTaskEventStatusEnum;
   };
+
+  // Driver Location Events
+  "dms.driverLocation.updated": Selectable<DB["dms.driverLocations"]>;
+  "dms.driverLocation.removed": {
+    id: string;
+    driverId: string;
+  };
+
+  // Proof of Delivery Events
+  "dms.proofOfDelivery.recorded": Selectable<DB["dms.proofOfDeliveries"]>;
 };

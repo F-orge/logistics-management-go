@@ -3,6 +3,7 @@ import {
   DmsProofOfDeliveries,
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
+
 export const DmsMutation: Pick<
   DmsMutationResolvers,
   "createDmsProofOfDelivery"
@@ -15,6 +16,9 @@ export const DmsMutation: Pick<
       .values(payload as any)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish proof of delivery recorded event
+    ctx.pubsub.publish("dms.proofOfDelivery.recorded", result);
 
     return result as unknown as DmsProofOfDeliveries;
   },
