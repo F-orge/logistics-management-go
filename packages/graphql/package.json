@@ -59,6 +59,7 @@
     "@graphql-yoga/plugin-jwt": "^3.10.0",
     "graphql": "^16.11.0",
     "graphql-scalars": "^1.25.0",
+    "graphql-subscriptions": "^3.0.0",
     "kysely": "^0.28.8",
     "zod": "^4.1.12"
   }
