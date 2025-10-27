@@ -17,11 +17,11 @@ extend type CrmQuery {
 
 input CreateContactInput {
   name: String!
-  email: String
+  email: String!
   phoneNumber: String
   jobTitle: String
   companyId: ID!
-  ownerId: ID
+  ownerId: ID!
 }
 
 input UpdateContactInput {

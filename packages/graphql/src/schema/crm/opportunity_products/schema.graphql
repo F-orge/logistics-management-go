@@ -11,17 +11,16 @@ input CreateOpportunityProductInput {
 }
 
 input AddOpportunityProductInput {
-  opportunityId: ID!
   productId: ID!
   quantity: Float!
 }
 
 input UpdateOpportunityProductInput {
-  quantity: Float
+  quantity: Float!
 }
 
 extend type CrmMutation {
   addOpportunityProduct(id: ID!,value: CreateOpportunityProductInput!): OpportunityProducts!
-  updateOpportunityProduct(opportunityId: ID!, productId: ID!, value: UpdateOpportunityProductInput): OpportunityProducts!
-  removeOpportunityProduct(opportunityId: ID!, productId: ID!): DeleteResult!
+  updateOpportunityProduct(id: ID!, value: UpdateOpportunityProductInput!): OpportunityProducts!
+  removeOpportunityProduct(id: ID!): DeleteResult!
 }

@@ -398,22 +398,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "invoiceId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "productId",
             "description": null,
             "type": {
@@ -457,22 +441,6 @@
         "isOneOf": false,
         "fields": null,
         "inputFields": [
-          {
-            "name": "opportunityId",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "productId",
             "description": null,
@@ -6903,9 +6871,13 @@
             "name": "email",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -6943,9 +6915,13 @@
             "name": "ownerId",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -9107,15 +9083,19 @@
             "name": "items",
             "description": null,
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CreateInvoiceItemInput",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CreateInvoiceItemInput",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -9855,9 +9835,13 @@
             "name": "ownerId",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -9879,15 +9863,19 @@
             "name": "products",
             "description": null,
             "type": {
-              "kind": "LIST",
+              "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "NON_NULL",
+                "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "CreateOpportunityProductInput",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "CreateOpportunityProductInput",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -9899,9 +9887,13 @@
             "name": "source",
             "description": null,
             "type": {
-              "kind": "ENUM",
-              "name": "OpportunitySource",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "OpportunitySource",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -9911,9 +9903,13 @@
             "name": "stage",
             "description": null,
             "type": {
-              "kind": "ENUM",
-              "name": "OpportunityStage",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "OpportunityStage",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -15072,60 +15068,11 @@
             "deprecationReason": null
           },
           {
-            "name": "removeOpportunity",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "DeleteResult",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "removeOpportunityProduct",
             "description": null,
             "args": [
               {
-                "name": "opportunityId",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "productId",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -15480,9 +15427,13 @@
                 "name": "value",
                 "description": null,
                 "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UpdateInvoiceItemInput",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateInvoiceItemInput",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -15615,9 +15566,13 @@
                 "name": "value",
                 "description": null,
                 "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UpdateOpportunityInput",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateOpportunityInput",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -15641,23 +15596,7 @@
             "description": null,
             "args": [
               {
-                "name": "opportunityId",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "productId",
+                "name": "id",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
@@ -15676,9 +15615,13 @@
                 "name": "value",
                 "description": null,
                 "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "UpdateOpportunityProductInput",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "UpdateOpportunityProductInput",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -35462,18 +35405,6 @@
             "deprecationReason": null
           },
           {
-            "name": "ownerId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "phoneNumber",
             "description": null,
             "type": {
@@ -35546,18 +35477,6 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "companyId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "email",
             "description": null,
             "type": {
@@ -35587,18 +35506,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "ownerId",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
               "ofType": null
             },
             "defaultValue": null,
@@ -37529,9 +37436,13 @@
             "name": "quantity",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -38165,9 +38076,13 @@
             "name": "quantity",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,

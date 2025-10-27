@@ -32,13 +32,11 @@ type AccountingSyncLogs {
 }
 
 input AddInvoiceItemInput {
-  invoiceId: ID!
   productId: ID!
   quantity: Float!
 }
 
 input AddOpportunityProductInput {
-  opportunityId: ID!
   productId: ID!
   quantity: Float!
 }
@@ -435,10 +433,10 @@ input CreateCompanyInput {
 
 input CreateContactInput {
   companyId: ID!
-  email: String
+  email: String!
   jobTitle: String
   name: String!
-  ownerId: ID
+  ownerId: ID!
   phoneNumber: String
 }
 
@@ -641,7 +639,7 @@ input CreateInventoryStockInput {
 input CreateInvoiceInput {
   dueDate: Date!
   issueDate: Date!
-  items: [CreateInvoiceItemInput!]
+  items: [CreateInvoiceItemInput!]!
   opportunityId: ID!
   paidAt: Date
   paymentMethod: CrmInvoicePaymentMethod
@@ -710,11 +708,11 @@ input CreateOpportunityInput {
   expectedCloseDate: Date
   lostReason: String
   name: String!
-  ownerId: ID
+  ownerId: ID!
   probability: Float
-  products: [CreateOpportunityProductInput!]
-  source: OpportunitySource
-  stage: OpportunityStage
+  products: [CreateOpportunityProductInput!]!
+  source: OpportunitySource!
+  stage: OpportunityStage!
 }
 
 input CreateOpportunityProductInput {
@@ -1151,8 +1149,7 @@ type CrmMutation {
   removeInvoiceItem(id: ID!): DeleteResult!
   removeLead(id: ID!): DeleteResult!
   removeNotification(id: ID!): DeleteResult!
-  removeOpportunity(id: ID!): DeleteResult!
-  removeOpportunityProduct(opportunityId: ID!, productId: ID!): DeleteResult!
+  removeOpportunityProduct(id: ID!): DeleteResult!
   removeProduct(id: ID!): DeleteResult!
   updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!
   updateCase(id: ID!, value: UpdateCaseInput): Cases!
@@ -1160,11 +1157,11 @@ type CrmMutation {
   updateContact(id: ID!, value: UpdateContactInput): Contacts!
   updateInteraction(id: ID!, value: UpdateInteractionInput): Interactions!
   updateInvoice(id: ID!, value: UpdateInvoiceInput): Invoices!
-  updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput): InvoiceItems!
+  updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput!): InvoiceItems!
   updateLead(id: ID!, value: UpdateLeadInput): Leads!
   updateNotification(id: ID!, value: UpdateNotificationInput): Notifications!
-  updateOpportunity(id: ID!, value: UpdateOpportunityInput): Opportunities!
-  updateOpportunityProduct(opportunityId: ID!, productId: ID!, value: UpdateOpportunityProductInput): OpportunityProducts!
+  updateOpportunity(id: ID!, value: UpdateOpportunityInput!): Opportunities!
+  updateOpportunityProduct(id: ID!, value: UpdateOpportunityProductInput!): OpportunityProducts!
   updateProduct(id: ID!, value: UpdateProductInput): Products!
 }
 
@@ -2706,7 +2703,6 @@ input UpdateCompanyInput {
   country: String
   industry: String
   name: String
-  ownerId: ID
   phoneNumber: String
   postalCode: String
   state: String
@@ -2715,11 +2711,9 @@ input UpdateCompanyInput {
 }
 
 input UpdateContactInput {
-  companyId: ID
   email: String
   jobTitle: String
   name: String
-  ownerId: ID
   phoneNumber: String
 }
 
@@ -2924,7 +2918,7 @@ input UpdateInvoiceInput {
 }
 
 input UpdateInvoiceItemInput {
-  quantity: Float
+  quantity: Float!
 }
 
 input UpdateInvoiceLineItemInput {
@@ -2989,7 +2983,7 @@ input UpdateOpportunityInput {
 }
 
 input UpdateOpportunityProductInput {
-  quantity: Float
+  quantity: Float!
 }
 
 input UpdateOutboundShipmentInput {

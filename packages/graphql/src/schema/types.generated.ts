@@ -57,13 +57,11 @@ export type AccountingSyncLogs = {
 };
 
 export type AddInvoiceItemInput = {
-  invoiceId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
 };
 
 export type AddOpportunityProductInput = {
-  opportunityId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
 };
@@ -852,10 +850,10 @@ export type CreateCompanyInput = {
 
 export type CreateContactInput = {
   companyId: Scalars['ID']['input'];
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
   jobTitle?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1058,7 +1056,7 @@ export type CreateInventoryStockInput = {
 export type CreateInvoiceInput = {
   dueDate: Scalars['Date']['input'];
   issueDate: Scalars['Date']['input'];
-  items?: InputMaybe<Array<CreateInvoiceItemInput>>;
+  items: Array<CreateInvoiceItemInput>;
   opportunityId: Scalars['ID']['input'];
   paidAt?: InputMaybe<Scalars['Date']['input']>;
   paymentMethod?: InputMaybe<CrmInvoicePaymentMethod>;
@@ -1127,11 +1125,11 @@ export type CreateOpportunityInput = {
   expectedCloseDate?: InputMaybe<Scalars['Date']['input']>;
   lostReason?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   probability?: InputMaybe<Scalars['Float']['input']>;
-  products?: InputMaybe<Array<CreateOpportunityProductInput>>;
-  source?: InputMaybe<OpportunitySource>;
-  stage?: InputMaybe<OpportunityStage>;
+  products: Array<CreateOpportunityProductInput>;
+  source: OpportunitySource;
+  stage: OpportunityStage;
 };
 
 export type CreateOpportunityProductInput = {
@@ -1569,7 +1567,6 @@ export type CrmMutation = {
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
   removeNotification: DeleteResult;
-  removeOpportunity: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
   updateCampaign: Campaigns;
@@ -1704,14 +1701,8 @@ export type CrmMutationremoveNotificationArgs = {
 };
 
 
-export type CrmMutationremoveOpportunityArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type CrmMutationremoveOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1758,7 +1749,7 @@ export type CrmMutationupdateInvoiceArgs = {
 
 export type CrmMutationupdateInvoiceItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateInvoiceItemInput>;
+  value: UpdateInvoiceItemInput;
 };
 
 
@@ -1776,14 +1767,13 @@ export type CrmMutationupdateNotificationArgs = {
 
 export type CrmMutationupdateOpportunityArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOpportunityInput>;
+  value: UpdateOpportunityInput;
 };
 
 
 export type CrmMutationupdateOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOpportunityProductInput>;
+  id: Scalars['ID']['input'];
+  value: UpdateOpportunityProductInput;
 };
 
 
@@ -4141,7 +4131,6 @@ export type UpdateCompanyInput = {
   country?: InputMaybe<Scalars['String']['input']>;
   industry?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   postalCode?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
@@ -4150,11 +4139,9 @@ export type UpdateCompanyInput = {
 };
 
 export type UpdateContactInput = {
-  companyId?: InputMaybe<Scalars['ID']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   jobTitle?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -4359,7 +4346,7 @@ export type UpdateInvoiceInput = {
 };
 
 export type UpdateInvoiceItemInput = {
-  quantity?: InputMaybe<Scalars['Float']['input']>;
+  quantity: Scalars['Float']['input'];
 };
 
 export type UpdateInvoiceLineItemInput = {
@@ -4424,7 +4411,7 @@ export type UpdateOpportunityInput = {
 };
 
 export type UpdateOpportunityProductInput = {
-  quantity?: InputMaybe<Scalars['Float']['input']>;
+  quantity: Scalars['Float']['input'];
 };
 
 export type UpdateOutboundShipmentInput = {
@@ -6636,8 +6623,7 @@ export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extend
   removeInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInvoiceItemArgs, 'id'>>;
   removeLead?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveLeadArgs, 'id'>>;
   removeNotification?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveNotificationArgs, 'id'>>;
-  removeOpportunity?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityArgs, 'id'>>;
-  removeOpportunityProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityProductArgs, 'opportunityId' | 'productId'>>;
+  removeOpportunityProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityProductArgs, 'id'>>;
   removeProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveProductArgs, 'id'>>;
   updateCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationupdateCampaignArgs, 'id'>>;
   updateCase?: Resolver<ResolversTypes['Cases'], ParentType, ContextType, RequireFields<CrmMutationupdateCaseArgs, 'id'>>;
@@ -6645,11 +6631,11 @@ export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extend
   updateContact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType, RequireFields<CrmMutationupdateContactArgs, 'id'>>;
   updateInteraction?: Resolver<ResolversTypes['Interactions'], ParentType, ContextType, RequireFields<CrmMutationupdateInteractionArgs, 'id'>>;
   updateInvoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType, RequireFields<CrmMutationupdateInvoiceArgs, 'id'>>;
-  updateInvoiceItem?: Resolver<ResolversTypes['InvoiceItems'], ParentType, ContextType, RequireFields<CrmMutationupdateInvoiceItemArgs, 'id'>>;
+  updateInvoiceItem?: Resolver<ResolversTypes['InvoiceItems'], ParentType, ContextType, RequireFields<CrmMutationupdateInvoiceItemArgs, 'id' | 'value'>>;
   updateLead?: Resolver<ResolversTypes['Leads'], ParentType, ContextType, RequireFields<CrmMutationupdateLeadArgs, 'id'>>;
   updateNotification?: Resolver<ResolversTypes['Notifications'], ParentType, ContextType, RequireFields<CrmMutationupdateNotificationArgs, 'id'>>;
-  updateOpportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmMutationupdateOpportunityArgs, 'id'>>;
-  updateOpportunityProduct?: Resolver<ResolversTypes['OpportunityProducts'], ParentType, ContextType, RequireFields<CrmMutationupdateOpportunityProductArgs, 'opportunityId' | 'productId'>>;
+  updateOpportunity?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType, RequireFields<CrmMutationupdateOpportunityArgs, 'id' | 'value'>>;
+  updateOpportunityProduct?: Resolver<ResolversTypes['OpportunityProducts'], ParentType, ContextType, RequireFields<CrmMutationupdateOpportunityProductArgs, 'id' | 'value'>>;
   updateProduct?: Resolver<ResolversTypes['Products'], ParentType, ContextType, RequireFields<CrmMutationupdateProductArgs, 'id'>>;
 };
 

@@ -20,16 +20,16 @@ export const UpdateOpportunityMutation = graphql(`
   }
 `);
 
-export const RemoveOpportunityMutation = graphql(`
-  mutation RemoveOpportunity($id: ID!) {
-    crm {
-      removeOpportunity(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveOpportunityMutation = graphql(`
+//   mutation RemoveOpportunity($id: ID!) {
+//     crm {
+//       removeOpportunity(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableOpportunityQuery = graphql(`
   query TableOpportunity(

@@ -1195,7 +1195,7 @@
 
 - owner_id: Reference to the user responsible for the contact.
   - datatype: text
-  - nullable: yes
+  - nullable: no
   - foreign key: related to user (id)
 
 - created_at: timestamptz when the contact was created.

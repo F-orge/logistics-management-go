@@ -53,13 +53,11 @@ export type AccountingSyncLogs = {
 };
 
 export type AddInvoiceItemInput = {
-  invoiceId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
 };
 
 export type AddOpportunityProductInput = {
-  opportunityId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
 };
@@ -853,10 +851,10 @@ export type CreateCompanyInput = {
 
 export type CreateContactInput = {
   companyId: Scalars['ID']['input'];
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
   jobTitle?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1059,7 +1057,7 @@ export type CreateInventoryStockInput = {
 export type CreateInvoiceInput = {
   dueDate: Scalars['Date']['input'];
   issueDate: Scalars['Date']['input'];
-  items?: InputMaybe<Array<CreateInvoiceItemInput>>;
+  items: Array<CreateInvoiceItemInput>;
   opportunityId: Scalars['ID']['input'];
   paidAt?: InputMaybe<Scalars['Date']['input']>;
   paymentMethod?: InputMaybe<CrmInvoicePaymentMethod>;
@@ -1128,11 +1126,11 @@ export type CreateOpportunityInput = {
   expectedCloseDate?: InputMaybe<Scalars['Date']['input']>;
   lostReason?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   probability?: InputMaybe<Scalars['Float']['input']>;
-  products?: InputMaybe<Array<CreateOpportunityProductInput>>;
-  source?: InputMaybe<OpportunitySource>;
-  stage?: InputMaybe<OpportunityStage>;
+  products: Array<CreateOpportunityProductInput>;
+  source: OpportunitySource;
+  stage: OpportunityStage;
 };
 
 export type CreateOpportunityProductInput = {
@@ -1571,7 +1569,6 @@ export type CrmMutation = {
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
   removeNotification: DeleteResult;
-  removeOpportunity: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
   updateCampaign: Campaigns;
@@ -1706,14 +1703,8 @@ export type CrmMutationRemoveNotificationArgs = {
 };
 
 
-export type CrmMutationRemoveOpportunityArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type CrmMutationRemoveOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1760,7 +1751,7 @@ export type CrmMutationUpdateInvoiceArgs = {
 
 export type CrmMutationUpdateInvoiceItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateInvoiceItemInput>;
+  value: UpdateInvoiceItemInput;
 };
 
 
@@ -1778,14 +1769,13 @@ export type CrmMutationUpdateNotificationArgs = {
 
 export type CrmMutationUpdateOpportunityArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOpportunityInput>;
+  value: UpdateOpportunityInput;
 };
 
 
 export type CrmMutationUpdateOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOpportunityProductInput>;
+  id: Scalars['ID']['input'];
+  value: UpdateOpportunityProductInput;
 };
 
 
@@ -4193,7 +4183,6 @@ export type UpdateCompanyInput = {
   country?: InputMaybe<Scalars['String']['input']>;
   industry?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   postalCode?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
@@ -4202,11 +4191,9 @@ export type UpdateCompanyInput = {
 };
 
 export type UpdateContactInput = {
-  companyId?: InputMaybe<Scalars['ID']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   jobTitle?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -4411,7 +4398,7 @@ export type UpdateInvoiceInput = {
 };
 
 export type UpdateInvoiceItemInput = {
-  quantity?: InputMaybe<Scalars['Float']['input']>;
+  quantity: Scalars['Float']['input'];
 };
 
 export type UpdateInvoiceLineItemInput = {
@@ -4476,7 +4463,7 @@ export type UpdateOpportunityInput = {
 };
 
 export type UpdateOpportunityProductInput = {
-  quantity?: InputMaybe<Scalars['Float']['input']>;
+  quantity: Scalars['Float']['input'];
 };
 
 export type UpdateOutboundShipmentInput = {
@@ -5882,7 +5869,6 @@ export const VehicleStatusSchema = z.enum(VehicleStatus);
 
 export function AddInvoiceItemInputSchema(): z.ZodObject<Properties<AddInvoiceItemInput>> {
   return z.object({
-    invoiceId: z.string(),
     productId: z.string(),
     quantity: z.number()
   })
@@ -5890,7 +5876,6 @@ export function AddInvoiceItemInputSchema(): z.ZodObject<Properties<AddInvoiceIt
 
 export function AddOpportunityProductInputSchema(): z.ZodObject<Properties<AddOpportunityProductInput>> {
   return z.object({
-    opportunityId: z.string(),
     productId: z.string(),
     quantity: z.number()
   })
@@ -6043,10 +6028,10 @@ export function CreateCompanyInputSchema(): z.ZodObject<Properties<CreateCompany
 export function CreateContactInputSchema(): z.ZodObject<Properties<CreateContactInput>> {
   return z.object({
     companyId: z.string(),
-    email: z.string().nullish(),
+    email: z.string(),
     jobTitle: z.string().nullish(),
     name: z.string(),
-    ownerId: z.string().nullish(),
+    ownerId: z.string(),
     phoneNumber: z.string().nullish()
   })
 }
@@ -6291,7 +6276,7 @@ export function CreateInvoiceInputSchema(): z.ZodObject<Properties<CreateInvoice
   return z.object({
     dueDate: z.date(),
     issueDate: z.date(),
-    items: z.array(z.lazy(() => CreateInvoiceItemInputSchema())).nullish(),
+    items: z.array(z.lazy(() => CreateInvoiceItemInputSchema())),
     opportunityId: z.string(),
     paidAt: z.date().nullish(),
     paymentMethod: CrmInvoicePaymentMethodSchema.nullish(),
@@ -6372,11 +6357,11 @@ export function CreateOpportunityInputSchema(): z.ZodObject<Properties<CreateOpp
     expectedCloseDate: z.date().nullish(),
     lostReason: z.string().nullish(),
     name: z.string(),
-    ownerId: z.string().nullish(),
+    ownerId: z.string(),
     probability: z.number().nullish(),
-    products: z.array(z.lazy(() => CreateOpportunityProductInputSchema())).nullish(),
-    source: OpportunitySourceSchema.nullish(),
-    stage: OpportunityStageSchema.nullish()
+    products: z.array(z.lazy(() => CreateOpportunityProductInputSchema())),
+    source: OpportunitySourceSchema,
+    stage: OpportunityStageSchema
   })
 }
 
@@ -6957,7 +6942,6 @@ export function UpdateCompanyInputSchema(): z.ZodObject<Properties<UpdateCompany
     country: z.string().nullish(),
     industry: z.string().nullish(),
     name: z.string().nullish(),
-    ownerId: z.string().nullish(),
     phoneNumber: z.string().nullish(),
     postalCode: z.string().nullish(),
     state: z.string().nullish(),
@@ -6968,11 +6952,9 @@ export function UpdateCompanyInputSchema(): z.ZodObject<Properties<UpdateCompany
 
 export function UpdateContactInputSchema(): z.ZodObject<Properties<UpdateContactInput>> {
   return z.object({
-    companyId: z.string().nullish(),
     email: z.string().nullish(),
     jobTitle: z.string().nullish(),
     name: z.string().nullish(),
-    ownerId: z.string().nullish(),
     phoneNumber: z.string().nullish()
   })
 }
@@ -7221,7 +7203,7 @@ export function UpdateInvoiceInputSchema(): z.ZodObject<Properties<UpdateInvoice
 
 export function UpdateInvoiceItemInputSchema(): z.ZodObject<Properties<UpdateInvoiceItemInput>> {
   return z.object({
-    quantity: z.number().nullish()
+    quantity: z.number()
   })
 }
 
@@ -7298,7 +7280,7 @@ export function UpdateOpportunityInputSchema(): z.ZodObject<Properties<UpdateOpp
 
 export function UpdateOpportunityProductInputSchema(): z.ZodObject<Properties<UpdateOpportunityProductInput>> {
   return z.object({
-    quantity: z.number().nullish()
+    quantity: z.number()
   })
 }
 

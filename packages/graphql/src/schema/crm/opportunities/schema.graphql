@@ -48,17 +48,17 @@ extend type CrmQuery {
 
 input CreateOpportunityInput {
   name: String!
-  stage: OpportunityStage
+  stage: OpportunityStage!
   dealValue: Float
   probability: Float
   expectedCloseDate: Date
   lostReason: String
-  source: OpportunitySource
-  ownerId: ID
+  source: OpportunitySource!
+  ownerId: ID!
   contactId: ID
   companyId: ID
   campaignId: ID
-  products: [CreateOpportunityProductInput!]
+  products: [CreateOpportunityProductInput!]!
 }
 
 input UpdateOpportunityInput {
@@ -73,6 +73,5 @@ input UpdateOpportunityInput {
 
 extend type CrmMutation {
   createOpportunity(value: CreateOpportunityInput!): Opportunities!
-  updateOpportunity(id: ID!, value: UpdateOpportunityInput): Opportunities!
-  removeOpportunity(id: ID!): DeleteResult!
+  updateOpportunity(id: ID!, value: UpdateOpportunityInput!): Opportunities!
 }

@@ -45,7 +45,7 @@ input CreateInvoiceInput {
   dueDate: Date!
   paidAt: Date
   paymentMethod: CrmInvoicePaymentMethod
-  items: [CreateInvoiceItemInput!]
+  items: [CreateInvoiceItemInput!]!
 }
 
 input UpdateInvoiceInput {
@@ -58,5 +58,4 @@ input UpdateInvoiceInput {
 extend type CrmMutation {
   createInvoice(value: CreateInvoiceInput!): Invoices!
   updateInvoice(id: ID!, value: UpdateInvoiceInput): Invoices!
-  removeInvoice(id: ID!): DeleteResult!
 }

@@ -14,17 +14,16 @@ input CreateInvoiceItemInput {
 }
 
 input AddInvoiceItemInput {
-  invoiceId: ID!
   productId: ID!
   quantity: Float!
 }
 
 input UpdateInvoiceItemInput {
-  quantity: Float
+  quantity: Float!
 }
 
 extend type CrmMutation {
   addInvoiceItem(id: ID!, value: AddInvoiceItemInput!): InvoiceItems!
-  updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput): InvoiceItems!
+  updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput!): InvoiceItems!
   removeInvoiceItem(id: ID!): DeleteResult!
 }

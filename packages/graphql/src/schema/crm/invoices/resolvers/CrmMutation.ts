@@ -1,3 +1,4 @@
+import { CrmInvoiceStatus, CrmPaymentMethod } from "../../../../db.types";
 import {
   CreateInvoiceInputSchema,
   Invoices,
@@ -8,11 +9,51 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'removeInvo
   createInvoice: async (_parent, args, ctx) => {
     const payload = CreateInvoiceInputSchema().parse(args.value);
 
-    const result = await ctx.db
+    const trx = await ctx.db.startTransaction().execute();
+
+    const { items, ...rest } = payload;
+
+    const result = await trx
       .insertInto("crm.invoices")
-      .values(payload as any)
+      .values(rest as any)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    const prices = await trx
+      .selectFrom("crm.products")
+      .select(["id", "price"])
+      .where(
+        "id",
+        "in",
+        items.map((row) => row.productId)
+      )
+      .execute();
+
+    const totalPrices = await trx
+      .insertInto("crm.invoiceItems")
+      .values(
+        items.map((row) => ({
+          invoiceId: result.id,
+          ...row,
+          price:
+            Number(prices.find((p) => p.id === row.productId)!.price) *
+            row.quantity,
+        }))
+      )
+      .returning("price")
+      .execute();
+
+    const total = totalPrices
+      .map((row) => Number(row.price))
+      .reduce((sum, curr) => sum + curr, 0);
+
+    await trx
+      .updateTable("crm.invoices")
+      .set({ total })
+      .where("id", "=", result.id)
+      .execute();
+
+    await trx.commit().execute();
 
     return result as unknown as Invoices;
   },
@@ -21,22 +62,17 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'removeInvo
 
     const result = await ctx.db
       .updateTable("crm.invoices")
-      .set(payload as any)
+      .set({
+        ...payload,
+        paymentMethod: payload.paymentMethod
+          ? CrmPaymentMethod[payload.paymentMethod]
+          : undefined,
+        status: payload.status ? CrmInvoiceStatus[payload.status] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
 
     return result as unknown as Invoices;
-  },
-  removeInvoice: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .deleteFrom("crm.invoices")
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
-
-    return {
-      success: true,
-      numDeletedRows: Number(result.numDeletedRows.toString()),
-    };
   },
 };

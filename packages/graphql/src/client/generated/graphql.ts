@@ -54,13 +54,11 @@ export type AccountingSyncLogs = {
 };
 
 export type AddInvoiceItemInput = {
-  invoiceId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
 };
 
 export type AddOpportunityProductInput = {
-  opportunityId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
 };
@@ -854,10 +852,10 @@ export type CreateCompanyInput = {
 
 export type CreateContactInput = {
   companyId: Scalars['ID']['input'];
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
   jobTitle?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1060,7 +1058,7 @@ export type CreateInventoryStockInput = {
 export type CreateInvoiceInput = {
   dueDate: Scalars['Date']['input'];
   issueDate: Scalars['Date']['input'];
-  items?: InputMaybe<Array<CreateInvoiceItemInput>>;
+  items: Array<CreateInvoiceItemInput>;
   opportunityId: Scalars['ID']['input'];
   paidAt?: InputMaybe<Scalars['Date']['input']>;
   paymentMethod?: InputMaybe<CrmInvoicePaymentMethod>;
@@ -1129,11 +1127,11 @@ export type CreateOpportunityInput = {
   expectedCloseDate?: InputMaybe<Scalars['Date']['input']>;
   lostReason?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   probability?: InputMaybe<Scalars['Float']['input']>;
-  products?: InputMaybe<Array<CreateOpportunityProductInput>>;
-  source?: InputMaybe<OpportunitySource>;
-  stage?: InputMaybe<OpportunityStage>;
+  products: Array<CreateOpportunityProductInput>;
+  source: OpportunitySource;
+  stage: OpportunityStage;
 };
 
 export type CreateOpportunityProductInput = {
@@ -1572,7 +1570,6 @@ export type CrmMutation = {
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
   removeNotification: DeleteResult;
-  removeOpportunity: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
   updateCampaign: Campaigns;
@@ -1707,14 +1704,8 @@ export type CrmMutationRemoveNotificationArgs = {
 };
 
 
-export type CrmMutationRemoveOpportunityArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type CrmMutationRemoveOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1761,7 +1752,7 @@ export type CrmMutationUpdateInvoiceArgs = {
 
 export type CrmMutationUpdateInvoiceItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateInvoiceItemInput>;
+  value: UpdateInvoiceItemInput;
 };
 
 
@@ -1779,14 +1770,13 @@ export type CrmMutationUpdateNotificationArgs = {
 
 export type CrmMutationUpdateOpportunityArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOpportunityInput>;
+  value: UpdateOpportunityInput;
 };
 
 
 export type CrmMutationUpdateOpportunityProductArgs = {
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOpportunityProductInput>;
+  id: Scalars['ID']['input'];
+  value: UpdateOpportunityProductInput;
 };
 
 
@@ -4194,7 +4184,6 @@ export type UpdateCompanyInput = {
   country?: InputMaybe<Scalars['String']['input']>;
   industry?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
   postalCode?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
@@ -4203,11 +4192,9 @@ export type UpdateCompanyInput = {
 };
 
 export type UpdateContactInput = {
-  companyId?: InputMaybe<Scalars['ID']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   jobTitle?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
   phoneNumber?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -4412,7 +4399,7 @@ export type UpdateInvoiceInput = {
 };
 
 export type UpdateInvoiceItemInput = {
-  quantity?: InputMaybe<Scalars['Float']['input']>;
+  quantity: Scalars['Float']['input'];
 };
 
 export type UpdateInvoiceLineItemInput = {
@@ -4477,7 +4464,7 @@ export type UpdateOpportunityInput = {
 };
 
 export type UpdateOpportunityProductInput = {
-  quantity?: InputMaybe<Scalars['Float']['input']>;
+  quantity: Scalars['Float']['input'];
 };
 
 export type UpdateOutboundShipmentInput = {
@@ -6681,13 +6668,6 @@ export type UpdateOpportunityMutationVariables = Exact<{
 
 export type UpdateOpportunityMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateOpportunity: { __typename?: 'Opportunities', id: string } } | null };
 
-export type RemoveOpportunityMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveOpportunityMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeOpportunity: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableOpportunityQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -6713,23 +6693,6 @@ export type AnalyticsOpportunitiesQueryVariables = Exact<{
 
 
 export type AnalyticsOpportunitiesQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', dealValue?: number | null, probability?: number | null, stage?: OpportunityStage | null, source?: OpportunitySource | null }> } | null };
-
-export type UpdateOpportunityProductMutationVariables = Exact<{
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
-  opportunityProduct: UpdateOpportunityProductInput;
-}>;
-
-
-export type UpdateOpportunityProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateOpportunityProduct: { __typename?: 'OpportunityProducts', opportunity: { __typename?: 'Opportunities', id: string }, product: { __typename?: 'Products', id: string } } } | null };
-
-export type RemoveOpportunityProductMutationVariables = Exact<{
-  opportunityId: Scalars['ID']['input'];
-  productId: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveOpportunityProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeOpportunityProduct: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type CreateProductMutationVariables = Exact<{
   product: CreateProductInput;
@@ -10336,16 +10299,6 @@ export const UpdateOpportunityDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateOpportunityMutation, UpdateOpportunityMutationVariables>;
-export const RemoveOpportunityDocument = new TypedDocumentString(`
-    mutation RemoveOpportunity($id: ID!) {
-  crm {
-    removeOpportunity(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveOpportunityMutation, RemoveOpportunityMutationVariables>;
 export const TableOpportunityDocument = new TypedDocumentString(`
     query TableOpportunity($page: Int, $perPage: Int, $search: String, $source: OpportunitySource, $stage: OpportunityStage) {
   crm {
@@ -10437,34 +10390,6 @@ export const AnalyticsOpportunitiesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsOpportunitiesQuery, AnalyticsOpportunitiesQueryVariables>;
-export const UpdateOpportunityProductDocument = new TypedDocumentString(`
-    mutation UpdateOpportunityProduct($opportunityId: ID!, $productId: ID!, $opportunityProduct: UpdateOpportunityProductInput!) {
-  crm {
-    updateOpportunityProduct(
-      opportunityId: $opportunityId
-      productId: $productId
-      value: $opportunityProduct
-    ) {
-      opportunity {
-        id
-      }
-      product {
-        id
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateOpportunityProductMutation, UpdateOpportunityProductMutationVariables>;
-export const RemoveOpportunityProductDocument = new TypedDocumentString(`
-    mutation RemoveOpportunityProduct($opportunityId: ID!, $productId: ID!) {
-  crm {
-    removeOpportunityProduct(opportunityId: $opportunityId, productId: $productId) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveOpportunityProductMutation, RemoveOpportunityProductMutationVariables>;
 export const CreateProductDocument = new TypedDocumentString(`
     mutation CreateProduct($product: CreateProductInput!) {
   crm {

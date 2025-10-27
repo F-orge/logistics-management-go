@@ -27,7 +27,7 @@ build-backend:
   bun --filter @apps/backend build
 
 introspect:
-  bun kysely-codegen --out-file packages/graphql/src/db.types.ts --camel-case --runtime-enums screaming-snake-case --singularize
+  bun kysely-codegen --out-file packages/graphql/src/db.types.ts --camel-case --runtime-enums screaming-snake-case --singularize --numeric-parser number
 
 build:
   bun run build:packages && bun --filter @apps/* build
