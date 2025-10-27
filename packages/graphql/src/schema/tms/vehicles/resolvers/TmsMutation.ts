@@ -29,6 +29,13 @@ export const TmsMutation: Pick<
   updateVehicle: async (_parent, args, ctx) => {
     const payload = UpdateVehicleInputSchema().parse(args.value);
 
+    // Get the previous state to detect changes
+    const previousVehicle = await ctx.db
+      .selectFrom("tms.vehicles")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const result = await ctx.db
       .updateTable("tms.vehicles")
       .set({
@@ -40,6 +47,15 @@ export const TmsMutation: Pick<
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish status changed event
+    if (payload.status && payload.status !== previousVehicle.status) {
+      ctx.pubsub.publish("tms.vehicle.statusChanged", {
+        id: result.id,
+        newStatus: payload.status as TmsVehicleStatusEnum,
+        previousStatus: previousVehicle.status as TmsVehicleStatusEnum,
+      });
+    }
 
     return result as unknown as Vehicles;
   },

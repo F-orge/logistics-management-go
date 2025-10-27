@@ -1,10 +1,15 @@
+import { WmsInboundShipmentStatusEnum } from "../../../../db.types";
 import {
   CreateInboundShipmentInputSchema,
   InboundShipments,
   UpdateInboundShipmentInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createInboundShipment'|'removeInboundShipment'|'updateInboundShipment'> = {
+
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createInboundShipment" | "removeInboundShipment" | "updateInboundShipment"
+> = {
   createInboundShipment: async (_parent, args, ctx) => {
     const payload = CreateInboundShipmentInputSchema().parse(args.value);
 
@@ -19,12 +24,40 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createInboundShipment'|'re
   updateInboundShipment: async (_parent, args, ctx) => {
     const payload = UpdateInboundShipmentInputSchema().parse(args.value);
 
+    // Get the previous state to detect changes
+    const previousShipment = await ctx.db
+      .selectFrom("wms.inboundShipments")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const result = await ctx.db
       .updateTable("wms.inboundShipments")
       .set(payload as any)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish status changed event
+    if (payload.status && payload.status !== previousShipment.status) {
+      const status = payload.status as WmsInboundShipmentStatusEnum;
+
+      ctx.pubsub.publish("ims.inboundShipment.statusChanged", {
+        id: result.id,
+        newStatus: status,
+        previousStatus: previousShipment.status as WmsInboundShipmentStatusEnum,
+        warehouseId: result.warehouseId,
+      });
+
+      // Publish specific status events
+      if (status === "ARRIVED") {
+        ctx.pubsub.publish("ims.inboundShipment.received", result);
+      } else if (status === "PROCESSING") {
+        ctx.pubsub.publish("ims.inboundShipment.processing", result);
+      } else if (status === "COMPLETED") {
+        ctx.pubsub.publish("ims.inboundShipment.completed", result);
+      }
+    }
 
     return result as unknown as InboundShipments;
   },

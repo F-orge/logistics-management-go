@@ -4,7 +4,13 @@ import {
   UpdateInventoryAdjustmentInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createInventoryAdjustment'|'removeInventoryAdjustment'|'updateInventoryAdjustment'> = {
+
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  | "createInventoryAdjustment"
+  | "removeInventoryAdjustment"
+  | "updateInventoryAdjustment"
+> = {
   createInventoryAdjustment: async (_parent, args, ctx) => {
     const payload = CreateInventoryAdjustmentInputSchema().parse(args.value);
 
@@ -13,6 +19,21 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createInventoryAdjustment'
       .values(payload as any)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Get the previous quantity from the inventory stock
+    const stock = await ctx.db
+      .selectFrom("wms.inventoryStock")
+      .select("quantity")
+      .where("productId", "=", result.productId)
+      .executeTakeFirst();
+
+    const previousQuantity = stock ? stock.quantity - result.quantityChange : 0;
+
+    // Publish recorded event
+    ctx.pubsub.publish("ims.inventoryAdjustment.recorded", {
+      ...result,
+      previousQuantity,
+    });
 
     return result as unknown as InventoryAdjustments;
   },

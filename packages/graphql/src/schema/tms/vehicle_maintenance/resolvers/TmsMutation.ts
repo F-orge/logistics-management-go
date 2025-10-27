@@ -4,6 +4,7 @@ import {
   VehicleMaintenance,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
+
 export const TmsMutation: Pick<
   TmsMutationResolvers,
   | "addVehicleMaintenance"
@@ -24,6 +25,9 @@ export const TmsMutation: Pick<
       })
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish maintenance scheduled event
+    ctx.pubsub.publish("tms.vehicle.maintenanceScheduled", result);
 
     return result as unknown as VehicleMaintenance;
   },
