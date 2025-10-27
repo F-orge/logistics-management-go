@@ -12,8 +12,8 @@ type StockTransfers {
   destinationWarehouse: Warehouses!
   quantity: Int!
   status: StockTransferStatus
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type WmsQuery {

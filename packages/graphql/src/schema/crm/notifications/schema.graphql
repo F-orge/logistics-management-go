@@ -3,8 +3,8 @@ type Notifications {
   user: User!
   message: String!
   isRead: Boolean
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   link: String
 }
 

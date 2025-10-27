@@ -4,8 +4,8 @@ type Suppliers {
   contactPerson: String
   email: String
   phoneNumber: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   products: [WmsProducts!]
 }
 

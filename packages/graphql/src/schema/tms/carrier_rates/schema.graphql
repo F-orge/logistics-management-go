@@ -14,8 +14,8 @@ type CarrierRates {
   destination: String
   rate: Float!
   unit: CarrierRateUnit
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 

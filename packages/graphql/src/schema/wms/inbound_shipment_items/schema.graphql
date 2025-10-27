@@ -6,8 +6,8 @@ type InboundShipmentItems {
   receivedQuantity: Int
   discrepancyQuantity: Int
   discrepancyNotes: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 

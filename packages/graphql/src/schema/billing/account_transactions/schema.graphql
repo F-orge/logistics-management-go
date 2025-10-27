@@ -19,8 +19,8 @@ type AccountTransactions {
   referenceNumber: String
   transactionDate: String
   processedByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type BillingQuery {

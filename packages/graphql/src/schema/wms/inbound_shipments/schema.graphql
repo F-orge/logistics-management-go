@@ -13,8 +13,8 @@ type InboundShipments {
   status: InboundShipmentStatus
   expectedArrivalDate: String
   actualArrivalDate: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [InboundShipmentItems!]
 }
 

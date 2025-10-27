@@ -10,8 +10,8 @@ type Drivers {
   licenseNumber: String!
   licenseExpiryDate: String
   status: DriverStatus
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   schedules: [DriverSchedules!]
   trips: [Trips!]
   expenses: [Expenses!]

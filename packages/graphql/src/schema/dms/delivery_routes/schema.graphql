@@ -17,8 +17,8 @@ type DeliveryRoutes {
   actualDurationMinutes: Int
   startedAt: String
   completedAt: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   tasks: [DeliveryTasks!]
 }
 

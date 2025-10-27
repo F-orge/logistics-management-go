@@ -34,8 +34,8 @@ type Payments {
   netAmount: Float
   notes: String
   processedByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type BillingQuery {

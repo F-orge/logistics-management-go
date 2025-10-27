@@ -15,8 +15,8 @@ type ShipmentLegs {
   carrier: Carriers
   internalTrip: Trips
   status: ShipmentLegStatus
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   events: [ShipmentLegEvents!]
   partnerInvoiceItems: [PartnerInvoiceItems!]
 }

@@ -5,8 +5,8 @@ type OutboundShipmentItems {
   product: WmsProducts!
   batch: InventoryBatches
   quantityShipped: Int!
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreateOutboundShipmentItemInput {

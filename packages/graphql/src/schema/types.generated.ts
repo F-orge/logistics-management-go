@@ -12,7 +12,7 @@ export type EnumResolverSignature<T, AllowedValues = any> = { [key in keyof T]?:
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string | number; }
+  ID: { input: string; output: string; }
   String: { input: string; output: string; }
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
@@ -25,7 +25,7 @@ export type AccountTransactions = {
   __typename?: 'AccountTransactions';
   amount: Scalars['Float']['output'];
   clientAccount: ClientAccounts;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   processedByUser?: Maybe<User>;
@@ -35,12 +35,12 @@ export type AccountTransactions = {
   sourceRecordType?: Maybe<Scalars['String']['output']>;
   transactionDate?: Maybe<Scalars['String']['output']>;
   type: TransactionType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type AccountingSyncLogs = {
   __typename?: 'AccountingSyncLogs';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   errorMessage?: Maybe<Scalars['String']['output']>;
   externalId?: Maybe<Scalars['String']['output']>;
   externalSystem: Scalars['String']['output'];
@@ -53,7 +53,7 @@ export type AccountingSyncLogs = {
   responsePayload?: Maybe<Scalars['String']['output']>;
   retryCount?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<SyncStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type AddInvoiceItemInput = {
@@ -68,14 +68,14 @@ export type AddOpportunityProductInput = {
 
 export type Attachments = {
   __typename?: 'Attachments';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   fileName: Scalars['String']['output'];
   filePath: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   mimeType?: Maybe<Scalars['String']['output']>;
   recordId?: Maybe<Scalars['ID']['output']>;
   recordType?: Maybe<RecordType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type BillingInvoiceStatus =
@@ -94,7 +94,7 @@ export type BillingInvoices = {
   amountOutstanding?: Maybe<Scalars['Float']['output']>;
   amountPaid?: Maybe<Scalars['Float']['output']>;
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   creditNotes?: Maybe<Array<CreditNotes>>;
   currency?: Maybe<Scalars['String']['output']>;
@@ -114,7 +114,7 @@ export type BillingInvoices = {
   subtotal?: Maybe<Scalars['Float']['output']>;
   taxAmount?: Maybe<Scalars['Float']['output']>;
   totalAmount: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type BillingMutation = {
@@ -576,7 +576,7 @@ export type BillingQuerysurchargesArgs = {
 export type BinThresholds = {
   __typename?: 'BinThresholds';
   alertThreshold?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   location: Locations;
@@ -584,18 +584,18 @@ export type BinThresholds = {
   minQuantity: Scalars['Int']['output'];
   product: WmsProducts;
   reorderQuantity?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Campaigns = {
   __typename?: 'Campaigns';
   budget?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   endDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   startDate: Scalars['Date']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CarrierRateUnit =
@@ -608,14 +608,14 @@ export type CarrierRateUnit =
 export type CarrierRates = {
   __typename?: 'CarrierRates';
   carrier: Carriers;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destination?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   origin?: Maybe<Scalars['String']['output']>;
   rate: Scalars['Float']['output'];
   serviceType?: Maybe<Scalars['String']['output']>;
   unit?: Maybe<CarrierRateUnit>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Carriers = {
@@ -623,14 +623,14 @@ export type Carriers = {
   contactEmail?: Maybe<Scalars['String']['output']>;
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   partnerInvoices?: Maybe<Array<PartnerInvoices>>;
   rates?: Maybe<Array<CarrierRates>>;
   servicesOffered?: Maybe<Scalars['String']['output']>;
   shipmentLegs?: Maybe<Array<ShipmentLegs>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CasePriority =
@@ -661,21 +661,21 @@ export type Cases = {
   __typename?: 'Cases';
   caseNumber: Scalars['String']['output'];
   contact?: Maybe<Contacts>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   owner?: Maybe<User>;
   priority?: Maybe<CasePriority>;
   status?: Maybe<CaseStatus>;
   type?: Maybe<CaseType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ClientAccounts = {
   __typename?: 'ClientAccounts';
   availableCredit?: Maybe<Scalars['Float']['output']>;
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   creditLimit?: Maybe<Scalars['Float']['output']>;
   currency?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -683,7 +683,7 @@ export type ClientAccounts = {
   lastPaymentDate?: Maybe<Scalars['String']['output']>;
   paymentTermsDays?: Maybe<Scalars['Int']['output']>;
   transactions?: Maybe<Array<AccountTransactions>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   walletBalance?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -694,7 +694,7 @@ export type Companies = {
   city?: Maybe<Scalars['String']['output']>;
   clientAccount?: Maybe<ClientAccounts>;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   disputes?: Maybe<Array<Disputes>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
@@ -709,21 +709,21 @@ export type Companies = {
   salesOrders?: Maybe<Array<SalesOrders>>;
   state?: Maybe<Scalars['String']['output']>;
   street?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   website?: Maybe<Scalars['String']['output']>;
 };
 
 export type Contacts = {
   __typename?: 'Contacts';
   company: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   jobTitle?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CreateAccountTransactionInput = {
@@ -1518,7 +1518,7 @@ export type CreditNotes = {
   __typename?: 'CreditNotes';
   amount: Scalars['Float']['output'];
   appliedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   creditNoteNumber: Scalars['String']['output'];
   currency?: Maybe<Scalars['String']['output']>;
@@ -1528,7 +1528,7 @@ export type CreditNotes = {
   issueDate: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   reason: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CrmInvoicePaymentMethod =
@@ -1979,14 +1979,14 @@ export type Currency =
 export type CustomerTrackingLinks = {
   __typename?: 'CustomerTrackingLinks';
   accessCount?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   expiresAt?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   lastAccessedAt?: Maybe<Scalars['String']['output']>;
   trackingToken: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DeleteResult = {
@@ -2016,7 +2016,7 @@ export type DeliveryRoutes = {
   __typename?: 'DeliveryRoutes';
   actualDurationMinutes?: Maybe<Scalars['Int']['output']>;
   completedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   estimatedDurationMinutes?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
@@ -2026,7 +2026,7 @@ export type DeliveryRoutes = {
   status?: Maybe<DeliveryRouteStatus>;
   tasks?: Maybe<Array<DeliveryTasks>>;
   totalDistanceKm?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DeliveryTaskStatus =
@@ -2042,7 +2042,7 @@ export type DeliveryTasks = {
   __typename?: 'DeliveryTasks';
   actualArrivalTime?: Maybe<Scalars['String']['output']>;
   attemptCount?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   customerTrackingLinks?: Maybe<Array<CustomerTrackingLinks>>;
   deliveryAddress: Scalars['String']['output'];
   deliveryInstructions?: Maybe<Scalars['String']['output']>;
@@ -2058,7 +2058,7 @@ export type DeliveryTasks = {
   recipientPhone?: Maybe<Scalars['String']['output']>;
   routeSequence: Scalars['Int']['output'];
   status?: Maybe<DeliveryTaskStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DisputeStatus =
@@ -2072,7 +2072,7 @@ export type DisputeStatus =
 export type Disputes = {
   __typename?: 'Disputes';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   creditNotes?: Maybe<Array<CreditNotes>>;
   disputedAmount?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2083,7 +2083,7 @@ export type Disputes = {
   resolvedByUser?: Maybe<User>;
   status?: Maybe<DisputeStatus>;
   submittedAt?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DmsMutation = {
@@ -2206,7 +2206,7 @@ export type DmsMutationupdateTaskEventArgs = {
 
 export type DmsProofOfDeliveries = {
   __typename?: 'DmsProofOfDeliveries';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   filePath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -2216,7 +2216,7 @@ export type DmsProofOfDeliveries = {
   signatureData?: Maybe<Scalars['String']['output']>;
   timestamp?: Maybe<Scalars['String']['output']>;
   type: ProofOfDeliveryType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   verificationCode?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2336,7 +2336,7 @@ export type DocumentType =
 
 export type Documents = {
   __typename?: 'Documents';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   documentType: DocumentType;
   fileName: Scalars['String']['output'];
   filePath: Scalars['String']['output'];
@@ -2345,7 +2345,7 @@ export type Documents = {
   mimeType?: Maybe<Scalars['String']['output']>;
   recordId: Scalars['ID']['output'];
   recordType: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   uploadedByUser?: Maybe<User>;
 };
 
@@ -2353,7 +2353,7 @@ export type DriverLocations = {
   __typename?: 'DriverLocations';
   accuracy?: Maybe<Scalars['Float']['output']>;
   altitude?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   heading?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2361,7 +2361,7 @@ export type DriverLocations = {
   longitude: Scalars['Float']['output'];
   speedKmh?: Maybe<Scalars['Float']['output']>;
   timestamp?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DriverScheduleReason =
@@ -2372,13 +2372,13 @@ export type DriverScheduleReason =
 
 export type DriverSchedules = {
   __typename?: 'DriverSchedules';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   endDate: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   reason?: Maybe<DriverScheduleReason>;
   startDate: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DriverStatus =
@@ -2389,7 +2389,7 @@ export type DriverStatus =
 export type Drivers = {
   __typename?: 'Drivers';
   contactPhone?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryRoutes?: Maybe<Array<DeliveryRoutes>>;
   driverLocations?: Maybe<Array<DriverLocations>>;
   expenses?: Maybe<Array<Expenses>>;
@@ -2399,7 +2399,7 @@ export type Drivers = {
   schedules?: Maybe<Array<DriverSchedules>>;
   status?: Maybe<DriverStatus>;
   trips?: Maybe<Array<Trips>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
 };
 
@@ -2420,7 +2420,7 @@ export type ExpenseType =
 export type Expenses = {
   __typename?: 'Expenses';
   amount: Scalars['Float']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currency?: Maybe<Currency>;
   description?: Maybe<Scalars['String']['output']>;
   driver?: Maybe<Drivers>;
@@ -2432,7 +2432,7 @@ export type Expenses = {
   status?: Maybe<ExpenseStatus>;
   trip?: Maybe<Trips>;
   type?: Maybe<ExpenseType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type GeofenceEventType =
@@ -2450,13 +2450,13 @@ export type GeofenceEvents = {
 
 export type Geofences = {
   __typename?: 'Geofences';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   events?: Maybe<Array<GeofenceEvents>>;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type GpsPings = {
@@ -2470,7 +2470,7 @@ export type GpsPings = {
 
 export type InboundShipmentItems = {
   __typename?: 'InboundShipmentItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   discrepancyNotes?: Maybe<Scalars['String']['output']>;
   discrepancyQuantity?: Maybe<Scalars['Int']['output']>;
   expectedQuantity: Scalars['Int']['output'];
@@ -2478,7 +2478,7 @@ export type InboundShipmentItems = {
   inboundShipment: InboundShipments;
   product: WmsProducts;
   receivedQuantity?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InboundShipmentStatus =
@@ -2492,12 +2492,12 @@ export type InboundShipments = {
   __typename?: 'InboundShipments';
   actualArrivalDate?: Maybe<Scalars['String']['output']>;
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expectedArrivalDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<InboundShipmentItems>>;
   status?: Maybe<InboundShipmentStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouseId: Scalars['ID']['output'];
 };
 
@@ -2517,13 +2517,13 @@ export type Interactions = {
   __typename?: 'Interactions';
   case?: Maybe<Cases>;
   contact: Contacts;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   interactionDate?: Maybe<Scalars['Date']['output']>;
   notes?: Maybe<Scalars['String']['output']>;
   outcome?: Maybe<InteractionOutcome>;
   type?: Maybe<InteractionType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
 };
 
@@ -2537,13 +2537,13 @@ export type InventoryAdjustmentReason =
 
 export type InventoryAdjustments = {
   __typename?: 'InventoryAdjustments';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   product: WmsProducts;
   quantityChange: Scalars['Int']['output'];
   reason?: Maybe<InventoryAdjustmentReason>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
   warehouseId: Scalars['ID']['output'];
 };
@@ -2551,7 +2551,7 @@ export type InventoryAdjustments = {
 export type InventoryBatches = {
   __typename?: 'InventoryBatches';
   batchNumber: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expirationDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   inventoryStock?: Maybe<Array<InventoryStock>>;
@@ -2559,14 +2559,14 @@ export type InventoryBatches = {
   packageItems?: Maybe<Array<PackageItems>>;
   product: WmsProducts;
   taskItems?: Maybe<Array<TaskItems>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InventoryStock = {
   __typename?: 'InventoryStock';
   availableQuantity?: Maybe<Scalars['Int']['output']>;
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   lastCountedAt?: Maybe<Scalars['String']['output']>;
   lastMovementAt?: Maybe<Scalars['String']['output']>;
@@ -2575,7 +2575,7 @@ export type InventoryStock = {
   quantity: Scalars['Int']['output'];
   reservedQuantity: Scalars['Int']['output'];
   status?: Maybe<InventoryStockStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InventoryStockStatus =
@@ -2589,18 +2589,18 @@ export type InventoryStockStatus =
 
 export type InvoiceItems = {
   __typename?: 'InvoiceItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   invoice: Invoices;
   price: Scalars['Float']['output'];
   product: Products;
   quantity: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InvoiceLineItems = {
   __typename?: 'InvoiceLineItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description: Scalars['String']['output'];
   discountAmount?: Maybe<Scalars['Float']['output']>;
   discountRate?: Maybe<Scalars['Float']['output']>;
@@ -2615,7 +2615,7 @@ export type InvoiceLineItems = {
   taxRate?: Maybe<Scalars['Float']['output']>;
   totalPrice?: Maybe<Scalars['Float']['output']>;
   unitPrice: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InvoiceStatus =
@@ -2627,7 +2627,7 @@ export type InvoiceStatus =
 
 export type Invoices = {
   __typename?: 'Invoices';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   dueDate: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   issueDate: Scalars['Date']['output'];
@@ -2638,7 +2638,7 @@ export type Invoices = {
   sentAt?: Maybe<Scalars['Date']['output']>;
   status?: Maybe<InvoiceStatus>;
   total: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type LeadSource =
@@ -2666,7 +2666,7 @@ export type Leads = {
   convertedCompany?: Maybe<Companies>;
   convertedContact?: Maybe<Contacts>;
   convertedOpportunity?: Maybe<Opportunities>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   leadScore?: Maybe<Scalars['Int']['output']>;
@@ -2674,7 +2674,7 @@ export type Leads = {
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
   status?: Maybe<LeadStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type LocationType =
@@ -2693,7 +2693,7 @@ export type Locations = {
   __typename?: 'Locations';
   barcode?: Maybe<Scalars['String']['output']>;
   binThresholds?: Maybe<Array<BinThresholds>>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationTaskItems?: Maybe<Array<TaskItems>>;
   hazmatApproved?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
@@ -2712,7 +2712,7 @@ export type Locations = {
   sourceTaskItems?: Maybe<Array<TaskItems>>;
   temperatureControlled?: Maybe<Scalars['Boolean']['output']>;
   type: LocationType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
   xCoordinate?: Maybe<Scalars['Float']['output']>;
   yCoordinate?: Maybe<Scalars['Float']['output']>;
@@ -2730,12 +2730,12 @@ export type Mutation = {
 
 export type Notifications = {
   __typename?: 'Notifications';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isRead?: Maybe<Scalars['Boolean']['output']>;
   link?: Maybe<Scalars['String']['output']>;
   message: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
 };
 
@@ -2792,13 +2792,13 @@ export type OpportunityStage =
 export type OutboundShipmentItems = {
   __typename?: 'OutboundShipmentItems';
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   outboundShipment: OutboundShipments;
   product: WmsProducts;
   quantityShipped: Scalars['Int']['output'];
   salesOrderItem: SalesOrderItems;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type OutboundShipmentStatus =
@@ -2811,20 +2811,20 @@ export type OutboundShipmentStatus =
 export type OutboundShipments = {
   __typename?: 'OutboundShipments';
   carrier?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OutboundShipmentItems>>;
   salesOrder: SalesOrders;
   status?: Maybe<OutboundShipmentStatus>;
   trackingNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouseId: Scalars['ID']['output'];
 };
 
 export type PackageItems = {
   __typename?: 'PackageItems';
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expiryDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lotNumber?: Maybe<Scalars['String']['output']>;
@@ -2834,13 +2834,13 @@ export type PackageItems = {
   serialNumbers?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   totalWeight?: Maybe<Scalars['Float']['output']>;
   unitWeight?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Packages = {
   __typename?: 'Packages';
   carrier?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTasks?: Maybe<Array<DeliveryTasks>>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2858,7 +2858,7 @@ export type Packages = {
   serviceLevel?: Maybe<Scalars['String']['output']>;
   shippedAt?: Maybe<Scalars['String']['output']>;
   trackingNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   warehouse: Warehouses;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -2883,14 +2883,14 @@ export type PartnerInvoiceStatus =
 export type PartnerInvoices = {
   __typename?: 'PartnerInvoices';
   carrier: Carriers;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   invoiceDate: Scalars['String']['output'];
   invoiceNumber: Scalars['String']['output'];
   items?: Maybe<Array<PartnerInvoiceItems>>;
   status?: Maybe<PartnerInvoiceStatus>;
   totalAmount: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PaymentMethod =
@@ -2914,7 +2914,7 @@ export type PaymentStatus =
 export type Payments = {
   __typename?: 'Payments';
   amount: Scalars['Float']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currency?: Maybe<Scalars['String']['output']>;
   exchangeRate?: Maybe<Scalars['Float']['output']>;
   fees?: Maybe<Scalars['Float']['output']>;
@@ -2929,19 +2929,19 @@ export type Payments = {
   processedByUser?: Maybe<User>;
   status?: Maybe<PaymentStatus>;
   transactionId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PickBatchItems = {
   __typename?: 'PickBatchItems';
   actualPickTime?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedPickTime?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   orderPriority?: Maybe<Scalars['Int']['output']>;
   pickBatch: PickBatches;
   salesOrder: SalesOrders;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PickBatchStatus =
@@ -2957,7 +2957,7 @@ export type PickBatches = {
   batchNumber: Scalars['String']['output'];
   completedAt?: Maybe<Scalars['String']['output']>;
   completedItems?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedDuration?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<PickBatchItems>>;
@@ -2967,7 +2967,7 @@ export type PickBatches = {
   strategy: PickStrategy;
   tasks?: Maybe<Array<Tasks>>;
   totalItems?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
   waveId?: Maybe<Scalars['String']['output']>;
   zoneRestrictions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -3003,19 +3003,19 @@ export type ProductType =
 
 export type Products = {
   __typename?: 'Products';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   price: Scalars['Float']['output'];
   sku?: Maybe<Scalars['String']['output']>;
   type?: Maybe<ProductType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ProofOfDeliveries = {
   __typename?: 'ProofOfDeliveries';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   filePath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
@@ -3023,7 +3023,7 @@ export type ProofOfDeliveries = {
   timestamp: Scalars['String']['output'];
   tripStop: TripStops;
   type?: Maybe<ProofType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ProofOfDeliveryType =
@@ -3042,7 +3042,7 @@ export type ProofType =
 export type PutawayRules = {
   __typename?: 'PutawayRules';
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   locationType?: Maybe<LocationType>;
@@ -3053,7 +3053,7 @@ export type PutawayRules = {
   product: WmsProducts;
   requiresHazmatApproval?: Maybe<Scalars['Boolean']['output']>;
   requiresTemperatureControl?: Maybe<Scalars['Boolean']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volumeThreshold?: Maybe<Scalars['Float']['output']>;
   warehouse: Warehouses;
   weightThreshold?: Maybe<Scalars['Float']['output']>;
@@ -3079,7 +3079,7 @@ export type Quotes = {
   __typename?: 'Quotes';
   billingInvoices?: Maybe<Array<BillingInvoices>>;
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   destinationDetails: Scalars['String']['output'];
   expiresAt?: Maybe<Scalars['String']['output']>;
@@ -3092,7 +3092,7 @@ export type Quotes = {
   quotedPrice: Scalars['Float']['output'];
   serviceLevel?: Maybe<Scalars['String']['output']>;
   status?: Maybe<QuoteStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
@@ -3100,7 +3100,7 @@ export type Quotes = {
 
 export type RateCards = {
   __typename?: 'RateCards';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3108,7 +3108,7 @@ export type RateCards = {
   name: Scalars['String']['output'];
   rules?: Maybe<Array<RateRules>>;
   serviceType: ServiceType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   validFrom: Scalars['String']['output'];
   validTo?: Maybe<Scalars['String']['output']>;
 };
@@ -3116,7 +3116,7 @@ export type RateCards = {
 export type RateRules = {
   __typename?: 'RateRules';
   condition: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   maxValue?: Maybe<Scalars['Float']['output']>;
@@ -3125,7 +3125,7 @@ export type RateRules = {
   pricingModel: PricingModel;
   priority?: Maybe<Scalars['Int']['output']>;
   rateCard: RateCards;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   value: Scalars['String']['output'];
 };
 
@@ -3142,11 +3142,11 @@ export type RecordType =
 
 export type ReorderPoints = {
   __typename?: 'ReorderPoints';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   threshold: Scalars['Int']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
 };
 
@@ -3160,14 +3160,14 @@ export type ReturnItemCondition =
 export type ReturnItems = {
   __typename?: 'ReturnItems';
   condition?: Maybe<ReturnItemCondition>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantityExpected: Scalars['Int']['output'];
   quantityReceived?: Maybe<Scalars['Int']['output']>;
   quantityVariance?: Maybe<Scalars['Int']['output']>;
   return: Returns;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ReturnStatus =
@@ -3180,36 +3180,36 @@ export type ReturnStatus =
 export type Returns = {
   __typename?: 'Returns';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<ReturnItems>>;
   reason?: Maybe<Scalars['String']['output']>;
   returnNumber: Scalars['String']['output'];
   salesOrder?: Maybe<SalesOrders>;
   status?: Maybe<ReturnStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Routes = {
   __typename?: 'Routes';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   optimizedRouteData?: Maybe<Scalars['String']['output']>;
   totalDistance?: Maybe<Scalars['Float']['output']>;
   totalDuration?: Maybe<Scalars['Float']['output']>;
   trip: Trips;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SalesOrderItems = {
   __typename?: 'SalesOrderItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   outboundShipmentItems?: Maybe<Array<OutboundShipmentItems>>;
   product: WmsProducts;
   quantityOrdered: Scalars['Int']['output'];
   salesOrder: SalesOrders;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SalesOrderStatus =
@@ -3222,7 +3222,7 @@ export type SalesOrderStatus =
 export type SalesOrders = {
   __typename?: 'SalesOrders';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   crmOpportunity?: Maybe<Opportunities>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<SalesOrderItems>>;
@@ -3233,7 +3233,7 @@ export type SalesOrders = {
   returns?: Maybe<Array<Returns>>;
   shippingAddress?: Maybe<Scalars['String']['output']>;
   status?: Maybe<SalesOrderStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ServiceType =
@@ -3265,7 +3265,7 @@ export type ShipmentLegStatus =
 export type ShipmentLegs = {
   __typename?: 'ShipmentLegs';
   carrier?: Maybe<Carriers>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   endLocation?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<ShipmentLegEvents>>;
   id: Scalars['ID']['output'];
@@ -3275,7 +3275,7 @@ export type ShipmentLegs = {
   shipment?: Maybe<OutboundShipments>;
   startLocation?: Maybe<Scalars['String']['output']>;
   status?: Maybe<ShipmentLegStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type StockTransferStatus =
@@ -3286,26 +3286,26 @@ export type StockTransferStatus =
 
 export type StockTransfers = {
   __typename?: 'StockTransfers';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationWarehouse: Warehouses;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
   sourceWarehouse: Warehouses;
   status?: Maybe<StockTransferStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Suppliers = {
   __typename?: 'Suppliers';
   contactPerson?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   phoneNumber?: Maybe<Scalars['String']['output']>;
   products?: Maybe<Array<WmsProducts>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SurchargeCalculationMethod =
@@ -3318,13 +3318,13 @@ export type Surcharges = {
   __typename?: 'Surcharges';
   amount: Scalars['Float']['output'];
   calculationMethod: SurchargeCalculationMethod;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   validFrom?: Maybe<Scalars['String']['output']>;
   validTo?: Maybe<Scalars['String']['output']>;
 };
@@ -3348,7 +3348,7 @@ export type TaskEventStatus =
 
 export type TaskEvents = {
   __typename?: 'TaskEvents';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
@@ -3357,7 +3357,7 @@ export type TaskEvents = {
   reason?: Maybe<Scalars['String']['output']>;
   status: TaskEventStatus;
   timestamp?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type TaskItemStatus =
@@ -3372,7 +3372,7 @@ export type TaskItems = {
   __typename?: 'TaskItems';
   batch?: Maybe<InventoryBatches>;
   completedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationLocation?: Maybe<Locations>;
   expiryDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3386,7 +3386,7 @@ export type TaskItems = {
   sourceLocation?: Maybe<Locations>;
   status?: Maybe<TaskItemStatus>;
   task: Tasks;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type TaskStatus =
@@ -3411,7 +3411,7 @@ export type TaskType =
 export type Tasks = {
   __typename?: 'Tasks';
   actualDuration?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   durationSeconds?: Maybe<Scalars['Int']['output']>;
   endTime?: Maybe<Scalars['String']['output']>;
   estimatedDuration?: Maybe<Scalars['Int']['output']>;
@@ -3427,7 +3427,7 @@ export type Tasks = {
   status?: Maybe<TaskStatus>;
   taskNumber: Scalars['String']['output'];
   type: TaskType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
   warehouse: Warehouses;
 };
@@ -3991,7 +3991,7 @@ export type TripStops = {
   actualArrivalTime?: Maybe<Scalars['String']['output']>;
   actualDepartureTime?: Maybe<Scalars['String']['output']>;
   address?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedArrivalTime?: Maybe<Scalars['String']['output']>;
   estimatedDepartureTime?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -4000,12 +4000,12 @@ export type TripStops = {
   shipment?: Maybe<OutboundShipments>;
   status?: Maybe<TripStopStatus>;
   trip: Trips;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Trips = {
   __typename?: 'Trips';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver?: Maybe<Drivers>;
   endLocation?: Maybe<Scalars['String']['output']>;
   endTime?: Maybe<Scalars['String']['output']>;
@@ -4017,7 +4017,7 @@ export type Trips = {
   startTime?: Maybe<Scalars['String']['output']>;
   status?: Maybe<TripStatus>;
   stops?: Maybe<Array<TripStops>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle?: Maybe<Vehicles>;
 };
 
@@ -4797,12 +4797,12 @@ export type User = {
 export type VehicleMaintenance = {
   __typename?: 'VehicleMaintenance';
   cost?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   serviceDate: Scalars['String']['output'];
   serviceType?: Maybe<VehicleServiceType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle: Vehicles;
 };
 
@@ -4824,7 +4824,7 @@ export type Vehicles = {
   __typename?: 'Vehicles';
   capacityVolume?: Maybe<Scalars['Float']['output']>;
   capacityWeight?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currentMileage?: Maybe<Scalars['Int']['output']>;
   geofenceEvents?: Maybe<Array<GeofenceEvents>>;
   gpsPings?: Maybe<Array<GpsPings>>;
@@ -4836,7 +4836,7 @@ export type Vehicles = {
   registrationNumber: Scalars['String']['output'];
   status?: Maybe<VehicleStatus>;
   trips?: Maybe<Array<Trips>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vin?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
@@ -4849,7 +4849,7 @@ export type Warehouses = {
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationStockTransfers?: Maybe<Array<StockTransfers>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
@@ -4865,7 +4865,7 @@ export type Warehouses = {
   state?: Maybe<Scalars['String']['output']>;
   tasks?: Maybe<Array<Tasks>>;
   timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type WmsMutation = {
@@ -5355,7 +5355,7 @@ export type WmsProducts = {
   binThresholds?: Maybe<Array<BinThresholds>>;
   client?: Maybe<Companies>;
   costPrice?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -5374,7 +5374,7 @@ export type WmsProducts = {
   stockTransfers?: Maybe<Array<StockTransfers>>;
   supplier?: Maybe<Suppliers>;
   taskItems?: Maybe<Array<TaskItems>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
@@ -6314,7 +6314,7 @@ export type ResolversParentTypes = {
 export type AccountTransactionsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountTransactions'] = ResolversParentTypes['AccountTransactions']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   clientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   processedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
@@ -6324,11 +6324,11 @@ export type AccountTransactionsResolvers<ContextType = GraphQLContext, ParentTyp
   sourceRecordType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   transactionDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['TransactionType'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type AccountingSyncLogsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountingSyncLogs'] = ResolversParentTypes['AccountingSyncLogs']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   errorMessage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   externalId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   externalSystem?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -6341,18 +6341,18 @@ export type AccountingSyncLogsResolvers<ContextType = GraphQLContext, ParentType
   responsePayload?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   retryCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['SyncStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type AttachmentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Attachments'] = ResolversParentTypes['Attachments']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   filePath?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   recordId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   recordType?: Resolver<Maybe<ResolversTypes['RecordType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type BillingInvoiceStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, DISPUTED?: any, DRAFT?: any, PAID?: any, PARTIAL_PAID?: any, PAST_DUE?: any, SENT?: any, VIEWED?: any, VOID?: any }, ResolversTypes['BillingInvoiceStatus']>;
@@ -6361,7 +6361,7 @@ export type BillingInvoicesResolvers<ContextType = GraphQLContext, ParentType ex
   amountOutstanding?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   amountPaid?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   creditNotes?: Resolver<Maybe<Array<ResolversTypes['CreditNotes']>>, ParentType, ContextType>;
   currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -6381,7 +6381,7 @@ export type BillingInvoicesResolvers<ContextType = GraphQLContext, ParentType ex
   subtotal?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   taxAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   totalAmount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type BillingMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingMutation'] = ResolversParentTypes['BillingMutation']> = {
@@ -6455,7 +6455,7 @@ export type BillingQueryResolvers<ContextType = GraphQLContext, ParentType exten
 
 export type BinThresholdsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BinThresholds'] = ResolversParentTypes['BinThresholds']> = {
   alertThreshold?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   location?: Resolver<ResolversTypes['Locations'], ParentType, ContextType>;
@@ -6463,45 +6463,45 @@ export type BinThresholdsResolvers<ContextType = GraphQLContext, ParentType exte
   minQuantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   reorderQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type CampaignsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Campaigns'] = ResolversParentTypes['Campaigns']> = {
   budget?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   endDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type CarrierRateUnitResolvers = EnumResolverSignature<{ FLAT_RATE?: any, PER_CONTAINER?: any, PER_KG?: any, PER_KM?: any, PER_MILE?: any }, ResolversTypes['CarrierRateUnit']>;
 
 export type CarrierRatesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CarrierRates'] = ResolversParentTypes['CarrierRates']> = {
   carrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   destination?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   origin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   rate?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   serviceType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   unit?: Resolver<Maybe<ResolversTypes['CarrierRateUnit']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type CarriersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Carriers'] = ResolversParentTypes['Carriers']> = {
   contactEmail?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   contactPerson?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   contactPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   partnerInvoices?: Resolver<Maybe<Array<ResolversTypes['PartnerInvoices']>>, ParentType, ContextType>;
   rates?: Resolver<Maybe<Array<ResolversTypes['CarrierRates']>>, ParentType, ContextType>;
   servicesOffered?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   shipmentLegs?: Resolver<Maybe<Array<ResolversTypes['ShipmentLegs']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type CasePriorityResolvers = EnumResolverSignature<{ CRITICAL?: any, HIGH?: any, LOW?: any, MEDIUM?: any }, ResolversTypes['CasePriority']>;
@@ -6513,20 +6513,20 @@ export type CaseTypeResolvers = EnumResolverSignature<{ BUG_REPORT?: any, COMPLA
 export type CasesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Cases'] = ResolversParentTypes['Cases']> = {
   caseNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   contact?: Resolver<Maybe<ResolversTypes['Contacts']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   priority?: Resolver<Maybe<ResolversTypes['CasePriority']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['CaseStatus']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['CaseType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type ClientAccountsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ClientAccounts'] = ResolversParentTypes['ClientAccounts']> = {
   availableCredit?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   creditLimit?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6534,7 +6534,7 @@ export type ClientAccountsResolvers<ContextType = GraphQLContext, ParentType ext
   lastPaymentDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   paymentTermsDays?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   transactions?: Resolver<Maybe<Array<ResolversTypes['AccountTransactions']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   walletBalance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
 };
 
@@ -6544,7 +6544,7 @@ export type CompaniesResolvers<ContextType = GraphQLContext, ParentType extends 
   city?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   clientAccount?: Resolver<Maybe<ResolversTypes['ClientAccounts']>, ParentType, ContextType>;
   country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   disputes?: Resolver<Maybe<Array<ResolversTypes['Disputes']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   inboundShipments?: Resolver<Maybe<Array<ResolversTypes['InboundShipments']>>, ParentType, ContextType>;
@@ -6559,26 +6559,26 @@ export type CompaniesResolvers<ContextType = GraphQLContext, ParentType extends 
   salesOrders?: Resolver<Maybe<Array<ResolversTypes['SalesOrders']>>, ParentType, ContextType>;
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   street?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type ContactsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Contacts'] = ResolversParentTypes['Contacts']> = {
   company?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   jobTitle?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type CreditNotesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CreditNotes'] = ResolversParentTypes['CreditNotes']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   appliedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   creditNoteNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -6588,7 +6588,7 @@ export type CreditNotesResolvers<ContextType = GraphQLContext, ParentType extend
   issueDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   reason?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type CrmInvoicePaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CREDIT_CARD?: any, MAYA?: any, OTHER?: any, PAYPAL?: any, STRIPE?: any, WIRE_TRANSFER?: any }, ResolversTypes['CrmInvoicePaymentMethod']>;
@@ -6661,14 +6661,14 @@ export type CurrencyResolvers = EnumResolverSignature<{ AUD?: any, CAD?: any, EU
 
 export type CustomerTrackingLinksResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CustomerTrackingLinks'] = ResolversParentTypes['CustomerTrackingLinks']> = {
   accessCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
   expiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   lastAccessedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   trackingToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
@@ -6687,7 +6687,7 @@ export type DeliveryRouteStatusResolvers = EnumResolverSignature<{ CANCELLED?: a
 export type DeliveryRoutesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DeliveryRoutes'] = ResolversParentTypes['DeliveryRoutes']> = {
   actualDurationMinutes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   completedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType>;
   estimatedDurationMinutes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6697,7 +6697,7 @@ export type DeliveryRoutesResolvers<ContextType = GraphQLContext, ParentType ext
   status?: Resolver<Maybe<ResolversTypes['DeliveryRouteStatus']>, ParentType, ContextType>;
   tasks?: Resolver<Maybe<Array<ResolversTypes['DeliveryTasks']>>, ParentType, ContextType>;
   totalDistanceKm?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type DeliveryTaskStatusResolvers = EnumResolverSignature<{ ASSIGNED?: any, CANCELLED?: any, DELIVERED?: any, FAILED?: any, OUT_FOR_DELIVERY?: any, PENDING?: any, RESCHEDULED?: any }, ResolversTypes['DeliveryTaskStatus']>;
@@ -6705,7 +6705,7 @@ export type DeliveryTaskStatusResolvers = EnumResolverSignature<{ ASSIGNED?: any
 export type DeliveryTasksResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DeliveryTasks'] = ResolversParentTypes['DeliveryTasks']> = {
   actualArrivalTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   attemptCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   customerTrackingLinks?: Resolver<Maybe<Array<ResolversTypes['CustomerTrackingLinks']>>, ParentType, ContextType>;
   deliveryAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   deliveryInstructions?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -6721,14 +6721,14 @@ export type DeliveryTasksResolvers<ContextType = GraphQLContext, ParentType exte
   recipientPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   routeSequence?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['DeliveryTaskStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type DisputeStatusResolvers = EnumResolverSignature<{ APPROVED?: any, CLOSED?: any, DENIED?: any, ESCALATED?: any, OPEN?: any, UNDER_REVIEW?: any }, ResolversTypes['DisputeStatus']>;
 
 export type DisputesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Disputes'] = ResolversParentTypes['Disputes']> = {
   client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   creditNotes?: Resolver<Maybe<Array<ResolversTypes['CreditNotes']>>, ParentType, ContextType>;
   disputedAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6739,7 +6739,7 @@ export type DisputesResolvers<ContextType = GraphQLContext, ParentType extends R
   resolvedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['DisputeStatus']>, ParentType, ContextType>;
   submittedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type DmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsMutation'] = ResolversParentTypes['DmsMutation']> = {
@@ -6764,7 +6764,7 @@ export type DmsMutationResolvers<ContextType = GraphQLContext, ParentType extend
 };
 
 export type DmsProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsProofOfDeliveries'] = ResolversParentTypes['DmsProofOfDeliveries']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
   filePath?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6774,7 +6774,7 @@ export type DmsProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentTy
   signatureData?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['ProofOfDeliveryType'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   verificationCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
@@ -6796,7 +6796,7 @@ export type DmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
 export type DocumentTypeResolvers = EnumResolverSignature<{ BOL?: any, COMMERCIAL_INVOICE?: any, CREDIT_NOTE?: any, CUSTOMS_DECLARATION?: any, PACKING_LIST?: any, PROOF_OF_DELIVERY?: any, RECEIPT?: any, SHIPPING_LABEL?: any }, ResolversTypes['DocumentType']>;
 
 export type DocumentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Documents'] = ResolversParentTypes['Documents']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   documentType?: Resolver<ResolversTypes['DocumentType'], ParentType, ContextType>;
   fileName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   filePath?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -6805,14 +6805,14 @@ export type DocumentsResolvers<ContextType = GraphQLContext, ParentType extends 
   mimeType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   recordId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   recordType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   uploadedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type DriverLocationsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DriverLocations'] = ResolversParentTypes['DriverLocations']> = {
   accuracy?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   altitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType>;
   heading?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -6820,26 +6820,26 @@ export type DriverLocationsResolvers<ContextType = GraphQLContext, ParentType ex
   longitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   speedKmh?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type DriverScheduleReasonResolvers = EnumResolverSignature<{ PERSONAL_LEAVE?: any, SICK_LEAVE?: any, TRAINING?: any, VACATION?: any }, ResolversTypes['DriverScheduleReason']>;
 
 export type DriverSchedulesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DriverSchedules'] = ResolversParentTypes['DriverSchedules']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   driver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType>;
   endDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   reason?: Resolver<Maybe<ResolversTypes['DriverScheduleReason']>, ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type DriverStatusResolvers = EnumResolverSignature<{ ACTIVE?: any, INACTIVE?: any, ON_LEAVE?: any }, ResolversTypes['DriverStatus']>;
 
 export type DriversResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Drivers'] = ResolversParentTypes['Drivers']> = {
   contactPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   deliveryRoutes?: Resolver<Maybe<Array<ResolversTypes['DeliveryRoutes']>>, ParentType, ContextType>;
   driverLocations?: Resolver<Maybe<Array<ResolversTypes['DriverLocations']>>, ParentType, ContextType>;
   expenses?: Resolver<Maybe<Array<ResolversTypes['Expenses']>>, ParentType, ContextType>;
@@ -6849,7 +6849,7 @@ export type DriversResolvers<ContextType = GraphQLContext, ParentType extends Re
   schedules?: Resolver<Maybe<Array<ResolversTypes['DriverSchedules']>>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['DriverStatus']>, ParentType, ContextType>;
   trips?: Resolver<Maybe<Array<ResolversTypes['Trips']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 };
 
@@ -6859,7 +6859,7 @@ export type ExpenseTypeResolvers = EnumResolverSignature<{ ACCOMMODATION?: any, 
 
 export type ExpensesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Expenses'] = ResolversParentTypes['Expenses']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   currency?: Resolver<Maybe<ResolversTypes['Currency']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   driver?: Resolver<Maybe<ResolversTypes['Drivers']>, ParentType, ContextType>;
@@ -6871,7 +6871,7 @@ export type ExpensesResolvers<ContextType = GraphQLContext, ParentType extends R
   status?: Resolver<Maybe<ResolversTypes['ExpenseStatus']>, ParentType, ContextType>;
   trip?: Resolver<Maybe<ResolversTypes['Trips']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['ExpenseType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export interface FileScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['File'], any> {
@@ -6889,13 +6889,13 @@ export type GeofenceEventsResolvers<ContextType = GraphQLContext, ParentType ext
 };
 
 export type GeofencesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Geofences'] = ResolversParentTypes['Geofences']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   events?: Resolver<Maybe<Array<ResolversTypes['GeofenceEvents']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   longitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type GpsPingsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['GpsPings'] = ResolversParentTypes['GpsPings']> = {
@@ -6907,7 +6907,7 @@ export type GpsPingsResolvers<ContextType = GraphQLContext, ParentType extends R
 };
 
 export type InboundShipmentItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InboundShipmentItems'] = ResolversParentTypes['InboundShipmentItems']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   discrepancyNotes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   discrepancyQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   expectedQuantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -6915,7 +6915,7 @@ export type InboundShipmentItemsResolvers<ContextType = GraphQLContext, ParentTy
   inboundShipment?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   receivedQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type InboundShipmentStatusResolvers = EnumResolverSignature<{ ARRIVED?: any, CANCELLED?: any, COMPLETED?: any, PENDING?: any, PROCESSING?: any }, ResolversTypes['InboundShipmentStatus']>;
@@ -6923,12 +6923,12 @@ export type InboundShipmentStatusResolvers = EnumResolverSignature<{ ARRIVED?: a
 export type InboundShipmentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InboundShipments'] = ResolversParentTypes['InboundShipments']> = {
   actualArrivalDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   client?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   expectedArrivalDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<ResolversTypes['InboundShipmentItems']>>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['InboundShipmentStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   warehouseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
@@ -6939,33 +6939,33 @@ export type InteractionTypeResolvers = EnumResolverSignature<{ CALL?: any, EMAIL
 export type InteractionsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Interactions'] = ResolversParentTypes['Interactions']> = {
   case?: Resolver<Maybe<ResolversTypes['Cases']>, ParentType, ContextType>;
   contact?: Resolver<ResolversTypes['Contacts'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   interactionDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   outcome?: Resolver<Maybe<ResolversTypes['InteractionOutcome']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['InteractionType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type InventoryAdjustmentReasonResolvers = EnumResolverSignature<{ CYCLE_COUNT?: any, DAMAGED_GOODS?: any, EXPIRED?: any, MANUAL_CORRECTION?: any, RETURN_TO_VENDOR?: any, THEFT?: any }, ResolversTypes['InventoryAdjustmentReason']>;
 
 export type InventoryAdjustmentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InventoryAdjustments'] = ResolversParentTypes['InventoryAdjustments']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   quantityChange?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   reason?: Resolver<Maybe<ResolversTypes['InventoryAdjustmentReason']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   warehouseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
 export type InventoryBatchesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InventoryBatches'] = ResolversParentTypes['InventoryBatches']> = {
   batchNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   expirationDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   inventoryStock?: Resolver<Maybe<Array<ResolversTypes['InventoryStock']>>, ParentType, ContextType>;
@@ -6973,13 +6973,13 @@ export type InventoryBatchesResolvers<ContextType = GraphQLContext, ParentType e
   packageItems?: Resolver<Maybe<Array<ResolversTypes['PackageItems']>>, ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   taskItems?: Resolver<Maybe<Array<ResolversTypes['TaskItems']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type InventoryStockResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InventoryStock'] = ResolversParentTypes['InventoryStock']> = {
   availableQuantity?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   batch?: Resolver<Maybe<ResolversTypes['InventoryBatches']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastCountedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   lastMovementAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -6988,23 +6988,23 @@ export type InventoryStockResolvers<ContextType = GraphQLContext, ParentType ext
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   reservedQuantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['InventoryStockStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type InventoryStockStatusResolvers = EnumResolverSignature<{ ALLOCATED?: any, AVAILABLE?: any, DAMAGED?: any, EXPIRED?: any, HOLD?: any, QUARANTINE?: any, SHIPPED?: any }, ResolversTypes['InventoryStockStatus']>;
 
 export type InvoiceItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InvoiceItems'] = ResolversParentTypes['InvoiceItems']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   invoice?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType>;
   price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['Products'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type InvoiceLineItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['InvoiceLineItems'] = ResolversParentTypes['InvoiceLineItems']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   discountAmount?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   discountRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7019,13 +7019,13 @@ export type InvoiceLineItemsResolvers<ContextType = GraphQLContext, ParentType e
   taxRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   totalPrice?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   unitPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type InvoiceStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, DRAFT?: any, OVERDUE?: any, PAID?: any, SENT?: any }, ResolversTypes['InvoiceStatus']>;
 
 export type InvoicesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Invoices'] = ResolversParentTypes['Invoices']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   dueDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   issueDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
@@ -7036,7 +7036,7 @@ export type InvoicesResolvers<ContextType = GraphQLContext, ParentType extends R
   sentAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['InvoiceStatus']>, ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type LeadSourceResolvers = EnumResolverSignature<{ ADVERTISMENT?: any, COLD_CALL?: any, EMAIL_CAMPAIGN?: any, EVENT?: any, OTHER?: any, PARTNER?: any, REFERRAL?: any, SOCIAL_MEDIA?: any, WEBSITE?: any }, ResolversTypes['LeadSource']>;
@@ -7049,7 +7049,7 @@ export type LeadsResolvers<ContextType = GraphQLContext, ParentType extends Reso
   convertedCompany?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
   convertedContact?: Resolver<Maybe<ResolversTypes['Contacts']>, ParentType, ContextType>;
   convertedOpportunity?: Resolver<Maybe<ResolversTypes['Opportunities']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   leadScore?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -7057,7 +7057,7 @@ export type LeadsResolvers<ContextType = GraphQLContext, ParentType extends Reso
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['LeadStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type LocationTypeResolvers = EnumResolverSignature<{ BULK_STORAGE?: any, CROSS_DOCK_AREA?: any, DAMAGED_GOODS?: any, PACKING_STATION?: any, PICK_BIN?: any, QUALITY_CONTROL?: any, RECEIVING_DOCK?: any, RESERVE_STORAGE?: any, RETURNS_AREA?: any, STAGING_AREA?: any }, ResolversTypes['LocationType']>;
@@ -7065,7 +7065,7 @@ export type LocationTypeResolvers = EnumResolverSignature<{ BULK_STORAGE?: any, 
 export type LocationsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Locations'] = ResolversParentTypes['Locations']> = {
   barcode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   binThresholds?: Resolver<Maybe<Array<ResolversTypes['BinThresholds']>>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   destinationTaskItems?: Resolver<Maybe<Array<ResolversTypes['TaskItems']>>, ParentType, ContextType>;
   hazmatApproved?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7084,7 +7084,7 @@ export type LocationsResolvers<ContextType = GraphQLContext, ParentType extends 
   sourceTaskItems?: Resolver<Maybe<Array<ResolversTypes['TaskItems']>>, ParentType, ContextType>;
   temperatureControlled?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   type?: Resolver<ResolversTypes['LocationType'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   xCoordinate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   yCoordinate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7100,12 +7100,12 @@ export type MutationResolvers<ContextType = GraphQLContext, ParentType extends R
 };
 
 export type NotificationsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Notifications'] = ResolversParentTypes['Notifications']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isRead?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   link?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 };
 
@@ -7141,32 +7141,32 @@ export type OpportunityStageResolvers = EnumResolverSignature<{ CLOSED_LOST?: an
 
 export type OutboundShipmentItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['OutboundShipmentItems'] = ResolversParentTypes['OutboundShipmentItems']> = {
   batch?: Resolver<Maybe<ResolversTypes['InventoryBatches']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   outboundShipment?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   quantityShipped?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   salesOrderItem?: Resolver<ResolversTypes['SalesOrderItems'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type OutboundShipmentStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, DELIVERED?: any, PACKED?: any, PICKING?: any, SHIPPED?: any }, ResolversTypes['OutboundShipmentStatus']>;
 
 export type OutboundShipmentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['OutboundShipments'] = ResolversParentTypes['OutboundShipments']> = {
   carrier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<ResolversTypes['OutboundShipmentItems']>>, ParentType, ContextType>;
   salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['OutboundShipmentStatus']>, ParentType, ContextType>;
   trackingNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   warehouseId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
 export type PackageItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PackageItems'] = ResolversParentTypes['PackageItems']> = {
   batch?: Resolver<Maybe<ResolversTypes['InventoryBatches']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   expiryDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lotNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -7176,12 +7176,12 @@ export type PackageItemsResolvers<ContextType = GraphQLContext, ParentType exten
   serialNumbers?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
   totalWeight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   unitWeight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type PackagesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Packages'] = ResolversParentTypes['Packages']> = {
   carrier?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   deliveryTasks?: Resolver<Maybe<Array<ResolversTypes['DeliveryTasks']>>, ParentType, ContextType>;
   height?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7199,7 +7199,7 @@ export type PackagesResolvers<ContextType = GraphQLContext, ParentType extends R
   serviceLevel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   shippedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   trackingNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   volume?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7217,14 +7217,14 @@ export type PartnerInvoiceStatusResolvers = EnumResolverSignature<{ CANCELLED?: 
 
 export type PartnerInvoicesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PartnerInvoices'] = ResolversParentTypes['PartnerInvoices']> = {
   carrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   invoiceDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   invoiceNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<ResolversTypes['PartnerInvoiceItems']>>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['PartnerInvoiceStatus']>, ParentType, ContextType>;
   totalAmount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type PaymentMethodResolvers = EnumResolverSignature<{ BANK_TRANSFER?: any, CASH?: any, CHECK?: any, CLIENT_CREDIT?: any, CREDIT_CARD?: any, DEBIT_CARD?: any, QR_PH?: any, WALLET?: any }, ResolversTypes['PaymentMethod']>;
@@ -7233,7 +7233,7 @@ export type PaymentStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, FA
 
 export type PaymentsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Payments'] = ResolversParentTypes['Payments']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   currency?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   exchangeRate?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   fees?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7248,18 +7248,18 @@ export type PaymentsResolvers<ContextType = GraphQLContext, ParentType extends R
   processedByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['PaymentStatus']>, ParentType, ContextType>;
   transactionId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type PickBatchItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PickBatchItems'] = ResolversParentTypes['PickBatchItems']> = {
   actualPickTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   estimatedPickTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   orderPriority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   pickBatch?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType>;
   salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type PickBatchStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, COMPLETED?: any, IN_PROGRESS?: any, OPEN?: any }, ResolversTypes['PickBatchStatus']>;
@@ -7270,7 +7270,7 @@ export type PickBatchesResolvers<ContextType = GraphQLContext, ParentType extend
   batchNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   completedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   completedItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   estimatedDuration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<ResolversTypes['PickBatchItems']>>, ParentType, ContextType>;
@@ -7280,7 +7280,7 @@ export type PickBatchesResolvers<ContextType = GraphQLContext, ParentType extend
   strategy?: Resolver<ResolversTypes['PickStrategy'], ParentType, ContextType>;
   tasks?: Resolver<Maybe<Array<ResolversTypes['Tasks']>>, ParentType, ContextType>;
   totalItems?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   waveId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   zoneRestrictions?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
@@ -7295,18 +7295,18 @@ export type ProductStatusResolvers = EnumResolverSignature<{ ACTIVE?: any, DISCO
 export type ProductTypeResolvers = EnumResolverSignature<{ DIGITAL?: any, GOOD?: any, SERVICE?: any, SUBSCRIPTION?: any }, ResolversTypes['ProductType']>;
 
 export type ProductsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Products'] = ResolversParentTypes['Products']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   sku?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['ProductType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type ProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ProofOfDeliveries'] = ResolversParentTypes['ProofOfDeliveries']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   filePath?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7314,7 +7314,7 @@ export type ProofOfDeliveriesResolvers<ContextType = GraphQLContext, ParentType 
   timestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   tripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['ProofType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type ProofOfDeliveryTypeResolvers = EnumResolverSignature<{ CODE_VERIFICATION?: any, CONTACTLESS_DELIVERY?: any, LEFT_AT_DOOR?: any, PHOTO?: any, SIGNATURE?: any }, ResolversTypes['ProofOfDeliveryType']>;
@@ -7323,7 +7323,7 @@ export type ProofTypeResolvers = EnumResolverSignature<{ BARCODE_SCAN?: any, PHO
 
 export type PutawayRulesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['PutawayRules'] = ResolversParentTypes['PutawayRules']> = {
   client?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   locationType?: Resolver<Maybe<ResolversTypes['LocationType']>, ParentType, ContextType>;
@@ -7334,7 +7334,7 @@ export type PutawayRulesResolvers<ContextType = GraphQLContext, ParentType exten
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   requiresHazmatApproval?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   requiresTemperatureControl?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   volumeThreshold?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   weightThreshold?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7353,7 +7353,7 @@ export type QuoteStatusResolvers = EnumResolverSignature<{ ACCEPTED?: any, CANCE
 export type QuotesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Quotes'] = ResolversParentTypes['Quotes']> = {
   billingInvoices?: Resolver<Maybe<Array<ResolversTypes['BillingInvoices']>>, ParentType, ContextType>;
   client?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   destinationDetails?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   expiresAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -7366,14 +7366,14 @@ export type QuotesResolvers<ContextType = GraphQLContext, ParentType extends Res
   quotedPrice?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   serviceLevel?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['QuoteStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   volume?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   width?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
 };
 
 export type RateCardsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['RateCards'] = ResolversParentTypes['RateCards']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   createdByUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7381,14 +7381,14 @@ export type RateCardsResolvers<ContextType = GraphQLContext, ParentType extends 
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   rules?: Resolver<Maybe<Array<ResolversTypes['RateRules']>>, ParentType, ContextType>;
   serviceType?: Resolver<ResolversTypes['ServiceType'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   validFrom?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   validTo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 
 export type RateRulesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['RateRules'] = ResolversParentTypes['RateRules']> = {
   condition?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   maxValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7397,18 +7397,18 @@ export type RateRulesResolvers<ContextType = GraphQLContext, ParentType extends 
   pricingModel?: Resolver<ResolversTypes['PricingModel'], ParentType, ContextType>;
   priority?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   rateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type RecordTypeResolvers = EnumResolverSignature<{ CAMPAIGNS?: any, CASES?: any, COMPANIES?: any, CONTACTS?: any, INTERACTIONS?: any, INVOICES?: any, LEADS?: any, OPPORTUNITIES?: any, PRODUCTS?: any }, ResolversTypes['RecordType']>;
 
 export type ReorderPointsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ReorderPoints'] = ResolversParentTypes['ReorderPoints']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   threshold?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
 };
 
@@ -7416,55 +7416,55 @@ export type ReturnItemConditionResolvers = EnumResolverSignature<{ DAMAGED?: any
 
 export type ReturnItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ReturnItems'] = ResolversParentTypes['ReturnItems']> = {
   condition?: Resolver<Maybe<ResolversTypes['ReturnItemCondition']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   quantityExpected?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   quantityReceived?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   quantityVariance?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   return?: Resolver<ResolversTypes['Returns'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type ReturnStatusResolvers = EnumResolverSignature<{ APPROVED?: any, PROCESSED?: any, RECEIVED?: any, REJECTED?: any, REQUESTED?: any }, ResolversTypes['ReturnStatus']>;
 
 export type ReturnsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Returns'] = ResolversParentTypes['Returns']> = {
   client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<ResolversTypes['ReturnItems']>>, ParentType, ContextType>;
   reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   returnNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   salesOrder?: Resolver<Maybe<ResolversTypes['SalesOrders']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['ReturnStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type RoutesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Routes'] = ResolversParentTypes['Routes']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   optimizedRouteData?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   totalDistance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   totalDuration?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   trip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type SalesOrderItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['SalesOrderItems'] = ResolversParentTypes['SalesOrderItems']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   outboundShipmentItems?: Resolver<Maybe<Array<ResolversTypes['OutboundShipmentItems']>>, ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   quantityOrdered?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   salesOrder?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type SalesOrderStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, COMPLETED?: any, PENDING?: any, PROCESSING?: any, SHIPPED?: any }, ResolversTypes['SalesOrderStatus']>;
 
 export type SalesOrdersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['SalesOrders'] = ResolversParentTypes['SalesOrders']> = {
   client?: Resolver<ResolversTypes['Companies'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   crmOpportunity?: Resolver<Maybe<ResolversTypes['Opportunities']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   items?: Resolver<Maybe<Array<ResolversTypes['SalesOrderItems']>>, ParentType, ContextType>;
@@ -7475,7 +7475,7 @@ export type SalesOrdersResolvers<ContextType = GraphQLContext, ParentType extend
   returns?: Resolver<Maybe<Array<ResolversTypes['Returns']>>, ParentType, ContextType>;
   shippingAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['SalesOrderStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type ServiceTypeResolvers = EnumResolverSignature<{ CUSTOMS?: any, FULFILLMENT?: any, HANDLING?: any, INSURANCE?: any, PACKAGING?: any, RETURNS?: any, SHIPPING?: any, STORAGE?: any }, ResolversTypes['ServiceType']>;
@@ -7492,7 +7492,7 @@ export type ShipmentLegStatusResolvers = EnumResolverSignature<{ CANCELLED?: any
 
 export type ShipmentLegsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['ShipmentLegs'] = ResolversParentTypes['ShipmentLegs']> = {
   carrier?: Resolver<Maybe<ResolversTypes['Carriers']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   endLocation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   events?: Resolver<Maybe<Array<ResolversTypes['ShipmentLegEvents']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7502,31 +7502,31 @@ export type ShipmentLegsResolvers<ContextType = GraphQLContext, ParentType exten
   shipment?: Resolver<Maybe<ResolversTypes['OutboundShipments']>, ParentType, ContextType>;
   startLocation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['ShipmentLegStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type StockTransferStatusResolvers = EnumResolverSignature<{ CANCELLED?: any, IN_TRANSIT?: any, PENDING?: any, RECEIVED?: any }, ResolversTypes['StockTransferStatus']>;
 
 export type StockTransfersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['StockTransfers'] = ResolversParentTypes['StockTransfers']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   destinationWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   product?: Resolver<ResolversTypes['WmsProducts'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   sourceWarehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['StockTransferStatus']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type SuppliersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Suppliers'] = ResolversParentTypes['Suppliers']> = {
   contactPerson?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   products?: Resolver<Maybe<Array<ResolversTypes['WmsProducts']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type SurchargeCalculationMethodResolvers = EnumResolverSignature<{ FIXED?: any, PERCENTAGE?: any, PER_UNIT?: any, SLIDING_SCALE?: any }, ResolversTypes['SurchargeCalculationMethod']>;
@@ -7534,13 +7534,13 @@ export type SurchargeCalculationMethodResolvers = EnumResolverSignature<{ FIXED?
 export type SurchargesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Surcharges'] = ResolversParentTypes['Surcharges']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   calculationMethod?: Resolver<ResolversTypes['SurchargeCalculationMethod'], ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   isActive?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   validFrom?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   validTo?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
@@ -7550,7 +7550,7 @@ export type SyncStatusResolvers = EnumResolverSignature<{ FAILED?: any, IN_PROGR
 export type TaskEventStatusResolvers = EnumResolverSignature<{ ARRIVED?: any, ASSIGNED?: any, CANCELLED?: any, DELIVERED?: any, EXCEPTION?: any, FAILED?: any, RESCHEDULED?: any, STARTED?: any }, ResolversTypes['TaskEventStatus']>;
 
 export type TaskEventsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TaskEvents'] = ResolversParentTypes['TaskEvents']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   deliveryTask?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   latitude?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
@@ -7559,7 +7559,7 @@ export type TaskEventsResolvers<ContextType = GraphQLContext, ParentType extends
   reason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<ResolversTypes['TaskEventStatus'], ParentType, ContextType>;
   timestamp?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type TaskItemStatusResolvers = EnumResolverSignature<{ COMPLETED?: any, DAMAGED?: any, IN_PROGRESS?: any, NOT_FOUND?: any, PENDING?: any, SHORT_PICKED?: any }, ResolversTypes['TaskItemStatus']>;
@@ -7567,7 +7567,7 @@ export type TaskItemStatusResolvers = EnumResolverSignature<{ COMPLETED?: any, D
 export type TaskItemsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TaskItems'] = ResolversParentTypes['TaskItems']> = {
   batch?: Resolver<Maybe<ResolversTypes['InventoryBatches']>, ParentType, ContextType>;
   completedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   destinationLocation?: Resolver<Maybe<ResolversTypes['Locations']>, ParentType, ContextType>;
   expiryDate?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7581,7 +7581,7 @@ export type TaskItemsResolvers<ContextType = GraphQLContext, ParentType extends 
   sourceLocation?: Resolver<Maybe<ResolversTypes['Locations']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['TaskItemStatus']>, ParentType, ContextType>;
   task?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type TaskStatusResolvers = EnumResolverSignature<{ ASSIGNED?: any, CANCELLED?: any, COMPLETED?: any, ERROR?: any, IN_PROGRESS?: any, PENDING?: any }, ResolversTypes['TaskStatus']>;
@@ -7590,7 +7590,7 @@ export type TaskTypeResolvers = EnumResolverSignature<{ CROSS_DOCK?: any, CYCLE_
 
 export type TasksResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Tasks'] = ResolversParentTypes['Tasks']> = {
   actualDuration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   durationSeconds?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   endTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   estimatedDuration?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -7606,7 +7606,7 @@ export type TasksResolvers<ContextType = GraphQLContext, ParentType extends Reso
   status?: Resolver<Maybe<ResolversTypes['TaskStatus']>, ParentType, ContextType>;
   taskNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   type?: Resolver<ResolversTypes['TaskType'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   warehouse?: Resolver<ResolversTypes['Warehouses'], ParentType, ContextType>;
 };
@@ -7703,7 +7703,7 @@ export type TripStopsResolvers<ContextType = GraphQLContext, ParentType extends 
   actualArrivalTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   actualDepartureTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   estimatedArrivalTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   estimatedDepartureTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7712,11 +7712,11 @@ export type TripStopsResolvers<ContextType = GraphQLContext, ParentType extends 
   shipment?: Resolver<Maybe<ResolversTypes['OutboundShipments']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['TripStopStatus']>, ParentType, ContextType>;
   trip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type TripsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Trips'] = ResolversParentTypes['Trips']> = {
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   driver?: Resolver<Maybe<ResolversTypes['Drivers']>, ParentType, ContextType>;
   endLocation?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   endTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -7728,7 +7728,7 @@ export type TripsResolvers<ContextType = GraphQLContext, ParentType extends Reso
   startTime?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['TripStatus']>, ParentType, ContextType>;
   stops?: Resolver<Maybe<Array<ResolversTypes['TripStops']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   vehicle?: Resolver<Maybe<ResolversTypes['Vehicles']>, ParentType, ContextType>;
 };
 
@@ -7742,12 +7742,12 @@ export type UserResolvers<ContextType = GraphQLContext, ParentType extends Resol
 
 export type VehicleMaintenanceResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['VehicleMaintenance'] = ResolversParentTypes['VehicleMaintenance']> = {
   cost?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   serviceDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   serviceType?: Resolver<Maybe<ResolversTypes['VehicleServiceType']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType>;
 };
 
@@ -7758,7 +7758,7 @@ export type VehicleStatusResolvers = EnumResolverSignature<{ AVAILABLE?: any, IN
 export type VehiclesResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Vehicles'] = ResolversParentTypes['Vehicles']> = {
   capacityVolume?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   capacityWeight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   currentMileage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   geofenceEvents?: Resolver<Maybe<Array<ResolversTypes['GeofenceEvents']>>, ParentType, ContextType>;
   gpsPings?: Resolver<Maybe<Array<ResolversTypes['GpsPings']>>, ParentType, ContextType>;
@@ -7770,7 +7770,7 @@ export type VehiclesResolvers<ContextType = GraphQLContext, ParentType extends R
   registrationNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   status?: Resolver<Maybe<ResolversTypes['VehicleStatus']>, ParentType, ContextType>;
   trips?: Resolver<Maybe<Array<ResolversTypes['Trips']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   vin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   year?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
 };
@@ -7782,7 +7782,7 @@ export type WarehousesResolvers<ContextType = GraphQLContext, ParentType extends
   contactPerson?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   contactPhone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   country?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   destinationStockTransfers?: Resolver<Maybe<Array<ResolversTypes['StockTransfers']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   inboundShipments?: Resolver<Maybe<Array<ResolversTypes['InboundShipments']>>, ParentType, ContextType>;
@@ -7798,7 +7798,7 @@ export type WarehousesResolvers<ContextType = GraphQLContext, ParentType extends
   state?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   tasks?: Resolver<Maybe<Array<ResolversTypes['Tasks']>>, ParentType, ContextType>;
   timezone?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type WmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['WmsMutation'] = ResolversParentTypes['WmsMutation']> = {
@@ -7886,7 +7886,7 @@ export type WmsProductsResolvers<ContextType = GraphQLContext, ParentType extend
   binThresholds?: Resolver<Maybe<Array<ResolversTypes['BinThresholds']>>, ParentType, ContextType>;
   client?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
   costPrice?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   height?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7905,7 +7905,7 @@ export type WmsProductsResolvers<ContextType = GraphQLContext, ParentType extend
   stockTransfers?: Resolver<Maybe<Array<ResolversTypes['StockTransfers']>>, ParentType, ContextType>;
   supplier?: Resolver<Maybe<ResolversTypes['Suppliers']>, ParentType, ContextType>;
   taskItems?: Resolver<Maybe<Array<ResolversTypes['TaskItems']>>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   volume?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   weight?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   width?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;

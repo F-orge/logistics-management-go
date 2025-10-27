@@ -17,8 +17,8 @@ type Attachments {
   mimeType: String
   recordId: ID
   recordType: RecordType
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {

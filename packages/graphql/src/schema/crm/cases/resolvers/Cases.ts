@@ -6,7 +6,7 @@ export const Cases: CasesResolvers = {
       .selectFrom("crm.contacts")
       .selectAll("crm.contacts")
       .innerJoin("crm.cases", "crm.cases.contactId", "crm.contacts.id")
-      .where("crm.cases.id", "=", parent.id as string)
+      .where("crm.cases.id", "=", parent.id)
       .executeTakeFirst();
 
     return result as unknown as Contacts;
@@ -16,7 +16,7 @@ export const Cases: CasesResolvers = {
       .selectFrom("user")
       .selectAll("user")
       .innerJoin("crm.cases", "crm.cases.ownerId", "user.id")
-      .where("crm.cases.id", "=", parent.id as string)
+      .where("crm.cases.id", "=", parent.id)
       .executeTakeFirst();
 
     return result as unknown as User;

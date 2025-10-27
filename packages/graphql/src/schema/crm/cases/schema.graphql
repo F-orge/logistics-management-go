@@ -34,8 +34,8 @@ type Cases {
   owner: User
   contact: Contacts
   description: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {

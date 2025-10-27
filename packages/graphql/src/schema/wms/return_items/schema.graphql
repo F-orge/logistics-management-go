@@ -14,8 +14,8 @@ type ReturnItems {
   quantityReceived: Int
   quantityVariance: Int
   condition: ReturnItemCondition
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreateReturnItemInput {

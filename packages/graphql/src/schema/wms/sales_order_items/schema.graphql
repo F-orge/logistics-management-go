@@ -3,8 +3,8 @@ type SalesOrderItems {
   salesOrder: SalesOrders!
   product: WmsProducts!
   quantityOrdered: Int!
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   outboundShipmentItems: [OutboundShipmentItems!]
 }
 

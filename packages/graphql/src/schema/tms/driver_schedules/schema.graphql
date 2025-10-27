@@ -11,8 +11,8 @@ type DriverSchedules {
   startDate: String!
   endDate: String!
   reason: DriverScheduleReason
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 

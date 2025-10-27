@@ -11,8 +11,8 @@ type Warehouses {
   contactEmail: String
   contactPhone: String
   isActive: Boolean
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   inboundShipments: [InboundShipments!]
   sourceStockTransfers: [StockTransfers!]
   destinationStockTransfers: [StockTransfers!]

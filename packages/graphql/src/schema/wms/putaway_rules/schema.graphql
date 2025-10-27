@@ -13,8 +13,8 @@ type PutawayRules {
   requiresTemperatureControl: Boolean
   requiresHazmatApproval: Boolean
   isActive: Boolean
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type WmsQuery {

@@ -14,8 +14,8 @@ type Trips {
   endTime: String
   startLocation: String
   startTime: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   stops: [TripStops!]
   routes: [Routes!]
   expenses: [Expenses!]

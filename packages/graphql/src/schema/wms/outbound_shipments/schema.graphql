@@ -13,8 +13,8 @@ type OutboundShipments {
   status: OutboundShipmentStatus
   trackingNumber: String
   carrier: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [OutboundShipmentItems!]
 }
 

@@ -21,7 +21,7 @@ export type AccountTransactions = {
   __typename?: 'AccountTransactions';
   amount: Scalars['Float']['output'];
   clientAccount: ClientAccounts;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   processedByUser?: Maybe<User>;
@@ -31,12 +31,12 @@ export type AccountTransactions = {
   sourceRecordType?: Maybe<Scalars['String']['output']>;
   transactionDate?: Maybe<Scalars['String']['output']>;
   type: TransactionType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type AccountingSyncLogs = {
   __typename?: 'AccountingSyncLogs';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   errorMessage?: Maybe<Scalars['String']['output']>;
   externalId?: Maybe<Scalars['String']['output']>;
   externalSystem: Scalars['String']['output'];
@@ -49,7 +49,7 @@ export type AccountingSyncLogs = {
   responsePayload?: Maybe<Scalars['String']['output']>;
   retryCount?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<SyncStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type AddInvoiceItemInput = {
@@ -64,14 +64,14 @@ export type AddOpportunityProductInput = {
 
 export type Attachments = {
   __typename?: 'Attachments';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   fileName: Scalars['String']['output'];
   filePath: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   mimeType?: Maybe<Scalars['String']['output']>;
   recordId?: Maybe<Scalars['ID']['output']>;
   recordType?: Maybe<RecordType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type BillingInvoiceStatus =
@@ -90,7 +90,7 @@ export type BillingInvoices = {
   amountOutstanding?: Maybe<Scalars['Float']['output']>;
   amountPaid?: Maybe<Scalars['Float']['output']>;
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   creditNotes?: Maybe<Array<CreditNotes>>;
   currency?: Maybe<Scalars['String']['output']>;
@@ -110,7 +110,7 @@ export type BillingInvoices = {
   subtotal?: Maybe<Scalars['Float']['output']>;
   taxAmount?: Maybe<Scalars['Float']['output']>;
   totalAmount: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type BillingMutation = {
@@ -572,7 +572,7 @@ export type BillingQuerySurchargesArgs = {
 export type BinThresholds = {
   __typename?: 'BinThresholds';
   alertThreshold?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   location: Locations;
@@ -580,18 +580,18 @@ export type BinThresholds = {
   minQuantity: Scalars['Int']['output'];
   product: WmsProducts;
   reorderQuantity?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Campaigns = {
   __typename?: 'Campaigns';
   budget?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   endDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   startDate: Scalars['Date']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CarrierRateUnit =
@@ -604,14 +604,14 @@ export type CarrierRateUnit =
 export type CarrierRates = {
   __typename?: 'CarrierRates';
   carrier: Carriers;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destination?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   origin?: Maybe<Scalars['String']['output']>;
   rate: Scalars['Float']['output'];
   serviceType?: Maybe<Scalars['String']['output']>;
   unit?: Maybe<CarrierRateUnit>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Carriers = {
@@ -619,14 +619,14 @@ export type Carriers = {
   contactEmail?: Maybe<Scalars['String']['output']>;
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   partnerInvoices?: Maybe<Array<PartnerInvoices>>;
   rates?: Maybe<Array<CarrierRates>>;
   servicesOffered?: Maybe<Scalars['String']['output']>;
   shipmentLegs?: Maybe<Array<ShipmentLegs>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CasePriority =
@@ -657,21 +657,21 @@ export type Cases = {
   __typename?: 'Cases';
   caseNumber: Scalars['String']['output'];
   contact?: Maybe<Contacts>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   owner?: Maybe<User>;
   priority?: Maybe<CasePriority>;
   status?: Maybe<CaseStatus>;
   type?: Maybe<CaseType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ClientAccounts = {
   __typename?: 'ClientAccounts';
   availableCredit?: Maybe<Scalars['Float']['output']>;
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   creditLimit?: Maybe<Scalars['Float']['output']>;
   currency?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -679,7 +679,7 @@ export type ClientAccounts = {
   lastPaymentDate?: Maybe<Scalars['String']['output']>;
   paymentTermsDays?: Maybe<Scalars['Int']['output']>;
   transactions?: Maybe<Array<AccountTransactions>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   walletBalance?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -690,7 +690,7 @@ export type Companies = {
   city?: Maybe<Scalars['String']['output']>;
   clientAccount?: Maybe<ClientAccounts>;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   disputes?: Maybe<Array<Disputes>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
@@ -705,21 +705,21 @@ export type Companies = {
   salesOrders?: Maybe<Array<SalesOrders>>;
   state?: Maybe<Scalars['String']['output']>;
   street?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   website?: Maybe<Scalars['String']['output']>;
 };
 
 export type Contacts = {
   __typename?: 'Contacts';
   company: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   jobTitle?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CreateAccountTransactionInput = {
@@ -1514,7 +1514,7 @@ export type CreditNotes = {
   __typename?: 'CreditNotes';
   amount: Scalars['Float']['output'];
   appliedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   creditNoteNumber: Scalars['String']['output'];
   currency?: Maybe<Scalars['String']['output']>;
@@ -1524,7 +1524,7 @@ export type CreditNotes = {
   issueDate: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   reason: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CrmInvoicePaymentMethod =
@@ -1975,14 +1975,14 @@ export type Currency =
 export type CustomerTrackingLinks = {
   __typename?: 'CustomerTrackingLinks';
   accessCount?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   expiresAt?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   lastAccessedAt?: Maybe<Scalars['String']['output']>;
   trackingToken: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DeleteResult = {
@@ -2012,7 +2012,7 @@ export type DeliveryRoutes = {
   __typename?: 'DeliveryRoutes';
   actualDurationMinutes?: Maybe<Scalars['Int']['output']>;
   completedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   estimatedDurationMinutes?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
@@ -2022,7 +2022,7 @@ export type DeliveryRoutes = {
   status?: Maybe<DeliveryRouteStatus>;
   tasks?: Maybe<Array<DeliveryTasks>>;
   totalDistanceKm?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DeliveryTaskStatus =
@@ -2038,7 +2038,7 @@ export type DeliveryTasks = {
   __typename?: 'DeliveryTasks';
   actualArrivalTime?: Maybe<Scalars['String']['output']>;
   attemptCount?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   customerTrackingLinks?: Maybe<Array<CustomerTrackingLinks>>;
   deliveryAddress: Scalars['String']['output'];
   deliveryInstructions?: Maybe<Scalars['String']['output']>;
@@ -2054,7 +2054,7 @@ export type DeliveryTasks = {
   recipientPhone?: Maybe<Scalars['String']['output']>;
   routeSequence: Scalars['Int']['output'];
   status?: Maybe<DeliveryTaskStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DisputeStatus =
@@ -2068,7 +2068,7 @@ export type DisputeStatus =
 export type Disputes = {
   __typename?: 'Disputes';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   creditNotes?: Maybe<Array<CreditNotes>>;
   disputedAmount?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2079,7 +2079,7 @@ export type Disputes = {
   resolvedByUser?: Maybe<User>;
   status?: Maybe<DisputeStatus>;
   submittedAt?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DmsMutation = {
@@ -2202,7 +2202,7 @@ export type DmsMutationUpdateTaskEventArgs = {
 
 export type DmsProofOfDeliveries = {
   __typename?: 'DmsProofOfDeliveries';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   filePath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -2212,7 +2212,7 @@ export type DmsProofOfDeliveries = {
   signatureData?: Maybe<Scalars['String']['output']>;
   timestamp?: Maybe<Scalars['String']['output']>;
   type: ProofOfDeliveryType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   verificationCode?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2332,7 +2332,7 @@ export type DocumentType =
 
 export type Documents = {
   __typename?: 'Documents';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   documentType: DocumentType;
   fileName: Scalars['String']['output'];
   filePath: Scalars['String']['output'];
@@ -2341,7 +2341,7 @@ export type Documents = {
   mimeType?: Maybe<Scalars['String']['output']>;
   recordId: Scalars['ID']['output'];
   recordType: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   uploadedByUser?: Maybe<User>;
 };
 
@@ -2349,7 +2349,7 @@ export type DriverLocations = {
   __typename?: 'DriverLocations';
   accuracy?: Maybe<Scalars['Float']['output']>;
   altitude?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   heading?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2357,7 +2357,7 @@ export type DriverLocations = {
   longitude: Scalars['Float']['output'];
   speedKmh?: Maybe<Scalars['Float']['output']>;
   timestamp?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DriverScheduleReason =
@@ -2368,13 +2368,13 @@ export type DriverScheduleReason =
 
 export type DriverSchedules = {
   __typename?: 'DriverSchedules';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   endDate: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   reason?: Maybe<DriverScheduleReason>;
   startDate: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DriverStatus =
@@ -2385,7 +2385,7 @@ export type DriverStatus =
 export type Drivers = {
   __typename?: 'Drivers';
   contactPhone?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryRoutes?: Maybe<Array<DeliveryRoutes>>;
   driverLocations?: Maybe<Array<DriverLocations>>;
   expenses?: Maybe<Array<Expenses>>;
@@ -2395,7 +2395,7 @@ export type Drivers = {
   schedules?: Maybe<Array<DriverSchedules>>;
   status?: Maybe<DriverStatus>;
   trips?: Maybe<Array<Trips>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
 };
 
@@ -2416,7 +2416,7 @@ export type ExpenseType =
 export type Expenses = {
   __typename?: 'Expenses';
   amount: Scalars['Float']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currency?: Maybe<Currency>;
   description?: Maybe<Scalars['String']['output']>;
   driver?: Maybe<Drivers>;
@@ -2428,7 +2428,7 @@ export type Expenses = {
   status?: Maybe<ExpenseStatus>;
   trip?: Maybe<Trips>;
   type?: Maybe<ExpenseType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type GeofenceEventType =
@@ -2446,13 +2446,13 @@ export type GeofenceEvents = {
 
 export type Geofences = {
   __typename?: 'Geofences';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   events?: Maybe<Array<GeofenceEvents>>;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type GpsPings = {
@@ -2466,7 +2466,7 @@ export type GpsPings = {
 
 export type InboundShipmentItems = {
   __typename?: 'InboundShipmentItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   discrepancyNotes?: Maybe<Scalars['String']['output']>;
   discrepancyQuantity?: Maybe<Scalars['Int']['output']>;
   expectedQuantity: Scalars['Int']['output'];
@@ -2474,7 +2474,7 @@ export type InboundShipmentItems = {
   inboundShipment: InboundShipments;
   product: WmsProducts;
   receivedQuantity?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InboundShipmentStatus =
@@ -2488,12 +2488,12 @@ export type InboundShipments = {
   __typename?: 'InboundShipments';
   actualArrivalDate?: Maybe<Scalars['String']['output']>;
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expectedArrivalDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<InboundShipmentItems>>;
   status?: Maybe<InboundShipmentStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouseId: Scalars['ID']['output'];
 };
 
@@ -2513,13 +2513,13 @@ export type Interactions = {
   __typename?: 'Interactions';
   case?: Maybe<Cases>;
   contact: Contacts;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   interactionDate?: Maybe<Scalars['Date']['output']>;
   notes?: Maybe<Scalars['String']['output']>;
   outcome?: Maybe<InteractionOutcome>;
   type?: Maybe<InteractionType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
 };
 
@@ -2533,13 +2533,13 @@ export type InventoryAdjustmentReason =
 
 export type InventoryAdjustments = {
   __typename?: 'InventoryAdjustments';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   product: WmsProducts;
   quantityChange: Scalars['Int']['output'];
   reason?: Maybe<InventoryAdjustmentReason>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
   warehouseId: Scalars['ID']['output'];
 };
@@ -2547,7 +2547,7 @@ export type InventoryAdjustments = {
 export type InventoryBatches = {
   __typename?: 'InventoryBatches';
   batchNumber: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expirationDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   inventoryStock?: Maybe<Array<InventoryStock>>;
@@ -2555,14 +2555,14 @@ export type InventoryBatches = {
   packageItems?: Maybe<Array<PackageItems>>;
   product: WmsProducts;
   taskItems?: Maybe<Array<TaskItems>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InventoryStock = {
   __typename?: 'InventoryStock';
   availableQuantity?: Maybe<Scalars['Int']['output']>;
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   lastCountedAt?: Maybe<Scalars['String']['output']>;
   lastMovementAt?: Maybe<Scalars['String']['output']>;
@@ -2571,7 +2571,7 @@ export type InventoryStock = {
   quantity: Scalars['Int']['output'];
   reservedQuantity: Scalars['Int']['output'];
   status?: Maybe<InventoryStockStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InventoryStockStatus =
@@ -2585,18 +2585,18 @@ export type InventoryStockStatus =
 
 export type InvoiceItems = {
   __typename?: 'InvoiceItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   invoice: Invoices;
   price: Scalars['Float']['output'];
   product: Products;
   quantity: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InvoiceLineItems = {
   __typename?: 'InvoiceLineItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description: Scalars['String']['output'];
   discountAmount?: Maybe<Scalars['Float']['output']>;
   discountRate?: Maybe<Scalars['Float']['output']>;
@@ -2611,7 +2611,7 @@ export type InvoiceLineItems = {
   taxRate?: Maybe<Scalars['Float']['output']>;
   totalPrice?: Maybe<Scalars['Float']['output']>;
   unitPrice: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InvoiceStatus =
@@ -2623,7 +2623,7 @@ export type InvoiceStatus =
 
 export type Invoices = {
   __typename?: 'Invoices';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   dueDate: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   issueDate: Scalars['Date']['output'];
@@ -2634,7 +2634,7 @@ export type Invoices = {
   sentAt?: Maybe<Scalars['Date']['output']>;
   status?: Maybe<InvoiceStatus>;
   total: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type LeadSource =
@@ -2662,7 +2662,7 @@ export type Leads = {
   convertedCompany?: Maybe<Companies>;
   convertedContact?: Maybe<Contacts>;
   convertedOpportunity?: Maybe<Opportunities>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   leadScore?: Maybe<Scalars['Int']['output']>;
@@ -2670,7 +2670,7 @@ export type Leads = {
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
   status?: Maybe<LeadStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type LocationType =
@@ -2689,7 +2689,7 @@ export type Locations = {
   __typename?: 'Locations';
   barcode?: Maybe<Scalars['String']['output']>;
   binThresholds?: Maybe<Array<BinThresholds>>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationTaskItems?: Maybe<Array<TaskItems>>;
   hazmatApproved?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
@@ -2708,7 +2708,7 @@ export type Locations = {
   sourceTaskItems?: Maybe<Array<TaskItems>>;
   temperatureControlled?: Maybe<Scalars['Boolean']['output']>;
   type: LocationType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
   xCoordinate?: Maybe<Scalars['Float']['output']>;
   yCoordinate?: Maybe<Scalars['Float']['output']>;
@@ -2726,12 +2726,12 @@ export type Mutation = {
 
 export type Notifications = {
   __typename?: 'Notifications';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isRead?: Maybe<Scalars['Boolean']['output']>;
   link?: Maybe<Scalars['String']['output']>;
   message: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
 };
 
@@ -2788,13 +2788,13 @@ export type OpportunityStage =
 export type OutboundShipmentItems = {
   __typename?: 'OutboundShipmentItems';
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   outboundShipment: OutboundShipments;
   product: WmsProducts;
   quantityShipped: Scalars['Int']['output'];
   salesOrderItem: SalesOrderItems;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type OutboundShipmentStatus =
@@ -2807,20 +2807,20 @@ export type OutboundShipmentStatus =
 export type OutboundShipments = {
   __typename?: 'OutboundShipments';
   carrier?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OutboundShipmentItems>>;
   salesOrder: SalesOrders;
   status?: Maybe<OutboundShipmentStatus>;
   trackingNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouseId: Scalars['ID']['output'];
 };
 
 export type PackageItems = {
   __typename?: 'PackageItems';
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expiryDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lotNumber?: Maybe<Scalars['String']['output']>;
@@ -2830,13 +2830,13 @@ export type PackageItems = {
   serialNumbers?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   totalWeight?: Maybe<Scalars['Float']['output']>;
   unitWeight?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Packages = {
   __typename?: 'Packages';
   carrier?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTasks?: Maybe<Array<DeliveryTasks>>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2854,7 +2854,7 @@ export type Packages = {
   serviceLevel?: Maybe<Scalars['String']['output']>;
   shippedAt?: Maybe<Scalars['String']['output']>;
   trackingNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   warehouse: Warehouses;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -2879,14 +2879,14 @@ export type PartnerInvoiceStatus =
 export type PartnerInvoices = {
   __typename?: 'PartnerInvoices';
   carrier: Carriers;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   invoiceDate: Scalars['String']['output'];
   invoiceNumber: Scalars['String']['output'];
   items?: Maybe<Array<PartnerInvoiceItems>>;
   status?: Maybe<PartnerInvoiceStatus>;
   totalAmount: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PaymentMethod =
@@ -2910,7 +2910,7 @@ export type PaymentStatus =
 export type Payments = {
   __typename?: 'Payments';
   amount: Scalars['Float']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currency?: Maybe<Scalars['String']['output']>;
   exchangeRate?: Maybe<Scalars['Float']['output']>;
   fees?: Maybe<Scalars['Float']['output']>;
@@ -2925,19 +2925,19 @@ export type Payments = {
   processedByUser?: Maybe<User>;
   status?: Maybe<PaymentStatus>;
   transactionId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PickBatchItems = {
   __typename?: 'PickBatchItems';
   actualPickTime?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedPickTime?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   orderPriority?: Maybe<Scalars['Int']['output']>;
   pickBatch: PickBatches;
   salesOrder: SalesOrders;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PickBatchStatus =
@@ -2953,7 +2953,7 @@ export type PickBatches = {
   batchNumber: Scalars['String']['output'];
   completedAt?: Maybe<Scalars['String']['output']>;
   completedItems?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedDuration?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<PickBatchItems>>;
@@ -2963,7 +2963,7 @@ export type PickBatches = {
   strategy: PickStrategy;
   tasks?: Maybe<Array<Tasks>>;
   totalItems?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
   waveId?: Maybe<Scalars['String']['output']>;
   zoneRestrictions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -2999,19 +2999,19 @@ export type ProductType =
 
 export type Products = {
   __typename?: 'Products';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   price: Scalars['Float']['output'];
   sku?: Maybe<Scalars['String']['output']>;
   type?: Maybe<ProductType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ProofOfDeliveries = {
   __typename?: 'ProofOfDeliveries';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   filePath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
@@ -3019,7 +3019,7 @@ export type ProofOfDeliveries = {
   timestamp: Scalars['String']['output'];
   tripStop: TripStops;
   type?: Maybe<ProofType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ProofOfDeliveryType =
@@ -3038,7 +3038,7 @@ export type ProofType =
 export type PutawayRules = {
   __typename?: 'PutawayRules';
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   locationType?: Maybe<LocationType>;
@@ -3049,7 +3049,7 @@ export type PutawayRules = {
   product: WmsProducts;
   requiresHazmatApproval?: Maybe<Scalars['Boolean']['output']>;
   requiresTemperatureControl?: Maybe<Scalars['Boolean']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volumeThreshold?: Maybe<Scalars['Float']['output']>;
   warehouse: Warehouses;
   weightThreshold?: Maybe<Scalars['Float']['output']>;
@@ -3075,7 +3075,7 @@ export type Quotes = {
   __typename?: 'Quotes';
   billingInvoices?: Maybe<Array<BillingInvoices>>;
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   destinationDetails: Scalars['String']['output'];
   expiresAt?: Maybe<Scalars['String']['output']>;
@@ -3088,7 +3088,7 @@ export type Quotes = {
   quotedPrice: Scalars['Float']['output'];
   serviceLevel?: Maybe<Scalars['String']['output']>;
   status?: Maybe<QuoteStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
@@ -3096,7 +3096,7 @@ export type Quotes = {
 
 export type RateCards = {
   __typename?: 'RateCards';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3104,7 +3104,7 @@ export type RateCards = {
   name: Scalars['String']['output'];
   rules?: Maybe<Array<RateRules>>;
   serviceType: ServiceType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   validFrom: Scalars['String']['output'];
   validTo?: Maybe<Scalars['String']['output']>;
 };
@@ -3112,7 +3112,7 @@ export type RateCards = {
 export type RateRules = {
   __typename?: 'RateRules';
   condition: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   maxValue?: Maybe<Scalars['Float']['output']>;
@@ -3121,7 +3121,7 @@ export type RateRules = {
   pricingModel: PricingModel;
   priority?: Maybe<Scalars['Int']['output']>;
   rateCard: RateCards;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   value: Scalars['String']['output'];
 };
 
@@ -3138,11 +3138,11 @@ export type RecordType =
 
 export type ReorderPoints = {
   __typename?: 'ReorderPoints';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   threshold: Scalars['Int']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
 };
 
@@ -3156,14 +3156,14 @@ export type ReturnItemCondition =
 export type ReturnItems = {
   __typename?: 'ReturnItems';
   condition?: Maybe<ReturnItemCondition>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantityExpected: Scalars['Int']['output'];
   quantityReceived?: Maybe<Scalars['Int']['output']>;
   quantityVariance?: Maybe<Scalars['Int']['output']>;
   return: Returns;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ReturnStatus =
@@ -3176,36 +3176,36 @@ export type ReturnStatus =
 export type Returns = {
   __typename?: 'Returns';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<ReturnItems>>;
   reason?: Maybe<Scalars['String']['output']>;
   returnNumber: Scalars['String']['output'];
   salesOrder?: Maybe<SalesOrders>;
   status?: Maybe<ReturnStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Routes = {
   __typename?: 'Routes';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   optimizedRouteData?: Maybe<Scalars['String']['output']>;
   totalDistance?: Maybe<Scalars['Float']['output']>;
   totalDuration?: Maybe<Scalars['Float']['output']>;
   trip: Trips;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SalesOrderItems = {
   __typename?: 'SalesOrderItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   outboundShipmentItems?: Maybe<Array<OutboundShipmentItems>>;
   product: WmsProducts;
   quantityOrdered: Scalars['Int']['output'];
   salesOrder: SalesOrders;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SalesOrderStatus =
@@ -3218,7 +3218,7 @@ export type SalesOrderStatus =
 export type SalesOrders = {
   __typename?: 'SalesOrders';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   crmOpportunity?: Maybe<Opportunities>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<SalesOrderItems>>;
@@ -3229,7 +3229,7 @@ export type SalesOrders = {
   returns?: Maybe<Array<Returns>>;
   shippingAddress?: Maybe<Scalars['String']['output']>;
   status?: Maybe<SalesOrderStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ServiceType =
@@ -3261,7 +3261,7 @@ export type ShipmentLegStatus =
 export type ShipmentLegs = {
   __typename?: 'ShipmentLegs';
   carrier?: Maybe<Carriers>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   endLocation?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<ShipmentLegEvents>>;
   id: Scalars['ID']['output'];
@@ -3271,7 +3271,7 @@ export type ShipmentLegs = {
   shipment?: Maybe<OutboundShipments>;
   startLocation?: Maybe<Scalars['String']['output']>;
   status?: Maybe<ShipmentLegStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type StockTransferStatus =
@@ -3282,26 +3282,26 @@ export type StockTransferStatus =
 
 export type StockTransfers = {
   __typename?: 'StockTransfers';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationWarehouse: Warehouses;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
   sourceWarehouse: Warehouses;
   status?: Maybe<StockTransferStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Suppliers = {
   __typename?: 'Suppliers';
   contactPerson?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   phoneNumber?: Maybe<Scalars['String']['output']>;
   products?: Maybe<Array<WmsProducts>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SurchargeCalculationMethod =
@@ -3314,13 +3314,13 @@ export type Surcharges = {
   __typename?: 'Surcharges';
   amount: Scalars['Float']['output'];
   calculationMethod: SurchargeCalculationMethod;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   validFrom?: Maybe<Scalars['String']['output']>;
   validTo?: Maybe<Scalars['String']['output']>;
 };
@@ -3344,7 +3344,7 @@ export type TaskEventStatus =
 
 export type TaskEvents = {
   __typename?: 'TaskEvents';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
@@ -3353,7 +3353,7 @@ export type TaskEvents = {
   reason?: Maybe<Scalars['String']['output']>;
   status: TaskEventStatus;
   timestamp?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type TaskItemStatus =
@@ -3368,7 +3368,7 @@ export type TaskItems = {
   __typename?: 'TaskItems';
   batch?: Maybe<InventoryBatches>;
   completedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationLocation?: Maybe<Locations>;
   expiryDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3382,7 +3382,7 @@ export type TaskItems = {
   sourceLocation?: Maybe<Locations>;
   status?: Maybe<TaskItemStatus>;
   task: Tasks;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type TaskStatus =
@@ -3407,7 +3407,7 @@ export type TaskType =
 export type Tasks = {
   __typename?: 'Tasks';
   actualDuration?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   durationSeconds?: Maybe<Scalars['Int']['output']>;
   endTime?: Maybe<Scalars['String']['output']>;
   estimatedDuration?: Maybe<Scalars['Int']['output']>;
@@ -3423,7 +3423,7 @@ export type Tasks = {
   status?: Maybe<TaskStatus>;
   taskNumber: Scalars['String']['output'];
   type: TaskType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
   warehouse: Warehouses;
 };
@@ -3987,7 +3987,7 @@ export type TripStops = {
   actualArrivalTime?: Maybe<Scalars['String']['output']>;
   actualDepartureTime?: Maybe<Scalars['String']['output']>;
   address?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedArrivalTime?: Maybe<Scalars['String']['output']>;
   estimatedDepartureTime?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3996,12 +3996,12 @@ export type TripStops = {
   shipment?: Maybe<OutboundShipments>;
   status?: Maybe<TripStopStatus>;
   trip: Trips;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Trips = {
   __typename?: 'Trips';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver?: Maybe<Drivers>;
   endLocation?: Maybe<Scalars['String']['output']>;
   endTime?: Maybe<Scalars['String']['output']>;
@@ -4013,7 +4013,7 @@ export type Trips = {
   startTime?: Maybe<Scalars['String']['output']>;
   status?: Maybe<TripStatus>;
   stops?: Maybe<Array<TripStops>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle?: Maybe<Vehicles>;
 };
 
@@ -4793,12 +4793,12 @@ export type User = {
 export type VehicleMaintenance = {
   __typename?: 'VehicleMaintenance';
   cost?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   serviceDate: Scalars['String']['output'];
   serviceType?: Maybe<VehicleServiceType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle: Vehicles;
 };
 
@@ -4820,7 +4820,7 @@ export type Vehicles = {
   __typename?: 'Vehicles';
   capacityVolume?: Maybe<Scalars['Float']['output']>;
   capacityWeight?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currentMileage?: Maybe<Scalars['Int']['output']>;
   geofenceEvents?: Maybe<Array<GeofenceEvents>>;
   gpsPings?: Maybe<Array<GpsPings>>;
@@ -4832,7 +4832,7 @@ export type Vehicles = {
   registrationNumber: Scalars['String']['output'];
   status?: Maybe<VehicleStatus>;
   trips?: Maybe<Array<Trips>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vin?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
@@ -4845,7 +4845,7 @@ export type Warehouses = {
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationStockTransfers?: Maybe<Array<StockTransfers>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
@@ -4861,7 +4861,7 @@ export type Warehouses = {
   state?: Maybe<Scalars['String']['output']>;
   tasks?: Maybe<Array<Tasks>>;
   timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type WmsMutation = {
@@ -5351,7 +5351,7 @@ export type WmsProducts = {
   binThresholds?: Maybe<Array<BinThresholds>>;
   client?: Maybe<Companies>;
   costPrice?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -5370,7 +5370,7 @@ export type WmsProducts = {
   stockTransfers?: Maybe<Array<StockTransfers>>;
   supplier?: Maybe<Suppliers>;
   taskItems?: Maybe<Array<TaskItems>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;

@@ -15,8 +15,8 @@ type InventoryAdjustments {
   quantityChange: Int!
   reason: InventoryAdjustmentReason
   notes: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type WmsQuery {

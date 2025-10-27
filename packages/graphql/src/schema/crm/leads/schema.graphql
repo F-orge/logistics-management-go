@@ -31,8 +31,8 @@ type Leads {
   convertedContact: Contacts
   convertedCompany: Companies
   convertedOpportunity: Opportunities
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {

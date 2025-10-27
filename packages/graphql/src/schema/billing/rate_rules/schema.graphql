@@ -19,8 +19,8 @@ type RateRules {
   maxValue: Float
   priority: Int
   isActive: Boolean
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type BillingQuery {

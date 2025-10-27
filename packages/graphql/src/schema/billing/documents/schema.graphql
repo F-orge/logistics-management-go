@@ -19,8 +19,8 @@ type Documents {
   fileSize: Int
   mimeType: String
   uploadedByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type BillingQuery {

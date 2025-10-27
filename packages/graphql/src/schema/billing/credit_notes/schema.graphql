@@ -10,8 +10,8 @@ type CreditNotes {
   currency: String
   notes: String
   createdByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type BillingQuery {

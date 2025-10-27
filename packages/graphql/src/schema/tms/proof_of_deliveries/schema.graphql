@@ -13,8 +13,8 @@ type ProofOfDeliveries {
   timestamp: String!
   latitude: Float
   longitude: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type TmsQuery {

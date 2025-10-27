@@ -4,8 +4,8 @@ type Campaigns {
   budget: Float
   startDate: Date!
   endDate: Date
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {

@@ -13,8 +13,8 @@ type PartnerInvoices {
   invoiceDate: String!
   totalAmount: Float!
   status: PartnerInvoiceStatus
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [PartnerInvoiceItems!]
 }
 

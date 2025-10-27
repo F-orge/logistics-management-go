@@ -28,8 +28,8 @@ type Invoices {
   sentAt: Date
   paidAt: Date
   paymentMethod: CrmInvoicePaymentMethod
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [InvoiceItems!]
 }
 

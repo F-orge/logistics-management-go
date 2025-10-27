@@ -8,8 +8,8 @@ type ClientAccounts {
   paymentTermsDays: Int
   isCreditApproved: Boolean
   lastPaymentDate: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   transactions: [AccountTransactions!]
 }
 

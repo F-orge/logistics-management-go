@@ -29,8 +29,8 @@ type PickBatches {
   completedItems: Int
   startedAt: String
   completedAt: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [PickBatchItems!]
   tasks: [Tasks!]
 }

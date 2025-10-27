@@ -19,8 +19,8 @@ type Packages {
   isHazmat: Boolean
   requiresSignature: Boolean
   insuranceValue: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [PackageItems!]
   deliveryTasks: [DeliveryTasks!]
 }

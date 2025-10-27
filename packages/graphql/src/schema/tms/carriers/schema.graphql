@@ -5,8 +5,8 @@ type Carriers {
   contactEmail: String
   contactPhone: String
   servicesOffered: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   rates: [CarrierRates!]
   shipmentLegs: [ShipmentLegs!]
   partnerInvoices: [PartnerInvoices!]

@@ -12,8 +12,8 @@ type InvoiceLineItems {
   discountRate: Float
   discountAmount: Float
   lineTotal: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   disputes: [Disputes!]
 }
 

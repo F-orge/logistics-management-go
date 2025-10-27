@@ -37,8 +37,8 @@ type Expenses {
   status: ExpenseStatus
   description: String
   expenseDate: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type TmsQuery {

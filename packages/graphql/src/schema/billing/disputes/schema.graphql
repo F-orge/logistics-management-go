@@ -18,8 +18,8 @@ type Disputes {
   submittedAt: String
   resolvedAt: String
   resolvedByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   creditNotes: [CreditNotes!]
 }
 

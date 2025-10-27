@@ -3,8 +3,8 @@ type InventoryBatches {
   product: WmsProducts!
   batchNumber: String!
   expirationDate: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   outboundShipmentItems: [OutboundShipmentItems!]
   inventoryStock: [InventoryStock!]
   taskItems: [TaskItems!]

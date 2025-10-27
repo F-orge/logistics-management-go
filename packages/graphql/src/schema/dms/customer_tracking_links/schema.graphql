@@ -6,8 +6,8 @@ type CustomerTrackingLinks {
   accessCount: Int
   lastAccessedAt: String
   expiresAt: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type DmsQuery {

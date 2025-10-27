@@ -22,7 +22,7 @@ export type AccountTransactions = {
   __typename?: 'AccountTransactions';
   amount: Scalars['Float']['output'];
   clientAccount: ClientAccounts;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   processedByUser?: Maybe<User>;
@@ -32,12 +32,12 @@ export type AccountTransactions = {
   sourceRecordType?: Maybe<Scalars['String']['output']>;
   transactionDate?: Maybe<Scalars['String']['output']>;
   type: TransactionType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type AccountingSyncLogs = {
   __typename?: 'AccountingSyncLogs';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   errorMessage?: Maybe<Scalars['String']['output']>;
   externalId?: Maybe<Scalars['String']['output']>;
   externalSystem: Scalars['String']['output'];
@@ -50,7 +50,7 @@ export type AccountingSyncLogs = {
   responsePayload?: Maybe<Scalars['String']['output']>;
   retryCount?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<SyncStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type AddInvoiceItemInput = {
@@ -65,14 +65,14 @@ export type AddOpportunityProductInput = {
 
 export type Attachments = {
   __typename?: 'Attachments';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   fileName: Scalars['String']['output'];
   filePath: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   mimeType?: Maybe<Scalars['String']['output']>;
   recordId?: Maybe<Scalars['ID']['output']>;
   recordType?: Maybe<RecordType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum BillingInvoiceStatus {
@@ -92,7 +92,7 @@ export type BillingInvoices = {
   amountOutstanding?: Maybe<Scalars['Float']['output']>;
   amountPaid?: Maybe<Scalars['Float']['output']>;
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   creditNotes?: Maybe<Array<CreditNotes>>;
   currency?: Maybe<Scalars['String']['output']>;
@@ -112,7 +112,7 @@ export type BillingInvoices = {
   subtotal?: Maybe<Scalars['Float']['output']>;
   taxAmount?: Maybe<Scalars['Float']['output']>;
   totalAmount: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type BillingMutation = {
@@ -574,7 +574,7 @@ export type BillingQuerySurchargesArgs = {
 export type BinThresholds = {
   __typename?: 'BinThresholds';
   alertThreshold?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   location: Locations;
@@ -582,18 +582,18 @@ export type BinThresholds = {
   minQuantity: Scalars['Int']['output'];
   product: WmsProducts;
   reorderQuantity?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Campaigns = {
   __typename?: 'Campaigns';
   budget?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   endDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   startDate: Scalars['Date']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum CarrierRateUnit {
@@ -607,14 +607,14 @@ export enum CarrierRateUnit {
 export type CarrierRates = {
   __typename?: 'CarrierRates';
   carrier: Carriers;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destination?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   origin?: Maybe<Scalars['String']['output']>;
   rate: Scalars['Float']['output'];
   serviceType?: Maybe<Scalars['String']['output']>;
   unit?: Maybe<CarrierRateUnit>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Carriers = {
@@ -622,14 +622,14 @@ export type Carriers = {
   contactEmail?: Maybe<Scalars['String']['output']>;
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   partnerInvoices?: Maybe<Array<PartnerInvoices>>;
   rates?: Maybe<Array<CarrierRates>>;
   servicesOffered?: Maybe<Scalars['String']['output']>;
   shipmentLegs?: Maybe<Array<ShipmentLegs>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum CasePriority {
@@ -663,21 +663,21 @@ export type Cases = {
   __typename?: 'Cases';
   caseNumber: Scalars['String']['output'];
   contact?: Maybe<Contacts>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   owner?: Maybe<User>;
   priority?: Maybe<CasePriority>;
   status?: Maybe<CaseStatus>;
   type?: Maybe<CaseType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ClientAccounts = {
   __typename?: 'ClientAccounts';
   availableCredit?: Maybe<Scalars['Float']['output']>;
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   creditLimit?: Maybe<Scalars['Float']['output']>;
   currency?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -685,7 +685,7 @@ export type ClientAccounts = {
   lastPaymentDate?: Maybe<Scalars['String']['output']>;
   paymentTermsDays?: Maybe<Scalars['Int']['output']>;
   transactions?: Maybe<Array<AccountTransactions>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   walletBalance?: Maybe<Scalars['Float']['output']>;
 };
 
@@ -696,7 +696,7 @@ export type Companies = {
   city?: Maybe<Scalars['String']['output']>;
   clientAccount?: Maybe<ClientAccounts>;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   disputes?: Maybe<Array<Disputes>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
@@ -711,21 +711,21 @@ export type Companies = {
   salesOrders?: Maybe<Array<SalesOrders>>;
   state?: Maybe<Scalars['String']['output']>;
   street?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   website?: Maybe<Scalars['String']['output']>;
 };
 
 export type Contacts = {
   __typename?: 'Contacts';
   company: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   jobTitle?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
   phoneNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type CreateAccountTransactionInput = {
@@ -1520,7 +1520,7 @@ export type CreditNotes = {
   __typename?: 'CreditNotes';
   amount: Scalars['Float']['output'];
   appliedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   creditNoteNumber: Scalars['String']['output'];
   currency?: Maybe<Scalars['String']['output']>;
@@ -1530,7 +1530,7 @@ export type CreditNotes = {
   issueDate: Scalars['String']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   reason: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum CrmInvoicePaymentMethod {
@@ -1983,14 +1983,14 @@ export enum Currency {
 export type CustomerTrackingLinks = {
   __typename?: 'CustomerTrackingLinks';
   accessCount?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   expiresAt?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   lastAccessedAt?: Maybe<Scalars['String']['output']>;
   trackingToken: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DeleteResult = {
@@ -2022,7 +2022,7 @@ export type DeliveryRoutes = {
   __typename?: 'DeliveryRoutes';
   actualDurationMinutes?: Maybe<Scalars['Int']['output']>;
   completedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   estimatedDurationMinutes?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
@@ -2032,7 +2032,7 @@ export type DeliveryRoutes = {
   status?: Maybe<DeliveryRouteStatus>;
   tasks?: Maybe<Array<DeliveryTasks>>;
   totalDistanceKm?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum DeliveryTaskStatus {
@@ -2049,7 +2049,7 @@ export type DeliveryTasks = {
   __typename?: 'DeliveryTasks';
   actualArrivalTime?: Maybe<Scalars['String']['output']>;
   attemptCount?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   customerTrackingLinks?: Maybe<Array<CustomerTrackingLinks>>;
   deliveryAddress: Scalars['String']['output'];
   deliveryInstructions?: Maybe<Scalars['String']['output']>;
@@ -2065,7 +2065,7 @@ export type DeliveryTasks = {
   recipientPhone?: Maybe<Scalars['String']['output']>;
   routeSequence: Scalars['Int']['output'];
   status?: Maybe<DeliveryTaskStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum DisputeStatus {
@@ -2080,7 +2080,7 @@ export enum DisputeStatus {
 export type Disputes = {
   __typename?: 'Disputes';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   creditNotes?: Maybe<Array<CreditNotes>>;
   disputedAmount?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2091,7 +2091,7 @@ export type Disputes = {
   resolvedByUser?: Maybe<User>;
   status?: Maybe<DisputeStatus>;
   submittedAt?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type DmsMutation = {
@@ -2214,7 +2214,7 @@ export type DmsMutationUpdateTaskEventArgs = {
 
 export type DmsProofOfDeliveries = {
   __typename?: 'DmsProofOfDeliveries';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   filePath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -2224,7 +2224,7 @@ export type DmsProofOfDeliveries = {
   signatureData?: Maybe<Scalars['String']['output']>;
   timestamp?: Maybe<Scalars['String']['output']>;
   type: ProofOfDeliveryType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   verificationCode?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2345,7 +2345,7 @@ export enum DocumentType {
 
 export type Documents = {
   __typename?: 'Documents';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   documentType: DocumentType;
   fileName: Scalars['String']['output'];
   filePath: Scalars['String']['output'];
@@ -2354,7 +2354,7 @@ export type Documents = {
   mimeType?: Maybe<Scalars['String']['output']>;
   recordId: Scalars['ID']['output'];
   recordType: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   uploadedByUser?: Maybe<User>;
 };
 
@@ -2362,7 +2362,7 @@ export type DriverLocations = {
   __typename?: 'DriverLocations';
   accuracy?: Maybe<Scalars['Float']['output']>;
   altitude?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   heading?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2370,7 +2370,7 @@ export type DriverLocations = {
   longitude: Scalars['Float']['output'];
   speedKmh?: Maybe<Scalars['Float']['output']>;
   timestamp?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum DriverScheduleReason {
@@ -2382,13 +2382,13 @@ export enum DriverScheduleReason {
 
 export type DriverSchedules = {
   __typename?: 'DriverSchedules';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver: Drivers;
   endDate: Scalars['String']['output'];
   id: Scalars['ID']['output'];
   reason?: Maybe<DriverScheduleReason>;
   startDate: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum DriverStatus {
@@ -2400,7 +2400,7 @@ export enum DriverStatus {
 export type Drivers = {
   __typename?: 'Drivers';
   contactPhone?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryRoutes?: Maybe<Array<DeliveryRoutes>>;
   driverLocations?: Maybe<Array<DriverLocations>>;
   expenses?: Maybe<Array<Expenses>>;
@@ -2410,7 +2410,7 @@ export type Drivers = {
   schedules?: Maybe<Array<DriverSchedules>>;
   status?: Maybe<DriverStatus>;
   trips?: Maybe<Array<Trips>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
 };
 
@@ -2433,7 +2433,7 @@ export enum ExpenseType {
 export type Expenses = {
   __typename?: 'Expenses';
   amount: Scalars['Float']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currency?: Maybe<Currency>;
   description?: Maybe<Scalars['String']['output']>;
   driver?: Maybe<Drivers>;
@@ -2445,7 +2445,7 @@ export type Expenses = {
   status?: Maybe<ExpenseStatus>;
   trip?: Maybe<Trips>;
   type?: Maybe<ExpenseType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum GeofenceEventType {
@@ -2464,13 +2464,13 @@ export type GeofenceEvents = {
 
 export type Geofences = {
   __typename?: 'Geofences';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   events?: Maybe<Array<GeofenceEvents>>;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
   longitude?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type GpsPings = {
@@ -2484,7 +2484,7 @@ export type GpsPings = {
 
 export type InboundShipmentItems = {
   __typename?: 'InboundShipmentItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   discrepancyNotes?: Maybe<Scalars['String']['output']>;
   discrepancyQuantity?: Maybe<Scalars['Int']['output']>;
   expectedQuantity: Scalars['Int']['output'];
@@ -2492,7 +2492,7 @@ export type InboundShipmentItems = {
   inboundShipment: InboundShipments;
   product: WmsProducts;
   receivedQuantity?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum InboundShipmentStatus {
@@ -2507,12 +2507,12 @@ export type InboundShipments = {
   __typename?: 'InboundShipments';
   actualArrivalDate?: Maybe<Scalars['String']['output']>;
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expectedArrivalDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<InboundShipmentItems>>;
   status?: Maybe<InboundShipmentStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouseId: Scalars['ID']['output'];
 };
 
@@ -2534,13 +2534,13 @@ export type Interactions = {
   __typename?: 'Interactions';
   case?: Maybe<Cases>;
   contact: Contacts;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   interactionDate?: Maybe<Scalars['Date']['output']>;
   notes?: Maybe<Scalars['String']['output']>;
   outcome?: Maybe<InteractionOutcome>;
   type?: Maybe<InteractionType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
 };
 
@@ -2555,13 +2555,13 @@ export enum InventoryAdjustmentReason {
 
 export type InventoryAdjustments = {
   __typename?: 'InventoryAdjustments';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   product: WmsProducts;
   quantityChange: Scalars['Int']['output'];
   reason?: Maybe<InventoryAdjustmentReason>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
   warehouseId: Scalars['ID']['output'];
 };
@@ -2569,7 +2569,7 @@ export type InventoryAdjustments = {
 export type InventoryBatches = {
   __typename?: 'InventoryBatches';
   batchNumber: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expirationDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   inventoryStock?: Maybe<Array<InventoryStock>>;
@@ -2577,14 +2577,14 @@ export type InventoryBatches = {
   packageItems?: Maybe<Array<PackageItems>>;
   product: WmsProducts;
   taskItems?: Maybe<Array<TaskItems>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InventoryStock = {
   __typename?: 'InventoryStock';
   availableQuantity?: Maybe<Scalars['Int']['output']>;
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   lastCountedAt?: Maybe<Scalars['String']['output']>;
   lastMovementAt?: Maybe<Scalars['String']['output']>;
@@ -2593,7 +2593,7 @@ export type InventoryStock = {
   quantity: Scalars['Int']['output'];
   reservedQuantity: Scalars['Int']['output'];
   status?: Maybe<InventoryStockStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum InventoryStockStatus {
@@ -2608,18 +2608,18 @@ export enum InventoryStockStatus {
 
 export type InvoiceItems = {
   __typename?: 'InvoiceItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   invoice: Invoices;
   price: Scalars['Float']['output'];
   product: Products;
   quantity: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type InvoiceLineItems = {
   __typename?: 'InvoiceLineItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description: Scalars['String']['output'];
   discountAmount?: Maybe<Scalars['Float']['output']>;
   discountRate?: Maybe<Scalars['Float']['output']>;
@@ -2634,7 +2634,7 @@ export type InvoiceLineItems = {
   taxRate?: Maybe<Scalars['Float']['output']>;
   totalPrice?: Maybe<Scalars['Float']['output']>;
   unitPrice: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum InvoiceStatus {
@@ -2647,7 +2647,7 @@ export enum InvoiceStatus {
 
 export type Invoices = {
   __typename?: 'Invoices';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   dueDate: Scalars['Date']['output'];
   id: Scalars['ID']['output'];
   issueDate: Scalars['Date']['output'];
@@ -2658,7 +2658,7 @@ export type Invoices = {
   sentAt?: Maybe<Scalars['Date']['output']>;
   status?: Maybe<InvoiceStatus>;
   total: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum LeadSource {
@@ -2688,7 +2688,7 @@ export type Leads = {
   convertedCompany?: Maybe<Companies>;
   convertedContact?: Maybe<Contacts>;
   convertedOpportunity?: Maybe<Opportunities>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   leadScore?: Maybe<Scalars['Int']['output']>;
@@ -2696,7 +2696,7 @@ export type Leads = {
   name: Scalars['String']['output'];
   owner?: Maybe<User>;
   status?: Maybe<LeadStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum LocationType {
@@ -2716,7 +2716,7 @@ export type Locations = {
   __typename?: 'Locations';
   barcode?: Maybe<Scalars['String']['output']>;
   binThresholds?: Maybe<Array<BinThresholds>>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationTaskItems?: Maybe<Array<TaskItems>>;
   hazmatApproved?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
@@ -2735,7 +2735,7 @@ export type Locations = {
   sourceTaskItems?: Maybe<Array<TaskItems>>;
   temperatureControlled?: Maybe<Scalars['Boolean']['output']>;
   type: LocationType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
   xCoordinate?: Maybe<Scalars['Float']['output']>;
   yCoordinate?: Maybe<Scalars['Float']['output']>;
@@ -2753,12 +2753,12 @@ export type Mutation = {
 
 export type Notifications = {
   __typename?: 'Notifications';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isRead?: Maybe<Scalars['Boolean']['output']>;
   link?: Maybe<Scalars['String']['output']>;
   message: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user: User;
 };
 
@@ -2817,13 +2817,13 @@ export enum OpportunityStage {
 export type OutboundShipmentItems = {
   __typename?: 'OutboundShipmentItems';
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   outboundShipment: OutboundShipments;
   product: WmsProducts;
   quantityShipped: Scalars['Int']['output'];
   salesOrderItem: SalesOrderItems;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum OutboundShipmentStatus {
@@ -2837,20 +2837,20 @@ export enum OutboundShipmentStatus {
 export type OutboundShipments = {
   __typename?: 'OutboundShipments';
   carrier?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OutboundShipmentItems>>;
   salesOrder: SalesOrders;
   status?: Maybe<OutboundShipmentStatus>;
   trackingNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouseId: Scalars['ID']['output'];
 };
 
 export type PackageItems = {
   __typename?: 'PackageItems';
   batch?: Maybe<InventoryBatches>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   expiryDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   lotNumber?: Maybe<Scalars['String']['output']>;
@@ -2860,13 +2860,13 @@ export type PackageItems = {
   serialNumbers?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   totalWeight?: Maybe<Scalars['Float']['output']>;
   unitWeight?: Maybe<Scalars['Float']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Packages = {
   __typename?: 'Packages';
   carrier?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTasks?: Maybe<Array<DeliveryTasks>>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -2884,7 +2884,7 @@ export type Packages = {
   serviceLevel?: Maybe<Scalars['String']['output']>;
   shippedAt?: Maybe<Scalars['String']['output']>;
   trackingNumber?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   warehouse: Warehouses;
   weight?: Maybe<Scalars['Float']['output']>;
@@ -2910,14 +2910,14 @@ export enum PartnerInvoiceStatus {
 export type PartnerInvoices = {
   __typename?: 'PartnerInvoices';
   carrier: Carriers;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   invoiceDate: Scalars['String']['output'];
   invoiceNumber: Scalars['String']['output'];
   items?: Maybe<Array<PartnerInvoiceItems>>;
   status?: Maybe<PartnerInvoiceStatus>;
   totalAmount: Scalars['Float']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum PaymentMethod {
@@ -2943,7 +2943,7 @@ export enum PaymentStatus {
 export type Payments = {
   __typename?: 'Payments';
   amount: Scalars['Float']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currency?: Maybe<Scalars['String']['output']>;
   exchangeRate?: Maybe<Scalars['Float']['output']>;
   fees?: Maybe<Scalars['Float']['output']>;
@@ -2958,19 +2958,19 @@ export type Payments = {
   processedByUser?: Maybe<User>;
   status?: Maybe<PaymentStatus>;
   transactionId?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type PickBatchItems = {
   __typename?: 'PickBatchItems';
   actualPickTime?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedPickTime?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   orderPriority?: Maybe<Scalars['Int']['output']>;
   pickBatch: PickBatches;
   salesOrder: SalesOrders;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum PickBatchStatus {
@@ -2987,7 +2987,7 @@ export type PickBatches = {
   batchNumber: Scalars['String']['output'];
   completedAt?: Maybe<Scalars['String']['output']>;
   completedItems?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedDuration?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<PickBatchItems>>;
@@ -2997,7 +2997,7 @@ export type PickBatches = {
   strategy: PickStrategy;
   tasks?: Maybe<Array<Tasks>>;
   totalItems?: Maybe<Scalars['Int']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
   waveId?: Maybe<Scalars['String']['output']>;
   zoneRestrictions?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -3037,19 +3037,19 @@ export enum ProductType {
 
 export type Products = {
   __typename?: 'Products';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   price: Scalars['Float']['output'];
   sku?: Maybe<Scalars['String']['output']>;
   type?: Maybe<ProductType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type ProofOfDeliveries = {
   __typename?: 'ProofOfDeliveries';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   filePath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
@@ -3057,7 +3057,7 @@ export type ProofOfDeliveries = {
   timestamp: Scalars['String']['output'];
   tripStop: TripStops;
   type?: Maybe<ProofType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum ProofOfDeliveryType {
@@ -3078,7 +3078,7 @@ export enum ProofType {
 export type PutawayRules = {
   __typename?: 'PutawayRules';
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   locationType?: Maybe<LocationType>;
@@ -3089,7 +3089,7 @@ export type PutawayRules = {
   product: WmsProducts;
   requiresHazmatApproval?: Maybe<Scalars['Boolean']['output']>;
   requiresTemperatureControl?: Maybe<Scalars['Boolean']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volumeThreshold?: Maybe<Scalars['Float']['output']>;
   warehouse: Warehouses;
   weightThreshold?: Maybe<Scalars['Float']['output']>;
@@ -3116,7 +3116,7 @@ export type Quotes = {
   __typename?: 'Quotes';
   billingInvoices?: Maybe<Array<BillingInvoices>>;
   client?: Maybe<Companies>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   destinationDetails: Scalars['String']['output'];
   expiresAt?: Maybe<Scalars['String']['output']>;
@@ -3129,7 +3129,7 @@ export type Quotes = {
   quotedPrice: Scalars['Float']['output'];
   serviceLevel?: Maybe<Scalars['String']['output']>;
   status?: Maybe<QuoteStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
@@ -3137,7 +3137,7 @@ export type Quotes = {
 
 export type RateCards = {
   __typename?: 'RateCards';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   createdByUser?: Maybe<User>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3145,7 +3145,7 @@ export type RateCards = {
   name: Scalars['String']['output'];
   rules?: Maybe<Array<RateRules>>;
   serviceType: ServiceType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   validFrom: Scalars['String']['output'];
   validTo?: Maybe<Scalars['String']['output']>;
 };
@@ -3153,7 +3153,7 @@ export type RateCards = {
 export type RateRules = {
   __typename?: 'RateRules';
   condition: Scalars['String']['output'];
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   maxValue?: Maybe<Scalars['Float']['output']>;
@@ -3162,7 +3162,7 @@ export type RateRules = {
   pricingModel: PricingModel;
   priority?: Maybe<Scalars['Int']['output']>;
   rateCard: RateCards;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   value: Scalars['String']['output'];
 };
 
@@ -3180,11 +3180,11 @@ export enum RecordType {
 
 export type ReorderPoints = {
   __typename?: 'ReorderPoints';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   threshold: Scalars['Int']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   warehouse: Warehouses;
 };
 
@@ -3199,14 +3199,14 @@ export enum ReturnItemCondition {
 export type ReturnItems = {
   __typename?: 'ReturnItems';
   condition?: Maybe<ReturnItemCondition>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantityExpected: Scalars['Int']['output'];
   quantityReceived?: Maybe<Scalars['Int']['output']>;
   quantityVariance?: Maybe<Scalars['Int']['output']>;
   return: Returns;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum ReturnStatus {
@@ -3220,36 +3220,36 @@ export enum ReturnStatus {
 export type Returns = {
   __typename?: 'Returns';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<ReturnItems>>;
   reason?: Maybe<Scalars['String']['output']>;
   returnNumber: Scalars['String']['output'];
   salesOrder?: Maybe<SalesOrders>;
   status?: Maybe<ReturnStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Routes = {
   __typename?: 'Routes';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   optimizedRouteData?: Maybe<Scalars['String']['output']>;
   totalDistance?: Maybe<Scalars['Float']['output']>;
   totalDuration?: Maybe<Scalars['Float']['output']>;
   trip: Trips;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type SalesOrderItems = {
   __typename?: 'SalesOrderItems';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   outboundShipmentItems?: Maybe<Array<OutboundShipmentItems>>;
   product: WmsProducts;
   quantityOrdered: Scalars['Int']['output'];
   salesOrder: SalesOrders;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum SalesOrderStatus {
@@ -3263,7 +3263,7 @@ export enum SalesOrderStatus {
 export type SalesOrders = {
   __typename?: 'SalesOrders';
   client: Companies;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   crmOpportunity?: Maybe<Opportunities>;
   id: Scalars['ID']['output'];
   items?: Maybe<Array<SalesOrderItems>>;
@@ -3274,7 +3274,7 @@ export type SalesOrders = {
   returns?: Maybe<Array<Returns>>;
   shippingAddress?: Maybe<Scalars['String']['output']>;
   status?: Maybe<SalesOrderStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum ServiceType {
@@ -3308,7 +3308,7 @@ export enum ShipmentLegStatus {
 export type ShipmentLegs = {
   __typename?: 'ShipmentLegs';
   carrier?: Maybe<Carriers>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   endLocation?: Maybe<Scalars['String']['output']>;
   events?: Maybe<Array<ShipmentLegEvents>>;
   id: Scalars['ID']['output'];
@@ -3318,7 +3318,7 @@ export type ShipmentLegs = {
   shipment?: Maybe<OutboundShipments>;
   startLocation?: Maybe<Scalars['String']['output']>;
   status?: Maybe<ShipmentLegStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum StockTransferStatus {
@@ -3330,26 +3330,26 @@ export enum StockTransferStatus {
 
 export type StockTransfers = {
   __typename?: 'StockTransfers';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationWarehouse: Warehouses;
   id: Scalars['ID']['output'];
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
   sourceWarehouse: Warehouses;
   status?: Maybe<StockTransferStatus>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Suppliers = {
   __typename?: 'Suppliers';
   contactPerson?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   phoneNumber?: Maybe<Scalars['String']['output']>;
   products?: Maybe<Array<WmsProducts>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum SurchargeCalculationMethod {
@@ -3363,13 +3363,13 @@ export type Surcharges = {
   __typename?: 'Surcharges';
   amount: Scalars['Float']['output'];
   calculationMethod: SurchargeCalculationMethod;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isActive?: Maybe<Scalars['Boolean']['output']>;
   name: Scalars['String']['output'];
   type: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   validFrom?: Maybe<Scalars['String']['output']>;
   validTo?: Maybe<Scalars['String']['output']>;
 };
@@ -3395,7 +3395,7 @@ export enum TaskEventStatus {
 
 export type TaskEvents = {
   __typename?: 'TaskEvents';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   deliveryTask: DeliveryTasks;
   id: Scalars['ID']['output'];
   latitude?: Maybe<Scalars['Float']['output']>;
@@ -3404,7 +3404,7 @@ export type TaskEvents = {
   reason?: Maybe<Scalars['String']['output']>;
   status: TaskEventStatus;
   timestamp?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum TaskItemStatus {
@@ -3420,7 +3420,7 @@ export type TaskItems = {
   __typename?: 'TaskItems';
   batch?: Maybe<InventoryBatches>;
   completedAt?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationLocation?: Maybe<Locations>;
   expiryDate?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -3434,7 +3434,7 @@ export type TaskItems = {
   sourceLocation?: Maybe<Locations>;
   status?: Maybe<TaskItemStatus>;
   task: Tasks;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export enum TaskStatus {
@@ -3461,7 +3461,7 @@ export enum TaskType {
 export type Tasks = {
   __typename?: 'Tasks';
   actualDuration?: Maybe<Scalars['Int']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   durationSeconds?: Maybe<Scalars['Int']['output']>;
   endTime?: Maybe<Scalars['String']['output']>;
   estimatedDuration?: Maybe<Scalars['Int']['output']>;
@@ -3477,7 +3477,7 @@ export type Tasks = {
   status?: Maybe<TaskStatus>;
   taskNumber: Scalars['String']['output'];
   type: TaskType;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
   warehouse: Warehouses;
 };
@@ -4044,7 +4044,7 @@ export type TripStops = {
   actualArrivalTime?: Maybe<Scalars['String']['output']>;
   actualDepartureTime?: Maybe<Scalars['String']['output']>;
   address?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   estimatedArrivalTime?: Maybe<Scalars['String']['output']>;
   estimatedDepartureTime?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
@@ -4053,12 +4053,12 @@ export type TripStops = {
   shipment?: Maybe<OutboundShipments>;
   status?: Maybe<TripStopStatus>;
   trip: Trips;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type Trips = {
   __typename?: 'Trips';
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   driver?: Maybe<Drivers>;
   endLocation?: Maybe<Scalars['String']['output']>;
   endTime?: Maybe<Scalars['String']['output']>;
@@ -4070,7 +4070,7 @@ export type Trips = {
   startTime?: Maybe<Scalars['String']['output']>;
   status?: Maybe<TripStatus>;
   stops?: Maybe<Array<TripStops>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle?: Maybe<Vehicles>;
 };
 
@@ -4850,12 +4850,12 @@ export type User = {
 export type VehicleMaintenance = {
   __typename?: 'VehicleMaintenance';
   cost?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
   serviceDate: Scalars['String']['output'];
   serviceType?: Maybe<VehicleServiceType>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle: Vehicles;
 };
 
@@ -4879,7 +4879,7 @@ export type Vehicles = {
   __typename?: 'Vehicles';
   capacityVolume?: Maybe<Scalars['Float']['output']>;
   capacityWeight?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   currentMileage?: Maybe<Scalars['Int']['output']>;
   geofenceEvents?: Maybe<Array<GeofenceEvents>>;
   gpsPings?: Maybe<Array<GpsPings>>;
@@ -4891,7 +4891,7 @@ export type Vehicles = {
   registrationNumber: Scalars['String']['output'];
   status?: Maybe<VehicleStatus>;
   trips?: Maybe<Array<Trips>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   vin?: Maybe<Scalars['String']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
@@ -4904,7 +4904,7 @@ export type Warehouses = {
   contactPerson?: Maybe<Scalars['String']['output']>;
   contactPhone?: Maybe<Scalars['String']['output']>;
   country?: Maybe<Scalars['String']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   destinationStockTransfers?: Maybe<Array<StockTransfers>>;
   id: Scalars['ID']['output'];
   inboundShipments?: Maybe<Array<InboundShipments>>;
@@ -4920,7 +4920,7 @@ export type Warehouses = {
   state?: Maybe<Scalars['String']['output']>;
   tasks?: Maybe<Array<Tasks>>;
   timezone?: Maybe<Scalars['String']['output']>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type WmsMutation = {
@@ -5410,7 +5410,7 @@ export type WmsProducts = {
   binThresholds?: Maybe<Array<BinThresholds>>;
   client?: Maybe<Companies>;
   costPrice?: Maybe<Scalars['Float']['output']>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   height?: Maybe<Scalars['Float']['output']>;
   id: Scalars['ID']['output'];
@@ -5429,7 +5429,7 @@ export type WmsProducts = {
   stockTransfers?: Maybe<Array<StockTransfers>>;
   supplier?: Maybe<Suppliers>;
   taskItems?: Maybe<Array<TaskItems>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
@@ -5765,7 +5765,7 @@ export type AccountTransactionsQueryVariables = Exact<{
 }>;
 
 
-export type AccountTransactionsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountTransactions: Array<{ __typename?: 'AccountTransactions', amount: number, createdAt?: string | null, description?: string | null, id: string, referenceNumber?: string | null, runningBalance?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, transactionDate?: string | null, type: TransactionType, updatedAt?: string | null, processedByUser?: { __typename?: 'User', name: string, image?: string | null, email: string, id: string } | null, clientAccount: { __typename?: 'ClientAccounts', availableCredit?: number | null, paymentTermsDays?: number | null, updatedAt?: string | null, walletBalance?: number | null, createdAt?: string | null, client: { __typename?: 'Companies', annualRevenue?: number | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } } }> } | null };
+export type AccountTransactionsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountTransactions: Array<{ __typename?: 'AccountTransactions', amount: number, createdAt?: any | null, description?: string | null, id: string, referenceNumber?: string | null, runningBalance?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, transactionDate?: string | null, type: TransactionType, updatedAt?: any | null, processedByUser?: { __typename?: 'User', name: string, image?: string | null, email: string, id: string } | null, clientAccount: { __typename?: 'ClientAccounts', availableCredit?: number | null, paymentTermsDays?: number | null, updatedAt?: any | null, walletBalance?: number | null, createdAt?: any | null, client: { __typename?: 'Companies', annualRevenue?: number | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } } }> } | null };
 
 export type SearchAccountTransactionsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -5812,7 +5812,7 @@ export type AccountingSyncLogsQueryVariables = Exact<{
 }>;
 
 
-export type AccountingSyncLogsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountingSyncLogs: Array<{ __typename?: 'AccountingSyncLogs', createdAt?: string | null, errorMessage?: string | null, externalId?: string | null, externalSystem: string, id: string, lastSyncAt?: string | null, nextRetryAt?: string | null, recordId: string, recordType: string, requestPayload?: string | null, responsePayload?: string | null, retryCount?: number | null, status?: SyncStatus | null, updatedAt?: string | null }> } | null };
+export type AccountingSyncLogsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', accountingSyncLogs: Array<{ __typename?: 'AccountingSyncLogs', createdAt?: any | null, errorMessage?: string | null, externalId?: string | null, externalSystem: string, id: string, lastSyncAt?: string | null, nextRetryAt?: string | null, recordId: string, recordType: string, requestPayload?: string | null, responsePayload?: string | null, retryCount?: number | null, status?: SyncStatus | null, updatedAt?: any | null }> } | null };
 
 export type SearchAccountingSyncLogsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -5858,7 +5858,7 @@ export type TableClientAccountQueryVariables = Exact<{
 }>;
 
 
-export type TableClientAccountQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', clientAccounts: Array<{ __typename?: 'ClientAccounts', availableCredit?: number | null, creditLimit?: number | null, currency?: string | null, isCreditApproved?: boolean | null, lastPaymentDate?: string | null, paymentTermsDays?: number | null, updatedAt?: string | null, walletBalance?: number | null, id: string, client: { __typename?: 'Companies', annualRevenue?: number | null, country?: string | null, industry?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, website?: string | null }, transactions?: Array<{ __typename?: 'AccountTransactions', amount: number, description?: string | null, id: string, referenceNumber?: string | null, runningBalance?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, transactionDate?: string | null, type: TransactionType }> | null }> } | null };
+export type TableClientAccountQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', clientAccounts: Array<{ __typename?: 'ClientAccounts', availableCredit?: number | null, creditLimit?: number | null, currency?: string | null, isCreditApproved?: boolean | null, lastPaymentDate?: string | null, paymentTermsDays?: number | null, updatedAt?: any | null, walletBalance?: number | null, id: string, client: { __typename?: 'Companies', annualRevenue?: number | null, country?: string | null, industry?: string | null, name: string, phoneNumber?: string | null, updatedAt?: any | null, website?: string | null }, transactions?: Array<{ __typename?: 'AccountTransactions', amount: number, description?: string | null, id: string, referenceNumber?: string | null, runningBalance?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, transactionDate?: string | null, type: TransactionType }> | null }> } | null };
 
 export type SearchClientAccountsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -5904,7 +5904,7 @@ export type TableCreditNoteQueryVariables = Exact<{
 }>;
 
 
-export type TableCreditNoteQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', creditNotes: Array<{ __typename?: 'CreditNotes', appliedAt?: string | null, amount: number, createdAt?: string | null, creditNoteNumber: string, currency?: string | null, id: string, issueDate: string, notes?: string | null, reason: string, updatedAt?: string | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, invoice: { __typename?: 'BillingInvoices', amountPaid?: number | null, invoiceNumber: string, issueDate: string, paidAt?: string | null, notes?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: string | null, paymentTerms?: string | null, discountAmount?: number | null, dueDate: string, currency?: string | null }, dispute?: { __typename?: 'Disputes', disputedAmount?: number | null, id: string, reason: string, resolutionNotes?: string | null, resolvedAt?: string | null, status?: DisputeStatus | null, submittedAt?: string | null } | null }> } | null };
+export type TableCreditNoteQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', creditNotes: Array<{ __typename?: 'CreditNotes', appliedAt?: string | null, amount: number, createdAt?: any | null, creditNoteNumber: string, currency?: string | null, id: string, issueDate: string, notes?: string | null, reason: string, updatedAt?: any | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, invoice: { __typename?: 'BillingInvoices', amountPaid?: number | null, invoiceNumber: string, issueDate: string, paidAt?: string | null, notes?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: any | null, paymentTerms?: string | null, discountAmount?: number | null, dueDate: string, currency?: string | null }, dispute?: { __typename?: 'Disputes', disputedAmount?: number | null, id: string, reason: string, resolutionNotes?: string | null, resolvedAt?: string | null, status?: DisputeStatus | null, submittedAt?: string | null } | null }> } | null };
 
 export type SearchCreditNotesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -5951,7 +5951,7 @@ export type TableDisputeQueryVariables = Exact<{
 }>;
 
 
-export type TableDisputeQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', createdAt?: string | null, disputedAmount?: number | null, id: string, reason: string, resolutionNotes?: string | null, resolvedAt?: string | null, status?: DisputeStatus | null, submittedAt?: string | null, updatedAt?: string | null, client: { __typename?: 'Companies', annualRevenue?: number | null, city?: string | null, id: string, industry?: string | null, name: string, website?: string | null, phoneNumber?: string | null }, resolvedByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, lineItem: { __typename?: 'InvoiceLineItems', discountAmount?: number | null, discountRate?: number | null, description: string, id: string, lineTotal?: number | null, quantity: number, sourceRecordId?: string | null, sourceRecordType?: string | null, taxAmount?: number | null, taxRate?: number | null, totalPrice?: number | null, unitPrice: number, updatedAt?: string | null, invoice: { __typename?: 'BillingInvoices', amountPaid?: number | null, currency?: string | null, discountAmount?: number | null, dueDate: string, id: string, invoiceNumber: string, issueDate: string, notes?: string | null, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: string | null } } }> } | null };
+export type TableDisputeQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', createdAt?: any | null, disputedAmount?: number | null, id: string, reason: string, resolutionNotes?: string | null, resolvedAt?: string | null, status?: DisputeStatus | null, submittedAt?: string | null, updatedAt?: any | null, client: { __typename?: 'Companies', annualRevenue?: number | null, city?: string | null, id: string, industry?: string | null, name: string, website?: string | null, phoneNumber?: string | null }, resolvedByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, lineItem: { __typename?: 'InvoiceLineItems', discountAmount?: number | null, discountRate?: number | null, description: string, id: string, lineTotal?: number | null, quantity: number, sourceRecordId?: string | null, sourceRecordType?: string | null, taxAmount?: number | null, taxRate?: number | null, totalPrice?: number | null, unitPrice: number, updatedAt?: any | null, invoice: { __typename?: 'BillingInvoices', amountPaid?: number | null, currency?: string | null, discountAmount?: number | null, dueDate: string, id: string, invoiceNumber: string, issueDate: string, notes?: string | null, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: any | null } } }> } | null };
 
 export type SearchDisputesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6020,7 +6020,7 @@ export type TableBillingInvoiceQueryVariables = Exact<{
 }>;
 
 
-export type TableBillingInvoiceQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', billingInvoices: Array<{ __typename?: 'BillingInvoices', amountOutstanding?: number | null, amountPaid?: number | null, createdAt?: string | null, currency?: string | null, discountAmount?: number | null, dueDate: string, id: string, invoiceNumber: string, issueDate: string, notes?: string | null, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: string | null, lineItems?: Array<{ __typename?: 'InvoiceLineItems', description: string, discountAmount?: number | null, discountRate?: number | null, id: string, quantity: number, taxAmount?: number | null, lineTotal?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, taxRate?: number | null, totalPrice?: number | null, unitPrice: number, updatedAt?: string | null }> | null }> } | null };
+export type TableBillingInvoiceQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', billingInvoices: Array<{ __typename?: 'BillingInvoices', amountOutstanding?: number | null, amountPaid?: number | null, createdAt?: any | null, currency?: string | null, discountAmount?: number | null, dueDate: string, id: string, invoiceNumber: string, issueDate: string, notes?: string | null, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, subtotal?: number | null, taxAmount?: number | null, totalAmount: number, updatedAt?: any | null, lineItems?: Array<{ __typename?: 'InvoiceLineItems', description: string, discountAmount?: number | null, discountRate?: number | null, id: string, quantity: number, taxAmount?: number | null, lineTotal?: number | null, sourceRecordId?: string | null, sourceRecordType?: string | null, taxRate?: number | null, totalPrice?: number | null, unitPrice: number, updatedAt?: any | null }> | null }> } | null };
 
 export type SearchBillingInvoicesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6068,7 +6068,7 @@ export type TablePaymentQueryVariables = Exact<{
 }>;
 
 
-export type TablePaymentQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', payments: Array<{ __typename?: 'Payments', amount: number, createdAt?: string | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, gatewayReference?: string | null, id: string, invoice: { __typename?: 'BillingInvoices', invoiceNumber: string, id: string, issueDate: string, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, discountAmount?: number | null, amountPaid?: number | null, amountOutstanding?: number | null }, processedByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> } | null };
+export type TablePaymentQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', payments: Array<{ __typename?: 'Payments', amount: number, createdAt?: any | null, currency?: string | null, exchangeRate?: number | null, fees?: number | null, gatewayReference?: string | null, id: string, invoice: { __typename?: 'BillingInvoices', invoiceNumber: string, id: string, issueDate: string, paidAt?: string | null, paymentTerms?: string | null, sentAt?: string | null, status?: BillingInvoiceStatus | null, discountAmount?: number | null, amountPaid?: number | null, amountOutstanding?: number | null }, processedByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> } | null };
 
 export type SearchPaymentsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6115,7 +6115,7 @@ export type TableQuoteQueryVariables = Exact<{
 }>;
 
 
-export type TableQuoteQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', quotes: Array<{ __typename?: 'Quotes', createdAt?: string | null, destinationDetails: string, expiresAt?: string | null, height?: number | null, id: string, length?: number | null, notes?: string | null, originDetails: string, quoteNumber?: string | null, quotedPrice: number, serviceLevel?: string | null, status?: QuoteStatus | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null, website?: string | null, billingInvoices?: Array<{ __typename?: 'BillingInvoices', amountOutstanding?: number | null, amountPaid?: number | null, currency?: string | null, discountAmount?: number | null, dueDate: string, invoiceNumber: string, issueDate: string }> | null } | null }> } | null };
+export type TableQuoteQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', quotes: Array<{ __typename?: 'Quotes', createdAt?: any | null, destinationDetails: string, expiresAt?: string | null, height?: number | null, id: string, length?: number | null, notes?: string | null, originDetails: string, quoteNumber?: string | null, quotedPrice: number, serviceLevel?: string | null, status?: QuoteStatus | null, updatedAt?: any | null, volume?: number | null, weight?: number | null, width?: number | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null, website?: string | null, billingInvoices?: Array<{ __typename?: 'BillingInvoices', amountOutstanding?: number | null, amountPaid?: number | null, currency?: string | null, discountAmount?: number | null, dueDate: string, invoiceNumber: string, issueDate: string }> | null } | null }> } | null };
 
 export type SearchQuotesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6162,7 +6162,7 @@ export type TableRateCardQueryVariables = Exact<{
 }>;
 
 
-export type TableRateCardQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateCards: Array<{ __typename?: 'RateCards', createdAt?: string | null, description?: string | null, id: string, isActive?: boolean | null, name: string, serviceType: ServiceType, updatedAt?: string | null, validFrom: string, validTo?: string | null, createdByUser?: { __typename?: 'User', email: string, emailVerified: boolean, image?: string | null, name: string } | null, rules?: Array<{ __typename?: 'RateRules', condition: string, id: string, isActive?: boolean | null, maxValue?: number | null, minValue?: number | null, price: number, pricingModel: PricingModel, priority?: number | null, value: string }> | null }> } | null };
+export type TableRateCardQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateCards: Array<{ __typename?: 'RateCards', createdAt?: any | null, description?: string | null, id: string, isActive?: boolean | null, name: string, serviceType: ServiceType, updatedAt?: any | null, validFrom: string, validTo?: string | null, createdByUser?: { __typename?: 'User', email: string, emailVerified: boolean, image?: string | null, name: string } | null, rules?: Array<{ __typename?: 'RateRules', condition: string, id: string, isActive?: boolean | null, maxValue?: number | null, minValue?: number | null, price: number, pricingModel: PricingModel, priority?: number | null, value: string }> | null }> } | null };
 
 export type SearchRateCardsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6209,7 +6209,7 @@ export type TableRateRuleQueryVariables = Exact<{
 }>;
 
 
-export type TableRateRuleQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateRules: Array<{ __typename?: 'RateRules', condition: string, createdAt?: string | null, id: string, isActive?: boolean | null, maxValue?: number | null, minValue?: number | null, price: number, pricingModel: PricingModel, priority?: number | null, updatedAt?: string | null, value: string, rateCard: { __typename?: 'RateCards', createdAt?: string | null, description?: string | null, id: string, isActive?: boolean | null, name: string, serviceType: ServiceType, updatedAt?: string | null, validFrom: string, validTo?: string | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null } }> } | null };
+export type TableRateRuleQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', rateRules: Array<{ __typename?: 'RateRules', condition: string, createdAt?: any | null, id: string, isActive?: boolean | null, maxValue?: number | null, minValue?: number | null, price: number, pricingModel: PricingModel, priority?: number | null, updatedAt?: any | null, value: string, rateCard: { __typename?: 'RateCards', createdAt?: any | null, description?: string | null, id: string, isActive?: boolean | null, name: string, serviceType: ServiceType, updatedAt?: any | null, validFrom: string, validTo?: string | null, createdByUser?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null } }> } | null };
 
 export type SearchRateRulesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6256,7 +6256,7 @@ export type TableSurchargeQueryVariables = Exact<{
 }>;
 
 
-export type TableSurchargeQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', amount: number, calculationMethod: SurchargeCalculationMethod, createdAt?: string | null, description?: string | null, id: string, isActive?: boolean | null, name: string, type: string, updatedAt?: string | null, validFrom?: string | null, validTo?: string | null }> } | null };
+export type TableSurchargeQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', amount: number, calculationMethod: SurchargeCalculationMethod, createdAt?: any | null, description?: string | null, id: string, isActive?: boolean | null, name: string, type: string, updatedAt?: any | null, validFrom?: string | null, validTo?: string | null }> } | null };
 
 export type SearchSurchargesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6302,7 +6302,7 @@ export type TableCampaignQueryVariables = Exact<{
 }>;
 
 
-export type TableCampaignQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', budget?: number | null, createdAt?: string | null, endDate?: any | null, id: string, name: string, startDate: any, updatedAt?: string | null }> } | null };
+export type TableCampaignQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', campaigns: Array<{ __typename?: 'Campaigns', budget?: number | null, createdAt?: any | null, endDate?: any | null, id: string, name: string, startDate: any, updatedAt?: any | null }> } | null };
 
 export type SearchCampaignsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6350,7 +6350,7 @@ export type TableCaseQueryVariables = Exact<{
 }>;
 
 
-export type TableCaseQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', caseNumber: string, createdAt?: string | null, description?: string | null, id: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null, updatedAt?: string | null, contact?: { __typename?: 'Contacts', id: string, email?: string | null, name: string, phoneNumber?: string | null, jobTitle?: string | null } | null, owner?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null }> } | null };
+export type TableCaseQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', cases: Array<{ __typename?: 'Cases', caseNumber: string, createdAt?: any | null, description?: string | null, id: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null, updatedAt?: any | null, contact?: { __typename?: 'Contacts', id: string, email?: string | null, name: string, phoneNumber?: string | null, jobTitle?: string | null } | null, owner?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null }> } | null };
 
 export type SearchCasesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6396,7 +6396,7 @@ export type TableCompanyQueryQueryVariables = Exact<{
 }>;
 
 
-export type TableCompanyQueryQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', name: string, annualRevenue?: number | null, phoneNumber?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, updatedAt?: string | null, website?: string | null, city?: string | null, country?: string | null, createdAt?: string | null, id: string, industry?: string | null, owner?: { __typename?: 'User', email: string, image?: string | null, name: string } | null, clientAccount?: { __typename?: 'ClientAccounts', walletBalance?: number | null, creditLimit?: number | null, currency?: string | null } | null }> } | null };
+export type TableCompanyQueryQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', companies: Array<{ __typename?: 'Companies', name: string, annualRevenue?: number | null, phoneNumber?: string | null, postalCode?: string | null, state?: string | null, street?: string | null, updatedAt?: any | null, website?: string | null, city?: string | null, country?: string | null, createdAt?: any | null, id: string, industry?: string | null, owner?: { __typename?: 'User', email: string, image?: string | null, name: string } | null, clientAccount?: { __typename?: 'ClientAccounts', walletBalance?: number | null, creditLimit?: number | null, currency?: string | null } | null }> } | null };
 
 export type SearchCompaniesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6442,7 +6442,7 @@ export type TableContactQueryVariables = Exact<{
 }>;
 
 
-export type TableContactQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', contacts: Array<{ __typename?: 'Contacts', createdAt?: string | null, email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, owner?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null, company: { __typename?: 'Companies', id: string, phoneNumber?: string | null, name: string, industry?: string | null, website?: string | null } }> } | null };
+export type TableContactQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', contacts: Array<{ __typename?: 'Contacts', createdAt?: any | null, email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: any | null, owner?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null, company: { __typename?: 'Companies', id: string, phoneNumber?: string | null, name: string, industry?: string | null, website?: string | null } }> } | null };
 
 export type SearchContactsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6488,7 +6488,7 @@ export type TableInteractionQueryVariables = Exact<{
 }>;
 
 
-export type TableInteractionQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', interactions: Array<{ __typename?: 'Interactions', createdAt?: string | null, id: string, interactionDate?: any | null, notes?: string | null, outcome?: InteractionOutcome | null, type?: InteractionType | null, updatedAt?: string | null, user?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null, case?: { __typename?: 'Cases', id: string, caseNumber: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null } | null, contact: { __typename?: 'Contacts', id: string, name: string, email?: string | null, jobTitle?: string | null, phoneNumber?: string | null } }> } | null };
+export type TableInteractionQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', interactions: Array<{ __typename?: 'Interactions', createdAt?: any | null, id: string, interactionDate?: any | null, notes?: string | null, outcome?: InteractionOutcome | null, type?: InteractionType | null, updatedAt?: any | null, user?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null, case?: { __typename?: 'Cases', id: string, caseNumber: string, priority?: CasePriority | null, status?: CaseStatus | null, type?: CaseType | null } | null, contact: { __typename?: 'Contacts', id: string, name: string, email?: string | null, jobTitle?: string | null, phoneNumber?: string | null } }> } | null };
 
 export type AnalyticsInteractionsQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -6537,7 +6537,7 @@ export type TableInvoiceQueryVariables = Exact<{
 }>;
 
 
-export type TableInvoiceQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', createdAt?: string | null, dueDate: any, id: string, issueDate: any, paidAt?: any | null, paymentMethod?: CrmInvoicePaymentMethod | null, sentAt?: any | null, status?: InvoiceStatus | null, total: number, updatedAt?: string | null, items?: Array<{ __typename?: 'InvoiceItems', price: number, quantity: number, updatedAt?: string | null, id: string, createdAt?: string | null, product: { __typename?: 'Products', name: string, price: number, type?: ProductType | null, sku?: string | null, id: string, description?: string | null } }> | null, opportunity: { __typename?: 'Opportunities', name: string, stage?: OpportunityStage | null, id: string, expectedCloseDate?: any | null, dealValue?: number | null } }> } | null };
+export type TableInvoiceQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', invoices: Array<{ __typename?: 'Invoices', createdAt?: any | null, dueDate: any, id: string, issueDate: any, paidAt?: any | null, paymentMethod?: CrmInvoicePaymentMethod | null, sentAt?: any | null, status?: InvoiceStatus | null, total: number, updatedAt?: any | null, items?: Array<{ __typename?: 'InvoiceItems', price: number, quantity: number, updatedAt?: any | null, id: string, createdAt?: any | null, product: { __typename?: 'Products', name: string, price: number, type?: ProductType | null, sku?: string | null, id: string, description?: string | null } }> | null, opportunity: { __typename?: 'Opportunities', name: string, stage?: OpportunityStage | null, id: string, expectedCloseDate?: any | null, dealValue?: number | null } }> } | null };
 
 export type SearchInvoicesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6585,7 +6585,7 @@ export type TableLeadQueryVariables = Exact<{
 }>;
 
 
-export type TableLeadQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', convertedAt?: any | null, createdAt?: string | null, email?: string | null, leadScore?: number | null, leadSource?: LeadSource | null, name: string, id: string, status?: LeadStatus | null, updatedAt?: string | null, owner?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null, campaign?: { __typename?: 'Campaigns', name: string, endDate?: any | null, startDate: any, budget?: number | null } | null, convertedCompany?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, website?: string | null, id: string } | null, convertedContact?: { __typename?: 'Contacts', email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company: { __typename?: 'Companies', name: string, industry?: string | null, id: string } } | null, convertedOpportunity?: { __typename?: 'Opportunities', name: string, dealValue?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null } | null }> } | null };
+export type TableLeadQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', leads: Array<{ __typename?: 'Leads', convertedAt?: any | null, createdAt?: any | null, email?: string | null, leadScore?: number | null, leadSource?: LeadSource | null, name: string, id: string, status?: LeadStatus | null, updatedAt?: any | null, owner?: { __typename?: 'User', id: string, email: string, image?: string | null, name: string } | null, campaign?: { __typename?: 'Campaigns', name: string, endDate?: any | null, startDate: any, budget?: number | null } | null, convertedCompany?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, website?: string | null, id: string } | null, convertedContact?: { __typename?: 'Contacts', email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: any | null, company: { __typename?: 'Companies', name: string, industry?: string | null, id: string } } | null, convertedOpportunity?: { __typename?: 'Opportunities', name: string, dealValue?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null } | null }> } | null };
 
 export type SearchLeadsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6631,7 +6631,7 @@ export type TableNotificationQueryVariables = Exact<{
 }>;
 
 
-export type TableNotificationQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', notifications: Array<{ __typename?: 'Notifications', createdAt?: string | null, id: string, isRead?: boolean | null, link?: string | null, message: string, updatedAt?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
+export type TableNotificationQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', notifications: Array<{ __typename?: 'Notifications', createdAt?: any | null, id: string, isRead?: boolean | null, link?: string | null, message: string, updatedAt?: any | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
 
 export type SearchNotificationsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6664,7 +6664,7 @@ export type TableOpportunityQueryVariables = Exact<{
 }>;
 
 
-export type TableOpportunityQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', createdAt?: any | null, dealValue?: number | null, expectedCloseDate?: any | null, id: string, lostReason?: string | null, name: string, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, updatedAt?: any | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string, country?: string | null, phoneNumber?: string | null } | null, contact?: { __typename?: 'Contacts', email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null } } | null, owner?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, products?: Array<{ __typename?: 'OpportunityProducts', quantity: number, product: { __typename?: 'Products', id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, description?: string | null } }> | null, campaign?: { __typename?: 'Campaigns', name: string, budget?: number | null, endDate?: any | null, startDate: any, id: string } | null }> } | null };
+export type TableOpportunityQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', createdAt?: any | null, dealValue?: number | null, expectedCloseDate?: any | null, id: string, lostReason?: string | null, name: string, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, updatedAt?: any | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string, country?: string | null, phoneNumber?: string | null } | null, contact?: { __typename?: 'Contacts', email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: any | null, company: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null } } | null, owner?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, products?: Array<{ __typename?: 'OpportunityProducts', quantity: number, product: { __typename?: 'Products', id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, description?: string | null } }> | null, campaign?: { __typename?: 'Campaigns', name: string, budget?: number | null, endDate?: any | null, startDate: any, id: string } | null }> } | null };
 
 export type SearchOpportunitiesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6711,7 +6711,7 @@ export type TableProductQueryVariables = Exact<{
 }>;
 
 
-export type TableProductQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', createdAt?: string | null, description?: string | null, id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, updatedAt?: string | null }> } | null };
+export type TableProductQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', products: Array<{ __typename?: 'Products', createdAt?: any | null, description?: string | null, id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, updatedAt?: any | null }> } | null };
 
 export type SearchProductsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6757,7 +6757,7 @@ export type TableCustomerTrackingLinkQueryVariables = Exact<{
 }>;
 
 
-export type TableCustomerTrackingLinkQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', accessCount?: number | null, createdAt?: string | null, expiresAt?: string | null, id: string, isActive?: boolean | null, lastAccessedAt?: string | null, trackingToken: string, updatedAt?: string | null }> } | null };
+export type TableCustomerTrackingLinkQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', customerTrackingLinks: Array<{ __typename?: 'CustomerTrackingLinks', accessCount?: number | null, createdAt?: any | null, expiresAt?: string | null, id: string, isActive?: boolean | null, lastAccessedAt?: string | null, trackingToken: string, updatedAt?: any | null }> } | null };
 
 export type SearchCustomerTrackingLinksQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6804,7 +6804,7 @@ export type TableDeliveryQueryVariables = Exact<{
 }>;
 
 
-export type TableDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', actualDurationMinutes?: number | null, completedAt?: string | null, createdAt?: string | null, estimatedDurationMinutes?: number | null, id: string, optimizedRouteData?: string | null, routeDate: string, startedAt?: string | null, status?: DeliveryRouteStatus | null, totalDistanceKm?: number | null, updatedAt?: string | null, driver: { __typename?: 'Drivers', id: string, status?: DriverStatus | null, licenseNumber: string, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
+export type TableDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryRoutes: Array<{ __typename?: 'DeliveryRoutes', actualDurationMinutes?: number | null, completedAt?: string | null, createdAt?: any | null, estimatedDurationMinutes?: number | null, id: string, optimizedRouteData?: string | null, routeDate: string, startedAt?: string | null, status?: DeliveryRouteStatus | null, totalDistanceKm?: number | null, updatedAt?: any | null, driver: { __typename?: 'Drivers', id: string, status?: DriverStatus | null, licenseNumber: string, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
 
 export type SearchDeliveryRoutesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6852,7 +6852,7 @@ export type TableDeliveryTaskQueryVariables = Exact<{
 }>;
 
 
-export type TableDeliveryTaskQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, attemptCount?: number | null, createdAt?: string | null, deliveryAddress: string, deliveryInstructions?: string | null, deliveryTime?: string | null, estimatedArrivalTime?: string | null, failureReason?: DeliveryFailureReason | null, id: string, recipientName?: string | null, recipientPhone?: string | null, routeSequence: number, status?: DeliveryTaskStatus | null, updatedAt?: string | null, deliveryRoute: { __typename?: 'DeliveryRoutes', id: string, totalDistanceKm?: number | null, optimizedRouteData?: string | null, status?: DeliveryRouteStatus | null, driver: { __typename?: 'Drivers', id: string, licenseNumber: string, status?: DriverStatus | null, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }, package: { __typename?: 'Packages', id: string, carrier?: string | null, packageNumber: string, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, country?: string | null } } }> } | null };
+export type TableDeliveryTaskQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', deliveryTasks: Array<{ __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, attemptCount?: number | null, createdAt?: any | null, deliveryAddress: string, deliveryInstructions?: string | null, deliveryTime?: string | null, estimatedArrivalTime?: string | null, failureReason?: DeliveryFailureReason | null, id: string, recipientName?: string | null, recipientPhone?: string | null, routeSequence: number, status?: DeliveryTaskStatus | null, updatedAt?: any | null, deliveryRoute: { __typename?: 'DeliveryRoutes', id: string, totalDistanceKm?: number | null, optimizedRouteData?: string | null, status?: DeliveryRouteStatus | null, driver: { __typename?: 'Drivers', id: string, licenseNumber: string, status?: DriverStatus | null, contactPhone?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }, package: { __typename?: 'Packages', id: string, carrier?: string | null, packageNumber: string, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, country?: string | null } } }> } | null };
 
 export type SearchDeliveryTasksQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6897,7 +6897,7 @@ export type TableDriverLocationQueryVariables = Exact<{
 }>;
 
 
-export type TableDriverLocationQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', driverLocations: Array<{ __typename?: 'DriverLocations', accuracy?: number | null, altitude?: number | null, createdAt?: string | null, heading?: number | null, id: string, latitude: number, longitude: number, speedKmh?: number | null, timestamp?: string | null, updatedAt?: string | null, driver: { __typename?: 'Drivers', id: string, contactPhone?: string | null, licenseExpiryDate?: string | null, licenseNumber: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
+export type TableDriverLocationQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', driverLocations: Array<{ __typename?: 'DriverLocations', accuracy?: number | null, altitude?: number | null, createdAt?: any | null, heading?: number | null, id: string, latitude: number, longitude: number, speedKmh?: number | null, timestamp?: string | null, updatedAt?: any | null, driver: { __typename?: 'Drivers', id: string, contactPhone?: string | null, licenseExpiryDate?: string | null, licenseNumber: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } }> } | null };
 
 export type AnalyticsDriverLocationsQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -6937,7 +6937,7 @@ export type TableProofOfDeliveryQueryVariables = Exact<{
 }>;
 
 
-export type TableProofOfDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', createdAt?: string | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, recipientName?: string | null, signatureData?: string | null, timestamp?: string | null, type: ProofOfDeliveryType, updatedAt?: string | null, verificationCode?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, failureReason?: DeliveryFailureReason | null, recipientName?: string | null, recipientPhone?: string | null, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, packageNumber: string, packageType?: string | null, requiresSignature?: boolean | null, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, city?: string | null, country?: string | null } } } }> } | null };
+export type TableProofOfDeliveryQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', dmsProofOfDeliveries: Array<{ __typename?: 'DmsProofOfDeliveries', createdAt?: any | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, recipientName?: string | null, signatureData?: string | null, timestamp?: string | null, type: ProofOfDeliveryType, updatedAt?: any | null, verificationCode?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', actualArrivalTime?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, failureReason?: DeliveryFailureReason | null, recipientName?: string | null, recipientPhone?: string | null, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, packageNumber: string, packageType?: string | null, requiresSignature?: boolean | null, trackingNumber?: string | null, warehouse: { __typename?: 'Warehouses', id: string, address?: string | null, city?: string | null, country?: string | null } } } }> } | null };
 
 export type SearchDmsProofOfDeliveriesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -6984,7 +6984,7 @@ export type TableTaskEventQueryVariables = Exact<{
 }>;
 
 
-export type TableTaskEventQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', createdAt?: string | null, id: string, latitude?: number | null, longitude?: number | null, notes?: string | null, reason?: string | null, status: TaskEventStatus, timestamp?: string | null, updatedAt?: string | null, deliveryTask: { __typename?: 'DeliveryTasks', id: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, trackingNumber?: string | null, packageNumber: string, packageType?: string | null } } }> } | null };
+export type TableTaskEventQuery = { __typename?: 'Query', dms?: { __typename?: 'DmsQuery', taskEvents: Array<{ __typename?: 'TaskEvents', createdAt?: any | null, id: string, latitude?: number | null, longitude?: number | null, notes?: string | null, reason?: string | null, status: TaskEventStatus, timestamp?: string | null, updatedAt?: any | null, deliveryTask: { __typename?: 'DeliveryTasks', id: string, recipientName?: string | null, recipientPhone?: string | null, deliveryInstructions?: string | null, deliveryAddress: string, status?: DeliveryTaskStatus | null, package: { __typename?: 'Packages', id: string, trackingNumber?: string | null, packageNumber: string, packageType?: string | null } } }> } | null };
 
 export type SearchTaskEventsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7052,7 +7052,7 @@ export type TableCarrierQueryQueryVariables = Exact<{
 }>;
 
 
-export type TableCarrierQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', carriers: Array<{ __typename?: 'Carriers', contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, createdAt?: string | null, id: string, name: string, servicesOffered?: string | null, updatedAt?: string | null, partnerInvoices?: Array<{ __typename?: 'PartnerInvoices', invoiceNumber: string, invoiceDate: string, status?: PartnerInvoiceStatus | null, totalAmount: number, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', status?: ShipmentLegStatus | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, createdAt?: string | null, id: string, status?: OutboundShipmentStatus | null, warehouseId: string } | null } }> | null }> | null, rates?: Array<{ __typename?: 'CarrierRates', destination?: string | null, id: string, origin?: string | null, rate: number, serviceType?: string | null, unit?: CarrierRateUnit | null }> | null }> } | null };
+export type TableCarrierQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', carriers: Array<{ __typename?: 'Carriers', contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, createdAt?: any | null, id: string, name: string, servicesOffered?: string | null, updatedAt?: any | null, partnerInvoices?: Array<{ __typename?: 'PartnerInvoices', invoiceNumber: string, invoiceDate: string, status?: PartnerInvoiceStatus | null, totalAmount: number, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', status?: ShipmentLegStatus | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, createdAt?: any | null, id: string, status?: OutboundShipmentStatus | null, warehouseId: string } | null } }> | null }> | null, rates?: Array<{ __typename?: 'CarrierRates', destination?: string | null, id: string, origin?: string | null, rate: number, serviceType?: string | null, unit?: CarrierRateUnit | null }> | null }> } | null };
 
 export type SearchCarriersQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7113,7 +7113,7 @@ export type TableDriverQueryVariables = Exact<{
 }>;
 
 
-export type TableDriverQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', contactPhone?: string | null, createdAt?: string | null, id: string, licenseExpiryDate?: string | null, licenseNumber: string, status?: DriverStatus | null, updatedAt?: string | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
+export type TableDriverQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', drivers: Array<{ __typename?: 'Drivers', contactPhone?: string | null, createdAt?: any | null, id: string, licenseExpiryDate?: string | null, licenseNumber: string, status?: DriverStatus | null, updatedAt?: any | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } }> } | null };
 
 export type SearchDriversQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7162,7 +7162,7 @@ export type TableExpenseQueryVariables = Exact<{
 }>;
 
 
-export type TableExpenseQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', amount: number, createdAt?: string | null, currency?: Currency | null, description?: string | null, expenseDate?: string | null, fuelQuantity?: number | null, id: string, odometerReading?: number | null, receiptUrl?: string | null, status?: ExpenseStatus | null, type?: ExpenseType | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, trip?: { __typename?: 'Trips', createdAt?: string | null, endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, startTime?: string | null, endTime?: string | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, model?: string | null, make?: string | null, id: string, registrationNumber: string } | null } | null }> } | null };
+export type TableExpenseQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', expenses: Array<{ __typename?: 'Expenses', amount: number, createdAt?: any | null, currency?: Currency | null, description?: string | null, expenseDate?: string | null, fuelQuantity?: number | null, id: string, odometerReading?: number | null, receiptUrl?: string | null, status?: ExpenseStatus | null, type?: ExpenseType | null, updatedAt?: any | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, trip?: { __typename?: 'Trips', createdAt?: any | null, endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, startTime?: string | null, endTime?: string | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, model?: string | null, make?: string | null, id: string, registrationNumber: string } | null } | null }> } | null };
 
 export type SearchExpensesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7230,7 +7230,7 @@ export type TableGeofenceQueryVariables = Exact<{
 }>;
 
 
-export type TableGeofenceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', geofences: Array<{ __typename?: 'Geofences', createdAt?: string | null, id: string, latitude?: number | null, longitude?: number | null, name: string, updatedAt?: string | null, events?: Array<{ __typename?: 'GeofenceEvents', eventType: GeofenceEventType, id: string, timestamp: string, vehicle: { __typename?: 'Vehicles', model?: string | null, vin?: string | null, year?: number | null, registrationNumber: string, make?: string | null, id: string } }> | null }> } | null };
+export type TableGeofenceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', geofences: Array<{ __typename?: 'Geofences', createdAt?: any | null, id: string, latitude?: number | null, longitude?: number | null, name: string, updatedAt?: any | null, events?: Array<{ __typename?: 'GeofenceEvents', eventType: GeofenceEventType, id: string, timestamp: string, vehicle: { __typename?: 'Vehicles', model?: string | null, vin?: string | null, year?: number | null, registrationNumber: string, make?: string | null, id: string } }> | null }> } | null };
 
 export type SearchGeofencesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7321,7 +7321,7 @@ export type TablePartnerInvoiceQueryVariables = Exact<{
 }>;
 
 
-export type TablePartnerInvoiceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', createdAt?: string | null, id: string, invoiceDate: string, invoiceNumber: string, status?: PartnerInvoiceStatus | null, totalAmount: number, updatedAt?: string | null, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', startLocation?: string | null, endLocation?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null } | null } }> | null }> } | null };
+export type TablePartnerInvoiceQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', partnerInvoices: Array<{ __typename?: 'PartnerInvoices', createdAt?: any | null, id: string, invoiceDate: string, invoiceNumber: string, status?: PartnerInvoiceStatus | null, totalAmount: number, updatedAt?: any | null, items?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string, shipmentLeg: { __typename?: 'ShipmentLegs', startLocation?: string | null, endLocation?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null } | null } }> | null }> } | null };
 
 export type SearchPartnerInvoicesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7368,7 +7368,7 @@ export type TableTmsProofOfDeliveryQueryVariables = Exact<{
 }>;
 
 
-export type TableTmsProofOfDeliveryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', createdAt?: string | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, timestamp: string, type?: ProofType | null, updatedAt?: string | null, tripStop: { __typename?: 'TripStops', actualArrivalTime?: string | null, actualDepartureTime?: string | null, address?: string | null, status?: TripStopStatus | null, id: string, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, status?: OutboundShipmentStatus | null, carrier?: string | null, id: string } | null, trip: { __typename?: 'Trips', endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, vehicle?: { __typename?: 'Vehicles', registrationNumber: string, vin?: string | null, year?: number | null, make?: string | null, model?: string | null, gpsPings?: Array<{ __typename?: 'GpsPings', latitude: number, longitude: number, timestamp: string, id: string }> | null } | null } } }> } | null };
+export type TableTmsProofOfDeliveryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', createdAt?: any | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, timestamp: string, type?: ProofType | null, updatedAt?: any | null, tripStop: { __typename?: 'TripStops', actualArrivalTime?: string | null, actualDepartureTime?: string | null, address?: string | null, status?: TripStopStatus | null, id: string, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, status?: OutboundShipmentStatus | null, carrier?: string | null, id: string } | null, trip: { __typename?: 'Trips', endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, vehicle?: { __typename?: 'Vehicles', registrationNumber: string, vin?: string | null, year?: number | null, make?: string | null, model?: string | null, gpsPings?: Array<{ __typename?: 'GpsPings', latitude: number, longitude: number, timestamp: string, id: string }> | null } | null } } }> } | null };
 
 export type SearchProofOfDeliveriesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7414,7 +7414,7 @@ export type TableRouteQueryVariables = Exact<{
 }>;
 
 
-export type TableRouteQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', routes: Array<{ __typename?: 'Routes', optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, id: string, trip: { __typename?: 'Trips', startLocation?: string | null, endTime?: string | null, endLocation?: string | null, createdAt?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, id: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null } }> } | null };
+export type TableRouteQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', routes: Array<{ __typename?: 'Routes', optimizedRouteData?: string | null, totalDistance?: number | null, totalDuration?: number | null, id: string, trip: { __typename?: 'Trips', startLocation?: string | null, endTime?: string | null, endLocation?: string | null, createdAt?: any | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: any | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, id: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null } }> } | null };
 
 export type AnalyticsRoutesQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -7476,7 +7476,7 @@ export type TableShipmentLegQueryQueryVariables = Exact<{
 }>;
 
 
-export type TableShipmentLegQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', createdAt?: string | null, endLocation?: string | null, id: string, legSequence: number, startLocation?: string | null, status?: ShipmentLegStatus | null, updatedAt?: string | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, status?: OutboundShipmentStatus | null } | null, partnerInvoiceItems?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string }> | null, events?: Array<{ __typename?: 'ShipmentLegEvents', location?: string | null, statusMessage?: string | null, eventTimestamp: string, id: string }> | null }> } | null };
+export type TableShipmentLegQueryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', shipmentLegs: Array<{ __typename?: 'ShipmentLegs', createdAt?: any | null, endLocation?: string | null, id: string, legSequence: number, startLocation?: string | null, status?: ShipmentLegStatus | null, updatedAt?: any | null, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, carrier?: string | null, status?: OutboundShipmentStatus | null } | null, partnerInvoiceItems?: Array<{ __typename?: 'PartnerInvoiceItems', amount: number, id: string }> | null, events?: Array<{ __typename?: 'ShipmentLegEvents', location?: string | null, statusMessage?: string | null, eventTimestamp: string, id: string }> | null }> } | null };
 
 export type SearchShipmentLegsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7545,7 +7545,7 @@ export type TableTripQueryVariables = Exact<{
 }>;
 
 
-export type TableTripQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', createdAt?: string | null, endLocation?: string | null, endTime?: string | null, id: string, startLocation?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: string | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null } | null }> } | null };
+export type TableTripQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', createdAt?: any | null, endLocation?: string | null, endTime?: string | null, id: string, startLocation?: string | null, startTime?: string | null, status?: TripStatus | null, updatedAt?: any | null, driver?: { __typename?: 'Drivers', licenseNumber: string, contactPhone?: string | null, status?: DriverStatus | null, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } } | null, vehicle?: { __typename?: 'Vehicles', vin?: string | null, year?: number | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null } | null }> } | null };
 
 export type SearchTripsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7614,7 +7614,7 @@ export type TableVehicleQueryVariables = Exact<{
 }>;
 
 
-export type TableVehicleQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, createdAt?: string | null, currentMileage?: number | null, id: string, lastMaintenanceDate?: string | null, make?: string | null, model?: string | null, registrationNumber: string, status?: VehicleStatus | null, updatedAt?: string | null, vin?: string | null, year?: number | null, maintenances?: Array<{ __typename?: 'VehicleMaintenance', cost?: number | null, createdAt?: string | null, id: string, notes?: string | null, serviceDate: string, serviceType?: VehicleServiceType | null, updatedAt?: string | null }> | null }> } | null };
+export type TableVehicleQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, createdAt?: any | null, currentMileage?: number | null, id: string, lastMaintenanceDate?: string | null, make?: string | null, model?: string | null, registrationNumber: string, status?: VehicleStatus | null, updatedAt?: any | null, vin?: string | null, year?: number | null, maintenances?: Array<{ __typename?: 'VehicleMaintenance', cost?: number | null, createdAt?: any | null, id: string, notes?: string | null, serviceDate: string, serviceType?: VehicleServiceType | null, updatedAt?: any | null }> | null }> } | null };
 
 export type SearchVehiclesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7659,7 +7659,7 @@ export type TableBinThresholdQueryVariables = Exact<{
 }>;
 
 
-export type TableBinThresholdQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', binThresholds: Array<{ __typename?: 'BinThresholds', alertThreshold?: number | null, createdAt?: string | null, id: string, isActive?: boolean | null, maxQuantity: number, minQuantity: number, reorderQuantity?: number | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', name: string, description?: string | null, id: string, sku: string, status?: ProductStatus | null, barcode?: string | null } }> } | null };
+export type TableBinThresholdQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', binThresholds: Array<{ __typename?: 'BinThresholds', alertThreshold?: number | null, createdAt?: any | null, id: string, isActive?: boolean | null, maxQuantity: number, minQuantity: number, reorderQuantity?: number | null, updatedAt?: any | null, product: { __typename?: 'WmsProducts', name: string, description?: string | null, id: string, sku: string, status?: ProductStatus | null, barcode?: string | null } }> } | null };
 
 export type AnalyticsBinThresholdsQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -7720,7 +7720,7 @@ export type TableInboundShipmentQueryVariables = Exact<{
 }>;
 
 
-export type TableInboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inboundShipments: Array<{ __typename?: 'InboundShipments', actualArrivalDate?: string | null, createdAt?: string | null, expectedArrivalDate?: string | null, id: string, status?: InboundShipmentStatus | null, updatedAt?: string | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, country?: string | null, website?: string | null } | null }> } | null };
+export type TableInboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inboundShipments: Array<{ __typename?: 'InboundShipments', actualArrivalDate?: string | null, createdAt?: any | null, expectedArrivalDate?: string | null, id: string, status?: InboundShipmentStatus | null, updatedAt?: any | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, phoneNumber?: string | null, country?: string | null, website?: string | null } | null }> } | null };
 
 export type AnalyticsInboundShipmentsQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -7760,7 +7760,7 @@ export type TableInventoryAdjustmentQueryVariables = Exact<{
 }>;
 
 
-export type TableInventoryAdjustmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', createdAt?: string | null, id: string, notes?: string | null, quantityChange: number, reason?: InventoryAdjustmentReason | null, updatedAt?: string | null, warehouseId: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string }, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> } | null };
+export type TableInventoryAdjustmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryAdjustments: Array<{ __typename?: 'InventoryAdjustments', createdAt?: any | null, id: string, notes?: string | null, quantityChange: number, reason?: InventoryAdjustmentReason | null, updatedAt?: any | null, warehouseId: string, user: { __typename?: 'User', email: string, id: string, image?: string | null, name: string }, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> } | null };
 
 export type SearchInventoryAdjustmentsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7806,7 +7806,7 @@ export type TableInventoryBatchQueryVariables = Exact<{
 }>;
 
 
-export type TableInventoryBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', batchNumber: string, createdAt?: string | null, expirationDate?: string | null, id: string, updatedAt?: string | null, inventoryStock?: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, product: { __typename?: 'WmsProducts', barcode?: string | null, name: string, sku: string, status?: ProductStatus | null, description?: string | null, id: string, costPrice?: number | null } }> | null }> } | null };
+export type TableInventoryBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', batchNumber: string, createdAt?: any | null, expirationDate?: string | null, id: string, updatedAt?: any | null, inventoryStock?: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, product: { __typename?: 'WmsProducts', barcode?: string | null, name: string, sku: string, status?: ProductStatus | null, description?: string | null, id: string, costPrice?: number | null } }> | null }> } | null };
 
 export type SearchInventoryBatchesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7844,7 +7844,7 @@ export type TableInventoryStockQueryVariables = Exact<{
 }>;
 
 
-export type TableInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, createdAt?: string | null, id: string, lastCountedAt?: string | null, lastMovementAt?: string | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, status?: ProductStatus | null, sku: string, volume?: number | null, weight?: number | null, width?: number | null }, location: { __typename?: 'Locations', id: string, barcode?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, name: string } }> } | null };
+export type TableInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, createdAt?: any | null, id: string, lastCountedAt?: string | null, lastMovementAt?: string | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, status?: ProductStatus | null, sku: string, volume?: number | null, weight?: number | null, width?: number | null }, location: { __typename?: 'Locations', id: string, barcode?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, name: string } }> } | null };
 
 export type AnalyticsInventoryStockQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -7884,7 +7884,7 @@ export type TableLocationQueryVariables = Exact<{
 }>;
 
 
-export type TableLocationQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', barcode?: string | null, createdAt?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, id: string, hazmatApproved?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, temperatureControlled?: boolean | null, type: LocationType, updatedAt?: string | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, parentLocation?: { __typename?: 'Locations', id: string, name: string, path?: string | null } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, name: string, id: string, isActive?: boolean | null } }> } | null };
+export type TableLocationQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', barcode?: string | null, createdAt?: any | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, id: string, hazmatApproved?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, temperatureControlled?: boolean | null, type: LocationType, updatedAt?: any | null, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, parentLocation?: { __typename?: 'Locations', id: string, name: string, path?: string | null } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, name: string, id: string, isActive?: boolean | null } }> } | null };
 
 export type SearchLocationsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7953,7 +7953,7 @@ export type TableOutboundShipmentQueryVariables = Exact<{
 }>;
 
 
-export type TableOutboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', carrier?: string | null, createdAt?: string | null, id: string, status?: OutboundShipmentStatus | null, trackingNumber?: string | null, updatedAt?: string | null, warehouseId: string, salesOrder: { __typename?: 'SalesOrders', id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null } }> } | null };
+export type TableOutboundShipmentQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', carrier?: string | null, createdAt?: any | null, id: string, status?: OutboundShipmentStatus | null, trackingNumber?: string | null, updatedAt?: any | null, warehouseId: string, salesOrder: { __typename?: 'SalesOrders', id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null } }> } | null };
 
 export type SearchOutboundShipmentsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8021,7 +8021,7 @@ export type TablePackageQueryVariables = Exact<{
 }>;
 
 
-export type TablePackageQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', carrier?: string | null, createdAt?: string | null, height?: number | null, id: string, insuranceValue?: number | null, isFragile?: boolean | null, isHazmat?: boolean | null, length?: number | null, packageNumber: string, packageType?: string | null, packedAt?: string | null, requiresSignature?: boolean | null, serviceLevel?: string | null, shippedAt?: string | null, trackingNumber?: string | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, items?: Array<{ __typename?: 'PackageItems', lotNumber?: string | null, quantity: number, serialNumbers?: Array<string | null> | null, totalWeight?: number | null, unitWeight?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+export type TablePackageQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', carrier?: string | null, createdAt?: any | null, height?: number | null, id: string, insuranceValue?: number | null, isFragile?: boolean | null, isHazmat?: boolean | null, length?: number | null, packageNumber: string, packageType?: string | null, packedAt?: string | null, requiresSignature?: boolean | null, serviceLevel?: string | null, shippedAt?: string | null, trackingNumber?: string | null, updatedAt?: any | null, volume?: number | null, weight?: number | null, width?: number | null, items?: Array<{ __typename?: 'PackageItems', lotNumber?: string | null, quantity: number, serialNumbers?: Array<string | null> | null, totalWeight?: number | null, unitWeight?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
 
 export type SearchPackagesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8091,7 +8091,7 @@ export type TablePickBatchQueryVariables = Exact<{
 }>;
 
 
-export type TablePickBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', actualDuration?: number | null, batchNumber: string, completedAt?: string | null, completedItems?: number | null, createdAt?: string | null, estimatedDuration?: number | null, id: string, priority?: number | null, startedAt?: string | null, status?: PickBatchStatus | null, strategy: PickStrategy, totalItems?: number | null, updatedAt?: string | null, waveId?: string | null, zoneRestrictions?: Array<string | null> | null, items?: Array<{ __typename?: 'PickBatchItems', id: string, estimatedPickTime?: number | null, actualPickTime?: number | null, orderPriority?: number | null, salesOrder: { __typename?: 'SalesOrders', status?: SalesOrderStatus | null, shippingAddress?: string | null, orderNumber: string } }> | null }> } | null };
+export type TablePickBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', pickBatches: Array<{ __typename?: 'PickBatches', actualDuration?: number | null, batchNumber: string, completedAt?: string | null, completedItems?: number | null, createdAt?: any | null, estimatedDuration?: number | null, id: string, priority?: number | null, startedAt?: string | null, status?: PickBatchStatus | null, strategy: PickStrategy, totalItems?: number | null, updatedAt?: any | null, waveId?: string | null, zoneRestrictions?: Array<string | null> | null, items?: Array<{ __typename?: 'PickBatchItems', id: string, estimatedPickTime?: number | null, actualPickTime?: number | null, orderPriority?: number | null, salesOrder: { __typename?: 'SalesOrders', status?: SalesOrderStatus | null, shippingAddress?: string | null, orderNumber: string } }> | null }> } | null };
 
 export type SearchPickBatchesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8138,7 +8138,7 @@ export type TableWmsProductQueryVariables = Exact<{
 }>;
 
 
-export type TableWmsProductQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, createdAt?: string | null, height?: number | null, description?: string | null, id: string, length?: number | null, name: string, sku: string, status?: ProductStatus | null, updatedAt?: string | null, volume?: number | null, weight?: number | null, width?: number | null, supplier?: { __typename?: 'Suppliers', contactPerson?: string | null, email?: string | null, name: string, phoneNumber?: string | null } | null }> } | null };
+export type TableWmsProductQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', wmsProducts: Array<{ __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, createdAt?: any | null, height?: number | null, description?: string | null, id: string, length?: number | null, name: string, sku: string, status?: ProductStatus | null, updatedAt?: any | null, volume?: number | null, weight?: number | null, width?: number | null, supplier?: { __typename?: 'Suppliers', contactPerson?: string | null, email?: string | null, name: string, phoneNumber?: string | null } | null }> } | null };
 
 export type SearchWmsProductsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8184,7 +8184,7 @@ export type TablePutawayRuleQueryVariables = Exact<{
 }>;
 
 
-export type TablePutawayRuleQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', putawayRules: Array<{ __typename?: 'PutawayRules', createdAt?: string | null, isActive?: boolean | null, id: string, locationType?: LocationType | null, maxQuantity?: number | null, minQuantity?: number | null, priority: number, requiresHazmatApproval?: boolean | null, requiresTemperatureControl?: boolean | null, updatedAt?: string | null, volumeThreshold?: number | null, weightThreshold?: number | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, country?: string | null, city?: string | null, website?: string | null, phoneNumber?: string | null } | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, name: string, isActive?: boolean | null } }> } | null };
+export type TablePutawayRuleQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', putawayRules: Array<{ __typename?: 'PutawayRules', createdAt?: any | null, isActive?: boolean | null, id: string, locationType?: LocationType | null, maxQuantity?: number | null, minQuantity?: number | null, priority: number, requiresHazmatApproval?: boolean | null, requiresTemperatureControl?: boolean | null, updatedAt?: any | null, volumeThreshold?: number | null, weightThreshold?: number | null, client?: { __typename?: 'Companies', name: string, industry?: string | null, country?: string | null, city?: string | null, website?: string | null, phoneNumber?: string | null } | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, name: string, isActive?: boolean | null } }> } | null };
 
 export type AnalyticsPutawayRulesQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -8222,7 +8222,7 @@ export type TableReorderPointQueryVariables = Exact<{
 }>;
 
 
-export type TableReorderPointQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', reorderPoints: Array<{ __typename?: 'ReorderPoints', createdAt?: string | null, id: string, threshold: number, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, costPrice?: number | null, id: string, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string } }> } | null };
+export type TableReorderPointQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', reorderPoints: Array<{ __typename?: 'ReorderPoints', createdAt?: any | null, id: string, threshold: number, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, description?: string | null, costPrice?: number | null, id: string, name: string, sku: string, status?: ProductStatus | null }, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string } }> } | null };
 
 export type AnalyticsReorderPointsQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -8284,7 +8284,7 @@ export type TableReturnQueryQueryVariables = Exact<{
 }>;
 
 
-export type TableReturnQueryQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', createdAt?: string | null, id: string, reason?: string | null, returnNumber: string, status?: ReturnStatus | null, updatedAt?: string | null, client: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null, city?: string | null, website?: string | null }, salesOrder?: { __typename?: 'SalesOrders', orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: string | null, id: string } | null, items?: Array<{ __typename?: 'ReturnItems', condition?: ReturnItemCondition | null, id: string, quantityExpected: number, quantityReceived?: number | null, quantityVariance?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+export type TableReturnQueryQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', createdAt?: any | null, id: string, reason?: string | null, returnNumber: string, status?: ReturnStatus | null, updatedAt?: any | null, client: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null, city?: string | null, website?: string | null }, salesOrder?: { __typename?: 'SalesOrders', orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: any | null, id: string } | null, items?: Array<{ __typename?: 'ReturnItems', condition?: ReturnItemCondition | null, id: string, quantityExpected: number, quantityReceived?: number | null, quantityVariance?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
 
 export type SearchReturnsQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8353,7 +8353,7 @@ export type TableSalesOrderQueryVariables = Exact<{
 }>;
 
 
-export type TableSalesOrderQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', createdAt?: string | null, id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: string | null, items?: Array<{ __typename?: 'SalesOrderItems', id: string, quantityOrdered: number, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, description?: string | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+export type TableSalesOrderQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', salesOrders: Array<{ __typename?: 'SalesOrders', createdAt?: any | null, id: string, orderNumber: string, shippingAddress?: string | null, status?: SalesOrderStatus | null, updatedAt?: any | null, items?: Array<{ __typename?: 'SalesOrderItems', id: string, quantityOrdered: number, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, id: string, description?: string | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
 
 export type SearchSalesOrdersQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8399,7 +8399,7 @@ export type TableStockTransferQueryVariables = Exact<{
 }>;
 
 
-export type TableStockTransferQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', stockTransfers: Array<{ __typename?: 'StockTransfers', createdAt?: string | null, id: string, quantity: number, status?: StockTransferStatus | null, updatedAt?: string | null, destinationWarehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string, timezone?: string | null, isActive?: boolean | null }, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, height?: number | null, sku: string, status?: ProductStatus | null }, sourceWarehouse: { __typename?: 'Warehouses', address?: string | null, country?: string | null, isActive?: boolean | null, name: string, city?: string | null, id: string, timezone?: string | null } }> } | null };
+export type TableStockTransferQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', stockTransfers: Array<{ __typename?: 'StockTransfers', createdAt?: any | null, id: string, quantity: number, status?: StockTransferStatus | null, updatedAt?: any | null, destinationWarehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, name: string, timezone?: string | null, isActive?: boolean | null }, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, height?: number | null, sku: string, status?: ProductStatus | null }, sourceWarehouse: { __typename?: 'Warehouses', address?: string | null, country?: string | null, isActive?: boolean | null, name: string, city?: string | null, id: string, timezone?: string | null } }> } | null };
 
 export type AnalyticsStockTransfersQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -8438,7 +8438,7 @@ export type TableSupplierQueryVariables = Exact<{
 }>;
 
 
-export type TableSupplierQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', suppliers: Array<{ __typename?: 'Suppliers', contactPerson?: string | null, createdAt?: string | null, email?: string | null, id: string, name: string, phoneNumber?: string | null, updatedAt?: string | null, products?: Array<{ __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }> | null }> } | null };
+export type TableSupplierQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', suppliers: Array<{ __typename?: 'Suppliers', contactPerson?: string | null, createdAt?: any | null, email?: string | null, id: string, name: string, phoneNumber?: string | null, updatedAt?: any | null, products?: Array<{ __typename?: 'WmsProducts', barcode?: string | null, id: string, costPrice?: number | null, description?: string | null, name: string, sku: string, status?: ProductStatus | null }> | null }> } | null };
 
 export type SearchSuppliersQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8500,7 +8500,7 @@ export type TableTaskQueryVariables = Exact<{
 }>;
 
 
-export type TableTaskQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', actualDuration?: number | null, createdAt?: string | null, durationSeconds?: number | null, endTime?: string | null, estimatedDuration?: number | null, id: string, instructions?: string | null, notes?: string | null, priority?: number | null, sourceEntityId?: string | null, sourceEntityType?: string | null, startTime?: string | null, status?: TaskStatus | null, taskNumber: string, type: TaskType, updatedAt?: string | null, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, isActive?: boolean | null, name: string, timezone?: string | null }, items?: Array<{ __typename?: 'TaskItems', completedAt?: string | null, createdAt?: string | null, expiryDate?: string | null, id: string, lotNumber?: string | null, notes?: string | null, quantityCompleted: number, quantityRemaining?: number | null, quantityRequired: number, serialNumbers?: Array<string | null> | null, status?: TaskItemStatus | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, sourceLocation?: { __typename?: 'Locations', barcode?: string | null, hazmatApproved?: boolean | null, id: string, path?: string | null, name: string, type: LocationType } | null }> | null }> } | null };
+export type TableTaskQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', tasks: Array<{ __typename?: 'Tasks', actualDuration?: number | null, createdAt?: any | null, durationSeconds?: number | null, endTime?: string | null, estimatedDuration?: number | null, id: string, instructions?: string | null, notes?: string | null, priority?: number | null, sourceEntityId?: string | null, sourceEntityType?: string | null, startTime?: string | null, status?: TaskStatus | null, taskNumber: string, type: TaskType, updatedAt?: any | null, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, warehouse: { __typename?: 'Warehouses', address?: string | null, city?: string | null, country?: string | null, id: string, isActive?: boolean | null, name: string, timezone?: string | null }, items?: Array<{ __typename?: 'TaskItems', completedAt?: string | null, createdAt?: any | null, expiryDate?: string | null, id: string, lotNumber?: string | null, notes?: string | null, quantityCompleted: number, quantityRemaining?: number | null, quantityRequired: number, serialNumbers?: Array<string | null> | null, status?: TaskItemStatus | null, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, sourceLocation?: { __typename?: 'Locations', barcode?: string | null, hazmatApproved?: boolean | null, id: string, path?: string | null, name: string, type: LocationType } | null }> | null }> } | null };
 
 export type SearchTasksQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -8546,7 +8546,7 @@ export type TableWarehouseQueryVariables = Exact<{
 }>;
 
 
-export type TableWarehouseQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', warehouses: Array<{ __typename?: 'Warehouses', address?: string | null, city?: string | null, contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, country?: string | null, createdAt?: string | null, id: string, isActive?: boolean | null, name: string, postalCode?: string | null, state?: string | null, timezone?: string | null, updatedAt?: string | null, tasks?: Array<{ __typename?: 'Tasks', instructions?: string | null, id: string, notes?: string | null, priority?: number | null, taskNumber: string, type: TaskType, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> | null, locations?: Array<{ __typename?: 'Locations', barcode?: string | null, id: string, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, type: LocationType, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, hazmatApproved?: boolean | null }> | null, inboundShipments?: Array<{ __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, updatedAt?: string | null, warehouseId: string, items?: Array<{ __typename?: 'InboundShipmentItems', discrepancyNotes?: string | null, discrepancyQuantity?: number | null, expectedQuantity: number, id: string, createdAt?: string | null, receivedQuantity?: number | null, updatedAt?: string | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, inboundShipment: { __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, id: string, expectedArrivalDate?: string | null, updatedAt?: string | null, actualArrivalDate?: string | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } | null } }> | null }> | null }> } | null };
+export type TableWarehouseQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', warehouses: Array<{ __typename?: 'Warehouses', address?: string | null, city?: string | null, contactEmail?: string | null, contactPerson?: string | null, contactPhone?: string | null, country?: string | null, createdAt?: any | null, id: string, isActive?: boolean | null, name: string, postalCode?: string | null, state?: string | null, timezone?: string | null, updatedAt?: any | null, tasks?: Array<{ __typename?: 'Tasks', instructions?: string | null, id: string, notes?: string | null, priority?: number | null, taskNumber: string, type: TaskType, user?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null }> | null, locations?: Array<{ __typename?: 'Locations', barcode?: string | null, id: string, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, maxPallets?: number | null, maxVolume?: number | null, maxWeight?: number | null, name: string, path?: string | null, type: LocationType, xCoordinate?: number | null, yCoordinate?: number | null, zCoordinate?: number | null, hazmatApproved?: boolean | null }> | null, inboundShipments?: Array<{ __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, updatedAt?: any | null, warehouseId: string, items?: Array<{ __typename?: 'InboundShipmentItems', discrepancyNotes?: string | null, discrepancyQuantity?: number | null, expectedQuantity: number, id: string, createdAt?: any | null, receivedQuantity?: number | null, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, sku: string, status?: ProductStatus | null }, inboundShipment: { __typename?: 'InboundShipments', status?: InboundShipmentStatus | null, id: string, expectedArrivalDate?: string | null, updatedAt?: any | null, actualArrivalDate?: string | null, client?: { __typename?: 'Companies', city?: string | null, country?: string | null, id: string, industry?: string | null, name: string, phoneNumber?: string | null } | null } }> | null }> | null }> } | null };
 
 export type SearchWarehousesQueryVariables = Exact<{
   search: Scalars['String']['input'];

@@ -18,8 +18,8 @@ type RateCards {
   validTo: String
   description: String
   createdByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   rules: [RateRules!]
 }
 

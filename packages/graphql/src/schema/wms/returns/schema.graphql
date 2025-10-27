@@ -13,8 +13,8 @@ type Returns {
   client: Companies!
   status: ReturnStatus
   reason: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [ReturnItems!]
 }
 

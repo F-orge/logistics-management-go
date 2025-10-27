@@ -4,8 +4,8 @@ type InvoiceItems {
   product: Products!
   quantity: Float!
   price: Float!
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreateInvoiceItemInput {

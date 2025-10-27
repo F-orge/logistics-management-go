@@ -18,8 +18,8 @@ type TaskEvents {
   latitude: Float
   longitude: Float
   timestamp: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type DmsQuery {

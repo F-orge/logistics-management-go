@@ -8,8 +8,8 @@ type DriverLocations {
   speedKmh: Float
   heading: Float
   timestamp: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type DmsQuery {

@@ -16,8 +16,8 @@ type TripStops {
   actualArrivalTime: String
   estimatedDepartureTime: String
   actualDepartureTime: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   proofOfDeliveries: [ProofOfDeliveries!]
 }
 

@@ -13,8 +13,8 @@ type SalesOrders {
   crmOpportunity: Opportunities
   status: SalesOrderStatus
   shippingAddress: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [SalesOrderItems!]
   outboundShipments: [OutboundShipments!]
   returns: [Returns!]

@@ -37,8 +37,8 @@ type Tasks {
   startTime: String
   endTime: String
   durationSeconds: Int
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   items: [TaskItems!]
 }
 

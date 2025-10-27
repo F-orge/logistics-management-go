@@ -31,8 +31,8 @@ type Locations {
   temperatureControlled: Boolean
   hazmatApproved: Boolean
   isActive: Boolean
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   inventoryStock: [InventoryStock!]
   putawayRules: [PutawayRules!]
   binThresholds: [BinThresholds!]

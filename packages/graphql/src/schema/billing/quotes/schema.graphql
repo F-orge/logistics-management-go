@@ -23,8 +23,8 @@ type Quotes {
   quoteNumber: String
   notes: String
   createdByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   billingInvoices: [BillingInvoices!]
 }
 

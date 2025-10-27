@@ -23,8 +23,8 @@ type TaskItems {
   expiryDate: String
   notes: String
   completedAt: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreateTaskItemInput {

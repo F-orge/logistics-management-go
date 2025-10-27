@@ -5,8 +5,8 @@ type PickBatchItems {
   orderPriority: Int
   estimatedPickTime: Int
   actualPickTime: Int
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreatePickBatchItemInput {

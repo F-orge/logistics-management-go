@@ -1,7 +1,7 @@
 type AccountTransactions {
   amount: Float!
   clientAccount: ClientAccounts!
-  createdAt: String
+  createdAt: Date
   description: String
   id: ID!
   processedByUser: User
@@ -11,11 +11,11 @@ type AccountTransactions {
   sourceRecordType: String
   transactionDate: String
   type: TransactionType!
-  updatedAt: String
+  updatedAt: Date
 }
 
 type AccountingSyncLogs {
-  createdAt: String
+  createdAt: Date
   errorMessage: String
   externalId: String
   externalSystem: String!
@@ -28,7 +28,7 @@ type AccountingSyncLogs {
   responsePayload: String
   retryCount: Int
   status: SyncStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 input AddInvoiceItemInput {
@@ -42,14 +42,14 @@ input AddOpportunityProductInput {
 }
 
 type Attachments {
-  createdAt: String
+  createdAt: Date
   fileName: String!
   filePath: String!
   id: ID!
   mimeType: String
   recordId: ID
   recordType: RecordType
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum BillingInvoiceStatus {
@@ -68,7 +68,7 @@ type BillingInvoices {
   amountOutstanding: Float
   amountPaid: Float
   client: Companies!
-  createdAt: String
+  createdAt: Date
   createdByUser: User
   creditNotes: [CreditNotes!]
   currency: String
@@ -88,7 +88,7 @@ type BillingInvoices {
   subtotal: Float
   taxAmount: Float
   totalAmount: Float!
-  updatedAt: String
+  updatedAt: Date
 }
 
 type BillingMutation {
@@ -162,7 +162,7 @@ type BillingQuery {
 
 type BinThresholds {
   alertThreshold: Int
-  createdAt: String
+  createdAt: Date
   id: ID!
   isActive: Boolean
   location: Locations!
@@ -170,17 +170,17 @@ type BinThresholds {
   minQuantity: Int!
   product: WmsProducts!
   reorderQuantity: Int
-  updatedAt: String
+  updatedAt: Date
 }
 
 type Campaigns {
   budget: Float
-  createdAt: String
+  createdAt: Date
   endDate: Date
   id: ID!
   name: String!
   startDate: Date!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum CarrierRateUnit {
@@ -193,28 +193,28 @@ enum CarrierRateUnit {
 
 type CarrierRates {
   carrier: Carriers!
-  createdAt: String
+  createdAt: Date
   destination: String
   id: ID!
   origin: String
   rate: Float!
   serviceType: String
   unit: CarrierRateUnit
-  updatedAt: String
+  updatedAt: Date
 }
 
 type Carriers {
   contactEmail: String
   contactPerson: String
   contactPhone: String
-  createdAt: String
+  createdAt: Date
   id: ID!
   name: String!
   partnerInvoices: [PartnerInvoices!]
   rates: [CarrierRates!]
   servicesOffered: String
   shipmentLegs: [ShipmentLegs!]
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum CasePriority {
@@ -247,20 +247,20 @@ enum CaseType {
 type Cases {
   caseNumber: String!
   contact: Contacts
-  createdAt: String
+  createdAt: Date
   description: String
   id: ID!
   owner: User
   priority: CasePriority
   status: CaseStatus
   type: CaseType
-  updatedAt: String
+  updatedAt: Date
 }
 
 type ClientAccounts {
   availableCredit: Float
   client: Companies!
-  createdAt: String
+  createdAt: Date
   creditLimit: Float
   currency: String
   id: ID!
@@ -268,7 +268,7 @@ type ClientAccounts {
   lastPaymentDate: String
   paymentTermsDays: Int
   transactions: [AccountTransactions!]
-  updatedAt: String
+  updatedAt: Date
   walletBalance: Float
 }
 
@@ -278,7 +278,7 @@ type Companies {
   city: String
   clientAccount: ClientAccounts
   country: String
-  createdAt: String
+  createdAt: Date
   disputes: [Disputes!]
   id: ID!
   inboundShipments: [InboundShipments!]
@@ -293,20 +293,20 @@ type Companies {
   salesOrders: [SalesOrders!]
   state: String
   street: String
-  updatedAt: String
+  updatedAt: Date
   website: String
 }
 
 type Contacts {
   company: Companies!
-  createdAt: String
+  createdAt: Date
   email: String
   id: ID!
   jobTitle: String
   name: String!
   owner: User
   phoneNumber: String
-  updatedAt: String
+  updatedAt: Date
 }
 
 input CreateAccountTransactionInput {
@@ -1100,7 +1100,7 @@ input CreateWmsProductInput {
 type CreditNotes {
   amount: Float!
   appliedAt: String
-  createdAt: String
+  createdAt: Date
   createdByUser: User
   creditNoteNumber: String!
   currency: String
@@ -1110,7 +1110,7 @@ type CreditNotes {
   issueDate: String!
   notes: String
   reason: String!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum CrmInvoicePaymentMethod {
@@ -1201,14 +1201,14 @@ enum Currency {
 
 type CustomerTrackingLinks {
   accessCount: Int
-  createdAt: String
+  createdAt: Date
   deliveryTask: DeliveryTasks!
   expiresAt: String
   id: ID!
   isActive: Boolean
   lastAccessedAt: String
   trackingToken: String!
-  updatedAt: String
+  updatedAt: Date
 }
 
 scalar Date
@@ -1240,7 +1240,7 @@ enum DeliveryRouteStatus {
 type DeliveryRoutes {
   actualDurationMinutes: Int
   completedAt: String
-  createdAt: String
+  createdAt: Date
   driver: Drivers!
   estimatedDurationMinutes: Int
   id: ID!
@@ -1250,7 +1250,7 @@ type DeliveryRoutes {
   status: DeliveryRouteStatus
   tasks: [DeliveryTasks!]
   totalDistanceKm: Float
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum DeliveryTaskStatus {
@@ -1266,7 +1266,7 @@ enum DeliveryTaskStatus {
 type DeliveryTasks {
   actualArrivalTime: String
   attemptCount: Int
-  createdAt: String
+  createdAt: Date
   customerTrackingLinks: [CustomerTrackingLinks!]
   deliveryAddress: String!
   deliveryInstructions: String
@@ -1282,7 +1282,7 @@ type DeliveryTasks {
   recipientPhone: String
   routeSequence: Int!
   status: DeliveryTaskStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum DisputeStatus {
@@ -1296,7 +1296,7 @@ enum DisputeStatus {
 
 type Disputes {
   client: Companies!
-  createdAt: String
+  createdAt: Date
   creditNotes: [CreditNotes!]
   disputedAmount: Float
   id: ID!
@@ -1307,7 +1307,7 @@ type Disputes {
   resolvedByUser: User
   status: DisputeStatus
   submittedAt: String
-  updatedAt: String
+  updatedAt: Date
 }
 
 type DmsMutation {
@@ -1332,7 +1332,7 @@ type DmsMutation {
 }
 
 type DmsProofOfDeliveries {
-  createdAt: String
+  createdAt: Date
   deliveryTask: DeliveryTasks!
   filePath: String
   id: ID!
@@ -1342,7 +1342,7 @@ type DmsProofOfDeliveries {
   signatureData: String
   timestamp: String
   type: ProofOfDeliveryType!
-  updatedAt: String
+  updatedAt: Date
   verificationCode: String
 }
 
@@ -1373,7 +1373,7 @@ enum DocumentType {
 }
 
 type Documents {
-  createdAt: String
+  createdAt: Date
   documentType: DocumentType!
   fileName: String!
   filePath: String!
@@ -1382,14 +1382,14 @@ type Documents {
   mimeType: String
   recordId: ID!
   recordType: String!
-  updatedAt: String
+  updatedAt: Date
   uploadedByUser: User
 }
 
 type DriverLocations {
   accuracy: Float
   altitude: Float
-  createdAt: String
+  createdAt: Date
   driver: Drivers!
   heading: Float
   id: ID!
@@ -1397,7 +1397,7 @@ type DriverLocations {
   longitude: Float!
   speedKmh: Float
   timestamp: String
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum DriverScheduleReason {
@@ -1408,13 +1408,13 @@ enum DriverScheduleReason {
 }
 
 type DriverSchedules {
-  createdAt: String
+  createdAt: Date
   driver: Drivers!
   endDate: String!
   id: ID!
   reason: DriverScheduleReason
   startDate: String!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum DriverStatus {
@@ -1425,7 +1425,7 @@ enum DriverStatus {
 
 type Drivers {
   contactPhone: String
-  createdAt: String
+  createdAt: Date
   deliveryRoutes: [DeliveryRoutes!]
   driverLocations: [DriverLocations!]
   expenses: [Expenses!]
@@ -1435,7 +1435,7 @@ type Drivers {
   schedules: [DriverSchedules!]
   status: DriverStatus
   trips: [Trips!]
-  updatedAt: String
+  updatedAt: Date
   user: User!
 }
 
@@ -1457,7 +1457,7 @@ enum ExpenseType {
 
 type Expenses {
   amount: Float!
-  createdAt: String
+  createdAt: Date
   currency: Currency
   description: String
   driver: Drivers
@@ -1469,7 +1469,7 @@ type Expenses {
   status: ExpenseStatus
   trip: Trips
   type: ExpenseType
-  updatedAt: String
+  updatedAt: Date
 }
 
 scalar File
@@ -1488,13 +1488,13 @@ type GeofenceEvents {
 }
 
 type Geofences {
-  createdAt: String
+  createdAt: Date
   events: [GeofenceEvents!]
   id: ID!
   latitude: Float
   longitude: Float
   name: String!
-  updatedAt: String
+  updatedAt: Date
 }
 
 type GpsPings {
@@ -1506,7 +1506,7 @@ type GpsPings {
 }
 
 type InboundShipmentItems {
-  createdAt: String
+  createdAt: Date
   discrepancyNotes: String
   discrepancyQuantity: Int
   expectedQuantity: Int!
@@ -1514,7 +1514,7 @@ type InboundShipmentItems {
   inboundShipment: InboundShipments!
   product: WmsProducts!
   receivedQuantity: Int
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum InboundShipmentStatus {
@@ -1528,12 +1528,12 @@ enum InboundShipmentStatus {
 type InboundShipments {
   actualArrivalDate: String
   client: Companies
-  createdAt: String
+  createdAt: Date
   expectedArrivalDate: String
   id: ID!
   items: [InboundShipmentItems!]
   status: InboundShipmentStatus
-  updatedAt: String
+  updatedAt: Date
   warehouseId: ID!
 }
 
@@ -1554,13 +1554,13 @@ enum InteractionType {
 type Interactions {
   case: Cases
   contact: Contacts!
-  createdAt: String
+  createdAt: Date
   id: ID!
   interactionDate: Date
   notes: String
   outcome: InteractionOutcome
   type: InteractionType
-  updatedAt: String
+  updatedAt: Date
   user: User
 }
 
@@ -1574,20 +1574,20 @@ enum InventoryAdjustmentReason {
 }
 
 type InventoryAdjustments {
-  createdAt: String
+  createdAt: Date
   id: ID!
   notes: String
   product: WmsProducts!
   quantityChange: Int!
   reason: InventoryAdjustmentReason
-  updatedAt: String
+  updatedAt: Date
   user: User!
   warehouseId: ID!
 }
 
 type InventoryBatches {
   batchNumber: String!
-  createdAt: String
+  createdAt: Date
   expirationDate: String
   id: ID!
   inventoryStock: [InventoryStock!]
@@ -1595,13 +1595,13 @@ type InventoryBatches {
   packageItems: [PackageItems!]
   product: WmsProducts!
   taskItems: [TaskItems!]
-  updatedAt: String
+  updatedAt: Date
 }
 
 type InventoryStock {
   availableQuantity: Int
   batch: InventoryBatches
-  createdAt: String
+  createdAt: Date
   id: ID!
   lastCountedAt: String
   lastMovementAt: String
@@ -1610,7 +1610,7 @@ type InventoryStock {
   quantity: Int!
   reservedQuantity: Int!
   status: InventoryStockStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum InventoryStockStatus {
@@ -1624,17 +1624,17 @@ enum InventoryStockStatus {
 }
 
 type InvoiceItems {
-  createdAt: String
+  createdAt: Date
   id: ID!
   invoice: Invoices!
   price: Float!
   product: Products!
   quantity: Float!
-  updatedAt: String
+  updatedAt: Date
 }
 
 type InvoiceLineItems {
-  createdAt: String
+  createdAt: Date
   description: String!
   discountAmount: Float
   discountRate: Float
@@ -1649,7 +1649,7 @@ type InvoiceLineItems {
   taxRate: Float
   totalPrice: Float
   unitPrice: Float!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum InvoiceStatus {
@@ -1661,7 +1661,7 @@ enum InvoiceStatus {
 }
 
 type Invoices {
-  createdAt: String
+  createdAt: Date
   dueDate: Date!
   id: ID!
   issueDate: Date!
@@ -1672,7 +1672,7 @@ type Invoices {
   sentAt: Date
   status: InvoiceStatus
   total: Float!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum LeadSource {
@@ -1701,7 +1701,7 @@ type Leads {
   convertedCompany: Companies
   convertedContact: Contacts
   convertedOpportunity: Opportunities
-  createdAt: String
+  createdAt: Date
   email: String
   id: ID!
   leadScore: Int
@@ -1709,7 +1709,7 @@ type Leads {
   name: String!
   owner: User
   status: LeadStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum LocationType {
@@ -1728,7 +1728,7 @@ enum LocationType {
 type Locations {
   barcode: String
   binThresholds: [BinThresholds!]
-  createdAt: String
+  createdAt: Date
   destinationTaskItems: [TaskItems!]
   hazmatApproved: Boolean
   id: ID!
@@ -1747,7 +1747,7 @@ type Locations {
   sourceTaskItems: [TaskItems!]
   temperatureControlled: Boolean
   type: LocationType!
-  updatedAt: String
+  updatedAt: Date
   warehouse: Warehouses!
   xCoordinate: Float
   yCoordinate: Float
@@ -1763,12 +1763,12 @@ type Mutation {
 }
 
 type Notifications {
-  createdAt: String
+  createdAt: Date
   id: ID!
   isRead: Boolean
   link: String
   message: String!
-  updatedAt: String
+  updatedAt: Date
   user: User!
 }
 
@@ -1824,13 +1824,13 @@ enum OpportunityStage {
 
 type OutboundShipmentItems {
   batch: InventoryBatches
-  createdAt: String
+  createdAt: Date
   id: ID!
   outboundShipment: OutboundShipments!
   product: WmsProducts!
   quantityShipped: Int!
   salesOrderItem: SalesOrderItems!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum OutboundShipmentStatus {
@@ -1843,19 +1843,19 @@ enum OutboundShipmentStatus {
 
 type OutboundShipments {
   carrier: String
-  createdAt: String
+  createdAt: Date
   id: ID!
   items: [OutboundShipmentItems!]
   salesOrder: SalesOrders!
   status: OutboundShipmentStatus
   trackingNumber: String
-  updatedAt: String
+  updatedAt: Date
   warehouseId: ID!
 }
 
 type PackageItems {
   batch: InventoryBatches
-  createdAt: String
+  createdAt: Date
   expiryDate: String
   id: ID!
   lotNumber: String
@@ -1865,12 +1865,12 @@ type PackageItems {
   serialNumbers: [String]
   totalWeight: Float
   unitWeight: Float
-  updatedAt: String
+  updatedAt: Date
 }
 
 type Packages {
   carrier: String
-  createdAt: String
+  createdAt: Date
   deliveryTasks: [DeliveryTasks!]
   height: Float
   id: ID!
@@ -1888,7 +1888,7 @@ type Packages {
   serviceLevel: String
   shippedAt: String
   trackingNumber: String
-  updatedAt: String
+  updatedAt: Date
   volume: Float
   warehouse: Warehouses!
   weight: Float
@@ -1912,14 +1912,14 @@ enum PartnerInvoiceStatus {
 
 type PartnerInvoices {
   carrier: Carriers!
-  createdAt: String
+  createdAt: Date
   id: ID!
   invoiceDate: String!
   invoiceNumber: String!
   items: [PartnerInvoiceItems!]
   status: PartnerInvoiceStatus
   totalAmount: Float!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum PaymentMethod {
@@ -1944,7 +1944,7 @@ enum PaymentStatus {
 
 type Payments {
   amount: Float!
-  createdAt: String
+  createdAt: Date
   currency: String
   exchangeRate: Float
   fees: Float
@@ -1959,18 +1959,18 @@ type Payments {
   processedByUser: User
   status: PaymentStatus
   transactionId: String
-  updatedAt: String
+  updatedAt: Date
 }
 
 type PickBatchItems {
   actualPickTime: Int
-  createdAt: String
+  createdAt: Date
   estimatedPickTime: Int
   id: ID!
   orderPriority: Int
   pickBatch: PickBatches!
   salesOrder: SalesOrders!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum PickBatchStatus {
@@ -1986,7 +1986,7 @@ type PickBatches {
   batchNumber: String!
   completedAt: String
   completedItems: Int
-  createdAt: String
+  createdAt: Date
   estimatedDuration: Int
   id: ID!
   items: [PickBatchItems!]
@@ -1996,7 +1996,7 @@ type PickBatches {
   strategy: PickStrategy!
   tasks: [Tasks!]
   totalItems: Int
-  updatedAt: String
+  updatedAt: Date
   warehouse: Warehouses!
   waveId: String
   zoneRestrictions: [String]
@@ -2035,18 +2035,18 @@ enum ProductType {
 }
 
 type Products {
-  createdAt: String
+  createdAt: Date
   description: String
   id: ID!
   name: String!
   price: Float!
   sku: String
   type: ProductType
-  updatedAt: String
+  updatedAt: Date
 }
 
 type ProofOfDeliveries {
-  createdAt: String
+  createdAt: Date
   filePath: String
   id: ID!
   latitude: Float
@@ -2054,7 +2054,7 @@ type ProofOfDeliveries {
   timestamp: String!
   tripStop: TripStops!
   type: ProofType
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum ProofOfDeliveryType {
@@ -2074,7 +2074,7 @@ enum ProofType {
 
 type PutawayRules {
   client: Companies
-  createdAt: String
+  createdAt: Date
   id: ID!
   isActive: Boolean
   locationType: LocationType
@@ -2085,7 +2085,7 @@ type PutawayRules {
   product: WmsProducts!
   requiresHazmatApproval: Boolean
   requiresTemperatureControl: Boolean
-  updatedAt: String
+  updatedAt: Date
   volumeThreshold: Float
   warehouse: Warehouses!
   weightThreshold: Float
@@ -2110,7 +2110,7 @@ enum QuoteStatus {
 type Quotes {
   billingInvoices: [BillingInvoices!]
   client: Companies
-  createdAt: String
+  createdAt: Date
   createdByUser: User
   destinationDetails: String!
   expiresAt: String
@@ -2123,14 +2123,14 @@ type Quotes {
   quotedPrice: Float!
   serviceLevel: String
   status: QuoteStatus
-  updatedAt: String
+  updatedAt: Date
   volume: Float
   weight: Float
   width: Float
 }
 
 type RateCards {
-  createdAt: String
+  createdAt: Date
   createdByUser: User
   description: String
   id: ID!
@@ -2138,14 +2138,14 @@ type RateCards {
   name: String!
   rules: [RateRules!]
   serviceType: ServiceType!
-  updatedAt: String
+  updatedAt: Date
   validFrom: String!
   validTo: String
 }
 
 type RateRules {
   condition: String!
-  createdAt: String
+  createdAt: Date
   id: ID!
   isActive: Boolean
   maxValue: Float
@@ -2154,7 +2154,7 @@ type RateRules {
   pricingModel: PricingModel!
   priority: Int
   rateCard: RateCards!
-  updatedAt: String
+  updatedAt: Date
   value: String!
 }
 
@@ -2171,11 +2171,11 @@ enum RecordType {
 }
 
 type ReorderPoints {
-  createdAt: String
+  createdAt: Date
   id: ID!
   product: WmsProducts!
   threshold: Int!
-  updatedAt: String
+  updatedAt: Date
   warehouse: Warehouses!
 }
 
@@ -2189,14 +2189,14 @@ enum ReturnItemCondition {
 
 type ReturnItems {
   condition: ReturnItemCondition
-  createdAt: String
+  createdAt: Date
   id: ID!
   product: WmsProducts!
   quantityExpected: Int!
   quantityReceived: Int
   quantityVariance: Int
   return: Returns!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum ReturnStatus {
@@ -2209,34 +2209,34 @@ enum ReturnStatus {
 
 type Returns {
   client: Companies!
-  createdAt: String
+  createdAt: Date
   id: ID!
   items: [ReturnItems!]
   reason: String
   returnNumber: String!
   salesOrder: SalesOrders
   status: ReturnStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 type Routes {
-  createdAt: String
+  createdAt: Date
   id: ID!
   optimizedRouteData: String
   totalDistance: Float
   totalDuration: Float
   trip: Trips!
-  updatedAt: String
+  updatedAt: Date
 }
 
 type SalesOrderItems {
-  createdAt: String
+  createdAt: Date
   id: ID!
   outboundShipmentItems: [OutboundShipmentItems!]
   product: WmsProducts!
   quantityOrdered: Int!
   salesOrder: SalesOrders!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum SalesOrderStatus {
@@ -2249,7 +2249,7 @@ enum SalesOrderStatus {
 
 type SalesOrders {
   client: Companies!
-  createdAt: String
+  createdAt: Date
   crmOpportunity: Opportunities
   id: ID!
   items: [SalesOrderItems!]
@@ -2260,7 +2260,7 @@ type SalesOrders {
   returns: [Returns!]
   shippingAddress: String
   status: SalesOrderStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum ServiceType {
@@ -2292,7 +2292,7 @@ enum ShipmentLegStatus {
 
 type ShipmentLegs {
   carrier: Carriers
-  createdAt: String
+  createdAt: Date
   endLocation: String
   events: [ShipmentLegEvents!]
   id: ID!
@@ -2302,7 +2302,7 @@ type ShipmentLegs {
   shipment: OutboundShipments
   startLocation: String
   status: ShipmentLegStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum StockTransferStatus {
@@ -2313,25 +2313,25 @@ enum StockTransferStatus {
 }
 
 type StockTransfers {
-  createdAt: String
+  createdAt: Date
   destinationWarehouse: Warehouses!
   id: ID!
   product: WmsProducts!
   quantity: Int!
   sourceWarehouse: Warehouses!
   status: StockTransferStatus
-  updatedAt: String
+  updatedAt: Date
 }
 
 type Suppliers {
   contactPerson: String
-  createdAt: String
+  createdAt: Date
   email: String
   id: ID!
   name: String!
   phoneNumber: String
   products: [WmsProducts!]
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum SurchargeCalculationMethod {
@@ -2344,13 +2344,13 @@ enum SurchargeCalculationMethod {
 type Surcharges {
   amount: Float!
   calculationMethod: SurchargeCalculationMethod!
-  createdAt: String
+  createdAt: Date
   description: String
   id: ID!
   isActive: Boolean
   name: String!
   type: String!
-  updatedAt: String
+  updatedAt: Date
   validFrom: String
   validTo: String
 }
@@ -2375,7 +2375,7 @@ enum TaskEventStatus {
 }
 
 type TaskEvents {
-  createdAt: String
+  createdAt: Date
   deliveryTask: DeliveryTasks!
   id: ID!
   latitude: Float
@@ -2384,7 +2384,7 @@ type TaskEvents {
   reason: String
   status: TaskEventStatus!
   timestamp: String
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum TaskItemStatus {
@@ -2399,7 +2399,7 @@ enum TaskItemStatus {
 type TaskItems {
   batch: InventoryBatches
   completedAt: String
-  createdAt: String
+  createdAt: Date
   destinationLocation: Locations
   expiryDate: String
   id: ID!
@@ -2413,7 +2413,7 @@ type TaskItems {
   sourceLocation: Locations
   status: TaskItemStatus
   task: Tasks!
-  updatedAt: String
+  updatedAt: Date
 }
 
 enum TaskStatus {
@@ -2439,7 +2439,7 @@ enum TaskType {
 
 type Tasks {
   actualDuration: Int
-  createdAt: String
+  createdAt: Date
   durationSeconds: Int
   endTime: String
   estimatedDuration: Int
@@ -2455,7 +2455,7 @@ type Tasks {
   status: TaskStatus
   taskNumber: String!
   type: TaskType!
-  updatedAt: String
+  updatedAt: Date
   user: User
   warehouse: Warehouses!
 }
@@ -2569,7 +2569,7 @@ type TripStops {
   actualArrivalTime: String
   actualDepartureTime: String
   address: String
-  createdAt: String
+  createdAt: Date
   estimatedArrivalTime: String
   estimatedDepartureTime: String
   id: ID!
@@ -2578,11 +2578,11 @@ type TripStops {
   shipment: OutboundShipments
   status: TripStopStatus
   trip: Trips!
-  updatedAt: String
+  updatedAt: Date
 }
 
 type Trips {
-  createdAt: String
+  createdAt: Date
   driver: Drivers
   endLocation: String
   endTime: String
@@ -2594,7 +2594,7 @@ type Trips {
   startTime: String
   status: TripStatus
   stops: [TripStops!]
-  updatedAt: String
+  updatedAt: Date
   vehicle: Vehicles
 }
 
@@ -3372,12 +3372,12 @@ type User {
 
 type VehicleMaintenance {
   cost: Float
-  createdAt: String
+  createdAt: Date
   id: ID!
   notes: String
   serviceDate: String!
   serviceType: VehicleServiceType
-  updatedAt: String
+  updatedAt: Date
   vehicle: Vehicles!
 }
 
@@ -3400,7 +3400,7 @@ enum VehicleStatus {
 type Vehicles {
   capacityVolume: Float
   capacityWeight: Float
-  createdAt: String
+  createdAt: Date
   currentMileage: Int
   geofenceEvents: [GeofenceEvents!]
   gpsPings: [GpsPings!]
@@ -3412,7 +3412,7 @@ type Vehicles {
   registrationNumber: String!
   status: VehicleStatus
   trips: [Trips!]
-  updatedAt: String
+  updatedAt: Date
   vin: String
   year: Int
 }
@@ -3424,7 +3424,7 @@ type Warehouses {
   contactPerson: String
   contactPhone: String
   country: String
-  createdAt: String
+  createdAt: Date
   destinationStockTransfers: [StockTransfers!]
   id: ID!
   inboundShipments: [InboundShipments!]
@@ -3440,7 +3440,7 @@ type Warehouses {
   state: String
   tasks: [Tasks!]
   timezone: String
-  updatedAt: String
+  updatedAt: Date
 }
 
 type WmsMutation {
@@ -3528,7 +3528,7 @@ type WmsProducts {
   binThresholds: [BinThresholds!]
   client: Companies
   costPrice: Float
-  createdAt: String
+  createdAt: Date
   description: String
   height: Float
   id: ID!
@@ -3547,7 +3547,7 @@ type WmsProducts {
   stockTransfers: [StockTransfers!]
   supplier: Suppliers
   taskItems: [TaskItems!]
-  updatedAt: String
+  updatedAt: Date
   volume: Float
   weight: Float
   width: Float

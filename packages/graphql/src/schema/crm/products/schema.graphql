@@ -12,8 +12,8 @@ type Products {
   price: Float!
   type: ProductType
   description: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {

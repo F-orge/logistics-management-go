@@ -19,8 +19,8 @@ type AccountingSyncLogs {
   lastSyncAt: String
   retryCount: Int
   nextRetryAt: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type BillingQuery {

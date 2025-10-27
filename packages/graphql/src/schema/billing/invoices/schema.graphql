@@ -30,8 +30,8 @@ type BillingInvoices {
   sentAt: String
   paidAt: String
   createdByUser: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   lineItems: [InvoiceLineItems!]
   payments: [Payments!]
   creditNotes: [CreditNotes!]

@@ -17,8 +17,8 @@ type Vehicles {
   vin: String
   currentMileage: Int
   lastMaintenanceDate: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   maintenances: [VehicleMaintenance!]
   trips: [Trips!]
   gpsPings: [GpsPings!]

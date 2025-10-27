@@ -34,8 +34,8 @@ type DeliveryTasks {
   status: DeliveryTaskStatus
   failureReason: DeliveryFailureReason
   attemptCount: Int
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   events: [TaskEvents!]
   proofOfDeliveries: [DmsProofOfDeliveries!]
   customerTrackingLinks: [CustomerTrackingLinks!]

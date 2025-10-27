@@ -10,8 +10,8 @@ type Companies {
   industry: String
   website: String
   annualRevenue: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   owner: User
   inboundShipments: [InboundShipments!]
   salesOrders: [SalesOrders!]

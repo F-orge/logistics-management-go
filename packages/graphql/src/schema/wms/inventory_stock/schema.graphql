@@ -19,8 +19,8 @@ type InventoryStock {
   status: InventoryStockStatus
   lastCountedAt: String
   lastMovementAt: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type WmsQuery {

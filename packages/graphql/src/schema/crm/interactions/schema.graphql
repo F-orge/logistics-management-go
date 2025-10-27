@@ -21,8 +21,8 @@ type Interactions {
   outcome: InteractionOutcome
   notes: String
   interactionDate: Date
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {

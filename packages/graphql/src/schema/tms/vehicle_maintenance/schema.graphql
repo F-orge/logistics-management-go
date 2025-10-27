@@ -14,8 +14,8 @@ type VehicleMaintenance {
   serviceType: VehicleServiceType
   cost: Float
   notes: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreateVehicleMaintenanceInput {

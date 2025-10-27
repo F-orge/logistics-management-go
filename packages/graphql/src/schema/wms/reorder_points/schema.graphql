@@ -3,8 +3,8 @@ type ReorderPoints {
   product: WmsProducts!
   warehouse: Warehouses!
   threshold: Int!
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type WmsQuery {

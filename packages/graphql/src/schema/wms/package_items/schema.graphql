@@ -9,8 +9,8 @@ type PackageItems {
   expiryDate: String
   unitWeight: Float
   totalWeight: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 input CreatePackageItemInput {

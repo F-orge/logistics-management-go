@@ -4,8 +4,8 @@ type Routes {
   optimizedRouteData: String
   totalDistance: Float
   totalDuration: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type TmsQuery {

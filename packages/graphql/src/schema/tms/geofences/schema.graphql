@@ -3,8 +3,8 @@ type Geofences {
   name: String!
   longitude: Float
   latitude: Float
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   events: [GeofenceEvents!]
 }
 

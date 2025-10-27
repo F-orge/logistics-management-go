@@ -15,6 +15,7 @@ const config: CodegenConfig = {
       scalarsOverrides: {
         File: { type: "File" },
         Date: { type: "Date" },
+        ID: { type: "string" },
       },
     }),
     "src/schema/graphql.schema.json": {

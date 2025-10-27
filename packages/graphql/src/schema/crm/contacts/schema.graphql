@@ -6,8 +6,8 @@ type Contacts {
   jobTitle: String
   company: Companies!
   owner: User
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
 }
 
 extend type CrmQuery {
