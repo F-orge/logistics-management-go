@@ -966,7 +966,7 @@ export type CreateExpenseInput = {
   currency?: InputMaybe<Currency>;
   description?: InputMaybe<Scalars['String']['input']>;
   driverId?: InputMaybe<Scalars['ID']['input']>;
-  expenseDate?: InputMaybe<Scalars['String']['input']>;
+  expenseDate?: InputMaybe<Scalars['Date']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
@@ -991,7 +991,7 @@ export type CreateGeofenceInput = {
 export type CreateGpsPingInput = {
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
-  timestamp: Scalars['String']['input'];
+  timestamp: Scalars['Date']['input'];
   vehicleId: Scalars['ID']['input'];
 };
 
@@ -1183,13 +1183,12 @@ export type CreatePartnerInvoiceInput = {
   carrierId: Scalars['ID']['input'];
   invoiceDate: Scalars['String']['input'];
   invoiceNumber: Scalars['String']['input'];
+  items: Array<CreatePartnerInvoiceItemInput>;
   status?: InputMaybe<PartnerInvoiceStatus>;
-  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreatePartnerInvoiceItemInput = {
   amount: Scalars['Float']['input'];
-  partnerInvoiceId: Scalars['ID']['input'];
   shipmentLegId: Scalars['ID']['input'];
 };
 
@@ -1243,10 +1242,9 @@ export type CreateProductInput = {
 };
 
 export type CreateProofOfDeliveryInput = {
-  filePath?: InputMaybe<Scalars['String']['input']>;
+  files: Array<Scalars['File']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp: Scalars['String']['input'];
   tripStopId: Scalars['ID']['input'];
   type?: InputMaybe<ProofType>;
 };
@@ -1350,7 +1348,6 @@ export type CreateSalesOrderItemInput = {
 };
 
 export type CreateShipmentLegEventInput = {
-  eventTimestamp: Scalars['String']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
   shipmentLegId: Scalars['ID']['input'];
   statusMessage?: InputMaybe<Scalars['String']['input']>;
@@ -1361,7 +1358,7 @@ export type CreateShipmentLegInput = {
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence: Scalars['Int']['input'];
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
+  shipmentId: Scalars['ID']['input'];
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -1447,8 +1444,6 @@ export type CreateTripInput = {
 };
 
 export type CreateTripStopInput = {
-  actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  actualDepartureTime?: InputMaybe<Scalars['String']['input']>;
   address?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
@@ -1474,9 +1469,8 @@ export type CreateVehicleInput = {
 export type CreateVehicleMaintenanceInput = {
   cost?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  serviceDate: Scalars['String']['input'];
+  serviceDate: Scalars['Date']['input'];
   serviceType?: InputMaybe<VehicleServiceType>;
-  vehicleId: Scalars['ID']['input'];
 };
 
 export type CreateWarehouseInput = {
@@ -2426,7 +2420,7 @@ export type GpsPings = {
   id: Scalars['ID']['output'];
   latitude: Scalars['Float']['output'];
   longitude: Scalars['Float']['output'];
-  timestamp: Scalars['String']['output'];
+  timestamp: Scalars['Date']['output'];
   vehicle: Vehicles;
 };
 
@@ -3432,6 +3426,8 @@ export type Tasks = {
 
 export type TmsMutation = {
   __typename?: 'TmsMutation';
+  addPartnerInvoiceItem: PartnerInvoiceItems;
+  addVehicleMaintenance: VehicleMaintenance;
   createCarrier: Carriers;
   createCarrierRate: CarrierRates;
   createDriver: Drivers;
@@ -3441,7 +3437,6 @@ export type TmsMutation = {
   createGeofenceEvent: GeofenceEvents;
   createGpsPing: GpsPings;
   createPartnerInvoice: PartnerInvoices;
-  createPartnerInvoiceItem: PartnerInvoiceItems;
   createProofOfDelivery: ProofOfDeliveries;
   createRoute: Routes;
   createShipmentLeg: ShipmentLegs;
@@ -3449,21 +3444,14 @@ export type TmsMutation = {
   createTrip: Trips;
   createTripStop: TripStops;
   createVehicle: Vehicles;
-  createVehicleMaintenance: VehicleMaintenance;
   removeCarrier: DeleteResult;
   removeCarrierRate: DeleteResult;
   removeDriver: DeleteResult;
   removeDriverSchedule: DeleteResult;
   removeExpense: DeleteResult;
   removeGeofence: DeleteResult;
-  removeGeofenceEvent: DeleteResult;
-  removeGpsPing: DeleteResult;
-  removePartnerInvoice: DeleteResult;
   removePartnerInvoiceItem: DeleteResult;
-  removeProofOfDelivery: DeleteResult;
   removeRoute: DeleteResult;
-  removeShipmentLeg: DeleteResult;
-  removeShipmentLegEvent: DeleteResult;
   removeTrip: DeleteResult;
   removeTripStop: DeleteResult;
   removeVehicle: DeleteResult;
@@ -3481,11 +3469,22 @@ export type TmsMutation = {
   updateProofOfDelivery: ProofOfDeliveries;
   updateRoute: Routes;
   updateShipmentLeg: ShipmentLegs;
-  updateShipmentLegEvent: ShipmentLegEvents;
   updateTrip: Trips;
   updateTripStop: TripStops;
   updateVehicle: Vehicles;
   updateVehicleMaintenance: VehicleMaintenance;
+};
+
+
+export type TmsMutationAddPartnerInvoiceItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePartnerInvoiceItemInput;
+};
+
+
+export type TmsMutationAddVehicleMaintenanceArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateVehicleMaintenanceInput;
 };
 
 
@@ -3534,11 +3533,6 @@ export type TmsMutationCreatePartnerInvoiceArgs = {
 };
 
 
-export type TmsMutationCreatePartnerInvoiceItemArgs = {
-  value: CreatePartnerInvoiceItemInput;
-};
-
-
 export type TmsMutationCreateProofOfDeliveryArgs = {
   value: CreateProofOfDeliveryInput;
 };
@@ -3574,11 +3568,6 @@ export type TmsMutationCreateVehicleArgs = {
 };
 
 
-export type TmsMutationCreateVehicleMaintenanceArgs = {
-  value: CreateVehicleMaintenanceInput;
-};
-
-
 export type TmsMutationRemoveCarrierArgs = {
   id: Scalars['ID']['input'];
 };
@@ -3609,42 +3598,12 @@ export type TmsMutationRemoveGeofenceArgs = {
 };
 
 
-export type TmsMutationRemoveGeofenceEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemoveGpsPingArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemovePartnerInvoiceArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type TmsMutationRemovePartnerInvoiceItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationRemoveProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type TmsMutationRemoveRouteArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemoveShipmentLegArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemoveShipmentLegEventArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -3744,12 +3703,6 @@ export type TmsMutationUpdateRouteArgs = {
 export type TmsMutationUpdateShipmentLegArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateShipmentLegInput>;
-};
-
-
-export type TmsMutationUpdateShipmentLegEventArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateShipmentLegEventInput>;
 };
 
 
@@ -4095,7 +4048,6 @@ export type UpdateCarrierInput = {
 };
 
 export type UpdateCarrierRateInput = {
-  carrierId?: InputMaybe<Scalars['ID']['input']>;
   destination?: InputMaybe<Scalars['String']['input']>;
   origin?: InputMaybe<Scalars['String']['input']>;
   rate?: InputMaybe<Scalars['Float']['input']>;
@@ -4210,7 +4162,6 @@ export type UpdateDriverInput = {
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<DriverStatus>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateDriverLocationInput = {
@@ -4223,7 +4174,6 @@ export type UpdateDriverLocationInput = {
 };
 
 export type UpdateDriverScheduleInput = {
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   endDate?: InputMaybe<Scalars['String']['input']>;
   reason?: InputMaybe<DriverScheduleReason>;
   startDate?: InputMaybe<Scalars['String']['input']>;
@@ -4233,21 +4183,16 @@ export type UpdateExpenseInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Currency>;
   description?: InputMaybe<Scalars['String']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
-  expenseDate?: InputMaybe<Scalars['String']['input']>;
+  expenseDate?: InputMaybe<Scalars['Date']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ExpenseStatus>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
   type?: InputMaybe<ExpenseType>;
 };
 
 export type UpdateGeofenceEventInput = {
   eventType?: InputMaybe<GeofenceEventType>;
-  geofenceId?: InputMaybe<Scalars['ID']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateGeofenceInput = {
@@ -4259,8 +4204,6 @@ export type UpdateGeofenceInput = {
 export type UpdateGpsPingInput = {
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInboundShipmentInput = {
@@ -4434,17 +4377,11 @@ export type UpdatePackageItemInput = {
 };
 
 export type UpdatePartnerInvoiceInput = {
-  carrierId?: InputMaybe<Scalars['ID']['input']>;
-  invoiceDate?: InputMaybe<Scalars['String']['input']>;
-  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PartnerInvoiceStatus>;
-  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdatePartnerInvoiceItemInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
-  partnerInvoiceId?: InputMaybe<Scalars['ID']['input']>;
-  shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
+  amount: Scalars['Float']['input'];
 };
 
 export type UpdatePaymentInput = {
@@ -4497,11 +4434,6 @@ export type UpdateProductInput = {
 };
 
 export type UpdateProofOfDeliveryInput = {
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  tripStopId?: InputMaybe<Scalars['ID']['input']>;
   type?: InputMaybe<ProofType>;
 };
 
@@ -4586,7 +4518,6 @@ export type UpdateRouteInput = {
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
   totalDistance?: InputMaybe<Scalars['Float']['input']>;
   totalDuration?: InputMaybe<Scalars['Float']['input']>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateSalesOrderInput = {
@@ -4603,19 +4534,11 @@ export type UpdateSalesOrderItemInput = {
   salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type UpdateShipmentLegEventInput = {
-  eventTimestamp?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
-  statusMessage?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UpdateShipmentLegInput = {
   carrierId?: InputMaybe<Scalars['ID']['input']>;
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence?: InputMaybe<Scalars['Int']['input']>;
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -4681,13 +4604,11 @@ export type UpdateTaskItemInput = {
 };
 
 export type UpdateTripInput = {
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   endLocation?: InputMaybe<Scalars['String']['input']>;
   endTime?: InputMaybe<Scalars['String']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   startTime?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TripStatus>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTripStopInput = {
@@ -4697,9 +4618,7 @@ export type UpdateTripStopInput = {
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
   sequence?: InputMaybe<Scalars['Int']['input']>;
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TripStopStatus>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateVehicleInput = {
@@ -4718,9 +4637,8 @@ export type UpdateVehicleInput = {
 export type UpdateVehicleMaintenanceInput = {
   cost?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  serviceDate?: InputMaybe<Scalars['String']['input']>;
+  serviceDate?: InputMaybe<Scalars['Date']['input']>;
   serviceType?: InputMaybe<VehicleServiceType>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateWarehouseInput = {
@@ -4767,7 +4685,7 @@ export type VehicleMaintenance = {
   createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
-  serviceDate: Scalars['String']['output'];
+  serviceDate: Scalars['Date']['output'];
   serviceType?: Maybe<VehicleServiceType>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle: Vehicles;
@@ -7057,13 +6975,6 @@ export type UpdateGeofenceEventMutationVariables = Exact<{
 
 export type UpdateGeofenceEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateGeofenceEvent: { __typename?: 'GeofenceEvents', id: string } } | null };
 
-export type RemoveGeofenceEventMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveGeofenceEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGeofenceEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type CreateGeofenceMutationVariables = Exact<{
   geofence: CreateGeofenceInput;
 }>;
@@ -7078,13 +6989,6 @@ export type UpdateGeofenceMutationVariables = Exact<{
 
 
 export type UpdateGeofenceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateGeofence: { __typename?: 'Geofences', id: string } } | null };
-
-export type RemoveGeofenceMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveGeofenceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGeofence: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type TableGeofenceQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -7117,27 +7021,13 @@ export type UpdateGpsPingMutationVariables = Exact<{
 
 export type UpdateGpsPingMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateGpsPing: { __typename?: 'GpsPings', id: string } } | null };
 
-export type RemoveGpsPingMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveGpsPingMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeGpsPing: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableGpsPingQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
-export type TableGpsPingQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', gpsPings: Array<{ __typename?: 'GpsPings', id: string, latitude: number, longitude: number, timestamp: string, vehicle: { __typename?: 'Vehicles', year?: number | null, vin?: string | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null, id: string } }> } | null };
-
-export type CreatePartnerInvoiceItemMutationVariables = Exact<{
-  partnerInvoiceItem: CreatePartnerInvoiceItemInput;
-}>;
-
-
-export type CreatePartnerInvoiceItemMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createPartnerInvoiceItem: { __typename?: 'PartnerInvoiceItems', id: string } } | null };
+export type TableGpsPingQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', gpsPings: Array<{ __typename?: 'GpsPings', id: string, latitude: number, longitude: number, timestamp: any, vehicle: { __typename?: 'Vehicles', year?: number | null, vin?: string | null, registrationNumber: string, model?: string | null, make?: string | null, status?: VehicleStatus | null, id: string } }> } | null };
 
 export type UpdatePartnerInvoiceItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -7168,13 +7058,6 @@ export type UpdatePartnerInvoiceMutationVariables = Exact<{
 
 
 export type UpdatePartnerInvoiceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updatePartnerInvoice: { __typename?: 'PartnerInvoices', id: string } } | null };
-
-export type RemovePartnerInvoiceMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemovePartnerInvoiceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removePartnerInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type TablePartnerInvoiceQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -7216,13 +7099,6 @@ export type UpdateProofOfDeliveryMutationVariables = Exact<{
 
 export type UpdateProofOfDeliveryMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateProofOfDelivery: { __typename?: 'ProofOfDeliveries', id: string } } | null };
 
-export type RemoveProofOfDeliveryMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveProofOfDeliveryMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeProofOfDelivery: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableTmsProofOfDeliveryQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -7231,7 +7107,7 @@ export type TableTmsProofOfDeliveryQueryVariables = Exact<{
 }>;
 
 
-export type TableTmsProofOfDeliveryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', createdAt?: any | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, timestamp: string, type?: ProofType | null, updatedAt?: any | null, tripStop: { __typename?: 'TripStops', actualArrivalTime?: string | null, actualDepartureTime?: string | null, address?: string | null, status?: TripStopStatus | null, id: string, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, status?: OutboundShipmentStatus | null, carrier?: string | null, id: string } | null, trip: { __typename?: 'Trips', endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, vehicle?: { __typename?: 'Vehicles', registrationNumber: string, vin?: string | null, year?: number | null, make?: string | null, model?: string | null, gpsPings?: Array<{ __typename?: 'GpsPings', latitude: number, longitude: number, timestamp: string, id: string }> | null } | null } } }> } | null };
+export type TableTmsProofOfDeliveryQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', proofOfDeliveries: Array<{ __typename?: 'ProofOfDeliveries', createdAt?: any | null, filePath?: string | null, id: string, latitude?: number | null, longitude?: number | null, timestamp: string, type?: ProofType | null, updatedAt?: any | null, tripStop: { __typename?: 'TripStops', actualArrivalTime?: string | null, actualDepartureTime?: string | null, address?: string | null, status?: TripStopStatus | null, id: string, shipment?: { __typename?: 'OutboundShipments', trackingNumber?: string | null, status?: OutboundShipmentStatus | null, carrier?: string | null, id: string } | null, trip: { __typename?: 'Trips', endLocation?: string | null, startLocation?: string | null, status?: TripStatus | null, vehicle?: { __typename?: 'Vehicles', registrationNumber: string, vin?: string | null, year?: number | null, make?: string | null, model?: string | null, gpsPings?: Array<{ __typename?: 'GpsPings', latitude: number, longitude: number, timestamp: any, id: string }> | null } | null } } }> } | null };
 
 export type SearchProofOfDeliveriesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7294,21 +7170,6 @@ export type CreateShipmentLegEventMutationVariables = Exact<{
 
 export type CreateShipmentLegEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createShipmentLegEvent: { __typename?: 'ShipmentLegEvents', id: string } } | null };
 
-export type UpdateShipmentLegEventMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  shipmentLegEvent: UpdateShipmentLegEventInput;
-}>;
-
-
-export type UpdateShipmentLegEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateShipmentLegEvent: { __typename?: 'ShipmentLegEvents', id: string } } | null };
-
-export type RemoveShipmentLegEventMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveShipmentLegEventMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeShipmentLegEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type CreateShipmentLegMutationVariables = Exact<{
   shipmentLeg: CreateShipmentLegInput;
 }>;
@@ -7323,13 +7184,6 @@ export type UpdateShipmentLegMutationVariables = Exact<{
 
 
 export type UpdateShipmentLegMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', updateShipmentLeg: { __typename?: 'ShipmentLegs', id: string } } | null };
-
-export type RemoveShipmentLegMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveShipmentLegMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', removeShipmentLeg: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type TableShipmentLegQueryQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -7425,13 +7279,6 @@ export type AnalyticsTripsQueryVariables = Exact<{
 
 export type AnalyticsTripsQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', trips: Array<{ __typename?: 'Trips', status?: TripStatus | null }> } | null };
 
-export type CreateVehicleMaintenanceMutationVariables = Exact<{
-  vehicleMaintenance: CreateVehicleMaintenanceInput;
-}>;
-
-
-export type CreateVehicleMaintenanceMutation = { __typename?: 'Mutation', tms?: { __typename?: 'TmsMutation', createVehicleMaintenance: { __typename?: 'VehicleMaintenance', id: string } } | null };
-
 export type UpdateVehicleMaintenanceMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   vehicleMaintenance: UpdateVehicleMaintenanceInput;
@@ -7477,7 +7324,7 @@ export type TableVehicleQueryVariables = Exact<{
 }>;
 
 
-export type TableVehicleQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, createdAt?: any | null, currentMileage?: number | null, id: string, lastMaintenanceDate?: string | null, make?: string | null, model?: string | null, registrationNumber: string, status?: VehicleStatus | null, updatedAt?: any | null, vin?: string | null, year?: number | null, maintenances?: Array<{ __typename?: 'VehicleMaintenance', cost?: number | null, createdAt?: any | null, id: string, notes?: string | null, serviceDate: string, serviceType?: VehicleServiceType | null, updatedAt?: any | null }> | null }> } | null };
+export type TableVehicleQuery = { __typename?: 'Query', tms?: { __typename?: 'TmsQuery', vehicles: Array<{ __typename?: 'Vehicles', capacityVolume?: number | null, capacityWeight?: number | null, createdAt?: any | null, currentMileage?: number | null, id: string, lastMaintenanceDate?: string | null, make?: string | null, model?: string | null, registrationNumber: string, status?: VehicleStatus | null, updatedAt?: any | null, vin?: string | null, year?: number | null, maintenances?: Array<{ __typename?: 'VehicleMaintenance', cost?: number | null, createdAt?: any | null, id: string, notes?: string | null, serviceDate: any, serviceType?: VehicleServiceType | null, updatedAt?: any | null }> | null }> } | null };
 
 export type SearchVehiclesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -11041,16 +10888,6 @@ export const UpdateGeofenceEventDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateGeofenceEventMutation, UpdateGeofenceEventMutationVariables>;
-export const RemoveGeofenceEventDocument = new TypedDocumentString(`
-    mutation RemoveGeofenceEvent($id: ID!) {
-  tms {
-    removeGeofenceEvent(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveGeofenceEventMutation, RemoveGeofenceEventMutationVariables>;
 export const CreateGeofenceDocument = new TypedDocumentString(`
     mutation CreateGeofence($geofence: CreateGeofenceInput!) {
   tms {
@@ -11069,16 +10906,6 @@ export const UpdateGeofenceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateGeofenceMutation, UpdateGeofenceMutationVariables>;
-export const RemoveGeofenceDocument = new TypedDocumentString(`
-    mutation RemoveGeofence($id: ID!) {
-  tms {
-    removeGeofence(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveGeofenceMutation, RemoveGeofenceMutationVariables>;
 export const TableGeofenceDocument = new TypedDocumentString(`
     query TableGeofence($page: Int, $perPage: Int, $search: String) {
   tms {
@@ -11134,16 +10961,6 @@ export const UpdateGpsPingDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateGpsPingMutation, UpdateGpsPingMutationVariables>;
-export const RemoveGpsPingDocument = new TypedDocumentString(`
-    mutation RemoveGpsPing($id: ID!) {
-  tms {
-    removeGpsPing(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveGpsPingMutation, RemoveGpsPingMutationVariables>;
 export const TableGpsPingDocument = new TypedDocumentString(`
     query TableGpsPing($page: Int, $perPage: Int) {
   tms {
@@ -11165,15 +10982,6 @@ export const TableGpsPingDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<TableGpsPingQuery, TableGpsPingQueryVariables>;
-export const CreatePartnerInvoiceItemDocument = new TypedDocumentString(`
-    mutation CreatePartnerInvoiceItem($partnerInvoiceItem: CreatePartnerInvoiceItemInput!) {
-  tms {
-    createPartnerInvoiceItem(value: $partnerInvoiceItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreatePartnerInvoiceItemMutation, CreatePartnerInvoiceItemMutationVariables>;
 export const UpdatePartnerInvoiceItemDocument = new TypedDocumentString(`
     mutation UpdatePartnerInvoiceItem($id: ID!, $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!) {
   tms {
@@ -11211,16 +11019,6 @@ export const UpdatePartnerInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdatePartnerInvoiceMutation, UpdatePartnerInvoiceMutationVariables>;
-export const RemovePartnerInvoiceDocument = new TypedDocumentString(`
-    mutation RemovePartnerInvoice($id: ID!) {
-  tms {
-    removePartnerInvoice(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemovePartnerInvoiceMutation, RemovePartnerInvoiceMutationVariables>;
 export const TablePartnerInvoiceDocument = new TypedDocumentString(`
     query TablePartnerInvoice($page: Int, $perPage: Int, $search: String, $status: PartnerInvoiceStatus) {
   tms {
@@ -11291,16 +11089,6 @@ export const UpdateProofOfDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateProofOfDeliveryMutation, UpdateProofOfDeliveryMutationVariables>;
-export const RemoveProofOfDeliveryDocument = new TypedDocumentString(`
-    mutation RemoveProofOfDelivery($id: ID!) {
-  tms {
-    removeProofOfDelivery(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveProofOfDeliveryMutation, RemoveProofOfDeliveryMutationVariables>;
 export const TableTmsProofOfDeliveryDocument = new TypedDocumentString(`
     query TableTmsProofOfDelivery($page: Int, $perPage: Int, $search: String, $type: ProofType) {
   tms {
@@ -11446,25 +11234,6 @@ export const CreateShipmentLegEventDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateShipmentLegEventMutation, CreateShipmentLegEventMutationVariables>;
-export const UpdateShipmentLegEventDocument = new TypedDocumentString(`
-    mutation UpdateShipmentLegEvent($id: ID!, $shipmentLegEvent: UpdateShipmentLegEventInput!) {
-  tms {
-    updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateShipmentLegEventMutation, UpdateShipmentLegEventMutationVariables>;
-export const RemoveShipmentLegEventDocument = new TypedDocumentString(`
-    mutation RemoveShipmentLegEvent($id: ID!) {
-  tms {
-    removeShipmentLegEvent(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveShipmentLegEventMutation, RemoveShipmentLegEventMutationVariables>;
 export const CreateShipmentLegDocument = new TypedDocumentString(`
     mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {
   tms {
@@ -11483,16 +11252,6 @@ export const UpdateShipmentLegDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateShipmentLegMutation, UpdateShipmentLegMutationVariables>;
-export const RemoveShipmentLegDocument = new TypedDocumentString(`
-    mutation RemoveShipmentLeg($id: ID!) {
-  tms {
-    removeShipmentLeg(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveShipmentLegMutation, RemoveShipmentLegMutationVariables>;
 export const TableShipmentLegQueryDocument = new TypedDocumentString(`
     query TableShipmentLegQuery($page: Int, $perPage: Int, $search: String, $status: ShipmentLegStatus) {
   tms {
@@ -11652,15 +11411,6 @@ export const AnalyticsTripsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsTripsQuery, AnalyticsTripsQueryVariables>;
-export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
-    mutation CreateVehicleMaintenance($vehicleMaintenance: CreateVehicleMaintenanceInput!) {
-  tms {
-    createVehicleMaintenance(value: $vehicleMaintenance) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateVehicleMaintenanceMutation, CreateVehicleMaintenanceMutationVariables>;
 export const UpdateVehicleMaintenanceDocument = new TypedDocumentString(`
     mutation UpdateVehicleMaintenance($id: ID!, $vehicleMaintenance: UpdateVehicleMaintenanceInput!) {
   tms {

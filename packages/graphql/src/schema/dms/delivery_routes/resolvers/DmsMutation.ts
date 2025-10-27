@@ -6,10 +6,7 @@ import {
 import type { DmsMutationResolvers } from "./../../../types.generated";
 import { DmsDeliveryRouteStatusEnum } from "../../../../db.types";
 
-export const DmsMutation: Pick<
-  DmsMutationResolvers,
-  "createDeliveryRoute" | "removeDeliveryRoute" | "updateDeliveryRoute"
-> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryRoute'|'removeDeliveryRoute'|'updateDeliveryRoute'> = {
   createDeliveryRoute: async (_parent, args, ctx) => {
     const payload = CreateDeliveryRouteInputSchema().parse(args.value);
 

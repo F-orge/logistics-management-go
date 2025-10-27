@@ -1,16 +1,23 @@
+import { TmsTripStatusEnum } from "../../../../db.types";
 import {
   CreateTripInputSchema,
   Trips,
   UpdateTripInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createTrip'|'removeTrip'|'updateTrip'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createTrip" | "removeTrip" | "updateTrip"
+> = {
   createTrip: async (_parent, args, ctx) => {
     const payload = CreateTripInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("tms.trips")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status ? TmsTripStatusEnum[payload.status] : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +28,10 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createTrip'|'removeTrip'|'
 
     const result = await ctx.db
       .updateTable("tms.trips")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status ? TmsTripStatusEnum[payload.status] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

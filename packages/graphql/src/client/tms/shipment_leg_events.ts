@@ -12,26 +12,26 @@ export const CreateShipmentLegEventMutation = graphql(`
   }
 `);
 
-export const UpdateShipmentLegEventMutation = graphql(`
-  mutation UpdateShipmentLegEvent(
-    $id: ID!
-    $shipmentLegEvent: UpdateShipmentLegEventInput!
-  ) {
-    tms {
-      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {
-        id
-      }
-    }
-  }
-`);
+// export const UpdateShipmentLegEventMutation = graphql(`
+//   mutation UpdateShipmentLegEvent(
+//     $id: ID!
+//     $shipmentLegEvent: UpdateShipmentLegEventInput!
+//   ) {
+//     tms {
+//       updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
-export const RemoveShipmentLegEventMutation = graphql(`
-  mutation RemoveShipmentLegEvent($id: ID!) {
-    tms {
-      removeShipmentLegEvent(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveShipmentLegEventMutation = graphql(`
+//   mutation RemoveShipmentLegEvent($id: ID!) {
+//     tms {
+//       removeShipmentLegEvent(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);

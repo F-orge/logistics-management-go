@@ -1,4 +1,9 @@
 import {
+  TmsCurrencyEnum,
+  TmsExpenseStatusEnum,
+  TmsExpenseTypeEnum,
+} from "../../../../db.types";
+import {
   CreateExpenseInputSchema,
   Expenses,
   UpdateExpenseInputSchema,
@@ -10,7 +15,16 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createExpense'|'removeExpe
 
     const result = await ctx.db
       .insertInto("tms.expenses")
-      .values(payload as any)
+      .values({
+        ...payload,
+        currency: payload.currency
+          ? TmsCurrencyEnum[payload.currency]
+          : undefined,
+        status: payload.status
+          ? TmsExpenseStatusEnum[payload.status]
+          : undefined,
+        type: payload.type ? TmsExpenseTypeEnum[payload.type] : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +35,16 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createExpense'|'removeExpe
 
     const result = await ctx.db
       .updateTable("tms.expenses")
-      .set(payload as any)
+      .set({
+        ...payload,
+        currency: payload.currency
+          ? TmsCurrencyEnum[payload.currency]
+          : undefined,
+        status: payload.status
+          ? TmsExpenseStatusEnum[payload.status]
+          : undefined,
+        type: payload.type ? TmsExpenseTypeEnum[payload.type] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

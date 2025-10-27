@@ -1,3 +1,4 @@
+import { TmsCarrierRateUnitEnum } from "../../../../db.types";
 import {
   CarrierRates,
   CreateCarrierRateInputSchema,
@@ -10,7 +11,12 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createCarrierRate'|'remove
 
     const result = await ctx.db
       .insertInto("tms.carrierRates")
-      .values(payload as any)
+      .values({
+        ...payload,
+        unit: payload.unit
+          ? TmsCarrierRateUnitEnum[payload.unit]
+          : TmsCarrierRateUnitEnum.FLAT_RATE,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +27,10 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createCarrierRate'|'remove
 
     const result = await ctx.db
       .updateTable("tms.carrierRates")
-      .set(payload as any)
+      .set({
+        ...payload,
+        unit: payload.unit ? TmsCarrierRateUnitEnum[payload.unit] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

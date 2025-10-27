@@ -2,7 +2,7 @@ import { DmsTaskEventStatusEnum } from "../../../../db.types";
 import { CreateTaskEventInputSchema, TaskEvents } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
 
-export const DmsMutation: Pick<DmsMutationResolvers, "createTaskEvent"> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createTaskEvent'> = {
   createTaskEvent: async (_parent, args, ctx) => {
     const payload = CreateTaskEventInputSchema().parse(args.value);
 

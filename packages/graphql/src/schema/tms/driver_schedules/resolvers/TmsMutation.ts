@@ -1,3 +1,4 @@
+import { TmsDriverScheduleReasonEnum } from "../../../../db.types";
 import {
   CreateDriverScheduleInputSchema,
   DriverSchedules,
@@ -9,7 +10,12 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createDriverSchedule'|'rem
 
     const result = await ctx.db
       .insertInto("tms.driverSchedules")
-      .values(payload as any)
+      .values({
+        ...payload,
+        reason: payload.reason
+          ? TmsDriverScheduleReasonEnum[payload.reason]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -20,7 +26,12 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createDriverSchedule'|'rem
 
     const result = await ctx.db
       .updateTable("tms.driverSchedules")
-      .set(payload as any)
+      .set({
+        ...payload,
+        reason: payload.reason
+          ? TmsDriverScheduleReasonEnum[payload.reason]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

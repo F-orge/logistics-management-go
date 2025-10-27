@@ -6,19 +6,16 @@ type PartnerInvoiceItems {
 }
 
 input CreatePartnerInvoiceItemInput {
-  partnerInvoiceId: ID!
   shipmentLegId: ID!
   amount: Float!
 }
 
 input UpdatePartnerInvoiceItemInput {
-  partnerInvoiceId: ID
-  shipmentLegId: ID
-  amount: Float
+  amount: Float!
 }
 
 extend type TmsMutation {
-  createPartnerInvoiceItem(value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
+  addPartnerInvoiceItem(id:ID!, value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
   updatePartnerInvoiceItem(id: ID!, value: UpdatePartnerInvoiceItemInput): PartnerInvoiceItems!
   removePartnerInvoiceItem(id: ID!): DeleteResult!
 }

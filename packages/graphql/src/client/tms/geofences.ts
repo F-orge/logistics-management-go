@@ -20,16 +20,16 @@ export const UpdateGeofenceMutation = graphql(`
   }
 `);
 
-export const RemoveGeofenceMutation = graphql(`
-  mutation RemoveGeofence($id: ID!) {
-    tms {
-      removeGeofence(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveGeofenceMutation = graphql(`
+//   mutation RemoveGeofence($id: ID!) {
+//     tms {
+//       removeGeofence(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableGeofenceQuery = graphql(`
   query TableGeofence($page: Int, $perPage: Int, $search: String) {

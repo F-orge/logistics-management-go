@@ -57,12 +57,10 @@ input CreateExpenseInput {
   odometerReading: Int
   status: ExpenseStatus
   description: String
-  expenseDate: String
+  expenseDate: Date
 }
 
 input UpdateExpenseInput {
-  tripId: ID
-  driverId: ID
   type: ExpenseType
   amount: Float
   currency: Currency
@@ -71,7 +69,7 @@ input UpdateExpenseInput {
   odometerReading: Int
   status: ExpenseStatus
   description: String
-  expenseDate: String
+  expenseDate: Date
 }
 
 extend type TmsMutation {

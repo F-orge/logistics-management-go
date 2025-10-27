@@ -20,14 +20,10 @@ input CreateGeofenceEventInput {
 }
 
 input UpdateGeofenceEventInput {
-  vehicleId: ID
-  geofenceId: ID
   eventType: GeofenceEventType
-  timestamp: String
 }
 
 extend type TmsMutation {
   createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
   updateGeofenceEvent(id: ID!, value: UpdateGeofenceEventInput): GeofenceEvents!
-  removeGeofenceEvent(id: ID!): DeleteResult!
 }

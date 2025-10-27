@@ -20,16 +20,16 @@ export const UpdateGpsPingMutation = graphql(`
   }
 `);
 
-export const RemoveGpsPingMutation = graphql(`
-  mutation RemoveGpsPing($id: ID!) {
-    tms {
-      removeGpsPing(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveGpsPingMutation = graphql(`
+//   mutation RemoveGpsPing($id: ID!) {
+//     tms {
+//       removeGpsPing(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableGpsPingQuery = graphql(`
   query TableGpsPing($page: Int, $perPage: Int) {

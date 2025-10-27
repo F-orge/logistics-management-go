@@ -195,28 +195,22 @@ type Documents = {
     "\n  query AnalyticsExpenses($from: Date, $to: Date) {\n    tms {\n      expenses(from: $from, to: $to) {\n        amount\n        type\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsExpensesDocument,
     "\n  mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {\n    tms {\n      createGeofenceEvent(value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": typeof types.CreateGeofenceEventDocument,
     "\n  mutation UpdateGeofenceEvent(\n    $id: ID!\n    $geofenceEvent: UpdateGeofenceEventInput!\n  ) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGeofenceEventDocument,
-    "\n  mutation RemoveGeofenceEvent($id: ID!) {\n    tms {\n      removeGeofenceEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveGeofenceEventDocument,
     "\n  mutation CreateGeofence($geofence: CreateGeofenceInput!) {\n    tms {\n      createGeofence(value: $geofence) {\n        id\n      }\n    }\n  }\n": typeof types.CreateGeofenceDocument,
     "\n  mutation UpdateGeofence($id: ID!, $geofence: UpdateGeofenceInput!) {\n    tms {\n      updateGeofence(id: $id, value: $geofence) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGeofenceDocument,
-    "\n  mutation RemoveGeofence($id: ID!) {\n    tms {\n      removeGeofence(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveGeofenceDocument,
     "\n  query TableGeofence($page: Int, $perPage: Int, $search: String) {\n    tms {\n      geofences(page: $page, perPage: $perPage, search: $search) {\n        createdAt\n        id\n        latitude\n        longitude\n        name\n        updatedAt\n        events {\n          eventType\n          id\n          timestamp\n          vehicle {\n            model\n            vin\n            year\n            registrationNumber\n            make\n            id\n          }\n        }\n      }\n    }\n  }\n": typeof types.TableGeofenceDocument,
     "\n  query SearchGeofences($search: String!) {\n    tms {\n      geofences(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": typeof types.SearchGeofencesDocument,
     "\n  mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {\n    tms {\n      createGpsPing(value: $gpsPing) {\n        id\n      }\n    }\n  }\n": typeof types.CreateGpsPingDocument,
     "\n  mutation UpdateGpsPing($id: ID!, $gpsPing: UpdateGpsPingInput!) {\n    tms {\n      updateGpsPing(id: $id, value: $gpsPing) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateGpsPingDocument,
-    "\n  mutation RemoveGpsPing($id: ID!) {\n    tms {\n      removeGpsPing(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveGpsPingDocument,
     "\n  query TableGpsPing($page: Int, $perPage: Int) {\n    tms {\n      gpsPings(page: $page, perPage: $perPage) {\n        id\n        latitude\n        longitude\n        timestamp\n        vehicle {\n          year\n          vin\n          registrationNumber\n          model\n          make\n          status\n          id\n        }\n      }\n    }\n  }\n": typeof types.TableGpsPingDocument,
-    "\n  mutation CreatePartnerInvoiceItem(\n    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePartnerInvoiceItemDocument,
     "\n  mutation UpdatePartnerInvoiceItem(\n    $id: ID!\n    $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePartnerInvoiceItemDocument,
     "\n  mutation RemovePartnerInvoiceItem($id: ID!) {\n    tms {\n      removePartnerInvoiceItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePartnerInvoiceItemDocument,
     "\n  mutation CreatePartnerInvoice($partnerInvoice: CreatePartnerInvoiceInput!) {\n    tms {\n      createPartnerInvoice(value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePartnerInvoiceDocument,
     "\n  mutation UpdatePartnerInvoice(\n    $id: ID!\n    $partnerInvoice: UpdatePartnerInvoiceInput!\n  ) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePartnerInvoiceDocument,
-    "\n  mutation RemovePartnerInvoice($id: ID!) {\n    tms {\n      removePartnerInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePartnerInvoiceDocument,
     "\n  query TablePartnerInvoice(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: PartnerInvoiceStatus\n  ) {\n    tms {\n      partnerInvoices(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        id\n        invoiceDate\n        invoiceNumber\n        status\n        totalAmount\n        updatedAt\n        items {\n          amount\n          id\n          shipmentLeg {\n            startLocation\n            endLocation\n            shipment {\n              trackingNumber\n              carrier\n            }\n          }\n        }\n      }\n    }\n  }\n": typeof types.TablePartnerInvoiceDocument,
     "\n  query SearchPartnerInvoices($search: String!) {\n    tms {\n      partnerInvoices(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: invoiceNumber\n      }\n    }\n  }\n": typeof types.SearchPartnerInvoicesDocument,
     "\n  query AnalyticsPartnerInvoices($from: Date, $to: Date) {\n    tms {\n      partnerInvoices(from: $from, to: $to) {\n        totalAmount\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsPartnerInvoicesDocument,
     "\n  mutation CreateProofOfDelivery(\n    $proofOfDelivery: CreateProofOfDeliveryInput!\n  ) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": typeof types.CreateProofOfDeliveryDocument,
     "\n  mutation UpdateProofOfDelivery(\n    $id: ID!\n    $proofOfDelivery: UpdateProofOfDeliveryInput!\n  ) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateProofOfDeliveryDocument,
-    "\n  mutation RemoveProofOfDelivery($id: ID!) {\n    tms {\n      removeProofOfDelivery(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveProofOfDeliveryDocument,
     "\n  query TableTmsProofOfDelivery(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $type: ProofType\n  ) {\n    tms {\n      proofOfDeliveries(\n        page: $page\n        perPage: $perPage\n        search: $search\n        type: $type\n      ) {\n        createdAt\n        filePath\n        id\n        latitude\n        longitude\n        timestamp\n        type\n        updatedAt\n        tripStop {\n          actualArrivalTime\n          actualDepartureTime\n          address\n          status\n          id\n          shipment {\n            trackingNumber\n            status\n            carrier\n            id\n          }\n          trip {\n            endLocation\n            startLocation\n            status\n            vehicle {\n              registrationNumber\n              vin\n              year\n              make\n              model\n              gpsPings {\n                latitude\n                longitude\n                timestamp\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n": typeof types.TableTmsProofOfDeliveryDocument,
     "\n  query SearchProofOfDeliveries($search: String!) {\n    tms {\n      proofOfDeliveries(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: filePath\n      }\n    }\n  }\n": typeof types.SearchProofOfDeliveriesDocument,
     "\n  query AnalyticsTmsProofOfDeliveries($from: Date, $to: Date) {\n    tms {\n      proofOfDeliveries(from: $from, to: $to) {\n        type\n      }\n    }\n  }\n": typeof types.AnalyticsTmsProofOfDeliveriesDocument,
@@ -226,11 +220,8 @@ type Documents = {
     "\n  query TableRoute($page: Int, $perPage: Int, $search: String) {\n    tms {\n      routes(page: $page, perPage: $perPage, search: $search) {\n        optimizedRouteData\n        totalDistance\n        totalDuration\n        id\n        trip {\n          startLocation\n          endTime\n          endLocation\n          createdAt\n          startTime\n          status\n          updatedAt\n          driver {\n            user {\n              email\n              id\n              image\n              name\n            }\n            licenseNumber\n            contactPhone\n            id\n          }\n        }\n      }\n    }\n  }\n": typeof types.TableRouteDocument,
     "\n  query AnalyticsRoutes($from: Date, $to: Date) {\n    tms {\n      routes(from: $from, to: $to) {\n        totalDistance\n        totalDuration\n      }\n    }\n  }\n": typeof types.AnalyticsRoutesDocument,
     "\n  mutation CreateShipmentLegEvent(\n    $shipmentLegEvent: CreateShipmentLegEventInput!\n  ) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": typeof types.CreateShipmentLegEventDocument,
-    "\n  mutation UpdateShipmentLegEvent(\n    $id: ID!\n    $shipmentLegEvent: UpdateShipmentLegEventInput!\n  ) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateShipmentLegEventDocument,
-    "\n  mutation RemoveShipmentLegEvent($id: ID!) {\n    tms {\n      removeShipmentLegEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveShipmentLegEventDocument,
     "\n  mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {\n    tms {\n      createShipmentLeg(value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": typeof types.CreateShipmentLegDocument,
     "\n  mutation UpdateShipmentLeg($id: ID!, $shipmentLeg: UpdateShipmentLegInput!) {\n    tms {\n      updateShipmentLeg(id: $id, value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateShipmentLegDocument,
-    "\n  mutation RemoveShipmentLeg($id: ID!) {\n    tms {\n      removeShipmentLeg(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveShipmentLegDocument,
     "\n  query TableShipmentLegQuery(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: ShipmentLegStatus\n  ) {\n    tms {\n      shipmentLegs(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        endLocation\n        id\n        legSequence\n        startLocation\n        status\n        updatedAt\n        shipment {\n          trackingNumber\n          carrier\n          status\n        }\n        partnerInvoiceItems {\n          amount\n          id\n        }\n        events {\n          location\n          statusMessage\n          eventTimestamp\n          id\n        }\n      }\n    }\n  }\n": typeof types.TableShipmentLegQueryDocument,
     "\n  query SearchShipmentLegs($search: String!) {\n    tms {\n      shipmentLegs(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: startLocation\n      }\n    }\n  }\n": typeof types.SearchShipmentLegsDocument,
     "\n  query AnalyticsShipmentLegs($from: Date, $to: Date) {\n    tms {\n      shipmentLegs(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsShipmentLegsDocument,
@@ -243,7 +234,6 @@ type Documents = {
     "\n  query TableTrip(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: TripStatus\n  ) {\n    tms {\n      trips(page: $page, perPage: $perPage, search: $search, status: $status) {\n        createdAt\n        endLocation\n        endTime\n        id\n        startLocation\n        startTime\n        status\n        updatedAt\n        driver {\n          user {\n            email\n            id\n            image\n            name\n          }\n          licenseNumber\n          contactPhone\n          status\n        }\n        vehicle {\n          vin\n          year\n          registrationNumber\n          model\n          make\n          status\n        }\n      }\n    }\n  }\n": typeof types.TableTripDocument,
     "\n  query SearchTrips($search: String!) {\n    tms {\n      trips(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: startLocation\n      }\n    }\n  }\n": typeof types.SearchTripsDocument,
     "\n  query AnalyticsTrips($from: Date, $to: Date) {\n    tms {\n      trips(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsTripsDocument,
-    "\n  mutation CreateVehicleMaintenance(\n    $vehicleMaintenance: CreateVehicleMaintenanceInput!\n  ) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": typeof types.CreateVehicleMaintenanceDocument,
     "\n  mutation UpdateVehicleMaintenance(\n    $id: ID!\n    $vehicleMaintenance: UpdateVehicleMaintenanceInput!\n  ) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateVehicleMaintenanceDocument,
     "\n  mutation RemoveVehicleMaintenance($id: ID!) {\n    tms {\n      removeVehicleMaintenance(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveVehicleMaintenanceDocument,
     "\n  mutation CreateVehicle($vehicle: CreateVehicleInput!) {\n    tms {\n      createVehicle(value: $vehicle) {\n        id\n      }\n    }\n  }\n": typeof types.CreateVehicleDocument,
@@ -554,28 +544,22 @@ const documents: Documents = {
     "\n  query AnalyticsExpenses($from: Date, $to: Date) {\n    tms {\n      expenses(from: $from, to: $to) {\n        amount\n        type\n        status\n      }\n    }\n  }\n": types.AnalyticsExpensesDocument,
     "\n  mutation CreateGeofenceEvent($geofenceEvent: CreateGeofenceEventInput!) {\n    tms {\n      createGeofenceEvent(value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": types.CreateGeofenceEventDocument,
     "\n  mutation UpdateGeofenceEvent(\n    $id: ID!\n    $geofenceEvent: UpdateGeofenceEventInput!\n  ) {\n    tms {\n      updateGeofenceEvent(id: $id, value: $geofenceEvent) {\n        id\n      }\n    }\n  }\n": types.UpdateGeofenceEventDocument,
-    "\n  mutation RemoveGeofenceEvent($id: ID!) {\n    tms {\n      removeGeofenceEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveGeofenceEventDocument,
     "\n  mutation CreateGeofence($geofence: CreateGeofenceInput!) {\n    tms {\n      createGeofence(value: $geofence) {\n        id\n      }\n    }\n  }\n": types.CreateGeofenceDocument,
     "\n  mutation UpdateGeofence($id: ID!, $geofence: UpdateGeofenceInput!) {\n    tms {\n      updateGeofence(id: $id, value: $geofence) {\n        id\n      }\n    }\n  }\n": types.UpdateGeofenceDocument,
-    "\n  mutation RemoveGeofence($id: ID!) {\n    tms {\n      removeGeofence(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveGeofenceDocument,
     "\n  query TableGeofence($page: Int, $perPage: Int, $search: String) {\n    tms {\n      geofences(page: $page, perPage: $perPage, search: $search) {\n        createdAt\n        id\n        latitude\n        longitude\n        name\n        updatedAt\n        events {\n          eventType\n          id\n          timestamp\n          vehicle {\n            model\n            vin\n            year\n            registrationNumber\n            make\n            id\n          }\n        }\n      }\n    }\n  }\n": types.TableGeofenceDocument,
     "\n  query SearchGeofences($search: String!) {\n    tms {\n      geofences(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": types.SearchGeofencesDocument,
     "\n  mutation CreateGpsPing($gpsPing: CreateGpsPingInput!) {\n    tms {\n      createGpsPing(value: $gpsPing) {\n        id\n      }\n    }\n  }\n": types.CreateGpsPingDocument,
     "\n  mutation UpdateGpsPing($id: ID!, $gpsPing: UpdateGpsPingInput!) {\n    tms {\n      updateGpsPing(id: $id, value: $gpsPing) {\n        id\n      }\n    }\n  }\n": types.UpdateGpsPingDocument,
-    "\n  mutation RemoveGpsPing($id: ID!) {\n    tms {\n      removeGpsPing(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveGpsPingDocument,
     "\n  query TableGpsPing($page: Int, $perPage: Int) {\n    tms {\n      gpsPings(page: $page, perPage: $perPage) {\n        id\n        latitude\n        longitude\n        timestamp\n        vehicle {\n          year\n          vin\n          registrationNumber\n          model\n          make\n          status\n          id\n        }\n      }\n    }\n  }\n": types.TableGpsPingDocument,
-    "\n  mutation CreatePartnerInvoiceItem(\n    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": types.CreatePartnerInvoiceItemDocument,
     "\n  mutation UpdatePartnerInvoiceItem(\n    $id: ID!\n    $partnerInvoiceItem: UpdatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePartnerInvoiceItemDocument,
     "\n  mutation RemovePartnerInvoiceItem($id: ID!) {\n    tms {\n      removePartnerInvoiceItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePartnerInvoiceItemDocument,
     "\n  mutation CreatePartnerInvoice($partnerInvoice: CreatePartnerInvoiceInput!) {\n    tms {\n      createPartnerInvoice(value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": types.CreatePartnerInvoiceDocument,
     "\n  mutation UpdatePartnerInvoice(\n    $id: ID!\n    $partnerInvoice: UpdatePartnerInvoiceInput!\n  ) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n": types.UpdatePartnerInvoiceDocument,
-    "\n  mutation RemovePartnerInvoice($id: ID!) {\n    tms {\n      removePartnerInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePartnerInvoiceDocument,
     "\n  query TablePartnerInvoice(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: PartnerInvoiceStatus\n  ) {\n    tms {\n      partnerInvoices(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        id\n        invoiceDate\n        invoiceNumber\n        status\n        totalAmount\n        updatedAt\n        items {\n          amount\n          id\n          shipmentLeg {\n            startLocation\n            endLocation\n            shipment {\n              trackingNumber\n              carrier\n            }\n          }\n        }\n      }\n    }\n  }\n": types.TablePartnerInvoiceDocument,
     "\n  query SearchPartnerInvoices($search: String!) {\n    tms {\n      partnerInvoices(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: invoiceNumber\n      }\n    }\n  }\n": types.SearchPartnerInvoicesDocument,
     "\n  query AnalyticsPartnerInvoices($from: Date, $to: Date) {\n    tms {\n      partnerInvoices(from: $from, to: $to) {\n        totalAmount\n        status\n      }\n    }\n  }\n": types.AnalyticsPartnerInvoicesDocument,
     "\n  mutation CreateProofOfDelivery(\n    $proofOfDelivery: CreateProofOfDeliveryInput!\n  ) {\n    tms {\n      createProofOfDelivery(value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": types.CreateProofOfDeliveryDocument,
     "\n  mutation UpdateProofOfDelivery(\n    $id: ID!\n    $proofOfDelivery: UpdateProofOfDeliveryInput!\n  ) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n": types.UpdateProofOfDeliveryDocument,
-    "\n  mutation RemoveProofOfDelivery($id: ID!) {\n    tms {\n      removeProofOfDelivery(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveProofOfDeliveryDocument,
     "\n  query TableTmsProofOfDelivery(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $type: ProofType\n  ) {\n    tms {\n      proofOfDeliveries(\n        page: $page\n        perPage: $perPage\n        search: $search\n        type: $type\n      ) {\n        createdAt\n        filePath\n        id\n        latitude\n        longitude\n        timestamp\n        type\n        updatedAt\n        tripStop {\n          actualArrivalTime\n          actualDepartureTime\n          address\n          status\n          id\n          shipment {\n            trackingNumber\n            status\n            carrier\n            id\n          }\n          trip {\n            endLocation\n            startLocation\n            status\n            vehicle {\n              registrationNumber\n              vin\n              year\n              make\n              model\n              gpsPings {\n                latitude\n                longitude\n                timestamp\n                id\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n": types.TableTmsProofOfDeliveryDocument,
     "\n  query SearchProofOfDeliveries($search: String!) {\n    tms {\n      proofOfDeliveries(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: filePath\n      }\n    }\n  }\n": types.SearchProofOfDeliveriesDocument,
     "\n  query AnalyticsTmsProofOfDeliveries($from: Date, $to: Date) {\n    tms {\n      proofOfDeliveries(from: $from, to: $to) {\n        type\n      }\n    }\n  }\n": types.AnalyticsTmsProofOfDeliveriesDocument,
@@ -585,11 +569,8 @@ const documents: Documents = {
     "\n  query TableRoute($page: Int, $perPage: Int, $search: String) {\n    tms {\n      routes(page: $page, perPage: $perPage, search: $search) {\n        optimizedRouteData\n        totalDistance\n        totalDuration\n        id\n        trip {\n          startLocation\n          endTime\n          endLocation\n          createdAt\n          startTime\n          status\n          updatedAt\n          driver {\n            user {\n              email\n              id\n              image\n              name\n            }\n            licenseNumber\n            contactPhone\n            id\n          }\n        }\n      }\n    }\n  }\n": types.TableRouteDocument,
     "\n  query AnalyticsRoutes($from: Date, $to: Date) {\n    tms {\n      routes(from: $from, to: $to) {\n        totalDistance\n        totalDuration\n      }\n    }\n  }\n": types.AnalyticsRoutesDocument,
     "\n  mutation CreateShipmentLegEvent(\n    $shipmentLegEvent: CreateShipmentLegEventInput!\n  ) {\n    tms {\n      createShipmentLegEvent(value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": types.CreateShipmentLegEventDocument,
-    "\n  mutation UpdateShipmentLegEvent(\n    $id: ID!\n    $shipmentLegEvent: UpdateShipmentLegEventInput!\n  ) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n": types.UpdateShipmentLegEventDocument,
-    "\n  mutation RemoveShipmentLegEvent($id: ID!) {\n    tms {\n      removeShipmentLegEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveShipmentLegEventDocument,
     "\n  mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {\n    tms {\n      createShipmentLeg(value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": types.CreateShipmentLegDocument,
     "\n  mutation UpdateShipmentLeg($id: ID!, $shipmentLeg: UpdateShipmentLegInput!) {\n    tms {\n      updateShipmentLeg(id: $id, value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n": types.UpdateShipmentLegDocument,
-    "\n  mutation RemoveShipmentLeg($id: ID!) {\n    tms {\n      removeShipmentLeg(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveShipmentLegDocument,
     "\n  query TableShipmentLegQuery(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: ShipmentLegStatus\n  ) {\n    tms {\n      shipmentLegs(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        endLocation\n        id\n        legSequence\n        startLocation\n        status\n        updatedAt\n        shipment {\n          trackingNumber\n          carrier\n          status\n        }\n        partnerInvoiceItems {\n          amount\n          id\n        }\n        events {\n          location\n          statusMessage\n          eventTimestamp\n          id\n        }\n      }\n    }\n  }\n": types.TableShipmentLegQueryDocument,
     "\n  query SearchShipmentLegs($search: String!) {\n    tms {\n      shipmentLegs(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: startLocation\n      }\n    }\n  }\n": types.SearchShipmentLegsDocument,
     "\n  query AnalyticsShipmentLegs($from: Date, $to: Date) {\n    tms {\n      shipmentLegs(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": types.AnalyticsShipmentLegsDocument,
@@ -602,7 +583,6 @@ const documents: Documents = {
     "\n  query TableTrip(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: TripStatus\n  ) {\n    tms {\n      trips(page: $page, perPage: $perPage, search: $search, status: $status) {\n        createdAt\n        endLocation\n        endTime\n        id\n        startLocation\n        startTime\n        status\n        updatedAt\n        driver {\n          user {\n            email\n            id\n            image\n            name\n          }\n          licenseNumber\n          contactPhone\n          status\n        }\n        vehicle {\n          vin\n          year\n          registrationNumber\n          model\n          make\n          status\n        }\n      }\n    }\n  }\n": types.TableTripDocument,
     "\n  query SearchTrips($search: String!) {\n    tms {\n      trips(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: startLocation\n      }\n    }\n  }\n": types.SearchTripsDocument,
     "\n  query AnalyticsTrips($from: Date, $to: Date) {\n    tms {\n      trips(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": types.AnalyticsTripsDocument,
-    "\n  mutation CreateVehicleMaintenance(\n    $vehicleMaintenance: CreateVehicleMaintenanceInput!\n  ) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": types.CreateVehicleMaintenanceDocument,
     "\n  mutation UpdateVehicleMaintenance(\n    $id: ID!\n    $vehicleMaintenance: UpdateVehicleMaintenanceInput!\n  ) {\n    tms {\n      updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n": types.UpdateVehicleMaintenanceDocument,
     "\n  mutation RemoveVehicleMaintenance($id: ID!) {\n    tms {\n      removeVehicleMaintenance(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveVehicleMaintenanceDocument,
     "\n  mutation CreateVehicle($vehicle: CreateVehicleInput!) {\n    tms {\n      createVehicle(value: $vehicle) {\n        id\n      }\n    }\n  }\n": types.CreateVehicleDocument,
@@ -1456,19 +1436,11 @@ export function graphql(source: "\n  mutation UpdateGeofenceEvent(\n    $id: ID!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation RemoveGeofenceEvent($id: ID!) {\n    tms {\n      removeGeofenceEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveGeofenceEventDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation CreateGeofence($geofence: CreateGeofenceInput!) {\n    tms {\n      createGeofence(value: $geofence) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateGeofenceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UpdateGeofence($id: ID!, $geofence: UpdateGeofenceInput!) {\n    tms {\n      updateGeofence(id: $id, value: $geofence) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateGeofenceDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation RemoveGeofence($id: ID!) {\n    tms {\n      removeGeofence(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveGeofenceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1488,15 +1460,7 @@ export function graphql(source: "\n  mutation UpdateGpsPing($id: ID!, $gpsPing: 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation RemoveGpsPing($id: ID!) {\n    tms {\n      removeGpsPing(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveGpsPingDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  query TableGpsPing($page: Int, $perPage: Int) {\n    tms {\n      gpsPings(page: $page, perPage: $perPage) {\n        id\n        latitude\n        longitude\n        timestamp\n        vehicle {\n          year\n          vin\n          registrationNumber\n          model\n          make\n          status\n          id\n        }\n      }\n    }\n  }\n"): typeof import('./graphql').TableGpsPingDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation CreatePartnerInvoiceItem(\n    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!\n  ) {\n    tms {\n      createPartnerInvoiceItem(value: $partnerInvoiceItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreatePartnerInvoiceItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1513,10 +1477,6 @@ export function graphql(source: "\n  mutation CreatePartnerInvoice($partnerInvoi
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UpdatePartnerInvoice(\n    $id: ID!\n    $partnerInvoice: UpdatePartnerInvoiceInput!\n  ) {\n    tms {\n      updatePartnerInvoice(id: $id, value: $partnerInvoice) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePartnerInvoiceDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation RemovePartnerInvoice($id: ID!) {\n    tms {\n      removePartnerInvoice(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemovePartnerInvoiceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1537,10 +1497,6 @@ export function graphql(source: "\n  mutation CreateProofOfDelivery(\n    $proof
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UpdateProofOfDelivery(\n    $id: ID!\n    $proofOfDelivery: UpdateProofOfDeliveryInput!\n  ) {\n    tms {\n      updateProofOfDelivery(id: $id, value: $proofOfDelivery) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateProofOfDeliveryDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation RemoveProofOfDelivery($id: ID!) {\n    tms {\n      removeProofOfDelivery(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveProofOfDeliveryDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1580,23 +1536,11 @@ export function graphql(source: "\n  mutation CreateShipmentLegEvent(\n    $ship
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation UpdateShipmentLegEvent(\n    $id: ID!\n    $shipmentLegEvent: UpdateShipmentLegEventInput!\n  ) {\n    tms {\n      updateShipmentLegEvent(id: $id, value: $shipmentLegEvent) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateShipmentLegEventDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation RemoveShipmentLegEvent($id: ID!) {\n    tms {\n      removeShipmentLegEvent(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveShipmentLegEventDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation CreateShipmentLeg($shipmentLeg: CreateShipmentLegInput!) {\n    tms {\n      createShipmentLeg(value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateShipmentLegDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation UpdateShipmentLeg($id: ID!, $shipmentLeg: UpdateShipmentLegInput!) {\n    tms {\n      updateShipmentLeg(id: $id, value: $shipmentLeg) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateShipmentLegDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation RemoveShipmentLeg($id: ID!) {\n    tms {\n      removeShipmentLeg(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveShipmentLegDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1645,10 +1589,6 @@ export function graphql(source: "\n  query SearchTrips($search: String!) {\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query AnalyticsTrips($from: Date, $to: Date) {\n    tms {\n      trips(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n"): typeof import('./graphql').AnalyticsTripsDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation CreateVehicleMaintenance(\n    $vehicleMaintenance: CreateVehicleMaintenanceInput!\n  ) {\n    tms {\n      createVehicleMaintenance(value: $vehicleMaintenance) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateVehicleMaintenanceDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -5,10 +5,7 @@ import {
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
 
-export const DmsMutation: Pick<
-  DmsMutationResolvers,
-  "createCustomerTrackingLink" | "updateCustomerTrackingLink"
-> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createCustomerTrackingLink'|'updateCustomerTrackingLink'> = {
   createCustomerTrackingLink: async (_parent, args, ctx) => {
     const payload = CreateCustomerTrackingLinkInputSchema().parse(args.value);
 

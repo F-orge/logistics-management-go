@@ -38,8 +38,6 @@ input CreateTripInput {
 }
 
 input UpdateTripInput {
-  driverId: ID
-  vehicleId: ID
   status: TripStatus
   endLocation: String
   endTime: String

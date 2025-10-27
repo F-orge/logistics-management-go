@@ -21,7 +21,6 @@ input CreateRouteInput {
 }
 
 input UpdateRouteInput {
-  tripId: ID
   optimizedRouteData: String
   totalDistance: Float
   totalDuration: Float

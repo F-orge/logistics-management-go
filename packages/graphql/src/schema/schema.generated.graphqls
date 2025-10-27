@@ -547,7 +547,7 @@ input CreateExpenseInput {
   currency: Currency
   description: String
   driverId: ID
-  expenseDate: String
+  expenseDate: Date
   fuelQuantity: Float
   odometerReading: Int
   receiptUrl: String
@@ -572,7 +572,7 @@ input CreateGeofenceInput {
 input CreateGpsPingInput {
   latitude: Float!
   longitude: Float!
-  timestamp: String!
+  timestamp: Date!
   vehicleId: ID!
 }
 
@@ -764,13 +764,12 @@ input CreatePartnerInvoiceInput {
   carrierId: ID!
   invoiceDate: String!
   invoiceNumber: String!
+  items: [CreatePartnerInvoiceItemInput!]!
   status: PartnerInvoiceStatus
-  totalAmount: Float!
 }
 
 input CreatePartnerInvoiceItemInput {
   amount: Float!
-  partnerInvoiceId: ID!
   shipmentLegId: ID!
 }
 
@@ -824,10 +823,9 @@ input CreateProductInput {
 }
 
 input CreateProofOfDeliveryInput {
-  filePath: String
+  files: [File!]!
   latitude: Float
   longitude: Float
-  timestamp: String!
   tripStopId: ID!
   type: ProofType
 }
@@ -931,7 +929,6 @@ input CreateSalesOrderItemInput {
 }
 
 input CreateShipmentLegEventInput {
-  eventTimestamp: String!
   location: String
   shipmentLegId: ID!
   statusMessage: String
@@ -942,7 +939,7 @@ input CreateShipmentLegInput {
   endLocation: String
   internalTripId: ID
   legSequence: Int!
-  shipmentId: ID
+  shipmentId: ID!
   startLocation: String
   status: ShipmentLegStatus
 }
@@ -1028,8 +1025,6 @@ input CreateTripInput {
 }
 
 input CreateTripStopInput {
-  actualArrivalTime: String
-  actualDepartureTime: String
   address: String
   estimatedArrivalTime: String
   estimatedDepartureTime: String
@@ -1055,9 +1050,8 @@ input CreateVehicleInput {
 input CreateVehicleMaintenanceInput {
   cost: Float
   notes: String
-  serviceDate: String!
+  serviceDate: Date!
   serviceType: VehicleServiceType
-  vehicleId: ID!
 }
 
 input CreateWarehouseInput {
@@ -1486,7 +1480,7 @@ type GpsPings {
   id: ID!
   latitude: Float!
   longitude: Float!
-  timestamp: String!
+  timestamp: Date!
   vehicle: Vehicles!
 }
 
@@ -2446,6 +2440,8 @@ type Tasks {
 }
 
 type TmsMutation {
+  addPartnerInvoiceItem(id: ID!, value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
+  addVehicleMaintenance(id: ID!, value: CreateVehicleMaintenanceInput!): VehicleMaintenance!
   createCarrier(value: CreateCarrierInput!): Carriers!
   createCarrierRate(value: CreateCarrierRateInput!): CarrierRates!
   createDriver(value: CreateDriverInput!): Drivers!
@@ -2455,7 +2451,6 @@ type TmsMutation {
   createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
   createGpsPing(value: CreateGpsPingInput!): GpsPings!
   createPartnerInvoice(value: CreatePartnerInvoiceInput!): PartnerInvoices!
-  createPartnerInvoiceItem(value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
   createProofOfDelivery(value: CreateProofOfDeliveryInput!): ProofOfDeliveries!
   createRoute(value: CreateRouteInput!): Routes!
   createShipmentLeg(value: CreateShipmentLegInput!): ShipmentLegs!
@@ -2463,21 +2458,14 @@ type TmsMutation {
   createTrip(value: CreateTripInput!): Trips!
   createTripStop(value: CreateTripStopInput!): TripStops!
   createVehicle(value: CreateVehicleInput!): Vehicles!
-  createVehicleMaintenance(value: CreateVehicleMaintenanceInput!): VehicleMaintenance!
   removeCarrier(id: ID!): DeleteResult!
   removeCarrierRate(id: ID!): DeleteResult!
   removeDriver(id: ID!): DeleteResult!
   removeDriverSchedule(id: ID!): DeleteResult!
   removeExpense(id: ID!): DeleteResult!
   removeGeofence(id: ID!): DeleteResult!
-  removeGeofenceEvent(id: ID!): DeleteResult!
-  removeGpsPing(id: ID!): DeleteResult!
-  removePartnerInvoice(id: ID!): DeleteResult!
   removePartnerInvoiceItem(id: ID!): DeleteResult!
-  removeProofOfDelivery(id: ID!): DeleteResult!
   removeRoute(id: ID!): DeleteResult!
-  removeShipmentLeg(id: ID!): DeleteResult!
-  removeShipmentLegEvent(id: ID!): DeleteResult!
   removeTrip(id: ID!): DeleteResult!
   removeTripStop(id: ID!): DeleteResult!
   removeVehicle(id: ID!): DeleteResult!
@@ -2495,7 +2483,6 @@ type TmsMutation {
   updateProofOfDelivery(id: ID!, value: UpdateProofOfDeliveryInput): ProofOfDeliveries!
   updateRoute(id: ID!, value: UpdateRouteInput): Routes!
   updateShipmentLeg(id: ID!, value: UpdateShipmentLegInput): ShipmentLegs!
-  updateShipmentLegEvent(id: ID!, value: UpdateShipmentLegEventInput): ShipmentLegEvents!
   updateTrip(id: ID!, value: UpdateTripInput): Trips!
   updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!
   updateVehicle(id: ID!, value: UpdateVehicleInput): Vehicles!
@@ -2656,7 +2643,6 @@ input UpdateCarrierInput {
 }
 
 input UpdateCarrierRateInput {
-  carrierId: ID
   destination: String
   origin: String
   rate: Float
@@ -2771,7 +2757,6 @@ input UpdateDriverInput {
   licenseExpiryDate: String
   licenseNumber: String
   status: DriverStatus
-  userId: ID
 }
 
 input UpdateDriverLocationInput {
@@ -2784,7 +2769,6 @@ input UpdateDriverLocationInput {
 }
 
 input UpdateDriverScheduleInput {
-  driverId: ID
   endDate: String
   reason: DriverScheduleReason
   startDate: String
@@ -2794,21 +2778,16 @@ input UpdateExpenseInput {
   amount: Float
   currency: Currency
   description: String
-  driverId: ID
-  expenseDate: String
+  expenseDate: Date
   fuelQuantity: Float
   odometerReading: Int
   receiptUrl: String
   status: ExpenseStatus
-  tripId: ID
   type: ExpenseType
 }
 
 input UpdateGeofenceEventInput {
   eventType: GeofenceEventType
-  geofenceId: ID
-  timestamp: String
-  vehicleId: ID
 }
 
 input UpdateGeofenceInput {
@@ -2820,8 +2799,6 @@ input UpdateGeofenceInput {
 input UpdateGpsPingInput {
   latitude: Float
   longitude: Float
-  timestamp: String
-  vehicleId: ID
 }
 
 input UpdateInboundShipmentInput {
@@ -2995,17 +2972,11 @@ input UpdatePackageItemInput {
 }
 
 input UpdatePartnerInvoiceInput {
-  carrierId: ID
-  invoiceDate: String
-  invoiceNumber: String
   status: PartnerInvoiceStatus
-  totalAmount: Float
 }
 
 input UpdatePartnerInvoiceItemInput {
-  amount: Float
-  partnerInvoiceId: ID
-  shipmentLegId: ID
+  amount: Float!
 }
 
 input UpdatePaymentInput {
@@ -3058,11 +3029,6 @@ input UpdateProductInput {
 }
 
 input UpdateProofOfDeliveryInput {
-  filePath: String
-  latitude: Float
-  longitude: Float
-  timestamp: String
-  tripStopId: ID
   type: ProofType
 }
 
@@ -3147,7 +3113,6 @@ input UpdateRouteInput {
   optimizedRouteData: String
   totalDistance: Float
   totalDuration: Float
-  tripId: ID
 }
 
 input UpdateSalesOrderInput {
@@ -3164,19 +3129,11 @@ input UpdateSalesOrderItemInput {
   salesOrderId: ID
 }
 
-input UpdateShipmentLegEventInput {
-  eventTimestamp: String
-  location: String
-  shipmentLegId: ID
-  statusMessage: String
-}
-
 input UpdateShipmentLegInput {
   carrierId: ID
   endLocation: String
   internalTripId: ID
   legSequence: Int
-  shipmentId: ID
   startLocation: String
   status: ShipmentLegStatus
 }
@@ -3242,13 +3199,11 @@ input UpdateTaskItemInput {
 }
 
 input UpdateTripInput {
-  driverId: ID
   endLocation: String
   endTime: String
   startLocation: String
   startTime: String
   status: TripStatus
-  vehicleId: ID
 }
 
 input UpdateTripStopInput {
@@ -3258,9 +3213,7 @@ input UpdateTripStopInput {
   estimatedArrivalTime: String
   estimatedDepartureTime: String
   sequence: Int
-  shipmentId: ID
   status: TripStopStatus
-  tripId: ID
 }
 
 input UpdateVehicleInput {
@@ -3279,9 +3232,8 @@ input UpdateVehicleInput {
 input UpdateVehicleMaintenanceInput {
   cost: Float
   notes: String
-  serviceDate: String
+  serviceDate: Date
   serviceType: VehicleServiceType
-  vehicleId: ID
 }
 
 input UpdateWarehouseInput {
@@ -3326,7 +3278,7 @@ type VehicleMaintenance {
   createdAt: Date
   id: ID!
   notes: String
-  serviceDate: String!
+  serviceDate: Date!
   serviceType: VehicleServiceType
   updatedAt: Date
   vehicle: Vehicles!

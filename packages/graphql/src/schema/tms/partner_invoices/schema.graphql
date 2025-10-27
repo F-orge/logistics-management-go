@@ -27,20 +27,15 @@ input CreatePartnerInvoiceInput {
   carrierId: ID!
   invoiceNumber: String!
   invoiceDate: String!
-  totalAmount: Float!
   status: PartnerInvoiceStatus
+  items: [CreatePartnerInvoiceItemInput!]!
 }
 
 input UpdatePartnerInvoiceInput {
-  carrierId: ID
-  invoiceNumber: String
-  invoiceDate: String
-  totalAmount: Float
   status: PartnerInvoiceStatus
 }
 
 extend type TmsMutation {
   createPartnerInvoice(value: CreatePartnerInvoiceInput!): PartnerInvoices!
   updatePartnerInvoice(id: ID!, value: UpdatePartnerInvoiceInput): PartnerInvoices!
-  removePartnerInvoice(id: ID!): DeleteResult!
 }

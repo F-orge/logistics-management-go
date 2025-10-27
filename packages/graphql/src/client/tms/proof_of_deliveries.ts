@@ -25,16 +25,16 @@ export const UpdateProofOfDeliveryMutation = graphql(`
   }
 `);
 
-export const RemoveProofOfDeliveryMutation = graphql(`
-  mutation RemoveProofOfDelivery($id: ID!) {
-    tms {
-      removeProofOfDelivery(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveProofOfDeliveryMutation = graphql(`
+//   mutation RemoveProofOfDelivery($id: ID!) {
+//     tms {
+//       removeProofOfDelivery(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableTmsProofOfDeliveryQuery = graphql(`
   query TableTmsProofOfDelivery(

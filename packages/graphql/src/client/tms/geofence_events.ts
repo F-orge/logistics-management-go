@@ -23,13 +23,13 @@ export const UpdateGeofenceEventMutation = graphql(`
   }
 `);
 
-export const RemoveGeofenceEventMutation = graphql(`
-  mutation RemoveGeofenceEvent($id: ID!) {
-    tms {
-      removeGeofenceEvent(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveGeofenceEventMutation = graphql(`
+//   mutation RemoveGeofenceEvent($id: ID!) {
+//     tms {
+//       removeGeofenceEvent(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);

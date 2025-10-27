@@ -23,16 +23,16 @@ export const UpdatePartnerInvoiceMutation = graphql(`
   }
 `);
 
-export const RemovePartnerInvoiceMutation = graphql(`
-  mutation RemovePartnerInvoice($id: ID!) {
-    tms {
-      removePartnerInvoice(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemovePartnerInvoiceMutation = graphql(`
+//   mutation RemovePartnerInvoice($id: ID!) {
+//     tms {
+//       removePartnerInvoice(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TablePartnerInvoice = graphql(`
   query TablePartnerInvoice(

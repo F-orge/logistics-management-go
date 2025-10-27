@@ -1,16 +1,16 @@
 import { graphql } from "../generated/gql";
 
-export const CreatePartnerInvoiceItemMutation = graphql(`
-  mutation CreatePartnerInvoiceItem(
-    $partnerInvoiceItem: CreatePartnerInvoiceItemInput!
-  ) {
-    tms {
-      createPartnerInvoiceItem(value: $partnerInvoiceItem) {
-        id
-      }
-    }
-  }
-`);
+// export const CreatePartnerInvoiceItemMutation = graphql(`
+//   mutation CreatePartnerInvoiceItem(
+//     $partnerInvoiceItem: CreatePartnerInvoiceItemInput!
+//   ) {
+//     tms {
+//       createPartnerInvoiceItem(value: $partnerInvoiceItem) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
 export const UpdatePartnerInvoiceItemMutation = graphql(`
   mutation UpdatePartnerInvoiceItem(

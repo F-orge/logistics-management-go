@@ -4,13 +4,16 @@ import {
   UpdateRouteInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createRoute'|'removeRoute'|'updateRoute'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createRoute" | "removeRoute" | "updateRoute"
+> = {
   createRoute: async (_parent, args, ctx) => {
     const payload = CreateRouteInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("tms.routes")
-      .values(payload as any)
+      .values(payload)
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +24,7 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createRoute'|'removeRoute'
 
     const result = await ctx.db
       .updateTable("tms.routes")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

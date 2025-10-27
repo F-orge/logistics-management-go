@@ -10,18 +10,8 @@ input CreateShipmentLegEventInput {
   shipmentLegId: ID!
   statusMessage: String
   location: String
-  eventTimestamp: String!
-}
-
-input UpdateShipmentLegEventInput {
-  shipmentLegId: ID
-  statusMessage: String
-  location: String
-  eventTimestamp: String
 }
 
 extend type TmsMutation {
   createShipmentLegEvent(value: CreateShipmentLegEventInput!): ShipmentLegEvents!
-  updateShipmentLegEvent(id: ID!, value: UpdateShipmentLegEventInput): ShipmentLegEvents!
-  removeShipmentLegEvent(id: ID!): DeleteResult!
 }

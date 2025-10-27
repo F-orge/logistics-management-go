@@ -1,16 +1,25 @@
+import { TmsVehicleStatusEnum } from "../../../../db.types";
 import {
   CreateVehicleInputSchema,
   UpdateVehicleInputSchema,
   Vehicles,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<TmsMutationResolvers, 'createVehicle'|'removeVehicle'|'updateVehicle'> = {
+export const TmsMutation: Pick<
+  TmsMutationResolvers,
+  "createVehicle" | "removeVehicle" | "updateVehicle"
+> = {
   createVehicle: async (_parent, args, ctx) => {
     const payload = CreateVehicleInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("tms.vehicles")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? TmsVehicleStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
 
       .executeTakeFirstOrThrow();
@@ -22,7 +31,12 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createVehicle'|'removeVehi
 
     const result = await ctx.db
       .updateTable("tms.vehicles")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? TmsVehicleStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

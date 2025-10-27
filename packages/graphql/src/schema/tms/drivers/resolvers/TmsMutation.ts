@@ -1,3 +1,4 @@
+import { TmsDriverStatusEnum } from "../../../../db.types";
 import {
   CreateDriverInputSchema,
   Drivers,
@@ -10,7 +11,12 @@ export const TmsMutation: Pick<TmsMutationResolvers, 'createDriver'|'removeDrive
 
     const result = await ctx.db
       .insertInto("tms.drivers")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? TmsDriverStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 

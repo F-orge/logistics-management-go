@@ -24,7 +24,6 @@ input CreateDriverScheduleInput {
 }
 
 input UpdateDriverScheduleInput {
-  driverId: ID
   startDate: String
   endDate: String
   reason: DriverScheduleReason

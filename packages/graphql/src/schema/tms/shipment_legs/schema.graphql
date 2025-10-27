@@ -27,7 +27,7 @@ extend type TmsQuery {
 }
 
 input CreateShipmentLegInput {
-  shipmentId: ID
+  shipmentId: ID!
   legSequence: Int!
   startLocation: String
   endLocation: String
@@ -37,7 +37,6 @@ input CreateShipmentLegInput {
 }
 
 input UpdateShipmentLegInput {
-  shipmentId: ID
   legSequence: Int
   startLocation: String
   endLocation: String
@@ -49,5 +48,4 @@ input UpdateShipmentLegInput {
 extend type TmsMutation {
   createShipmentLeg(value: CreateShipmentLegInput!): ShipmentLegs!
   updateShipmentLeg(id: ID!, value: UpdateShipmentLegInput): ShipmentLegs!
-  removeShipmentLeg(id: ID!): DeleteResult!
 }

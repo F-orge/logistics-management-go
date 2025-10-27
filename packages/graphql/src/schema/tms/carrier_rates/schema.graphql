@@ -29,7 +29,6 @@ input CreateCarrierRateInput {
 }
 
 input UpdateCarrierRateInput {
-  carrierId: ID
   serviceType: String
   origin: String
   destination: String

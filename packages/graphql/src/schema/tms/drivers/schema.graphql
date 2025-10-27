@@ -34,7 +34,6 @@ input CreateDriverInput {
 }
 
 input UpdateDriverInput {
-  userId: ID
   licenseNumber: String
   licenseExpiryDate: String
   status: DriverStatus

@@ -28,14 +28,10 @@ input CreateTripStopInput {
   address: String
   status: TripStopStatus
   estimatedArrivalTime: String
-  actualArrivalTime: String
   estimatedDepartureTime: String
-  actualDepartureTime: String
 }
 
 input UpdateTripStopInput {
-  tripId: ID
-  shipmentId: ID
   sequence: Int
   address: String
   status: TripStopStatus

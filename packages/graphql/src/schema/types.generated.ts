@@ -964,7 +964,7 @@ export type CreateExpenseInput = {
   currency?: InputMaybe<Currency>;
   description?: InputMaybe<Scalars['String']['input']>;
   driverId?: InputMaybe<Scalars['ID']['input']>;
-  expenseDate?: InputMaybe<Scalars['String']['input']>;
+  expenseDate?: InputMaybe<Scalars['Date']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
@@ -989,7 +989,7 @@ export type CreateGeofenceInput = {
 export type CreateGpsPingInput = {
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
-  timestamp: Scalars['String']['input'];
+  timestamp: Scalars['Date']['input'];
   vehicleId: Scalars['ID']['input'];
 };
 
@@ -1181,13 +1181,12 @@ export type CreatePartnerInvoiceInput = {
   carrierId: Scalars['ID']['input'];
   invoiceDate: Scalars['String']['input'];
   invoiceNumber: Scalars['String']['input'];
+  items: Array<CreatePartnerInvoiceItemInput>;
   status?: InputMaybe<PartnerInvoiceStatus>;
-  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreatePartnerInvoiceItemInput = {
   amount: Scalars['Float']['input'];
-  partnerInvoiceId: Scalars['ID']['input'];
   shipmentLegId: Scalars['ID']['input'];
 };
 
@@ -1241,10 +1240,9 @@ export type CreateProductInput = {
 };
 
 export type CreateProofOfDeliveryInput = {
-  filePath?: InputMaybe<Scalars['String']['input']>;
+  files: Array<Scalars['File']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp: Scalars['String']['input'];
   tripStopId: Scalars['ID']['input'];
   type?: InputMaybe<ProofType>;
 };
@@ -1348,7 +1346,6 @@ export type CreateSalesOrderItemInput = {
 };
 
 export type CreateShipmentLegEventInput = {
-  eventTimestamp: Scalars['String']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
   shipmentLegId: Scalars['ID']['input'];
   statusMessage?: InputMaybe<Scalars['String']['input']>;
@@ -1359,7 +1356,7 @@ export type CreateShipmentLegInput = {
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence: Scalars['Int']['input'];
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
+  shipmentId: Scalars['ID']['input'];
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -1445,8 +1442,6 @@ export type CreateTripInput = {
 };
 
 export type CreateTripStopInput = {
-  actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  actualDepartureTime?: InputMaybe<Scalars['String']['input']>;
   address?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
@@ -1472,9 +1467,8 @@ export type CreateVehicleInput = {
 export type CreateVehicleMaintenanceInput = {
   cost?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  serviceDate: Scalars['String']['input'];
+  serviceDate: Scalars['Date']['input'];
   serviceType?: InputMaybe<VehicleServiceType>;
-  vehicleId: Scalars['ID']['input'];
 };
 
 export type CreateWarehouseInput = {
@@ -2412,7 +2406,7 @@ export type GpsPings = {
   id: Scalars['ID']['output'];
   latitude: Scalars['Float']['output'];
   longitude: Scalars['Float']['output'];
-  timestamp: Scalars['String']['output'];
+  timestamp: Scalars['Date']['output'];
   vehicle: Vehicles;
 };
 
@@ -3382,6 +3376,8 @@ export type Tasks = {
 
 export type TmsMutation = {
   __typename?: 'TmsMutation';
+  addPartnerInvoiceItem: PartnerInvoiceItems;
+  addVehicleMaintenance: VehicleMaintenance;
   createCarrier: Carriers;
   createCarrierRate: CarrierRates;
   createDriver: Drivers;
@@ -3391,7 +3387,6 @@ export type TmsMutation = {
   createGeofenceEvent: GeofenceEvents;
   createGpsPing: GpsPings;
   createPartnerInvoice: PartnerInvoices;
-  createPartnerInvoiceItem: PartnerInvoiceItems;
   createProofOfDelivery: ProofOfDeliveries;
   createRoute: Routes;
   createShipmentLeg: ShipmentLegs;
@@ -3399,21 +3394,14 @@ export type TmsMutation = {
   createTrip: Trips;
   createTripStop: TripStops;
   createVehicle: Vehicles;
-  createVehicleMaintenance: VehicleMaintenance;
   removeCarrier: DeleteResult;
   removeCarrierRate: DeleteResult;
   removeDriver: DeleteResult;
   removeDriverSchedule: DeleteResult;
   removeExpense: DeleteResult;
   removeGeofence: DeleteResult;
-  removeGeofenceEvent: DeleteResult;
-  removeGpsPing: DeleteResult;
-  removePartnerInvoice: DeleteResult;
   removePartnerInvoiceItem: DeleteResult;
-  removeProofOfDelivery: DeleteResult;
   removeRoute: DeleteResult;
-  removeShipmentLeg: DeleteResult;
-  removeShipmentLegEvent: DeleteResult;
   removeTrip: DeleteResult;
   removeTripStop: DeleteResult;
   removeVehicle: DeleteResult;
@@ -3431,11 +3419,22 @@ export type TmsMutation = {
   updateProofOfDelivery: ProofOfDeliveries;
   updateRoute: Routes;
   updateShipmentLeg: ShipmentLegs;
-  updateShipmentLegEvent: ShipmentLegEvents;
   updateTrip: Trips;
   updateTripStop: TripStops;
   updateVehicle: Vehicles;
   updateVehicleMaintenance: VehicleMaintenance;
+};
+
+
+export type TmsMutationaddPartnerInvoiceItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePartnerInvoiceItemInput;
+};
+
+
+export type TmsMutationaddVehicleMaintenanceArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateVehicleMaintenanceInput;
 };
 
 
@@ -3484,11 +3483,6 @@ export type TmsMutationcreatePartnerInvoiceArgs = {
 };
 
 
-export type TmsMutationcreatePartnerInvoiceItemArgs = {
-  value: CreatePartnerInvoiceItemInput;
-};
-
-
 export type TmsMutationcreateProofOfDeliveryArgs = {
   value: CreateProofOfDeliveryInput;
 };
@@ -3524,11 +3518,6 @@ export type TmsMutationcreateVehicleArgs = {
 };
 
 
-export type TmsMutationcreateVehicleMaintenanceArgs = {
-  value: CreateVehicleMaintenanceInput;
-};
-
-
 export type TmsMutationremoveCarrierArgs = {
   id: Scalars['ID']['input'];
 };
@@ -3559,42 +3548,12 @@ export type TmsMutationremoveGeofenceArgs = {
 };
 
 
-export type TmsMutationremoveGeofenceEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationremoveGpsPingArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationremovePartnerInvoiceArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type TmsMutationremovePartnerInvoiceItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationremoveProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type TmsMutationremoveRouteArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationremoveShipmentLegArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationremoveShipmentLegEventArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -3694,12 +3653,6 @@ export type TmsMutationupdateRouteArgs = {
 export type TmsMutationupdateShipmentLegArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateShipmentLegInput>;
-};
-
-
-export type TmsMutationupdateShipmentLegEventArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateShipmentLegEventInput>;
 };
 
 
@@ -4042,7 +3995,6 @@ export type UpdateCarrierInput = {
 };
 
 export type UpdateCarrierRateInput = {
-  carrierId?: InputMaybe<Scalars['ID']['input']>;
   destination?: InputMaybe<Scalars['String']['input']>;
   origin?: InputMaybe<Scalars['String']['input']>;
   rate?: InputMaybe<Scalars['Float']['input']>;
@@ -4157,7 +4109,6 @@ export type UpdateDriverInput = {
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<DriverStatus>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateDriverLocationInput = {
@@ -4170,7 +4121,6 @@ export type UpdateDriverLocationInput = {
 };
 
 export type UpdateDriverScheduleInput = {
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   endDate?: InputMaybe<Scalars['String']['input']>;
   reason?: InputMaybe<DriverScheduleReason>;
   startDate?: InputMaybe<Scalars['String']['input']>;
@@ -4180,21 +4130,16 @@ export type UpdateExpenseInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Currency>;
   description?: InputMaybe<Scalars['String']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
-  expenseDate?: InputMaybe<Scalars['String']['input']>;
+  expenseDate?: InputMaybe<Scalars['Date']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ExpenseStatus>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
   type?: InputMaybe<ExpenseType>;
 };
 
 export type UpdateGeofenceEventInput = {
   eventType?: InputMaybe<GeofenceEventType>;
-  geofenceId?: InputMaybe<Scalars['ID']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateGeofenceInput = {
@@ -4206,8 +4151,6 @@ export type UpdateGeofenceInput = {
 export type UpdateGpsPingInput = {
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInboundShipmentInput = {
@@ -4381,17 +4324,11 @@ export type UpdatePackageItemInput = {
 };
 
 export type UpdatePartnerInvoiceInput = {
-  carrierId?: InputMaybe<Scalars['ID']['input']>;
-  invoiceDate?: InputMaybe<Scalars['String']['input']>;
-  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PartnerInvoiceStatus>;
-  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdatePartnerInvoiceItemInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
-  partnerInvoiceId?: InputMaybe<Scalars['ID']['input']>;
-  shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
+  amount: Scalars['Float']['input'];
 };
 
 export type UpdatePaymentInput = {
@@ -4444,11 +4381,6 @@ export type UpdateProductInput = {
 };
 
 export type UpdateProofOfDeliveryInput = {
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  tripStopId?: InputMaybe<Scalars['ID']['input']>;
   type?: InputMaybe<ProofType>;
 };
 
@@ -4533,7 +4465,6 @@ export type UpdateRouteInput = {
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
   totalDistance?: InputMaybe<Scalars['Float']['input']>;
   totalDuration?: InputMaybe<Scalars['Float']['input']>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateSalesOrderInput = {
@@ -4550,19 +4481,11 @@ export type UpdateSalesOrderItemInput = {
   salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type UpdateShipmentLegEventInput = {
-  eventTimestamp?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
-  statusMessage?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UpdateShipmentLegInput = {
   carrierId?: InputMaybe<Scalars['ID']['input']>;
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence?: InputMaybe<Scalars['Int']['input']>;
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -4628,13 +4551,11 @@ export type UpdateTaskItemInput = {
 };
 
 export type UpdateTripInput = {
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   endLocation?: InputMaybe<Scalars['String']['input']>;
   endTime?: InputMaybe<Scalars['String']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   startTime?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TripStatus>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTripStopInput = {
@@ -4644,9 +4565,7 @@ export type UpdateTripStopInput = {
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
   sequence?: InputMaybe<Scalars['Int']['input']>;
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TripStopStatus>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateVehicleInput = {
@@ -4665,9 +4584,8 @@ export type UpdateVehicleInput = {
 export type UpdateVehicleMaintenanceInput = {
   cost?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  serviceDate?: InputMaybe<Scalars['String']['input']>;
+  serviceDate?: InputMaybe<Scalars['Date']['input']>;
   serviceType?: InputMaybe<VehicleServiceType>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateWarehouseInput = {
@@ -4714,7 +4632,7 @@ export type VehicleMaintenance = {
   createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
-  serviceDate: Scalars['String']['output'];
+  serviceDate: Scalars['Date']['output'];
   serviceType?: Maybe<VehicleServiceType>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle: Vehicles;
@@ -5882,7 +5800,7 @@ export type ResolversTypes = {
   TaskStatus: ResolverTypeWrapper<'PENDING' | 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'ERROR'>;
   TaskType: ResolverTypeWrapper<'PUTAWAY' | 'PICK' | 'PACK' | 'REPLENISHMENT' | 'CYCLE_COUNT' | 'CROSS_DOCK' | 'RETURNS_PROCESSING' | 'DAMAGE_INSPECTION' | 'QUALITY_CHECK'>;
   Tasks: ResolverTypeWrapper<Omit<Tasks, 'items' | 'pickBatch' | 'status' | 'type' | 'warehouse'> & { items?: Maybe<Array<ResolversTypes['TaskItems']>>, pickBatch?: Maybe<ResolversTypes['PickBatches']>, status?: Maybe<ResolversTypes['TaskStatus']>, type: ResolversTypes['TaskType'], warehouse: ResolversTypes['Warehouses'] }>;
-  TmsMutation: ResolverTypeWrapper<Omit<TmsMutation, 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createPartnerInvoiceItem' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'createVehicleMaintenance' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateShipmentLegEvent' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { createCarrier: ResolversTypes['Carriers'], createCarrierRate: ResolversTypes['CarrierRates'], createDriver: ResolversTypes['Drivers'], createDriverSchedule: ResolversTypes['DriverSchedules'], createExpense: ResolversTypes['Expenses'], createGeofence: ResolversTypes['Geofences'], createGeofenceEvent: ResolversTypes['GeofenceEvents'], createGpsPing: ResolversTypes['GpsPings'], createPartnerInvoice: ResolversTypes['PartnerInvoices'], createPartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], createProofOfDelivery: ResolversTypes['ProofOfDeliveries'], createRoute: ResolversTypes['Routes'], createShipmentLeg: ResolversTypes['ShipmentLegs'], createShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], createTrip: ResolversTypes['Trips'], createTripStop: ResolversTypes['TripStops'], createVehicle: ResolversTypes['Vehicles'], createVehicleMaintenance: ResolversTypes['VehicleMaintenance'], updateCarrier: ResolversTypes['Carriers'], updateCarrierRate: ResolversTypes['CarrierRates'], updateDriver: ResolversTypes['Drivers'], updateDriverSchedule: ResolversTypes['DriverSchedules'], updateExpense: ResolversTypes['Expenses'], updateGeofence: ResolversTypes['Geofences'], updateGeofenceEvent: ResolversTypes['GeofenceEvents'], updateGpsPing: ResolversTypes['GpsPings'], updatePartnerInvoice: ResolversTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversTypes['ProofOfDeliveries'], updateRoute: ResolversTypes['Routes'], updateShipmentLeg: ResolversTypes['ShipmentLegs'], updateShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], updateTrip: ResolversTypes['Trips'], updateTripStop: ResolversTypes['TripStops'], updateVehicle: ResolversTypes['Vehicles'], updateVehicleMaintenance: ResolversTypes['VehicleMaintenance'] }>;
+  TmsMutation: ResolverTypeWrapper<Omit<TmsMutation, 'addPartnerInvoiceItem' | 'addVehicleMaintenance' | 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { addPartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], addVehicleMaintenance: ResolversTypes['VehicleMaintenance'], createCarrier: ResolversTypes['Carriers'], createCarrierRate: ResolversTypes['CarrierRates'], createDriver: ResolversTypes['Drivers'], createDriverSchedule: ResolversTypes['DriverSchedules'], createExpense: ResolversTypes['Expenses'], createGeofence: ResolversTypes['Geofences'], createGeofenceEvent: ResolversTypes['GeofenceEvents'], createGpsPing: ResolversTypes['GpsPings'], createPartnerInvoice: ResolversTypes['PartnerInvoices'], createProofOfDelivery: ResolversTypes['ProofOfDeliveries'], createRoute: ResolversTypes['Routes'], createShipmentLeg: ResolversTypes['ShipmentLegs'], createShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], createTrip: ResolversTypes['Trips'], createTripStop: ResolversTypes['TripStops'], createVehicle: ResolversTypes['Vehicles'], updateCarrier: ResolversTypes['Carriers'], updateCarrierRate: ResolversTypes['CarrierRates'], updateDriver: ResolversTypes['Drivers'], updateDriverSchedule: ResolversTypes['DriverSchedules'], updateExpense: ResolversTypes['Expenses'], updateGeofence: ResolversTypes['Geofences'], updateGeofenceEvent: ResolversTypes['GeofenceEvents'], updateGpsPing: ResolversTypes['GpsPings'], updatePartnerInvoice: ResolversTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversTypes['ProofOfDeliveries'], updateRoute: ResolversTypes['Routes'], updateShipmentLeg: ResolversTypes['ShipmentLegs'], updateTrip: ResolversTypes['Trips'], updateTripStop: ResolversTypes['TripStops'], updateVehicle: ResolversTypes['Vehicles'], updateVehicleMaintenance: ResolversTypes['VehicleMaintenance'] }>;
   TmsQuery: ResolverTypeWrapper<Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversTypes['Carriers'], carriers: Array<ResolversTypes['Carriers']>, driver: ResolversTypes['Drivers'], drivers: Array<ResolversTypes['Drivers']>, expense: ResolversTypes['Expenses'], expenses: Array<ResolversTypes['Expenses']>, geofence: ResolversTypes['Geofences'], geofences: Array<ResolversTypes['Geofences']>, gpsPing: ResolversTypes['GpsPings'], gpsPings: Array<ResolversTypes['GpsPings']>, partnerInvoice: ResolversTypes['PartnerInvoices'], partnerInvoices: Array<ResolversTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversTypes['ProofOfDeliveries'], route: ResolversTypes['Routes'], routes: Array<ResolversTypes['Routes']>, shipmentLeg: ResolversTypes['ShipmentLegs'], shipmentLegs: Array<ResolversTypes['ShipmentLegs']>, trip: ResolversTypes['Trips'], trips: Array<ResolversTypes['Trips']>, vehicle: ResolversTypes['Vehicles'], vehicles: Array<ResolversTypes['Vehicles']> }>;
   TransactionType: ResolverTypeWrapper<'CREDIT' | 'DEBIT' | 'TOP_UP' | 'REFUND' | 'ADJUSTMENT' | 'FEE'>;
   TripStatus: ResolverTypeWrapper<'PLANNED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED'>;
@@ -5948,7 +5866,6 @@ export type ResolversTypes = {
   UpdateRouteInput: UpdateRouteInput;
   UpdateSalesOrderInput: UpdateSalesOrderInput;
   UpdateSalesOrderItemInput: UpdateSalesOrderItemInput;
-  UpdateShipmentLegEventInput: UpdateShipmentLegEventInput;
   UpdateShipmentLegInput: UpdateShipmentLegInput;
   UpdateStockTransferInput: UpdateStockTransferInput;
   UpdateSupplierInput: UpdateSupplierInput;
@@ -6136,7 +6053,7 @@ export type ResolversParentTypes = {
   TaskEvents: Omit<TaskEvents, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   TaskItems: Omit<TaskItems, 'batch' | 'destinationLocation' | 'product' | 'sourceLocation' | 'task'> & { batch?: Maybe<ResolversParentTypes['InventoryBatches']>, destinationLocation?: Maybe<ResolversParentTypes['Locations']>, product: ResolversParentTypes['WmsProducts'], sourceLocation?: Maybe<ResolversParentTypes['Locations']>, task: ResolversParentTypes['Tasks'] };
   Tasks: Omit<Tasks, 'items' | 'pickBatch' | 'warehouse'> & { items?: Maybe<Array<ResolversParentTypes['TaskItems']>>, pickBatch?: Maybe<ResolversParentTypes['PickBatches']>, warehouse: ResolversParentTypes['Warehouses'] };
-  TmsMutation: Omit<TmsMutation, 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createPartnerInvoiceItem' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'createVehicleMaintenance' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateShipmentLegEvent' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { createCarrier: ResolversParentTypes['Carriers'], createCarrierRate: ResolversParentTypes['CarrierRates'], createDriver: ResolversParentTypes['Drivers'], createDriverSchedule: ResolversParentTypes['DriverSchedules'], createExpense: ResolversParentTypes['Expenses'], createGeofence: ResolversParentTypes['Geofences'], createGeofenceEvent: ResolversParentTypes['GeofenceEvents'], createGpsPing: ResolversParentTypes['GpsPings'], createPartnerInvoice: ResolversParentTypes['PartnerInvoices'], createPartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], createProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], createRoute: ResolversParentTypes['Routes'], createShipmentLeg: ResolversParentTypes['ShipmentLegs'], createShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], createTrip: ResolversParentTypes['Trips'], createTripStop: ResolversParentTypes['TripStops'], createVehicle: ResolversParentTypes['Vehicles'], createVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], updateCarrier: ResolversParentTypes['Carriers'], updateCarrierRate: ResolversParentTypes['CarrierRates'], updateDriver: ResolversParentTypes['Drivers'], updateDriverSchedule: ResolversParentTypes['DriverSchedules'], updateExpense: ResolversParentTypes['Expenses'], updateGeofence: ResolversParentTypes['Geofences'], updateGeofenceEvent: ResolversParentTypes['GeofenceEvents'], updateGpsPing: ResolversParentTypes['GpsPings'], updatePartnerInvoice: ResolversParentTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], updateRoute: ResolversParentTypes['Routes'], updateShipmentLeg: ResolversParentTypes['ShipmentLegs'], updateShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], updateTrip: ResolversParentTypes['Trips'], updateTripStop: ResolversParentTypes['TripStops'], updateVehicle: ResolversParentTypes['Vehicles'], updateVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'] };
+  TmsMutation: Omit<TmsMutation, 'addPartnerInvoiceItem' | 'addVehicleMaintenance' | 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { addPartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], addVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], createCarrier: ResolversParentTypes['Carriers'], createCarrierRate: ResolversParentTypes['CarrierRates'], createDriver: ResolversParentTypes['Drivers'], createDriverSchedule: ResolversParentTypes['DriverSchedules'], createExpense: ResolversParentTypes['Expenses'], createGeofence: ResolversParentTypes['Geofences'], createGeofenceEvent: ResolversParentTypes['GeofenceEvents'], createGpsPing: ResolversParentTypes['GpsPings'], createPartnerInvoice: ResolversParentTypes['PartnerInvoices'], createProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], createRoute: ResolversParentTypes['Routes'], createShipmentLeg: ResolversParentTypes['ShipmentLegs'], createShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], createTrip: ResolversParentTypes['Trips'], createTripStop: ResolversParentTypes['TripStops'], createVehicle: ResolversParentTypes['Vehicles'], updateCarrier: ResolversParentTypes['Carriers'], updateCarrierRate: ResolversParentTypes['CarrierRates'], updateDriver: ResolversParentTypes['Drivers'], updateDriverSchedule: ResolversParentTypes['DriverSchedules'], updateExpense: ResolversParentTypes['Expenses'], updateGeofence: ResolversParentTypes['Geofences'], updateGeofenceEvent: ResolversParentTypes['GeofenceEvents'], updateGpsPing: ResolversParentTypes['GpsPings'], updatePartnerInvoice: ResolversParentTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], updateRoute: ResolversParentTypes['Routes'], updateShipmentLeg: ResolversParentTypes['ShipmentLegs'], updateTrip: ResolversParentTypes['Trips'], updateTripStop: ResolversParentTypes['TripStops'], updateVehicle: ResolversParentTypes['Vehicles'], updateVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'] };
   TmsQuery: Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversParentTypes['Carriers'], carriers: Array<ResolversParentTypes['Carriers']>, driver: ResolversParentTypes['Drivers'], drivers: Array<ResolversParentTypes['Drivers']>, expense: ResolversParentTypes['Expenses'], expenses: Array<ResolversParentTypes['Expenses']>, geofence: ResolversParentTypes['Geofences'], geofences: Array<ResolversParentTypes['Geofences']>, gpsPing: ResolversParentTypes['GpsPings'], gpsPings: Array<ResolversParentTypes['GpsPings']>, partnerInvoice: ResolversParentTypes['PartnerInvoices'], partnerInvoices: Array<ResolversParentTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversParentTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], route: ResolversParentTypes['Routes'], routes: Array<ResolversParentTypes['Routes']>, shipmentLeg: ResolversParentTypes['ShipmentLegs'], shipmentLegs: Array<ResolversParentTypes['ShipmentLegs']>, trip: ResolversParentTypes['Trips'], trips: Array<ResolversParentTypes['Trips']>, vehicle: ResolversParentTypes['Vehicles'], vehicles: Array<ResolversParentTypes['Vehicles']> };
   TripStops: Omit<TripStops, 'proofOfDeliveries' | 'shipment' | 'trip'> & { proofOfDeliveries?: Maybe<Array<ResolversParentTypes['ProofOfDeliveries']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']>, trip: ResolversParentTypes['Trips'] };
   Trips: Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, routes?: Maybe<Array<ResolversParentTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversParentTypes['ShipmentLegs']>>, stops?: Maybe<Array<ResolversParentTypes['TripStops']>>, vehicle?: Maybe<ResolversParentTypes['Vehicles']> };
@@ -6199,7 +6116,6 @@ export type ResolversParentTypes = {
   UpdateRouteInput: UpdateRouteInput;
   UpdateSalesOrderInput: UpdateSalesOrderInput;
   UpdateSalesOrderItemInput: UpdateSalesOrderItemInput;
-  UpdateShipmentLegEventInput: UpdateShipmentLegEventInput;
   UpdateShipmentLegInput: UpdateShipmentLegInput;
   UpdateStockTransferInput: UpdateStockTransferInput;
   UpdateSupplierInput: UpdateSupplierInput;
@@ -6805,7 +6721,7 @@ export type GpsPingsResolvers<ContextType = GraphQLContext, ParentType extends R
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   latitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   longitude?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  timestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType>;
 };
 
@@ -7515,6 +7431,8 @@ export type TasksResolvers<ContextType = GraphQLContext, ParentType extends Reso
 };
 
 export type TmsMutationResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TmsMutation'] = ResolversParentTypes['TmsMutation']> = {
+  addPartnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsMutationaddPartnerInvoiceItemArgs, 'id' | 'value'>>;
+  addVehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsMutationaddVehicleMaintenanceArgs, 'id' | 'value'>>;
   createCarrier?: Resolver<ResolversTypes['Carriers'], ParentType, ContextType, RequireFields<TmsMutationcreateCarrierArgs, 'value'>>;
   createCarrierRate?: Resolver<ResolversTypes['CarrierRates'], ParentType, ContextType, RequireFields<TmsMutationcreateCarrierRateArgs, 'value'>>;
   createDriver?: Resolver<ResolversTypes['Drivers'], ParentType, ContextType, RequireFields<TmsMutationcreateDriverArgs, 'value'>>;
@@ -7524,7 +7442,6 @@ export type TmsMutationResolvers<ContextType = GraphQLContext, ParentType extend
   createGeofenceEvent?: Resolver<ResolversTypes['GeofenceEvents'], ParentType, ContextType, RequireFields<TmsMutationcreateGeofenceEventArgs, 'value'>>;
   createGpsPing?: Resolver<ResolversTypes['GpsPings'], ParentType, ContextType, RequireFields<TmsMutationcreateGpsPingArgs, 'value'>>;
   createPartnerInvoice?: Resolver<ResolversTypes['PartnerInvoices'], ParentType, ContextType, RequireFields<TmsMutationcreatePartnerInvoiceArgs, 'value'>>;
-  createPartnerInvoiceItem?: Resolver<ResolversTypes['PartnerInvoiceItems'], ParentType, ContextType, RequireFields<TmsMutationcreatePartnerInvoiceItemArgs, 'value'>>;
   createProofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsMutationcreateProofOfDeliveryArgs, 'value'>>;
   createRoute?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsMutationcreateRouteArgs, 'value'>>;
   createShipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsMutationcreateShipmentLegArgs, 'value'>>;
@@ -7532,21 +7449,14 @@ export type TmsMutationResolvers<ContextType = GraphQLContext, ParentType extend
   createTrip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsMutationcreateTripArgs, 'value'>>;
   createTripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsMutationcreateTripStopArgs, 'value'>>;
   createVehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsMutationcreateVehicleArgs, 'value'>>;
-  createVehicleMaintenance?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType, RequireFields<TmsMutationcreateVehicleMaintenanceArgs, 'value'>>;
   removeCarrier?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveCarrierArgs, 'id'>>;
   removeCarrierRate?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveCarrierRateArgs, 'id'>>;
   removeDriver?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveDriverArgs, 'id'>>;
   removeDriverSchedule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveDriverScheduleArgs, 'id'>>;
   removeExpense?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveExpenseArgs, 'id'>>;
   removeGeofence?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveGeofenceArgs, 'id'>>;
-  removeGeofenceEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveGeofenceEventArgs, 'id'>>;
-  removeGpsPing?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveGpsPingArgs, 'id'>>;
-  removePartnerInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremovePartnerInvoiceArgs, 'id'>>;
   removePartnerInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremovePartnerInvoiceItemArgs, 'id'>>;
-  removeProofOfDelivery?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveProofOfDeliveryArgs, 'id'>>;
   removeRoute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveRouteArgs, 'id'>>;
-  removeShipmentLeg?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveShipmentLegArgs, 'id'>>;
-  removeShipmentLegEvent?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveShipmentLegEventArgs, 'id'>>;
   removeTrip?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveTripArgs, 'id'>>;
   removeTripStop?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveTripStopArgs, 'id'>>;
   removeVehicle?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<TmsMutationremoveVehicleArgs, 'id'>>;
@@ -7564,7 +7474,6 @@ export type TmsMutationResolvers<ContextType = GraphQLContext, ParentType extend
   updateProofOfDelivery?: Resolver<ResolversTypes['ProofOfDeliveries'], ParentType, ContextType, RequireFields<TmsMutationupdateProofOfDeliveryArgs, 'id'>>;
   updateRoute?: Resolver<ResolversTypes['Routes'], ParentType, ContextType, RequireFields<TmsMutationupdateRouteArgs, 'id'>>;
   updateShipmentLeg?: Resolver<ResolversTypes['ShipmentLegs'], ParentType, ContextType, RequireFields<TmsMutationupdateShipmentLegArgs, 'id'>>;
-  updateShipmentLegEvent?: Resolver<ResolversTypes['ShipmentLegEvents'], ParentType, ContextType, RequireFields<TmsMutationupdateShipmentLegEventArgs, 'id'>>;
   updateTrip?: Resolver<ResolversTypes['Trips'], ParentType, ContextType, RequireFields<TmsMutationupdateTripArgs, 'id'>>;
   updateTripStop?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType, RequireFields<TmsMutationupdateTripStopArgs, 'id'>>;
   updateVehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsMutationupdateVehicleArgs, 'id'>>;
@@ -7648,7 +7557,7 @@ export type VehicleMaintenanceResolvers<ContextType = GraphQLContext, ParentType
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  serviceDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  serviceDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   serviceType?: Resolver<Maybe<ResolversTypes['VehicleServiceType']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType>;

@@ -25,23 +25,16 @@ extend type TmsQuery {
 input CreateProofOfDeliveryInput {
   tripStopId: ID!
   type: ProofType
-  filePath: String
-  timestamp: String!
+  files: [File!]!
   latitude: Float
   longitude: Float
 }
 
 input UpdateProofOfDeliveryInput {
-  tripStopId: ID
   type: ProofType
-  filePath: String
-  timestamp: String
-  latitude: Float
-  longitude: Float
 }
 
 extend type TmsMutation {
   createProofOfDelivery(value: CreateProofOfDeliveryInput!): ProofOfDeliveries!
   updateProofOfDelivery(id: ID!, value: UpdateProofOfDeliveryInput): ProofOfDeliveries!
-  removeProofOfDelivery(id: ID!): DeleteResult!
 }

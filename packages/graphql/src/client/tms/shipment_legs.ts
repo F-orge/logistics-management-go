@@ -20,16 +20,16 @@ export const UpdateShipmentLegMutation = graphql(`
   }
 `);
 
-export const RemoveShipmentLegMutation = graphql(`
-  mutation RemoveShipmentLeg($id: ID!) {
-    tms {
-      removeShipmentLeg(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveShipmentLegMutation = graphql(`
+//   mutation RemoveShipmentLeg($id: ID!) {
+//     tms {
+//       removeShipmentLeg(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableShipmentLegQuery = graphql(`
   query TableShipmentLegQuery(

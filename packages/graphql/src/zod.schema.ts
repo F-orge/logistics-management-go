@@ -960,7 +960,7 @@ export type CreateExpenseInput = {
   currency?: InputMaybe<Currency>;
   description?: InputMaybe<Scalars['String']['input']>;
   driverId?: InputMaybe<Scalars['ID']['input']>;
-  expenseDate?: InputMaybe<Scalars['String']['input']>;
+  expenseDate?: InputMaybe<Scalars['Date']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
@@ -985,7 +985,7 @@ export type CreateGeofenceInput = {
 export type CreateGpsPingInput = {
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
-  timestamp: Scalars['String']['input'];
+  timestamp: Scalars['Date']['input'];
   vehicleId: Scalars['ID']['input'];
 };
 
@@ -1177,13 +1177,12 @@ export type CreatePartnerInvoiceInput = {
   carrierId: Scalars['ID']['input'];
   invoiceDate: Scalars['String']['input'];
   invoiceNumber: Scalars['String']['input'];
+  items: Array<CreatePartnerInvoiceItemInput>;
   status?: InputMaybe<PartnerInvoiceStatus>;
-  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreatePartnerInvoiceItemInput = {
   amount: Scalars['Float']['input'];
-  partnerInvoiceId: Scalars['ID']['input'];
   shipmentLegId: Scalars['ID']['input'];
 };
 
@@ -1237,10 +1236,9 @@ export type CreateProductInput = {
 };
 
 export type CreateProofOfDeliveryInput = {
-  filePath?: InputMaybe<Scalars['String']['input']>;
+  files: Array<Scalars['File']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp: Scalars['String']['input'];
   tripStopId: Scalars['ID']['input'];
   type?: InputMaybe<ProofType>;
 };
@@ -1344,7 +1342,6 @@ export type CreateSalesOrderItemInput = {
 };
 
 export type CreateShipmentLegEventInput = {
-  eventTimestamp: Scalars['String']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
   shipmentLegId: Scalars['ID']['input'];
   statusMessage?: InputMaybe<Scalars['String']['input']>;
@@ -1355,7 +1352,7 @@ export type CreateShipmentLegInput = {
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence: Scalars['Int']['input'];
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
+  shipmentId: Scalars['ID']['input'];
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -1441,8 +1438,6 @@ export type CreateTripInput = {
 };
 
 export type CreateTripStopInput = {
-  actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  actualDepartureTime?: InputMaybe<Scalars['String']['input']>;
   address?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
@@ -1468,9 +1463,8 @@ export type CreateVehicleInput = {
 export type CreateVehicleMaintenanceInput = {
   cost?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  serviceDate: Scalars['String']['input'];
+  serviceDate: Scalars['Date']['input'];
   serviceType?: InputMaybe<VehicleServiceType>;
-  vehicleId: Scalars['ID']['input'];
 };
 
 export type CreateWarehouseInput = {
@@ -2408,7 +2402,7 @@ export type GpsPings = {
   id: Scalars['ID']['output'];
   latitude: Scalars['Float']['output'];
   longitude: Scalars['Float']['output'];
-  timestamp: Scalars['String']['output'];
+  timestamp: Scalars['Date']['output'];
   vehicle: Vehicles;
 };
 
@@ -3378,6 +3372,8 @@ export type Tasks = {
 
 export type TmsMutation = {
   __typename?: 'TmsMutation';
+  addPartnerInvoiceItem: PartnerInvoiceItems;
+  addVehicleMaintenance: VehicleMaintenance;
   createCarrier: Carriers;
   createCarrierRate: CarrierRates;
   createDriver: Drivers;
@@ -3387,7 +3383,6 @@ export type TmsMutation = {
   createGeofenceEvent: GeofenceEvents;
   createGpsPing: GpsPings;
   createPartnerInvoice: PartnerInvoices;
-  createPartnerInvoiceItem: PartnerInvoiceItems;
   createProofOfDelivery: ProofOfDeliveries;
   createRoute: Routes;
   createShipmentLeg: ShipmentLegs;
@@ -3395,21 +3390,14 @@ export type TmsMutation = {
   createTrip: Trips;
   createTripStop: TripStops;
   createVehicle: Vehicles;
-  createVehicleMaintenance: VehicleMaintenance;
   removeCarrier: DeleteResult;
   removeCarrierRate: DeleteResult;
   removeDriver: DeleteResult;
   removeDriverSchedule: DeleteResult;
   removeExpense: DeleteResult;
   removeGeofence: DeleteResult;
-  removeGeofenceEvent: DeleteResult;
-  removeGpsPing: DeleteResult;
-  removePartnerInvoice: DeleteResult;
   removePartnerInvoiceItem: DeleteResult;
-  removeProofOfDelivery: DeleteResult;
   removeRoute: DeleteResult;
-  removeShipmentLeg: DeleteResult;
-  removeShipmentLegEvent: DeleteResult;
   removeTrip: DeleteResult;
   removeTripStop: DeleteResult;
   removeVehicle: DeleteResult;
@@ -3427,11 +3415,22 @@ export type TmsMutation = {
   updateProofOfDelivery: ProofOfDeliveries;
   updateRoute: Routes;
   updateShipmentLeg: ShipmentLegs;
-  updateShipmentLegEvent: ShipmentLegEvents;
   updateTrip: Trips;
   updateTripStop: TripStops;
   updateVehicle: Vehicles;
   updateVehicleMaintenance: VehicleMaintenance;
+};
+
+
+export type TmsMutationAddPartnerInvoiceItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePartnerInvoiceItemInput;
+};
+
+
+export type TmsMutationAddVehicleMaintenanceArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateVehicleMaintenanceInput;
 };
 
 
@@ -3480,11 +3479,6 @@ export type TmsMutationCreatePartnerInvoiceArgs = {
 };
 
 
-export type TmsMutationCreatePartnerInvoiceItemArgs = {
-  value: CreatePartnerInvoiceItemInput;
-};
-
-
 export type TmsMutationCreateProofOfDeliveryArgs = {
   value: CreateProofOfDeliveryInput;
 };
@@ -3520,11 +3514,6 @@ export type TmsMutationCreateVehicleArgs = {
 };
 
 
-export type TmsMutationCreateVehicleMaintenanceArgs = {
-  value: CreateVehicleMaintenanceInput;
-};
-
-
 export type TmsMutationRemoveCarrierArgs = {
   id: Scalars['ID']['input'];
 };
@@ -3555,42 +3544,12 @@ export type TmsMutationRemoveGeofenceArgs = {
 };
 
 
-export type TmsMutationRemoveGeofenceEventArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemoveGpsPingArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemovePartnerInvoiceArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type TmsMutationRemovePartnerInvoiceItemArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type TmsMutationRemoveProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type TmsMutationRemoveRouteArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemoveShipmentLegArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type TmsMutationRemoveShipmentLegEventArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -3690,12 +3649,6 @@ export type TmsMutationUpdateRouteArgs = {
 export type TmsMutationUpdateShipmentLegArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateShipmentLegInput>;
-};
-
-
-export type TmsMutationUpdateShipmentLegEventArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateShipmentLegEventInput>;
 };
 
 
@@ -4038,7 +3991,6 @@ export type UpdateCarrierInput = {
 };
 
 export type UpdateCarrierRateInput = {
-  carrierId?: InputMaybe<Scalars['ID']['input']>;
   destination?: InputMaybe<Scalars['String']['input']>;
   origin?: InputMaybe<Scalars['String']['input']>;
   rate?: InputMaybe<Scalars['Float']['input']>;
@@ -4153,7 +4105,6 @@ export type UpdateDriverInput = {
   licenseExpiryDate?: InputMaybe<Scalars['String']['input']>;
   licenseNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<DriverStatus>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateDriverLocationInput = {
@@ -4166,7 +4117,6 @@ export type UpdateDriverLocationInput = {
 };
 
 export type UpdateDriverScheduleInput = {
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   endDate?: InputMaybe<Scalars['String']['input']>;
   reason?: InputMaybe<DriverScheduleReason>;
   startDate?: InputMaybe<Scalars['String']['input']>;
@@ -4176,21 +4126,16 @@ export type UpdateExpenseInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Currency>;
   description?: InputMaybe<Scalars['String']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
-  expenseDate?: InputMaybe<Scalars['String']['input']>;
+  expenseDate?: InputMaybe<Scalars['Date']['input']>;
   fuelQuantity?: InputMaybe<Scalars['Float']['input']>;
   odometerReading?: InputMaybe<Scalars['Int']['input']>;
   receiptUrl?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ExpenseStatus>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
   type?: InputMaybe<ExpenseType>;
 };
 
 export type UpdateGeofenceEventInput = {
   eventType?: InputMaybe<GeofenceEventType>;
-  geofenceId?: InputMaybe<Scalars['ID']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateGeofenceInput = {
@@ -4202,8 +4147,6 @@ export type UpdateGeofenceInput = {
 export type UpdateGpsPingInput = {
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInboundShipmentInput = {
@@ -4377,17 +4320,11 @@ export type UpdatePackageItemInput = {
 };
 
 export type UpdatePartnerInvoiceInput = {
-  carrierId?: InputMaybe<Scalars['ID']['input']>;
-  invoiceDate?: InputMaybe<Scalars['String']['input']>;
-  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PartnerInvoiceStatus>;
-  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdatePartnerInvoiceItemInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
-  partnerInvoiceId?: InputMaybe<Scalars['ID']['input']>;
-  shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
+  amount: Scalars['Float']['input'];
 };
 
 export type UpdatePaymentInput = {
@@ -4440,11 +4377,6 @@ export type UpdateProductInput = {
 };
 
 export type UpdateProofOfDeliveryInput = {
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  tripStopId?: InputMaybe<Scalars['ID']['input']>;
   type?: InputMaybe<ProofType>;
 };
 
@@ -4529,7 +4461,6 @@ export type UpdateRouteInput = {
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
   totalDistance?: InputMaybe<Scalars['Float']['input']>;
   totalDuration?: InputMaybe<Scalars['Float']['input']>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateSalesOrderInput = {
@@ -4546,19 +4477,11 @@ export type UpdateSalesOrderItemInput = {
   salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
-export type UpdateShipmentLegEventInput = {
-  eventTimestamp?: InputMaybe<Scalars['String']['input']>;
-  location?: InputMaybe<Scalars['String']['input']>;
-  shipmentLegId?: InputMaybe<Scalars['ID']['input']>;
-  statusMessage?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type UpdateShipmentLegInput = {
   carrierId?: InputMaybe<Scalars['ID']['input']>;
   endLocation?: InputMaybe<Scalars['String']['input']>;
   internalTripId?: InputMaybe<Scalars['ID']['input']>;
   legSequence?: InputMaybe<Scalars['Int']['input']>;
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ShipmentLegStatus>;
 };
@@ -4624,13 +4547,11 @@ export type UpdateTaskItemInput = {
 };
 
 export type UpdateTripInput = {
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   endLocation?: InputMaybe<Scalars['String']['input']>;
   endTime?: InputMaybe<Scalars['String']['input']>;
   startLocation?: InputMaybe<Scalars['String']['input']>;
   startTime?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TripStatus>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTripStopInput = {
@@ -4640,9 +4561,7 @@ export type UpdateTripStopInput = {
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   estimatedDepartureTime?: InputMaybe<Scalars['String']['input']>;
   sequence?: InputMaybe<Scalars['Int']['input']>;
-  shipmentId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TripStopStatus>;
-  tripId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateVehicleInput = {
@@ -4661,9 +4580,8 @@ export type UpdateVehicleInput = {
 export type UpdateVehicleMaintenanceInput = {
   cost?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  serviceDate?: InputMaybe<Scalars['String']['input']>;
+  serviceDate?: InputMaybe<Scalars['Date']['input']>;
   serviceType?: InputMaybe<VehicleServiceType>;
-  vehicleId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateWarehouseInput = {
@@ -4710,7 +4628,7 @@ export type VehicleMaintenance = {
   createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   notes?: Maybe<Scalars['String']['output']>;
-  serviceDate: Scalars['String']['output'];
+  serviceDate: Scalars['Date']['output'];
   serviceType?: Maybe<VehicleServiceType>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
   vehicle: Vehicles;
@@ -6014,7 +5932,7 @@ export function CreateExpenseInputSchema(): z.ZodObject<Properties<CreateExpense
     currency: CurrencySchema.optional(),
     description: z.string().optional(),
     driverId: z.string().optional(),
-    expenseDate: z.string().optional(),
+    expenseDate: z.date().optional(),
     fuelQuantity: z.number().optional(),
     odometerReading: z.number().optional(),
     receiptUrl: z.string().optional(),
@@ -6045,7 +5963,7 @@ export function CreateGpsPingInputSchema(): z.ZodObject<Properties<CreateGpsPing
   return z.object({
     latitude: z.number(),
     longitude: z.number(),
-    timestamp: z.string(),
+    timestamp: z.date(),
     vehicleId: z.string()
   })
 }
@@ -6275,15 +6193,14 @@ export function CreatePartnerInvoiceInputSchema(): z.ZodObject<Properties<Create
     carrierId: z.string(),
     invoiceDate: z.string(),
     invoiceNumber: z.string(),
-    status: PartnerInvoiceStatusSchema.optional(),
-    totalAmount: z.number()
+    items: z.array(z.lazy(() => CreatePartnerInvoiceItemInputSchema())),
+    status: PartnerInvoiceStatusSchema.optional()
   })
 }
 
 export function CreatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<CreatePartnerInvoiceItemInput>> {
   return z.object({
     amount: z.number(),
-    partnerInvoiceId: z.string(),
     shipmentLegId: z.string()
   })
 }
@@ -6347,10 +6264,9 @@ export function CreateProductInputSchema(): z.ZodObject<Properties<CreateProduct
 
 export function CreateProofOfDeliveryInputSchema(): z.ZodObject<Properties<CreateProofOfDeliveryInput>> {
   return z.object({
-    filePath: z.string().optional(),
+    files: z.array(z.file()),
     latitude: z.number().optional(),
     longitude: z.number().optional(),
-    timestamp: z.string(),
     tripStopId: z.string(),
     type: ProofTypeSchema.optional()
   })
@@ -6476,7 +6392,6 @@ export function CreateSalesOrderItemInputSchema(): z.ZodObject<Properties<Create
 
 export function CreateShipmentLegEventInputSchema(): z.ZodObject<Properties<CreateShipmentLegEventInput>> {
   return z.object({
-    eventTimestamp: z.string(),
     location: z.string().optional(),
     shipmentLegId: z.string(),
     statusMessage: z.string().optional()
@@ -6489,7 +6404,7 @@ export function CreateShipmentLegInputSchema(): z.ZodObject<Properties<CreateShi
     endLocation: z.string().optional(),
     internalTripId: z.string().optional(),
     legSequence: z.number(),
-    shipmentId: z.string().optional(),
+    shipmentId: z.string(),
     startLocation: z.string().optional(),
     status: ShipmentLegStatusSchema.optional()
   })
@@ -6591,8 +6506,6 @@ export function CreateTripInputSchema(): z.ZodObject<Properties<CreateTripInput>
 
 export function CreateTripStopInputSchema(): z.ZodObject<Properties<CreateTripStopInput>> {
   return z.object({
-    actualArrivalTime: z.string().optional(),
-    actualDepartureTime: z.string().optional(),
     address: z.string().optional(),
     estimatedArrivalTime: z.string().optional(),
     estimatedDepartureTime: z.string().optional(),
@@ -6622,9 +6535,8 @@ export function CreateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<Cr
   return z.object({
     cost: z.number().optional(),
     notes: z.string().optional(),
-    serviceDate: z.string(),
-    serviceType: VehicleServiceTypeSchema.optional(),
-    vehicleId: z.string()
+    serviceDate: z.date(),
+    serviceType: VehicleServiceTypeSchema.optional()
   })
 }
 
@@ -6747,7 +6659,6 @@ export function UpdateCarrierInputSchema(): z.ZodObject<Properties<UpdateCarrier
 
 export function UpdateCarrierRateInputSchema(): z.ZodObject<Properties<UpdateCarrierRateInput>> {
   return z.object({
-    carrierId: z.string().optional(),
     destination: z.string().optional(),
     origin: z.string().optional(),
     rate: z.number().optional(),
@@ -6883,8 +6794,7 @@ export function UpdateDriverInputSchema(): z.ZodObject<Properties<UpdateDriverIn
     contactPhone: z.string().optional(),
     licenseExpiryDate: z.string().optional(),
     licenseNumber: z.string().optional(),
-    status: DriverStatusSchema.optional(),
-    userId: z.string().optional()
+    status: DriverStatusSchema.optional()
   })
 }
 
@@ -6901,7 +6811,6 @@ export function UpdateDriverLocationInputSchema(): z.ZodObject<Properties<Update
 
 export function UpdateDriverScheduleInputSchema(): z.ZodObject<Properties<UpdateDriverScheduleInput>> {
   return z.object({
-    driverId: z.string().optional(),
     endDate: z.string().optional(),
     reason: DriverScheduleReasonSchema.optional(),
     startDate: z.string().optional()
@@ -6913,23 +6822,18 @@ export function UpdateExpenseInputSchema(): z.ZodObject<Properties<UpdateExpense
     amount: z.number().optional(),
     currency: CurrencySchema.optional(),
     description: z.string().optional(),
-    driverId: z.string().optional(),
-    expenseDate: z.string().optional(),
+    expenseDate: z.date().optional(),
     fuelQuantity: z.number().optional(),
     odometerReading: z.number().optional(),
     receiptUrl: z.string().optional(),
     status: ExpenseStatusSchema.optional(),
-    tripId: z.string().optional(),
     type: ExpenseTypeSchema.optional()
   })
 }
 
 export function UpdateGeofenceEventInputSchema(): z.ZodObject<Properties<UpdateGeofenceEventInput>> {
   return z.object({
-    eventType: GeofenceEventTypeSchema.optional(),
-    geofenceId: z.string().optional(),
-    timestamp: z.string().optional(),
-    vehicleId: z.string().optional()
+    eventType: GeofenceEventTypeSchema.optional()
   })
 }
 
@@ -6944,9 +6848,7 @@ export function UpdateGeofenceInputSchema(): z.ZodObject<Properties<UpdateGeofen
 export function UpdateGpsPingInputSchema(): z.ZodObject<Properties<UpdateGpsPingInput>> {
   return z.object({
     latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    timestamp: z.string().optional(),
-    vehicleId: z.string().optional()
+    longitude: z.number().optional()
   })
 }
 
@@ -7158,19 +7060,13 @@ export function UpdatePackageItemInputSchema(): z.ZodObject<Properties<UpdatePac
 
 export function UpdatePartnerInvoiceInputSchema(): z.ZodObject<Properties<UpdatePartnerInvoiceInput>> {
   return z.object({
-    carrierId: z.string().optional(),
-    invoiceDate: z.string().optional(),
-    invoiceNumber: z.string().optional(),
-    status: PartnerInvoiceStatusSchema.optional(),
-    totalAmount: z.number().optional()
+    status: PartnerInvoiceStatusSchema.optional()
   })
 }
 
 export function UpdatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<UpdatePartnerInvoiceItemInput>> {
   return z.object({
-    amount: z.number().optional(),
-    partnerInvoiceId: z.string().optional(),
-    shipmentLegId: z.string().optional()
+    amount: z.number()
   })
 }
 
@@ -7233,11 +7129,6 @@ export function UpdateProductInputSchema(): z.ZodObject<Properties<UpdateProduct
 
 export function UpdateProofOfDeliveryInputSchema(): z.ZodObject<Properties<UpdateProofOfDeliveryInput>> {
   return z.object({
-    filePath: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    timestamp: z.string().optional(),
-    tripStopId: z.string().optional(),
     type: ProofTypeSchema.optional()
   })
 }
@@ -7337,8 +7228,7 @@ export function UpdateRouteInputSchema(): z.ZodObject<Properties<UpdateRouteInpu
   return z.object({
     optimizedRouteData: z.string().optional(),
     totalDistance: z.number().optional(),
-    totalDuration: z.number().optional(),
-    tripId: z.string().optional()
+    totalDuration: z.number().optional()
   })
 }
 
@@ -7360,22 +7250,12 @@ export function UpdateSalesOrderItemInputSchema(): z.ZodObject<Properties<Update
   })
 }
 
-export function UpdateShipmentLegEventInputSchema(): z.ZodObject<Properties<UpdateShipmentLegEventInput>> {
-  return z.object({
-    eventTimestamp: z.string().optional(),
-    location: z.string().optional(),
-    shipmentLegId: z.string().optional(),
-    statusMessage: z.string().optional()
-  })
-}
-
 export function UpdateShipmentLegInputSchema(): z.ZodObject<Properties<UpdateShipmentLegInput>> {
   return z.object({
     carrierId: z.string().optional(),
     endLocation: z.string().optional(),
     internalTripId: z.string().optional(),
     legSequence: z.number().optional(),
-    shipmentId: z.string().optional(),
     startLocation: z.string().optional(),
     status: ShipmentLegStatusSchema.optional()
   })
@@ -7453,13 +7333,11 @@ export function UpdateTaskItemInputSchema(): z.ZodObject<Properties<UpdateTaskIt
 
 export function UpdateTripInputSchema(): z.ZodObject<Properties<UpdateTripInput>> {
   return z.object({
-    driverId: z.string().optional(),
     endLocation: z.string().optional(),
     endTime: z.string().optional(),
     startLocation: z.string().optional(),
     startTime: z.string().optional(),
-    status: TripStatusSchema.optional(),
-    vehicleId: z.string().optional()
+    status: TripStatusSchema.optional()
   })
 }
 
@@ -7471,9 +7349,7 @@ export function UpdateTripStopInputSchema(): z.ZodObject<Properties<UpdateTripSt
     estimatedArrivalTime: z.string().optional(),
     estimatedDepartureTime: z.string().optional(),
     sequence: z.number().optional(),
-    shipmentId: z.string().optional(),
-    status: TripStopStatusSchema.optional(),
-    tripId: z.string().optional()
+    status: TripStopStatusSchema.optional()
   })
 }
 
@@ -7496,9 +7372,8 @@ export function UpdateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<Up
   return z.object({
     cost: z.number().optional(),
     notes: z.string().optional(),
-    serviceDate: z.string().optional(),
-    serviceType: VehicleServiceTypeSchema.optional(),
-    vehicleId: z.string().optional()
+    serviceDate: z.date().optional(),
+    serviceType: VehicleServiceTypeSchema.optional()
   })
 }
 

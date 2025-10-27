@@ -141,6 +141,8 @@ import    { Surcharges } from './billing/surcharges/resolvers/Surcharges';
 import    { TaskEvents } from './dms/task_events/resolvers/TaskEvents';
 import    { TaskItems } from './wms/task_items/resolvers/TaskItems';
 import    { Tasks } from './wms/tasks/resolvers/Tasks';
+import    { TmsMutation as partner_invoice_items_TmsMutation } from './tms/partner_invoice_items/resolvers/TmsMutation';
+import    { TmsMutation as vehicle_maintenance_TmsMutation } from './tms/vehicle_maintenance/resolvers/TmsMutation';
 import    { TmsMutation as carriers_TmsMutation } from './tms/carriers/resolvers/TmsMutation';
 import    { TmsMutation as carrier_rates_TmsMutation } from './tms/carrier_rates/resolvers/TmsMutation';
 import    { TmsMutation as drivers_TmsMutation } from './tms/drivers/resolvers/TmsMutation';
@@ -150,7 +152,6 @@ import    { TmsMutation as geofences_TmsMutation } from './tms/geofences/resolve
 import    { TmsMutation as geofence_events_TmsMutation } from './tms/geofence_events/resolvers/TmsMutation';
 import    { TmsMutation as gps_pings_TmsMutation } from './tms/gps_pings/resolvers/TmsMutation';
 import    { TmsMutation as partner_invoices_TmsMutation } from './tms/partner_invoices/resolvers/TmsMutation';
-import    { TmsMutation as partner_invoice_items_TmsMutation } from './tms/partner_invoice_items/resolvers/TmsMutation';
 import    { TmsMutation as proof_of_deliveries_TmsMutation } from './tms/proof_of_deliveries/resolvers/TmsMutation';
 import    { TmsMutation as routes_TmsMutation } from './tms/routes/resolvers/TmsMutation';
 import    { TmsMutation as shipment_legs_TmsMutation } from './tms/shipment_legs/resolvers/TmsMutation';
@@ -158,7 +159,6 @@ import    { TmsMutation as shipment_leg_events_TmsMutation } from './tms/shipmen
 import    { TmsMutation as trips_TmsMutation } from './tms/trips/resolvers/TmsMutation';
 import    { TmsMutation as trip_stops_TmsMutation } from './tms/trip_stops/resolvers/TmsMutation';
 import    { TmsMutation as vehicles_TmsMutation } from './tms/vehicles/resolvers/TmsMutation';
-import    { TmsMutation as vehicle_maintenance_TmsMutation } from './tms/vehicle_maintenance/resolvers/TmsMutation';
 import    { TmsQuery as carriers_TmsQuery } from './tms/carriers/resolvers/TmsQuery';
 import    { TmsQuery as drivers_TmsQuery } from './tms/drivers/resolvers/TmsQuery';
 import    { TmsQuery as expenses_TmsQuery } from './tms/expenses/resolvers/TmsQuery';
@@ -302,7 +302,7 @@ Surcharges: Surcharges,
 TaskEvents: TaskEvents,
 TaskItems: TaskItems,
 Tasks: Tasks,
-TmsMutation: { ...carriers_TmsMutation,...carrier_rates_TmsMutation,...drivers_TmsMutation,...driver_schedules_TmsMutation,...expenses_TmsMutation,...geofences_TmsMutation,...geofence_events_TmsMutation,...gps_pings_TmsMutation,...partner_invoices_TmsMutation,...partner_invoice_items_TmsMutation,...proof_of_deliveries_TmsMutation,...routes_TmsMutation,...shipment_legs_TmsMutation,...shipment_leg_events_TmsMutation,...trips_TmsMutation,...trip_stops_TmsMutation,...vehicles_TmsMutation,...vehicle_maintenance_TmsMutation },
+TmsMutation: { ...partner_invoice_items_TmsMutation,...vehicle_maintenance_TmsMutation,...carriers_TmsMutation,...carrier_rates_TmsMutation,...drivers_TmsMutation,...driver_schedules_TmsMutation,...expenses_TmsMutation,...geofences_TmsMutation,...geofence_events_TmsMutation,...gps_pings_TmsMutation,...partner_invoices_TmsMutation,...proof_of_deliveries_TmsMutation,...routes_TmsMutation,...shipment_legs_TmsMutation,...shipment_leg_events_TmsMutation,...trips_TmsMutation,...trip_stops_TmsMutation,...vehicles_TmsMutation },
 TmsQuery: { ...carriers_TmsQuery,...drivers_TmsQuery,...expenses_TmsQuery,...geofences_TmsQuery,...gps_pings_TmsQuery,...partner_invoices_TmsQuery,...proof_of_deliveries_TmsQuery,...routes_TmsQuery,...shipment_legs_TmsQuery,...trips_TmsQuery,...vehicles_TmsQuery },
 TripStops: TripStops,
 Trips: Trips,

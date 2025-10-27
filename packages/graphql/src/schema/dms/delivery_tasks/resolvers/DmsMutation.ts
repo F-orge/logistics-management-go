@@ -9,10 +9,7 @@ import {
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
 
-export const DmsMutation: Pick<
-  DmsMutationResolvers,
-  "createDeliveryTask" | "updateDeliveryTask"
-> = {
+export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryTask'|'updateDeliveryTask'> = {
   createDeliveryTask: async (_parent, args, ctx) => {
     const payload = CreateDeliveryTaskInputSchema().parse(args.value);
 

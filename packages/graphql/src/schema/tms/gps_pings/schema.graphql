@@ -3,7 +3,7 @@ type GpsPings {
   vehicle: Vehicles!
   latitude: Float!
   longitude: Float!
-  timestamp: String!
+  timestamp: Date!
 }
 
 extend type TmsQuery {
@@ -15,18 +15,15 @@ input CreateGpsPingInput {
   vehicleId: ID!
   latitude: Float!
   longitude: Float!
-  timestamp: String!
+  timestamp: Date!
 }
 
 input UpdateGpsPingInput {
-  vehicleId: ID
   latitude: Float
   longitude: Float
-  timestamp: String
 }
 
 extend type TmsMutation {
   createGpsPing(value: CreateGpsPingInput!): GpsPings!
   updateGpsPing(id: ID!, value: UpdateGpsPingInput): GpsPings!
-  removeGpsPing(id: ID!): DeleteResult!
 }
