@@ -1145,7 +1145,6 @@ type CrmMutation {
   removeCompany(id: ID!): DeleteResult!
   removeContact(id: ID!): DeleteResult!
   removeInteraction(id: ID!): DeleteResult!
-  removeInvoice(id: ID!): DeleteResult!
   removeInvoiceItem(id: ID!): DeleteResult!
   removeLead(id: ID!): DeleteResult!
   removeNotification(id: ID!): DeleteResult!
@@ -1777,7 +1776,7 @@ type Opportunities {
   campaign: Campaigns
   company: Companies
   contact: Contacts
-  createdAt: String
+  createdAt: Date
   dealValue: Float
   expectedCloseDate: Date
   id: ID!
@@ -1789,7 +1788,7 @@ type Opportunities {
   salesOrders: [SalesOrders!]
   source: OpportunitySource
   stage: OpportunityStage
-  updatedAt: String
+  updatedAt: Date
 }
 
 type OpportunityProducts {

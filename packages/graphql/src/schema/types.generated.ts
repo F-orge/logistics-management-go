@@ -1,7 +1,7 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { GraphQLContext } from '../context';
-export type Maybe<T> = T | null | undefined;
-export type InputMaybe<T> = T | null | undefined;
+export type Maybe<T> = T | undefined;
+export type InputMaybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -17,8 +17,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  Date: { input: Date | string; output: Date | string; }
-  File: { input: any; output: any; }
+  Date: { input: Date; output: Date; }
+  File: { input: File; output: File; }
 };
 
 export type AccountTransactions = {
@@ -1563,7 +1563,6 @@ export type CrmMutation = {
   removeCompany: DeleteResult;
   removeContact: DeleteResult;
   removeInteraction: DeleteResult;
-  removeInvoice: DeleteResult;
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
   removeNotification: DeleteResult;
@@ -1677,11 +1676,6 @@ export type CrmMutationremoveContactArgs = {
 
 
 export type CrmMutationremoveInteractionArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationremoveInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -2750,7 +2744,7 @@ export type Opportunities = {
   campaign?: Maybe<Campaigns>;
   company?: Maybe<Companies>;
   contact?: Maybe<Contacts>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   dealValue?: Maybe<Scalars['Float']['output']>;
   expectedCloseDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
@@ -2762,7 +2756,7 @@ export type Opportunities = {
   salesOrders?: Maybe<Array<SalesOrders>>;
   source?: Maybe<OpportunitySource>;
   stage?: Maybe<OpportunityStage>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type OpportunityProducts = {
@@ -6619,7 +6613,6 @@ export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extend
   removeCompany?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveCompanyArgs, 'id'>>;
   removeContact?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveContactArgs, 'id'>>;
   removeInteraction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInteractionArgs, 'id'>>;
-  removeInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInvoiceArgs, 'id'>>;
   removeInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInvoiceItemArgs, 'id'>>;
   removeLead?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveLeadArgs, 'id'>>;
   removeNotification?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveNotificationArgs, 'id'>>;
@@ -7120,7 +7113,7 @@ export type OpportunitiesResolvers<ContextType = GraphQLContext, ParentType exte
   campaign?: Resolver<Maybe<ResolversTypes['Campaigns']>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Companies']>, ParentType, ContextType>;
   contact?: Resolver<Maybe<ResolversTypes['Contacts']>, ParentType, ContextType>;
-  createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   dealValue?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   expectedCloseDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -7132,7 +7125,7 @@ export type OpportunitiesResolvers<ContextType = GraphQLContext, ParentType exte
   salesOrders?: Resolver<Maybe<Array<ResolversTypes['SalesOrders']>>, ParentType, ContextType>;
   source?: Resolver<Maybe<ResolversTypes['OpportunitySource']>, ParentType, ContextType>;
   stage?: Resolver<Maybe<ResolversTypes['OpportunityStage']>, ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 };
 
 export type OpportunityProductsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['OpportunityProducts'] = ResolversParentTypes['OpportunityProducts']> = {

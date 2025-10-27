@@ -35,8 +35,8 @@ type Opportunities {
   contact: Contacts
   company: Companies
   campaign: Campaigns
-  createdAt: String
-  updatedAt: String
+  createdAt: Date
+  updatedAt: Date
   products: [OpportunityProducts!]
   salesOrders: [SalesOrders!]
 }

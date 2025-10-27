@@ -4,7 +4,10 @@ import {
   UpdateCampaignInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createCampaign'|'removeCampaign'|'updateCampaign'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createCampaign" | "removeCampaign" | "updateCampaign"
+> = {
   createCampaign: async (_parent, args, ctx) => {
     const payload = CreateCampaignInputSchema().parse(args.value);
 
@@ -21,7 +24,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCampaign'|'removeCam
 
     const result = await ctx.db
       .updateTable("crm.campaigns")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

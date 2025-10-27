@@ -1566,7 +1566,6 @@ export type CrmMutation = {
   removeCompany: DeleteResult;
   removeContact: DeleteResult;
   removeInteraction: DeleteResult;
-  removeInvoice: DeleteResult;
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
   removeNotification: DeleteResult;
@@ -1680,11 +1679,6 @@ export type CrmMutationRemoveContactArgs = {
 
 
 export type CrmMutationRemoveInteractionArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationRemoveInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -2773,7 +2767,7 @@ export type Opportunities = {
   campaign?: Maybe<Campaigns>;
   company?: Maybe<Companies>;
   contact?: Maybe<Contacts>;
-  createdAt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Date']['output']>;
   dealValue?: Maybe<Scalars['Float']['output']>;
   expectedCloseDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
@@ -2785,7 +2779,7 @@ export type Opportunities = {
   salesOrders?: Maybe<Array<SalesOrders>>;
   source?: Maybe<OpportunitySource>;
   stage?: Maybe<OpportunityStage>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
 export type OpportunityProducts = {
@@ -6534,13 +6528,6 @@ export type UpdateInvoiceMutationVariables = Exact<{
 
 export type UpdateInvoiceMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateInvoice: { __typename?: 'Invoices', id: string } } | null };
 
-export type RemoveInvoiceMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveInvoiceMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeInvoice: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableInvoiceQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -6677,7 +6664,7 @@ export type TableOpportunityQueryVariables = Exact<{
 }>;
 
 
-export type TableOpportunityQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', createdAt?: string | null, dealValue?: number | null, expectedCloseDate?: any | null, id: string, lostReason?: string | null, name: string, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, updatedAt?: string | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string, country?: string | null, phoneNumber?: string | null } | null, contact?: { __typename?: 'Contacts', email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null } } | null, owner?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, products?: Array<{ __typename?: 'OpportunityProducts', quantity: number, product: { __typename?: 'Products', id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, description?: string | null } }> | null, campaign?: { __typename?: 'Campaigns', name: string, budget?: number | null, endDate?: any | null, startDate: any, id: string } | null }> } | null };
+export type TableOpportunityQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', opportunities: Array<{ __typename?: 'Opportunities', createdAt?: any | null, dealValue?: number | null, expectedCloseDate?: any | null, id: string, lostReason?: string | null, name: string, probability?: number | null, source?: OpportunitySource | null, stage?: OpportunityStage | null, updatedAt?: any | null, company?: { __typename?: 'Companies', name: string, industry?: string | null, id: string, country?: string | null, phoneNumber?: string | null } | null, contact?: { __typename?: 'Contacts', email?: string | null, id: string, jobTitle?: string | null, name: string, phoneNumber?: string | null, updatedAt?: string | null, company: { __typename?: 'Companies', name: string, phoneNumber?: string | null, industry?: string | null, country?: string | null } } | null, owner?: { __typename?: 'User', email: string, id: string, image?: string | null, name: string } | null, products?: Array<{ __typename?: 'OpportunityProducts', quantity: number, product: { __typename?: 'Products', id: string, name: string, price: number, sku?: string | null, type?: ProductType | null, description?: string | null } }> | null, campaign?: { __typename?: 'Campaigns', name: string, budget?: number | null, endDate?: any | null, startDate: any, id: string } | null }> } | null };
 
 export type SearchOpportunitiesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -10035,16 +10022,6 @@ export const UpdateInvoiceDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateInvoiceMutation, UpdateInvoiceMutationVariables>;
-export const RemoveInvoiceDocument = new TypedDocumentString(`
-    mutation RemoveInvoice($id: ID!) {
-  crm {
-    removeInvoice(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveInvoiceMutation, RemoveInvoiceMutationVariables>;
 export const TableInvoiceDocument = new TypedDocumentString(`
     query TableInvoice($page: Int, $perPage: Int, $paymentMethod: CrmInvoicePaymentMethod, $status: InvoiceStatus, $search: String) {
   crm {

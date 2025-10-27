@@ -30,7 +30,7 @@
   "scripts": {
     "build": "bun run codegen && bun run compile",
     "compile": "tsc -p tsconfig.build.json",
-    "codegen": "bun graphql-codegen",
+    "codegen": "bun graphql-codegen && sed -i 's/\\.nullish()/.optional()/g; s/\\.nullable()/.optional()/g; s/\\.optional$/\\.optional()/g; s/\\.optional,/\\.optional(),/g' src/zod.schema.ts",
     "codegen:watch": "bun graphql-codegen --watch",
     "dev": "bun run codegen:watch",
     "clean": "rm -rf dist",

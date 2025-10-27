@@ -20,16 +20,16 @@ export const UpdateInvoiceMutation = graphql(`
   }
 `);
 
-export const RemoveInvoiceMutation = graphql(`
-  mutation RemoveInvoice($id: ID!) {
-    crm {
-      removeInvoice(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveInvoiceMutation = graphql(`
+//   mutation RemoveInvoice($id: ID!) {
+//     crm {
+//       removeInvoice(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableInvoiceQuery = graphql(`
   query TableInvoice(

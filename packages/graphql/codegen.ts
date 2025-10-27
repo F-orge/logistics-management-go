@@ -10,6 +10,11 @@ const config: CodegenConfig = {
     "src/schema": defineConfig({
       typesPluginsConfig: {
         contextType: "../context#GraphQLContext",
+        maybeValue: "T | undefined",
+      },
+      scalarsOverrides: {
+        File: { type: "File" },
+        Date: { type: "Date" },
       },
     }),
     "src/schema/graphql.schema.json": {
@@ -28,6 +33,8 @@ const config: CodegenConfig = {
           File: "z.file()",
           Date: "z.date()",
         },
+        enumsAsTypes: true,
+        maybeValue: "T | undefined",
       },
     },
     "./src/client/generated/": {
