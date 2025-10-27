@@ -18,23 +18,16 @@ extend type DmsQuery {
 input CreateCustomerTrackingLinkInput {
   deliveryTaskId: ID!
   trackingToken: String!
-  isActive: Boolean
-  accessCount: Int
-  lastAccessedAt: String
   expiresAt: String
 }
 
 input UpdateCustomerTrackingLinkInput {
-  deliveryTaskId: ID
-  trackingToken: String
   isActive: Boolean
   accessCount: Int
-  lastAccessedAt: String
   expiresAt: String
 }
 
 extend type DmsMutation {
   createCustomerTrackingLink(value: CreateCustomerTrackingLinkInput!): CustomerTrackingLinks!
   updateCustomerTrackingLink(id: ID!, value: UpdateCustomerTrackingLinkInput): CustomerTrackingLinks!
-  removeCustomerTrackingLink(id: ID!): DeleteResult!
 }

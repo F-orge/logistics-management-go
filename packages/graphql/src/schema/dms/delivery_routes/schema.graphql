@@ -35,11 +35,9 @@ input CreateDeliveryRouteInput {
   totalDistanceKm: Float
   estimatedDurationMinutes: Int
   startedAt: String
-  completedAt: String
 }
 
 input UpdateDeliveryRouteInput {
-  driverId: ID
   routeDate: String
   status: DeliveryRouteStatus
   optimizedRouteData: String

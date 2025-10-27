@@ -29,19 +29,7 @@ extend type DmsQuery {
 input CreateDmsProofOfDeliveryInput {
   deliveryTaskId: ID!
   type: ProofOfDeliveryType!
-  filePath: String
-  signatureData: String
-  recipientName: String
-  verificationCode: String
-  latitude: Float
-  longitude: Float
-  timestamp: String
-}
-
-input UpdateDmsProofOfDeliveryInput {
-  deliveryTaskId: ID
-  type: ProofOfDeliveryType
-  filePath: String
+  file: File
   signatureData: String
   recipientName: String
   verificationCode: String
@@ -52,6 +40,4 @@ input UpdateDmsProofOfDeliveryInput {
 
 extend type DmsMutation {
   createDmsProofOfDelivery(value: CreateDmsProofOfDeliveryInput!): DmsProofOfDeliveries!
-  updateDmsProofOfDelivery(id: ID!, value: UpdateDmsProofOfDeliveryInput): DmsProofOfDeliveries!
-  removeDmsProofOfDelivery(id: ID!): DeleteResult!
 }

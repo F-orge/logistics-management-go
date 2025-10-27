@@ -56,16 +56,10 @@ input CreateDeliveryTaskInput {
   deliveryInstructions: String
   estimatedArrivalTime: String
   actualArrivalTime: String
-  deliveryTime: String
   status: DeliveryTaskStatus
-  failureReason: DeliveryFailureReason
-  attemptCount: Int
 }
 
 input UpdateDeliveryTaskInput {
-  packageId: ID
-  deliveryRouteId: ID
-  routeSequence: Int
   deliveryAddress: String
   recipientName: String
   recipientPhone: String
@@ -81,5 +75,4 @@ input UpdateDeliveryTaskInput {
 extend type DmsMutation {
   createDeliveryTask(value: CreateDeliveryTaskInput!): DeliveryTasks!
   updateDeliveryTask(id: ID!, value: UpdateDeliveryTaskInput): DeliveryTasks!
-  removeDeliveryTask(id: ID!): DeleteResult!
 }

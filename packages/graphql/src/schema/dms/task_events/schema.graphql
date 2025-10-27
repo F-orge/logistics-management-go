@@ -37,18 +37,6 @@ input CreateTaskEventInput {
   timestamp: String
 }
 
-input UpdateTaskEventInput {
-  deliveryTaskId: ID
-  status: TaskEventStatus
-  reason: String
-  notes: String
-  latitude: Float
-  longitude: Float
-  timestamp: String
-}
-
 extend type DmsMutation {
   createTaskEvent(value: CreateTaskEventInput!): TaskEvents!
-  updateTaskEvent(id: ID!, value: UpdateTaskEventInput): TaskEvents!
-  removeTaskEvent(id: ID!): DeleteResult!
 }

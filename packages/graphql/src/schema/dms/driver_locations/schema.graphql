@@ -25,18 +25,15 @@ input CreateDriverLocationInput {
   accuracy: Float
   speedKmh: Float
   heading: Float
-  timestamp: String
 }
 
 input UpdateDriverLocationInput {
-  driverId: ID
   latitude: Float
   longitude: Float
   altitude: Float
   accuracy: Float
   speedKmh: Float
   heading: Float
-  timestamp: String
 }
 
 extend type DmsMutation {
