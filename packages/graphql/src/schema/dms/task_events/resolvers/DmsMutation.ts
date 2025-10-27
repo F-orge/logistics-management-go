@@ -1,3 +1,4 @@
+import { DmsTaskEventStatusEnum } from "../../../../db.types";
 import { CreateTaskEventInputSchema, TaskEvents } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
 
@@ -7,7 +8,12 @@ export const DmsMutation: Pick<DmsMutationResolvers, "createTaskEvent"> = {
 
     const result = await ctx.db
       .insertInto("dms.taskEvents")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? DmsTaskEventStatusEnum[payload.status]
+          : DmsTaskEventStatusEnum.STARTED,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
