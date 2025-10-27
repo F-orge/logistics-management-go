@@ -873,16 +873,12 @@ export type CreateCreditNoteInput = {
 };
 
 export type CreateCustomerTrackingLinkInput = {
-  accessCount?: InputMaybe<Scalars['Int']['input']>;
   deliveryTaskId: Scalars['ID']['input'];
   expiresAt?: InputMaybe<Scalars['String']['input']>;
-  isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  lastAccessedAt?: InputMaybe<Scalars['String']['input']>;
   trackingToken: Scalars['String']['input'];
 };
 
 export type CreateDeliveryRouteInput = {
-  completedAt?: InputMaybe<Scalars['String']['input']>;
   driverId: Scalars['ID']['input'];
   estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
@@ -894,13 +890,10 @@ export type CreateDeliveryRouteInput = {
 
 export type CreateDeliveryTaskInput = {
   actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  attemptCount?: InputMaybe<Scalars['Int']['input']>;
   deliveryAddress: Scalars['String']['input'];
   deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
   deliveryRouteId: Scalars['ID']['input'];
-  deliveryTime?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  failureReason?: InputMaybe<DeliveryFailureReason>;
   packageId: Scalars['ID']['input'];
   recipientName?: InputMaybe<Scalars['String']['input']>;
   recipientPhone?: InputMaybe<Scalars['String']['input']>;
@@ -922,7 +915,7 @@ export type CreateDisputeInput = {
 
 export type CreateDmsProofOfDeliveryInput = {
   deliveryTaskId: Scalars['ID']['input'];
-  filePath?: InputMaybe<Scalars['String']['input']>;
+  file?: InputMaybe<Scalars['File']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
   recipientName?: InputMaybe<Scalars['String']['input']>;
@@ -959,7 +952,6 @@ export type CreateDriverLocationInput = {
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
   speedKmh?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateDriverScheduleInput = {
@@ -2096,18 +2088,12 @@ export type DmsMutation = {
   createDmsProofOfDelivery: DmsProofOfDeliveries;
   createDriverLocation: DriverLocations;
   createTaskEvent: TaskEvents;
-  removeCustomerTrackingLink: DeleteResult;
   removeDeliveryRoute: DeleteResult;
-  removeDeliveryTask: DeleteResult;
-  removeDmsProofOfDelivery: DeleteResult;
   removeDriverLocation: DeleteResult;
-  removeTaskEvent: DeleteResult;
   updateCustomerTrackingLink: CustomerTrackingLinks;
   updateDeliveryRoute: DeliveryRoutes;
   updateDeliveryTask: DeliveryTasks;
-  updateDmsProofOfDelivery: DmsProofOfDeliveries;
   updateDriverLocation: DriverLocations;
-  updateTaskEvent: TaskEvents;
 };
 
 
@@ -2141,32 +2127,12 @@ export type DmsMutationCreateTaskEventArgs = {
 };
 
 
-export type DmsMutationRemoveCustomerTrackingLinkArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type DmsMutationRemoveDeliveryRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationRemoveDeliveryTaskArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type DmsMutationRemoveDmsProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type DmsMutationRemoveDriverLocationArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type DmsMutationRemoveTaskEventArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -2189,21 +2155,9 @@ export type DmsMutationUpdateDeliveryTaskArgs = {
 };
 
 
-export type DmsMutationUpdateDmsProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateDmsProofOfDeliveryInput>;
-};
-
-
 export type DmsMutationUpdateDriverLocationArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDriverLocationInput>;
-};
-
-
-export type DmsMutationUpdateTaskEventArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateTaskEventInput>;
 };
 
 export type DmsProofOfDeliveries = {
@@ -4201,16 +4155,12 @@ export type UpdateCreditNoteInput = {
 
 export type UpdateCustomerTrackingLinkInput = {
   accessCount?: InputMaybe<Scalars['Int']['input']>;
-  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
   expiresAt?: InputMaybe<Scalars['String']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  lastAccessedAt?: InputMaybe<Scalars['String']['input']>;
-  trackingToken?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDeliveryRouteInput = {
   completedAt?: InputMaybe<Scalars['String']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
   routeDate?: InputMaybe<Scalars['String']['input']>;
@@ -4224,14 +4174,11 @@ export type UpdateDeliveryTaskInput = {
   attemptCount?: InputMaybe<Scalars['Int']['input']>;
   deliveryAddress?: InputMaybe<Scalars['String']['input']>;
   deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
-  deliveryRouteId?: InputMaybe<Scalars['ID']['input']>;
   deliveryTime?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   failureReason?: InputMaybe<DeliveryFailureReason>;
-  packageId?: InputMaybe<Scalars['ID']['input']>;
   recipientName?: InputMaybe<Scalars['String']['input']>;
   recipientPhone?: InputMaybe<Scalars['String']['input']>;
-  routeSequence?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<DeliveryTaskStatus>;
 };
 
@@ -4245,18 +4192,6 @@ export type UpdateDisputeInput = {
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
   submittedAt?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateDmsProofOfDeliveryInput = {
-  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  recipientName?: InputMaybe<Scalars['String']['input']>;
-  signatureData?: InputMaybe<Scalars['String']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<ProofOfDeliveryType>;
-  verificationCode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDocumentInput = {
@@ -4281,12 +4216,10 @@ export type UpdateDriverInput = {
 export type UpdateDriverLocationInput = {
   accuracy?: InputMaybe<Scalars['Float']['input']>;
   altitude?: InputMaybe<Scalars['Float']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   heading?: InputMaybe<Scalars['Float']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
   speedKmh?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDriverScheduleInput = {
@@ -4436,9 +4369,6 @@ export type UpdateLocationInput = {
 
 export type UpdateNotificationInput = {
   isRead?: InputMaybe<Scalars['Boolean']['input']>;
-  link?: InputMaybe<Scalars['String']['input']>;
-  message?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateOpportunityInput = {
@@ -4714,16 +4644,6 @@ export type UpdateSurchargeInput = {
   type?: InputMaybe<Scalars['String']['input']>;
   validFrom?: InputMaybe<Scalars['String']['input']>;
   validTo?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateTaskEventInput = {
-  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  notes?: InputMaybe<Scalars['String']['input']>;
-  reason?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<TaskEventStatus>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateTaskInput = {
@@ -6730,13 +6650,6 @@ export type UpdateCustomerTrackingLinkMutationVariables = Exact<{
 
 export type UpdateCustomerTrackingLinkMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateCustomerTrackingLink: { __typename?: 'CustomerTrackingLinks', id: string } } | null };
 
-export type RemoveCustomerTrackingLinkMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveCustomerTrackingLinkMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeCustomerTrackingLink: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableCustomerTrackingLinkQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -6823,13 +6736,6 @@ export type UpdateDeliveryTaskMutationVariables = Exact<{
 
 export type UpdateDeliveryTaskMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateDeliveryTask: { __typename?: 'DeliveryTasks', id: string } } | null };
 
-export type RemoveDeliveryTaskMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveDeliveryTaskMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDeliveryTask: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableDeliveryTaskQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -6901,21 +6807,6 @@ export type CreateDmsProofOfDeliveryMutationVariables = Exact<{
 
 export type CreateDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createDmsProofOfDelivery: { __typename?: 'DmsProofOfDeliveries', id: string } } | null };
 
-export type UpdateDmsProofOfDeliveryMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  dmsProofOfDelivery: UpdateDmsProofOfDeliveryInput;
-}>;
-
-
-export type UpdateDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateDmsProofOfDelivery: { __typename?: 'DmsProofOfDeliveries', id: string } } | null };
-
-export type RemoveDmsProofOfDeliveryMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveDmsProofOfDeliveryMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeDmsProofOfDelivery: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableProofOfDeliveryQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -6947,21 +6838,6 @@ export type CreateTaskEventMutationVariables = Exact<{
 
 
 export type CreateTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', createTaskEvent: { __typename?: 'TaskEvents', id: string } } | null };
-
-export type UpdateTaskEventMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  taskEvent: UpdateTaskEventInput;
-}>;
-
-
-export type UpdateTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', updateTaskEvent: { __typename?: 'TaskEvents', id: string } } | null };
-
-export type RemoveTaskEventMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveTaskEventMutation = { __typename?: 'Mutation', dms?: { __typename?: 'DmsMutation', removeTaskEvent: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type TableTaskEventQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -10425,16 +10301,6 @@ export const UpdateCustomerTrackingLinkDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateCustomerTrackingLinkMutation, UpdateCustomerTrackingLinkMutationVariables>;
-export const RemoveCustomerTrackingLinkDocument = new TypedDocumentString(`
-    mutation RemoveCustomerTrackingLink($id: ID!) {
-  dms {
-    removeCustomerTrackingLink(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveCustomerTrackingLinkMutation, RemoveCustomerTrackingLinkMutationVariables>;
 export const TableCustomerTrackingLinkDocument = new TypedDocumentString(`
     query TableCustomerTrackingLink($page: Int, $perPage: Int, $search: String) {
   dms {
@@ -10569,16 +10435,6 @@ export const UpdateDeliveryTaskDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateDeliveryTaskMutation, UpdateDeliveryTaskMutationVariables>;
-export const RemoveDeliveryTaskDocument = new TypedDocumentString(`
-    mutation RemoveDeliveryTask($id: ID!) {
-  dms {
-    removeDeliveryTask(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveDeliveryTaskMutation, RemoveDeliveryTaskMutationVariables>;
 export const TableDeliveryTaskDocument = new TypedDocumentString(`
     query TableDeliveryTask($page: Int, $perPage: Int, $search: String, $status: DeliveryTaskStatus, $failureReason: DeliveryFailureReason) {
   dms {
@@ -10733,25 +10589,6 @@ export const CreateDmsProofOfDeliveryDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateDmsProofOfDeliveryMutation, CreateDmsProofOfDeliveryMutationVariables>;
-export const UpdateDmsProofOfDeliveryDocument = new TypedDocumentString(`
-    mutation UpdateDmsProofOfDelivery($id: ID!, $dmsProofOfDelivery: UpdateDmsProofOfDeliveryInput!) {
-  dms {
-    updateDmsProofOfDelivery(id: $id, value: $dmsProofOfDelivery) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateDmsProofOfDeliveryMutation, UpdateDmsProofOfDeliveryMutationVariables>;
-export const RemoveDmsProofOfDeliveryDocument = new TypedDocumentString(`
-    mutation RemoveDmsProofOfDelivery($id: ID!) {
-  dms {
-    removeDmsProofOfDelivery(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveDmsProofOfDeliveryMutation, RemoveDmsProofOfDeliveryMutationVariables>;
 export const TableProofOfDeliveryDocument = new TypedDocumentString(`
     query TableProofOfDelivery($page: Int, $perPage: Int, $search: String, $type: ProofOfDeliveryType) {
   dms {
@@ -10826,25 +10663,6 @@ export const CreateTaskEventDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateTaskEventMutation, CreateTaskEventMutationVariables>;
-export const UpdateTaskEventDocument = new TypedDocumentString(`
-    mutation UpdateTaskEvent($id: ID!, $taskEvent: UpdateTaskEventInput!) {
-  dms {
-    updateTaskEvent(id: $id, value: $taskEvent) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateTaskEventMutation, UpdateTaskEventMutationVariables>;
-export const RemoveTaskEventDocument = new TypedDocumentString(`
-    mutation RemoveTaskEvent($id: ID!) {
-  dms {
-    removeTaskEvent(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveTaskEventMutation, RemoveTaskEventMutationVariables>;
 export const TableTaskEventDocument = new TypedDocumentString(`
     query TableTaskEvent($page: Int, $perPage: Int, $search: String, $status: TaskEventStatus) {
   dms {

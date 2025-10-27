@@ -10,26 +10,26 @@ export const CreateTaskEventMutation = graphql(`
   }
 `);
 
-export const UpdateTaskEventMutation = graphql(`
-  mutation UpdateTaskEvent($id: ID!, $taskEvent: UpdateTaskEventInput!) {
-    dms {
-      updateTaskEvent(id: $id, value: $taskEvent) {
-        id
-      }
-    }
-  }
-`);
+// export const UpdateTaskEventMutation = graphql(`
+//   mutation UpdateTaskEvent($id: ID!, $taskEvent: UpdateTaskEventInput!) {
+//     dms {
+//       updateTaskEvent(id: $id, value: $taskEvent) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
-export const RemoveTaskEventMutation = graphql(`
-  mutation RemoveTaskEvent($id: ID!) {
-    dms {
-      removeTaskEvent(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveTaskEventMutation = graphql(`
+//   mutation RemoveTaskEvent($id: ID!) {
+//     dms {
+//       removeTaskEvent(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableTaskEventQuery = graphql(`
   query TableTaskEvent(

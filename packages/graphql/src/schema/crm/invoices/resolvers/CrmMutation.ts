@@ -6,10 +6,7 @@ import {
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
 
-export const CrmMutation: Pick<
-  CrmMutationResolvers,
-  "createInvoice" | "updateInvoice"
-> = {
+export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'updateInvoice'> = {
   createInvoice: async (_parent, args, ctx) => {
     const payload = CreateInvoiceInputSchema().parse(args.value);
 

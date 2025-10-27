@@ -454,16 +454,12 @@ input CreateCreditNoteInput {
 }
 
 input CreateCustomerTrackingLinkInput {
-  accessCount: Int
   deliveryTaskId: ID!
   expiresAt: String
-  isActive: Boolean
-  lastAccessedAt: String
   trackingToken: String!
 }
 
 input CreateDeliveryRouteInput {
-  completedAt: String
   driverId: ID!
   estimatedDurationMinutes: Int
   optimizedRouteData: String
@@ -475,13 +471,10 @@ input CreateDeliveryRouteInput {
 
 input CreateDeliveryTaskInput {
   actualArrivalTime: String
-  attemptCount: Int
   deliveryAddress: String!
   deliveryInstructions: String
   deliveryRouteId: ID!
-  deliveryTime: String
   estimatedArrivalTime: String
-  failureReason: DeliveryFailureReason
   packageId: ID!
   recipientName: String
   recipientPhone: String
@@ -503,7 +496,7 @@ input CreateDisputeInput {
 
 input CreateDmsProofOfDeliveryInput {
   deliveryTaskId: ID!
-  filePath: String
+  file: File
   latitude: Float
   longitude: Float
   recipientName: String
@@ -540,7 +533,6 @@ input CreateDriverLocationInput {
   latitude: Float!
   longitude: Float!
   speedKmh: Float
-  timestamp: String
 }
 
 input CreateDriverScheduleInput {
@@ -1316,18 +1308,12 @@ type DmsMutation {
   createDmsProofOfDelivery(value: CreateDmsProofOfDeliveryInput!): DmsProofOfDeliveries!
   createDriverLocation(value: CreateDriverLocationInput!): DriverLocations!
   createTaskEvent(value: CreateTaskEventInput!): TaskEvents!
-  removeCustomerTrackingLink(id: ID!): DeleteResult!
   removeDeliveryRoute(id: ID!): DeleteResult!
-  removeDeliveryTask(id: ID!): DeleteResult!
-  removeDmsProofOfDelivery(id: ID!): DeleteResult!
   removeDriverLocation(id: ID!): DeleteResult!
-  removeTaskEvent(id: ID!): DeleteResult!
   updateCustomerTrackingLink(id: ID!, value: UpdateCustomerTrackingLinkInput): CustomerTrackingLinks!
   updateDeliveryRoute(id: ID!, value: UpdateDeliveryRouteInput): DeliveryRoutes!
   updateDeliveryTask(id: ID!, value: UpdateDeliveryTaskInput): DeliveryTasks!
-  updateDmsProofOfDelivery(id: ID!, value: UpdateDmsProofOfDeliveryInput): DmsProofOfDeliveries!
   updateDriverLocation(id: ID!, value: UpdateDriverLocationInput): DriverLocations!
-  updateTaskEvent(id: ID!, value: UpdateTaskEventInput): TaskEvents!
 }
 
 type DmsProofOfDeliveries {
@@ -2730,16 +2716,12 @@ input UpdateCreditNoteInput {
 
 input UpdateCustomerTrackingLinkInput {
   accessCount: Int
-  deliveryTaskId: ID
   expiresAt: String
   isActive: Boolean
-  lastAccessedAt: String
-  trackingToken: String
 }
 
 input UpdateDeliveryRouteInput {
   completedAt: String
-  driverId: ID
   estimatedDurationMinutes: Int
   optimizedRouteData: String
   routeDate: String
@@ -2753,14 +2735,11 @@ input UpdateDeliveryTaskInput {
   attemptCount: Int
   deliveryAddress: String
   deliveryInstructions: String
-  deliveryRouteId: ID
   deliveryTime: String
   estimatedArrivalTime: String
   failureReason: DeliveryFailureReason
-  packageId: ID
   recipientName: String
   recipientPhone: String
-  routeSequence: Int
   status: DeliveryTaskStatus
 }
 
@@ -2774,18 +2753,6 @@ input UpdateDisputeInput {
   resolvedByUserId: ID
   status: DisputeStatus
   submittedAt: String
-}
-
-input UpdateDmsProofOfDeliveryInput {
-  deliveryTaskId: ID
-  filePath: String
-  latitude: Float
-  longitude: Float
-  recipientName: String
-  signatureData: String
-  timestamp: String
-  type: ProofOfDeliveryType
-  verificationCode: String
 }
 
 input UpdateDocumentInput {
@@ -2810,12 +2777,10 @@ input UpdateDriverInput {
 input UpdateDriverLocationInput {
   accuracy: Float
   altitude: Float
-  driverId: ID
   heading: Float
   latitude: Float
   longitude: Float
   speedKmh: Float
-  timestamp: String
 }
 
 input UpdateDriverScheduleInput {
@@ -2965,9 +2930,6 @@ input UpdateLocationInput {
 
 input UpdateNotificationInput {
   isRead: Boolean
-  link: String
-  message: String
-  userId: ID
 }
 
 input UpdateOpportunityInput {
@@ -3243,16 +3205,6 @@ input UpdateSurchargeInput {
   type: String
   validFrom: String
   validTo: String
-}
-
-input UpdateTaskEventInput {
-  deliveryTaskId: ID
-  latitude: Float
-  longitude: Float
-  notes: String
-  reason: String
-  status: TaskEventStatus
-  timestamp: String
 }
 
 input UpdateTaskInput {

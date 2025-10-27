@@ -867,16 +867,12 @@ export type CreateCreditNoteInput = {
 };
 
 export type CreateCustomerTrackingLinkInput = {
-  accessCount?: InputMaybe<Scalars['Int']['input']>;
   deliveryTaskId: Scalars['ID']['input'];
   expiresAt?: InputMaybe<Scalars['String']['input']>;
-  isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  lastAccessedAt?: InputMaybe<Scalars['String']['input']>;
   trackingToken: Scalars['String']['input'];
 };
 
 export type CreateDeliveryRouteInput = {
-  completedAt?: InputMaybe<Scalars['String']['input']>;
   driverId: Scalars['ID']['input'];
   estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
@@ -888,13 +884,10 @@ export type CreateDeliveryRouteInput = {
 
 export type CreateDeliveryTaskInput = {
   actualArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  attemptCount?: InputMaybe<Scalars['Int']['input']>;
   deliveryAddress: Scalars['String']['input'];
   deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
   deliveryRouteId: Scalars['ID']['input'];
-  deliveryTime?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
-  failureReason?: InputMaybe<DeliveryFailureReason>;
   packageId: Scalars['ID']['input'];
   recipientName?: InputMaybe<Scalars['String']['input']>;
   recipientPhone?: InputMaybe<Scalars['String']['input']>;
@@ -916,7 +909,7 @@ export type CreateDisputeInput = {
 
 export type CreateDmsProofOfDeliveryInput = {
   deliveryTaskId: Scalars['ID']['input'];
-  filePath?: InputMaybe<Scalars['String']['input']>;
+  file?: InputMaybe<Scalars['File']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
   recipientName?: InputMaybe<Scalars['String']['input']>;
@@ -953,7 +946,6 @@ export type CreateDriverLocationInput = {
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
   speedKmh?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateDriverScheduleInput = {
@@ -2084,18 +2076,12 @@ export type DmsMutation = {
   createDmsProofOfDelivery: DmsProofOfDeliveries;
   createDriverLocation: DriverLocations;
   createTaskEvent: TaskEvents;
-  removeCustomerTrackingLink: DeleteResult;
   removeDeliveryRoute: DeleteResult;
-  removeDeliveryTask: DeleteResult;
-  removeDmsProofOfDelivery: DeleteResult;
   removeDriverLocation: DeleteResult;
-  removeTaskEvent: DeleteResult;
   updateCustomerTrackingLink: CustomerTrackingLinks;
   updateDeliveryRoute: DeliveryRoutes;
   updateDeliveryTask: DeliveryTasks;
-  updateDmsProofOfDelivery: DmsProofOfDeliveries;
   updateDriverLocation: DriverLocations;
-  updateTaskEvent: TaskEvents;
 };
 
 
@@ -2129,32 +2115,12 @@ export type DmsMutationCreateTaskEventArgs = {
 };
 
 
-export type DmsMutationRemoveCustomerTrackingLinkArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type DmsMutationRemoveDeliveryRouteArgs = {
   id: Scalars['ID']['input'];
 };
 
 
-export type DmsMutationRemoveDeliveryTaskArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type DmsMutationRemoveDmsProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type DmsMutationRemoveDriverLocationArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type DmsMutationRemoveTaskEventArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -2177,21 +2143,9 @@ export type DmsMutationUpdateDeliveryTaskArgs = {
 };
 
 
-export type DmsMutationUpdateDmsProofOfDeliveryArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateDmsProofOfDeliveryInput>;
-};
-
-
 export type DmsMutationUpdateDriverLocationArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateDriverLocationInput>;
-};
-
-
-export type DmsMutationUpdateTaskEventArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateTaskEventInput>;
 };
 
 export type DmsProofOfDeliveries = {
@@ -4144,16 +4098,12 @@ export type UpdateCreditNoteInput = {
 
 export type UpdateCustomerTrackingLinkInput = {
   accessCount?: InputMaybe<Scalars['Int']['input']>;
-  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
   expiresAt?: InputMaybe<Scalars['String']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  lastAccessedAt?: InputMaybe<Scalars['String']['input']>;
-  trackingToken?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDeliveryRouteInput = {
   completedAt?: InputMaybe<Scalars['String']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   estimatedDurationMinutes?: InputMaybe<Scalars['Int']['input']>;
   optimizedRouteData?: InputMaybe<Scalars['String']['input']>;
   routeDate?: InputMaybe<Scalars['String']['input']>;
@@ -4167,14 +4117,11 @@ export type UpdateDeliveryTaskInput = {
   attemptCount?: InputMaybe<Scalars['Int']['input']>;
   deliveryAddress?: InputMaybe<Scalars['String']['input']>;
   deliveryInstructions?: InputMaybe<Scalars['String']['input']>;
-  deliveryRouteId?: InputMaybe<Scalars['ID']['input']>;
   deliveryTime?: InputMaybe<Scalars['String']['input']>;
   estimatedArrivalTime?: InputMaybe<Scalars['String']['input']>;
   failureReason?: InputMaybe<DeliveryFailureReason>;
-  packageId?: InputMaybe<Scalars['ID']['input']>;
   recipientName?: InputMaybe<Scalars['String']['input']>;
   recipientPhone?: InputMaybe<Scalars['String']['input']>;
-  routeSequence?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<DeliveryTaskStatus>;
 };
 
@@ -4188,18 +4135,6 @@ export type UpdateDisputeInput = {
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
   submittedAt?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateDmsProofOfDeliveryInput = {
-  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
-  filePath?: InputMaybe<Scalars['String']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  recipientName?: InputMaybe<Scalars['String']['input']>;
-  signatureData?: InputMaybe<Scalars['String']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<ProofOfDeliveryType>;
-  verificationCode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDocumentInput = {
@@ -4224,12 +4159,10 @@ export type UpdateDriverInput = {
 export type UpdateDriverLocationInput = {
   accuracy?: InputMaybe<Scalars['Float']['input']>;
   altitude?: InputMaybe<Scalars['Float']['input']>;
-  driverId?: InputMaybe<Scalars['ID']['input']>;
   heading?: InputMaybe<Scalars['Float']['input']>;
   latitude?: InputMaybe<Scalars['Float']['input']>;
   longitude?: InputMaybe<Scalars['Float']['input']>;
   speedKmh?: InputMaybe<Scalars['Float']['input']>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDriverScheduleInput = {
@@ -4379,9 +4312,6 @@ export type UpdateLocationInput = {
 
 export type UpdateNotificationInput = {
   isRead?: InputMaybe<Scalars['Boolean']['input']>;
-  link?: InputMaybe<Scalars['String']['input']>;
-  message?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateOpportunityInput = {
@@ -4657,16 +4587,6 @@ export type UpdateSurchargeInput = {
   type?: InputMaybe<Scalars['String']['input']>;
   validFrom?: InputMaybe<Scalars['String']['input']>;
   validTo?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateTaskEventInput = {
-  deliveryTaskId?: InputMaybe<Scalars['ID']['input']>;
-  latitude?: InputMaybe<Scalars['Float']['input']>;
-  longitude?: InputMaybe<Scalars['Float']['input']>;
-  notes?: InputMaybe<Scalars['String']['input']>;
-  reason?: InputMaybe<Scalars['String']['input']>;
-  status?: InputMaybe<TaskEventStatus>;
-  timestamp?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateTaskInput = {
@@ -5983,18 +5903,14 @@ export function CreateCreditNoteInputSchema(): z.ZodObject<Properties<CreateCred
 
 export function CreateCustomerTrackingLinkInputSchema(): z.ZodObject<Properties<CreateCustomerTrackingLinkInput>> {
   return z.object({
-    accessCount: z.number().optional(),
     deliveryTaskId: z.string(),
     expiresAt: z.string().optional(),
-    isActive: z.boolean().optional(),
-    lastAccessedAt: z.string().optional(),
     trackingToken: z.string()
   })
 }
 
 export function CreateDeliveryRouteInputSchema(): z.ZodObject<Properties<CreateDeliveryRouteInput>> {
   return z.object({
-    completedAt: z.string().optional(),
     driverId: z.string(),
     estimatedDurationMinutes: z.number().optional(),
     optimizedRouteData: z.string().optional(),
@@ -6008,13 +5924,10 @@ export function CreateDeliveryRouteInputSchema(): z.ZodObject<Properties<CreateD
 export function CreateDeliveryTaskInputSchema(): z.ZodObject<Properties<CreateDeliveryTaskInput>> {
   return z.object({
     actualArrivalTime: z.string().optional(),
-    attemptCount: z.number().optional(),
     deliveryAddress: z.string(),
     deliveryInstructions: z.string().optional(),
     deliveryRouteId: z.string(),
-    deliveryTime: z.string().optional(),
     estimatedArrivalTime: z.string().optional(),
-    failureReason: DeliveryFailureReasonSchema.optional(),
     packageId: z.string(),
     recipientName: z.string().optional(),
     recipientPhone: z.string().optional(),
@@ -6040,7 +5953,7 @@ export function CreateDisputeInputSchema(): z.ZodObject<Properties<CreateDispute
 export function CreateDmsProofOfDeliveryInputSchema(): z.ZodObject<Properties<CreateDmsProofOfDeliveryInput>> {
   return z.object({
     deliveryTaskId: z.string(),
-    filePath: z.string().optional(),
+    file: z.file().optional(),
     latitude: z.number().optional(),
     longitude: z.number().optional(),
     recipientName: z.string().optional(),
@@ -6082,8 +5995,7 @@ export function CreateDriverLocationInputSchema(): z.ZodObject<Properties<Create
     heading: z.number().optional(),
     latitude: z.number(),
     longitude: z.number(),
-    speedKmh: z.number().optional(),
-    timestamp: z.string().optional()
+    speedKmh: z.number().optional()
   })
 }
 
@@ -6907,18 +6819,14 @@ export function UpdateCreditNoteInputSchema(): z.ZodObject<Properties<UpdateCred
 export function UpdateCustomerTrackingLinkInputSchema(): z.ZodObject<Properties<UpdateCustomerTrackingLinkInput>> {
   return z.object({
     accessCount: z.number().optional(),
-    deliveryTaskId: z.string().optional(),
     expiresAt: z.string().optional(),
-    isActive: z.boolean().optional(),
-    lastAccessedAt: z.string().optional(),
-    trackingToken: z.string().optional()
+    isActive: z.boolean().optional()
   })
 }
 
 export function UpdateDeliveryRouteInputSchema(): z.ZodObject<Properties<UpdateDeliveryRouteInput>> {
   return z.object({
     completedAt: z.string().optional(),
-    driverId: z.string().optional(),
     estimatedDurationMinutes: z.number().optional(),
     optimizedRouteData: z.string().optional(),
     routeDate: z.string().optional(),
@@ -6934,14 +6842,11 @@ export function UpdateDeliveryTaskInputSchema(): z.ZodObject<Properties<UpdateDe
     attemptCount: z.number().optional(),
     deliveryAddress: z.string().optional(),
     deliveryInstructions: z.string().optional(),
-    deliveryRouteId: z.string().optional(),
     deliveryTime: z.string().optional(),
     estimatedArrivalTime: z.string().optional(),
     failureReason: DeliveryFailureReasonSchema.optional(),
-    packageId: z.string().optional(),
     recipientName: z.string().optional(),
     recipientPhone: z.string().optional(),
-    routeSequence: z.number().optional(),
     status: DeliveryTaskStatusSchema.optional()
   })
 }
@@ -6957,20 +6862,6 @@ export function UpdateDisputeInputSchema(): z.ZodObject<Properties<UpdateDispute
     resolvedByUserId: z.string().optional(),
     status: DisputeStatusSchema.optional(),
     submittedAt: z.string().optional()
-  })
-}
-
-export function UpdateDmsProofOfDeliveryInputSchema(): z.ZodObject<Properties<UpdateDmsProofOfDeliveryInput>> {
-  return z.object({
-    deliveryTaskId: z.string().optional(),
-    filePath: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    recipientName: z.string().optional(),
-    signatureData: z.string().optional(),
-    timestamp: z.string().optional(),
-    type: ProofOfDeliveryTypeSchema.optional(),
-    verificationCode: z.string().optional()
   })
 }
 
@@ -7001,12 +6892,10 @@ export function UpdateDriverLocationInputSchema(): z.ZodObject<Properties<Update
   return z.object({
     accuracy: z.number().optional(),
     altitude: z.number().optional(),
-    driverId: z.string().optional(),
     heading: z.number().optional(),
     latitude: z.number().optional(),
     longitude: z.number().optional(),
-    speedKmh: z.number().optional(),
-    timestamp: z.string().optional()
+    speedKmh: z.number().optional()
   })
 }
 
@@ -7189,10 +7078,7 @@ export function UpdateLocationInputSchema(): z.ZodObject<Properties<UpdateLocati
 
 export function UpdateNotificationInputSchema(): z.ZodObject<Properties<UpdateNotificationInput>> {
   return z.object({
-    isRead: z.boolean().optional(),
-    link: z.string().optional(),
-    message: z.string().optional(),
-    userId: z.string().optional()
+    isRead: z.boolean().optional()
   })
 }
 
@@ -7524,18 +7410,6 @@ export function UpdateSurchargeInputSchema(): z.ZodObject<Properties<UpdateSurch
     type: z.string().optional(),
     validFrom: z.string().optional(),
     validTo: z.string().optional()
-  })
-}
-
-export function UpdateTaskEventInputSchema(): z.ZodObject<Properties<UpdateTaskEventInput>> {
-  return z.object({
-    deliveryTaskId: z.string().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    notes: z.string().optional(),
-    reason: z.string().optional(),
-    status: TaskEventStatusSchema.optional(),
-    timestamp: z.string().optional()
   })
 }
 

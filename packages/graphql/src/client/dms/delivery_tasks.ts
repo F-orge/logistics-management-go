@@ -23,16 +23,16 @@ export const UpdateDeliveryTaskMutation = graphql(`
   }
 `);
 
-export const RemoveDeliveryTaskMutation = graphql(`
-  mutation RemoveDeliveryTask($id: ID!) {
-    dms {
-      removeDeliveryTask(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveDeliveryTaskMutation = graphql(`
+//   mutation RemoveDeliveryTask($id: ID!) {
+//     dms {
+//       removeDeliveryTask(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableDeliveryTaskQuery = graphql(`
   query TableDeliveryTask(

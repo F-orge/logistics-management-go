@@ -2,10 +2,7 @@ import { CrmLeadSource, CrmLeadStatus } from "../../../../db.types";
 import { CreateLeadInputSchema, Leads } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
 
-export const CrmMutation: Pick<
-  CrmMutationResolvers,
-  "createLead" | "removeLead" | "updateLead"
-> = {
+export const CrmMutation: Pick<CrmMutationResolvers, 'createLead'|'removeLead'|'updateLead'> = {
   createLead: async (_parent, args, ctx) => {
     const trx = await ctx.db.startTransaction().execute();
 

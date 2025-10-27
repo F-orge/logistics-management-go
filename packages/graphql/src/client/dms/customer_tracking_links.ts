@@ -25,16 +25,16 @@ export const UpdateCustomerTrackingLinkMutation = graphql(`
   }
 `);
 
-export const RemoveCustomerTrackingLinkMutation = graphql(`
-  mutation RemoveCustomerTrackingLink($id: ID!) {
-    dms {
-      removeCustomerTrackingLink(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveCustomerTrackingLinkMutation = graphql(`
+//   mutation RemoveCustomerTrackingLink($id: ID!) {
+//     dms {
+//       removeCustomerTrackingLink(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const CustomerTrackingLinkQuery = graphql(`
   query TableCustomerTrackingLink($page: Int, $perPage: Int, $search: String) {

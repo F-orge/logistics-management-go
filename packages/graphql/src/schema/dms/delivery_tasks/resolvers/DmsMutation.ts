@@ -1,16 +1,28 @@
 import {
+  DmsDeliveryFailureReasonEnum,
+  DmsDeliveryTaskStatusEnum,
+} from "../../../../db.types";
+import {
   CreateDeliveryTaskInputSchema,
   DeliveryTasks,
   UpdateDeliveryTaskInputSchema,
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
-export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryTask'|'removeDeliveryTask'|'updateDeliveryTask'> = {
+export const DmsMutation: Pick<
+  DmsMutationResolvers,
+  "createDeliveryTask" | "updateDeliveryTask"
+> = {
   createDeliveryTask: async (_parent, args, ctx) => {
     const payload = CreateDeliveryTaskInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("dms.deliveryTasks")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? DmsDeliveryTaskStatusEnum[payload.status]
+          : DmsDeliveryTaskStatusEnum.PENDING,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,22 +33,19 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryTask'|'remov
 
     const result = await ctx.db
       .updateTable("dms.deliveryTasks")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? DmsDeliveryTaskStatusEnum[payload.status]
+          : undefined,
+        failureReason: payload.failureReason
+          ? DmsDeliveryFailureReasonEnum[payload.failureReason]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
 
     return result as unknown as DeliveryTasks;
-  },
-  removeDeliveryTask: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .deleteFrom("dms.deliveryTasks")
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
-
-    return {
-      success: true,
-      numDeletedRows: Number(result.numDeletedRows.toString()),
-    };
   },
 };

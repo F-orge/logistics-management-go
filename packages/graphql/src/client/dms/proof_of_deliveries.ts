@@ -12,29 +12,29 @@ export const CreateDmsProofOfDeliveryMutation = graphql(`
   }
 `);
 
-export const UpdateDmsProofOfDeliveryMutation = graphql(`
-  mutation UpdateDmsProofOfDelivery(
-    $id: ID!
-    $dmsProofOfDelivery: UpdateDmsProofOfDeliveryInput!
-  ) {
-    dms {
-      updateDmsProofOfDelivery(id: $id, value: $dmsProofOfDelivery) {
-        id
-      }
-    }
-  }
-`);
+// export const UpdateDmsProofOfDeliveryMutation = graphql(`
+//   mutation UpdateDmsProofOfDelivery(
+//     $id: ID!
+//     $dmsProofOfDelivery: UpdateDmsProofOfDeliveryInput!
+//   ) {
+//     dms {
+//       updateDmsProofOfDelivery(id: $id, value: $dmsProofOfDelivery) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
-export const RemoveDmsProofOfDeliveryMutation = graphql(`
-  mutation RemoveDmsProofOfDelivery($id: ID!) {
-    dms {
-      removeDmsProofOfDelivery(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveDmsProofOfDeliveryMutation = graphql(`
+//   mutation RemoveDmsProofOfDelivery($id: ID!) {
+//     dms {
+//       removeDmsProofOfDelivery(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableProofOfDeliveryQuery = graphql(`
   query TableProofOfDelivery(

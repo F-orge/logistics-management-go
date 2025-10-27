@@ -8,10 +8,7 @@ import {
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
 
-export const CrmMutation: Pick<
-  CrmMutationResolvers,
-  "createOpportunity" | "updateOpportunity"
-> = {
+export const CrmMutation: Pick<CrmMutationResolvers, 'createOpportunity'|'updateOpportunity'> = {
   createOpportunity: async (_, args, ctx) => {
     const trx = await ctx.db.startTransaction().execute();
 

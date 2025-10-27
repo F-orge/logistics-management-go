@@ -4,7 +4,10 @@ import {
   UpdateCustomerTrackingLinkInputSchema,
 } from "../../../../zod.schema";
 import type { DmsMutationResolvers } from "./../../../types.generated";
-export const DmsMutation: Pick<DmsMutationResolvers, 'createCustomerTrackingLink'|'removeCustomerTrackingLink'|'updateCustomerTrackingLink'> = {
+export const DmsMutation: Pick<
+  DmsMutationResolvers,
+  "createCustomerTrackingLink" | "updateCustomerTrackingLink"
+> = {
   createCustomerTrackingLink: async (_parent, args, ctx) => {
     const payload = CreateCustomerTrackingLinkInputSchema().parse(args.value);
 
@@ -21,22 +24,11 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createCustomerTrackingLink
 
     const result = await ctx.db
       .updateTable("dms.customerTrackingLinks")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
 
     return result as unknown as CustomerTrackingLinks;
-  },
-  removeCustomerTrackingLink: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .deleteFrom("dms.customerTrackingLinks")
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
-
-    return {
-      success: true,
-      numDeletedRows: Number(result.numDeletedRows.toString()),
-    };
   },
 };
