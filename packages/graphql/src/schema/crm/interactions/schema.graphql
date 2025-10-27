@@ -32,7 +32,7 @@ extend type CrmQuery {
 
 input CreateInteractionInput {
   contactId: ID!
-  userId: ID
+  userId: ID!
   caseId: ID
   type: InteractionType
   outcome: InteractionOutcome

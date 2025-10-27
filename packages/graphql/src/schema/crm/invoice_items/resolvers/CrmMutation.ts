@@ -68,10 +68,24 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'addInvoiceItem'|'removeInv
   removeInvoiceItem: async (_, args, ctx) => {
     const trx = await ctx.db.startTransaction().execute();
 
+    const invoiceItem = await trx
+      .selectFrom("crm.invoiceItems")
+      .select(["price", "invoiceId"])
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     // remove the item
     const result = await trx
       .deleteFrom("crm.invoiceItems")
       .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
+    // update the main invoice
+
+    await trx
+      .updateTable("crm.invoices")
+      .set("total", (eb) => eb("total", "-", invoiceItem.price))
+      .where("id", "=", invoiceItem.invoiceId)
       .executeTakeFirstOrThrow();
 
     await trx.commit().execute();

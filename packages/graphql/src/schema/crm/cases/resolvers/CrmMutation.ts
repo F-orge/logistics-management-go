@@ -1,4 +1,9 @@
 import {
+  CrmCasePriority,
+  CrmCaseStatus,
+  CrmCaseType,
+} from "../../../../db.types";
+import {
   Cases,
   CreateCaseInputSchema,
   UpdateCaseInputSchema,
@@ -10,7 +15,16 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCase'|'removeCase'|'
 
     const result = await ctx.db
       .insertInto("crm.cases")
-      .values(payload as any)
+      .values({
+        ...payload,
+        priority: payload.priority
+          ? CrmCasePriority[payload.priority]
+          : CrmCasePriority.MEDIUM,
+        status: payload.status
+          ? CrmCaseStatus[payload.status]
+          : CrmCaseStatus.NEW,
+        type: payload.type ? CrmCaseType[payload.type] : CrmCaseType.PROBLEM,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +35,14 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCase'|'removeCase'|'
 
     const result = await ctx.db
       .updateTable("crm.cases")
-      .set(payload as any)
+      .set({
+        ...payload,
+        priority: payload.priority
+          ? CrmCasePriority[payload.priority]
+          : undefined,
+        status: payload.status ? CrmCaseStatus[payload.status] : undefined,
+        type: payload.type ? CrmCaseType[payload.type] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

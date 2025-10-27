@@ -817,7 +817,7 @@ export type CreateCaseInput = {
   caseNumber: Scalars['String']['input'];
   contactId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   priority?: InputMaybe<CasePriority>;
   status?: InputMaybe<CaseStatus>;
   type?: InputMaybe<CaseType>;
@@ -1024,7 +1024,7 @@ export type CreateInteractionInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
   outcome?: InputMaybe<InteractionOutcome>;
   type?: InputMaybe<InteractionType>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 export type CreateInventoryAdjustmentInput = {
@@ -1081,11 +1081,11 @@ export type CreateInvoiceLineItemInput = {
 
 export type CreateLeadInput = {
   campaignId?: InputMaybe<Scalars['ID']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
   leadScore?: InputMaybe<Scalars['Int']['input']>;
   leadSource?: InputMaybe<LeadSource>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   status?: InputMaybe<LeadStatus>;
 };
 
@@ -1565,7 +1565,6 @@ export type CrmMutation = {
   removeInteraction: DeleteResult;
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
-  removeNotification: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
   updateCampaign: Campaigns;
@@ -1686,11 +1685,6 @@ export type CrmMutationremoveInvoiceItemArgs = {
 
 
 export type CrmMutationremoveLeadArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationremoveNotificationArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -6615,7 +6609,6 @@ export type CrmMutationResolvers<ContextType = GraphQLContext, ParentType extend
   removeInteraction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInteractionArgs, 'id'>>;
   removeInvoiceItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveInvoiceItemArgs, 'id'>>;
   removeLead?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveLeadArgs, 'id'>>;
-  removeNotification?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveNotificationArgs, 'id'>>;
   removeOpportunityProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveOpportunityProductArgs, 'id'>>;
   removeProduct?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<CrmMutationremoveProductArgs, 'id'>>;
   updateCampaign?: Resolver<ResolversTypes['Campaigns'], ParentType, ContextType, RequireFields<CrmMutationupdateCampaignArgs, 'id'>>;

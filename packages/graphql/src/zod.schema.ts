@@ -813,7 +813,7 @@ export type CreateCaseInput = {
   caseNumber: Scalars['String']['input'];
   contactId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   priority?: InputMaybe<CasePriority>;
   status?: InputMaybe<CaseStatus>;
   type?: InputMaybe<CaseType>;
@@ -1020,7 +1020,7 @@ export type CreateInteractionInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
   outcome?: InputMaybe<InteractionOutcome>;
   type?: InputMaybe<InteractionType>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 export type CreateInventoryAdjustmentInput = {
@@ -1077,11 +1077,11 @@ export type CreateInvoiceLineItemInput = {
 
 export type CreateLeadInput = {
   campaignId?: InputMaybe<Scalars['ID']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
   leadScore?: InputMaybe<Scalars['Int']['input']>;
   leadSource?: InputMaybe<LeadSource>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   status?: InputMaybe<LeadStatus>;
 };
 
@@ -1561,7 +1561,6 @@ export type CrmMutation = {
   removeInteraction: DeleteResult;
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
-  removeNotification: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
   updateCampaign: Campaigns;
@@ -1682,11 +1681,6 @@ export type CrmMutationRemoveInvoiceItemArgs = {
 
 
 export type CrmMutationRemoveLeadArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationRemoveNotificationArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -5925,7 +5919,7 @@ export function CreateCaseInputSchema(): z.ZodObject<Properties<CreateCaseInput>
     caseNumber: z.string(),
     contactId: z.string().optional(),
     description: z.string().optional(),
-    ownerId: z.string().optional(),
+    ownerId: z.string(),
     priority: CasePrioritySchema.optional(),
     status: CaseStatusSchema.optional(),
     type: CaseTypeSchema.optional()
@@ -6172,7 +6166,7 @@ export function CreateInteractionInputSchema(): z.ZodObject<Properties<CreateInt
     notes: z.string().optional(),
     outcome: InteractionOutcomeSchema.optional(),
     type: InteractionTypeSchema.optional(),
-    userId: z.string().optional()
+    userId: z.string()
   })
 }
 
@@ -6243,11 +6237,11 @@ export function CreateInvoiceLineItemInputSchema(): z.ZodObject<Properties<Creat
 export function CreateLeadInputSchema(): z.ZodObject<Properties<CreateLeadInput>> {
   return z.object({
     campaignId: z.string().optional(),
-    email: z.string().optional(),
+    email: z.string(),
     leadScore: z.number().optional(),
     leadSource: LeadSourceSchema.optional(),
     name: z.string(),
-    ownerId: z.string().optional(),
+    ownerId: z.string(),
     status: LeadStatusSchema.optional()
   })
 }

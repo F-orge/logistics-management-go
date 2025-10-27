@@ -400,7 +400,7 @@ input CreateCaseInput {
   caseNumber: String!
   contactId: ID
   description: String
-  ownerId: ID
+  ownerId: ID!
   priority: CasePriority
   status: CaseStatus
   type: CaseType
@@ -607,7 +607,7 @@ input CreateInteractionInput {
   notes: String
   outcome: InteractionOutcome
   type: InteractionType
-  userId: ID
+  userId: ID!
 }
 
 input CreateInventoryAdjustmentInput {
@@ -664,11 +664,11 @@ input CreateInvoiceLineItemInput {
 
 input CreateLeadInput {
   campaignId: ID
-  email: String
+  email: String!
   leadScore: Int
   leadSource: LeadSource
   name: String!
-  ownerId: ID
+  ownerId: ID!
   status: LeadStatus
 }
 
@@ -1147,7 +1147,6 @@ type CrmMutation {
   removeInteraction(id: ID!): DeleteResult!
   removeInvoiceItem(id: ID!): DeleteResult!
   removeLead(id: ID!): DeleteResult!
-  removeNotification(id: ID!): DeleteResult!
   removeOpportunityProduct(id: ID!): DeleteResult!
   removeProduct(id: ID!): DeleteResult!
   updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!

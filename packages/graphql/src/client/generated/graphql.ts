@@ -819,7 +819,7 @@ export type CreateCaseInput = {
   caseNumber: Scalars['String']['input'];
   contactId?: InputMaybe<Scalars['ID']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   priority?: InputMaybe<CasePriority>;
   status?: InputMaybe<CaseStatus>;
   type?: InputMaybe<CaseType>;
@@ -1026,7 +1026,7 @@ export type CreateInteractionInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
   outcome?: InputMaybe<InteractionOutcome>;
   type?: InputMaybe<InteractionType>;
-  userId?: InputMaybe<Scalars['ID']['input']>;
+  userId: Scalars['ID']['input'];
 };
 
 export type CreateInventoryAdjustmentInput = {
@@ -1083,11 +1083,11 @@ export type CreateInvoiceLineItemInput = {
 
 export type CreateLeadInput = {
   campaignId?: InputMaybe<Scalars['ID']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
   leadScore?: InputMaybe<Scalars['Int']['input']>;
   leadSource?: InputMaybe<LeadSource>;
   name: Scalars['String']['input'];
-  ownerId?: InputMaybe<Scalars['ID']['input']>;
+  ownerId: Scalars['ID']['input'];
   status?: InputMaybe<LeadStatus>;
 };
 
@@ -1568,7 +1568,6 @@ export type CrmMutation = {
   removeInteraction: DeleteResult;
   removeInvoiceItem: DeleteResult;
   removeLead: DeleteResult;
-  removeNotification: DeleteResult;
   removeOpportunityProduct: DeleteResult;
   removeProduct: DeleteResult;
   updateCampaign: Campaigns;
@@ -1689,11 +1688,6 @@ export type CrmMutationRemoveInvoiceItemArgs = {
 
 
 export type CrmMutationRemoveLeadArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type CrmMutationRemoveNotificationArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -6617,13 +6611,6 @@ export type UpdateNotificationMutationVariables = Exact<{
 
 export type UpdateNotificationMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateNotification: { __typename?: 'Notifications', id: string } } | null };
 
-export type RemoveNotificationMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveNotificationMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeNotification: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type TableNotificationQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -10218,16 +10205,6 @@ export const UpdateNotificationDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateNotificationMutation, UpdateNotificationMutationVariables>;
-export const RemoveNotificationDocument = new TypedDocumentString(`
-    mutation RemoveNotification($id: ID!) {
-  crm {
-    removeNotification(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveNotificationMutation, RemoveNotificationMutationVariables>;
 export const TableNotificationDocument = new TypedDocumentString(`
     query TableNotification($page: Int, $perPage: Int, $search: String) {
   crm {

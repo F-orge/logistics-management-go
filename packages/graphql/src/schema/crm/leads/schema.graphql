@@ -42,11 +42,11 @@ extend type CrmQuery {
 
 input CreateLeadInput {
   name: String!
-  email: String
+  email: String!
   leadSource: LeadSource
   status: LeadStatus
   leadScore: Int
-  ownerId: ID
+  ownerId: ID!
   campaignId: ID
 }
 

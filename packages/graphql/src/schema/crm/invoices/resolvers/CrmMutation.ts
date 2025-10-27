@@ -5,7 +5,10 @@ import {
   UpdateInvoiceInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'updateInvoice'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createInvoice" | "updateInvoice"
+> = {
   createInvoice: async (_parent, args, ctx) => {
     const payload = CreateInvoiceInputSchema().parse(args.value);
 
@@ -15,7 +18,15 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'updateInvo
 
     const result = await trx
       .insertInto("crm.invoices")
-      .values(rest as any)
+      .values({
+        ...rest,
+        paymentMethod: rest.paymentMethod
+          ? CrmPaymentMethod[rest.paymentMethod]
+          : CrmPaymentMethod.CREDIT_CARD,
+        status: rest.status
+          ? CrmInvoiceStatus[rest.status]
+          : CrmInvoiceStatus.DRAFT,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 

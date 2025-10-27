@@ -1,3 +1,4 @@
+import { CrmInteractionType } from "../../../../db.types";
 import {
   CreateInteractionInputSchema,
   Interactions,
@@ -10,7 +11,13 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInteraction'|'remove
 
     const result = await ctx.db
       .insertInto("crm.interactions")
-      .values(payload as any)
+      .values({
+        ...payload,
+        type: payload.type
+          ? CrmInteractionType[payload.type]
+          : CrmInteractionType.TEXT,
+        outcome: payload.outcome,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +28,10 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInteraction'|'remove
 
     const result = await ctx.db
       .updateTable("crm.interactions")
-      .set(payload as any)
+      .set({
+        ...payload,
+        type: payload.type ? CrmInteractionType[payload.type] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

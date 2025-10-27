@@ -48,7 +48,7 @@ input CreateCaseInput {
   status: CaseStatus
   priority: CasePriority
   type: CaseType
-  ownerId: ID
+  ownerId: ID!
   contactId: ID
   description: String
 }

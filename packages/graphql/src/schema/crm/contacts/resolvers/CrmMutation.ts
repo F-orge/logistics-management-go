@@ -21,7 +21,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createContact'|'removeCont
 
     const result = await ctx.db
       .updateTable("crm.contacts")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

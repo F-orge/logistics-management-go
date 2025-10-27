@@ -21,14 +21,10 @@ input CreateNotificationInput {
 }
 
 input UpdateNotificationInput {
-  userId: ID
-  message: String
   isRead: Boolean
-  link: String
 }
 
 extend type CrmMutation {
   createNotification(value: CreateNotificationInput!): Notifications!
   updateNotification(id: ID!, value: UpdateNotificationInput): Notifications!
-  removeNotification(id: ID!): DeleteResult!
 }

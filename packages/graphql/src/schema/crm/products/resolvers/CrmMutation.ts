@@ -1,16 +1,25 @@
+import { CrmProductType } from "../../../../db.types";
 import {
   CreateProductInputSchema,
   Products,
   UpdateProductInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createProduct'|'removeProduct'|'updateProduct'> = {
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createProduct" | "removeProduct" | "updateProduct"
+> = {
   createProduct: async (_parent, args, ctx) => {
     const payload = CreateProductInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("crm.products")
-      .values(payload as any)
+      .values({
+        ...payload,
+        type: payload.type
+          ? CrmProductType[payload.type]
+          : CrmProductType.SERVICE,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +30,10 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createProduct'|'removeProd
 
     const result = await ctx.db
       .updateTable("crm.products")
-      .set(payload as any)
+      .set({
+        ...payload,
+        type: payload.type ? CrmProductType[payload.type] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

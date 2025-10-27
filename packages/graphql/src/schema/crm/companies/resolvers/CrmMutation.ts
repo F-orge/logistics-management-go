@@ -21,7 +21,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCompany'|'removeComp
 
     const result = await ctx.db
       .updateTable("crm.companies")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

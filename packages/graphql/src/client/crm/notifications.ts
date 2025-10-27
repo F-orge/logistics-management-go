@@ -23,16 +23,16 @@ export const UpdateNotificationMutation = graphql(`
   }
 `);
 
-export const RemoveNotificationMutation = graphql(`
-  mutation RemoveNotification($id: ID!) {
-    crm {
-      removeNotification(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveNotificationMutation = graphql(`
+//   mutation RemoveNotification($id: ID!) {
+//     crm {
+//       removeNotification(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableNotificationQuery = graphql(`
   query TableNotification($page: Int, $perPage: Int, $search: String) {
@@ -58,7 +58,7 @@ export const TableNotificationQuery = graphql(`
 export const SearchNotificationsQuery = graphql(`
   query SearchNotifications($search: String!) {
     crm {
-      notifications(page: 1, perPage: 10,search: $search) {
+      notifications(page: 1, perPage: 10, search: $search) {
         value: id
         label: message
       }
