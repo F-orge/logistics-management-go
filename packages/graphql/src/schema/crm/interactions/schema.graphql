@@ -5,15 +5,22 @@ enum InteractionType {
   EMAIL
 }
 
+enum InteractionOutcome {
+  SCHEDULED
+  COMPLETED
+  NO_ANSWER
+  OTHER
+}
+
 type Interactions {
   id: ID!
   contact: Contacts!
-  user: User!
+  user: User
   case: Cases
   type: InteractionType
-  outcome: String
+  outcome: InteractionOutcome
   notes: String
-  interactionDate: String
+  interactionDate: Date
   createdAt: String
   updatedAt: String
 }
@@ -25,22 +32,19 @@ extend type CrmQuery {
 
 input CreateInteractionInput {
   contactId: ID!
-  userId: ID!
-  caseId: ID
-  type: InteractionType
-  outcome: String
-  notes: String
-  interactionDate: String
-}
-
-input UpdateInteractionInput {
-  contactId: ID
   userId: ID
   caseId: ID
   type: InteractionType
-  outcome: String
+  outcome: InteractionOutcome
   notes: String
-  interactionDate: String
+  interactionDate: Date
+}
+
+input UpdateInteractionInput {
+  type: InteractionType
+  outcome: InteractionOutcome
+  notes: String
+  interactionDate: Date
 }
 
 extend type CrmMutation {

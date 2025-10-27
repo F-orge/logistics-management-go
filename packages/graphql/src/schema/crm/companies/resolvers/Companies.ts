@@ -17,7 +17,7 @@ export const Companies: CompaniesResolvers = {
       .innerJoin("crm.companies", "crm.companies.ownerId", "user.id")
       .selectAll("user")
       .where("crm.companies.id", "=", parent.id as string)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirst();
 
     return result;
   },

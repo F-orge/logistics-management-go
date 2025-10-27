@@ -28,10 +28,10 @@ type Opportunities {
   stage: OpportunityStage
   dealValue: Float
   probability: Float
-  expectedCloseDate: String
+  expectedCloseDate: Date
   lostReason: String
   source: OpportunitySource
-  owner: User!
+  owner: User
   contact: Contacts
   company: Companies
   campaign: Campaigns
@@ -51,13 +51,14 @@ input CreateOpportunityInput {
   stage: OpportunityStage
   dealValue: Float
   probability: Float
-  expectedCloseDate: String
+  expectedCloseDate: Date
   lostReason: String
   source: OpportunitySource
-  ownerId: ID!
+  ownerId: ID
   contactId: ID
   companyId: ID
   campaignId: ID
+  products: [CreateOpportunityProductInput!]
 }
 
 input UpdateOpportunityInput {
@@ -65,13 +66,9 @@ input UpdateOpportunityInput {
   stage: OpportunityStage
   dealValue: Float
   probability: Float
-  expectedCloseDate: String
+  expectedCloseDate: Date
   lostReason: String
   source: OpportunitySource
-  ownerId: ID
-  contactId: ID
-  companyId: ID
-  campaignId: ID
 }
 
 extend type CrmMutation {

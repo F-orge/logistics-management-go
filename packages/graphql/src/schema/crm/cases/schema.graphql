@@ -31,7 +31,7 @@ type Cases {
   status: CaseStatus
   priority: CasePriority
   type: CaseType
-  owner: User!
+  owner: User
   contact: Contacts
   description: String
   createdAt: String
@@ -48,19 +48,15 @@ input CreateCaseInput {
   status: CaseStatus
   priority: CasePriority
   type: CaseType
-  ownerId: ID!
+  ownerId: ID
   contactId: ID
   description: String
 }
 
 input UpdateCaseInput {
-  caseNumber: String
   status: CaseStatus
   priority: CasePriority
   type: CaseType
-  ownerId: ID
-  contactId: ID
-  description: String
 }
 
 extend type CrmMutation {

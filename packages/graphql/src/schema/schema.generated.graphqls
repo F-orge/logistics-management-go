@@ -31,6 +31,18 @@ type AccountingSyncLogs {
   updatedAt: String
 }
 
+input AddInvoiceItemInput {
+  invoiceId: ID!
+  productId: ID!
+  quantity: Float!
+}
+
+input AddOpportunityProductInput {
+  opportunityId: ID!
+  productId: ID!
+  quantity: Float!
+}
+
 type Attachments {
   createdAt: String
   fileName: String!
@@ -166,10 +178,10 @@ type BinThresholds {
 type Campaigns {
   budget: Float
   createdAt: String
-  endDate: String
+  endDate: Date
   id: ID!
   name: String!
-  startDate: String
+  startDate: Date!
   updatedAt: String
 }
 
@@ -240,7 +252,7 @@ type Cases {
   createdAt: String
   description: String
   id: ID!
-  owner: User!
+  owner: User
   priority: CasePriority
   status: CaseStatus
   type: CaseType
@@ -263,7 +275,7 @@ type ClientAccounts {
 }
 
 type Companies {
-  annualRevenue: String
+  annualRevenue: Float
   billingInvoices: [BillingInvoices!]
   city: String
   clientAccount: ClientAccounts
@@ -288,13 +300,13 @@ type Companies {
 }
 
 type Contacts {
-  company: Companies
+  company: Companies!
   createdAt: String
-  email: String!
+  email: String
   id: ID!
   jobTitle: String
   name: String!
-  owner: User!
+  owner: User
   phoneNumber: String
   updatedAt: String
 }
@@ -364,9 +376,9 @@ input CreateBinThresholdInput {
 
 input CreateCampaignInput {
   budget: Float
-  endDate: String
+  endDate: Date
   name: String!
-  startDate: String
+  startDate: Date!
 }
 
 input CreateCarrierInput {
@@ -390,7 +402,7 @@ input CreateCaseInput {
   caseNumber: String!
   contactId: ID
   description: String
-  ownerId: ID!
+  ownerId: ID
   priority: CasePriority
   status: CaseStatus
   type: CaseType
@@ -422,11 +434,11 @@ input CreateCompanyInput {
 }
 
 input CreateContactInput {
-  companyId: ID
-  email: String!
+  companyId: ID!
+  email: String
   jobTitle: String
   name: String!
-  ownerId: ID!
+  ownerId: ID
   phoneNumber: String
 }
 
@@ -593,11 +605,11 @@ input CreateInboundShipmentItemInput {
 input CreateInteractionInput {
   caseId: ID
   contactId: ID!
-  interactionDate: String
+  interactionDate: Date
   notes: String
-  outcome: String
+  outcome: InteractionOutcome
   type: InteractionType
-  userId: ID!
+  userId: ID
 }
 
 input CreateInventoryAdjustmentInput {
@@ -627,21 +639,18 @@ input CreateInventoryStockInput {
 }
 
 input CreateInvoiceInput {
-  dueDate: String
-  issueDate: String
-  opportunityId: ID
-  paidAt: String
-  paymentMethod: PaymentMethod
-  sentAt: String
+  dueDate: Date!
+  issueDate: Date!
+  items: [CreateInvoiceItemInput!]
+  opportunityId: ID!
+  paidAt: Date
+  paymentMethod: CrmInvoicePaymentMethod
   status: InvoiceStatus
-  total: Float
 }
 
 input CreateInvoiceItemInput {
-  invoiceId: ID!
-  price: Float!
   productId: ID!
-  quantity: Int!
+  quantity: Float!
 }
 
 input CreateInvoiceLineItemInput {
@@ -657,11 +666,11 @@ input CreateInvoiceLineItemInput {
 
 input CreateLeadInput {
   campaignId: ID
-  email: String!
+  email: String
   leadScore: Int
   leadSource: LeadSource
   name: String!
-  ownerId: ID!
+  ownerId: ID
   status: LeadStatus
 }
 
@@ -698,19 +707,19 @@ input CreateOpportunityInput {
   companyId: ID
   contactId: ID
   dealValue: Float
-  expectedCloseDate: String
+  expectedCloseDate: Date
   lostReason: String
   name: String!
-  ownerId: ID!
+  ownerId: ID
   probability: Float
+  products: [CreateOpportunityProductInput!]
   source: OpportunitySource
   stage: OpportunityStage
 }
 
 input CreateOpportunityProductInput {
-  opportunityId: ID!
   productId: ID!
-  quantity: Int!
+  quantity: Float!
 }
 
 input CreateOutboundShipmentInput {
@@ -1119,6 +1128,8 @@ enum CrmInvoicePaymentMethod {
 }
 
 type CrmMutation {
+  addInvoiceItem(id: ID!, value: AddInvoiceItemInput!): InvoiceItems!
+  addOpportunityProduct(id: ID!, value: CreateOpportunityProductInput!): OpportunityProducts!
   createAttachment(value: CreateAttachmentInput!): Attachments!
   createCampaign(value: CreateCampaignInput!): Campaigns!
   createCase(value: CreateCaseInput!): Cases!
@@ -1126,11 +1137,9 @@ type CrmMutation {
   createContact(value: CreateContactInput!): Contacts!
   createInteraction(value: CreateInteractionInput!): Interactions!
   createInvoice(value: CreateInvoiceInput!): Invoices!
-  createInvoiceItem(value: CreateInvoiceItemInput!): InvoiceItems!
   createLead(value: CreateLeadInput!): Leads!
   createNotification(value: CreateNotificationInput!): Notifications!
   createOpportunity(value: CreateOpportunityInput!): Opportunities!
-  createOpportunityProduct(value: CreateOpportunityProductInput!): OpportunityProducts!
   createProduct(value: CreateProductInput!): Products!
   removeAttachment(id: ID!): DeleteResult!
   removeCampaign(id: ID!): DeleteResult!
@@ -1532,6 +1541,13 @@ type InboundShipments {
   warehouseId: ID!
 }
 
+enum InteractionOutcome {
+  COMPLETED
+  NO_ANSWER
+  OTHER
+  SCHEDULED
+}
+
 enum InteractionType {
   CALL
   EMAIL
@@ -1544,12 +1560,12 @@ type Interactions {
   contact: Contacts!
   createdAt: String
   id: ID!
-  interactionDate: String
+  interactionDate: Date
   notes: String
-  outcome: String
+  outcome: InteractionOutcome
   type: InteractionType
   updatedAt: String
-  user: User!
+  user: User
 }
 
 enum InventoryAdjustmentReason {
@@ -1617,7 +1633,7 @@ type InvoiceItems {
   invoice: Invoices!
   price: Float!
   product: Products!
-  quantity: Int!
+  quantity: Float!
   updatedAt: String
 }
 
@@ -1650,16 +1666,16 @@ enum InvoiceStatus {
 
 type Invoices {
   createdAt: String
-  dueDate: String
+  dueDate: Date!
   id: ID!
-  issueDate: String
+  issueDate: Date!
   items: [InvoiceItems!]
-  opportunity: Opportunities
-  paidAt: String
-  paymentMethod: PaymentMethod
-  sentAt: String
+  opportunity: Opportunities!
+  paidAt: Date
+  paymentMethod: CrmInvoicePaymentMethod
+  sentAt: Date
   status: InvoiceStatus
-  total: Float
+  total: Float!
   updatedAt: String
 }
 
@@ -1685,17 +1701,17 @@ enum LeadStatus {
 
 type Leads {
   campaign: Campaigns
-  convertedAt: String
+  convertedAt: Date
   convertedCompany: Companies
   convertedContact: Contacts
   convertedOpportunity: Opportunities
   createdAt: String
-  email: String!
+  email: String
   id: ID!
   leadScore: Int
   leadSource: LeadSource
   name: String!
-  owner: User!
+  owner: User
   status: LeadStatus
   updatedAt: String
 }
@@ -1766,11 +1782,11 @@ type Opportunities {
   contact: Contacts
   createdAt: String
   dealValue: Float
-  expectedCloseDate: String
+  expectedCloseDate: Date
   id: ID!
   lostReason: String
   name: String!
-  owner: User!
+  owner: User
   probability: Float
   products: [OpportunityProducts!]
   salesOrders: [SalesOrders!]
@@ -1783,7 +1799,7 @@ type OpportunityProducts {
   id: ID!
   opportunity: Opportunities!
   product: Products!
-  quantity: Int!
+  quantity: Float!
 }
 
 enum OpportunitySource {
@@ -2645,9 +2661,9 @@ input UpdateBinThresholdInput {
 
 input UpdateCampaignInput {
   budget: Float
-  endDate: String
+  endDate: Date
   name: String
-  startDate: String
+  startDate: Date
 }
 
 input UpdateCarrierInput {
@@ -2668,10 +2684,6 @@ input UpdateCarrierRateInput {
 }
 
 input UpdateCaseInput {
-  caseNumber: String
-  contactId: ID
-  description: String
-  ownerId: ID
   priority: CasePriority
   status: CaseStatus
   type: CaseType
@@ -2872,13 +2884,10 @@ input UpdateInboundShipmentItemInput {
 }
 
 input UpdateInteractionInput {
-  caseId: ID
-  contactId: ID
-  interactionDate: String
+  interactionDate: Date
   notes: String
-  outcome: String
+  outcome: InteractionOutcome
   type: InteractionType
-  userId: ID
 }
 
 input UpdateInventoryAdjustmentInput {
@@ -2908,21 +2917,14 @@ input UpdateInventoryStockInput {
 }
 
 input UpdateInvoiceInput {
-  dueDate: String
-  issueDate: String
-  opportunityId: ID
-  paidAt: String
-  paymentMethod: PaymentMethod
-  sentAt: String
+  dueDate: Date
+  paidAt: Date
+  paymentMethod: CrmInvoicePaymentMethod
   status: InvoiceStatus
-  total: Float
 }
 
 input UpdateInvoiceItemInput {
-  invoiceId: ID
-  price: Float
-  productId: ID
-  quantity: Int
+  quantity: Float
 }
 
 input UpdateInvoiceLineItemInput {
@@ -2937,12 +2939,14 @@ input UpdateInvoiceLineItemInput {
 }
 
 input UpdateLeadInput {
-  campaignId: ID
+  convertedAt: Date
+  convertedCompanyId: ID
+  convertedContactId: ID
+  convertedOpportunityId: ID
   email: String
   leadScore: Int
   leadSource: LeadSource
   name: String
-  ownerId: ID
   status: LeadStatus
 }
 
@@ -2975,21 +2979,17 @@ input UpdateNotificationInput {
 }
 
 input UpdateOpportunityInput {
-  campaignId: ID
-  companyId: ID
-  contactId: ID
   dealValue: Float
-  expectedCloseDate: String
+  expectedCloseDate: Date
   lostReason: String
   name: String
-  ownerId: ID
   probability: Float
   source: OpportunitySource
   stage: OpportunityStage
 }
 
 input UpdateOpportunityProductInput {
-  quantity: Int
+  quantity: Float
 }
 
 input UpdateOutboundShipmentInput {

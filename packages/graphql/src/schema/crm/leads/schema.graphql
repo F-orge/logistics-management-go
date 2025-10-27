@@ -21,13 +21,13 @@ enum LeadStatus {
 type Leads {
   id: ID!
   name: String!
-  email: String!
+  email: String
   leadSource: LeadSource
   status: LeadStatus
   leadScore: Int
-  owner: User!
+  owner: User
   campaign: Campaigns
-  convertedAt: String
+  convertedAt: Date
   convertedContact: Contacts
   convertedCompany: Companies
   convertedOpportunity: Opportunities
@@ -42,11 +42,11 @@ extend type CrmQuery {
 
 input CreateLeadInput {
   name: String!
-  email: String!
+  email: String
   leadSource: LeadSource
   status: LeadStatus
   leadScore: Int
-  ownerId: ID!
+  ownerId: ID
   campaignId: ID
 }
 
@@ -56,8 +56,10 @@ input UpdateLeadInput {
   leadSource: LeadSource
   status: LeadStatus
   leadScore: Int
-  ownerId: ID
-  campaignId: ID
+  convertedAt: Date
+  convertedContactId: ID
+  convertedCompanyId: ID
+  convertedOpportunityId: ID
 }
 
 extend type CrmMutation {

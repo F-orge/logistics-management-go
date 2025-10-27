@@ -17,7 +17,7 @@ export const Cases: CasesResolvers = {
       .selectAll("user")
       .innerJoin("crm.cases", "crm.cases.ownerId", "user.id")
       .where("crm.cases.id", "=", parent.id as string)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirst();
 
     return result as unknown as User;
   },

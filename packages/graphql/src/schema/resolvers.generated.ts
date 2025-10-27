@@ -48,6 +48,8 @@ import    { ClientAccounts } from './billing/client_accounts/resolvers/ClientAcc
 import    { Companies } from './crm/companies/resolvers/Companies';
 import    { Contacts } from './crm/contacts/resolvers/Contacts';
 import    { CreditNotes } from './billing/credit_notes/resolvers/CreditNotes';
+import    { CrmMutation as invoice_items_CrmMutation } from './crm/invoice_items/resolvers/CrmMutation';
+import    { CrmMutation as opportunity_products_CrmMutation } from './crm/opportunity_products/resolvers/CrmMutation';
 import    { CrmMutation as attachments_CrmMutation } from './crm/attachments/resolvers/CrmMutation';
 import    { CrmMutation as campaigns_CrmMutation } from './crm/campaigns/resolvers/CrmMutation';
 import    { CrmMutation as cases_CrmMutation } from './crm/cases/resolvers/CrmMutation';
@@ -55,11 +57,9 @@ import    { CrmMutation as companies_CrmMutation } from './crm/companies/resolve
 import    { CrmMutation as contacts_CrmMutation } from './crm/contacts/resolvers/CrmMutation';
 import    { CrmMutation as interactions_CrmMutation } from './crm/interactions/resolvers/CrmMutation';
 import    { CrmMutation as invoices_CrmMutation } from './crm/invoices/resolvers/CrmMutation';
-import    { CrmMutation as invoice_items_CrmMutation } from './crm/invoice_items/resolvers/CrmMutation';
 import    { CrmMutation as leads_CrmMutation } from './crm/leads/resolvers/CrmMutation';
 import    { CrmMutation as notifications_CrmMutation } from './crm/notifications/resolvers/CrmMutation';
 import    { CrmMutation as opportunities_CrmMutation } from './crm/opportunities/resolvers/CrmMutation';
-import    { CrmMutation as opportunity_products_CrmMutation } from './crm/opportunity_products/resolvers/CrmMutation';
 import    { CrmMutation as products_CrmMutation } from './crm/products/resolvers/CrmMutation';
 import    { CrmQuery as attachments_CrmQuery } from './crm/attachments/resolvers/CrmQuery';
 import    { CrmQuery as campaigns_CrmQuery } from './crm/campaigns/resolvers/CrmQuery';
@@ -241,7 +241,7 @@ ClientAccounts: ClientAccounts,
 Companies: Companies,
 Contacts: Contacts,
 CreditNotes: CreditNotes,
-CrmMutation: { ...attachments_CrmMutation,...campaigns_CrmMutation,...cases_CrmMutation,...companies_CrmMutation,...contacts_CrmMutation,...interactions_CrmMutation,...invoices_CrmMutation,...invoice_items_CrmMutation,...leads_CrmMutation,...notifications_CrmMutation,...opportunities_CrmMutation,...opportunity_products_CrmMutation,...products_CrmMutation },
+CrmMutation: { ...invoice_items_CrmMutation,...opportunity_products_CrmMutation,...attachments_CrmMutation,...campaigns_CrmMutation,...cases_CrmMutation,...companies_CrmMutation,...contacts_CrmMutation,...interactions_CrmMutation,...invoices_CrmMutation,...leads_CrmMutation,...notifications_CrmMutation,...opportunities_CrmMutation,...products_CrmMutation },
 CrmQuery: { ...attachments_CrmQuery,...campaigns_CrmQuery,...cases_CrmQuery,...companies_CrmQuery,...contacts_CrmQuery,...interactions_CrmQuery,...invoices_CrmQuery,...leads_CrmQuery,...notifications_CrmQuery,...opportunities_CrmQuery,...products_CrmQuery },
 CustomerTrackingLinks: CustomerTrackingLinks,
 DeleteResult: DeleteResult,

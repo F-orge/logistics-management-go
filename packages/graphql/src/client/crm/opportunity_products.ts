@@ -1,21 +1,21 @@
 import { graphql } from "../generated/gql";
 
-export const CreateOpportunityProductMutation = graphql(`
-  mutation CreateOpportunityProduct(
-    $opportunityProduct: CreateOpportunityProductInput!
-  ) {
-    crm {
-      createOpportunityProduct(value: $opportunityProduct) {
-        opportunity {
-          id
-        }
-        product {
-          id
-        }
-      }
-    }
-  }
-`);
+// export const CreateOpportunityProductMutation = graphql(`
+//   mutation CreateOpportunityProduct(
+//     $opportunityProduct: CreateOpportunityProductInput!
+//   ) {
+//     crm {
+//       createOpportunityProduct(value: $opportunityProduct) {
+//         opportunity {
+//           id
+//         }
+//         product {
+//           id
+//         }
+//       }
+//     }
+//   }
+// `);
 
 export const UpdateOpportunityProductMutation = graphql(`
   mutation UpdateOpportunityProduct(

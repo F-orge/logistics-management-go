@@ -20,14 +20,14 @@ enum CrmInvoicePaymentMethod {
 
 type Invoices {
   id: ID!
-  opportunity: Opportunities
+  opportunity: Opportunities!
   status: InvoiceStatus
-  total: Float
-  issueDate: String
-  dueDate: String
-  sentAt: String
-  paidAt: String
-  paymentMethod: PaymentMethod
+  total: Float!
+  issueDate: Date!
+  dueDate: Date!
+  sentAt: Date
+  paidAt: Date
+  paymentMethod: CrmInvoicePaymentMethod
   createdAt: String
   updatedAt: String
   items: [InvoiceItems!]
@@ -39,25 +39,20 @@ extend type CrmQuery {
 }
 
 input CreateInvoiceInput {
-  opportunityId: ID
+  opportunityId: ID!
   status: InvoiceStatus
-  total: Float
-  issueDate: String
-  dueDate: String
-  sentAt: String
-  paidAt: String
-  paymentMethod: PaymentMethod
+  issueDate: Date!
+  dueDate: Date!
+  paidAt: Date
+  paymentMethod: CrmInvoicePaymentMethod
+  items: [CreateInvoiceItemInput!]
 }
 
 input UpdateInvoiceInput {
-  opportunityId: ID
   status: InvoiceStatus
-  total: Float
-  issueDate: String
-  dueDate: String
-  sentAt: String
-  paidAt: String
-  paymentMethod: PaymentMethod
+  dueDate: Date
+  paidAt: Date
+  paymentMethod: CrmInvoicePaymentMethod
 }
 
 extend type CrmMutation {

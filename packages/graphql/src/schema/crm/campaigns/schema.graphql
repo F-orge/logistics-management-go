@@ -2,8 +2,8 @@ type Campaigns {
   id: ID!
   name: String!
   budget: Float
-  startDate: String
-  endDate: String
+  startDate: Date!
+  endDate: Date
   createdAt: String
   updatedAt: String
 }
@@ -16,15 +16,15 @@ extend type CrmQuery {
 input CreateCampaignInput {
   name: String!
   budget: Float
-  startDate: String
-  endDate: String
+  startDate: Date!
+  endDate: Date
 }
 
 input UpdateCampaignInput {
   name: String
   budget: Float
-  startDate: String
-  endDate: String
+  startDate: Date
+  endDate: Date
 }
 
 extend type CrmMutation {

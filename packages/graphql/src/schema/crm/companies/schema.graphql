@@ -9,7 +9,7 @@ type Companies {
   phoneNumber: String
   industry: String
   website: String
-  annualRevenue: String
+  annualRevenue: Float
   createdAt: String
   updatedAt: String
   owner: User
@@ -53,7 +53,6 @@ input UpdateCompanyInput {
   industry: String
   website: String
   annualRevenue: Float
-  ownerId: ID
 }
 
 extend type CrmMutation {
