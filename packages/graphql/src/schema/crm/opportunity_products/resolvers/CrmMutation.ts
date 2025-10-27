@@ -95,4 +95,40 @@ export const CrmMutation: Pick<
 
     return updatedOpportunityProduct as unknown as OpportunityProducts;
   },
+  removeOpportunityProduct: async (_parent, args, ctx) => {
+    const trx = await ctx.db.startTransaction().execute();
+
+    const opportunityProduct = await trx
+      .selectFrom("crm.opportunityProducts")
+      .select(["productId", "quantity", "opportunityId"])
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
+    const product = await trx
+      .selectFrom("crm.products")
+      .select("price")
+      .where("id", "=", opportunityProduct.productId)
+      .executeTakeFirstOrThrow();
+
+    const result = await trx
+      .deleteFrom("crm.opportunityProducts")
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
+    // update the deal value
+    await trx
+      .updateTable("crm.opportunities")
+      .set("dealValue", (eb) =>
+        eb("dealValue", "-", product.price * opportunityProduct.quantity)
+      )
+      .where("id", "=", opportunityProduct.opportunityId)
+      .executeTakeFirstOrThrow();
+
+    await trx.commit().execute();
+
+    return {
+      success: true,
+      numDeletedRows: Number(result.numDeletedRows.toString()),
+    };
+  },
 };
