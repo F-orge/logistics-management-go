@@ -59,6 +59,6 @@ input UpdateWarehouseInput {
 
 extend type WmsMutation {
   createWarehouse(value: CreateWarehouseInput!): Warehouses!
-  updateWarehouse(id: ID!, value: UpdateWarehouseInput): Warehouses!
+  updateWarehouse(id: ID!, value: UpdateWarehouseInput!): Warehouses!
   removeWarehouse(id: ID!): DeleteResult!
 }

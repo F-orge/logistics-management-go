@@ -30,6 +30,6 @@ input UpdateSupplierInput {
 
 extend type WmsMutation {
   createSupplier(value: CreateSupplierInput!): Suppliers!
-  updateSupplier(id: ID!, value: UpdateSupplierInput): Suppliers!
+  updateSupplier(id: ID!, value: UpdateSupplierInput!): Suppliers!
   removeSupplier(id: ID!): DeleteResult!
 }

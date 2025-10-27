@@ -2,7 +2,7 @@ type InventoryBatches {
   id: ID!
   product: WmsProducts!
   batchNumber: String!
-  expirationDate: String
+  expirationDate: Date
   createdAt: Date
   updatedAt: Date
   outboundShipmentItems: [OutboundShipmentItems!]
@@ -19,13 +19,12 @@ extend type WmsQuery {
 input CreateInventoryBatchInput {
   productId: ID!
   batchNumber: String!
-  expirationDate: String
+  expirationDate: Date
 }
 
 input UpdateInventoryBatchInput {
-  productId: ID
   batchNumber: String
-  expirationDate: String
+  expirationDate: Date
 }
 
 extend type WmsMutation {

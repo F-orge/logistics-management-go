@@ -10,7 +10,6 @@ type OutboundShipmentItems {
 }
 
 input CreateOutboundShipmentItemInput {
-  outboundShipmentId: ID!
   salesOrderItemId: ID!
   productId: ID!
   batchId: ID
@@ -18,15 +17,11 @@ input CreateOutboundShipmentItemInput {
 }
 
 input UpdateOutboundShipmentItemInput {
-  outboundShipmentId: ID
-  salesOrderItemId: ID
-  productId: ID
-  batchId: ID
   quantityShipped: Int
 }
 
 extend type WmsMutation {
-  createOutboundShipmentItem(value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
-  updateOutboundShipmentItem(id: ID!, value: UpdateOutboundShipmentItemInput): OutboundShipmentItems!
+  addOutboundShipmentItem(id: ID!, value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
+  updateOutboundShipmentItem(id: ID!, value: UpdateOutboundShipmentItemInput!): OutboundShipmentItems!
   removeOutboundShipmentItem(id: ID!): DeleteResult!
 }

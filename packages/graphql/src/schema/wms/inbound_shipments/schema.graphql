@@ -28,12 +28,10 @@ input CreateInboundShipmentInput {
   warehouseId: ID!
   status: InboundShipmentStatus
   expectedArrivalDate: String
-  actualArrivalDate: String
+  items: [CreateInboundShipmentItemInput!]!
 }
 
 input UpdateInboundShipmentInput {
-  clientId: ID
-  warehouseId: ID
   status: InboundShipmentStatus
   expectedArrivalDate: String
   actualArrivalDate: String

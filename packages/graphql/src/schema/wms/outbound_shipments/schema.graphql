@@ -29,13 +29,11 @@ input CreateOutboundShipmentInput {
   status: OutboundShipmentStatus
   trackingNumber: String
   carrier: String
+  items: [CreateOutboundShipmentItemInput!]!
 }
 
 input UpdateOutboundShipmentInput {
-  salesOrderId: ID
-  warehouseId: ID
   status: OutboundShipmentStatus
-  trackingNumber: String
   carrier: String
 }
 

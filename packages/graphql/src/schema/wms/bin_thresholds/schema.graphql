@@ -27,8 +27,6 @@ input CreateBinThresholdInput {
 }
 
 input UpdateBinThresholdInput {
-  locationId: ID
-  productId: ID
   minQuantity: Int
   maxQuantity: Int
   reorderQuantity: Int

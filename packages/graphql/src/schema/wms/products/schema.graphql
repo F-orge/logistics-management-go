@@ -68,8 +68,6 @@ input UpdateWmsProductInput {
   height: Float
   weight: Float
   status: ProductStatus
-  supplierId: ID
-  clientId: ID
 }
 
 extend type WmsMutation {

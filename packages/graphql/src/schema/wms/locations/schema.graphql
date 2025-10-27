@@ -63,12 +63,9 @@ input CreateLocationInput {
   isReceivable: Boolean
   temperatureControlled: Boolean
   hazmatApproved: Boolean
-  isActive: Boolean
 }
 
 input UpdateLocationInput {
-  warehouseId: ID
-  parentLocationId: ID
   name: String
   barcode: String
   type: LocationType

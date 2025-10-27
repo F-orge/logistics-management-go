@@ -33,18 +33,16 @@ input CreateSalesOrderInput {
   crmOpportunityId: ID
   status: SalesOrderStatus
   shippingAddress: String
+  items: [CreateSalesOrderItemInput!]!
 }
 
 input UpdateSalesOrderInput {
-  orderNumber: String
-  clientId: ID
-  crmOpportunityId: ID
   status: SalesOrderStatus
   shippingAddress: String
 }
 
 extend type WmsMutation {
   createSalesOrder(value: CreateSalesOrderInput!): SalesOrders!
-  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput): SalesOrders!
+  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput!): SalesOrders!
   removeSalesOrder(id: ID!): DeleteResult!
 }

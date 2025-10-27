@@ -30,8 +30,6 @@ input CreateStockTransferInput {
 }
 
 input UpdateStockTransferInput {
-  productId: ID
-  sourceWarehouseId: ID
   destinationWarehouseId: ID
   quantity: Int
   status: StockTransferStatus

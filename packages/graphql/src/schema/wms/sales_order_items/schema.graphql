@@ -9,19 +9,16 @@ type SalesOrderItems {
 }
 
 input CreateSalesOrderItemInput {
-  salesOrderId: ID!
   productId: ID!
   quantityOrdered: Int!
 }
 
 input UpdateSalesOrderItemInput {
-  salesOrderId: ID
-  productId: ID
   quantityOrdered: Int
 }
 
 extend type WmsMutation {
-  createSalesOrderItem(value: CreateSalesOrderItemInput!): SalesOrderItems!
-  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput): SalesOrderItems!
+  addSalesOrderItem(id:ID!, value: CreateSalesOrderItemInput!): SalesOrderItems!
+  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput!): SalesOrderItems!
   removeSalesOrderItem(id: ID!): DeleteResult!
 }

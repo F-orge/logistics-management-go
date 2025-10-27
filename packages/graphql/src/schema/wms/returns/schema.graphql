@@ -29,18 +29,16 @@ input CreateReturnInput {
   clientId: ID!
   status: ReturnStatus
   reason: String
+  items: [CreateReturnItemInput!]!
 }
 
 input UpdateReturnInput {
-  returnNumber: String
-  salesOrderId: ID
-  clientId: ID
   status: ReturnStatus
   reason: String
 }
 
 extend type WmsMutation {
   createReturn(value: CreateReturnInput!): Returns!
-  updateReturn(id: ID!, value: UpdateReturnInput): Returns!
+  updateReturn(id: ID!, value: UpdateReturnInput!): Returns!
   removeReturn(id: ID!): DeleteResult!
 }

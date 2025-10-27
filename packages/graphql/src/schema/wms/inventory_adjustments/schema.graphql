@@ -34,8 +34,6 @@ input CreateInventoryAdjustmentInput {
 }
 
 input UpdateInventoryAdjustmentInput {
-  productId: ID
-  warehouseId: ID
   userId: ID
   quantityChange: Int
   reason: InventoryAdjustmentReason

@@ -50,11 +50,8 @@ input CreatePickBatchInput {
   waveId: String
   zoneRestrictions: [String]
   estimatedDuration: Int
-  actualDuration: Int
-  totalItems: Int
-  completedItems: Int
   startedAt: String
-  completedAt: String
+  items: [CreatePickBatchItemInput!]!
 }
 
 input UpdatePickBatchInput {
@@ -66,12 +63,9 @@ input UpdatePickBatchInput {
   assignedUserId: ID
   waveId: String
   zoneRestrictions: [String]
-  estimatedDuration: Int
   actualDuration: Int
-  totalItems: Int
   completedItems: Int
-  startedAt: String
-  completedAt: String
+  completedAt: Date
 }
 
 extend type WmsMutation {

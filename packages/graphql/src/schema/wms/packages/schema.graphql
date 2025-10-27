@@ -52,7 +52,6 @@ input CreatePackageInput {
 }
 
 input UpdatePackageInput {
-  salesOrderId: ID
   packageNumber: String
   warehouseId: ID
   packageType: String
@@ -63,9 +62,8 @@ input UpdatePackageInput {
   trackingNumber: String
   carrier: String
   serviceLevel: String
-  packedByUserId: ID
-  packedAt: String
-  shippedAt: String
+  packedAt: Date
+  shippedAt: Date
   isFragile: Boolean
   isHazmat: Boolean
   requiresSignature: Boolean

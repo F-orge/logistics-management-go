@@ -12,23 +12,18 @@ type InboundShipmentItems {
 
 
 input CreateInboundShipmentItemInput {
-  inboundShipmentId: ID!
   productId: ID!
   expectedQuantity: Int!
-  receivedQuantity: Int
-  discrepancyNotes: String
 }
 
 input UpdateInboundShipmentItemInput {
-  inboundShipmentId: ID
-  productId: ID
   expectedQuantity: Int
   receivedQuantity: Int
   discrepancyNotes: String
 }
 
 extend type WmsMutation {
-  createInboundShipmentItem(value: CreateInboundShipmentItemInput!): InboundShipmentItems!
+  addInboundShipmentItem(id: ID!, value: CreateInboundShipmentItemInput!): InboundShipmentItems!
   updateInboundShipmentItem(id: ID!, value: UpdateInboundShipmentItemInput): InboundShipmentItems!
   removeInboundShipmentItem(id: ID!): DeleteResult!
 }

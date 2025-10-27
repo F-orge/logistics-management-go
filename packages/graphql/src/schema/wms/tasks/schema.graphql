@@ -61,13 +61,12 @@ input CreateTaskInput {
   actualDuration: Int
   instructions: String
   notes: String
-  startTime: String
-  endTime: String
+  startTime: Date
+  endTime: Date
 }
 
 input UpdateTaskInput {
   taskNumber: String
-  warehouseId: ID
   userId: ID
   type: TaskType
   status: TaskStatus
@@ -79,8 +78,8 @@ input UpdateTaskInput {
   actualDuration: Int
   instructions: String
   notes: String
-  startTime: String
-  endTime: String
+  startTime: Date
+  endTime: Date
 }
 
 extend type WmsMutation {

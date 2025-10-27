@@ -19,23 +19,18 @@ type ReturnItems {
 }
 
 input CreateReturnItemInput {
-  returnId: ID!
   productId: ID!
   quantityExpected: Int!
-  quantityReceived: Int
   condition: ReturnItemCondition
 }
 
 input UpdateReturnItemInput {
-  returnId: ID
-  productId: ID
-  quantityExpected: Int
   quantityReceived: Int
   condition: ReturnItemCondition
 }
 
 extend type WmsMutation {
-  createReturnItem(value: CreateReturnItemInput!): ReturnItems!
+  addReturnItem(id: ID!, value: CreateReturnItemInput!): ReturnItems!
   updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!
   removeReturnItem(id: ID!): DeleteResult!
 }

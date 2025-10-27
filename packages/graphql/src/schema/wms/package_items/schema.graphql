@@ -25,9 +25,6 @@ input CreatePackageItemInput {
 }
 
 input UpdatePackageItemInput {
-  packageId: ID
-  productId: ID
-  batchId: ID
   quantity: Int
   lotNumber: String
   serialNumbers: [String]
@@ -36,7 +33,7 @@ input UpdatePackageItemInput {
 }
 
 extend type WmsMutation {
-  createPackageItem(value: CreatePackageItemInput!): PackageItems!
-  updatePackageItem(id: ID!, value: UpdatePackageItemInput): PackageItems!
+  addPackageItem(id: ID!, value: CreatePackageItemInput!): PackageItems!
+  updatePackageItem(id: ID!, value: UpdatePackageItemInput!): PackageItems!
   removePackageItem(id: ID!): DeleteResult!
 }

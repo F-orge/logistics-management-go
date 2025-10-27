@@ -39,8 +39,6 @@ input CreatePutawayRuleInput {
 }
 
 input UpdatePutawayRuleInput {
-  productId: ID
-  clientId: ID
   warehouseId: ID
   preferredLocationId: ID
   locationType: LocationType

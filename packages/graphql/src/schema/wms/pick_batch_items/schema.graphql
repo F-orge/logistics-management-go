@@ -10,7 +10,6 @@ type PickBatchItems {
 }
 
 input CreatePickBatchItemInput {
-  pickBatchId: ID!
   salesOrderId: ID!
   orderPriority: Int
   estimatedPickTime: Int
@@ -18,15 +17,13 @@ input CreatePickBatchItemInput {
 }
 
 input UpdatePickBatchItemInput {
-  pickBatchId: ID
-  salesOrderId: ID
   orderPriority: Int
   estimatedPickTime: Int
   actualPickTime: Int
 }
 
 extend type WmsMutation {
-  createPickBatchItem(value: CreatePickBatchItemInput!): PickBatchItems!
+  addPickBatchItem(id: ID!, value: CreatePickBatchItemInput!): PickBatchItems!
   updatePickBatchItem(id: ID!, value: UpdatePickBatchItemInput): PickBatchItems!
   removePickBatchItem(id: ID!): DeleteResult!
 }
