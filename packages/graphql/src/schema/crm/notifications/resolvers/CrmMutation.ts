@@ -3,6 +3,7 @@ import {
   Notifications,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
+
 export const CrmMutation: Pick<
   CrmMutationResolvers,
   "createNotification" | "updateNotification"
@@ -21,6 +22,13 @@ export const CrmMutation: Pick<
   updateNotification: async (_parent, args, ctx) => {
     const payload = CreateNotificationInputSchema().parse(args.value);
 
+    // Get the previous state to detect changes
+    const previousNotification = await ctx.db
+      .selectFrom("crm.notifications")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const result = await ctx.db
       .updateTable("crm.notifications")
       .set(payload)
@@ -28,6 +36,18 @@ export const CrmMutation: Pick<
       .where("isRead", "!=", true)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish marked event
+    if (
+      result.isRead !== previousNotification.isRead ||
+      payload.isRead !== undefined
+    ) {
+      ctx.pubsub.publish("crm.notification.marked", {
+        id: result.id,
+        userId: result.userId,
+        isRead: result.isRead ?? false,
+      });
+    }
 
     return result as unknown as Notifications;
   },

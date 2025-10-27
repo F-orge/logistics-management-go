@@ -9,7 +9,11 @@ import {
   UpdateCaseInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createCase'|'removeCase'|'updateCase'> = {
+
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createCase" | "removeCase" | "updateCase"
+> = {
   createCase: async (_parent, args, ctx) => {
     const payload = CreateCaseInputSchema().parse(args.value);
 
@@ -33,6 +37,13 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCase'|'removeCase'|'
   updateCase: async (_parent, args, ctx) => {
     const payload = UpdateCaseInputSchema().parse(args.value);
 
+    // Get the previous state to detect changes
+    const previousCase = await ctx.db
+      .selectFrom("crm.cases")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const result = await ctx.db
       .updateTable("crm.cases")
       .set({
@@ -46,6 +57,15 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createCase'|'removeCase'|'
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish status changed event
+    if (payload.status && payload.status !== previousCase.status) {
+      ctx.pubsub.publish("crm.case.statusChanged", {
+        id: result.id,
+        newStatus: result.status as CrmCaseStatus,
+        previousStatus: previousCase.status as CrmCaseStatus,
+      });
+    }
 
     return result as unknown as Cases;
   },

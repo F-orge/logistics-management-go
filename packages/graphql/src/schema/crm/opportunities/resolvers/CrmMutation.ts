@@ -7,7 +7,11 @@ import {
   UpdateOpportunityInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createOpportunity'|'updateOpportunity'> = {
+
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createOpportunity" | "updateOpportunity"
+> = {
   createOpportunity: async (_, args, ctx) => {
     const trx = await ctx.db.startTransaction().execute();
 
@@ -66,6 +70,13 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createOpportunity'|'update
 
     const payload = UpdateOpportunityInputSchema().parse(args.value);
 
+    // Get the previous state to detect changes
+    const previousOpportunity = await trx
+      .selectFrom("crm.opportunities")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const updatedOpportunity = await trx
       .updateTable("crm.opportunities")
       .set({
@@ -83,6 +94,30 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createOpportunity'|'update
       .executeTakeFirst();
 
     await trx.commit().execute();
+
+    if (updatedOpportunity) {
+      // Publish stage changed event
+      if (args.value.stage && args.value.stage !== previousOpportunity.stage) {
+        const newStage = CrmOpportunityStage[args.value.stage];
+
+        ctx.pubsub.publish("crm.opportunity.stageChanged", {
+          id: updatedOpportunity.id,
+          newStage: newStage,
+          previousStage: previousOpportunity.stage as CrmOpportunityStage,
+          probability: updatedOpportunity.probability,
+        });
+
+        // Publish won event
+        if (newStage === "CLOSED_WON") {
+          ctx.pubsub.publish("crm.opportunity.won", updatedOpportunity);
+        }
+
+        // Publish lost event
+        if (newStage === "CLOSED_LOST") {
+          ctx.pubsub.publish("crm.opportunity.lost", updatedOpportunity);
+        }
+      }
+    }
 
     return updatedOpportunity as Opportunities;
   },

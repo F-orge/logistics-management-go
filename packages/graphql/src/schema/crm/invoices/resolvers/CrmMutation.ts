@@ -5,6 +5,7 @@ import {
   UpdateInvoiceInputSchema,
 } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
+
 export const CrmMutation: Pick<
   CrmMutationResolvers,
   "createInvoice" | "updateInvoice"
@@ -71,6 +72,13 @@ export const CrmMutation: Pick<
   updateInvoice: async (_parent, args, ctx) => {
     const payload = UpdateInvoiceInputSchema().parse(args.value);
 
+    // Get the previous state to detect changes
+    const previousInvoice = await ctx.db
+      .selectFrom("crm.invoices")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const result = await ctx.db
       .updateTable("crm.invoices")
       .set({
@@ -83,6 +91,20 @@ export const CrmMutation: Pick<
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish status changed event
+    if (payload.status && payload.status !== previousInvoice.status) {
+      ctx.pubsub.publish("crm.invoice.statusChanged", {
+        id: result.id,
+        newStatus: result.status as CrmInvoiceStatus,
+        previousStatus: previousInvoice.status as CrmInvoiceStatus,
+      });
+    }
+
+    // Publish paid event
+    if (payload.status === "PAID" && previousInvoice.status !== "PAID") {
+      ctx.pubsub.publish("crm.invoice.paid", result);
+    }
 
     return result as unknown as Invoices;
   },

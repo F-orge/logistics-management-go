@@ -1,7 +1,11 @@
 import { CrmLeadSource, CrmLeadStatus } from "../../../../db.types";
 import { CreateLeadInputSchema, Leads } from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-export const CrmMutation: Pick<CrmMutationResolvers, 'createLead'|'removeLead'|'updateLead'> = {
+
+export const CrmMutation: Pick<
+  CrmMutationResolvers,
+  "createLead" | "removeLead" | "updateLead"
+> = {
   createLead: async (_parent, args, ctx) => {
     const trx = await ctx.db.startTransaction().execute();
 
@@ -30,6 +34,13 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createLead'|'removeLead'|'
 
     const trx = await ctx.db.startTransaction().execute();
 
+    // Get the previous state to detect changes
+    const previousLead = await trx
+      .selectFrom("crm.leads")
+      .selectAll()
+      .where("id", "=", args.id)
+      .executeTakeFirstOrThrow();
+
     const result = await trx
       .updateTable("crm.leads")
       .set({
@@ -44,6 +55,15 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createLead'|'removeLead'|'
       .executeTakeFirstOrThrow();
 
     await trx.commit().execute();
+
+    // Publish status changed event
+    if (payload.status && payload.status !== previousLead.status) {
+      ctx.pubsub.publish("crm.lead.statusChanged", {
+        id: result.id,
+        newStatus: result.status as CrmLeadStatus,
+        previousStatus: previousLead.status as CrmLeadStatus,
+      });
+    }
 
     return result as unknown as Leads;
   },
