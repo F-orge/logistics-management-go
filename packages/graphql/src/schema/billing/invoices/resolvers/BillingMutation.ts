@@ -11,7 +11,11 @@ export const BillingMutation: Pick<
   "createBillingInvoice" | "removeBillingInvoice" | "updateBillingInvoice"
 > = {
   createBillingInvoice: async (_parent, args, ctx) => {
-    const payload = CreateBillingInvoiceInputSchema().parse(args.value);
+    const { items, ...payload } = CreateBillingInvoiceInputSchema().parse(
+      args.value
+    );
+
+    const trx = await ctx.db.startTransaction().execute();
 
     const result = await ctx.db
       .insertInto("billing.invoices")
@@ -20,14 +24,59 @@ export const BillingMutation: Pick<
         status: payload.status
           ? BillingInvoiceStatusEnum[payload.status]
           : undefined,
+        totalAmount: 0, // Initial total amount set to 0
+        discountAmount: 0, // Initial discount amount set to 0
+        taxAmount: 0, // Initial tax amount set to 0
+        subtotal: 0, // Initial subtotal set to 0
       })
       .returningAll()
       .executeTakeFirstOrThrow();
 
-    // Publish created event
-    ctx.pubsub.publish("billing.invoice.created", result);
+    // add items
+    const invoiceItems = await ctx.db
+      .insertInto("billing.invoiceLineItems")
+      .values(
+        items.map((item) => ({
+          ...item,
+          invoiceId: result.id,
+        }))
+      )
+      .returningAll()
+      .execute();
 
-    return result as unknown as BillingInvoices;
+    // update totals based on items
+    const totalAmount = invoiceItems
+      .map((row) => row.unitPrice * row.quantity)
+      .reduce((a, b) => a + b, 0);
+
+    const discountAmount = invoiceItems
+      .map((row) => row.discountAmount || 0)
+      .reduce((a, b) => a + b, 0);
+
+    const taxAmount = invoiceItems
+      .map((row) => row.taxAmount || 0)
+      .reduce((a, b) => a + b, 0);
+
+    const subtotal = totalAmount - discountAmount + taxAmount;
+
+    const updatedInvoice = await ctx.db
+      .updateTable("billing.invoices")
+      .set({
+        totalAmount,
+        discountAmount,
+        taxAmount,
+        subtotal,
+      })
+      .where("id", "=", result.id)
+      .returningAll()
+      .executeTakeFirstOrThrow();
+
+    await trx.commit().execute();
+
+    // Publish created event
+    ctx.pubsub.publish("billing.invoice.created", updatedInvoice);
+
+    return updatedInvoice as unknown as BillingInvoices;
   },
   updateBillingInvoice: async (_parent, args, ctx) => {
     const payload = UpdateBillingInvoiceInputSchema().parse(args.value);

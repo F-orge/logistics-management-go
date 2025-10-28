@@ -132,12 +132,9 @@ export type BillingMutation = {
   createRateCard: RateCards;
   createRateRule: RateRules;
   createSurcharge: Surcharges;
-  removeAccountTransaction: DeleteResult;
-  removeAccountingSyncLog: DeleteResult;
   removeBillingInvoice: DeleteResult;
   removeClientAccount: DeleteResult;
   removeCreditNote: DeleteResult;
-  removeDispute: DeleteResult;
   removeDocument: DeleteResult;
   removeInvoiceLineItem: DeleteResult;
   removePayment: DeleteResult;
@@ -145,8 +142,6 @@ export type BillingMutation = {
   removeRateCard: DeleteResult;
   removeRateRule: DeleteResult;
   removeSurcharge: DeleteResult;
-  updateAccountTransaction: AccountTransactions;
-  updateAccountingSyncLog: AccountingSyncLogs;
   updateBillingInvoice: BillingInvoices;
   updateClientAccount: ClientAccounts;
   updateCreditNote: CreditNotes;
@@ -227,16 +222,6 @@ export type BillingMutationcreateSurchargeArgs = {
 };
 
 
-export type BillingMutationremoveAccountTransactionArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationremoveAccountingSyncLogArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type BillingMutationremoveBillingInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
@@ -248,11 +233,6 @@ export type BillingMutationremoveClientAccountArgs = {
 
 
 export type BillingMutationremoveCreditNoteArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationremoveDisputeArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -289,18 +269,6 @@ export type BillingMutationremoveRateRuleArgs = {
 
 export type BillingMutationremoveSurchargeArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationupdateAccountTransactionArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAccountTransactionInput>;
-};
-
-
-export type BillingMutationupdateAccountingSyncLogArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAccountingSyncLogInput>;
 };
 
 
@@ -761,23 +729,18 @@ export type CreateAttachmentInput = {
 };
 
 export type CreateBillingInvoiceInput = {
-  amountPaid?: InputMaybe<Scalars['Float']['input']>;
   clientId: Scalars['ID']['input'];
   createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  discountAmount?: InputMaybe<Scalars['Float']['input']>;
   dueDate: Scalars['String']['input'];
   invoiceNumber: Scalars['String']['input'];
   issueDate: Scalars['String']['input'];
+  items: Array<CreateInvoiceLineItemInput>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paidAt?: InputMaybe<Scalars['String']['input']>;
   paymentTerms?: InputMaybe<Scalars['String']['input']>;
   quoteId?: InputMaybe<Scalars['ID']['input']>;
-  sentAt?: InputMaybe<Scalars['String']['input']>;
+  sentAt?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<BillingInvoiceStatus>;
-  subtotal?: InputMaybe<Scalars['Float']['input']>;
-  taxAmount?: InputMaybe<Scalars['Float']['input']>;
-  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreateBinThresholdInput = {
@@ -909,7 +872,6 @@ export type CreateDisputeInput = {
   resolvedAt?: InputMaybe<Scalars['String']['input']>;
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
-  submittedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateDmsProofOfDeliveryInput = {
@@ -3909,51 +3871,14 @@ export type Trips = {
   vehicle?: Maybe<Vehicles>;
 };
 
-export type UpdateAccountTransactionInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
-  clientAccountId?: InputMaybe<Scalars['ID']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
-  referenceNumber?: InputMaybe<Scalars['String']['input']>;
-  runningBalance?: InputMaybe<Scalars['Float']['input']>;
-  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
-  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
-  transactionDate?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<TransactionType>;
-};
-
-export type UpdateAccountingSyncLogInput = {
-  errorMessage?: InputMaybe<Scalars['String']['input']>;
-  externalId?: InputMaybe<Scalars['String']['input']>;
-  externalSystem?: InputMaybe<Scalars['String']['input']>;
-  lastSyncAt?: InputMaybe<Scalars['String']['input']>;
-  nextRetryAt?: InputMaybe<Scalars['String']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<Scalars['String']['input']>;
-  requestPayload?: InputMaybe<Scalars['String']['input']>;
-  responsePayload?: InputMaybe<Scalars['String']['input']>;
-  retryCount?: InputMaybe<Scalars['Int']['input']>;
-  status?: InputMaybe<SyncStatus>;
-};
-
 export type UpdateBillingInvoiceInput = {
   amountPaid?: InputMaybe<Scalars['Float']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  discountAmount?: InputMaybe<Scalars['Float']['input']>;
   dueDate?: InputMaybe<Scalars['String']['input']>;
-  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
-  issueDate?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paidAt?: InputMaybe<Scalars['String']['input']>;
+  paidAt?: InputMaybe<Scalars['Date']['input']>;
   paymentTerms?: InputMaybe<Scalars['String']['input']>;
-  quoteId?: InputMaybe<Scalars['ID']['input']>;
-  sentAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<BillingInvoiceStatus>;
-  subtotal?: InputMaybe<Scalars['Float']['input']>;
-  taxAmount?: InputMaybe<Scalars['Float']['input']>;
-  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateBinThresholdInput = {
@@ -3995,11 +3920,10 @@ export type UpdateCaseInput = {
 
 export type UpdateClientAccountInput = {
   availableCredit?: InputMaybe<Scalars['Float']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   creditLimit?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
   isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
-  lastPaymentDate?: InputMaybe<Scalars['String']['input']>;
+  lastPaymentDate?: InputMaybe<Scalars['Date']['input']>;
   paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
   walletBalance?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4027,12 +3951,8 @@ export type UpdateContactInput = {
 export type UpdateCreditNoteInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   appliedAt?: InputMaybe<Scalars['String']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   creditNoteNumber?: InputMaybe<Scalars['String']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  disputeId?: InputMaybe<Scalars['ID']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
-  issueDate?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
 };
@@ -4067,15 +3987,12 @@ export type UpdateDeliveryTaskInput = {
 };
 
 export type UpdateDisputeInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   disputedAmount?: InputMaybe<Scalars['Float']['input']>;
-  lineItemId?: InputMaybe<Scalars['ID']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
   resolutionNotes?: InputMaybe<Scalars['String']['input']>;
   resolvedAt?: InputMaybe<Scalars['String']['input']>;
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
-  submittedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDocumentInput = {
@@ -4191,10 +4108,7 @@ export type UpdateInvoiceItemInput = {
 export type UpdateInvoiceLineItemInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   discountRate?: InputMaybe<Scalars['Float']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Float']['input']>;
-  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
-  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
   taxRate?: InputMaybe<Scalars['Float']['input']>;
   unitPrice?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4292,19 +4206,11 @@ export type UpdatePartnerInvoiceItemInput = {
 };
 
 export type UpdatePaymentInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
   exchangeRate?: InputMaybe<Scalars['Float']['input']>;
   fees?: InputMaybe<Scalars['Float']['input']>;
-  gatewayReference?: InputMaybe<Scalars['String']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paymentDate?: InputMaybe<Scalars['String']['input']>;
-  paymentMethod?: InputMaybe<PaymentMethod>;
-  processedAt?: InputMaybe<Scalars['String']['input']>;
-  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<PaymentStatus>;
-  transactionId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdatePickBatchInput = {
@@ -4354,15 +4260,12 @@ export type UpdatePutawayRuleInput = {
 };
 
 export type UpdateQuoteInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   destinationDetails?: InputMaybe<Scalars['String']['input']>;
   expiresAt?: InputMaybe<Scalars['String']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
   length?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   originDetails?: InputMaybe<Scalars['String']['input']>;
-  quoteNumber?: InputMaybe<Scalars['String']['input']>;
   quotedPrice?: InputMaybe<Scalars['Float']['input']>;
   serviceLevel?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<QuoteStatus>;
@@ -5533,7 +5436,7 @@ export type ResolversTypes = {
   Attachments: ResolverTypeWrapper<Omit<Attachments, 'recordType'> & { recordType?: Maybe<ResolversTypes['RecordType']> }>;
   BillingInvoiceStatus: ResolverTypeWrapper<'DRAFT' | 'SENT' | 'VIEWED' | 'PAID' | 'PARTIAL_PAID' | 'PAST_DUE' | 'DISPUTED' | 'CANCELLED' | 'VOID'>;
   BillingInvoices: ResolverTypeWrapper<Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote' | 'status'> & { client: ResolversTypes['Companies'], creditNotes?: Maybe<Array<ResolversTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversTypes['Payments']>>, quote?: Maybe<ResolversTypes['Quotes']>, status?: Maybe<ResolversTypes['BillingInvoiceStatus']> }>;
-  BillingMutation: ResolverTypeWrapper<Omit<BillingMutation, 'addInvoiceLineItem' | 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateAccountTransaction' | 'updateAccountingSyncLog' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { addInvoiceLineItem: ResolversTypes['InvoiceLineItems'], createAccountTransaction: ResolversTypes['AccountTransactions'], createAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], createBillingInvoice: ResolversTypes['BillingInvoices'], createClientAccount: ResolversTypes['ClientAccounts'], createCreditNote: ResolversTypes['CreditNotes'], createDispute: ResolversTypes['Disputes'], createDocument: ResolversTypes['Documents'], createPayment: ResolversTypes['Payments'], createQuote: ResolversTypes['Quotes'], createRateCard: ResolversTypes['RateCards'], createRateRule: ResolversTypes['RateRules'], createSurcharge: ResolversTypes['Surcharges'], updateAccountTransaction: ResolversTypes['AccountTransactions'], updateAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], updateBillingInvoice: ResolversTypes['BillingInvoices'], updateClientAccount: ResolversTypes['ClientAccounts'], updateCreditNote: ResolversTypes['CreditNotes'], updateDispute: ResolversTypes['Disputes'], updateDocument: ResolversTypes['Documents'], updateInvoiceLineItem: ResolversTypes['InvoiceLineItems'], updatePayment: ResolversTypes['Payments'], updateQuote: ResolversTypes['Quotes'], updateRateCard: ResolversTypes['RateCards'], updateRateRule: ResolversTypes['RateRules'], updateSurcharge: ResolversTypes['Surcharges'] }>;
+  BillingMutation: ResolverTypeWrapper<Omit<BillingMutation, 'addInvoiceLineItem' | 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { addInvoiceLineItem: ResolversTypes['InvoiceLineItems'], createAccountTransaction: ResolversTypes['AccountTransactions'], createAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], createBillingInvoice: ResolversTypes['BillingInvoices'], createClientAccount: ResolversTypes['ClientAccounts'], createCreditNote: ResolversTypes['CreditNotes'], createDispute: ResolversTypes['Disputes'], createDocument: ResolversTypes['Documents'], createPayment: ResolversTypes['Payments'], createQuote: ResolversTypes['Quotes'], createRateCard: ResolversTypes['RateCards'], createRateRule: ResolversTypes['RateRules'], createSurcharge: ResolversTypes['Surcharges'], updateBillingInvoice: ResolversTypes['BillingInvoices'], updateClientAccount: ResolversTypes['ClientAccounts'], updateCreditNote: ResolversTypes['CreditNotes'], updateDispute: ResolversTypes['Disputes'], updateDocument: ResolversTypes['Documents'], updateInvoiceLineItem: ResolversTypes['InvoiceLineItems'], updatePayment: ResolversTypes['Payments'], updateQuote: ResolversTypes['Quotes'], updateRateCard: ResolversTypes['RateCards'], updateRateRule: ResolversTypes['RateRules'], updateSurcharge: ResolversTypes['Surcharges'] }>;
   BillingQuery: ResolverTypeWrapper<Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversTypes['AccountTransactions'], accountTransactions: Array<ResolversTypes['AccountTransactions']>, accountingSyncLog: ResolversTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversTypes['AccountingSyncLogs']>, billingInvoice: ResolversTypes['BillingInvoices'], billingInvoices: Array<ResolversTypes['BillingInvoices']>, clientAccount: ResolversTypes['ClientAccounts'], clientAccounts: Array<ResolversTypes['ClientAccounts']>, creditNote: ResolversTypes['CreditNotes'], creditNotes: Array<ResolversTypes['CreditNotes']>, dispute: ResolversTypes['Disputes'], disputes: Array<ResolversTypes['Disputes']>, document: ResolversTypes['Documents'], documents: Array<ResolversTypes['Documents']>, payment: ResolversTypes['Payments'], payments: Array<ResolversTypes['Payments']>, quote: ResolversTypes['Quotes'], quotes: Array<ResolversTypes['Quotes']>, rateCard: ResolversTypes['RateCards'], rateCards: Array<ResolversTypes['RateCards']>, rateRule: ResolversTypes['RateRules'], rateRules: Array<ResolversTypes['RateRules']>, surcharge: ResolversTypes['Surcharges'], surcharges: Array<ResolversTypes['Surcharges']> }>;
   BinThresholds: ResolverTypeWrapper<Omit<BinThresholds, 'location' | 'product'> & { location: ResolversTypes['Locations'], product: ResolversTypes['WmsProducts'] }>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
@@ -5744,8 +5647,6 @@ export type ResolversTypes = {
   TripStopStatus: ResolverTypeWrapper<'PENDING' | 'ARRIVED' | 'COMPLETED' | 'SKIPPED'>;
   TripStops: ResolverTypeWrapper<Omit<TripStops, 'proofOfDeliveries' | 'shipment' | 'status' | 'trip'> & { proofOfDeliveries?: Maybe<Array<ResolversTypes['ProofOfDeliveries']>>, shipment?: Maybe<ResolversTypes['OutboundShipments']>, status?: Maybe<ResolversTypes['TripStopStatus']>, trip: ResolversTypes['Trips'] }>;
   Trips: ResolverTypeWrapper<Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'status' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversTypes['Drivers']>, expenses?: Maybe<Array<ResolversTypes['Expenses']>>, routes?: Maybe<Array<ResolversTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversTypes['ShipmentLegs']>>, status?: Maybe<ResolversTypes['TripStatus']>, stops?: Maybe<Array<ResolversTypes['TripStops']>>, vehicle?: Maybe<ResolversTypes['Vehicles']> }>;
-  UpdateAccountTransactionInput: UpdateAccountTransactionInput;
-  UpdateAccountingSyncLogInput: UpdateAccountingSyncLogInput;
   UpdateBillingInvoiceInput: UpdateBillingInvoiceInput;
   UpdateBinThresholdInput: UpdateBinThresholdInput;
   UpdateCampaignInput: UpdateCampaignInput;
@@ -5838,7 +5739,7 @@ export type ResolversParentTypes = {
   AddOpportunityProductInput: AddOpportunityProductInput;
   Attachments: Attachments;
   BillingInvoices: Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote'> & { client: ResolversParentTypes['Companies'], creditNotes?: Maybe<Array<ResolversParentTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversParentTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversParentTypes['Payments']>>, quote?: Maybe<ResolversParentTypes['Quotes']> };
-  BillingMutation: Omit<BillingMutation, 'addInvoiceLineItem' | 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateAccountTransaction' | 'updateAccountingSyncLog' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { addInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], createAccountTransaction: ResolversParentTypes['AccountTransactions'], createAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], createBillingInvoice: ResolversParentTypes['BillingInvoices'], createClientAccount: ResolversParentTypes['ClientAccounts'], createCreditNote: ResolversParentTypes['CreditNotes'], createDispute: ResolversParentTypes['Disputes'], createDocument: ResolversParentTypes['Documents'], createPayment: ResolversParentTypes['Payments'], createQuote: ResolversParentTypes['Quotes'], createRateCard: ResolversParentTypes['RateCards'], createRateRule: ResolversParentTypes['RateRules'], createSurcharge: ResolversParentTypes['Surcharges'], updateAccountTransaction: ResolversParentTypes['AccountTransactions'], updateAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], updateBillingInvoice: ResolversParentTypes['BillingInvoices'], updateClientAccount: ResolversParentTypes['ClientAccounts'], updateCreditNote: ResolversParentTypes['CreditNotes'], updateDispute: ResolversParentTypes['Disputes'], updateDocument: ResolversParentTypes['Documents'], updateInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], updatePayment: ResolversParentTypes['Payments'], updateQuote: ResolversParentTypes['Quotes'], updateRateCard: ResolversParentTypes['RateCards'], updateRateRule: ResolversParentTypes['RateRules'], updateSurcharge: ResolversParentTypes['Surcharges'] };
+  BillingMutation: Omit<BillingMutation, 'addInvoiceLineItem' | 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { addInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], createAccountTransaction: ResolversParentTypes['AccountTransactions'], createAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], createBillingInvoice: ResolversParentTypes['BillingInvoices'], createClientAccount: ResolversParentTypes['ClientAccounts'], createCreditNote: ResolversParentTypes['CreditNotes'], createDispute: ResolversParentTypes['Disputes'], createDocument: ResolversParentTypes['Documents'], createPayment: ResolversParentTypes['Payments'], createQuote: ResolversParentTypes['Quotes'], createRateCard: ResolversParentTypes['RateCards'], createRateRule: ResolversParentTypes['RateRules'], createSurcharge: ResolversParentTypes['Surcharges'], updateBillingInvoice: ResolversParentTypes['BillingInvoices'], updateClientAccount: ResolversParentTypes['ClientAccounts'], updateCreditNote: ResolversParentTypes['CreditNotes'], updateDispute: ResolversParentTypes['Disputes'], updateDocument: ResolversParentTypes['Documents'], updateInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], updatePayment: ResolversParentTypes['Payments'], updateQuote: ResolversParentTypes['Quotes'], updateRateCard: ResolversParentTypes['RateCards'], updateRateRule: ResolversParentTypes['RateRules'], updateSurcharge: ResolversParentTypes['Surcharges'] };
   BillingQuery: Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversParentTypes['AccountTransactions'], accountTransactions: Array<ResolversParentTypes['AccountTransactions']>, accountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversParentTypes['AccountingSyncLogs']>, billingInvoice: ResolversParentTypes['BillingInvoices'], billingInvoices: Array<ResolversParentTypes['BillingInvoices']>, clientAccount: ResolversParentTypes['ClientAccounts'], clientAccounts: Array<ResolversParentTypes['ClientAccounts']>, creditNote: ResolversParentTypes['CreditNotes'], creditNotes: Array<ResolversParentTypes['CreditNotes']>, dispute: ResolversParentTypes['Disputes'], disputes: Array<ResolversParentTypes['Disputes']>, document: ResolversParentTypes['Documents'], documents: Array<ResolversParentTypes['Documents']>, payment: ResolversParentTypes['Payments'], payments: Array<ResolversParentTypes['Payments']>, quote: ResolversParentTypes['Quotes'], quotes: Array<ResolversParentTypes['Quotes']>, rateCard: ResolversParentTypes['RateCards'], rateCards: Array<ResolversParentTypes['RateCards']>, rateRule: ResolversParentTypes['RateRules'], rateRules: Array<ResolversParentTypes['RateRules']>, surcharge: ResolversParentTypes['Surcharges'], surcharges: Array<ResolversParentTypes['Surcharges']> };
   BinThresholds: Omit<BinThresholds, 'location' | 'product'> & { location: ResolversParentTypes['Locations'], product: ResolversParentTypes['WmsProducts'] };
   Boolean: Scalars['Boolean']['output'];
@@ -5994,8 +5895,6 @@ export type ResolversParentTypes = {
   TmsQuery: Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversParentTypes['Carriers'], carriers: Array<ResolversParentTypes['Carriers']>, driver: ResolversParentTypes['Drivers'], drivers: Array<ResolversParentTypes['Drivers']>, expense: ResolversParentTypes['Expenses'], expenses: Array<ResolversParentTypes['Expenses']>, geofence: ResolversParentTypes['Geofences'], geofences: Array<ResolversParentTypes['Geofences']>, gpsPing: ResolversParentTypes['GpsPings'], gpsPings: Array<ResolversParentTypes['GpsPings']>, partnerInvoice: ResolversParentTypes['PartnerInvoices'], partnerInvoices: Array<ResolversParentTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversParentTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], route: ResolversParentTypes['Routes'], routes: Array<ResolversParentTypes['Routes']>, shipmentLeg: ResolversParentTypes['ShipmentLegs'], shipmentLegs: Array<ResolversParentTypes['ShipmentLegs']>, trip: ResolversParentTypes['Trips'], trips: Array<ResolversParentTypes['Trips']>, vehicle: ResolversParentTypes['Vehicles'], vehicles: Array<ResolversParentTypes['Vehicles']> };
   TripStops: Omit<TripStops, 'proofOfDeliveries' | 'shipment' | 'trip'> & { proofOfDeliveries?: Maybe<Array<ResolversParentTypes['ProofOfDeliveries']>>, shipment?: Maybe<ResolversParentTypes['OutboundShipments']>, trip: ResolversParentTypes['Trips'] };
   Trips: Omit<Trips, 'driver' | 'expenses' | 'routes' | 'shipmentLegs' | 'stops' | 'vehicle'> & { driver?: Maybe<ResolversParentTypes['Drivers']>, expenses?: Maybe<Array<ResolversParentTypes['Expenses']>>, routes?: Maybe<Array<ResolversParentTypes['Routes']>>, shipmentLegs?: Maybe<Array<ResolversParentTypes['ShipmentLegs']>>, stops?: Maybe<Array<ResolversParentTypes['TripStops']>>, vehicle?: Maybe<ResolversParentTypes['Vehicles']> };
-  UpdateAccountTransactionInput: UpdateAccountTransactionInput;
-  UpdateAccountingSyncLogInput: UpdateAccountingSyncLogInput;
   UpdateBillingInvoiceInput: UpdateBillingInvoiceInput;
   UpdateBinThresholdInput: UpdateBinThresholdInput;
   UpdateCampaignInput: UpdateCampaignInput;
@@ -6161,12 +6060,9 @@ export type BillingMutationResolvers<ContextType = GraphQLContext, ParentType ex
   createRateCard?: Resolver<ResolversTypes['RateCards'], ParentType, ContextType, RequireFields<BillingMutationcreateRateCardArgs, 'value'>>;
   createRateRule?: Resolver<ResolversTypes['RateRules'], ParentType, ContextType, RequireFields<BillingMutationcreateRateRuleArgs, 'value'>>;
   createSurcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingMutationcreateSurchargeArgs, 'value'>>;
-  removeAccountTransaction?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveAccountTransactionArgs, 'id'>>;
-  removeAccountingSyncLog?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveAccountingSyncLogArgs, 'id'>>;
   removeBillingInvoice?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveBillingInvoiceArgs, 'id'>>;
   removeClientAccount?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveClientAccountArgs, 'id'>>;
   removeCreditNote?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveCreditNoteArgs, 'id'>>;
-  removeDispute?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveDisputeArgs, 'id'>>;
   removeDocument?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveDocumentArgs, 'id'>>;
   removeInvoiceLineItem?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveInvoiceLineItemArgs, 'id'>>;
   removePayment?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremovePaymentArgs, 'id'>>;
@@ -6174,8 +6070,6 @@ export type BillingMutationResolvers<ContextType = GraphQLContext, ParentType ex
   removeRateCard?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveRateCardArgs, 'id'>>;
   removeRateRule?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveRateRuleArgs, 'id'>>;
   removeSurcharge?: Resolver<ResolversTypes['DeleteResult'], ParentType, ContextType, RequireFields<BillingMutationremoveSurchargeArgs, 'id'>>;
-  updateAccountTransaction?: Resolver<ResolversTypes['AccountTransactions'], ParentType, ContextType, RequireFields<BillingMutationupdateAccountTransactionArgs, 'id'>>;
-  updateAccountingSyncLog?: Resolver<ResolversTypes['AccountingSyncLogs'], ParentType, ContextType, RequireFields<BillingMutationupdateAccountingSyncLogArgs, 'id'>>;
   updateBillingInvoice?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType, RequireFields<BillingMutationupdateBillingInvoiceArgs, 'id'>>;
   updateClientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType, RequireFields<BillingMutationupdateClientAccountArgs, 'id'>>;
   updateCreditNote?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType, RequireFields<BillingMutationupdateCreditNoteArgs, 'id'>>;

@@ -12,29 +12,29 @@ export const CreateAccountTransactionMutation = graphql(`
   }
 `);
 
-export const UpdateAccountTransactionMutation = graphql(`
-  mutation UpdateAccountTransaction(
-    $id: ID!
-    $accountTransaction: UpdateAccountTransactionInput!
-  ) {
-    billing {
-      updateAccountTransaction(id: $id, value: $accountTransaction) {
-        id
-      }
-    }
-  }
-`);
+// export const UpdateAccountTransactionMutation = graphql(`
+//   mutation UpdateAccountTransaction(
+//     $id: ID!
+//     $accountTransaction: UpdateAccountTransactionInput!
+//   ) {
+//     billing {
+//       updateAccountTransaction(id: $id, value: $accountTransaction) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
-export const RemoveAccountTransactionMutation = graphql(`
-  mutation RemoveAccountTransaction($id: ID!) {
-    billing {
-      removeAccountTransaction(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveAccountTransactionMutation = graphql(`
+//   mutation RemoveAccountTransaction($id: ID!) {
+//     billing {
+//       removeAccountTransaction(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const AccountTransactionsQuery = graphql(`
   query AccountTransactions(

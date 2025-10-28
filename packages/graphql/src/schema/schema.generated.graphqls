@@ -105,12 +105,9 @@ type BillingMutation {
   createRateCard(value: CreateRateCardInput!): RateCards!
   createRateRule(value: CreateRateRuleInput!): RateRules!
   createSurcharge(value: CreateSurchargeInput!): Surcharges!
-  removeAccountTransaction(id: ID!): DeleteResult!
-  removeAccountingSyncLog(id: ID!): DeleteResult!
   removeBillingInvoice(id: ID!): DeleteResult!
   removeClientAccount(id: ID!): DeleteResult!
   removeCreditNote(id: ID!): DeleteResult!
-  removeDispute(id: ID!): DeleteResult!
   removeDocument(id: ID!): DeleteResult!
   removeInvoiceLineItem(id: ID!): DeleteResult!
   removePayment(id: ID!): DeleteResult!
@@ -118,8 +115,6 @@ type BillingMutation {
   removeRateCard(id: ID!): DeleteResult!
   removeRateRule(id: ID!): DeleteResult!
   removeSurcharge(id: ID!): DeleteResult!
-  updateAccountTransaction(id: ID!, value: UpdateAccountTransactionInput): AccountTransactions!
-  updateAccountingSyncLog(id: ID!, value: UpdateAccountingSyncLogInput): AccountingSyncLogs!
   updateBillingInvoice(id: ID!, value: UpdateBillingInvoiceInput): BillingInvoices!
   updateClientAccount(id: ID!, value: UpdateClientAccountInput): ClientAccounts!
   updateCreditNote(id: ID!, value: UpdateCreditNoteInput): CreditNotes!
@@ -343,23 +338,18 @@ input CreateAttachmentInput {
 }
 
 input CreateBillingInvoiceInput {
-  amountPaid: Float
   clientId: ID!
   createdByUserId: ID
   currency: String
-  discountAmount: Float
   dueDate: String!
   invoiceNumber: String!
   issueDate: String!
+  items: [CreateInvoiceLineItemInput!]!
   notes: String
-  paidAt: String
   paymentTerms: String
   quoteId: ID
-  sentAt: String
+  sentAt: Date
   status: BillingInvoiceStatus
-  subtotal: Float
-  taxAmount: Float
-  totalAmount: Float!
 }
 
 input CreateBinThresholdInput {
@@ -491,7 +481,6 @@ input CreateDisputeInput {
   resolvedAt: String
   resolvedByUserId: ID
   status: DisputeStatus
-  submittedAt: String
 }
 
 input CreateDmsProofOfDeliveryInput {
@@ -2556,51 +2545,14 @@ type Trips {
   vehicle: Vehicles
 }
 
-input UpdateAccountTransactionInput {
-  amount: Float
-  clientAccountId: ID
-  description: String
-  processedByUserId: ID
-  referenceNumber: String
-  runningBalance: Float
-  sourceRecordId: ID
-  sourceRecordType: String
-  transactionDate: String
-  type: TransactionType
-}
-
-input UpdateAccountingSyncLogInput {
-  errorMessage: String
-  externalId: String
-  externalSystem: String
-  lastSyncAt: String
-  nextRetryAt: String
-  recordId: ID
-  recordType: String
-  requestPayload: String
-  responsePayload: String
-  retryCount: Int
-  status: SyncStatus
-}
-
 input UpdateBillingInvoiceInput {
   amountPaid: Float
-  clientId: ID
-  createdByUserId: ID
   currency: String
-  discountAmount: Float
   dueDate: String
-  invoiceNumber: String
-  issueDate: String
   notes: String
-  paidAt: String
+  paidAt: Date
   paymentTerms: String
-  quoteId: ID
-  sentAt: String
   status: BillingInvoiceStatus
-  subtotal: Float
-  taxAmount: Float
-  totalAmount: Float
 }
 
 input UpdateBinThresholdInput {
@@ -2642,11 +2594,10 @@ input UpdateCaseInput {
 
 input UpdateClientAccountInput {
   availableCredit: Float
-  clientId: ID
   creditLimit: Float
   currency: String
   isCreditApproved: Boolean
-  lastPaymentDate: String
+  lastPaymentDate: Date
   paymentTermsDays: Int
   walletBalance: Float
 }
@@ -2674,12 +2625,8 @@ input UpdateContactInput {
 input UpdateCreditNoteInput {
   amount: Float
   appliedAt: String
-  createdByUserId: ID
   creditNoteNumber: String
   currency: String
-  disputeId: ID
-  invoiceId: ID
-  issueDate: String
   notes: String
   reason: String
 }
@@ -2714,15 +2661,12 @@ input UpdateDeliveryTaskInput {
 }
 
 input UpdateDisputeInput {
-  clientId: ID
   disputedAmount: Float
-  lineItemId: ID
   reason: String
   resolutionNotes: String
   resolvedAt: String
   resolvedByUserId: ID
   status: DisputeStatus
-  submittedAt: String
 }
 
 input UpdateDocumentInput {
@@ -2838,10 +2782,7 @@ input UpdateInvoiceItemInput {
 input UpdateInvoiceLineItemInput {
   description: String
   discountRate: Float
-  invoiceId: ID
   quantity: Float
-  sourceRecordId: ID
-  sourceRecordType: String
   taxRate: Float
   unitPrice: Float
 }
@@ -2939,19 +2880,11 @@ input UpdatePartnerInvoiceItemInput {
 }
 
 input UpdatePaymentInput {
-  amount: Float
   currency: String
   exchangeRate: Float
   fees: Float
-  gatewayReference: String
-  invoiceId: ID
   notes: String
-  paymentDate: String
-  paymentMethod: PaymentMethod
-  processedAt: String
-  processedByUserId: ID
   status: PaymentStatus
-  transactionId: String
 }
 
 input UpdatePickBatchInput {
@@ -3001,15 +2934,12 @@ input UpdatePutawayRuleInput {
 }
 
 input UpdateQuoteInput {
-  clientId: ID
-  createdByUserId: ID
   destinationDetails: String
   expiresAt: String
   height: Float
   length: Float
   notes: String
   originDetails: String
-  quoteNumber: String
   quotedPrice: Float
   serviceLevel: String
   status: QuoteStatus

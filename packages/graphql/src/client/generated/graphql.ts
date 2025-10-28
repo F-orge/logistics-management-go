@@ -130,12 +130,9 @@ export type BillingMutation = {
   createRateCard: RateCards;
   createRateRule: RateRules;
   createSurcharge: Surcharges;
-  removeAccountTransaction: DeleteResult;
-  removeAccountingSyncLog: DeleteResult;
   removeBillingInvoice: DeleteResult;
   removeClientAccount: DeleteResult;
   removeCreditNote: DeleteResult;
-  removeDispute: DeleteResult;
   removeDocument: DeleteResult;
   removeInvoiceLineItem: DeleteResult;
   removePayment: DeleteResult;
@@ -143,8 +140,6 @@ export type BillingMutation = {
   removeRateCard: DeleteResult;
   removeRateRule: DeleteResult;
   removeSurcharge: DeleteResult;
-  updateAccountTransaction: AccountTransactions;
-  updateAccountingSyncLog: AccountingSyncLogs;
   updateBillingInvoice: BillingInvoices;
   updateClientAccount: ClientAccounts;
   updateCreditNote: CreditNotes;
@@ -225,16 +220,6 @@ export type BillingMutationCreateSurchargeArgs = {
 };
 
 
-export type BillingMutationRemoveAccountTransactionArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationRemoveAccountingSyncLogArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type BillingMutationRemoveBillingInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
@@ -246,11 +231,6 @@ export type BillingMutationRemoveClientAccountArgs = {
 
 
 export type BillingMutationRemoveCreditNoteArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationRemoveDisputeArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -287,18 +267,6 @@ export type BillingMutationRemoveRateRuleArgs = {
 
 export type BillingMutationRemoveSurchargeArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationUpdateAccountTransactionArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAccountTransactionInput>;
-};
-
-
-export type BillingMutationUpdateAccountingSyncLogArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAccountingSyncLogInput>;
 };
 
 
@@ -763,23 +731,18 @@ export type CreateAttachmentInput = {
 };
 
 export type CreateBillingInvoiceInput = {
-  amountPaid?: InputMaybe<Scalars['Float']['input']>;
   clientId: Scalars['ID']['input'];
   createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  discountAmount?: InputMaybe<Scalars['Float']['input']>;
   dueDate: Scalars['String']['input'];
   invoiceNumber: Scalars['String']['input'];
   issueDate: Scalars['String']['input'];
+  items: Array<CreateInvoiceLineItemInput>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paidAt?: InputMaybe<Scalars['String']['input']>;
   paymentTerms?: InputMaybe<Scalars['String']['input']>;
   quoteId?: InputMaybe<Scalars['ID']['input']>;
-  sentAt?: InputMaybe<Scalars['String']['input']>;
+  sentAt?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<BillingInvoiceStatus>;
-  subtotal?: InputMaybe<Scalars['Float']['input']>;
-  taxAmount?: InputMaybe<Scalars['Float']['input']>;
-  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreateBinThresholdInput = {
@@ -911,7 +874,6 @@ export type CreateDisputeInput = {
   resolvedAt?: InputMaybe<Scalars['String']['input']>;
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
-  submittedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateDmsProofOfDeliveryInput = {
@@ -3962,51 +3924,14 @@ export type Trips = {
   vehicle?: Maybe<Vehicles>;
 };
 
-export type UpdateAccountTransactionInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
-  clientAccountId?: InputMaybe<Scalars['ID']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
-  referenceNumber?: InputMaybe<Scalars['String']['input']>;
-  runningBalance?: InputMaybe<Scalars['Float']['input']>;
-  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
-  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
-  transactionDate?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<TransactionType>;
-};
-
-export type UpdateAccountingSyncLogInput = {
-  errorMessage?: InputMaybe<Scalars['String']['input']>;
-  externalId?: InputMaybe<Scalars['String']['input']>;
-  externalSystem?: InputMaybe<Scalars['String']['input']>;
-  lastSyncAt?: InputMaybe<Scalars['String']['input']>;
-  nextRetryAt?: InputMaybe<Scalars['String']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<Scalars['String']['input']>;
-  requestPayload?: InputMaybe<Scalars['String']['input']>;
-  responsePayload?: InputMaybe<Scalars['String']['input']>;
-  retryCount?: InputMaybe<Scalars['Int']['input']>;
-  status?: InputMaybe<SyncStatus>;
-};
-
 export type UpdateBillingInvoiceInput = {
   amountPaid?: InputMaybe<Scalars['Float']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  discountAmount?: InputMaybe<Scalars['Float']['input']>;
   dueDate?: InputMaybe<Scalars['String']['input']>;
-  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
-  issueDate?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paidAt?: InputMaybe<Scalars['String']['input']>;
+  paidAt?: InputMaybe<Scalars['Date']['input']>;
   paymentTerms?: InputMaybe<Scalars['String']['input']>;
-  quoteId?: InputMaybe<Scalars['ID']['input']>;
-  sentAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<BillingInvoiceStatus>;
-  subtotal?: InputMaybe<Scalars['Float']['input']>;
-  taxAmount?: InputMaybe<Scalars['Float']['input']>;
-  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateBinThresholdInput = {
@@ -4048,11 +3973,10 @@ export type UpdateCaseInput = {
 
 export type UpdateClientAccountInput = {
   availableCredit?: InputMaybe<Scalars['Float']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   creditLimit?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
   isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
-  lastPaymentDate?: InputMaybe<Scalars['String']['input']>;
+  lastPaymentDate?: InputMaybe<Scalars['Date']['input']>;
   paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
   walletBalance?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4080,12 +4004,8 @@ export type UpdateContactInput = {
 export type UpdateCreditNoteInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   appliedAt?: InputMaybe<Scalars['String']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   creditNoteNumber?: InputMaybe<Scalars['String']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  disputeId?: InputMaybe<Scalars['ID']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
-  issueDate?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
 };
@@ -4120,15 +4040,12 @@ export type UpdateDeliveryTaskInput = {
 };
 
 export type UpdateDisputeInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   disputedAmount?: InputMaybe<Scalars['Float']['input']>;
-  lineItemId?: InputMaybe<Scalars['ID']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
   resolutionNotes?: InputMaybe<Scalars['String']['input']>;
   resolvedAt?: InputMaybe<Scalars['String']['input']>;
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
-  submittedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDocumentInput = {
@@ -4244,10 +4161,7 @@ export type UpdateInvoiceItemInput = {
 export type UpdateInvoiceLineItemInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   discountRate?: InputMaybe<Scalars['Float']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Float']['input']>;
-  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
-  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
   taxRate?: InputMaybe<Scalars['Float']['input']>;
   unitPrice?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4345,19 +4259,11 @@ export type UpdatePartnerInvoiceItemInput = {
 };
 
 export type UpdatePaymentInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
   exchangeRate?: InputMaybe<Scalars['Float']['input']>;
   fees?: InputMaybe<Scalars['Float']['input']>;
-  gatewayReference?: InputMaybe<Scalars['String']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paymentDate?: InputMaybe<Scalars['String']['input']>;
-  paymentMethod?: InputMaybe<PaymentMethod>;
-  processedAt?: InputMaybe<Scalars['String']['input']>;
-  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<PaymentStatus>;
-  transactionId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdatePickBatchInput = {
@@ -4407,15 +4313,12 @@ export type UpdatePutawayRuleInput = {
 };
 
 export type UpdateQuoteInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   destinationDetails?: InputMaybe<Scalars['String']['input']>;
   expiresAt?: InputMaybe<Scalars['String']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
   length?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   originDetails?: InputMaybe<Scalars['String']['input']>;
-  quoteNumber?: InputMaybe<Scalars['String']['input']>;
   quotedPrice?: InputMaybe<Scalars['Float']['input']>;
   serviceLevel?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<QuoteStatus>;
@@ -5511,21 +5414,6 @@ export type CreateAccountTransactionMutationVariables = Exact<{
 
 export type CreateAccountTransactionMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createAccountTransaction: { __typename?: 'AccountTransactions', id: string } } | null };
 
-export type UpdateAccountTransactionMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  accountTransaction: UpdateAccountTransactionInput;
-}>;
-
-
-export type UpdateAccountTransactionMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateAccountTransaction: { __typename?: 'AccountTransactions', id: string } } | null };
-
-export type RemoveAccountTransactionMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveAccountTransactionMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeAccountTransaction: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
-
 export type AccountTransactionsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   perPage?: InputMaybe<Scalars['Int']['input']>;
@@ -5557,21 +5445,6 @@ export type CreateAccountingSyncLogMutationVariables = Exact<{
 
 
 export type CreateAccountingSyncLogMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createAccountingSyncLog: { __typename?: 'AccountingSyncLogs', id: string } } | null };
-
-export type UpdateAccountingSyncLogMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-  accountingSyncLog: UpdateAccountingSyncLogInput;
-}>;
-
-
-export type UpdateAccountingSyncLogMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateAccountingSyncLog: { __typename?: 'AccountingSyncLogs', id: string } } | null };
-
-export type RemoveAccountingSyncLogMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveAccountingSyncLogMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeAccountingSyncLog: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type AccountingSyncLogsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -5704,13 +5577,6 @@ export type UpdateDisputeMutationVariables = Exact<{
 
 
 export type UpdateDisputeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateDispute: { __typename?: 'Disputes', id: string } } | null };
-
-export type RemoveDisputeMutationVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
-
-
-export type RemoveDisputeMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeDispute: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
 
 export type TableDisputeQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -8174,25 +8040,6 @@ export const CreateAccountTransactionDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateAccountTransactionMutation, CreateAccountTransactionMutationVariables>;
-export const UpdateAccountTransactionDocument = new TypedDocumentString(`
-    mutation UpdateAccountTransaction($id: ID!, $accountTransaction: UpdateAccountTransactionInput!) {
-  billing {
-    updateAccountTransaction(id: $id, value: $accountTransaction) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateAccountTransactionMutation, UpdateAccountTransactionMutationVariables>;
-export const RemoveAccountTransactionDocument = new TypedDocumentString(`
-    mutation RemoveAccountTransaction($id: ID!) {
-  billing {
-    removeAccountTransaction(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveAccountTransactionMutation, RemoveAccountTransactionMutationVariables>;
 export const AccountTransactionsDocument = new TypedDocumentString(`
     query AccountTransactions($page: Int, $perPage: Int, $search: String, $type: TransactionType) {
   billing {
@@ -8267,25 +8114,6 @@ export const CreateAccountingSyncLogDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateAccountingSyncLogMutation, CreateAccountingSyncLogMutationVariables>;
-export const UpdateAccountingSyncLogDocument = new TypedDocumentString(`
-    mutation UpdateAccountingSyncLog($id: ID!, $accountingSyncLog: UpdateAccountingSyncLogInput!) {
-  billing {
-    updateAccountingSyncLog(id: $id, value: $accountingSyncLog) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<UpdateAccountingSyncLogMutation, UpdateAccountingSyncLogMutationVariables>;
-export const RemoveAccountingSyncLogDocument = new TypedDocumentString(`
-    mutation RemoveAccountingSyncLog($id: ID!) {
-  billing {
-    removeAccountingSyncLog(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveAccountingSyncLogMutation, RemoveAccountingSyncLogMutationVariables>;
 export const AccountingSyncLogsDocument = new TypedDocumentString(`
     query AccountingSyncLogs($page: Int, $perPage: Int, $search: String, $status: SyncStatus) {
   billing {
@@ -8535,16 +8363,6 @@ export const UpdateDisputeDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<UpdateDisputeMutation, UpdateDisputeMutationVariables>;
-export const RemoveDisputeDocument = new TypedDocumentString(`
-    mutation RemoveDispute($id: ID!) {
-  billing {
-    removeDispute(id: $id) {
-      success
-      numDeletedRows
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<RemoveDisputeMutation, RemoveDisputeMutationVariables>;
 export const TableDisputeDocument = new TypedDocumentString(`
     query TableDispute($page: Int, $perPage: Int, $search: String, $status: DisputeStatus) {
   billing {

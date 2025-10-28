@@ -49,16 +49,12 @@ input CreateBillingInvoiceInput {
   status: BillingInvoiceStatus
   issueDate: String!
   dueDate: String!
-  totalAmount: Float!
-  amountPaid: Float
   currency: String
-  taxAmount: Float
-  discountAmount: Float
-  subtotal: Float
   paymentTerms: String
   notes: String
   sentAt: Date
   createdByUserId: ID
+  items: [CreateInvoiceLineItemInput!]!
 }
 
 input UpdateBillingInvoiceInput {

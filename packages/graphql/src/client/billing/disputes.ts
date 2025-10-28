@@ -20,16 +20,16 @@ export const UpdateDisputeMutation = graphql(`
   }
 `);
 
-export const RemoveDisputeMutation = graphql(`
-  mutation RemoveDispute($id: ID!) {
-    billing {
-      removeDispute(id: $id) {
-        success
-        numDeletedRows
-      }
-    }
-  }
-`);
+// export const RemoveDisputeMutation = graphql(`
+//   mutation RemoveDispute($id: ID!) {
+//     billing {
+//       removeDispute(id: $id) {
+//         success
+//         numDeletedRows
+//       }
+//     }
+//   }
+// `);
 
 export const TableDisputeQuery = graphql(`
   query TableDispute(

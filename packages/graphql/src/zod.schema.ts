@@ -128,12 +128,9 @@ export type BillingMutation = {
   createRateCard: RateCards;
   createRateRule: RateRules;
   createSurcharge: Surcharges;
-  removeAccountTransaction: DeleteResult;
-  removeAccountingSyncLog: DeleteResult;
   removeBillingInvoice: DeleteResult;
   removeClientAccount: DeleteResult;
   removeCreditNote: DeleteResult;
-  removeDispute: DeleteResult;
   removeDocument: DeleteResult;
   removeInvoiceLineItem: DeleteResult;
   removePayment: DeleteResult;
@@ -141,8 +138,6 @@ export type BillingMutation = {
   removeRateCard: DeleteResult;
   removeRateRule: DeleteResult;
   removeSurcharge: DeleteResult;
-  updateAccountTransaction: AccountTransactions;
-  updateAccountingSyncLog: AccountingSyncLogs;
   updateBillingInvoice: BillingInvoices;
   updateClientAccount: ClientAccounts;
   updateCreditNote: CreditNotes;
@@ -223,16 +218,6 @@ export type BillingMutationCreateSurchargeArgs = {
 };
 
 
-export type BillingMutationRemoveAccountTransactionArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationRemoveAccountingSyncLogArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
 export type BillingMutationRemoveBillingInvoiceArgs = {
   id: Scalars['ID']['input'];
 };
@@ -244,11 +229,6 @@ export type BillingMutationRemoveClientAccountArgs = {
 
 
 export type BillingMutationRemoveCreditNoteArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationRemoveDisputeArgs = {
   id: Scalars['ID']['input'];
 };
 
@@ -285,18 +265,6 @@ export type BillingMutationRemoveRateRuleArgs = {
 
 export type BillingMutationRemoveSurchargeArgs = {
   id: Scalars['ID']['input'];
-};
-
-
-export type BillingMutationUpdateAccountTransactionArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAccountTransactionInput>;
-};
-
-
-export type BillingMutationUpdateAccountingSyncLogArgs = {
-  id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateAccountingSyncLogInput>;
 };
 
 
@@ -757,23 +725,18 @@ export type CreateAttachmentInput = {
 };
 
 export type CreateBillingInvoiceInput = {
-  amountPaid?: InputMaybe<Scalars['Float']['input']>;
   clientId: Scalars['ID']['input'];
   createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  discountAmount?: InputMaybe<Scalars['Float']['input']>;
   dueDate: Scalars['String']['input'];
   invoiceNumber: Scalars['String']['input'];
   issueDate: Scalars['String']['input'];
+  items: Array<CreateInvoiceLineItemInput>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paidAt?: InputMaybe<Scalars['String']['input']>;
   paymentTerms?: InputMaybe<Scalars['String']['input']>;
   quoteId?: InputMaybe<Scalars['ID']['input']>;
-  sentAt?: InputMaybe<Scalars['String']['input']>;
+  sentAt?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<BillingInvoiceStatus>;
-  subtotal?: InputMaybe<Scalars['Float']['input']>;
-  taxAmount?: InputMaybe<Scalars['Float']['input']>;
-  totalAmount: Scalars['Float']['input'];
 };
 
 export type CreateBinThresholdInput = {
@@ -905,7 +868,6 @@ export type CreateDisputeInput = {
   resolvedAt?: InputMaybe<Scalars['String']['input']>;
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
-  submittedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateDmsProofOfDeliveryInput = {
@@ -3905,51 +3867,14 @@ export type Trips = {
   vehicle?: Maybe<Vehicles>;
 };
 
-export type UpdateAccountTransactionInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
-  clientAccountId?: InputMaybe<Scalars['ID']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
-  referenceNumber?: InputMaybe<Scalars['String']['input']>;
-  runningBalance?: InputMaybe<Scalars['Float']['input']>;
-  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
-  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
-  transactionDate?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<TransactionType>;
-};
-
-export type UpdateAccountingSyncLogInput = {
-  errorMessage?: InputMaybe<Scalars['String']['input']>;
-  externalId?: InputMaybe<Scalars['String']['input']>;
-  externalSystem?: InputMaybe<Scalars['String']['input']>;
-  lastSyncAt?: InputMaybe<Scalars['String']['input']>;
-  nextRetryAt?: InputMaybe<Scalars['String']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<Scalars['String']['input']>;
-  requestPayload?: InputMaybe<Scalars['String']['input']>;
-  responsePayload?: InputMaybe<Scalars['String']['input']>;
-  retryCount?: InputMaybe<Scalars['Int']['input']>;
-  status?: InputMaybe<SyncStatus>;
-};
-
 export type UpdateBillingInvoiceInput = {
   amountPaid?: InputMaybe<Scalars['Float']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  discountAmount?: InputMaybe<Scalars['Float']['input']>;
   dueDate?: InputMaybe<Scalars['String']['input']>;
-  invoiceNumber?: InputMaybe<Scalars['String']['input']>;
-  issueDate?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paidAt?: InputMaybe<Scalars['String']['input']>;
+  paidAt?: InputMaybe<Scalars['Date']['input']>;
   paymentTerms?: InputMaybe<Scalars['String']['input']>;
-  quoteId?: InputMaybe<Scalars['ID']['input']>;
-  sentAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<BillingInvoiceStatus>;
-  subtotal?: InputMaybe<Scalars['Float']['input']>;
-  taxAmount?: InputMaybe<Scalars['Float']['input']>;
-  totalAmount?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type UpdateBinThresholdInput = {
@@ -3991,11 +3916,10 @@ export type UpdateCaseInput = {
 
 export type UpdateClientAccountInput = {
   availableCredit?: InputMaybe<Scalars['Float']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   creditLimit?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
   isCreditApproved?: InputMaybe<Scalars['Boolean']['input']>;
-  lastPaymentDate?: InputMaybe<Scalars['String']['input']>;
+  lastPaymentDate?: InputMaybe<Scalars['Date']['input']>;
   paymentTermsDays?: InputMaybe<Scalars['Int']['input']>;
   walletBalance?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4023,12 +3947,8 @@ export type UpdateContactInput = {
 export type UpdateCreditNoteInput = {
   amount?: InputMaybe<Scalars['Float']['input']>;
   appliedAt?: InputMaybe<Scalars['String']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   creditNoteNumber?: InputMaybe<Scalars['String']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
-  disputeId?: InputMaybe<Scalars['ID']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
-  issueDate?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
 };
@@ -4063,15 +3983,12 @@ export type UpdateDeliveryTaskInput = {
 };
 
 export type UpdateDisputeInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   disputedAmount?: InputMaybe<Scalars['Float']['input']>;
-  lineItemId?: InputMaybe<Scalars['ID']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
   resolutionNotes?: InputMaybe<Scalars['String']['input']>;
   resolvedAt?: InputMaybe<Scalars['String']['input']>;
   resolvedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<DisputeStatus>;
-  submittedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateDocumentInput = {
@@ -4187,10 +4104,7 @@ export type UpdateInvoiceItemInput = {
 export type UpdateInvoiceLineItemInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   discountRate?: InputMaybe<Scalars['Float']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Float']['input']>;
-  sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
-  sourceRecordType?: InputMaybe<Scalars['String']['input']>;
   taxRate?: InputMaybe<Scalars['Float']['input']>;
   unitPrice?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4288,19 +4202,11 @@ export type UpdatePartnerInvoiceItemInput = {
 };
 
 export type UpdatePaymentInput = {
-  amount?: InputMaybe<Scalars['Float']['input']>;
   currency?: InputMaybe<Scalars['String']['input']>;
   exchangeRate?: InputMaybe<Scalars['Float']['input']>;
   fees?: InputMaybe<Scalars['Float']['input']>;
-  gatewayReference?: InputMaybe<Scalars['String']['input']>;
-  invoiceId?: InputMaybe<Scalars['ID']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  paymentDate?: InputMaybe<Scalars['String']['input']>;
-  paymentMethod?: InputMaybe<PaymentMethod>;
-  processedAt?: InputMaybe<Scalars['String']['input']>;
-  processedByUserId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<PaymentStatus>;
-  transactionId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdatePickBatchInput = {
@@ -4350,15 +4256,12 @@ export type UpdatePutawayRuleInput = {
 };
 
 export type UpdateQuoteInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  createdByUserId?: InputMaybe<Scalars['ID']['input']>;
   destinationDetails?: InputMaybe<Scalars['String']['input']>;
   expiresAt?: InputMaybe<Scalars['String']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
   length?: InputMaybe<Scalars['Float']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
   originDetails?: InputMaybe<Scalars['String']['input']>;
-  quoteNumber?: InputMaybe<Scalars['String']['input']>;
   quotedPrice?: InputMaybe<Scalars['Float']['input']>;
   serviceLevel?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<QuoteStatus>;
@@ -5627,23 +5530,18 @@ export function CreateAttachmentInputSchema(): z.ZodObject<Properties<CreateAtta
 
 export function CreateBillingInvoiceInputSchema(): z.ZodObject<Properties<CreateBillingInvoiceInput>> {
   return z.object({
-    amountPaid: z.number().optional(),
     clientId: z.string(),
     createdByUserId: z.string().optional(),
     currency: z.string().optional(),
-    discountAmount: z.number().optional(),
     dueDate: z.string(),
     invoiceNumber: z.string(),
     issueDate: z.string(),
+    items: z.array(z.lazy(() => CreateInvoiceLineItemInputSchema())),
     notes: z.string().optional(),
-    paidAt: z.string().optional(),
     paymentTerms: z.string().optional(),
     quoteId: z.string().optional(),
-    sentAt: z.string().optional(),
-    status: BillingInvoiceStatusSchema.optional(),
-    subtotal: z.number().optional(),
-    taxAmount: z.number().optional(),
-    totalAmount: z.number()
+    sentAt: z.date().optional(),
+    status: BillingInvoiceStatusSchema.optional()
   })
 }
 
@@ -5800,8 +5698,7 @@ export function CreateDisputeInputSchema(): z.ZodObject<Properties<CreateDispute
     resolutionNotes: z.string().optional(),
     resolvedAt: z.string().optional(),
     resolvedByUserId: z.string().optional(),
-    status: DisputeStatusSchema.optional(),
-    submittedAt: z.string().optional()
+    status: DisputeStatusSchema.optional()
   })
 }
 
@@ -6496,56 +6393,15 @@ export function CreateWmsProductInputSchema(): z.ZodObject<Properties<CreateWmsP
   })
 }
 
-export function UpdateAccountTransactionInputSchema(): z.ZodObject<Properties<UpdateAccountTransactionInput>> {
-  return z.object({
-    amount: z.number().optional(),
-    clientAccountId: z.string().optional(),
-    description: z.string().optional(),
-    processedByUserId: z.string().optional(),
-    referenceNumber: z.string().optional(),
-    runningBalance: z.number().optional(),
-    sourceRecordId: z.string().optional(),
-    sourceRecordType: z.string().optional(),
-    transactionDate: z.string().optional(),
-    type: TransactionTypeSchema.optional()
-  })
-}
-
-export function UpdateAccountingSyncLogInputSchema(): z.ZodObject<Properties<UpdateAccountingSyncLogInput>> {
-  return z.object({
-    errorMessage: z.string().optional(),
-    externalId: z.string().optional(),
-    externalSystem: z.string().optional(),
-    lastSyncAt: z.string().optional(),
-    nextRetryAt: z.string().optional(),
-    recordId: z.string().optional(),
-    recordType: z.string().optional(),
-    requestPayload: z.string().optional(),
-    responsePayload: z.string().optional(),
-    retryCount: z.number().optional(),
-    status: SyncStatusSchema.optional()
-  })
-}
-
 export function UpdateBillingInvoiceInputSchema(): z.ZodObject<Properties<UpdateBillingInvoiceInput>> {
   return z.object({
     amountPaid: z.number().optional(),
-    clientId: z.string().optional(),
-    createdByUserId: z.string().optional(),
     currency: z.string().optional(),
-    discountAmount: z.number().optional(),
     dueDate: z.string().optional(),
-    invoiceNumber: z.string().optional(),
-    issueDate: z.string().optional(),
     notes: z.string().optional(),
-    paidAt: z.string().optional(),
+    paidAt: z.date().optional(),
     paymentTerms: z.string().optional(),
-    quoteId: z.string().optional(),
-    sentAt: z.string().optional(),
-    status: BillingInvoiceStatusSchema.optional(),
-    subtotal: z.number().optional(),
-    taxAmount: z.number().optional(),
-    totalAmount: z.number().optional()
+    status: BillingInvoiceStatusSchema.optional()
   })
 }
 
@@ -6599,11 +6455,10 @@ export function UpdateCaseInputSchema(): z.ZodObject<Properties<UpdateCaseInput>
 export function UpdateClientAccountInputSchema(): z.ZodObject<Properties<UpdateClientAccountInput>> {
   return z.object({
     availableCredit: z.number().optional(),
-    clientId: z.string().optional(),
     creditLimit: z.number().optional(),
     currency: z.string().optional(),
     isCreditApproved: z.boolean().optional(),
-    lastPaymentDate: z.string().optional(),
+    lastPaymentDate: z.date().optional(),
     paymentTermsDays: z.number().optional(),
     walletBalance: z.number().optional()
   })
@@ -6637,12 +6492,8 @@ export function UpdateCreditNoteInputSchema(): z.ZodObject<Properties<UpdateCred
   return z.object({
     amount: z.number().optional(),
     appliedAt: z.string().optional(),
-    createdByUserId: z.string().optional(),
     creditNoteNumber: z.string().optional(),
     currency: z.string().optional(),
-    disputeId: z.string().optional(),
-    invoiceId: z.string().optional(),
-    issueDate: z.string().optional(),
     notes: z.string().optional(),
     reason: z.string().optional()
   })
@@ -6685,15 +6536,12 @@ export function UpdateDeliveryTaskInputSchema(): z.ZodObject<Properties<UpdateDe
 
 export function UpdateDisputeInputSchema(): z.ZodObject<Properties<UpdateDisputeInput>> {
   return z.object({
-    clientId: z.string().optional(),
     disputedAmount: z.number().optional(),
-    lineItemId: z.string().optional(),
     reason: z.string().optional(),
     resolutionNotes: z.string().optional(),
     resolvedAt: z.string().optional(),
     resolvedByUserId: z.string().optional(),
-    status: DisputeStatusSchema.optional(),
-    submittedAt: z.string().optional()
+    status: DisputeStatusSchema.optional()
   })
 }
 
@@ -6843,10 +6691,7 @@ export function UpdateInvoiceLineItemInputSchema(): z.ZodObject<Properties<Updat
   return z.object({
     description: z.string().optional(),
     discountRate: z.number().optional(),
-    invoiceId: z.string().optional(),
     quantity: z.number().optional(),
-    sourceRecordId: z.string().optional(),
-    sourceRecordType: z.string().optional(),
     taxRate: z.number().optional(),
     unitPrice: z.number().optional()
   })
@@ -6968,19 +6813,11 @@ export function UpdatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<Up
 
 export function UpdatePaymentInputSchema(): z.ZodObject<Properties<UpdatePaymentInput>> {
   return z.object({
-    amount: z.number().optional(),
     currency: z.string().optional(),
     exchangeRate: z.number().optional(),
     fees: z.number().optional(),
-    gatewayReference: z.string().optional(),
-    invoiceId: z.string().optional(),
     notes: z.string().optional(),
-    paymentDate: z.string().optional(),
-    paymentMethod: PaymentMethodSchema.optional(),
-    processedAt: z.string().optional(),
-    processedByUserId: z.string().optional(),
-    status: PaymentStatusSchema.optional(),
-    transactionId: z.string().optional()
+    status: PaymentStatusSchema.optional()
   })
 }
 
@@ -7042,15 +6879,12 @@ export function UpdatePutawayRuleInputSchema(): z.ZodObject<Properties<UpdatePut
 
 export function UpdateQuoteInputSchema(): z.ZodObject<Properties<UpdateQuoteInput>> {
   return z.object({
-    clientId: z.string().optional(),
-    createdByUserId: z.string().optional(),
     destinationDetails: z.string().optional(),
     expiresAt: z.string().optional(),
     height: z.number().optional(),
     length: z.number().optional(),
     notes: z.string().optional(),
     originDetails: z.string().optional(),
-    quoteNumber: z.string().optional(),
     quotedPrice: z.number().optional(),
     serviceLevel: z.string().optional(),
     status: QuoteStatusSchema.optional(),

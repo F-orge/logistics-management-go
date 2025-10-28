@@ -6,7 +6,7 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'removeDispute'|'updateDispute'> = {
+export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'updateDispute'> = {
   createDispute: async (_parent, args, ctx) => {
     const payload = CreateDisputeInputSchema().parse(args.value);
 
@@ -81,16 +81,5 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'re
     }
 
     return result as unknown as Disputes;
-  },
-  removeDispute: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .deleteFrom("billing.disputes")
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
-
-    return {
-      success: true,
-      numDeletedRows: Number(result.numDeletedRows.toString()),
-    };
   },
 };
