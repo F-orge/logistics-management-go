@@ -115,6 +115,7 @@ export type BillingInvoices = {
 
 export type BillingMutation = {
   __typename?: 'BillingMutation';
+  addInvoiceLineItem: InvoiceLineItems;
   createAccountTransaction: AccountTransactions;
   createAccountingSyncLog: AccountingSyncLogs;
   createBillingInvoice: BillingInvoices;
@@ -122,7 +123,6 @@ export type BillingMutation = {
   createCreditNote: CreditNotes;
   createDispute: Disputes;
   createDocument: Documents;
-  createInvoiceLineItem: InvoiceLineItems;
   createPayment: Payments;
   createQuote: Quotes;
   createRateCard: RateCards;
@@ -154,6 +154,12 @@ export type BillingMutation = {
   updateRateCard: RateCards;
   updateRateRule: RateRules;
   updateSurcharge: Surcharges;
+};
+
+
+export type BillingMutationAddInvoiceLineItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateInvoiceLineItemInput;
 };
 
 
@@ -189,11 +195,6 @@ export type BillingMutationCreateDisputeArgs = {
 
 export type BillingMutationCreateDocumentArgs = {
   value: CreateDocumentInput;
-};
-
-
-export type BillingMutationCreateInvoiceLineItemArgs = {
-  value: CreateInvoiceLineItemInput;
 };
 
 
@@ -1054,7 +1055,6 @@ export type CreateInvoiceItemInput = {
 export type CreateInvoiceLineItemInput = {
   description: Scalars['String']['input'];
   discountRate?: InputMaybe<Scalars['Float']['input']>;
-  invoiceId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
   sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
   sourceRecordType?: InputMaybe<Scalars['String']['input']>;
@@ -5987,7 +5987,6 @@ export function CreateInvoiceLineItemInputSchema(): z.ZodObject<Properties<Creat
   return z.object({
     description: z.string(),
     discountRate: z.number().optional(),
-    invoiceId: z.string(),
     quantity: z.number(),
     sourceRecordId: z.string().optional(),
     sourceRecordType: z.string().optional(),

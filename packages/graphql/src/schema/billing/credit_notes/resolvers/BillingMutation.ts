@@ -4,15 +4,19 @@ import {
   UpdateCreditNoteInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
+
 export const BillingMutation: Pick<BillingMutationResolvers, 'createCreditNote'|'removeCreditNote'|'updateCreditNote'> = {
   createCreditNote: async (_parent, args, ctx) => {
     const payload = CreateCreditNoteInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("billing.creditNotes")
-      .values(payload as any)
+      .values(payload)
       .returningAll()
       .executeTakeFirstOrThrow();
+
+    // Publish issued event
+    ctx.pubsub.publish("billing.creditNote.issued", result);
 
     return result as unknown as CreditNotes;
   },
@@ -21,7 +25,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createCreditNote'|
 
     const result = await ctx.db
       .updateTable("billing.creditNotes")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

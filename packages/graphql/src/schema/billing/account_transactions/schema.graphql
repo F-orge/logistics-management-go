@@ -41,21 +41,6 @@ input CreateAccountTransactionInput {
   processedByUserId: ID
 }
 
-input UpdateAccountTransactionInput {
-  clientAccountId: ID
-  type: TransactionType
-  amount: Float
-  runningBalance: Float
-  sourceRecordId: ID
-  sourceRecordType: String
-  description: String
-  referenceNumber: String
-  transactionDate: String
-  processedByUserId: ID
-}
-
 extend type BillingMutation {
   createAccountTransaction(value: CreateAccountTransactionInput!): AccountTransactions!
-  updateAccountTransaction(id: ID!, value: UpdateAccountTransactionInput): AccountTransactions!
-  removeAccountTransaction(id: ID!): DeleteResult!
 }

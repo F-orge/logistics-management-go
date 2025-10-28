@@ -57,29 +57,18 @@ input CreateBillingInvoiceInput {
   subtotal: Float
   paymentTerms: String
   notes: String
-  sentAt: String
-  paidAt: String
+  sentAt: Date
   createdByUserId: ID
 }
 
 input UpdateBillingInvoiceInput {
-  clientId: ID
-  quoteId: ID
-  invoiceNumber: String
   status: BillingInvoiceStatus
-  issueDate: String
   dueDate: String
-  totalAmount: Float
   amountPaid: Float
   currency: String
-  taxAmount: Float
-  discountAmount: Float
-  subtotal: Float
   paymentTerms: String
   notes: String
-  sentAt: String
-  paidAt: String
-  createdByUserId: ID
+  paidAt: Date
 }
 
 extend type BillingMutation {

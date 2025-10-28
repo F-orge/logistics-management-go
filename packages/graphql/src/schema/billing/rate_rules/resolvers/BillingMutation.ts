@@ -1,16 +1,25 @@
+import { BillingPricingModelEnum } from "../../../../db.types";
 import {
   CreateRateRuleInputSchema,
   RateRules,
   UpdateRateRuleInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
-export const BillingMutation: Pick<BillingMutationResolvers, 'createRateRule'|'removeRateRule'|'updateRateRule'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createRateRule" | "removeRateRule" | "updateRateRule"
+> = {
   createRateRule: async (_parent, args, ctx) => {
     const payload = CreateRateRuleInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("billing.rateRules")
-      .values(payload as any)
+      .values({
+        ...payload,
+        pricingModel: payload.pricingModel
+          ? BillingPricingModelEnum[payload.pricingModel]
+          : BillingPricingModelEnum.FLAT_RATE,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +30,12 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createRateRule'|'r
 
     const result = await ctx.db
       .updateTable("billing.rateRules")
-      .set(payload as any)
+      .set({
+        ...payload,
+        pricingModel: payload.pricingModel
+          ? BillingPricingModelEnum[payload.pricingModel]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

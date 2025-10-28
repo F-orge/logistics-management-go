@@ -18,7 +18,6 @@ type InvoiceLineItems {
 }
 
 input CreateInvoiceLineItemInput {
-  invoiceId: ID!
   sourceRecordId: ID
   sourceRecordType: String
   description: String!
@@ -29,9 +28,6 @@ input CreateInvoiceLineItemInput {
 }
 
 input UpdateInvoiceLineItemInput {
-  invoiceId: ID
-  sourceRecordId: ID
-  sourceRecordType: String
   description: String
   quantity: Float
   unitPrice: Float
@@ -40,7 +36,7 @@ input UpdateInvoiceLineItemInput {
 }
 
 extend type BillingMutation {
-  createInvoiceLineItem(value: CreateInvoiceLineItemInput!): InvoiceLineItems!
+  addInvoiceLineItem(id: ID!, value: CreateInvoiceLineItemInput!): InvoiceLineItems!
   updateInvoiceLineItem(id: ID!, value: UpdateInvoiceLineItemInput): InvoiceLineItems!
   removeInvoiceLineItem(id: ID!): DeleteResult!
 }

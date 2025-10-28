@@ -30,14 +30,13 @@ input CreateClientAccountInput {
 }
 
 input UpdateClientAccountInput {
-  clientId: ID
   creditLimit: Float
   availableCredit: Float
   walletBalance: Float
   currency: String
   paymentTermsDays: Int
   isCreditApproved: Boolean
-  lastPaymentDate: String
+  lastPaymentDate: Date
 }
 
 extend type BillingMutation {

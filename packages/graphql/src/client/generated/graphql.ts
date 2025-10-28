@@ -117,6 +117,7 @@ export type BillingInvoices = {
 
 export type BillingMutation = {
   __typename?: 'BillingMutation';
+  addInvoiceLineItem: InvoiceLineItems;
   createAccountTransaction: AccountTransactions;
   createAccountingSyncLog: AccountingSyncLogs;
   createBillingInvoice: BillingInvoices;
@@ -124,7 +125,6 @@ export type BillingMutation = {
   createCreditNote: CreditNotes;
   createDispute: Disputes;
   createDocument: Documents;
-  createInvoiceLineItem: InvoiceLineItems;
   createPayment: Payments;
   createQuote: Quotes;
   createRateCard: RateCards;
@@ -156,6 +156,12 @@ export type BillingMutation = {
   updateRateCard: RateCards;
   updateRateRule: RateRules;
   updateSurcharge: Surcharges;
+};
+
+
+export type BillingMutationAddInvoiceLineItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateInvoiceLineItemInput;
 };
 
 
@@ -191,11 +197,6 @@ export type BillingMutationCreateDisputeArgs = {
 
 export type BillingMutationCreateDocumentArgs = {
   value: CreateDocumentInput;
-};
-
-
-export type BillingMutationCreateInvoiceLineItemArgs = {
-  value: CreateInvoiceLineItemInput;
 };
 
 
@@ -1060,7 +1061,6 @@ export type CreateInvoiceItemInput = {
 export type CreateInvoiceLineItemInput = {
   description: Scalars['String']['input'];
   discountRate?: InputMaybe<Scalars['Float']['input']>;
-  invoiceId: Scalars['ID']['input'];
   quantity: Scalars['Float']['input'];
   sourceRecordId?: InputMaybe<Scalars['ID']['input']>;
   sourceRecordType?: InputMaybe<Scalars['String']['input']>;
@@ -5737,13 +5737,6 @@ export type AnalyticsDisputesQueryVariables = Exact<{
 
 export type AnalyticsDisputesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', disputedAmount?: number | null, status?: DisputeStatus | null }> } | null };
 
-export type CreateInvoiceLineItemMutationVariables = Exact<{
-  invoiceLineItem: CreateInvoiceLineItemInput;
-}>;
-
-
-export type CreateInvoiceLineItemMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createInvoiceLineItem: { __typename?: 'InvoiceLineItems', id: string } } | null };
-
 export type UpdateInvoiceLineItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   invoiceLineItem: UpdateInvoiceLineItemInput;
@@ -8637,15 +8630,6 @@ export const AnalyticsDisputesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsDisputesQuery, AnalyticsDisputesQueryVariables>;
-export const CreateInvoiceLineItemDocument = new TypedDocumentString(`
-    mutation CreateInvoiceLineItem($invoiceLineItem: CreateInvoiceLineItemInput!) {
-  billing {
-    createInvoiceLineItem(value: $invoiceLineItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateInvoiceLineItemMutation, CreateInvoiceLineItemMutationVariables>;
 export const UpdateInvoiceLineItemDocument = new TypedDocumentString(`
     mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {
   billing {

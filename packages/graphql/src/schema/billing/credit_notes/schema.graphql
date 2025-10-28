@@ -33,16 +33,12 @@ input CreateCreditNoteInput {
 }
 
 input UpdateCreditNoteInput {
-  invoiceId: ID
-  disputeId: ID
   creditNoteNumber: String
   amount: Float
   reason: String
-  issueDate: String
   appliedAt: String
   currency: String
   notes: String
-  createdByUserId: ID
 }
 
 extend type BillingMutation {

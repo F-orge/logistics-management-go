@@ -35,19 +35,15 @@ input CreateDisputeInput {
   status: DisputeStatus
   disputedAmount: Float
   resolutionNotes: String
-  submittedAt: String
   resolvedAt: String
   resolvedByUserId: ID
 }
 
 input UpdateDisputeInput {
-  lineItemId: ID
-  clientId: ID
   reason: String
   status: DisputeStatus
   disputedAmount: Float
   resolutionNotes: String
-  submittedAt: String
   resolvedAt: String
   resolvedByUserId: ID
 }
@@ -55,5 +51,4 @@ input UpdateDisputeInput {
 extend type BillingMutation {
   createDispute(value: CreateDisputeInput!): Disputes!
   updateDispute(id: ID!, value: UpdateDisputeInput): Disputes!
-  removeDispute(id: ID!): DeleteResult!
 }

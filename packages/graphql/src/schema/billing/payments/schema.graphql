@@ -60,19 +60,11 @@ input CreatePaymentInput {
 }
 
 input UpdatePaymentInput {
-  invoiceId: ID
-  amount: Float
-  paymentMethod: PaymentMethod
-  transactionId: String
-  gatewayReference: String
   status: PaymentStatus
-  paymentDate: String
-  processedAt: String
   currency: String
   exchangeRate: Float
   fees: Float
   notes: String
-  processedByUserId: ID
 }
 
 extend type BillingMutation {

@@ -42,22 +42,6 @@ input CreateAccountingSyncLogInput {
   nextRetryAt: String
 }
 
-input UpdateAccountingSyncLogInput {
-  recordId: ID
-  recordType: String
-  externalSystem: String
-  externalId: String
-  status: SyncStatus
-  errorMessage: String
-  requestPayload: String
-  responsePayload: String
-  lastSyncAt: String
-  retryCount: Int
-  nextRetryAt: String
-}
-
 extend type BillingMutation {
   createAccountingSyncLog(value: CreateAccountingSyncLogInput!): AccountingSyncLogs!
-  updateAccountingSyncLog(id: ID!, value: UpdateAccountingSyncLogInput): AccountingSyncLogs!
-  removeAccountingSyncLog(id: ID!): DeleteResult!
 }

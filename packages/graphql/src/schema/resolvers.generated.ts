@@ -14,6 +14,7 @@ import    { AccountTransactions } from './billing/account_transactions/resolvers
 import    { AccountingSyncLogs } from './billing/accounting_sync_log/resolvers/AccountingSyncLogs';
 import    { Attachments } from './crm/attachments/resolvers/Attachments';
 import    { BillingInvoices } from './billing/invoices/resolvers/BillingInvoices';
+import    { BillingMutation as invoice_line_items_BillingMutation } from './billing/invoice_line_items/resolvers/BillingMutation';
 import    { BillingMutation as account_transactions_BillingMutation } from './billing/account_transactions/resolvers/BillingMutation';
 import    { BillingMutation as accounting_sync_log_BillingMutation } from './billing/accounting_sync_log/resolvers/BillingMutation';
 import    { BillingMutation as invoices_BillingMutation } from './billing/invoices/resolvers/BillingMutation';
@@ -21,7 +22,6 @@ import    { BillingMutation as client_accounts_BillingMutation } from './billing
 import    { BillingMutation as credit_notes_BillingMutation } from './billing/credit_notes/resolvers/BillingMutation';
 import    { BillingMutation as disputes_BillingMutation } from './billing/disputes/resolvers/BillingMutation';
 import    { BillingMutation as documents_BillingMutation } from './billing/documents/resolvers/BillingMutation';
-import    { BillingMutation as invoice_line_items_BillingMutation } from './billing/invoice_line_items/resolvers/BillingMutation';
 import    { BillingMutation as payments_BillingMutation } from './billing/payments/resolvers/BillingMutation';
 import    { BillingMutation as quotes_BillingMutation } from './billing/quotes/resolvers/BillingMutation';
 import    { BillingMutation as rate_cards_BillingMutation } from './billing/rate_cards/resolvers/BillingMutation';
@@ -230,7 +230,7 @@ import    { DateResolver } from 'graphql-scalars';
 AccountingSyncLogs: AccountingSyncLogs,
 Attachments: Attachments,
 BillingInvoices: BillingInvoices,
-BillingMutation: { ...account_transactions_BillingMutation,...accounting_sync_log_BillingMutation,...invoices_BillingMutation,...client_accounts_BillingMutation,...credit_notes_BillingMutation,...disputes_BillingMutation,...documents_BillingMutation,...invoice_line_items_BillingMutation,...payments_BillingMutation,...quotes_BillingMutation,...rate_cards_BillingMutation,...rate_rules_BillingMutation,...surcharges_BillingMutation },
+BillingMutation: { ...invoice_line_items_BillingMutation,...account_transactions_BillingMutation,...accounting_sync_log_BillingMutation,...invoices_BillingMutation,...client_accounts_BillingMutation,...credit_notes_BillingMutation,...disputes_BillingMutation,...documents_BillingMutation,...payments_BillingMutation,...quotes_BillingMutation,...rate_cards_BillingMutation,...rate_rules_BillingMutation,...surcharges_BillingMutation },
 BillingQuery: { ...account_transactions_BillingQuery,...accounting_sync_log_BillingQuery,...invoices_BillingQuery,...client_accounts_BillingQuery,...credit_notes_BillingQuery,...disputes_BillingQuery,...documents_BillingQuery,...payments_BillingQuery,...quotes_BillingQuery,...rate_cards_BillingQuery,...rate_rules_BillingQuery,...surcharges_BillingQuery },
 BinThresholds: BinThresholds,
 Campaigns: Campaigns,

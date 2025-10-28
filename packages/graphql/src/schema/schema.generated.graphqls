@@ -92,6 +92,7 @@ type BillingInvoices {
 }
 
 type BillingMutation {
+  addInvoiceLineItem(id: ID!, value: CreateInvoiceLineItemInput!): InvoiceLineItems!
   createAccountTransaction(value: CreateAccountTransactionInput!): AccountTransactions!
   createAccountingSyncLog(value: CreateAccountingSyncLogInput!): AccountingSyncLogs!
   createBillingInvoice(value: CreateBillingInvoiceInput!): BillingInvoices!
@@ -99,7 +100,6 @@ type BillingMutation {
   createCreditNote(value: CreateCreditNoteInput!): CreditNotes!
   createDispute(value: CreateDisputeInput!): Disputes!
   createDocument(value: CreateDocumentInput!): Documents!
-  createInvoiceLineItem(value: CreateInvoiceLineItemInput!): InvoiceLineItems!
   createPayment(value: CreatePaymentInput!): Payments!
   createQuote(value: CreateQuoteInput!): Quotes!
   createRateCard(value: CreateRateCardInput!): RateCards!
@@ -641,7 +641,6 @@ input CreateInvoiceItemInput {
 input CreateInvoiceLineItemInput {
   description: String!
   discountRate: Float
-  invoiceId: ID!
   quantity: Float!
   sourceRecordId: ID
   sourceRecordType: String

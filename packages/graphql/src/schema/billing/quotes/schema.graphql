@@ -51,7 +51,6 @@ input CreateQuoteInput {
 }
 
 input UpdateQuoteInput {
-  clientId: ID
   originDetails: String
   destinationDetails: String
   weight: Float
@@ -62,9 +61,7 @@ input UpdateQuoteInput {
   serviceLevel: String
   expiresAt: String
   status: QuoteStatus
-  quoteNumber: String
   notes: String
-  createdByUserId: ID
 }
 
 extend type BillingMutation {
