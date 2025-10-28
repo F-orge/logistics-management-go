@@ -5,10 +5,7 @@ import {
   UpdateShipmentLegInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createShipmentLeg" | "updateShipmentLeg"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createShipmentLeg'|'updateShipmentLeg'> = {
   createShipmentLeg: async (_parent, args, ctx) => {
     const payload = CreateShipmentLegInputSchema().parse(args.value);
 

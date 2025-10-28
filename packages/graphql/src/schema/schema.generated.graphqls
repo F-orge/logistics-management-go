@@ -577,19 +577,16 @@ input CreateGpsPingInput {
 }
 
 input CreateInboundShipmentInput {
-  actualArrivalDate: String
   clientId: ID
   expectedArrivalDate: String
+  items: [CreateInboundShipmentItemInput!]!
   status: InboundShipmentStatus
   warehouseId: ID!
 }
 
 input CreateInboundShipmentItemInput {
-  discrepancyNotes: String
   expectedQuantity: Int!
-  inboundShipmentId: ID!
   productId: ID!
-  receivedQuantity: Int
 }
 
 input CreateInteractionInput {
@@ -613,14 +610,12 @@ input CreateInventoryAdjustmentInput {
 
 input CreateInventoryBatchInput {
   batchNumber: String!
-  expirationDate: String
+  expirationDate: Date
   productId: ID!
 }
 
 input CreateInventoryStockInput {
   batchId: ID
-  lastCountedAt: String
-  lastMovementAt: String
   locationId: ID!
   productId: ID!
   quantity: Int!
@@ -667,7 +662,6 @@ input CreateLeadInput {
 input CreateLocationInput {
   barcode: String
   hazmatApproved: Boolean
-  isActive: Boolean
   isPickable: Boolean
   isReceivable: Boolean
   level: Int
@@ -714,6 +708,7 @@ input CreateOpportunityProductInput {
 
 input CreateOutboundShipmentInput {
   carrier: String
+  items: [CreateOutboundShipmentItemInput!]!
   salesOrderId: ID!
   status: OutboundShipmentStatus
   trackingNumber: String
@@ -722,7 +717,6 @@ input CreateOutboundShipmentInput {
 
 input CreateOutboundShipmentItemInput {
   batchId: ID
-  outboundShipmentId: ID!
   productId: ID!
   quantityShipped: Int!
   salesOrderItemId: ID!
@@ -756,7 +750,7 @@ input CreatePackageItemInput {
   packageId: ID!
   productId: ID!
   quantity: Int!
-  serialNumbers: [String]
+  serialNumbers: [String!]!
   unitWeight: Float
 }
 
@@ -790,27 +784,23 @@ input CreatePaymentInput {
 }
 
 input CreatePickBatchInput {
-  actualDuration: Int
   assignedUserId: ID
   batchNumber: String!
-  completedAt: String
-  completedItems: Int
   estimatedDuration: Int
+  items: [CreatePickBatchItemInput!]!
   priority: Int
   startedAt: String
   status: PickBatchStatus
   strategy: PickStrategy!
-  totalItems: Int
   warehouseId: ID!
   waveId: String
-  zoneRestrictions: [String]
+  zoneRestrictions: [String!]!
 }
 
 input CreatePickBatchItemInput {
   actualPickTime: Int
   estimatedPickTime: Int
   orderPriority: Int
-  pickBatchId: ID!
   salesOrderId: ID!
 }
 
@@ -893,6 +883,7 @@ input CreateReorderPointInput {
 
 input CreateReturnInput {
   clientId: ID!
+  items: [CreateReturnItemInput!]!
   reason: String
   returnNumber: String!
   salesOrderId: ID
@@ -903,8 +894,6 @@ input CreateReturnItemInput {
   condition: ReturnItemCondition
   productId: ID!
   quantityExpected: Int!
-  quantityReceived: Int
-  returnId: ID!
 }
 
 input CreateRouteInput {
@@ -917,6 +906,7 @@ input CreateRouteInput {
 input CreateSalesOrderInput {
   clientId: ID!
   crmOpportunityId: ID
+  items: [CreateSalesOrderItemInput!]!
   orderNumber: String!
   shippingAddress: String
   status: SalesOrderStatus
@@ -925,7 +915,6 @@ input CreateSalesOrderInput {
 input CreateSalesOrderItemInput {
   productId: ID!
   quantityOrdered: Int!
-  salesOrderId: ID!
 }
 
 input CreateShipmentLegEventInput {
@@ -982,7 +971,7 @@ input CreateTaskEventInput {
 
 input CreateTaskInput {
   actualDuration: Int
-  endTime: String
+  endTime: Date
   estimatedDuration: Int
   instructions: String
   notes: String
@@ -990,7 +979,7 @@ input CreateTaskInput {
   priority: Int
   sourceEntityId: ID
   sourceEntityType: String
-  startTime: String
+  startTime: Date
   status: TaskStatus
   taskNumber: String!
   type: TaskType!
@@ -1000,7 +989,6 @@ input CreateTaskInput {
 
 input CreateTaskItemInput {
   batchId: ID
-  completedAt: String
   destinationLocationId: ID
   expiryDate: String
   lotNumber: String
@@ -1008,10 +996,9 @@ input CreateTaskItemInput {
   productId: ID!
   quantityCompleted: Int!
   quantityRequired: Int!
-  serialNumbers: [String]
+  serialNumbers: [String!]!
   sourceLocationId: ID
   status: TaskItemStatus
-  taskId: ID!
 }
 
 input CreateTripInput {
@@ -1567,7 +1554,7 @@ type InventoryAdjustments {
 type InventoryBatches {
   batchNumber: String!
   createdAt: Date
-  expirationDate: String
+  expirationDate: Date
   id: ID!
   inventoryStock: [InventoryStock!]
   outboundShipmentItems: [OutboundShipmentItems!]
@@ -1582,8 +1569,8 @@ type InventoryStock {
   batch: InventoryBatches
   createdAt: Date
   id: ID!
-  lastCountedAt: String
-  lastMovementAt: String
+  lastCountedAt: Date
+  lastMovementAt: Date
   location: Locations!
   product: WmsProducts!
   quantity: Int!
@@ -1841,7 +1828,7 @@ type PackageItems {
   package: Packages!
   product: WmsProducts!
   quantity: Int!
-  serialNumbers: [String]
+  serialNumbers: [String!]!
   totalWeight: Float
   unitWeight: Float
   updatedAt: Date
@@ -2620,10 +2607,8 @@ input UpdateBillingInvoiceInput {
 input UpdateBinThresholdInput {
   alertThreshold: Int
   isActive: Boolean
-  locationId: ID
   maxQuantity: Int
   minQuantity: Int
-  productId: ID
   reorderQuantity: Int
 }
 
@@ -2803,17 +2788,13 @@ input UpdateGpsPingInput {
 
 input UpdateInboundShipmentInput {
   actualArrivalDate: String
-  clientId: ID
   expectedArrivalDate: String
   status: InboundShipmentStatus
-  warehouseId: ID
 }
 
 input UpdateInboundShipmentItemInput {
   discrepancyNotes: String
   expectedQuantity: Int
-  inboundShipmentId: ID
-  productId: ID
   receivedQuantity: Int
 }
 
@@ -2826,25 +2807,19 @@ input UpdateInteractionInput {
 
 input UpdateInventoryAdjustmentInput {
   notes: String
-  productId: ID
   quantityChange: Int
   reason: InventoryAdjustmentReason
   userId: ID
-  warehouseId: ID
 }
 
 input UpdateInventoryBatchInput {
   batchNumber: String
-  expirationDate: String
-  productId: ID
+  expirationDate: Date
 }
 
 input UpdateInventoryStockInput {
-  batchId: ID
-  lastCountedAt: String
-  lastMovementAt: String
-  locationId: ID
-  productId: ID
+  lastCountedAt: Date
+  lastMovementAt: Date
   quantity: Int
   reservedQuantity: Int
   status: InventoryStockStatus
@@ -2895,11 +2870,9 @@ input UpdateLocationInput {
   maxVolume: Float
   maxWeight: Float
   name: String
-  parentLocationId: ID
   path: String
   temperatureControlled: Boolean
   type: LocationType
-  warehouseId: ID
   xCoordinate: Float
   yCoordinate: Float
   zCoordinate: Float
@@ -2925,18 +2898,11 @@ input UpdateOpportunityProductInput {
 
 input UpdateOutboundShipmentInput {
   carrier: String
-  salesOrderId: ID
   status: OutboundShipmentStatus
-  trackingNumber: String
-  warehouseId: ID
 }
 
 input UpdateOutboundShipmentItemInput {
-  batchId: ID
-  outboundShipmentId: ID
-  productId: ID
   quantityShipped: Int
-  salesOrderItemId: ID
 }
 
 input UpdatePackageInput {
@@ -2948,12 +2914,10 @@ input UpdatePackageInput {
   length: Float
   packageNumber: String
   packageType: String
-  packedAt: String
-  packedByUserId: ID
+  packedAt: Date
   requiresSignature: Boolean
-  salesOrderId: ID
   serviceLevel: String
-  shippedAt: String
+  shippedAt: Date
   trackingNumber: String
   warehouseId: ID
   weight: Float
@@ -2961,13 +2925,9 @@ input UpdatePackageInput {
 }
 
 input UpdatePackageItemInput {
-  batchId: ID
   expiryDate: String
   lotNumber: String
-  packageId: ID
-  productId: ID
   quantity: Int
-  serialNumbers: [String]
   unitWeight: Float
 }
 
@@ -2999,25 +2959,20 @@ input UpdatePickBatchInput {
   actualDuration: Int
   assignedUserId: ID
   batchNumber: String
-  completedAt: String
+  completedAt: Date
   completedItems: Int
-  estimatedDuration: Int
   priority: Int
-  startedAt: String
   status: PickBatchStatus
   strategy: PickStrategy
-  totalItems: Int
   warehouseId: ID
   waveId: String
-  zoneRestrictions: [String]
+  zoneRestrictions: [String!]!
 }
 
 input UpdatePickBatchItemInput {
   actualPickTime: Int
   estimatedPickTime: Int
   orderPriority: Int
-  pickBatchId: ID
-  salesOrderId: ID
 }
 
 input UpdateProductInput {
@@ -3033,14 +2988,12 @@ input UpdateProofOfDeliveryInput {
 }
 
 input UpdatePutawayRuleInput {
-  clientId: ID
   isActive: Boolean
   locationType: LocationType
   maxQuantity: Int
   minQuantity: Int
   preferredLocationId: ID
   priority: Int
-  productId: ID
   requiresHazmatApproval: Boolean
   requiresTemperatureControl: Boolean
   volumeThreshold: Float
@@ -3088,25 +3041,17 @@ input UpdateRateRuleInput {
 }
 
 input UpdateReorderPointInput {
-  productId: ID
   threshold: Int
-  warehouseId: ID
 }
 
 input UpdateReturnInput {
-  clientId: ID
   reason: String
-  returnNumber: String
-  salesOrderId: ID
   status: ReturnStatus
 }
 
 input UpdateReturnItemInput {
   condition: ReturnItemCondition
-  productId: ID
-  quantityExpected: Int
   quantityReceived: Int
-  returnId: ID
 }
 
 input UpdateRouteInput {
@@ -3116,17 +3061,12 @@ input UpdateRouteInput {
 }
 
 input UpdateSalesOrderInput {
-  clientId: ID
-  crmOpportunityId: ID
-  orderNumber: String
   shippingAddress: String
   status: SalesOrderStatus
 }
 
 input UpdateSalesOrderItemInput {
-  productId: ID
   quantityOrdered: Int
-  salesOrderId: ID
 }
 
 input UpdateShipmentLegInput {
@@ -3140,9 +3080,7 @@ input UpdateShipmentLegInput {
 
 input UpdateStockTransferInput {
   destinationWarehouseId: ID
-  productId: ID
   quantity: Int
-  sourceWarehouseId: ID
   status: StockTransferStatus
 }
 
@@ -3166,7 +3104,7 @@ input UpdateSurchargeInput {
 
 input UpdateTaskInput {
   actualDuration: Int
-  endTime: String
+  endTime: Date
   estimatedDuration: Int
   instructions: String
   notes: String
@@ -3174,28 +3112,22 @@ input UpdateTaskInput {
   priority: Int
   sourceEntityId: ID
   sourceEntityType: String
-  startTime: String
+  startTime: Date
   status: TaskStatus
   taskNumber: String
   type: TaskType
   userId: ID
-  warehouseId: ID
 }
 
 input UpdateTaskItemInput {
-  batchId: ID
   completedAt: String
   destinationLocationId: ID
-  expiryDate: String
-  lotNumber: String
+  expiryDate: Date
   notes: String
-  productId: ID
   quantityCompleted: Int
   quantityRequired: Int
-  serialNumbers: [String]
   sourceLocationId: ID
   status: TaskItemStatus
-  taskId: ID
 }
 
 input UpdateTripInput {
@@ -3252,7 +3184,6 @@ input UpdateWarehouseInput {
 
 input UpdateWmsProductInput {
   barcode: String
-  clientId: ID
   costPrice: Float
   description: String
   height: Float
@@ -3260,7 +3191,6 @@ input UpdateWmsProductInput {
   name: String
   sku: String
   status: ProductStatus
-  supplierId: ID
   weight: Float
   width: Float
 }
@@ -3347,29 +3277,29 @@ type Warehouses {
 }
 
 type WmsMutation {
+  addInboundShipmentItem(id: ID!, value: CreateInboundShipmentItemInput!): InboundShipmentItems!
+  addOutboundShipmentItem(id: ID!, value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
+  addPackageItem(id: ID!, value: CreatePackageItemInput!): PackageItems!
+  addPickBatchItem(id: ID!, value: CreatePickBatchItemInput!): PickBatchItems!
+  addReturnItem(id: ID!, value: CreateReturnItemInput!): ReturnItems!
+  addSalesOrderItem(id: ID!, value: CreateSalesOrderItemInput!): SalesOrderItems!
+  addTaskItem(id: ID!, value: CreateTaskItemInput!): TaskItems!
   createBinThreshold(value: CreateBinThresholdInput!): BinThresholds!
   createInboundShipment(value: CreateInboundShipmentInput!): InboundShipments!
-  createInboundShipmentItem(value: CreateInboundShipmentItemInput!): InboundShipmentItems!
   createInventoryAdjustment(value: CreateInventoryAdjustmentInput!): InventoryAdjustments!
   createInventoryBatch(value: CreateInventoryBatchInput!): InventoryBatches!
   createInventoryStock(value: CreateInventoryStockInput!): InventoryStock!
   createLocation(value: CreateLocationInput!): Locations!
   createOutboundShipment(value: CreateOutboundShipmentInput!): OutboundShipments!
-  createOutboundShipmentItem(value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
   createPackage(value: CreatePackageInput!): Packages!
-  createPackageItem(value: CreatePackageItemInput!): PackageItems!
   createPickBatch(value: CreatePickBatchInput!): PickBatches!
-  createPickBatchItem(value: CreatePickBatchItemInput!): PickBatchItems!
   createPutawayRule(value: CreatePutawayRuleInput!): PutawayRules!
   createReorderPoint(value: CreateReorderPointInput!): ReorderPoints!
   createReturn(value: CreateReturnInput!): Returns!
-  createReturnItem(value: CreateReturnItemInput!): ReturnItems!
   createSalesOrder(value: CreateSalesOrderInput!): SalesOrders!
-  createSalesOrderItem(value: CreateSalesOrderItemInput!): SalesOrderItems!
   createStockTransfer(value: CreateStockTransferInput!): StockTransfers!
   createSupplier(value: CreateSupplierInput!): Suppliers!
   createTask(value: CreateTaskInput!): Tasks!
-  createTaskItem(value: CreateTaskItemInput!): TaskItems!
   createWarehouse(value: CreateWarehouseInput!): Warehouses!
   createWmsProduct(value: CreateWmsProductInput!): WmsProducts!
   removeBinThreshold(id: ID!): DeleteResult!
@@ -3405,22 +3335,22 @@ type WmsMutation {
   updateInventoryStock(id: ID!, value: UpdateInventoryStockInput): InventoryStock!
   updateLocation(id: ID!, value: UpdateLocationInput): Locations!
   updateOutboundShipment(id: ID!, value: UpdateOutboundShipmentInput): OutboundShipments!
-  updateOutboundShipmentItem(id: ID!, value: UpdateOutboundShipmentItemInput): OutboundShipmentItems!
+  updateOutboundShipmentItem(id: ID!, value: UpdateOutboundShipmentItemInput!): OutboundShipmentItems!
   updatePackage(id: ID!, value: UpdatePackageInput): Packages!
-  updatePackageItem(id: ID!, value: UpdatePackageItemInput): PackageItems!
+  updatePackageItem(id: ID!, value: UpdatePackageItemInput!): PackageItems!
   updatePickBatch(id: ID!, value: UpdatePickBatchInput): PickBatches!
   updatePickBatchItem(id: ID!, value: UpdatePickBatchItemInput): PickBatchItems!
   updatePutawayRule(id: ID!, value: UpdatePutawayRuleInput): PutawayRules!
   updateReorderPoint(id: ID!, value: UpdateReorderPointInput): ReorderPoints!
-  updateReturn(id: ID!, value: UpdateReturnInput): Returns!
+  updateReturn(id: ID!, value: UpdateReturnInput!): Returns!
   updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!
-  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput): SalesOrders!
-  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput): SalesOrderItems!
+  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput!): SalesOrders!
+  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput!): SalesOrderItems!
   updateStockTransfer(id: ID!, value: UpdateStockTransferInput): StockTransfers!
-  updateSupplier(id: ID!, value: UpdateSupplierInput): Suppliers!
+  updateSupplier(id: ID!, value: UpdateSupplierInput!): Suppliers!
   updateTask(id: ID!, value: UpdateTaskInput): Tasks!
   updateTaskItem(id: ID!, value: UpdateTaskItemInput): TaskItems!
-  updateWarehouse(id: ID!, value: UpdateWarehouseInput): Warehouses!
+  updateWarehouse(id: ID!, value: UpdateWarehouseInput!): Warehouses!
   updateWmsProduct(id: ID!, value: UpdateWmsProductInput): WmsProducts!
 }
 

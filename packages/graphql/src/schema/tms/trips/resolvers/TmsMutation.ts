@@ -6,10 +6,7 @@ import {
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createTrip" | "removeTrip" | "updateTrip"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createTrip'|'removeTrip'|'updateTrip'> = {
   createTrip: async (_parent, args, ctx) => {
     const payload = CreateTripInputSchema().parse(args.value);
 
@@ -23,7 +20,7 @@ export const TmsMutation: Pick<
       .executeTakeFirstOrThrow();
 
     // Publish created event
-    ctx.pubsub.publish("tms.trip.created", result);
+    await ctx.pubsub.publish("tms.trip.created", result);
 
     return result as unknown as Trips;
   },
@@ -51,7 +48,7 @@ export const TmsMutation: Pick<
     if (payload.status && payload.status !== previousTrip.status) {
       const status = payload.status as TmsTripStatusEnum;
 
-      ctx.pubsub.publish("tms.trip.statusChanged", {
+      await ctx.pubsub.publish("tms.trip.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousTrip.status as TmsTripStatusEnum,
@@ -61,11 +58,11 @@ export const TmsMutation: Pick<
 
       // Publish specific status events
       if (status === "IN_PROGRESS") {
-        ctx.pubsub.publish("tms.trip.started", result);
+        await ctx.pubsub.publish("tms.trip.started", result);
       } else if (status === "COMPLETED") {
-        ctx.pubsub.publish("tms.trip.completed", result);
+        await ctx.pubsub.publish("tms.trip.completed", result);
       } else if (status === "CANCELLED") {
-        ctx.pubsub.publish("tms.trip.cancelled", result);
+        await ctx.pubsub.publish("tms.trip.cancelled", result);
       }
     }
 

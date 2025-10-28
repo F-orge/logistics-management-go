@@ -16,7 +16,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDriverLocation'|'rem
       .executeTakeFirstOrThrow();
 
     // Publish driver location updated event
-    ctx.pubsub.publish("dms.driverLocation.updated", result);
+    await ctx.pubsub.publish("dms.driverLocation.updated", result);
 
     return result as unknown as DriverLocations;
   },
@@ -31,7 +31,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDriverLocation'|'rem
       .executeTakeFirstOrThrow();
 
     // Publish driver location updated event
-    ctx.pubsub.publish("dms.driverLocation.updated", result);
+    await ctx.pubsub.publish("dms.driverLocation.updated", result);
 
     return result as unknown as DriverLocations;
   },
@@ -49,7 +49,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDriverLocation'|'rem
       .executeTakeFirstOrThrow();
 
     // Publish driver location removed event
-    ctx.pubsub.publish("dms.driverLocation.removed", {
+    await ctx.pubsub.publish("dms.driverLocation.removed", {
       id: location.id,
       driverId: location.driverId,
     });

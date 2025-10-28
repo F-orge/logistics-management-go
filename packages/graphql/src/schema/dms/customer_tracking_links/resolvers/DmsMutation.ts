@@ -16,7 +16,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createCustomerTrackingLink
       .executeTakeFirstOrThrow();
 
     // Publish generated event for new tracking link
-    ctx.pubsub.publish("dms.trackingLink.generated", result);
+    await ctx.pubsub.publish("dms.trackingLink.generated", result);
 
     return result as unknown as CustomerTrackingLinks;
   },
@@ -44,7 +44,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createCustomerTrackingLink
         !previousLink.expiresAt &&
         new Date(payload.expiresAt) <= new Date())
     ) {
-      ctx.pubsub.publish("dms.trackingLink.expired", {
+      await ctx.pubsub.publish("dms.trackingLink.expired", {
         id: result.id,
         deliveryTaskId: result.deliveryTaskId,
         trackingToken: result.trackingToken,

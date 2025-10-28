@@ -18,11 +18,11 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createTaskEvent'> = {
       .executeTakeFirstOrThrow();
 
     // Publish task event recorded
-    ctx.pubsub.publish("dms.taskEvent.recorded", result);
+    await ctx.pubsub.publish("dms.taskEvent.recorded", result);
 
     // Publish status updated if applicable
     if (payload.status) {
-      ctx.pubsub.publish("dms.taskEvent.statusUpdated", {
+      await ctx.pubsub.publish("dms.taskEvent.statusUpdated", {
         taskEventId: result.id,
         deliveryTaskId: result.deliveryTaskId,
         newStatus: payload.status as DmsTaskEventStatusEnum,

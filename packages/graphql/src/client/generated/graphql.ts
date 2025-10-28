@@ -996,19 +996,16 @@ export type CreateGpsPingInput = {
 };
 
 export type CreateInboundShipmentInput = {
-  actualArrivalDate?: InputMaybe<Scalars['String']['input']>;
   clientId?: InputMaybe<Scalars['ID']['input']>;
   expectedArrivalDate?: InputMaybe<Scalars['String']['input']>;
+  items: Array<CreateInboundShipmentItemInput>;
   status?: InputMaybe<InboundShipmentStatus>;
   warehouseId: Scalars['ID']['input'];
 };
 
 export type CreateInboundShipmentItemInput = {
-  discrepancyNotes?: InputMaybe<Scalars['String']['input']>;
   expectedQuantity: Scalars['Int']['input'];
-  inboundShipmentId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
-  receivedQuantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CreateInteractionInput = {
@@ -1032,14 +1029,12 @@ export type CreateInventoryAdjustmentInput = {
 
 export type CreateInventoryBatchInput = {
   batchNumber: Scalars['String']['input'];
-  expirationDate?: InputMaybe<Scalars['String']['input']>;
+  expirationDate?: InputMaybe<Scalars['Date']['input']>;
   productId: Scalars['ID']['input'];
 };
 
 export type CreateInventoryStockInput = {
   batchId?: InputMaybe<Scalars['ID']['input']>;
-  lastCountedAt?: InputMaybe<Scalars['String']['input']>;
-  lastMovementAt?: InputMaybe<Scalars['String']['input']>;
   locationId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
@@ -1086,7 +1081,6 @@ export type CreateLeadInput = {
 export type CreateLocationInput = {
   barcode?: InputMaybe<Scalars['String']['input']>;
   hazmatApproved?: InputMaybe<Scalars['Boolean']['input']>;
-  isActive?: InputMaybe<Scalars['Boolean']['input']>;
   isPickable?: InputMaybe<Scalars['Boolean']['input']>;
   isReceivable?: InputMaybe<Scalars['Boolean']['input']>;
   level?: InputMaybe<Scalars['Int']['input']>;
@@ -1133,6 +1127,7 @@ export type CreateOpportunityProductInput = {
 
 export type CreateOutboundShipmentInput = {
   carrier?: InputMaybe<Scalars['String']['input']>;
+  items: Array<CreateOutboundShipmentItemInput>;
   salesOrderId: Scalars['ID']['input'];
   status?: InputMaybe<OutboundShipmentStatus>;
   trackingNumber?: InputMaybe<Scalars['String']['input']>;
@@ -1141,7 +1136,6 @@ export type CreateOutboundShipmentInput = {
 
 export type CreateOutboundShipmentItemInput = {
   batchId?: InputMaybe<Scalars['ID']['input']>;
-  outboundShipmentId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantityShipped: Scalars['Int']['input'];
   salesOrderItemId: Scalars['ID']['input'];
@@ -1175,7 +1169,7 @@ export type CreatePackageItemInput = {
   packageId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  serialNumbers: Array<Scalars['String']['input']>;
   unitWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1209,27 +1203,23 @@ export type CreatePaymentInput = {
 };
 
 export type CreatePickBatchInput = {
-  actualDuration?: InputMaybe<Scalars['Int']['input']>;
   assignedUserId?: InputMaybe<Scalars['ID']['input']>;
   batchNumber: Scalars['String']['input'];
-  completedAt?: InputMaybe<Scalars['String']['input']>;
-  completedItems?: InputMaybe<Scalars['Int']['input']>;
   estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
+  items: Array<CreatePickBatchItemInput>;
   priority?: InputMaybe<Scalars['Int']['input']>;
   startedAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PickBatchStatus>;
   strategy: PickStrategy;
-  totalItems?: InputMaybe<Scalars['Int']['input']>;
   warehouseId: Scalars['ID']['input'];
   waveId?: InputMaybe<Scalars['String']['input']>;
-  zoneRestrictions?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  zoneRestrictions: Array<Scalars['String']['input']>;
 };
 
 export type CreatePickBatchItemInput = {
   actualPickTime?: InputMaybe<Scalars['Int']['input']>;
   estimatedPickTime?: InputMaybe<Scalars['Int']['input']>;
   orderPriority?: InputMaybe<Scalars['Int']['input']>;
-  pickBatchId: Scalars['ID']['input'];
   salesOrderId: Scalars['ID']['input'];
 };
 
@@ -1312,6 +1302,7 @@ export type CreateReorderPointInput = {
 
 export type CreateReturnInput = {
   clientId: Scalars['ID']['input'];
+  items: Array<CreateReturnItemInput>;
   reason?: InputMaybe<Scalars['String']['input']>;
   returnNumber: Scalars['String']['input'];
   salesOrderId?: InputMaybe<Scalars['ID']['input']>;
@@ -1322,8 +1313,6 @@ export type CreateReturnItemInput = {
   condition?: InputMaybe<ReturnItemCondition>;
   productId: Scalars['ID']['input'];
   quantityExpected: Scalars['Int']['input'];
-  quantityReceived?: InputMaybe<Scalars['Int']['input']>;
-  returnId: Scalars['ID']['input'];
 };
 
 export type CreateRouteInput = {
@@ -1336,6 +1325,7 @@ export type CreateRouteInput = {
 export type CreateSalesOrderInput = {
   clientId: Scalars['ID']['input'];
   crmOpportunityId?: InputMaybe<Scalars['ID']['input']>;
+  items: Array<CreateSalesOrderItemInput>;
   orderNumber: Scalars['String']['input'];
   shippingAddress?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<SalesOrderStatus>;
@@ -1344,7 +1334,6 @@ export type CreateSalesOrderInput = {
 export type CreateSalesOrderItemInput = {
   productId: Scalars['ID']['input'];
   quantityOrdered: Scalars['Int']['input'];
-  salesOrderId: Scalars['ID']['input'];
 };
 
 export type CreateShipmentLegEventInput = {
@@ -1401,7 +1390,7 @@ export type CreateTaskEventInput = {
 
 export type CreateTaskInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
-  endTime?: InputMaybe<Scalars['String']['input']>;
+  endTime?: InputMaybe<Scalars['Date']['input']>;
   estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
   instructions?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
@@ -1409,7 +1398,7 @@ export type CreateTaskInput = {
   priority?: InputMaybe<Scalars['Int']['input']>;
   sourceEntityId?: InputMaybe<Scalars['ID']['input']>;
   sourceEntityType?: InputMaybe<Scalars['String']['input']>;
-  startTime?: InputMaybe<Scalars['String']['input']>;
+  startTime?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<TaskStatus>;
   taskNumber: Scalars['String']['input'];
   type: TaskType;
@@ -1419,7 +1408,6 @@ export type CreateTaskInput = {
 
 export type CreateTaskItemInput = {
   batchId?: InputMaybe<Scalars['ID']['input']>;
-  completedAt?: InputMaybe<Scalars['String']['input']>;
   destinationLocationId?: InputMaybe<Scalars['ID']['input']>;
   expiryDate?: InputMaybe<Scalars['String']['input']>;
   lotNumber?: InputMaybe<Scalars['String']['input']>;
@@ -1427,10 +1415,9 @@ export type CreateTaskItemInput = {
   productId: Scalars['ID']['input'];
   quantityCompleted: Scalars['Int']['input'];
   quantityRequired: Scalars['Int']['input'];
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  serialNumbers: Array<Scalars['String']['input']>;
   sourceLocationId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TaskItemStatus>;
-  taskId: Scalars['ID']['input'];
 };
 
 export type CreateTripInput = {
@@ -2512,7 +2499,7 @@ export type InventoryBatches = {
   __typename?: 'InventoryBatches';
   batchNumber: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['Date']['output']>;
-  expirationDate?: Maybe<Scalars['String']['output']>;
+  expirationDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   inventoryStock?: Maybe<Array<InventoryStock>>;
   outboundShipmentItems?: Maybe<Array<OutboundShipmentItems>>;
@@ -2528,8 +2515,8 @@ export type InventoryStock = {
   batch?: Maybe<InventoryBatches>;
   createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
-  lastCountedAt?: Maybe<Scalars['String']['output']>;
-  lastMovementAt?: Maybe<Scalars['String']['output']>;
+  lastCountedAt?: Maybe<Scalars['Date']['output']>;
+  lastMovementAt?: Maybe<Scalars['Date']['output']>;
   location: Locations;
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
@@ -2799,7 +2786,7 @@ export type PackageItems = {
   package: Packages;
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
-  serialNumbers?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  serialNumbers: Array<Scalars['String']['output']>;
   totalWeight?: Maybe<Scalars['Float']['output']>;
   unitWeight?: Maybe<Scalars['Float']['output']>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
@@ -4025,10 +4012,8 @@ export type UpdateBillingInvoiceInput = {
 export type UpdateBinThresholdInput = {
   alertThreshold?: InputMaybe<Scalars['Int']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  locationId?: InputMaybe<Scalars['ID']['input']>;
   maxQuantity?: InputMaybe<Scalars['Int']['input']>;
   minQuantity?: InputMaybe<Scalars['Int']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   reorderQuantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -4208,17 +4193,13 @@ export type UpdateGpsPingInput = {
 
 export type UpdateInboundShipmentInput = {
   actualArrivalDate?: InputMaybe<Scalars['String']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   expectedArrivalDate?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<InboundShipmentStatus>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInboundShipmentItemInput = {
   discrepancyNotes?: InputMaybe<Scalars['String']['input']>;
   expectedQuantity?: InputMaybe<Scalars['Int']['input']>;
-  inboundShipmentId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   receivedQuantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -4231,25 +4212,19 @@ export type UpdateInteractionInput = {
 
 export type UpdateInventoryAdjustmentInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityChange?: InputMaybe<Scalars['Int']['input']>;
   reason?: InputMaybe<InventoryAdjustmentReason>;
   userId?: InputMaybe<Scalars['ID']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInventoryBatchInput = {
   batchNumber?: InputMaybe<Scalars['String']['input']>;
-  expirationDate?: InputMaybe<Scalars['String']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
+  expirationDate?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type UpdateInventoryStockInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
-  lastCountedAt?: InputMaybe<Scalars['String']['input']>;
-  lastMovementAt?: InputMaybe<Scalars['String']['input']>;
-  locationId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
+  lastCountedAt?: InputMaybe<Scalars['Date']['input']>;
+  lastMovementAt?: InputMaybe<Scalars['Date']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   reservedQuantity?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<InventoryStockStatus>;
@@ -4300,11 +4275,9 @@ export type UpdateLocationInput = {
   maxVolume?: InputMaybe<Scalars['Float']['input']>;
   maxWeight?: InputMaybe<Scalars['Float']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  parentLocationId?: InputMaybe<Scalars['ID']['input']>;
   path?: InputMaybe<Scalars['String']['input']>;
   temperatureControlled?: InputMaybe<Scalars['Boolean']['input']>;
   type?: InputMaybe<LocationType>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
   xCoordinate?: InputMaybe<Scalars['Float']['input']>;
   yCoordinate?: InputMaybe<Scalars['Float']['input']>;
   zCoordinate?: InputMaybe<Scalars['Float']['input']>;
@@ -4330,18 +4303,11 @@ export type UpdateOpportunityProductInput = {
 
 export type UpdateOutboundShipmentInput = {
   carrier?: InputMaybe<Scalars['String']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<OutboundShipmentStatus>;
-  trackingNumber?: InputMaybe<Scalars['String']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateOutboundShipmentItemInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
-  outboundShipmentId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityShipped?: InputMaybe<Scalars['Int']['input']>;
-  salesOrderItemId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdatePackageInput = {
@@ -4353,12 +4319,10 @@ export type UpdatePackageInput = {
   length?: InputMaybe<Scalars['Float']['input']>;
   packageNumber?: InputMaybe<Scalars['String']['input']>;
   packageType?: InputMaybe<Scalars['String']['input']>;
-  packedAt?: InputMaybe<Scalars['String']['input']>;
-  packedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  packedAt?: InputMaybe<Scalars['Date']['input']>;
   requiresSignature?: InputMaybe<Scalars['Boolean']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
   serviceLevel?: InputMaybe<Scalars['String']['input']>;
-  shippedAt?: InputMaybe<Scalars['String']['input']>;
+  shippedAt?: InputMaybe<Scalars['Date']['input']>;
   trackingNumber?: InputMaybe<Scalars['String']['input']>;
   warehouseId?: InputMaybe<Scalars['ID']['input']>;
   weight?: InputMaybe<Scalars['Float']['input']>;
@@ -4366,13 +4330,9 @@ export type UpdatePackageInput = {
 };
 
 export type UpdatePackageItemInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
   expiryDate?: InputMaybe<Scalars['String']['input']>;
   lotNumber?: InputMaybe<Scalars['String']['input']>;
-  packageId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   unitWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -4404,25 +4364,20 @@ export type UpdatePickBatchInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
   assignedUserId?: InputMaybe<Scalars['ID']['input']>;
   batchNumber?: InputMaybe<Scalars['String']['input']>;
-  completedAt?: InputMaybe<Scalars['String']['input']>;
+  completedAt?: InputMaybe<Scalars['Date']['input']>;
   completedItems?: InputMaybe<Scalars['Int']['input']>;
-  estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
   priority?: InputMaybe<Scalars['Int']['input']>;
-  startedAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PickBatchStatus>;
   strategy?: InputMaybe<PickStrategy>;
-  totalItems?: InputMaybe<Scalars['Int']['input']>;
   warehouseId?: InputMaybe<Scalars['ID']['input']>;
   waveId?: InputMaybe<Scalars['String']['input']>;
-  zoneRestrictions?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  zoneRestrictions: Array<Scalars['String']['input']>;
 };
 
 export type UpdatePickBatchItemInput = {
   actualPickTime?: InputMaybe<Scalars['Int']['input']>;
   estimatedPickTime?: InputMaybe<Scalars['Int']['input']>;
   orderPriority?: InputMaybe<Scalars['Int']['input']>;
-  pickBatchId?: InputMaybe<Scalars['ID']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateProductInput = {
@@ -4438,14 +4393,12 @@ export type UpdateProofOfDeliveryInput = {
 };
 
 export type UpdatePutawayRuleInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
   locationType?: InputMaybe<LocationType>;
   maxQuantity?: InputMaybe<Scalars['Int']['input']>;
   minQuantity?: InputMaybe<Scalars['Int']['input']>;
   preferredLocationId?: InputMaybe<Scalars['ID']['input']>;
   priority?: InputMaybe<Scalars['Int']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   requiresHazmatApproval?: InputMaybe<Scalars['Boolean']['input']>;
   requiresTemperatureControl?: InputMaybe<Scalars['Boolean']['input']>;
   volumeThreshold?: InputMaybe<Scalars['Float']['input']>;
@@ -4493,25 +4446,17 @@ export type UpdateRateRuleInput = {
 };
 
 export type UpdateReorderPointInput = {
-  productId?: InputMaybe<Scalars['ID']['input']>;
   threshold?: InputMaybe<Scalars['Int']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateReturnInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
-  returnNumber?: InputMaybe<Scalars['String']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<ReturnStatus>;
 };
 
 export type UpdateReturnItemInput = {
   condition?: InputMaybe<ReturnItemCondition>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
-  quantityExpected?: InputMaybe<Scalars['Int']['input']>;
   quantityReceived?: InputMaybe<Scalars['Int']['input']>;
-  returnId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateRouteInput = {
@@ -4521,17 +4466,12 @@ export type UpdateRouteInput = {
 };
 
 export type UpdateSalesOrderInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  crmOpportunityId?: InputMaybe<Scalars['ID']['input']>;
-  orderNumber?: InputMaybe<Scalars['String']['input']>;
   shippingAddress?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<SalesOrderStatus>;
 };
 
 export type UpdateSalesOrderItemInput = {
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityOrdered?: InputMaybe<Scalars['Int']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateShipmentLegInput = {
@@ -4545,9 +4485,7 @@ export type UpdateShipmentLegInput = {
 
 export type UpdateStockTransferInput = {
   destinationWarehouseId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
-  sourceWarehouseId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<StockTransferStatus>;
 };
 
@@ -4571,7 +4509,7 @@ export type UpdateSurchargeInput = {
 
 export type UpdateTaskInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
-  endTime?: InputMaybe<Scalars['String']['input']>;
+  endTime?: InputMaybe<Scalars['Date']['input']>;
   estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
   instructions?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
@@ -4579,28 +4517,22 @@ export type UpdateTaskInput = {
   priority?: InputMaybe<Scalars['Int']['input']>;
   sourceEntityId?: InputMaybe<Scalars['ID']['input']>;
   sourceEntityType?: InputMaybe<Scalars['String']['input']>;
-  startTime?: InputMaybe<Scalars['String']['input']>;
+  startTime?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<TaskStatus>;
   taskNumber?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<TaskType>;
   userId?: InputMaybe<Scalars['ID']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTaskItemInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
   completedAt?: InputMaybe<Scalars['String']['input']>;
   destinationLocationId?: InputMaybe<Scalars['ID']['input']>;
-  expiryDate?: InputMaybe<Scalars['String']['input']>;
-  lotNumber?: InputMaybe<Scalars['String']['input']>;
+  expiryDate?: InputMaybe<Scalars['Date']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityCompleted?: InputMaybe<Scalars['Int']['input']>;
   quantityRequired?: InputMaybe<Scalars['Int']['input']>;
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   sourceLocationId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TaskItemStatus>;
-  taskId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTripInput = {
@@ -4657,7 +4589,6 @@ export type UpdateWarehouseInput = {
 
 export type UpdateWmsProductInput = {
   barcode?: InputMaybe<Scalars['String']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   costPrice?: InputMaybe<Scalars['Float']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
@@ -4665,7 +4596,6 @@ export type UpdateWmsProductInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   sku?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ProductStatus>;
-  supplierId?: InputMaybe<Scalars['ID']['input']>;
   weight?: InputMaybe<Scalars['Float']['input']>;
   width?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4757,29 +4687,29 @@ export type Warehouses = {
 
 export type WmsMutation = {
   __typename?: 'WmsMutation';
+  addInboundShipmentItem: InboundShipmentItems;
+  addOutboundShipmentItem: OutboundShipmentItems;
+  addPackageItem: PackageItems;
+  addPickBatchItem: PickBatchItems;
+  addReturnItem: ReturnItems;
+  addSalesOrderItem: SalesOrderItems;
+  addTaskItem: TaskItems;
   createBinThreshold: BinThresholds;
   createInboundShipment: InboundShipments;
-  createInboundShipmentItem: InboundShipmentItems;
   createInventoryAdjustment: InventoryAdjustments;
   createInventoryBatch: InventoryBatches;
   createInventoryStock: InventoryStock;
   createLocation: Locations;
   createOutboundShipment: OutboundShipments;
-  createOutboundShipmentItem: OutboundShipmentItems;
   createPackage: Packages;
-  createPackageItem: PackageItems;
   createPickBatch: PickBatches;
-  createPickBatchItem: PickBatchItems;
   createPutawayRule: PutawayRules;
   createReorderPoint: ReorderPoints;
   createReturn: Returns;
-  createReturnItem: ReturnItems;
   createSalesOrder: SalesOrders;
-  createSalesOrderItem: SalesOrderItems;
   createStockTransfer: StockTransfers;
   createSupplier: Suppliers;
   createTask: Tasks;
-  createTaskItem: TaskItems;
   createWarehouse: Warehouses;
   createWmsProduct: WmsProducts;
   removeBinThreshold: DeleteResult;
@@ -4835,6 +4765,48 @@ export type WmsMutation = {
 };
 
 
+export type WmsMutationAddInboundShipmentItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateInboundShipmentItemInput;
+};
+
+
+export type WmsMutationAddOutboundShipmentItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateOutboundShipmentItemInput;
+};
+
+
+export type WmsMutationAddPackageItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePackageItemInput;
+};
+
+
+export type WmsMutationAddPickBatchItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePickBatchItemInput;
+};
+
+
+export type WmsMutationAddReturnItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateReturnItemInput;
+};
+
+
+export type WmsMutationAddSalesOrderItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateSalesOrderItemInput;
+};
+
+
+export type WmsMutationAddTaskItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateTaskItemInput;
+};
+
+
 export type WmsMutationCreateBinThresholdArgs = {
   value: CreateBinThresholdInput;
 };
@@ -4842,11 +4814,6 @@ export type WmsMutationCreateBinThresholdArgs = {
 
 export type WmsMutationCreateInboundShipmentArgs = {
   value: CreateInboundShipmentInput;
-};
-
-
-export type WmsMutationCreateInboundShipmentItemArgs = {
-  value: CreateInboundShipmentItemInput;
 };
 
 
@@ -4875,28 +4842,13 @@ export type WmsMutationCreateOutboundShipmentArgs = {
 };
 
 
-export type WmsMutationCreateOutboundShipmentItemArgs = {
-  value: CreateOutboundShipmentItemInput;
-};
-
-
 export type WmsMutationCreatePackageArgs = {
   value: CreatePackageInput;
 };
 
 
-export type WmsMutationCreatePackageItemArgs = {
-  value: CreatePackageItemInput;
-};
-
-
 export type WmsMutationCreatePickBatchArgs = {
   value: CreatePickBatchInput;
-};
-
-
-export type WmsMutationCreatePickBatchItemArgs = {
-  value: CreatePickBatchItemInput;
 };
 
 
@@ -4915,18 +4867,8 @@ export type WmsMutationCreateReturnArgs = {
 };
 
 
-export type WmsMutationCreateReturnItemArgs = {
-  value: CreateReturnItemInput;
-};
-
-
 export type WmsMutationCreateSalesOrderArgs = {
   value: CreateSalesOrderInput;
-};
-
-
-export type WmsMutationCreateSalesOrderItemArgs = {
-  value: CreateSalesOrderItemInput;
 };
 
 
@@ -4942,11 +4884,6 @@ export type WmsMutationCreateSupplierArgs = {
 
 export type WmsMutationCreateTaskArgs = {
   value: CreateTaskInput;
-};
-
-
-export type WmsMutationCreateTaskItemArgs = {
-  value: CreateTaskItemInput;
 };
 
 
@@ -5135,7 +5072,7 @@ export type WmsMutationUpdateOutboundShipmentArgs = {
 
 export type WmsMutationUpdateOutboundShipmentItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOutboundShipmentItemInput>;
+  value: UpdateOutboundShipmentItemInput;
 };
 
 
@@ -5147,7 +5084,7 @@ export type WmsMutationUpdatePackageArgs = {
 
 export type WmsMutationUpdatePackageItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdatePackageItemInput>;
+  value: UpdatePackageItemInput;
 };
 
 
@@ -5177,7 +5114,7 @@ export type WmsMutationUpdateReorderPointArgs = {
 
 export type WmsMutationUpdateReturnArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateReturnInput>;
+  value: UpdateReturnInput;
 };
 
 
@@ -5189,13 +5126,13 @@ export type WmsMutationUpdateReturnItemArgs = {
 
 export type WmsMutationUpdateSalesOrderArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateSalesOrderInput>;
+  value: UpdateSalesOrderInput;
 };
 
 
 export type WmsMutationUpdateSalesOrderItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateSalesOrderItemInput>;
+  value: UpdateSalesOrderItemInput;
 };
 
 
@@ -5207,7 +5144,7 @@ export type WmsMutationUpdateStockTransferArgs = {
 
 export type WmsMutationUpdateSupplierArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateSupplierInput>;
+  value: UpdateSupplierInput;
 };
 
 
@@ -5225,7 +5162,7 @@ export type WmsMutationUpdateTaskItemArgs = {
 
 export type WmsMutationUpdateWarehouseArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateWarehouseInput>;
+  value: UpdateWarehouseInput;
 };
 
 
@@ -7379,13 +7316,6 @@ export type AnalyticsBinThresholdsQueryVariables = Exact<{
 
 export type AnalyticsBinThresholdsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', binThresholds: Array<{ __typename?: 'BinThresholds', minQuantity: number, maxQuantity: number, reorderQuantity?: number | null, alertThreshold?: number | null }> } | null };
 
-export type CreateInboundShipmentItemMutationVariables = Exact<{
-  inboundShipmentItem: CreateInboundShipmentItemInput;
-}>;
-
-
-export type CreateInboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createInboundShipmentItem: { __typename?: 'InboundShipmentItems', id: string } } | null };
-
 export type UpdateInboundShipmentItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   inboundShipmentItem: UpdateInboundShipmentItemInput;
@@ -7516,7 +7446,7 @@ export type TableInventoryBatchQueryVariables = Exact<{
 }>;
 
 
-export type TableInventoryBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', batchNumber: string, createdAt?: any | null, expirationDate?: string | null, id: string, updatedAt?: any | null, inventoryStock?: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, product: { __typename?: 'WmsProducts', barcode?: string | null, name: string, sku: string, status?: ProductStatus | null, description?: string | null, id: string, costPrice?: number | null } }> | null }> } | null };
+export type TableInventoryBatchQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryBatches: Array<{ __typename?: 'InventoryBatches', batchNumber: string, createdAt?: any | null, expirationDate?: any | null, id: string, updatedAt?: any | null, inventoryStock?: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, product: { __typename?: 'WmsProducts', barcode?: string | null, name: string, sku: string, status?: ProductStatus | null, description?: string | null, id: string, costPrice?: number | null } }> | null }> } | null };
 
 export type SearchInventoryBatchesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7554,7 +7484,7 @@ export type TableInventoryStockQueryVariables = Exact<{
 }>;
 
 
-export type TableInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, createdAt?: any | null, id: string, lastCountedAt?: string | null, lastMovementAt?: string | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, status?: ProductStatus | null, sku: string, volume?: number | null, weight?: number | null, width?: number | null }, location: { __typename?: 'Locations', id: string, barcode?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, name: string } }> } | null };
+export type TableInventoryStockQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', inventoryStocks: Array<{ __typename?: 'InventoryStock', availableQuantity?: number | null, createdAt?: any | null, id: string, lastCountedAt?: any | null, lastMovementAt?: any | null, quantity: number, reservedQuantity: number, status?: InventoryStockStatus | null, updatedAt?: any | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, description?: string | null, id: string, name: string, status?: ProductStatus | null, sku: string, volume?: number | null, weight?: number | null, width?: number | null }, location: { __typename?: 'Locations', id: string, barcode?: string | null, isActive?: boolean | null, isPickable?: boolean | null, isReceivable?: boolean | null, level?: number | null, name: string } }> } | null };
 
 export type AnalyticsInventoryStockQueryVariables = Exact<{
   from?: InputMaybe<Scalars['Date']['input']>;
@@ -7610,13 +7540,6 @@ export type AnalyticsLocationsQueryVariables = Exact<{
 
 
 export type AnalyticsLocationsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', locations: Array<{ __typename?: 'Locations', maxWeight?: number | null, maxVolume?: number | null, maxPallets?: number | null, type: LocationType }> } | null };
-
-export type CreateOutboundShipmentItemMutationVariables = Exact<{
-  outboundShipmentItem: CreateOutboundShipmentItemInput;
-}>;
-
-
-export type CreateOutboundShipmentItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createOutboundShipmentItem: { __typename?: 'OutboundShipmentItems', id: string } } | null };
 
 export type UpdateOutboundShipmentItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -7680,13 +7603,6 @@ export type AnalyticsOutboundShipmentsQueryVariables = Exact<{
 
 export type AnalyticsOutboundShipmentsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', outboundShipments: Array<{ __typename?: 'OutboundShipments', status?: OutboundShipmentStatus | null }> } | null };
 
-export type CreatePackageItemMutationVariables = Exact<{
-  packageItem: CreatePackageItemInput;
-}>;
-
-
-export type CreatePackageItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPackageItem: { __typename?: 'PackageItems', id: string } } | null };
-
 export type UpdatePackageItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   packageItem: UpdatePackageItemInput;
@@ -7731,7 +7647,7 @@ export type TablePackageQueryVariables = Exact<{
 }>;
 
 
-export type TablePackageQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', carrier?: string | null, createdAt?: any | null, height?: number | null, id: string, insuranceValue?: number | null, isFragile?: boolean | null, isHazmat?: boolean | null, length?: number | null, packageNumber: string, packageType?: string | null, packedAt?: string | null, requiresSignature?: boolean | null, serviceLevel?: string | null, shippedAt?: string | null, trackingNumber?: string | null, updatedAt?: any | null, volume?: number | null, weight?: number | null, width?: number | null, items?: Array<{ __typename?: 'PackageItems', lotNumber?: string | null, quantity: number, serialNumbers?: Array<string | null> | null, totalWeight?: number | null, unitWeight?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
+export type TablePackageQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', carrier?: string | null, createdAt?: any | null, height?: number | null, id: string, insuranceValue?: number | null, isFragile?: boolean | null, isHazmat?: boolean | null, length?: number | null, packageNumber: string, packageType?: string | null, packedAt?: string | null, requiresSignature?: boolean | null, serviceLevel?: string | null, shippedAt?: string | null, trackingNumber?: string | null, updatedAt?: any | null, volume?: number | null, weight?: number | null, width?: number | null, items?: Array<{ __typename?: 'PackageItems', lotNumber?: string | null, quantity: number, serialNumbers: Array<string>, totalWeight?: number | null, unitWeight?: number | null, product: { __typename?: 'WmsProducts', barcode?: string | null, costPrice?: number | null, name: string, sku: string, status?: ProductStatus | null } }> | null }> } | null };
 
 export type SearchPackagesQueryVariables = Exact<{
   search: Scalars['String']['input'];
@@ -7747,13 +7663,6 @@ export type AnalyticsPackagesQueryVariables = Exact<{
 
 
 export type AnalyticsPackagesQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', packages: Array<{ __typename?: 'Packages', weight?: number | null, length?: number | null, width?: number | null, height?: number | null, volume?: number | null, insuranceValue?: number | null }> } | null };
-
-export type CreatePickBatchItemMutationVariables = Exact<{
-  pickBatchItem: CreatePickBatchItemInput;
-}>;
-
-
-export type CreatePickBatchItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createPickBatchItem: { __typename?: 'PickBatchItems', id: string } } | null };
 
 export type UpdatePickBatchItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -7942,13 +7851,6 @@ export type AnalyticsReorderPointsQueryVariables = Exact<{
 
 export type AnalyticsReorderPointsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', reorderPoints: Array<{ __typename?: 'ReorderPoints', threshold: number }> } | null };
 
-export type CreateReturnItemMutationVariables = Exact<{
-  returnItem: CreateReturnItemInput;
-}>;
-
-
-export type CreateReturnItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createReturnItem: { __typename?: 'ReturnItems', id: string } } | null };
-
 export type UpdateReturnItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   returnItem: UpdateReturnItemInput;
@@ -8010,13 +7912,6 @@ export type AnalyticsReturnsQueryVariables = Exact<{
 
 
 export type AnalyticsReturnsQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', returns: Array<{ __typename?: 'Returns', status?: ReturnStatus | null }> } | null };
-
-export type CreateSalesOrderItemMutationVariables = Exact<{
-  salesOrderItem: CreateSalesOrderItemInput;
-}>;
-
-
-export type CreateSalesOrderItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createSalesOrderItem: { __typename?: 'SalesOrderItems', id: string } } | null };
 
 export type UpdateSalesOrderItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -8156,13 +8051,6 @@ export type SearchSuppliersQueryVariables = Exact<{
 
 
 export type SearchSuppliersQuery = { __typename?: 'Query', wms?: { __typename?: 'WmsQuery', suppliers: Array<{ __typename?: 'Suppliers', value: string, label: string }> } | null };
-
-export type CreateTaskItemMutationVariables = Exact<{
-  taskItem: CreateTaskItemInput;
-}>;
-
-
-export type CreateTaskItemMutation = { __typename?: 'Mutation', wms?: { __typename?: 'WmsMutation', createTaskItem: { __typename?: 'TaskItems', id: string } } | null };
 
 export type UpdateTaskItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -11574,15 +11462,6 @@ export const AnalyticsBinThresholdsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsBinThresholdsQuery, AnalyticsBinThresholdsQueryVariables>;
-export const CreateInboundShipmentItemDocument = new TypedDocumentString(`
-    mutation CreateInboundShipmentItem($inboundShipmentItem: CreateInboundShipmentItemInput!) {
-  wms {
-    createInboundShipmentItem(value: $inboundShipmentItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateInboundShipmentItemMutation, CreateInboundShipmentItemMutationVariables>;
 export const UpdateInboundShipmentItemDocument = new TypedDocumentString(`
     mutation UpdateInboundShipmentItem($id: ID!, $inboundShipmentItem: UpdateInboundShipmentItemInput!) {
   wms {
@@ -11975,15 +11854,6 @@ export const AnalyticsLocationsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsLocationsQuery, AnalyticsLocationsQueryVariables>;
-export const CreateOutboundShipmentItemDocument = new TypedDocumentString(`
-    mutation CreateOutboundShipmentItem($outboundShipmentItem: CreateOutboundShipmentItemInput!) {
-  wms {
-    createOutboundShipmentItem(value: $outboundShipmentItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateOutboundShipmentItemMutation, CreateOutboundShipmentItemMutationVariables>;
 export const UpdateOutboundShipmentItemDocument = new TypedDocumentString(`
     mutation UpdateOutboundShipmentItem($id: ID!, $outboundShipmentItem: UpdateOutboundShipmentItemInput!) {
   wms {
@@ -12076,15 +11946,6 @@ export const AnalyticsOutboundShipmentsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsOutboundShipmentsQuery, AnalyticsOutboundShipmentsQueryVariables>;
-export const CreatePackageItemDocument = new TypedDocumentString(`
-    mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
-  wms {
-    createPackageItem(value: $packageItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreatePackageItemMutation, CreatePackageItemMutationVariables>;
 export const UpdatePackageItemDocument = new TypedDocumentString(`
     mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {
   wms {
@@ -12197,15 +12058,6 @@ export const AnalyticsPackagesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsPackagesQuery, AnalyticsPackagesQueryVariables>;
-export const CreatePickBatchItemDocument = new TypedDocumentString(`
-    mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {
-  wms {
-    createPickBatchItem(value: $pickBatchItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreatePickBatchItemMutation, CreatePickBatchItemMutationVariables>;
 export const UpdatePickBatchItemDocument = new TypedDocumentString(`
     mutation UpdatePickBatchItem($id: ID!, $pickBatchItem: UpdatePickBatchItemInput!) {
   wms {
@@ -12550,15 +12402,6 @@ export const AnalyticsReorderPointsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsReorderPointsQuery, AnalyticsReorderPointsQueryVariables>;
-export const CreateReturnItemDocument = new TypedDocumentString(`
-    mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {
-  wms {
-    createReturnItem(value: $returnItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateReturnItemMutation, CreateReturnItemMutationVariables>;
 export const UpdateReturnItemDocument = new TypedDocumentString(`
     mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {
   wms {
@@ -12670,15 +12513,6 @@ export const AnalyticsReturnsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsReturnsQuery, AnalyticsReturnsQueryVariables>;
-export const CreateSalesOrderItemDocument = new TypedDocumentString(`
-    mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
-  wms {
-    createSalesOrderItem(value: $salesOrderItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateSalesOrderItemMutation, CreateSalesOrderItemMutationVariables>;
 export const UpdateSalesOrderItemDocument = new TypedDocumentString(`
     mutation UpdateSalesOrderItem($id: ID!, $salesOrderItem: UpdateSalesOrderItemInput!) {
   wms {
@@ -12911,15 +12745,6 @@ export const SearchSuppliersDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<SearchSuppliersQuery, SearchSuppliersQueryVariables>;
-export const CreateTaskItemDocument = new TypedDocumentString(`
-    mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {
-  wms {
-    createTaskItem(value: $taskItem) {
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateTaskItemMutation, CreateTaskItemMutationVariables>;
 export const UpdateTaskItemDocument = new TypedDocumentString(`
     mutation UpdateTaskItem($id: ID!, $taskItem: UpdateTaskItemInput!) {
   wms {

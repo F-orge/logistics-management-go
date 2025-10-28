@@ -6,16 +6,18 @@ import {
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createInboundShipment" | "removeInboundShipment" | "updateInboundShipment"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createInboundShipment'|'removeInboundShipment'|'updateInboundShipment'> = {
   createInboundShipment: async (_parent, args, ctx) => {
     const payload = CreateInboundShipmentInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.inboundShipments")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? WmsInboundShipmentStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -33,7 +35,12 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.inboundShipments")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? WmsInboundShipmentStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
@@ -42,7 +49,7 @@ export const WmsMutation: Pick<
     if (payload.status && payload.status !== previousShipment.status) {
       const status = payload.status as WmsInboundShipmentStatusEnum;
 
-      ctx.pubsub.publish("ims.inboundShipment.statusChanged", {
+      await ctx.pubsub.publish("ims.inboundShipment.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousShipment.status as WmsInboundShipmentStatusEnum,
@@ -51,11 +58,11 @@ export const WmsMutation: Pick<
 
       // Publish specific status events
       if (status === "ARRIVED") {
-        ctx.pubsub.publish("ims.inboundShipment.received", result);
+        await ctx.pubsub.publish("ims.inboundShipment.received", result);
       } else if (status === "PROCESSING") {
-        ctx.pubsub.publish("ims.inboundShipment.processing", result);
+        await ctx.pubsub.publish("ims.inboundShipment.processing", result);
       } else if (status === "COMPLETED") {
-        ctx.pubsub.publish("ims.inboundShipment.completed", result);
+        await ctx.pubsub.publish("ims.inboundShipment.completed", result);
       }
     }
 

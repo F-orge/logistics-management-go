@@ -36,6 +36,10 @@
       "env": {
         "DATABASE_URI": "postgres://postgres:postgres@localhost:5432/postgres"
       }
+    },
+    "serena": {
+        "command": "uvx",
+        "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
     }
   }
 }

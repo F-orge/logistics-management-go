@@ -5,10 +5,7 @@ import {
   UpdatePartnerInvoiceInputSchema,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createPartnerInvoice" | "updatePartnerInvoice"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createPartnerInvoice'|'updatePartnerInvoice'> = {
   createPartnerInvoice: async (_parent, args, ctx) => {
     const { items, ...rest } = CreatePartnerInvoiceInputSchema().parse(
       args.value

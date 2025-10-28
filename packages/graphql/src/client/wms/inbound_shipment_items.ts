@@ -1,16 +1,16 @@
 import { graphql } from "../generated/gql";
 
-export const CreateInboundShipmentItemMutation = graphql(`
-  mutation CreateInboundShipmentItem(
-    $inboundShipmentItem: CreateInboundShipmentItemInput!
-  ) {
-    wms {
-      createInboundShipmentItem(value: $inboundShipmentItem) {
-        id
-      }
-    }
-  }
-`);
+// export const CreateInboundShipmentItemMutation = graphql(`
+//   mutation CreateInboundShipmentItem(
+//     $inboundShipmentItem: CreateInboundShipmentItemInput!
+//   ) {
+//     wms {
+//       createInboundShipmentItem(value: $inboundShipmentItem) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
 export const UpdateInboundShipmentItemMutation = graphql(`
   mutation UpdateInboundShipmentItem(

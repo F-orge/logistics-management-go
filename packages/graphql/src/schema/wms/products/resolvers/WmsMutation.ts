@@ -1,16 +1,25 @@
+import { WmsProductStatusEnum } from "../../../../db.types";
 import {
   CreateWmsProductInputSchema,
   UpdateWmsProductInputSchema,
   WmsProducts,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createWmsProduct'|'removeWmsProduct'|'updateWmsProduct'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createWmsProduct" | "removeWmsProduct" | "updateWmsProduct"
+> = {
   createWmsProduct: async (_parent, args, ctx) => {
     const payload = CreateWmsProductInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.products")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? WmsProductStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +30,12 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createWmsProduct'|'removeW
 
     const result = await ctx.db
       .updateTable("wms.products")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? WmsProductStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

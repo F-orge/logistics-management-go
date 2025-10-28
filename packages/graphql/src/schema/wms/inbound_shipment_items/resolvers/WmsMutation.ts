@@ -4,13 +4,16 @@ import {
   UpdateInboundShipmentItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createInboundShipmentItem'|'removeInboundShipmentItem'|'updateInboundShipmentItem'> = {
-  createInboundShipmentItem: async (_parent, args, ctx) => {
+export const WmsMutation: Pick<WmsMutationResolvers, 'addInboundShipmentItem'|'removeInboundShipmentItem'|'updateInboundShipmentItem'> = {
+  addInboundShipmentItem: async (_parent, args, ctx) => {
     const payload = CreateInboundShipmentItemInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.inboundShipmentItems")
-      .values(payload as any)
+      .values({
+        ...payload,
+        inboundShipmentId: args.id,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +24,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createInboundShipmentItem'
 
     const result = await ctx.db
       .updateTable("wms.inboundShipmentItems")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

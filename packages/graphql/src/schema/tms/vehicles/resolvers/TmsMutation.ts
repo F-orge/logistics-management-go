@@ -5,10 +5,7 @@ import {
   Vehicles,
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createVehicle" | "removeVehicle" | "updateVehicle"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createVehicle'|'removeVehicle'|'updateVehicle'> = {
   createVehicle: async (_parent, args, ctx) => {
     const payload = CreateVehicleInputSchema().parse(args.value);
 
@@ -50,7 +47,7 @@ export const TmsMutation: Pick<
 
     // Publish status changed event
     if (payload.status && payload.status !== previousVehicle.status) {
-      ctx.pubsub.publish("tms.vehicle.statusChanged", {
+      await ctx.pubsub.publish("tms.vehicle.statusChanged", {
         id: result.id,
         newStatus: payload.status as TmsVehicleStatusEnum,
         previousStatus: previousVehicle.status as TmsVehicleStatusEnum,

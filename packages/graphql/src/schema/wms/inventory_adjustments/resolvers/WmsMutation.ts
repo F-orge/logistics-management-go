@@ -1,3 +1,4 @@
+import { WmsInventoryAdjustmentReasonEnum } from "../../../../db.types";
 import {
   CreateInventoryAdjustmentInputSchema,
   InventoryAdjustments,
@@ -5,18 +6,18 @@ import {
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  | "createInventoryAdjustment"
-  | "removeInventoryAdjustment"
-  | "updateInventoryAdjustment"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createInventoryAdjustment'|'removeInventoryAdjustment'|'updateInventoryAdjustment'> = {
   createInventoryAdjustment: async (_parent, args, ctx) => {
     const payload = CreateInventoryAdjustmentInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.inventoryAdjustments")
-      .values(payload as any)
+      .values({
+        ...payload,
+        reason: payload.reason
+          ? WmsInventoryAdjustmentReasonEnum[payload.reason]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -30,7 +31,7 @@ export const WmsMutation: Pick<
     const previousQuantity = stock ? stock.quantity - result.quantityChange : 0;
 
     // Publish recorded event
-    ctx.pubsub.publish("ims.inventoryAdjustment.recorded", {
+    await ctx.pubsub.publish("ims.inventoryAdjustment.recorded", {
       ...result,
       previousQuantity,
     });
@@ -42,7 +43,12 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.inventoryAdjustments")
-      .set(payload as any)
+      .set({
+        ...payload,
+        reason: payload.reason
+          ? WmsInventoryAdjustmentReasonEnum[payload.reason]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

@@ -4,13 +4,16 @@ import {
   UpdatePackageInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createPackage'|'removePackage'|'updatePackage'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createPackage" | "removePackage" | "updatePackage"
+> = {
   createPackage: async (_parent, args, ctx) => {
     const payload = CreatePackageInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.packages")
-      .values(payload as any)
+      .values(payload)
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +24,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createPackage'|'removePack
 
     const result = await ctx.db
       .updateTable("wms.packages")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

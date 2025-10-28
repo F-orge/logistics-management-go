@@ -4,13 +4,16 @@ import {
   UpdatePickBatchItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createPickBatchItem'|'removePickBatchItem'|'updatePickBatchItem'> = {
-  createPickBatchItem: async (_parent, args, ctx) => {
+export const WmsMutation: Pick<WmsMutationResolvers, 'addPickBatchItem'|'removePickBatchItem'|'updatePickBatchItem'> = {
+  addPickBatchItem: async (_parent, args, ctx) => {
     const payload = CreatePickBatchItemInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.pickBatchItems")
-      .values(payload as any)
+      .values({
+        ...payload,
+        pickBatchId: args.id,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +24,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createPickBatchItem'|'remo
 
     const result = await ctx.db
       .updateTable("wms.pickBatchItems")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

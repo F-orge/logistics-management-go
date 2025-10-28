@@ -4,13 +4,16 @@ import {
   UpdateSalesOrderItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createSalesOrderItem'|'removeSalesOrderItem'|'updateSalesOrderItem'> = {
-  createSalesOrderItem: async (_parent, args, ctx) => {
+export const WmsMutation: Pick<WmsMutationResolvers, 'addSalesOrderItem'|'removeSalesOrderItem'|'updateSalesOrderItem'> = {
+  addSalesOrderItem: async (_parent, args, ctx) => {
     const payload = CreateSalesOrderItemInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.salesOrderItems")
-      .values(payload as any)
+      .values({
+        ...payload,
+        salesOrderId: args.id,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -22,7 +25,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createSalesOrderItem'|'rem
 
     const result = await ctx.db
       .updateTable("wms.salesOrderItems")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

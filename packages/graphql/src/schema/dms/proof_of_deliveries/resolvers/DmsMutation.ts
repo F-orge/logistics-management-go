@@ -15,7 +15,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDmsProofOfDelivery'>
       .executeTakeFirstOrThrow();
 
     // Publish proof of delivery recorded event
-    ctx.pubsub.publish("dms.proofOfDelivery.recorded", result);
+    await ctx.pubsub.publish("dms.proofOfDelivery.recorded", result);
 
     return result as unknown as DmsProofOfDeliveries;
   },

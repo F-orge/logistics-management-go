@@ -1,16 +1,25 @@
+import { WmsLocationTypeEnum } from "../../../../db.types";
 import {
   CreateLocationInputSchema,
   Locations,
   UpdateLocationInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createLocation'|'removeLocation'|'updateLocation'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createLocation" | "removeLocation" | "updateLocation"
+> = {
   createLocation: async (_parent, args, ctx) => {
     const payload = CreateLocationInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.locations")
-      .values(payload as any)
+      .values({
+        ...payload,
+        type: payload.type
+          ? WmsLocationTypeEnum[payload.type]
+          : WmsLocationTypeEnum.RECEIVING_DOCK,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 

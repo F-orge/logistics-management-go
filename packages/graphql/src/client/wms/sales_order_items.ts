@@ -1,14 +1,14 @@
 import { graphql } from "../generated/gql";
 
-export const CreateSalesOrderItemMutation = graphql(`
-  mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
-    wms {
-      createSalesOrderItem(value: $salesOrderItem) {
-        id
-      }
-    }
-  }
-`);
+// export const CreateSalesOrderItemMutation = graphql(`
+//   mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {
+//     wms {
+//       createSalesOrderItem(value: $salesOrderItem) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
 export const UpdateSalesOrderItemMutation = graphql(`
   mutation UpdateSalesOrderItem(

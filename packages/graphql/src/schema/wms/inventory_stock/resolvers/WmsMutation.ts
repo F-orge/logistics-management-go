@@ -6,16 +6,18 @@ import {
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createInventoryStock" | "removeInventoryStock" | "updateInventoryStock"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createInventoryStock'|'removeInventoryStock'|'updateInventoryStock'> = {
   createInventoryStock: async (_parent, args, ctx) => {
     const payload = CreateInventoryStockInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.inventoryStock")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? WmsInventoryStockStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -33,14 +35,19 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.inventoryStock")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? WmsInventoryStockStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
 
     // Publish status changed event
     if (payload.status && payload.status !== previousStock.status) {
-      ctx.pubsub.publish("ims.inventoryStock.statusChanged", {
+      await ctx.pubsub.publish("ims.inventoryStock.statusChanged", {
         id: result.id,
         newStatus: payload.status as WmsInventoryStockStatusEnum,
         previousStatus: previousStock.status as WmsInventoryStockStatusEnum,

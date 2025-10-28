@@ -990,19 +990,16 @@ export type CreateGpsPingInput = {
 };
 
 export type CreateInboundShipmentInput = {
-  actualArrivalDate?: InputMaybe<Scalars['String']['input']>;
   clientId?: InputMaybe<Scalars['ID']['input']>;
   expectedArrivalDate?: InputMaybe<Scalars['String']['input']>;
+  items: Array<CreateInboundShipmentItemInput>;
   status?: InputMaybe<InboundShipmentStatus>;
   warehouseId: Scalars['ID']['input'];
 };
 
 export type CreateInboundShipmentItemInput = {
-  discrepancyNotes?: InputMaybe<Scalars['String']['input']>;
   expectedQuantity: Scalars['Int']['input'];
-  inboundShipmentId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
-  receivedQuantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CreateInteractionInput = {
@@ -1026,14 +1023,12 @@ export type CreateInventoryAdjustmentInput = {
 
 export type CreateInventoryBatchInput = {
   batchNumber: Scalars['String']['input'];
-  expirationDate?: InputMaybe<Scalars['String']['input']>;
+  expirationDate?: InputMaybe<Scalars['Date']['input']>;
   productId: Scalars['ID']['input'];
 };
 
 export type CreateInventoryStockInput = {
   batchId?: InputMaybe<Scalars['ID']['input']>;
-  lastCountedAt?: InputMaybe<Scalars['String']['input']>;
-  lastMovementAt?: InputMaybe<Scalars['String']['input']>;
   locationId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
@@ -1080,7 +1075,6 @@ export type CreateLeadInput = {
 export type CreateLocationInput = {
   barcode?: InputMaybe<Scalars['String']['input']>;
   hazmatApproved?: InputMaybe<Scalars['Boolean']['input']>;
-  isActive?: InputMaybe<Scalars['Boolean']['input']>;
   isPickable?: InputMaybe<Scalars['Boolean']['input']>;
   isReceivable?: InputMaybe<Scalars['Boolean']['input']>;
   level?: InputMaybe<Scalars['Int']['input']>;
@@ -1127,6 +1121,7 @@ export type CreateOpportunityProductInput = {
 
 export type CreateOutboundShipmentInput = {
   carrier?: InputMaybe<Scalars['String']['input']>;
+  items: Array<CreateOutboundShipmentItemInput>;
   salesOrderId: Scalars['ID']['input'];
   status?: InputMaybe<OutboundShipmentStatus>;
   trackingNumber?: InputMaybe<Scalars['String']['input']>;
@@ -1135,7 +1130,6 @@ export type CreateOutboundShipmentInput = {
 
 export type CreateOutboundShipmentItemInput = {
   batchId?: InputMaybe<Scalars['ID']['input']>;
-  outboundShipmentId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantityShipped: Scalars['Int']['input'];
   salesOrderItemId: Scalars['ID']['input'];
@@ -1169,7 +1163,7 @@ export type CreatePackageItemInput = {
   packageId: Scalars['ID']['input'];
   productId: Scalars['ID']['input'];
   quantity: Scalars['Int']['input'];
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  serialNumbers: Array<Scalars['String']['input']>;
   unitWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -1203,27 +1197,23 @@ export type CreatePaymentInput = {
 };
 
 export type CreatePickBatchInput = {
-  actualDuration?: InputMaybe<Scalars['Int']['input']>;
   assignedUserId?: InputMaybe<Scalars['ID']['input']>;
   batchNumber: Scalars['String']['input'];
-  completedAt?: InputMaybe<Scalars['String']['input']>;
-  completedItems?: InputMaybe<Scalars['Int']['input']>;
   estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
+  items: Array<CreatePickBatchItemInput>;
   priority?: InputMaybe<Scalars['Int']['input']>;
   startedAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PickBatchStatus>;
   strategy: PickStrategy;
-  totalItems?: InputMaybe<Scalars['Int']['input']>;
   warehouseId: Scalars['ID']['input'];
   waveId?: InputMaybe<Scalars['String']['input']>;
-  zoneRestrictions?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  zoneRestrictions: Array<Scalars['String']['input']>;
 };
 
 export type CreatePickBatchItemInput = {
   actualPickTime?: InputMaybe<Scalars['Int']['input']>;
   estimatedPickTime?: InputMaybe<Scalars['Int']['input']>;
   orderPriority?: InputMaybe<Scalars['Int']['input']>;
-  pickBatchId: Scalars['ID']['input'];
   salesOrderId: Scalars['ID']['input'];
 };
 
@@ -1306,6 +1296,7 @@ export type CreateReorderPointInput = {
 
 export type CreateReturnInput = {
   clientId: Scalars['ID']['input'];
+  items: Array<CreateReturnItemInput>;
   reason?: InputMaybe<Scalars['String']['input']>;
   returnNumber: Scalars['String']['input'];
   salesOrderId?: InputMaybe<Scalars['ID']['input']>;
@@ -1316,8 +1307,6 @@ export type CreateReturnItemInput = {
   condition?: InputMaybe<ReturnItemCondition>;
   productId: Scalars['ID']['input'];
   quantityExpected: Scalars['Int']['input'];
-  quantityReceived?: InputMaybe<Scalars['Int']['input']>;
-  returnId: Scalars['ID']['input'];
 };
 
 export type CreateRouteInput = {
@@ -1330,6 +1319,7 @@ export type CreateRouteInput = {
 export type CreateSalesOrderInput = {
   clientId: Scalars['ID']['input'];
   crmOpportunityId?: InputMaybe<Scalars['ID']['input']>;
+  items: Array<CreateSalesOrderItemInput>;
   orderNumber: Scalars['String']['input'];
   shippingAddress?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<SalesOrderStatus>;
@@ -1338,7 +1328,6 @@ export type CreateSalesOrderInput = {
 export type CreateSalesOrderItemInput = {
   productId: Scalars['ID']['input'];
   quantityOrdered: Scalars['Int']['input'];
-  salesOrderId: Scalars['ID']['input'];
 };
 
 export type CreateShipmentLegEventInput = {
@@ -1395,7 +1384,7 @@ export type CreateTaskEventInput = {
 
 export type CreateTaskInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
-  endTime?: InputMaybe<Scalars['String']['input']>;
+  endTime?: InputMaybe<Scalars['Date']['input']>;
   estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
   instructions?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
@@ -1403,7 +1392,7 @@ export type CreateTaskInput = {
   priority?: InputMaybe<Scalars['Int']['input']>;
   sourceEntityId?: InputMaybe<Scalars['ID']['input']>;
   sourceEntityType?: InputMaybe<Scalars['String']['input']>;
-  startTime?: InputMaybe<Scalars['String']['input']>;
+  startTime?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<TaskStatus>;
   taskNumber: Scalars['String']['input'];
   type: TaskType;
@@ -1413,7 +1402,6 @@ export type CreateTaskInput = {
 
 export type CreateTaskItemInput = {
   batchId?: InputMaybe<Scalars['ID']['input']>;
-  completedAt?: InputMaybe<Scalars['String']['input']>;
   destinationLocationId?: InputMaybe<Scalars['ID']['input']>;
   expiryDate?: InputMaybe<Scalars['String']['input']>;
   lotNumber?: InputMaybe<Scalars['String']['input']>;
@@ -1421,10 +1409,9 @@ export type CreateTaskItemInput = {
   productId: Scalars['ID']['input'];
   quantityCompleted: Scalars['Int']['input'];
   quantityRequired: Scalars['Int']['input'];
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  serialNumbers: Array<Scalars['String']['input']>;
   sourceLocationId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TaskItemStatus>;
-  taskId: Scalars['ID']['input'];
 };
 
 export type CreateTripInput = {
@@ -2490,7 +2477,7 @@ export type InventoryBatches = {
   __typename?: 'InventoryBatches';
   batchNumber: Scalars['String']['output'];
   createdAt?: Maybe<Scalars['Date']['output']>;
-  expirationDate?: Maybe<Scalars['String']['output']>;
+  expirationDate?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
   inventoryStock?: Maybe<Array<InventoryStock>>;
   outboundShipmentItems?: Maybe<Array<OutboundShipmentItems>>;
@@ -2506,8 +2493,8 @@ export type InventoryStock = {
   batch?: Maybe<InventoryBatches>;
   createdAt?: Maybe<Scalars['Date']['output']>;
   id: Scalars['ID']['output'];
-  lastCountedAt?: Maybe<Scalars['String']['output']>;
-  lastMovementAt?: Maybe<Scalars['String']['output']>;
+  lastCountedAt?: Maybe<Scalars['Date']['output']>;
+  lastMovementAt?: Maybe<Scalars['Date']['output']>;
   location: Locations;
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
@@ -2769,7 +2756,7 @@ export type PackageItems = {
   package: Packages;
   product: WmsProducts;
   quantity: Scalars['Int']['output'];
-  serialNumbers?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  serialNumbers: Array<Scalars['String']['output']>;
   totalWeight?: Maybe<Scalars['Float']['output']>;
   unitWeight?: Maybe<Scalars['Float']['output']>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
@@ -3968,10 +3955,8 @@ export type UpdateBillingInvoiceInput = {
 export type UpdateBinThresholdInput = {
   alertThreshold?: InputMaybe<Scalars['Int']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
-  locationId?: InputMaybe<Scalars['ID']['input']>;
   maxQuantity?: InputMaybe<Scalars['Int']['input']>;
   minQuantity?: InputMaybe<Scalars['Int']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   reorderQuantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -4151,17 +4136,13 @@ export type UpdateGpsPingInput = {
 
 export type UpdateInboundShipmentInput = {
   actualArrivalDate?: InputMaybe<Scalars['String']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   expectedArrivalDate?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<InboundShipmentStatus>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInboundShipmentItemInput = {
   discrepancyNotes?: InputMaybe<Scalars['String']['input']>;
   expectedQuantity?: InputMaybe<Scalars['Int']['input']>;
-  inboundShipmentId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   receivedQuantity?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -4174,25 +4155,19 @@ export type UpdateInteractionInput = {
 
 export type UpdateInventoryAdjustmentInput = {
   notes?: InputMaybe<Scalars['String']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityChange?: InputMaybe<Scalars['Int']['input']>;
   reason?: InputMaybe<InventoryAdjustmentReason>;
   userId?: InputMaybe<Scalars['ID']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateInventoryBatchInput = {
   batchNumber?: InputMaybe<Scalars['String']['input']>;
-  expirationDate?: InputMaybe<Scalars['String']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
+  expirationDate?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type UpdateInventoryStockInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
-  lastCountedAt?: InputMaybe<Scalars['String']['input']>;
-  lastMovementAt?: InputMaybe<Scalars['String']['input']>;
-  locationId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
+  lastCountedAt?: InputMaybe<Scalars['Date']['input']>;
+  lastMovementAt?: InputMaybe<Scalars['Date']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
   reservedQuantity?: InputMaybe<Scalars['Int']['input']>;
   status?: InputMaybe<InventoryStockStatus>;
@@ -4243,11 +4218,9 @@ export type UpdateLocationInput = {
   maxVolume?: InputMaybe<Scalars['Float']['input']>;
   maxWeight?: InputMaybe<Scalars['Float']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  parentLocationId?: InputMaybe<Scalars['ID']['input']>;
   path?: InputMaybe<Scalars['String']['input']>;
   temperatureControlled?: InputMaybe<Scalars['Boolean']['input']>;
   type?: InputMaybe<LocationType>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
   xCoordinate?: InputMaybe<Scalars['Float']['input']>;
   yCoordinate?: InputMaybe<Scalars['Float']['input']>;
   zCoordinate?: InputMaybe<Scalars['Float']['input']>;
@@ -4273,18 +4246,11 @@ export type UpdateOpportunityProductInput = {
 
 export type UpdateOutboundShipmentInput = {
   carrier?: InputMaybe<Scalars['String']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<OutboundShipmentStatus>;
-  trackingNumber?: InputMaybe<Scalars['String']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateOutboundShipmentItemInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
-  outboundShipmentId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityShipped?: InputMaybe<Scalars['Int']['input']>;
-  salesOrderItemId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdatePackageInput = {
@@ -4296,12 +4262,10 @@ export type UpdatePackageInput = {
   length?: InputMaybe<Scalars['Float']['input']>;
   packageNumber?: InputMaybe<Scalars['String']['input']>;
   packageType?: InputMaybe<Scalars['String']['input']>;
-  packedAt?: InputMaybe<Scalars['String']['input']>;
-  packedByUserId?: InputMaybe<Scalars['ID']['input']>;
+  packedAt?: InputMaybe<Scalars['Date']['input']>;
   requiresSignature?: InputMaybe<Scalars['Boolean']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
   serviceLevel?: InputMaybe<Scalars['String']['input']>;
-  shippedAt?: InputMaybe<Scalars['String']['input']>;
+  shippedAt?: InputMaybe<Scalars['Date']['input']>;
   trackingNumber?: InputMaybe<Scalars['String']['input']>;
   warehouseId?: InputMaybe<Scalars['ID']['input']>;
   weight?: InputMaybe<Scalars['Float']['input']>;
@@ -4309,13 +4273,9 @@ export type UpdatePackageInput = {
 };
 
 export type UpdatePackageItemInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
   expiryDate?: InputMaybe<Scalars['String']['input']>;
   lotNumber?: InputMaybe<Scalars['String']['input']>;
-  packageId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   unitWeight?: InputMaybe<Scalars['Float']['input']>;
 };
 
@@ -4347,25 +4307,20 @@ export type UpdatePickBatchInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
   assignedUserId?: InputMaybe<Scalars['ID']['input']>;
   batchNumber?: InputMaybe<Scalars['String']['input']>;
-  completedAt?: InputMaybe<Scalars['String']['input']>;
+  completedAt?: InputMaybe<Scalars['Date']['input']>;
   completedItems?: InputMaybe<Scalars['Int']['input']>;
-  estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
   priority?: InputMaybe<Scalars['Int']['input']>;
-  startedAt?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<PickBatchStatus>;
   strategy?: InputMaybe<PickStrategy>;
-  totalItems?: InputMaybe<Scalars['Int']['input']>;
   warehouseId?: InputMaybe<Scalars['ID']['input']>;
   waveId?: InputMaybe<Scalars['String']['input']>;
-  zoneRestrictions?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  zoneRestrictions: Array<Scalars['String']['input']>;
 };
 
 export type UpdatePickBatchItemInput = {
   actualPickTime?: InputMaybe<Scalars['Int']['input']>;
   estimatedPickTime?: InputMaybe<Scalars['Int']['input']>;
   orderPriority?: InputMaybe<Scalars['Int']['input']>;
-  pickBatchId?: InputMaybe<Scalars['ID']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateProductInput = {
@@ -4381,14 +4336,12 @@ export type UpdateProofOfDeliveryInput = {
 };
 
 export type UpdatePutawayRuleInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   isActive?: InputMaybe<Scalars['Boolean']['input']>;
   locationType?: InputMaybe<LocationType>;
   maxQuantity?: InputMaybe<Scalars['Int']['input']>;
   minQuantity?: InputMaybe<Scalars['Int']['input']>;
   preferredLocationId?: InputMaybe<Scalars['ID']['input']>;
   priority?: InputMaybe<Scalars['Int']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   requiresHazmatApproval?: InputMaybe<Scalars['Boolean']['input']>;
   requiresTemperatureControl?: InputMaybe<Scalars['Boolean']['input']>;
   volumeThreshold?: InputMaybe<Scalars['Float']['input']>;
@@ -4436,25 +4389,17 @@ export type UpdateRateRuleInput = {
 };
 
 export type UpdateReorderPointInput = {
-  productId?: InputMaybe<Scalars['ID']['input']>;
   threshold?: InputMaybe<Scalars['Int']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateReturnInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
-  returnNumber?: InputMaybe<Scalars['String']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<ReturnStatus>;
 };
 
 export type UpdateReturnItemInput = {
   condition?: InputMaybe<ReturnItemCondition>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
-  quantityExpected?: InputMaybe<Scalars['Int']['input']>;
   quantityReceived?: InputMaybe<Scalars['Int']['input']>;
-  returnId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateRouteInput = {
@@ -4464,17 +4409,12 @@ export type UpdateRouteInput = {
 };
 
 export type UpdateSalesOrderInput = {
-  clientId?: InputMaybe<Scalars['ID']['input']>;
-  crmOpportunityId?: InputMaybe<Scalars['ID']['input']>;
-  orderNumber?: InputMaybe<Scalars['String']['input']>;
   shippingAddress?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<SalesOrderStatus>;
 };
 
 export type UpdateSalesOrderItemInput = {
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityOrdered?: InputMaybe<Scalars['Int']['input']>;
-  salesOrderId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateShipmentLegInput = {
@@ -4488,9 +4428,7 @@ export type UpdateShipmentLegInput = {
 
 export type UpdateStockTransferInput = {
   destinationWarehouseId?: InputMaybe<Scalars['ID']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
-  sourceWarehouseId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<StockTransferStatus>;
 };
 
@@ -4514,7 +4452,7 @@ export type UpdateSurchargeInput = {
 
 export type UpdateTaskInput = {
   actualDuration?: InputMaybe<Scalars['Int']['input']>;
-  endTime?: InputMaybe<Scalars['String']['input']>;
+  endTime?: InputMaybe<Scalars['Date']['input']>;
   estimatedDuration?: InputMaybe<Scalars['Int']['input']>;
   instructions?: InputMaybe<Scalars['String']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
@@ -4522,28 +4460,22 @@ export type UpdateTaskInput = {
   priority?: InputMaybe<Scalars['Int']['input']>;
   sourceEntityId?: InputMaybe<Scalars['ID']['input']>;
   sourceEntityType?: InputMaybe<Scalars['String']['input']>;
-  startTime?: InputMaybe<Scalars['String']['input']>;
+  startTime?: InputMaybe<Scalars['Date']['input']>;
   status?: InputMaybe<TaskStatus>;
   taskNumber?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<TaskType>;
   userId?: InputMaybe<Scalars['ID']['input']>;
-  warehouseId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTaskItemInput = {
-  batchId?: InputMaybe<Scalars['ID']['input']>;
   completedAt?: InputMaybe<Scalars['String']['input']>;
   destinationLocationId?: InputMaybe<Scalars['ID']['input']>;
-  expiryDate?: InputMaybe<Scalars['String']['input']>;
-  lotNumber?: InputMaybe<Scalars['String']['input']>;
+  expiryDate?: InputMaybe<Scalars['Date']['input']>;
   notes?: InputMaybe<Scalars['String']['input']>;
-  productId?: InputMaybe<Scalars['ID']['input']>;
   quantityCompleted?: InputMaybe<Scalars['Int']['input']>;
   quantityRequired?: InputMaybe<Scalars['Int']['input']>;
-  serialNumbers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   sourceLocationId?: InputMaybe<Scalars['ID']['input']>;
   status?: InputMaybe<TaskItemStatus>;
-  taskId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type UpdateTripInput = {
@@ -4600,7 +4532,6 @@ export type UpdateWarehouseInput = {
 
 export type UpdateWmsProductInput = {
   barcode?: InputMaybe<Scalars['String']['input']>;
-  clientId?: InputMaybe<Scalars['ID']['input']>;
   costPrice?: InputMaybe<Scalars['Float']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   height?: InputMaybe<Scalars['Float']['input']>;
@@ -4608,7 +4539,6 @@ export type UpdateWmsProductInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   sku?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ProductStatus>;
-  supplierId?: InputMaybe<Scalars['ID']['input']>;
   weight?: InputMaybe<Scalars['Float']['input']>;
   width?: InputMaybe<Scalars['Float']['input']>;
 };
@@ -4698,29 +4628,29 @@ export type Warehouses = {
 
 export type WmsMutation = {
   __typename?: 'WmsMutation';
+  addInboundShipmentItem: InboundShipmentItems;
+  addOutboundShipmentItem: OutboundShipmentItems;
+  addPackageItem: PackageItems;
+  addPickBatchItem: PickBatchItems;
+  addReturnItem: ReturnItems;
+  addSalesOrderItem: SalesOrderItems;
+  addTaskItem: TaskItems;
   createBinThreshold: BinThresholds;
   createInboundShipment: InboundShipments;
-  createInboundShipmentItem: InboundShipmentItems;
   createInventoryAdjustment: InventoryAdjustments;
   createInventoryBatch: InventoryBatches;
   createInventoryStock: InventoryStock;
   createLocation: Locations;
   createOutboundShipment: OutboundShipments;
-  createOutboundShipmentItem: OutboundShipmentItems;
   createPackage: Packages;
-  createPackageItem: PackageItems;
   createPickBatch: PickBatches;
-  createPickBatchItem: PickBatchItems;
   createPutawayRule: PutawayRules;
   createReorderPoint: ReorderPoints;
   createReturn: Returns;
-  createReturnItem: ReturnItems;
   createSalesOrder: SalesOrders;
-  createSalesOrderItem: SalesOrderItems;
   createStockTransfer: StockTransfers;
   createSupplier: Suppliers;
   createTask: Tasks;
-  createTaskItem: TaskItems;
   createWarehouse: Warehouses;
   createWmsProduct: WmsProducts;
   removeBinThreshold: DeleteResult;
@@ -4776,6 +4706,48 @@ export type WmsMutation = {
 };
 
 
+export type WmsMutationAddInboundShipmentItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateInboundShipmentItemInput;
+};
+
+
+export type WmsMutationAddOutboundShipmentItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateOutboundShipmentItemInput;
+};
+
+
+export type WmsMutationAddPackageItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePackageItemInput;
+};
+
+
+export type WmsMutationAddPickBatchItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreatePickBatchItemInput;
+};
+
+
+export type WmsMutationAddReturnItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateReturnItemInput;
+};
+
+
+export type WmsMutationAddSalesOrderItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateSalesOrderItemInput;
+};
+
+
+export type WmsMutationAddTaskItemArgs = {
+  id: Scalars['ID']['input'];
+  value: CreateTaskItemInput;
+};
+
+
 export type WmsMutationCreateBinThresholdArgs = {
   value: CreateBinThresholdInput;
 };
@@ -4783,11 +4755,6 @@ export type WmsMutationCreateBinThresholdArgs = {
 
 export type WmsMutationCreateInboundShipmentArgs = {
   value: CreateInboundShipmentInput;
-};
-
-
-export type WmsMutationCreateInboundShipmentItemArgs = {
-  value: CreateInboundShipmentItemInput;
 };
 
 
@@ -4816,28 +4783,13 @@ export type WmsMutationCreateOutboundShipmentArgs = {
 };
 
 
-export type WmsMutationCreateOutboundShipmentItemArgs = {
-  value: CreateOutboundShipmentItemInput;
-};
-
-
 export type WmsMutationCreatePackageArgs = {
   value: CreatePackageInput;
 };
 
 
-export type WmsMutationCreatePackageItemArgs = {
-  value: CreatePackageItemInput;
-};
-
-
 export type WmsMutationCreatePickBatchArgs = {
   value: CreatePickBatchInput;
-};
-
-
-export type WmsMutationCreatePickBatchItemArgs = {
-  value: CreatePickBatchItemInput;
 };
 
 
@@ -4856,18 +4808,8 @@ export type WmsMutationCreateReturnArgs = {
 };
 
 
-export type WmsMutationCreateReturnItemArgs = {
-  value: CreateReturnItemInput;
-};
-
-
 export type WmsMutationCreateSalesOrderArgs = {
   value: CreateSalesOrderInput;
-};
-
-
-export type WmsMutationCreateSalesOrderItemArgs = {
-  value: CreateSalesOrderItemInput;
 };
 
 
@@ -4883,11 +4825,6 @@ export type WmsMutationCreateSupplierArgs = {
 
 export type WmsMutationCreateTaskArgs = {
   value: CreateTaskInput;
-};
-
-
-export type WmsMutationCreateTaskItemArgs = {
-  value: CreateTaskItemInput;
 };
 
 
@@ -5076,7 +5013,7 @@ export type WmsMutationUpdateOutboundShipmentArgs = {
 
 export type WmsMutationUpdateOutboundShipmentItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateOutboundShipmentItemInput>;
+  value: UpdateOutboundShipmentItemInput;
 };
 
 
@@ -5088,7 +5025,7 @@ export type WmsMutationUpdatePackageArgs = {
 
 export type WmsMutationUpdatePackageItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdatePackageItemInput>;
+  value: UpdatePackageItemInput;
 };
 
 
@@ -5118,7 +5055,7 @@ export type WmsMutationUpdateReorderPointArgs = {
 
 export type WmsMutationUpdateReturnArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateReturnInput>;
+  value: UpdateReturnInput;
 };
 
 
@@ -5130,13 +5067,13 @@ export type WmsMutationUpdateReturnItemArgs = {
 
 export type WmsMutationUpdateSalesOrderArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateSalesOrderInput>;
+  value: UpdateSalesOrderInput;
 };
 
 
 export type WmsMutationUpdateSalesOrderItemArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateSalesOrderItemInput>;
+  value: UpdateSalesOrderItemInput;
 };
 
 
@@ -5148,7 +5085,7 @@ export type WmsMutationUpdateStockTransferArgs = {
 
 export type WmsMutationUpdateSupplierArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateSupplierInput>;
+  value: UpdateSupplierInput;
 };
 
 
@@ -5166,7 +5103,7 @@ export type WmsMutationUpdateTaskItemArgs = {
 
 export type WmsMutationUpdateWarehouseArgs = {
   id: Scalars['ID']['input'];
-  value?: InputMaybe<UpdateWarehouseInput>;
+  value: UpdateWarehouseInput;
 };
 
 
@@ -5970,9 +5907,9 @@ export function CreateGpsPingInputSchema(): z.ZodObject<Properties<CreateGpsPing
 
 export function CreateInboundShipmentInputSchema(): z.ZodObject<Properties<CreateInboundShipmentInput>> {
   return z.object({
-    actualArrivalDate: z.string().optional(),
     clientId: z.string().optional(),
     expectedArrivalDate: z.string().optional(),
+    items: z.array(z.lazy(() => CreateInboundShipmentItemInputSchema())),
     status: InboundShipmentStatusSchema.optional(),
     warehouseId: z.string()
   })
@@ -5980,11 +5917,8 @@ export function CreateInboundShipmentInputSchema(): z.ZodObject<Properties<Creat
 
 export function CreateInboundShipmentItemInputSchema(): z.ZodObject<Properties<CreateInboundShipmentItemInput>> {
   return z.object({
-    discrepancyNotes: z.string().optional(),
     expectedQuantity: z.number(),
-    inboundShipmentId: z.string(),
-    productId: z.string(),
-    receivedQuantity: z.number().optional()
+    productId: z.string()
   })
 }
 
@@ -6014,7 +5948,7 @@ export function CreateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<C
 export function CreateInventoryBatchInputSchema(): z.ZodObject<Properties<CreateInventoryBatchInput>> {
   return z.object({
     batchNumber: z.string(),
-    expirationDate: z.string().optional(),
+    expirationDate: z.date().optional(),
     productId: z.string()
   })
 }
@@ -6022,8 +5956,6 @@ export function CreateInventoryBatchInputSchema(): z.ZodObject<Properties<Create
 export function CreateInventoryStockInputSchema(): z.ZodObject<Properties<CreateInventoryStockInput>> {
   return z.object({
     batchId: z.string().optional(),
-    lastCountedAt: z.string().optional(),
-    lastMovementAt: z.string().optional(),
     locationId: z.string(),
     productId: z.string(),
     quantity: z.number(),
@@ -6080,7 +6012,6 @@ export function CreateLocationInputSchema(): z.ZodObject<Properties<CreateLocati
   return z.object({
     barcode: z.string().optional(),
     hazmatApproved: z.boolean().optional(),
-    isActive: z.boolean().optional(),
     isPickable: z.boolean().optional(),
     isReceivable: z.boolean().optional(),
     level: z.number().optional(),
@@ -6135,6 +6066,7 @@ export function CreateOpportunityProductInputSchema(): z.ZodObject<Properties<Cr
 export function CreateOutboundShipmentInputSchema(): z.ZodObject<Properties<CreateOutboundShipmentInput>> {
   return z.object({
     carrier: z.string().optional(),
+    items: z.array(z.lazy(() => CreateOutboundShipmentItemInputSchema())),
     salesOrderId: z.string(),
     status: OutboundShipmentStatusSchema.optional(),
     trackingNumber: z.string().optional(),
@@ -6145,7 +6077,6 @@ export function CreateOutboundShipmentInputSchema(): z.ZodObject<Properties<Crea
 export function CreateOutboundShipmentItemInputSchema(): z.ZodObject<Properties<CreateOutboundShipmentItemInput>> {
   return z.object({
     batchId: z.string().optional(),
-    outboundShipmentId: z.string(),
     productId: z.string(),
     quantityShipped: z.number(),
     salesOrderItemId: z.string()
@@ -6183,7 +6114,7 @@ export function CreatePackageItemInputSchema(): z.ZodObject<Properties<CreatePac
     packageId: z.string(),
     productId: z.string(),
     quantity: z.number(),
-    serialNumbers: z.array(z.string().optional()).optional(),
+    serialNumbers: z.array(z.string()),
     unitWeight: z.number().optional()
   })
 }
@@ -6225,20 +6156,17 @@ export function CreatePaymentInputSchema(): z.ZodObject<Properties<CreatePayment
 
 export function CreatePickBatchInputSchema(): z.ZodObject<Properties<CreatePickBatchInput>> {
   return z.object({
-    actualDuration: z.number().optional(),
     assignedUserId: z.string().optional(),
     batchNumber: z.string(),
-    completedAt: z.string().optional(),
-    completedItems: z.number().optional(),
     estimatedDuration: z.number().optional(),
+    items: z.array(z.lazy(() => CreatePickBatchItemInputSchema())),
     priority: z.number().optional(),
     startedAt: z.string().optional(),
     status: PickBatchStatusSchema.optional(),
     strategy: PickStrategySchema,
-    totalItems: z.number().optional(),
     warehouseId: z.string(),
     waveId: z.string().optional(),
-    zoneRestrictions: z.array(z.string().optional()).optional()
+    zoneRestrictions: z.array(z.string())
   })
 }
 
@@ -6247,7 +6175,6 @@ export function CreatePickBatchItemInputSchema(): z.ZodObject<Properties<CreateP
     actualPickTime: z.number().optional(),
     estimatedPickTime: z.number().optional(),
     orderPriority: z.number().optional(),
-    pickBatchId: z.string(),
     salesOrderId: z.string()
   })
 }
@@ -6346,6 +6273,7 @@ export function CreateReorderPointInputSchema(): z.ZodObject<Properties<CreateRe
 export function CreateReturnInputSchema(): z.ZodObject<Properties<CreateReturnInput>> {
   return z.object({
     clientId: z.string(),
+    items: z.array(z.lazy(() => CreateReturnItemInputSchema())),
     reason: z.string().optional(),
     returnNumber: z.string(),
     salesOrderId: z.string().optional(),
@@ -6357,9 +6285,7 @@ export function CreateReturnItemInputSchema(): z.ZodObject<Properties<CreateRetu
   return z.object({
     condition: ReturnItemConditionSchema.optional(),
     productId: z.string(),
-    quantityExpected: z.number(),
-    quantityReceived: z.number().optional(),
-    returnId: z.string()
+    quantityExpected: z.number()
   })
 }
 
@@ -6376,6 +6302,7 @@ export function CreateSalesOrderInputSchema(): z.ZodObject<Properties<CreateSale
   return z.object({
     clientId: z.string(),
     crmOpportunityId: z.string().optional(),
+    items: z.array(z.lazy(() => CreateSalesOrderItemInputSchema())),
     orderNumber: z.string(),
     shippingAddress: z.string().optional(),
     status: SalesOrderStatusSchema.optional()
@@ -6385,8 +6312,7 @@ export function CreateSalesOrderInputSchema(): z.ZodObject<Properties<CreateSale
 export function CreateSalesOrderItemInputSchema(): z.ZodObject<Properties<CreateSalesOrderItemInput>> {
   return z.object({
     productId: z.string(),
-    quantityOrdered: z.number(),
-    salesOrderId: z.string()
+    quantityOrdered: z.number()
   })
 }
 
@@ -6457,7 +6383,7 @@ export function CreateTaskEventInputSchema(): z.ZodObject<Properties<CreateTaskE
 export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>> {
   return z.object({
     actualDuration: z.number().optional(),
-    endTime: z.string().optional(),
+    endTime: z.date().optional(),
     estimatedDuration: z.number().optional(),
     instructions: z.string().optional(),
     notes: z.string().optional(),
@@ -6465,7 +6391,7 @@ export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>
     priority: z.number().optional(),
     sourceEntityId: z.string().optional(),
     sourceEntityType: z.string().optional(),
-    startTime: z.string().optional(),
+    startTime: z.date().optional(),
     status: TaskStatusSchema.optional(),
     taskNumber: z.string(),
     type: TaskTypeSchema,
@@ -6477,7 +6403,6 @@ export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>
 export function CreateTaskItemInputSchema(): z.ZodObject<Properties<CreateTaskItemInput>> {
   return z.object({
     batchId: z.string().optional(),
-    completedAt: z.string().optional(),
     destinationLocationId: z.string().optional(),
     expiryDate: z.string().optional(),
     lotNumber: z.string().optional(),
@@ -6485,10 +6410,9 @@ export function CreateTaskItemInputSchema(): z.ZodObject<Properties<CreateTaskIt
     productId: z.string(),
     quantityCompleted: z.number(),
     quantityRequired: z.number(),
-    serialNumbers: z.array(z.string().optional()).optional(),
+    serialNumbers: z.array(z.string()),
     sourceLocationId: z.string().optional(),
-    status: TaskItemStatusSchema.optional(),
-    taskId: z.string()
+    status: TaskItemStatusSchema.optional()
   })
 }
 
@@ -6630,10 +6554,8 @@ export function UpdateBinThresholdInputSchema(): z.ZodObject<Properties<UpdateBi
   return z.object({
     alertThreshold: z.number().optional(),
     isActive: z.boolean().optional(),
-    locationId: z.string().optional(),
     maxQuantity: z.number().optional(),
     minQuantity: z.number().optional(),
-    productId: z.string().optional(),
     reorderQuantity: z.number().optional()
   })
 }
@@ -6855,10 +6777,8 @@ export function UpdateGpsPingInputSchema(): z.ZodObject<Properties<UpdateGpsPing
 export function UpdateInboundShipmentInputSchema(): z.ZodObject<Properties<UpdateInboundShipmentInput>> {
   return z.object({
     actualArrivalDate: z.string().optional(),
-    clientId: z.string().optional(),
     expectedArrivalDate: z.string().optional(),
-    status: InboundShipmentStatusSchema.optional(),
-    warehouseId: z.string().optional()
+    status: InboundShipmentStatusSchema.optional()
   })
 }
 
@@ -6866,8 +6786,6 @@ export function UpdateInboundShipmentItemInputSchema(): z.ZodObject<Properties<U
   return z.object({
     discrepancyNotes: z.string().optional(),
     expectedQuantity: z.number().optional(),
-    inboundShipmentId: z.string().optional(),
-    productId: z.string().optional(),
     receivedQuantity: z.number().optional()
   })
 }
@@ -6884,29 +6802,23 @@ export function UpdateInteractionInputSchema(): z.ZodObject<Properties<UpdateInt
 export function UpdateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<UpdateInventoryAdjustmentInput>> {
   return z.object({
     notes: z.string().optional(),
-    productId: z.string().optional(),
     quantityChange: z.number().optional(),
     reason: InventoryAdjustmentReasonSchema.optional(),
-    userId: z.string().optional(),
-    warehouseId: z.string().optional()
+    userId: z.string().optional()
   })
 }
 
 export function UpdateInventoryBatchInputSchema(): z.ZodObject<Properties<UpdateInventoryBatchInput>> {
   return z.object({
     batchNumber: z.string().optional(),
-    expirationDate: z.string().optional(),
-    productId: z.string().optional()
+    expirationDate: z.date().optional()
   })
 }
 
 export function UpdateInventoryStockInputSchema(): z.ZodObject<Properties<UpdateInventoryStockInput>> {
   return z.object({
-    batchId: z.string().optional(),
-    lastCountedAt: z.string().optional(),
-    lastMovementAt: z.string().optional(),
-    locationId: z.string().optional(),
-    productId: z.string().optional(),
+    lastCountedAt: z.date().optional(),
+    lastMovementAt: z.date().optional(),
     quantity: z.number().optional(),
     reservedQuantity: z.number().optional(),
     status: InventoryStockStatusSchema.optional()
@@ -6967,11 +6879,9 @@ export function UpdateLocationInputSchema(): z.ZodObject<Properties<UpdateLocati
     maxVolume: z.number().optional(),
     maxWeight: z.number().optional(),
     name: z.string().optional(),
-    parentLocationId: z.string().optional(),
     path: z.string().optional(),
     temperatureControlled: z.boolean().optional(),
     type: LocationTypeSchema.optional(),
-    warehouseId: z.string().optional(),
     xCoordinate: z.number().optional(),
     yCoordinate: z.number().optional(),
     zCoordinate: z.number().optional()
@@ -7005,20 +6915,13 @@ export function UpdateOpportunityProductInputSchema(): z.ZodObject<Properties<Up
 export function UpdateOutboundShipmentInputSchema(): z.ZodObject<Properties<UpdateOutboundShipmentInput>> {
   return z.object({
     carrier: z.string().optional(),
-    salesOrderId: z.string().optional(),
-    status: OutboundShipmentStatusSchema.optional(),
-    trackingNumber: z.string().optional(),
-    warehouseId: z.string().optional()
+    status: OutboundShipmentStatusSchema.optional()
   })
 }
 
 export function UpdateOutboundShipmentItemInputSchema(): z.ZodObject<Properties<UpdateOutboundShipmentItemInput>> {
   return z.object({
-    batchId: z.string().optional(),
-    outboundShipmentId: z.string().optional(),
-    productId: z.string().optional(),
-    quantityShipped: z.number().optional(),
-    salesOrderItemId: z.string().optional()
+    quantityShipped: z.number().optional()
   })
 }
 
@@ -7032,12 +6935,10 @@ export function UpdatePackageInputSchema(): z.ZodObject<Properties<UpdatePackage
     length: z.number().optional(),
     packageNumber: z.string().optional(),
     packageType: z.string().optional(),
-    packedAt: z.string().optional(),
-    packedByUserId: z.string().optional(),
+    packedAt: z.date().optional(),
     requiresSignature: z.boolean().optional(),
-    salesOrderId: z.string().optional(),
     serviceLevel: z.string().optional(),
-    shippedAt: z.string().optional(),
+    shippedAt: z.date().optional(),
     trackingNumber: z.string().optional(),
     warehouseId: z.string().optional(),
     weight: z.number().optional(),
@@ -7047,13 +6948,9 @@ export function UpdatePackageInputSchema(): z.ZodObject<Properties<UpdatePackage
 
 export function UpdatePackageItemInputSchema(): z.ZodObject<Properties<UpdatePackageItemInput>> {
   return z.object({
-    batchId: z.string().optional(),
     expiryDate: z.string().optional(),
     lotNumber: z.string().optional(),
-    packageId: z.string().optional(),
-    productId: z.string().optional(),
     quantity: z.number().optional(),
-    serialNumbers: z.array(z.string().optional()).optional(),
     unitWeight: z.number().optional()
   })
 }
@@ -7093,17 +6990,14 @@ export function UpdatePickBatchInputSchema(): z.ZodObject<Properties<UpdatePickB
     actualDuration: z.number().optional(),
     assignedUserId: z.string().optional(),
     batchNumber: z.string().optional(),
-    completedAt: z.string().optional(),
+    completedAt: z.date().optional(),
     completedItems: z.number().optional(),
-    estimatedDuration: z.number().optional(),
     priority: z.number().optional(),
-    startedAt: z.string().optional(),
     status: PickBatchStatusSchema.optional(),
     strategy: PickStrategySchema.optional(),
-    totalItems: z.number().optional(),
     warehouseId: z.string().optional(),
     waveId: z.string().optional(),
-    zoneRestrictions: z.array(z.string().optional()).optional()
+    zoneRestrictions: z.array(z.string())
   })
 }
 
@@ -7111,9 +7005,7 @@ export function UpdatePickBatchItemInputSchema(): z.ZodObject<Properties<UpdateP
   return z.object({
     actualPickTime: z.number().optional(),
     estimatedPickTime: z.number().optional(),
-    orderPriority: z.number().optional(),
-    pickBatchId: z.string().optional(),
-    salesOrderId: z.string().optional()
+    orderPriority: z.number().optional()
   })
 }
 
@@ -7135,14 +7027,12 @@ export function UpdateProofOfDeliveryInputSchema(): z.ZodObject<Properties<Updat
 
 export function UpdatePutawayRuleInputSchema(): z.ZodObject<Properties<UpdatePutawayRuleInput>> {
   return z.object({
-    clientId: z.string().optional(),
     isActive: z.boolean().optional(),
     locationType: LocationTypeSchema.optional(),
     maxQuantity: z.number().optional(),
     minQuantity: z.number().optional(),
     preferredLocationId: z.string().optional(),
     priority: z.number().optional(),
-    productId: z.string().optional(),
     requiresHazmatApproval: z.boolean().optional(),
     requiresTemperatureControl: z.boolean().optional(),
     volumeThreshold: z.number().optional(),
@@ -7198,18 +7088,13 @@ export function UpdateRateRuleInputSchema(): z.ZodObject<Properties<UpdateRateRu
 
 export function UpdateReorderPointInputSchema(): z.ZodObject<Properties<UpdateReorderPointInput>> {
   return z.object({
-    productId: z.string().optional(),
-    threshold: z.number().optional(),
-    warehouseId: z.string().optional()
+    threshold: z.number().optional()
   })
 }
 
 export function UpdateReturnInputSchema(): z.ZodObject<Properties<UpdateReturnInput>> {
   return z.object({
-    clientId: z.string().optional(),
     reason: z.string().optional(),
-    returnNumber: z.string().optional(),
-    salesOrderId: z.string().optional(),
     status: ReturnStatusSchema.optional()
   })
 }
@@ -7217,10 +7102,7 @@ export function UpdateReturnInputSchema(): z.ZodObject<Properties<UpdateReturnIn
 export function UpdateReturnItemInputSchema(): z.ZodObject<Properties<UpdateReturnItemInput>> {
   return z.object({
     condition: ReturnItemConditionSchema.optional(),
-    productId: z.string().optional(),
-    quantityExpected: z.number().optional(),
-    quantityReceived: z.number().optional(),
-    returnId: z.string().optional()
+    quantityReceived: z.number().optional()
   })
 }
 
@@ -7234,9 +7116,6 @@ export function UpdateRouteInputSchema(): z.ZodObject<Properties<UpdateRouteInpu
 
 export function UpdateSalesOrderInputSchema(): z.ZodObject<Properties<UpdateSalesOrderInput>> {
   return z.object({
-    clientId: z.string().optional(),
-    crmOpportunityId: z.string().optional(),
-    orderNumber: z.string().optional(),
     shippingAddress: z.string().optional(),
     status: SalesOrderStatusSchema.optional()
   })
@@ -7244,9 +7123,7 @@ export function UpdateSalesOrderInputSchema(): z.ZodObject<Properties<UpdateSale
 
 export function UpdateSalesOrderItemInputSchema(): z.ZodObject<Properties<UpdateSalesOrderItemInput>> {
   return z.object({
-    productId: z.string().optional(),
-    quantityOrdered: z.number().optional(),
-    salesOrderId: z.string().optional()
+    quantityOrdered: z.number().optional()
   })
 }
 
@@ -7264,9 +7141,7 @@ export function UpdateShipmentLegInputSchema(): z.ZodObject<Properties<UpdateShi
 export function UpdateStockTransferInputSchema(): z.ZodObject<Properties<UpdateStockTransferInput>> {
   return z.object({
     destinationWarehouseId: z.string().optional(),
-    productId: z.string().optional(),
     quantity: z.number().optional(),
-    sourceWarehouseId: z.string().optional(),
     status: StockTransferStatusSchema.optional()
   })
 }
@@ -7296,7 +7171,7 @@ export function UpdateSurchargeInputSchema(): z.ZodObject<Properties<UpdateSurch
 export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>> {
   return z.object({
     actualDuration: z.number().optional(),
-    endTime: z.string().optional(),
+    endTime: z.date().optional(),
     estimatedDuration: z.number().optional(),
     instructions: z.string().optional(),
     notes: z.string().optional(),
@@ -7304,30 +7179,24 @@ export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>
     priority: z.number().optional(),
     sourceEntityId: z.string().optional(),
     sourceEntityType: z.string().optional(),
-    startTime: z.string().optional(),
+    startTime: z.date().optional(),
     status: TaskStatusSchema.optional(),
     taskNumber: z.string().optional(),
     type: TaskTypeSchema.optional(),
-    userId: z.string().optional(),
-    warehouseId: z.string().optional()
+    userId: z.string().optional()
   })
 }
 
 export function UpdateTaskItemInputSchema(): z.ZodObject<Properties<UpdateTaskItemInput>> {
   return z.object({
-    batchId: z.string().optional(),
     completedAt: z.string().optional(),
     destinationLocationId: z.string().optional(),
-    expiryDate: z.string().optional(),
-    lotNumber: z.string().optional(),
+    expiryDate: z.date().optional(),
     notes: z.string().optional(),
-    productId: z.string().optional(),
     quantityCompleted: z.number().optional(),
     quantityRequired: z.number().optional(),
-    serialNumbers: z.array(z.string().optional()).optional(),
     sourceLocationId: z.string().optional(),
-    status: TaskItemStatusSchema.optional(),
-    taskId: z.string().optional()
+    status: TaskItemStatusSchema.optional()
   })
 }
 
@@ -7396,7 +7265,6 @@ export function UpdateWarehouseInputSchema(): z.ZodObject<Properties<UpdateWareh
 export function UpdateWmsProductInputSchema(): z.ZodObject<Properties<UpdateWmsProductInput>> {
   return z.object({
     barcode: z.string().optional(),
-    clientId: z.string().optional(),
     costPrice: z.number().optional(),
     description: z.string().optional(),
     height: z.number().optional(),
@@ -7404,7 +7272,6 @@ export function UpdateWmsProductInputSchema(): z.ZodObject<Properties<UpdateWmsP
     name: z.string().optional(),
     sku: z.string().optional(),
     status: ProductStatusSchema.optional(),
-    supplierId: z.string().optional(),
     weight: z.number().optional(),
     width: z.number().optional()
   })

@@ -1,16 +1,26 @@
+import { WmsTaskItemStatusEnum } from "../../../../db.types";
 import {
   CreateTaskItemInputSchema,
   TaskItems,
   UpdateTaskItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createTaskItem'|'removeTaskItem'|'updateTaskItem'> = {
-  createTaskItem: async (_parent, args, ctx) => {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "addTaskItem" | "removeTaskItem" | "updateTaskItem"
+> = {
+  addTaskItem: async (_parent, args, ctx) => {
     const payload = CreateTaskItemInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.taskItems")
-      .values(payload as any)
+      .values({
+        ...payload,
+        taskId: args.id,
+        status: payload.status
+          ? WmsTaskItemStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 

@@ -1,14 +1,14 @@
 import { graphql } from "../generated/gql";
 
-export const CreatePackageItemMutation = graphql(`
-  mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
-    wms {
-      createPackageItem(value: $packageItem) {
-        id
-      }
-    }
-  }
-`);
+// export const CreatePackageItemMutation = graphql(`
+//   mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {
+//     wms {
+//       createPackageItem(value: $packageItem) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
 export const UpdatePackageItemMutation = graphql(`
   mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {

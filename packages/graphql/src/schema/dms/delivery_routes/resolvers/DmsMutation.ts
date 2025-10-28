@@ -40,13 +40,13 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryRoute'|'remo
       const status = payload.status as DmsDeliveryRouteStatusEnum;
 
       if (status === "IN_PROGRESS") {
-        ctx.pubsub.publish("dms.deliveryRoute.started", result);
+        await ctx.pubsub.publish("dms.deliveryRoute.started", result);
       } else if (status === "COMPLETED") {
-        ctx.pubsub.publish("dms.deliveryRoute.completed", result);
+        await ctx.pubsub.publish("dms.deliveryRoute.completed", result);
       } else if (status === "PAUSED") {
-        ctx.pubsub.publish("dms.deliveryRoute.paused", result);
+        await ctx.pubsub.publish("dms.deliveryRoute.paused", result);
       } else if (status === "CANCELLED") {
-        ctx.pubsub.publish("dms.deliveryRoute.cancelled", result);
+        await ctx.pubsub.publish("dms.deliveryRoute.cancelled", result);
       }
     }
 

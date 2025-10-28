@@ -1,16 +1,25 @@
+import { WmsLocationTypeEnum } from "../../../../db.types";
 import {
   CreatePutawayRuleInputSchema,
   PutawayRules,
   UpdatePutawayRuleInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createPutawayRule'|'removePutawayRule'|'updatePutawayRule'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createPutawayRule" | "removePutawayRule" | "updatePutawayRule"
+> = {
   createPutawayRule: async (_parent, args, ctx) => {
     const payload = CreatePutawayRuleInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.putawayRules")
-      .values(payload as any)
+      .values({
+        ...payload,
+        locationType: payload.locationType
+          ? WmsLocationTypeEnum[payload.locationType]
+          : WmsLocationTypeEnum.RECEIVING_DOCK,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +30,12 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createPutawayRule'|'remove
 
     const result = await ctx.db
       .updateTable("wms.putawayRules")
-      .set(payload as any)
+      .set({
+        ...payload,
+        locationType: payload.locationType
+          ? WmsLocationTypeEnum[payload.locationType]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

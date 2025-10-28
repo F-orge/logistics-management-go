@@ -176,29 +176,29 @@ import    { User } from './base/resolvers/User';
 import    { VehicleMaintenance } from './tms/vehicle_maintenance/resolvers/VehicleMaintenance';
 import    { Vehicles } from './tms/vehicles/resolvers/Vehicles';
 import    { Warehouses } from './wms/warehouses/resolvers/Warehouses';
+import    { WmsMutation as inbound_shipment_items_WmsMutation } from './wms/inbound_shipment_items/resolvers/WmsMutation';
+import    { WmsMutation as outbound_shipment_items_WmsMutation } from './wms/outbound_shipment_items/resolvers/WmsMutation';
+import    { WmsMutation as package_items_WmsMutation } from './wms/package_items/resolvers/WmsMutation';
+import    { WmsMutation as pick_batch_items_WmsMutation } from './wms/pick_batch_items/resolvers/WmsMutation';
+import    { WmsMutation as return_items_WmsMutation } from './wms/return_items/resolvers/WmsMutation';
+import    { WmsMutation as sales_order_items_WmsMutation } from './wms/sales_order_items/resolvers/WmsMutation';
+import    { WmsMutation as task_items_WmsMutation } from './wms/task_items/resolvers/WmsMutation';
 import    { WmsMutation as bin_thresholds_WmsMutation } from './wms/bin_thresholds/resolvers/WmsMutation';
 import    { WmsMutation as inbound_shipments_WmsMutation } from './wms/inbound_shipments/resolvers/WmsMutation';
-import    { WmsMutation as inbound_shipment_items_WmsMutation } from './wms/inbound_shipment_items/resolvers/WmsMutation';
 import    { WmsMutation as inventory_adjustments_WmsMutation } from './wms/inventory_adjustments/resolvers/WmsMutation';
 import    { WmsMutation as inventory_batches_WmsMutation } from './wms/inventory_batches/resolvers/WmsMutation';
 import    { WmsMutation as inventory_stock_WmsMutation } from './wms/inventory_stock/resolvers/WmsMutation';
 import    { WmsMutation as locations_WmsMutation } from './wms/locations/resolvers/WmsMutation';
 import    { WmsMutation as outbound_shipments_WmsMutation } from './wms/outbound_shipments/resolvers/WmsMutation';
-import    { WmsMutation as outbound_shipment_items_WmsMutation } from './wms/outbound_shipment_items/resolvers/WmsMutation';
 import    { WmsMutation as packages_WmsMutation } from './wms/packages/resolvers/WmsMutation';
-import    { WmsMutation as package_items_WmsMutation } from './wms/package_items/resolvers/WmsMutation';
 import    { WmsMutation as pick_batches_WmsMutation } from './wms/pick_batches/resolvers/WmsMutation';
-import    { WmsMutation as pick_batch_items_WmsMutation } from './wms/pick_batch_items/resolvers/WmsMutation';
 import    { WmsMutation as putaway_rules_WmsMutation } from './wms/putaway_rules/resolvers/WmsMutation';
 import    { WmsMutation as reorder_points_WmsMutation } from './wms/reorder_points/resolvers/WmsMutation';
 import    { WmsMutation as returns_WmsMutation } from './wms/returns/resolvers/WmsMutation';
-import    { WmsMutation as return_items_WmsMutation } from './wms/return_items/resolvers/WmsMutation';
 import    { WmsMutation as sales_orders_WmsMutation } from './wms/sales_orders/resolvers/WmsMutation';
-import    { WmsMutation as sales_order_items_WmsMutation } from './wms/sales_order_items/resolvers/WmsMutation';
 import    { WmsMutation as stock_transfers_WmsMutation } from './wms/stock_transfers/resolvers/WmsMutation';
 import    { WmsMutation as suppliers_WmsMutation } from './wms/suppliers/resolvers/WmsMutation';
 import    { WmsMutation as tasks_WmsMutation } from './wms/tasks/resolvers/WmsMutation';
-import    { WmsMutation as task_items_WmsMutation } from './wms/task_items/resolvers/WmsMutation';
 import    { WmsMutation as warehouses_WmsMutation } from './wms/warehouses/resolvers/WmsMutation';
 import    { WmsMutation as products_WmsMutation } from './wms/products/resolvers/WmsMutation';
 import    { WmsProducts } from './wms/products/resolvers/WmsProducts';
@@ -310,7 +310,7 @@ User: User,
 VehicleMaintenance: VehicleMaintenance,
 Vehicles: Vehicles,
 Warehouses: Warehouses,
-WmsMutation: { ...bin_thresholds_WmsMutation,...inbound_shipments_WmsMutation,...inbound_shipment_items_WmsMutation,...inventory_adjustments_WmsMutation,...inventory_batches_WmsMutation,...inventory_stock_WmsMutation,...locations_WmsMutation,...outbound_shipments_WmsMutation,...outbound_shipment_items_WmsMutation,...packages_WmsMutation,...package_items_WmsMutation,...pick_batches_WmsMutation,...pick_batch_items_WmsMutation,...putaway_rules_WmsMutation,...reorder_points_WmsMutation,...returns_WmsMutation,...return_items_WmsMutation,...sales_orders_WmsMutation,...sales_order_items_WmsMutation,...stock_transfers_WmsMutation,...suppliers_WmsMutation,...tasks_WmsMutation,...task_items_WmsMutation,...warehouses_WmsMutation,...products_WmsMutation },
+WmsMutation: { ...inbound_shipment_items_WmsMutation,...outbound_shipment_items_WmsMutation,...package_items_WmsMutation,...pick_batch_items_WmsMutation,...return_items_WmsMutation,...sales_order_items_WmsMutation,...task_items_WmsMutation,...bin_thresholds_WmsMutation,...inbound_shipments_WmsMutation,...inventory_adjustments_WmsMutation,...inventory_batches_WmsMutation,...inventory_stock_WmsMutation,...locations_WmsMutation,...outbound_shipments_WmsMutation,...packages_WmsMutation,...pick_batches_WmsMutation,...putaway_rules_WmsMutation,...reorder_points_WmsMutation,...returns_WmsMutation,...sales_orders_WmsMutation,...stock_transfers_WmsMutation,...suppliers_WmsMutation,...tasks_WmsMutation,...warehouses_WmsMutation,...products_WmsMutation },
 WmsProducts: WmsProducts,
 WmsQuery: { ...bin_thresholds_WmsQuery,...inbound_shipments_WmsQuery,...inventory_adjustments_WmsQuery,...inventory_batches_WmsQuery,...inventory_stock_WmsQuery,...locations_WmsQuery,...outbound_shipments_WmsQuery,...packages_WmsQuery,...pick_batches_WmsQuery,...putaway_rules_WmsQuery,...reorder_points_WmsQuery,...returns_WmsQuery,...sales_orders_WmsQuery,...stock_transfers_WmsQuery,...suppliers_WmsQuery,...tasks_WmsQuery,...warehouses_WmsQuery,...products_WmsQuery },
 File: File,

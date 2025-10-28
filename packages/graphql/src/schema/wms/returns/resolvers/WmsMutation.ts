@@ -6,16 +6,18 @@ import {
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createReturn" | "removeReturn" | "updateReturn"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createReturn'|'removeReturn'|'updateReturn'> = {
   createReturn: async (_parent, args, ctx) => {
     const payload = CreateReturnInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.returns")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? WmsReturnStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -33,7 +35,12 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.returns")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? WmsReturnStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
@@ -42,7 +49,7 @@ export const WmsMutation: Pick<
     if (payload.status && payload.status !== previousReturn.status) {
       const status = payload.status as WmsReturnStatusEnum;
 
-      ctx.pubsub.publish("wms.return.statusChanged", {
+      await ctx.pubsub.publish("wms.return.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousReturn.status as WmsReturnStatusEnum,
@@ -51,16 +58,16 @@ export const WmsMutation: Pick<
 
       // Publish specific status events
       if (status === "RECEIVED") {
-        ctx.pubsub.publish("wms.return.received", result);
+        await ctx.pubsub.publish("wms.return.received", result);
       } else if (status === "APPROVED") {
-        ctx.pubsub.publish("wms.return.approved", result);
+        await ctx.pubsub.publish("wms.return.approved", result);
       } else if (status === "REJECTED") {
-        ctx.pubsub.publish("wms.return.rejected", {
+        await ctx.pubsub.publish("wms.return.rejected", {
           ...result,
           rejectionReason: null,
         });
       } else if (status === "PROCESSED") {
-        ctx.pubsub.publish("wms.return.processed", result);
+        await ctx.pubsub.publish("wms.return.processed", result);
       }
     }
 

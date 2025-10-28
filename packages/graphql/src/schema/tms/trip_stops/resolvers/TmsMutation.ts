@@ -6,10 +6,7 @@ import {
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createTripStop" | "removeTripStop" | "updateTripStop"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createTripStop'|'removeTripStop'|'updateTripStop'> = {
   createTripStop: async (_parent, args, ctx) => {
     const payload = CreateTripStopInputSchema().parse(args.value);
 
@@ -53,11 +50,11 @@ export const TmsMutation: Pick<
       const status = payload.status as TmsTripStopStatusEnum;
 
       if (status === "ARRIVED") {
-        ctx.pubsub.publish("tms.tripStop.arrived", result);
+        await ctx.pubsub.publish("tms.tripStop.arrived", result);
       } else if (status === "COMPLETED") {
-        ctx.pubsub.publish("tms.tripStop.completed", result);
+        await ctx.pubsub.publish("tms.tripStop.completed", result);
       } else if (status === "SKIPPED") {
-        ctx.pubsub.publish("tms.tripStop.skipped", {
+        await ctx.pubsub.publish("tms.tripStop.skipped", {
           ...result,
           reason: null,
         });

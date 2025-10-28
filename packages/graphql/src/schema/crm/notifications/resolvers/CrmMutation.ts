@@ -39,7 +39,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createNotification'|'updat
       result.isRead !== previousNotification.isRead ||
       payload.isRead !== undefined
     ) {
-      ctx.pubsub.publish("crm.notification.marked", {
+      await ctx.pubsub.publish("crm.notification.marked", {
         id: result.id,
         userId: result.userId,
         isRead: result.isRead ?? false,

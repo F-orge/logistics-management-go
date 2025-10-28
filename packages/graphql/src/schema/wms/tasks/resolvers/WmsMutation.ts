@@ -15,12 +15,20 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .insertInto("wms.tasks")
-      .values(payload as any)
+      .values({
+        ...payload,
+        type: payload.type
+          ? WmsTaskTypeEnum[payload.type]
+          : WmsTaskTypeEnum.PICK,
+        status: payload.status
+          ? WmsTaskStatusEnum[payload.status]
+          : WmsTaskStatusEnum.PENDING,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
     // Publish created event
-    ctx.pubsub.publish("wms.task.created", result);
+    await ctx.pubsub.publish("wms.task.created", result);
 
     return result as unknown as Tasks;
   },
@@ -36,7 +44,11 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.tasks")
-      .set(payload as any)
+      .set({
+        ...payload,
+        type: payload.type ? WmsTaskTypeEnum[payload.type] : undefined,
+        status: payload.status ? WmsTaskStatusEnum[payload.status] : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
@@ -46,7 +58,7 @@ export const WmsMutation: Pick<
       payload.userId !== undefined &&
       payload.userId !== previousTask.userId
     ) {
-      ctx.pubsub.publish("wms.task.assigned", {
+      await ctx.pubsub.publish("wms.task.assigned", {
         ...result,
         previousUserId: previousTask.userId,
       });
@@ -56,7 +68,7 @@ export const WmsMutation: Pick<
     if (payload.status && payload.status !== previousTask.status) {
       const status = payload.status as WmsTaskStatusEnum;
 
-      ctx.pubsub.publish("wms.task.statusChanged", {
+      await ctx.pubsub.publish("wms.task.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousTask.status as WmsTaskStatusEnum,
@@ -65,11 +77,11 @@ export const WmsMutation: Pick<
 
       // Publish specific status events
       if (status === "IN_PROGRESS") {
-        ctx.pubsub.publish("wms.task.started", result);
+        await ctx.pubsub.publish("wms.task.started", result);
       } else if (status === "COMPLETED") {
-        ctx.pubsub.publish("wms.task.completed", result);
+        await ctx.pubsub.publish("wms.task.completed", result);
       } else if (status === "CANCELLED") {
-        ctx.pubsub.publish("wms.task.cancelled", result);
+        await ctx.pubsub.publish("wms.task.cancelled", result);
       }
     }
 

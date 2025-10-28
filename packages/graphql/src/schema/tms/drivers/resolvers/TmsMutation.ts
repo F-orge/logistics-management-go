@@ -6,10 +6,7 @@ import {
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createDriver" | "removeDriver" | "updateDriver"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createDriver'|'removeDriver'|'updateDriver'> = {
   createDriver: async (_parent, args, ctx) => {
     const payload = CreateDriverInputSchema().parse(args.value);
 
@@ -45,7 +42,7 @@ export const TmsMutation: Pick<
 
     // Publish status changed event
     if (payload.status && payload.status !== previousDriver.status) {
-      ctx.pubsub.publish("tms.driver.statusChanged", {
+      await ctx.pubsub.publish("tms.driver.statusChanged", {
         id: result.id,
         newStatus: payload.status as TmsDriverStatusEnum,
         previousStatus: previousDriver.status as TmsDriverStatusEnum,

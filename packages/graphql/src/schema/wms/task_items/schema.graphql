@@ -36,7 +36,7 @@ input CreateTaskItemInput {
   quantityCompleted: Int!
   status: TaskItemStatus
   lotNumber: String
-  serialNumbers: [String]
+  serialNumbers: [String!]!
   expiryDate: String
   notes: String
 }
@@ -47,8 +47,6 @@ input UpdateTaskItemInput {
   quantityRequired: Int
   quantityCompleted: Int
   status: TaskItemStatus
-  lotNumber: String
-  serialNumbers: [String]
   expiryDate: Date
   notes: String
   completedAt: String

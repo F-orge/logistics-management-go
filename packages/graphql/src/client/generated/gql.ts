@@ -247,7 +247,6 @@ type Documents = {
     "\n  mutation RemoveBinThreshold($id: ID!) {\n    wms {\n      removeBinThreshold(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveBinThresholdDocument,
     "\n  query TableBinThreshold($page: Int, $perPage: Int) {\n    wms {\n      binThresholds(page: $page, perPage: $perPage) {\n        alertThreshold\n        createdAt\n        id\n        isActive\n        maxQuantity\n        minQuantity\n        reorderQuantity\n        updatedAt\n        product {\n          name\n          description\n          id\n          sku\n          status\n          barcode\n        }\n      }\n    }\n  }\n": typeof types.TableBinThresholdDocument,
     "\n  query AnalyticsBinThresholds($from: Date, $to: Date) {\n    wms {\n      binThresholds(from: $from, to: $to) {\n        minQuantity\n        maxQuantity\n        reorderQuantity\n        alertThreshold\n      }\n    }\n  }\n": typeof types.AnalyticsBinThresholdsDocument,
-    "\n  mutation CreateInboundShipmentItem(\n    $inboundShipmentItem: CreateInboundShipmentItemInput!\n  ) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInboundShipmentItemDocument,
     "\n  mutation UpdateInboundShipmentItem(\n    $id: ID!\n    $inboundShipmentItem: UpdateInboundShipmentItemInput!\n  ) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInboundShipmentItemDocument,
     "\n  mutation RemoveInboundShipmentItem($id: ID!) {\n    wms {\n      removeInboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInboundShipmentItemDocument,
     "\n  mutation CreateInboundShipment(\n    $inboundShipment: CreateInboundShipmentInput!\n  ) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateInboundShipmentDocument,
@@ -277,7 +276,6 @@ type Documents = {
     "\n  query TableLocation(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $type: LocationType\n  ) {\n    wms {\n      locations(page: $page, perPage: $perPage, search: $search, type: $type) {\n        barcode\n        createdAt\n        isActive\n        isPickable\n        isReceivable\n        id\n        hazmatApproved\n        level\n        maxPallets\n        maxVolume\n        maxWeight\n        name\n        path\n        temperatureControlled\n        type\n        updatedAt\n        xCoordinate\n        yCoordinate\n        zCoordinate\n        parentLocation {\n          id\n          name\n          path\n        }\n        warehouse {\n          address\n          city\n          name\n          id\n          isActive\n        }\n      }\n    }\n  }\n": typeof types.TableLocationDocument,
     "\n  query SearchLocations($search: String!) {\n    wms {\n      locations(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": typeof types.SearchLocationsDocument,
     "\n  query AnalyticsLocations($from: Date, $to: Date) {\n    wms {\n      locations(from: $from, to: $to) {\n        maxWeight\n        maxVolume\n        maxPallets\n        type\n      }\n    }\n  }\n": typeof types.AnalyticsLocationsDocument,
-    "\n  mutation CreateOutboundShipmentItem(\n    $outboundShipmentItem: CreateOutboundShipmentItemInput!\n  ) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateOutboundShipmentItemDocument,
     "\n  mutation UpdateOutboundShipmentItem(\n    $id: ID!\n    $outboundShipmentItem: UpdateOutboundShipmentItemInput!\n  ) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateOutboundShipmentItemDocument,
     "\n  mutation RemoveOutboundShipmentItem($id: ID!) {\n    wms {\n      removeOutboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveOutboundShipmentItemDocument,
     "\n  mutation CreateOutboundShipment(\n    $outboundShipment: CreateOutboundShipmentInput!\n  ) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateOutboundShipmentDocument,
@@ -286,7 +284,6 @@ type Documents = {
     "\n  query TableOutboundShipment(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: OutboundShipmentStatus\n  ) {\n    wms {\n      outboundShipments(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        carrier\n        createdAt\n        id\n        status\n        trackingNumber\n        updatedAt\n        warehouseId\n        salesOrder {\n          id\n          orderNumber\n          shippingAddress\n          status\n        }\n      }\n    }\n  }\n": typeof types.TableOutboundShipmentDocument,
     "\n  query SearchOutboundShipments($search: String!) {\n    wms {\n      outboundShipments(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: trackingNumber\n      }\n    }\n  }\n": typeof types.SearchOutboundShipmentsDocument,
     "\n  query AnalyticsOutboundShipments($from: Date, $to: Date) {\n    wms {\n      outboundShipments(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsOutboundShipmentsDocument,
-    "\n  mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {\n    wms {\n      createPackageItem(value: $packageItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePackageItemDocument,
     "\n  mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {\n    wms {\n      updatePackageItem(id: $id, value: $packageItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePackageItemDocument,
     "\n  mutation RemovePackageItem($id: ID!) {\n    wms {\n      removePackageItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePackageItemDocument,
     "\n  mutation CreatePackage($package: CreatePackageInput!) {\n    wms {\n      createPackage(value: $package) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePackageDocument,
@@ -295,7 +292,6 @@ type Documents = {
     "\n  query TablePackage($page: Int, $perPage: Int, $search: String) {\n    wms {\n      packages(page: $page, perPage: $perPage, search: $search) {\n        carrier\n        createdAt\n        height\n        id\n        insuranceValue\n        isFragile\n        isHazmat\n        length\n        packageNumber\n        packageType\n        packedAt\n        requiresSignature\n        serviceLevel\n        shippedAt\n        trackingNumber\n        updatedAt\n        volume\n        weight\n        width\n        items {\n          lotNumber\n          quantity\n          product {\n            barcode\n            costPrice\n            name\n            sku\n            status\n          }\n          serialNumbers\n          totalWeight\n          unitWeight\n        }\n      }\n    }\n  }\n": typeof types.TablePackageDocument,
     "\n  query SearchPackages($search: String!) {\n    wms {\n      packages(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: packageNumber\n      }\n    }\n  }\n": typeof types.SearchPackagesDocument,
     "\n  query AnalyticsPackages($from: Date, $to: Date) {\n    wms {\n      packages(from: $from, to: $to) {\n        weight\n        length\n        width\n        height\n        volume\n        insuranceValue\n      }\n    }\n  }\n": typeof types.AnalyticsPackagesDocument,
-    "\n  mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {\n    wms {\n      createPickBatchItem(value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePickBatchItemDocument,
     "\n  mutation UpdatePickBatchItem(\n    $id: ID!\n    $pickBatchItem: UpdatePickBatchItemInput!\n  ) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdatePickBatchItemDocument,
     "\n  mutation RemovePickBatchItem($id: ID!) {\n    wms {\n      removePickBatchItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemovePickBatchItemDocument,
     "\n  mutation CreatePickBatch($pickBatch: CreatePickBatchInput!) {\n    wms {\n      createPickBatch(value: $pickBatch) {\n        id\n      }\n    }\n  }\n": typeof types.CreatePickBatchDocument,
@@ -320,7 +316,6 @@ type Documents = {
     "\n  mutation RemoveReorderPoint($id: ID!) {\n    wms {\n      removeReorderPoint(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveReorderPointDocument,
     "\n  query TableReorderPoint($page: Int, $perPage: Int) {\n    wms {\n      reorderPoints(page: $page, perPage: $perPage) {\n        createdAt\n        id\n        threshold\n        updatedAt\n        product {\n          barcode\n          description\n          costPrice\n          id\n          name\n          sku\n          status\n        }\n        warehouse {\n          address\n          city\n          country\n          id\n          name\n        }\n      }\n    }\n  }\n": typeof types.TableReorderPointDocument,
     "\n  query AnalyticsReorderPoints($from: Date, $to: Date) {\n    wms {\n      reorderPoints(from: $from, to: $to) {\n        threshold\n      }\n    }\n  }\n": typeof types.AnalyticsReorderPointsDocument,
-    "\n  mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {\n    wms {\n      createReturnItem(value: $returnItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateReturnItemDocument,
     "\n  mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {\n    wms {\n      updateReturnItem(id: $id, value: $returnItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateReturnItemDocument,
     "\n  mutation RemoveReturnItem($id: ID!) {\n    wms {\n      removeReturnItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveReturnItemDocument,
     "\n  mutation CreateReturn($return: CreateReturnInput!) {\n    wms {\n      createReturn(value: $return) {\n        id\n      }\n    }\n  }\n": typeof types.CreateReturnDocument,
@@ -329,7 +324,6 @@ type Documents = {
     "\n  query TableReturnQuery(\n    $page: Int\n    $perPage: Int\n    $status: ReturnStatus\n    $search: String\n  ) {\n    wms {\n      returns(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        id\n        reason\n        returnNumber\n        status\n        updatedAt\n        client {\n          name\n          phoneNumber\n          industry\n          country\n          city\n          website\n        }\n        salesOrder {\n          orderNumber\n          shippingAddress\n          status\n          updatedAt\n          id\n        }\n        items {\n          condition\n          id\n          quantityExpected\n          quantityReceived\n          quantityVariance\n          product {\n            barcode\n            costPrice\n            description\n            id\n            name\n            sku\n            status\n          }\n        }\n      }\n    }\n  }\n": typeof types.TableReturnQueryDocument,
     "\n  query SearchReturns($search: String!) {\n    wms {\n      returns(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: returnNumber\n      }\n    }\n  }\n": typeof types.SearchReturnsDocument,
     "\n  query AnalyticsReturns($from: Date, $to: Date) {\n    wms {\n      returns(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsReturnsDocument,
-    "\n  mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {\n    wms {\n      createSalesOrderItem(value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateSalesOrderItemDocument,
     "\n  mutation UpdateSalesOrderItem(\n    $id: ID!\n    $salesOrderItem: UpdateSalesOrderItemInput!\n  ) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateSalesOrderItemDocument,
     "\n  mutation RemoveSalesOrderItem($id: ID!) {\n    wms {\n      removeSalesOrderItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveSalesOrderItemDocument,
     "\n  mutation CreateSalesOrder($salesOrder: CreateSalesOrderInput!) {\n    wms {\n      createSalesOrder(value: $salesOrder) {\n        id\n      }\n    }\n  }\n": typeof types.CreateSalesOrderDocument,
@@ -348,7 +342,6 @@ type Documents = {
     "\n  mutation RemoveSupplier($id: ID!) {\n    wms {\n      removeSupplier(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveSupplierDocument,
     "\n  query TableSupplier($page: Int, $perPage: Int, $search: String) {\n    wms {\n      suppliers(page: $page, perPage: $perPage, search: $search) {\n        contactPerson\n        createdAt\n        email\n        id\n        name\n        phoneNumber\n        updatedAt\n        products {\n          barcode\n          id\n          costPrice\n          description\n          name\n          sku\n          status\n        }\n      }\n    }\n  }\n": typeof types.TableSupplierDocument,
     "\n  query SearchSuppliers($search: String!) {\n    wms {\n      suppliers(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": typeof types.SearchSuppliersDocument,
-    "\n  mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {\n    wms {\n      createTaskItem(value: $taskItem) {\n        id\n      }\n    }\n  }\n": typeof types.CreateTaskItemDocument,
     "\n  mutation UpdateTaskItem($id: ID!, $taskItem: UpdateTaskItemInput!) {\n    wms {\n      updateTaskItem(id: $id, value: $taskItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateTaskItemDocument,
     "\n  mutation RemoveTaskItem($id: ID!) {\n    wms {\n      removeTaskItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveTaskItemDocument,
     "\n  mutation CreateTask($task: CreateTaskInput!) {\n    wms {\n      createTask(value: $task) {\n        id\n      }\n    }\n  }\n": typeof types.CreateTaskDocument,
@@ -596,7 +589,6 @@ const documents: Documents = {
     "\n  mutation RemoveBinThreshold($id: ID!) {\n    wms {\n      removeBinThreshold(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveBinThresholdDocument,
     "\n  query TableBinThreshold($page: Int, $perPage: Int) {\n    wms {\n      binThresholds(page: $page, perPage: $perPage) {\n        alertThreshold\n        createdAt\n        id\n        isActive\n        maxQuantity\n        minQuantity\n        reorderQuantity\n        updatedAt\n        product {\n          name\n          description\n          id\n          sku\n          status\n          barcode\n        }\n      }\n    }\n  }\n": types.TableBinThresholdDocument,
     "\n  query AnalyticsBinThresholds($from: Date, $to: Date) {\n    wms {\n      binThresholds(from: $from, to: $to) {\n        minQuantity\n        maxQuantity\n        reorderQuantity\n        alertThreshold\n      }\n    }\n  }\n": types.AnalyticsBinThresholdsDocument,
-    "\n  mutation CreateInboundShipmentItem(\n    $inboundShipmentItem: CreateInboundShipmentItemInput!\n  ) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.CreateInboundShipmentItemDocument,
     "\n  mutation UpdateInboundShipmentItem(\n    $id: ID!\n    $inboundShipmentItem: UpdateInboundShipmentItemInput!\n  ) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.UpdateInboundShipmentItemDocument,
     "\n  mutation RemoveInboundShipmentItem($id: ID!) {\n    wms {\n      removeInboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInboundShipmentItemDocument,
     "\n  mutation CreateInboundShipment(\n    $inboundShipment: CreateInboundShipmentInput!\n  ) {\n    wms {\n      createInboundShipment(value: $inboundShipment) {\n        id\n      }\n    }\n  }\n": types.CreateInboundShipmentDocument,
@@ -626,7 +618,6 @@ const documents: Documents = {
     "\n  query TableLocation(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $type: LocationType\n  ) {\n    wms {\n      locations(page: $page, perPage: $perPage, search: $search, type: $type) {\n        barcode\n        createdAt\n        isActive\n        isPickable\n        isReceivable\n        id\n        hazmatApproved\n        level\n        maxPallets\n        maxVolume\n        maxWeight\n        name\n        path\n        temperatureControlled\n        type\n        updatedAt\n        xCoordinate\n        yCoordinate\n        zCoordinate\n        parentLocation {\n          id\n          name\n          path\n        }\n        warehouse {\n          address\n          city\n          name\n          id\n          isActive\n        }\n      }\n    }\n  }\n": types.TableLocationDocument,
     "\n  query SearchLocations($search: String!) {\n    wms {\n      locations(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": types.SearchLocationsDocument,
     "\n  query AnalyticsLocations($from: Date, $to: Date) {\n    wms {\n      locations(from: $from, to: $to) {\n        maxWeight\n        maxVolume\n        maxPallets\n        type\n      }\n    }\n  }\n": types.AnalyticsLocationsDocument,
-    "\n  mutation CreateOutboundShipmentItem(\n    $outboundShipmentItem: CreateOutboundShipmentItemInput!\n  ) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.CreateOutboundShipmentItemDocument,
     "\n  mutation UpdateOutboundShipmentItem(\n    $id: ID!\n    $outboundShipmentItem: UpdateOutboundShipmentItemInput!\n  ) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n": types.UpdateOutboundShipmentItemDocument,
     "\n  mutation RemoveOutboundShipmentItem($id: ID!) {\n    wms {\n      removeOutboundShipmentItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveOutboundShipmentItemDocument,
     "\n  mutation CreateOutboundShipment(\n    $outboundShipment: CreateOutboundShipmentInput!\n  ) {\n    wms {\n      createOutboundShipment(value: $outboundShipment) {\n        id\n      }\n    }\n  }\n": types.CreateOutboundShipmentDocument,
@@ -635,7 +626,6 @@ const documents: Documents = {
     "\n  query TableOutboundShipment(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: OutboundShipmentStatus\n  ) {\n    wms {\n      outboundShipments(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        carrier\n        createdAt\n        id\n        status\n        trackingNumber\n        updatedAt\n        warehouseId\n        salesOrder {\n          id\n          orderNumber\n          shippingAddress\n          status\n        }\n      }\n    }\n  }\n": types.TableOutboundShipmentDocument,
     "\n  query SearchOutboundShipments($search: String!) {\n    wms {\n      outboundShipments(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: trackingNumber\n      }\n    }\n  }\n": types.SearchOutboundShipmentsDocument,
     "\n  query AnalyticsOutboundShipments($from: Date, $to: Date) {\n    wms {\n      outboundShipments(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": types.AnalyticsOutboundShipmentsDocument,
-    "\n  mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {\n    wms {\n      createPackageItem(value: $packageItem) {\n        id\n      }\n    }\n  }\n": types.CreatePackageItemDocument,
     "\n  mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {\n    wms {\n      updatePackageItem(id: $id, value: $packageItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePackageItemDocument,
     "\n  mutation RemovePackageItem($id: ID!) {\n    wms {\n      removePackageItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePackageItemDocument,
     "\n  mutation CreatePackage($package: CreatePackageInput!) {\n    wms {\n      createPackage(value: $package) {\n        id\n      }\n    }\n  }\n": types.CreatePackageDocument,
@@ -644,7 +634,6 @@ const documents: Documents = {
     "\n  query TablePackage($page: Int, $perPage: Int, $search: String) {\n    wms {\n      packages(page: $page, perPage: $perPage, search: $search) {\n        carrier\n        createdAt\n        height\n        id\n        insuranceValue\n        isFragile\n        isHazmat\n        length\n        packageNumber\n        packageType\n        packedAt\n        requiresSignature\n        serviceLevel\n        shippedAt\n        trackingNumber\n        updatedAt\n        volume\n        weight\n        width\n        items {\n          lotNumber\n          quantity\n          product {\n            barcode\n            costPrice\n            name\n            sku\n            status\n          }\n          serialNumbers\n          totalWeight\n          unitWeight\n        }\n      }\n    }\n  }\n": types.TablePackageDocument,
     "\n  query SearchPackages($search: String!) {\n    wms {\n      packages(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: packageNumber\n      }\n    }\n  }\n": types.SearchPackagesDocument,
     "\n  query AnalyticsPackages($from: Date, $to: Date) {\n    wms {\n      packages(from: $from, to: $to) {\n        weight\n        length\n        width\n        height\n        volume\n        insuranceValue\n      }\n    }\n  }\n": types.AnalyticsPackagesDocument,
-    "\n  mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {\n    wms {\n      createPickBatchItem(value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": types.CreatePickBatchItemDocument,
     "\n  mutation UpdatePickBatchItem(\n    $id: ID!\n    $pickBatchItem: UpdatePickBatchItemInput!\n  ) {\n    wms {\n      updatePickBatchItem(id: $id, value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n": types.UpdatePickBatchItemDocument,
     "\n  mutation RemovePickBatchItem($id: ID!) {\n    wms {\n      removePickBatchItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemovePickBatchItemDocument,
     "\n  mutation CreatePickBatch($pickBatch: CreatePickBatchInput!) {\n    wms {\n      createPickBatch(value: $pickBatch) {\n        id\n      }\n    }\n  }\n": types.CreatePickBatchDocument,
@@ -669,7 +658,6 @@ const documents: Documents = {
     "\n  mutation RemoveReorderPoint($id: ID!) {\n    wms {\n      removeReorderPoint(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveReorderPointDocument,
     "\n  query TableReorderPoint($page: Int, $perPage: Int) {\n    wms {\n      reorderPoints(page: $page, perPage: $perPage) {\n        createdAt\n        id\n        threshold\n        updatedAt\n        product {\n          barcode\n          description\n          costPrice\n          id\n          name\n          sku\n          status\n        }\n        warehouse {\n          address\n          city\n          country\n          id\n          name\n        }\n      }\n    }\n  }\n": types.TableReorderPointDocument,
     "\n  query AnalyticsReorderPoints($from: Date, $to: Date) {\n    wms {\n      reorderPoints(from: $from, to: $to) {\n        threshold\n      }\n    }\n  }\n": types.AnalyticsReorderPointsDocument,
-    "\n  mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {\n    wms {\n      createReturnItem(value: $returnItem) {\n        id\n      }\n    }\n  }\n": types.CreateReturnItemDocument,
     "\n  mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {\n    wms {\n      updateReturnItem(id: $id, value: $returnItem) {\n        id\n      }\n    }\n  }\n": types.UpdateReturnItemDocument,
     "\n  mutation RemoveReturnItem($id: ID!) {\n    wms {\n      removeReturnItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveReturnItemDocument,
     "\n  mutation CreateReturn($return: CreateReturnInput!) {\n    wms {\n      createReturn(value: $return) {\n        id\n      }\n    }\n  }\n": types.CreateReturnDocument,
@@ -678,7 +666,6 @@ const documents: Documents = {
     "\n  query TableReturnQuery(\n    $page: Int\n    $perPage: Int\n    $status: ReturnStatus\n    $search: String\n  ) {\n    wms {\n      returns(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        id\n        reason\n        returnNumber\n        status\n        updatedAt\n        client {\n          name\n          phoneNumber\n          industry\n          country\n          city\n          website\n        }\n        salesOrder {\n          orderNumber\n          shippingAddress\n          status\n          updatedAt\n          id\n        }\n        items {\n          condition\n          id\n          quantityExpected\n          quantityReceived\n          quantityVariance\n          product {\n            barcode\n            costPrice\n            description\n            id\n            name\n            sku\n            status\n          }\n        }\n      }\n    }\n  }\n": types.TableReturnQueryDocument,
     "\n  query SearchReturns($search: String!) {\n    wms {\n      returns(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: returnNumber\n      }\n    }\n  }\n": types.SearchReturnsDocument,
     "\n  query AnalyticsReturns($from: Date, $to: Date) {\n    wms {\n      returns(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n": types.AnalyticsReturnsDocument,
-    "\n  mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {\n    wms {\n      createSalesOrderItem(value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": types.CreateSalesOrderItemDocument,
     "\n  mutation UpdateSalesOrderItem(\n    $id: ID!\n    $salesOrderItem: UpdateSalesOrderItemInput!\n  ) {\n    wms {\n      updateSalesOrderItem(id: $id, value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n": types.UpdateSalesOrderItemDocument,
     "\n  mutation RemoveSalesOrderItem($id: ID!) {\n    wms {\n      removeSalesOrderItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveSalesOrderItemDocument,
     "\n  mutation CreateSalesOrder($salesOrder: CreateSalesOrderInput!) {\n    wms {\n      createSalesOrder(value: $salesOrder) {\n        id\n      }\n    }\n  }\n": types.CreateSalesOrderDocument,
@@ -697,7 +684,6 @@ const documents: Documents = {
     "\n  mutation RemoveSupplier($id: ID!) {\n    wms {\n      removeSupplier(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveSupplierDocument,
     "\n  query TableSupplier($page: Int, $perPage: Int, $search: String) {\n    wms {\n      suppliers(page: $page, perPage: $perPage, search: $search) {\n        contactPerson\n        createdAt\n        email\n        id\n        name\n        phoneNumber\n        updatedAt\n        products {\n          barcode\n          id\n          costPrice\n          description\n          name\n          sku\n          status\n        }\n      }\n    }\n  }\n": types.TableSupplierDocument,
     "\n  query SearchSuppliers($search: String!) {\n    wms {\n      suppliers(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": types.SearchSuppliersDocument,
-    "\n  mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {\n    wms {\n      createTaskItem(value: $taskItem) {\n        id\n      }\n    }\n  }\n": types.CreateTaskItemDocument,
     "\n  mutation UpdateTaskItem($id: ID!, $taskItem: UpdateTaskItemInput!) {\n    wms {\n      updateTaskItem(id: $id, value: $taskItem) {\n        id\n      }\n    }\n  }\n": types.UpdateTaskItemDocument,
     "\n  mutation RemoveTaskItem($id: ID!) {\n    wms {\n      removeTaskItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveTaskItemDocument,
     "\n  mutation CreateTask($task: CreateTaskInput!) {\n    wms {\n      createTask(value: $task) {\n        id\n      }\n    }\n  }\n": types.CreateTaskDocument,
@@ -1644,10 +1630,6 @@ export function graphql(source: "\n  query AnalyticsBinThresholds($from: Date, $
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateInboundShipmentItem(\n    $inboundShipmentItem: CreateInboundShipmentItemInput!\n  ) {\n    wms {\n      createInboundShipmentItem(value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateInboundShipmentItemDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation UpdateInboundShipmentItem(\n    $id: ID!\n    $inboundShipmentItem: UpdateInboundShipmentItemInput!\n  ) {\n    wms {\n      updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInboundShipmentItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -1764,10 +1746,6 @@ export function graphql(source: "\n  query AnalyticsLocations($from: Date, $to: 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateOutboundShipmentItem(\n    $outboundShipmentItem: CreateOutboundShipmentItemInput!\n  ) {\n    wms {\n      createOutboundShipmentItem(value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateOutboundShipmentItemDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation UpdateOutboundShipmentItem(\n    $id: ID!\n    $outboundShipmentItem: UpdateOutboundShipmentItemInput!\n  ) {\n    wms {\n      updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateOutboundShipmentItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -1800,10 +1778,6 @@ export function graphql(source: "\n  query AnalyticsOutboundShipments($from: Dat
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreatePackageItem($packageItem: CreatePackageItemInput!) {\n    wms {\n      createPackageItem(value: $packageItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreatePackageItemDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation UpdatePackageItem($id: ID!, $packageItem: UpdatePackageItemInput!) {\n    wms {\n      updatePackageItem(id: $id, value: $packageItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdatePackageItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -1833,10 +1807,6 @@ export function graphql(source: "\n  query SearchPackages($search: String!) {\n 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query AnalyticsPackages($from: Date, $to: Date) {\n    wms {\n      packages(from: $from, to: $to) {\n        weight\n        length\n        width\n        height\n        volume\n        insuranceValue\n      }\n    }\n  }\n"): typeof import('./graphql').AnalyticsPackagesDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation CreatePickBatchItem($pickBatchItem: CreatePickBatchItemInput!) {\n    wms {\n      createPickBatchItem(value: $pickBatchItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreatePickBatchItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -1936,10 +1906,6 @@ export function graphql(source: "\n  query AnalyticsReorderPoints($from: Date, $
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation CreateReturnItem($returnItem: CreateReturnItemInput!) {\n    wms {\n      createReturnItem(value: $returnItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateReturnItemDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function graphql(source: "\n  mutation UpdateReturnItem($id: ID!, $returnItem: UpdateReturnItemInput!) {\n    wms {\n      updateReturnItem(id: $id, value: $returnItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateReturnItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -1969,10 +1935,6 @@ export function graphql(source: "\n  query SearchReturns($search: String!) {\n  
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query AnalyticsReturns($from: Date, $to: Date) {\n    wms {\n      returns(from: $from, to: $to) {\n        status\n      }\n    }\n  }\n"): typeof import('./graphql').AnalyticsReturnsDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation CreateSalesOrderItem($salesOrderItem: CreateSalesOrderItemInput!) {\n    wms {\n      createSalesOrderItem(value: $salesOrderItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateSalesOrderItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -2045,10 +2007,6 @@ export function graphql(source: "\n  query TableSupplier($page: Int, $perPage: I
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query SearchSuppliers($search: String!) {\n    wms {\n      suppliers(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n"): typeof import('./graphql').SearchSuppliersDocument;
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {\n    wms {\n      createTaskItem(value: $taskItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateTaskItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

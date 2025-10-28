@@ -6,10 +6,7 @@ import {
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createGeofenceEvent" | "updateGeofenceEvent"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createGeofenceEvent'|'updateGeofenceEvent'> = {
   createGeofenceEvent: async (_parent, args, ctx) => {
     const payload = CreateGeofenceEventInputSchema().parse(args.value);
 
@@ -34,12 +31,12 @@ export const TmsMutation: Pick<
     // Publish geofence event
     const eventType = result.eventType as TmsGeofenceEventTypeEnum;
     if (eventType === "ENTER") {
-      ctx.pubsub.publish("tms.geofence.entered", {
+      await ctx.pubsub.publish("tms.geofence.entered", {
         ...result,
         geofenceName: geofence.name,
       });
     } else if (eventType === "EXIT") {
-      ctx.pubsub.publish("tms.geofence.exited", {
+      await ctx.pubsub.publish("tms.geofence.exited", {
         ...result,
         geofenceName: geofence.name,
       });

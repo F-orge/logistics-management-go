@@ -5,7 +5,7 @@ type PackageItems {
   batch: InventoryBatches
   quantity: Int!
   lotNumber: String
-  serialNumbers: [String]
+  serialNumbers: [String!]!
   expiryDate: String
   unitWeight: Float
   totalWeight: Float
@@ -19,7 +19,7 @@ input CreatePackageItemInput {
   batchId: ID
   quantity: Int!
   lotNumber: String
-  serialNumbers: [String]
+  serialNumbers: [String!]!
   expiryDate: String
   unitWeight: Float
 }
@@ -27,7 +27,6 @@ input CreatePackageItemInput {
 input UpdatePackageItemInput {
   quantity: Int
   lotNumber: String
-  serialNumbers: [String]
   expiryDate: String
   unitWeight: Float
 }

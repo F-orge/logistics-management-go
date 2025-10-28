@@ -10,10 +10,7 @@ import {
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  "createExpense" | "removeExpense" | "updateExpense"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'createExpense'|'removeExpense'|'updateExpense'> = {
   createExpense: async (_parent, args, ctx) => {
     const payload = CreateExpenseInputSchema().parse(args.value);
 
@@ -33,7 +30,7 @@ export const TmsMutation: Pick<
       .executeTakeFirstOrThrow();
 
     // Publish submitted event
-    ctx.pubsub.publish("tms.expense.submitted", result);
+    await ctx.pubsub.publish("tms.expense.submitted", result);
 
     return result as unknown as Expenses;
   },
@@ -67,7 +64,7 @@ export const TmsMutation: Pick<
     if (payload.status && payload.status !== previousExpense.status) {
       const status = payload.status as TmsExpenseStatusEnum;
 
-      ctx.pubsub.publish("tms.expense.statusChanged", {
+      await ctx.pubsub.publish("tms.expense.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousExpense.status as TmsExpenseStatusEnum,
@@ -76,9 +73,9 @@ export const TmsMutation: Pick<
 
       // Publish specific status events
       if (status === "APPROVED") {
-        ctx.pubsub.publish("tms.expense.approved", result);
+        await ctx.pubsub.publish("tms.expense.approved", result);
       } else if (status === "REJECTED") {
-        ctx.pubsub.publish("tms.expense.rejected", {
+        await ctx.pubsub.publish("tms.expense.rejected", {
           ...result,
           rejectionReason: null,
         });

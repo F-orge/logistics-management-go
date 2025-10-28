@@ -97,7 +97,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createOpportunity'|'update
       if (args.value.stage && args.value.stage !== previousOpportunity.stage) {
         const newStage = CrmOpportunityStage[args.value.stage];
 
-        ctx.pubsub.publish("crm.opportunity.stageChanged", {
+        await ctx.pubsub.publish("crm.opportunity.stageChanged", {
           id: updatedOpportunity.id,
           newStage: newStage,
           previousStage: previousOpportunity.stage as CrmOpportunityStage,
@@ -106,12 +106,12 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createOpportunity'|'update
 
         // Publish won event
         if (newStage === "CLOSED_WON") {
-          ctx.pubsub.publish("crm.opportunity.won", updatedOpportunity);
+          await ctx.pubsub.publish("crm.opportunity.won", updatedOpportunity);
         }
 
         // Publish lost event
         if (newStage === "CLOSED_LOST") {
-          ctx.pubsub.publish("crm.opportunity.lost", updatedOpportunity);
+          await ctx.pubsub.publish("crm.opportunity.lost", updatedOpportunity);
         }
       }
     }

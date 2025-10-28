@@ -6,21 +6,23 @@ import {
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createStockTransfer" | "removeStockTransfer" | "updateStockTransfer"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createStockTransfer'|'removeStockTransfer'|'updateStockTransfer'> = {
   createStockTransfer: async (_parent, args, ctx) => {
     const payload = CreateStockTransferInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.stockTransfers")
-      .values(payload as any)
+      .values({
+        ...payload,
+        status: payload.status
+          ? WmsStockTransferStatusEnum[payload.status]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
     // Publish initiated event
-    ctx.pubsub.publish("wms.stockTransfer.initiated", result);
+    await ctx.pubsub.publish("wms.stockTransfer.initiated", result);
 
     return result as unknown as StockTransfers;
   },
@@ -36,7 +38,12 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.stockTransfers")
-      .set(payload as any)
+      .set({
+        ...payload,
+        status: payload.status
+          ? WmsStockTransferStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
@@ -45,7 +52,7 @@ export const WmsMutation: Pick<
     if (payload.status && payload.status !== previousTransfer.status) {
       const status = payload.status as WmsStockTransferStatusEnum;
 
-      ctx.pubsub.publish("wms.stockTransfer.statusChanged", {
+      await ctx.pubsub.publish("wms.stockTransfer.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousTransfer.status as WmsStockTransferStatusEnum,
@@ -54,9 +61,9 @@ export const WmsMutation: Pick<
 
       // Publish specific status events
       if (status === "IN_TRANSIT") {
-        ctx.pubsub.publish("wms.stockTransfer.inTransit", result);
+        await ctx.pubsub.publish("wms.stockTransfer.inTransit", result);
       } else if (status === "RECEIVED") {
-        ctx.pubsub.publish("wms.stockTransfer.received", result);
+        await ctx.pubsub.publish("wms.stockTransfer.received", result);
       }
     }
 

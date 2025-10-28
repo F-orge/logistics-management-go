@@ -55,7 +55,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createLead'|'removeLead'|'
 
     // Publish status changed event
     if (payload.status && payload.status !== previousLead.status) {
-      ctx.pubsub.publish("crm.lead.statusChanged", {
+      await ctx.pubsub.publish("crm.lead.statusChanged", {
         id: result.id,
         newStatus: result.status as CrmLeadStatus,
         previousStatus: previousLead.status as CrmLeadStatus,

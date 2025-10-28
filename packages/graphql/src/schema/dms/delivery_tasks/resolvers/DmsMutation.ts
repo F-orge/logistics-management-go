@@ -55,7 +55,7 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryTask'|'updat
     if (payload.status && payload.status !== previousTask.status) {
       const status = payload.status as DmsDeliveryTaskStatusEnum;
 
-      ctx.pubsub.publish("dms.deliveryTask.statusChanged", {
+      await ctx.pubsub.publish("dms.deliveryTask.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousTask.status as DmsDeliveryTaskStatusEnum,
@@ -63,11 +63,11 @@ export const DmsMutation: Pick<DmsMutationResolvers, 'createDeliveryTask'|'updat
       });
 
       if (status === "OUT_FOR_DELIVERY") {
-        ctx.pubsub.publish("dms.deliveryTask.outForDelivery", result);
+        await ctx.pubsub.publish("dms.deliveryTask.outForDelivery", result);
       } else if (status === "DELIVERED") {
-        ctx.pubsub.publish("dms.deliveryTask.delivered", result);
+        await ctx.pubsub.publish("dms.deliveryTask.delivered", result);
       } else if (status === "FAILED") {
-        ctx.pubsub.publish("dms.deliveryTask.failed", result);
+        await ctx.pubsub.publish("dms.deliveryTask.failed", result);
       }
     }
 

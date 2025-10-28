@@ -5,12 +5,7 @@ import {
 } from "../../../../zod.schema";
 import type { TmsMutationResolvers } from "./../../../types.generated";
 
-export const TmsMutation: Pick<
-  TmsMutationResolvers,
-  | "addVehicleMaintenance"
-  | "removeVehicleMaintenance"
-  | "updateVehicleMaintenance"
-> = {
+export const TmsMutation: Pick<TmsMutationResolvers, 'addVehicleMaintenance'|'removeVehicleMaintenance'|'updateVehicleMaintenance'> = {
   addVehicleMaintenance: async (_parent, args, ctx) => {
     const payload = CreateVehicleMaintenanceInputSchema().parse(args.value);
 
@@ -27,7 +22,7 @@ export const TmsMutation: Pick<
       .executeTakeFirstOrThrow();
 
     // Publish maintenance scheduled event
-    ctx.pubsub.publish("tms.vehicle.maintenanceScheduled", result);
+    await ctx.pubsub.publish("tms.vehicle.maintenanceScheduled", result);
 
     return result as unknown as VehicleMaintenance;
   },

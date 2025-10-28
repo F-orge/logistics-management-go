@@ -10,7 +10,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createBinThreshold'|'remov
 
     const result = await ctx.db
       .insertInto("wms.binThresholds")
-      .values(payload as any)
+      .values(payload)
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +21,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createBinThreshold'|'remov
 
     const result = await ctx.db
       .updateTable("wms.binThresholds")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

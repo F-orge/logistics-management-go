@@ -1,14 +1,14 @@
 import { graphql } from "../generated/gql";
 
-export const CreateTaskItemMutation = graphql(`
-  mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {
-    wms {
-      createTaskItem(value: $taskItem) {
-        id
-      }
-    }
-  }
-`);
+// export const CreateTaskItemMutation = graphql(`
+//   mutation CreateTaskItem($taskItem: CreateTaskItemInput!) {
+//     wms {
+//       createTaskItem(value: $taskItem) {
+//         id
+//       }
+//     }
+//   }
+// `);
 
 export const UpdateTaskItemMutation = graphql(`
   mutation UpdateTaskItem($id: ID!, $taskItem: UpdateTaskItemInput!) {

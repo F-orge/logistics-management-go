@@ -91,7 +91,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'updateInvo
 
     // Publish status changed event
     if (payload.status && payload.status !== previousInvoice.status) {
-      ctx.pubsub.publish("crm.invoice.statusChanged", {
+      await ctx.pubsub.publish("crm.invoice.statusChanged", {
         id: result.id,
         newStatus: result.status as CrmInvoiceStatus,
         previousStatus: previousInvoice.status as CrmInvoiceStatus,
@@ -100,7 +100,7 @@ export const CrmMutation: Pick<CrmMutationResolvers, 'createInvoice'|'updateInvo
 
     // Publish paid event
     if (payload.status === "PAID" && previousInvoice.status !== "PAID") {
-      ctx.pubsub.publish("crm.invoice.paid", result);
+      await ctx.pubsub.publish("crm.invoice.paid", result);
     }
 
     return result as unknown as Invoices;

@@ -48,7 +48,7 @@ input CreatePickBatchInput {
   priority: Int
   assignedUserId: ID
   waveId: String
-  zoneRestrictions: [String]
+  zoneRestrictions: [String!]!
   estimatedDuration: Int
   startedAt: String
   items: [CreatePickBatchItemInput!]!
@@ -62,7 +62,7 @@ input UpdatePickBatchInput {
   priority: Int
   assignedUserId: ID
   waveId: String
-  zoneRestrictions: [String]
+  zoneRestrictions: [String!]!
   actualDuration: Int
   completedItems: Int
   completedAt: Date

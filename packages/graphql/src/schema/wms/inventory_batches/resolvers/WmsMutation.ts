@@ -4,13 +4,16 @@ import {
   UpdateInventoryBatchInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createInventoryBatch'|'removeInventoryBatch'|'updateInventoryBatch'> = {
+export const WmsMutation: Pick<
+  WmsMutationResolvers,
+  "createInventoryBatch" | "removeInventoryBatch" | "updateInventoryBatch"
+> = {
   createInventoryBatch: async (_parent, args, ctx) => {
     const payload = CreateInventoryBatchInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.inventoryBatches")
-      .values(payload as any)
+      .values(payload)
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +24,7 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createInventoryBatch'|'rem
 
     const result = await ctx.db
       .updateTable("wms.inventoryBatches")
-      .set(payload as any)
+      .set(payload)
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

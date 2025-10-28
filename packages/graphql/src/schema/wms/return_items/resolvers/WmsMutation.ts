@@ -1,16 +1,23 @@
+import { WmsReturnItemConditionEnum } from "../../../../db.types";
 import {
   CreateReturnItemInputSchema,
   ReturnItems,
   UpdateReturnItemInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<WmsMutationResolvers, 'createReturnItem'|'removeReturnItem'|'updateReturnItem'> = {
-  createReturnItem: async (_parent, args, ctx) => {
+export const WmsMutation: Pick<WmsMutationResolvers, 'addReturnItem'|'removeReturnItem'|'updateReturnItem'> = {
+  addReturnItem: async (_parent, args, ctx) => {
     const payload = CreateReturnItemInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.returnItems")
-      .values(payload as any)
+      .values({
+        ...payload,
+        returnId: args.id,
+        condition: payload.condition
+          ? WmsReturnItemConditionEnum[payload.condition]
+          : undefined,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
@@ -21,7 +28,12 @@ export const WmsMutation: Pick<WmsMutationResolvers, 'createReturnItem'|'removeR
 
     const result = await ctx.db
       .updateTable("wms.returnItems")
-      .set(payload as any)
+      .set({
+        ...payload,
+        condition: payload.condition
+          ? WmsReturnItemConditionEnum[payload.condition]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();

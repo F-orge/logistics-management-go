@@ -1,4 +1,7 @@
-import { WmsPickBatchStatusEnum } from "../../../../db.types";
+import {
+  WmsPickBatchStatusEnum,
+  WmsPickStrategyEnum,
+} from "../../../../db.types";
 import {
   CreatePickBatchInputSchema,
   PickBatches,
@@ -6,21 +9,26 @@ import {
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createPickBatch" | "removePickBatch" | "updatePickBatch"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createPickBatch'|'removePickBatch'|'updatePickBatch'> = {
   createPickBatch: async (_parent, args, ctx) => {
     const payload = CreatePickBatchInputSchema().parse(args.value);
 
     const result = await ctx.db
       .insertInto("wms.pickBatches")
-      .values(payload as any)
+      .values({
+        ...payload,
+        strategy: payload.strategy
+          ? WmsPickStrategyEnum[payload.strategy]
+          : WmsPickStrategyEnum.BATCH_PICKING,
+        status: payload.status
+          ? WmsPickBatchStatusEnum[payload.status]
+          : WmsPickBatchStatusEnum.OPEN,
+      })
       .returningAll()
       .executeTakeFirstOrThrow();
 
     // Publish created event
-    ctx.pubsub.publish("wms.pickBatch.created", result);
+    await ctx.pubsub.publish("wms.pickBatch.created", result);
 
     return result as unknown as PickBatches;
   },
@@ -36,7 +44,15 @@ export const WmsMutation: Pick<
 
     const result = await ctx.db
       .updateTable("wms.pickBatches")
-      .set(payload as any)
+      .set({
+        ...payload,
+        strategy: payload.strategy
+          ? WmsPickStrategyEnum[payload.strategy]
+          : undefined,
+        status: payload.status
+          ? WmsPickBatchStatusEnum[payload.status]
+          : undefined,
+      })
       .where("id", "=", args.id)
       .returningAll()
       .executeTakeFirstOrThrow();
@@ -45,7 +61,7 @@ export const WmsMutation: Pick<
     if (payload.status && payload.status !== previousBatch.status) {
       const status = payload.status as WmsPickBatchStatusEnum;
 
-      ctx.pubsub.publish("wms.pickBatch.statusChanged", {
+      await ctx.pubsub.publish("wms.pickBatch.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousBatch.status as WmsPickBatchStatusEnum,
@@ -53,9 +69,9 @@ export const WmsMutation: Pick<
 
       // Publish specific status events
       if (status === "IN_PROGRESS") {
-        ctx.pubsub.publish("wms.pickBatch.started", result);
+        await ctx.pubsub.publish("wms.pickBatch.started", result);
       } else if (status === "COMPLETED") {
-        ctx.pubsub.publish("wms.pickBatch.completed", result);
+        await ctx.pubsub.publish("wms.pickBatch.completed", result);
       }
     }
 
