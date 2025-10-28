@@ -5,10 +5,7 @@ import {
   UpdatePutawayRuleInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
-export const WmsMutation: Pick<
-  WmsMutationResolvers,
-  "createPutawayRule" | "removePutawayRule" | "updatePutawayRule"
-> = {
+export const WmsMutation: Pick<WmsMutationResolvers, 'createPutawayRule'|'removePutawayRule'|'updatePutawayRule'> = {
   createPutawayRule: async (_parent, args, ctx) => {
     const payload = CreatePutawayRuleInputSchema().parse(args.value);
 

@@ -7,6 +7,7 @@ import {
   Quotes,
   Returns,
   SalesOrders,
+  User,
 } from "../../../../zod.schema";
 import type { CompaniesResolvers } from "./../../../types.generated";
 
@@ -19,7 +20,7 @@ export const Companies: CompaniesResolvers = {
       .where("crm.companies.id", "=", parent.id as string)
       .executeTakeFirst();
 
-    return result;
+    return result as User;
   },
   billingInvoices: async (parent, _, ctx) => {
     const results = await ctx.db
