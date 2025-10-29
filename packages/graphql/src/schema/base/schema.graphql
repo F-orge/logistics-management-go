@@ -15,4 +15,10 @@ type User {
   email: String!
   emailVerified: Boolean!
   image: String
+  createdAt: Date!
+  updatedAt: Date!
+  role: String
+  banned: Boolean
+  banReason: String
+  banExpires: Date
 }
