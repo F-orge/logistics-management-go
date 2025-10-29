@@ -74,7 +74,7 @@ export const BillingMutation: Pick<
     await trx.commit().execute();
 
     // Publish created event
-    ctx.pubsub.publish("billing.invoice.created", updatedInvoice);
+    await ctx.pubsub.publish("billing.invoice.created", updatedInvoice);
 
     return updatedInvoice as unknown as BillingInvoices;
   },
@@ -104,7 +104,7 @@ export const BillingMutation: Pick<
     if (payload.status && payload.status !== previousInvoice.status) {
       const status = payload.status as BillingInvoiceStatusEnum;
 
-      ctx.pubsub.publish("billing.invoice.statusChanged", {
+      await ctx.pubsub.publish("billing.invoice.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousInvoice.status as BillingInvoiceStatusEnum,
@@ -113,23 +113,23 @@ export const BillingMutation: Pick<
 
       // Publish specific status events
       if (status === "SENT") {
-        ctx.pubsub.publish("billing.invoice.sent", result);
+        await ctx.pubsub.publish("billing.invoice.sent", result);
       } else if (status === "VIEWED") {
-        ctx.pubsub.publish("billing.invoice.viewed", result);
+        await ctx.pubsub.publish("billing.invoice.viewed", result);
       } else if (status === "PAID") {
-        ctx.pubsub.publish("billing.invoice.paid", {
+        await ctx.pubsub.publish("billing.invoice.paid", {
           ...result,
           paidAmount: result.amountPaid?.toString() || "0",
           remainingBalance: result.amountOutstanding?.toString() || "0",
         });
       } else if (status === "PARTIAL_PAID") {
-        ctx.pubsub.publish("billing.invoice.partiallyPaid", {
+        await ctx.pubsub.publish("billing.invoice.partiallyPaid", {
           ...result,
           paymentAmount: result.amountPaid?.toString() || "0",
           remainingBalance: result.amountOutstanding?.toString() || "0",
         });
       } else if (status === "PAST_DUE") {
-        ctx.pubsub.publish("billing.invoice.overdue", {
+        await ctx.pubsub.publish("billing.invoice.overdue", {
           id: result.id,
           clientId: result.clientId,
           amountOutstanding: result.amountOutstanding?.toString() || "0",
@@ -148,7 +148,7 @@ export const BillingMutation: Pick<
           .where("billing.invoiceLineItems.invoiceId", "=", result.id)
           .executeTakeFirst();
 
-        ctx.pubsub.publish("billing.invoice.disputed", {
+        await ctx.pubsub.publish("billing.invoice.disputed", {
           ...result,
           disputeId: dispute?.id || "",
         });

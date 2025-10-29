@@ -6,7 +6,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createRateCard'|'removeRateCard'|'updateRateCard'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createRateCard" | "removeRateCard" | "updateRateCard"
+> = {
   createRateCard: async (_parent, args, ctx) => {
     const payload = CreateRateCardInputSchema().parse(args.value);
 
@@ -41,7 +44,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createRateCard'|'r
 
     // Publish deactivation event if rate card is being deactivated
     if (payload.isActive === false && previous.isActive !== false) {
-      ctx.pubsub.publish("billing.rateCard.deactivated", {
+      await ctx.pubsub.publish("billing.rateCard.deactivated", {
         id: result.id,
         name: result.name,
         reason: "Rate card deactivated",

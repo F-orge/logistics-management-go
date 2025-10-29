@@ -6,7 +6,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'updateDispute'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createDispute" | "updateDispute"
+> = {
   createDispute: async (_parent, args, ctx) => {
     const payload = CreateDisputeInputSchema().parse(args.value);
 
@@ -22,7 +25,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'up
       .executeTakeFirstOrThrow();
 
     // Publish opened event
-    ctx.pubsub.publish("billing.dispute.opened", result);
+    await ctx.pubsub.publish("billing.dispute.opened", result);
 
     return result as unknown as Disputes;
   },
@@ -52,7 +55,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'up
     if (payload.status && payload.status !== previousDispute.status) {
       const status = payload.status as BillingDisputeStatusEnum;
 
-      ctx.pubsub.publish("billing.dispute.statusChanged", {
+      await ctx.pubsub.publish("billing.dispute.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousDispute.status as BillingDisputeStatusEnum,
@@ -61,19 +64,19 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createDispute'|'up
 
       // Publish specific status events
       if (status === "UNDER_REVIEW") {
-        ctx.pubsub.publish("billing.dispute.underReview", result);
+        await ctx.pubsub.publish("billing.dispute.underReview", result);
       } else if (status === "APPROVED") {
-        ctx.pubsub.publish("billing.dispute.approved", {
+        await ctx.pubsub.publish("billing.dispute.approved", {
           ...result,
           creditNoteId: null,
         });
       } else if (status === "DENIED") {
-        ctx.pubsub.publish("billing.dispute.denied", {
+        await ctx.pubsub.publish("billing.dispute.denied", {
           ...result,
           denialReason: null,
         });
       } else if (status === "CLOSED") {
-        ctx.pubsub.publish("billing.dispute.resolved", {
+        await ctx.pubsub.publish("billing.dispute.resolved", {
           ...result,
           resolutionDetails: null,
         });

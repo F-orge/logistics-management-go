@@ -27,7 +27,7 @@ export const BillingMutation: Pick<
       .executeTakeFirstOrThrow();
 
     // Publish initiated event
-    ctx.pubsub.publish("billing.payment.initiated", result);
+    await ctx.pubsub.publish("billing.payment.initiated", result);
 
     return result as unknown as Payments;
   },

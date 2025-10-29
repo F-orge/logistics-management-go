@@ -5,7 +5,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountTransaction'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createAccountTransaction"
+> = {
   createAccountTransaction: async (_parent, args, ctx) => {
     const payload = CreateAccountTransactionInputSchema().parse(args.value);
 
@@ -27,7 +30,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountTrans
 
     // Publish appropriate event based on transaction type
     if (result.type === "DEBIT") {
-      ctx.pubsub.publish("billing.transaction.debited", {
+      await ctx.pubsub.publish("billing.transaction.debited", {
         transactionId: result.id,
         clientId: clientAccountId,
         amount: result.amount.toString(),
@@ -35,7 +38,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountTrans
         runningBalance,
       });
     } else if (result.type === "CREDIT") {
-      ctx.pubsub.publish("billing.transaction.credited", {
+      await ctx.pubsub.publish("billing.transaction.credited", {
         transactionId: result.id,
         clientId: clientAccountId,
         amount: result.amount.toString(),

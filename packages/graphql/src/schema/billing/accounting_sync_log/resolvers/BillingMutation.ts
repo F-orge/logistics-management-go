@@ -5,7 +5,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountingSyncLog'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createAccountingSyncLog"
+> = {
   createAccountingSyncLog: async (_parent, args, ctx) => {
     const payload = CreateAccountingSyncLogInputSchema().parse(args.value);
 
@@ -21,7 +24,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createAccountingSy
       .executeTakeFirstOrThrow();
 
     // Publish triggered event
-    ctx.pubsub.publish("billing.accountingSync.triggered", {
+    await ctx.pubsub.publish("billing.accountingSync.triggered", {
       sourceType: result.recordType || "",
       sourceId: result.recordId || "",
       syncLogId: result.id,

@@ -5,7 +5,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createSurcharge'|'removeSurcharge'|'updateSurcharge'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createSurcharge" | "removeSurcharge" | "updateSurcharge"
+> = {
   createSurcharge: async (_parent, args, ctx) => {
     const payload = CreateSurchargeInputSchema().parse(args.value);
 
@@ -35,7 +38,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createSurcharge'|'
 
     // Publish deactivation event if surcharge is being deactivated
     if (payload.isActive === false && previous.isActive !== false) {
-      ctx.pubsub.publish("billing.surcharge.deactivated", {
+      await ctx.pubsub.publish("billing.surcharge.deactivated", {
         id: result.id,
         reason: "Surcharge deactivated",
       });

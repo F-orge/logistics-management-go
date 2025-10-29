@@ -6,7 +6,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createQuote'|'removeQuote'|'updateQuote'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createQuote" | "removeQuote" | "updateQuote"
+> = {
   createQuote: async (_parent, args, ctx) => {
     const payload = CreateQuoteInputSchema().parse(args.value);
 
@@ -22,7 +25,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createQuote'|'remo
       .executeTakeFirstOrThrow();
 
     // Publish created event
-    ctx.pubsub.publish("billing.quote.created", result);
+    await ctx.pubsub.publish("billing.quote.created", result);
 
     return result as unknown as Quotes;
   },
@@ -52,7 +55,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createQuote'|'remo
     if (payload.status && payload.status !== previousQuote.status) {
       const status = payload.status as BillingQuoteStatusEnum;
 
-      ctx.pubsub.publish("billing.quote.statusChanged", {
+      await ctx.pubsub.publish("billing.quote.statusChanged", {
         id: result.id,
         newStatus: status,
         previousStatus: previousQuote.status as BillingQuoteStatusEnum,
@@ -61,11 +64,11 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createQuote'|'remo
 
       // Publish specific status events
       if (status === "PENDING") {
-        ctx.pubsub.publish("billing.quote.sent", result);
+        await ctx.pubsub.publish("billing.quote.sent", result);
       } else if (status === "ACCEPTED") {
-        ctx.pubsub.publish("billing.quote.accepted", result);
+        await ctx.pubsub.publish("billing.quote.accepted", result);
       } else if (status === "EXPIRED") {
-        ctx.pubsub.publish("billing.quote.expired", {
+        await ctx.pubsub.publish("billing.quote.expired", {
           id: result.id,
           quoteNumber: result.quoteNumber,
           clientId: result.clientId,
@@ -79,7 +82,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createQuote'|'remo
           .orderBy("billing.invoices.createdAt", "desc")
           .executeTakeFirst();
 
-        ctx.pubsub.publish("billing.quote.converted", {
+        await ctx.pubsub.publish("billing.quote.converted", {
           ...result,
           invoiceId: invoice?.id || "",
         });

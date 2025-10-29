@@ -5,7 +5,10 @@ import {
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createClientAccount'|'removeClientAccount'|'updateClientAccount'> = {
+export const BillingMutation: Pick<
+  BillingMutationResolvers,
+  "createClientAccount" | "removeClientAccount" | "updateClientAccount"
+> = {
   createClientAccount: async (_parent, args, ctx) => {
     const payload = CreateClientAccountInputSchema().parse(args.value);
 
@@ -40,7 +43,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createClientAccoun
       (payload.walletBalance &&
         payload.walletBalance !== previous.walletBalance)
     ) {
-      ctx.pubsub.publish("billing.clientAccount.balanceUpdated", {
+      await ctx.pubsub.publish("billing.clientAccount.balanceUpdated", {
         clientId: result.clientId,
         newAvailableCredit: result.availableCredit?.toString() || "0",
         newWalletBalance: result.walletBalance?.toString() || "0",
@@ -62,7 +65,7 @@ export const BillingMutation: Pick<BillingMutationResolvers, 'createClientAccoun
         .orderBy("billing.payments.paymentDate", "desc")
         .executeTakeFirst();
 
-      ctx.pubsub.publish("billing.clientAccount.lastPaymentDateUpdated", {
+      await ctx.pubsub.publish("billing.clientAccount.lastPaymentDateUpdated", {
         clientId: result.clientId,
         lastPaymentDate: new Date(payload.lastPaymentDate).toISOString(),
         paymentId: latestPayment?.id || "",
