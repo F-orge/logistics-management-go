@@ -18,21 +18,15 @@ import * as path from "path";
 import { Pool } from "pg";
 import { authFactory } from "./auth";
 import { BunStorageRepository } from "./storage";
-import {
-  createYoga,
-  createSchema,
-  useReadinessCheck,
-  createPubSub,
-} from "graphql-yoga";
+import { createYoga, createSchema, useReadinessCheck } from "graphql-yoga";
 import { typeDefs, resolvers } from "@packages/graphql";
 import {
   createInlineSigningKeyProvider,
   extractFromHeader,
   useJWT,
 } from "@graphql-yoga/plugin-jwt";
-import { readdir } from "node:fs/promises";
 import { S3Client } from "bun";
-import { Events, pubsubFactory } from "@packages/graphql/events";
+import { pubsubFactory } from "@packages/graphql/events";
 
 type ServerFactory = {
   pool: Pool;

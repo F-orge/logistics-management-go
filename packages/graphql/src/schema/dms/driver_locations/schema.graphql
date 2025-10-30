@@ -41,3 +41,13 @@ extend type DmsMutation {
   updateDriverLocation(id: ID!, value: UpdateDriverLocationInput): DriverLocations!
   removeDriverLocation(id: ID!): DeleteResult!
 }
+
+type DmsDriverLocationRemovedEvent {
+  id: ID!
+  driverId: ID!
+}
+
+extend type DmsSubscription {
+  driverLocationUpdated: DriverLocations!
+  driverLocationRemoved: DmsDriverLocationRemovedEvent!
+}

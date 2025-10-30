@@ -45,3 +45,13 @@ extend type TmsMutation {
   updateDriver(id: ID!, value: UpdateDriverInput): Drivers!
   removeDriver(id: ID!): DeleteResult!
 }
+
+type TmsDriverStatusChangedEvent {
+  id: ID!
+  newStatus: DriverStatus!
+  previousStatus: DriverStatus!
+}
+
+extend type TmsSubscription {
+  driverStatusChanged: TmsDriverStatusChangedEvent!
+}

@@ -72,3 +72,45 @@ extend type BillingMutation {
   updateBillingInvoice(id: ID!, value: UpdateBillingInvoiceInput): BillingInvoices!
   removeBillingInvoice(id: ID!): DeleteResult!
 }
+
+type InvoiceStatusChangedEvent {
+  id: ID!
+  newStatus: BillingInvoiceStatus!
+  previousStatus: BillingInvoiceStatus!
+  clientId: ID!
+}
+
+type InvoicePaidEvent {
+  invoice: BillingInvoices!
+  paidAmount: String!
+  remainingBalance: String!
+}
+
+type InvoicePartiallyPaidEvent {
+  invoice: BillingInvoices!
+  paymentAmount: String!
+  remainingBalance: String!
+}
+
+type InvoiceOverdueEvent {
+  id: ID!
+  clientId: ID!
+  amountOutstanding: String!
+  dueDate: String!
+}
+
+type InvoiceDisputedEvent {
+  invoice: BillingInvoices!
+  disputeId: ID!
+}
+
+extend type BillingSubscription {
+  invoiceCreated: BillingInvoices!
+  invoiceSent: BillingInvoices!
+  invoiceViewed: BillingInvoices!
+  invoiceStatusChanged: InvoiceStatusChangedEvent!
+  invoicePaid: InvoicePaidEvent!
+  invoicePartiallyPaid: InvoicePartiallyPaidEvent!
+  invoiceOverdue: InvoiceOverdueEvent!
+  invoiceDisputed: InvoiceDisputedEvent!
+}

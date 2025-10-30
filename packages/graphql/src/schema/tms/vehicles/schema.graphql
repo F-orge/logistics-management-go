@@ -61,3 +61,14 @@ extend type TmsMutation {
   updateVehicle(id: ID!, value: UpdateVehicleInput): Vehicles!
   removeVehicle(id: ID!): DeleteResult!
 }
+
+type TmsVehicleStatusChangedEvent {
+  id: ID!
+  newStatus: VehicleStatus!
+  previousStatus: VehicleStatus!
+}
+
+extend type TmsSubscription {
+  vehicleStatusChanged: TmsVehicleStatusChangedEvent!
+  vehicleMaintenanceScheduled: VehicleMaintenance!
+}

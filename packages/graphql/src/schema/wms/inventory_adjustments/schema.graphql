@@ -45,3 +45,18 @@ extend type WmsMutation {
   updateInventoryAdjustment(id: ID!, value: UpdateInventoryAdjustmentInput): InventoryAdjustments!
   removeInventoryAdjustment(id: ID!): DeleteResult!
 }
+
+type WmsInventoryAdjustmentRecordedEvent {
+  inventoryAdjustment: InventoryAdjustments!
+  previousQuantity: Int!
+}
+
+type WmsInventoryAdjustmentDamagedReturnEvent {
+  inventoryAdjustment: InventoryAdjustments!
+  returnId: ID!
+}
+
+extend type WmsSubscription {
+  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
+  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
+}

@@ -69,3 +69,30 @@ extend type BillingMutation {
   updateQuote(id: ID!, value: UpdateQuoteInput): Quotes!
   removeQuote(id: ID!): DeleteResult!
 }
+
+type QuoteStatusChangedEvent {
+  id: ID!
+  newStatus: QuoteStatus!
+  previousStatus: QuoteStatus!
+  clientId: ID
+}
+
+type QuoteExpiredEvent {
+  id: ID!
+  quoteNumber: String
+  clientId: ID
+}
+
+type QuoteConvertedEvent {
+  quote: Quotes!
+  invoiceId: ID!
+}
+
+extend type BillingSubscription {
+  quoteCreated: Quotes!
+  quoteSent: Quotes!
+  quoteStatusChanged: QuoteStatusChangedEvent!
+  quoteAccepted: Quotes!
+  quoteExpired: QuoteExpiredEvent!
+  quoteConverted: QuoteConvertedEvent!
+}

@@ -77,3 +77,22 @@ extend type TmsMutation {
   updateExpense(id: ID!, value: UpdateExpenseInput): Expenses!
   removeExpense(id: ID!): DeleteResult!
 }
+
+type TmsExpenseStatusChangedEvent {
+  id: ID!
+  newStatus: ExpenseStatus!
+  previousStatus: ExpenseStatus!
+  driverId: ID
+}
+
+type TmsExpenseRejectedEvent {
+  expense: Expenses!
+  rejectionReason: String
+}
+
+extend type TmsSubscription {
+  expenseSubmitted: Expenses!
+  expenseStatusChanged: TmsExpenseStatusChangedEvent!
+  expenseApproved: Expenses!
+  expenseRejected: TmsExpenseRejectedEvent!
+}

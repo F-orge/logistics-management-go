@@ -3,6 +3,7 @@ scalar Date
 
 type Query
 type Mutation
+type Subscription
 
 type DeleteResult {
   success: Boolean!

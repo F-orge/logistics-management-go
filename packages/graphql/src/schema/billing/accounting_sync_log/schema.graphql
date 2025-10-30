@@ -45,3 +45,26 @@ input CreateAccountingSyncLogInput {
 extend type BillingMutation {
   createAccountingSyncLog(value: CreateAccountingSyncLogInput!): AccountingSyncLogs!
 }
+
+type AccountingSyncTriggeredEvent {
+  sourceType: String!
+  sourceId: ID!
+  syncLogId: ID!
+}
+
+type AccountingSyncSucceededEvent {
+  syncLogId: ID!
+  sourceType: String!
+}
+
+type AccountingSyncFailedEvent {
+  syncLogId: ID!
+  sourceType: String!
+  errorMessage: String
+}
+
+extend type BillingSubscription {
+  accountingSyncTriggered: AccountingSyncTriggeredEvent!
+  accountingSyncSucceeded: AccountingSyncSucceededEvent!
+  accountingSyncFailed: AccountingSyncFailedEvent!
+}

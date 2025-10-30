@@ -34,3 +34,12 @@ extend type WmsMutation {
   updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!
   removeReturnItem(id: ID!): DeleteResult!
 }
+
+type WmsReturnItemEvaluatedEvent {
+  returnItem: ReturnItems!
+  condition: ReturnItemCondition
+}
+
+extend type WmsSubscription {
+  returnItemEvaluated: WmsReturnItemEvaluatedEvent!
+}

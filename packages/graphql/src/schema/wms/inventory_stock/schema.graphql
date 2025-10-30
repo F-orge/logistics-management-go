@@ -50,3 +50,38 @@ extend type WmsMutation {
   updateInventoryStock(id: ID!, value: UpdateInventoryStockInput): InventoryStock!
   removeInventoryStock(id: ID!): DeleteResult!
 }
+
+type WmsInventoryStockStatusChangedEvent {
+  id: ID!
+  newStatus: InventoryStockStatus!
+  previousStatus: InventoryStockStatus!
+  productId: ID!
+  locationId: ID!
+  quantity: Int!
+}
+
+type WmsInventoryStockReservedEvent {
+  inventoryStock: InventoryStock!
+  reservedQuantity: Int!
+}
+
+type WmsInventoryStockReleasedEvent {
+  inventoryStock: InventoryStock!
+  releasedQuantity: Int!
+}
+
+type WmsInventoryStockLowStockAlertEvent {
+  id: ID!
+  productId: ID!
+  locationId: ID!
+  currentQuantity: Int!
+  reorderPoint: Int!
+  warehouseId: ID!
+}
+
+extend type WmsSubscription {
+  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
+  inventoryStockReserved: WmsInventoryStockReservedEvent!
+  inventoryStockReleased: WmsInventoryStockReleasedEvent!
+  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent!
+}

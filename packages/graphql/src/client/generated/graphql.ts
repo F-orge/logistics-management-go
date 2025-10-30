@@ -35,6 +35,13 @@ export type AccountTransactions = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type AccountingSyncFailedEvent = {
+  __typename?: 'AccountingSyncFailedEvent';
+  errorMessage?: Maybe<Scalars['String']['output']>;
+  sourceType: Scalars['String']['output'];
+  syncLogId: Scalars['ID']['output'];
+};
+
 export type AccountingSyncLogs = {
   __typename?: 'AccountingSyncLogs';
   createdAt?: Maybe<Scalars['Date']['output']>;
@@ -51,6 +58,19 @@ export type AccountingSyncLogs = {
   retryCount?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<SyncStatus>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
+};
+
+export type AccountingSyncSucceededEvent = {
+  __typename?: 'AccountingSyncSucceededEvent';
+  sourceType: Scalars['String']['output'];
+  syncLogId: Scalars['ID']['output'];
+};
+
+export type AccountingSyncTriggeredEvent = {
+  __typename?: 'AccountingSyncTriggeredEvent';
+  sourceId: Scalars['ID']['output'];
+  sourceType: Scalars['String']['output'];
+  syncLogId: Scalars['ID']['output'];
 };
 
 export type AddInvoiceItemInput = {
@@ -540,6 +560,50 @@ export type BillingQuerySurchargesArgs = {
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
+export type BillingSubscription = {
+  __typename?: 'BillingSubscription';
+  accountingSyncFailed: AccountingSyncFailedEvent;
+  accountingSyncSucceeded: AccountingSyncSucceededEvent;
+  accountingSyncTriggered: AccountingSyncTriggeredEvent;
+  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent;
+  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent;
+  creditNoteApplied: CreditNoteAppliedEvent;
+  creditNoteIssued: CreditNotes;
+  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent;
+  disputeApproved: DisputeApprovedEvent;
+  disputeDenied: DisputeDeniedEvent;
+  disputeOpened: Disputes;
+  disputeResolved: DisputeResolvedEvent;
+  disputeStatusChanged: DisputeStatusChangedEvent;
+  disputeUnderReview: Disputes;
+  documentGenerated: DocumentGeneratedEvent;
+  invoiceCreated: BillingInvoices;
+  invoiceDisputed: InvoiceDisputedEvent;
+  invoiceOverdue: InvoiceOverdueEvent;
+  invoicePaid: InvoicePaidEvent;
+  invoicePartiallyPaid: InvoicePartiallyPaidEvent;
+  invoiceSent: BillingInvoices;
+  invoiceStatusChanged: InvoiceStatusChangedEvent;
+  invoiceViewed: BillingInvoices;
+  paymentFailed: PaymentFailedEvent;
+  paymentInitiated: Payments;
+  paymentProcessing: Payments;
+  paymentRefunded: PaymentRefundedEvent;
+  paymentStatusChanged: PaymentStatusChangedEvent;
+  paymentSuccessful: Payments;
+  quoteAccepted: Quotes;
+  quoteConverted: QuoteConvertedEvent;
+  quoteCreated: Quotes;
+  quoteExpired: QuoteExpiredEvent;
+  quoteSent: Quotes;
+  quoteStatusChanged: QuoteStatusChangedEvent;
+  rateCardDeactivated: RateCardDeactivatedEvent;
+  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent;
+  surchargeDeactivated: SurchargeDeactivatedEvent;
+  transactionCredited: TransactionCreditedEvent;
+  transactionDebited: TransactionDebitedEvent;
+};
+
 export type BinThresholds = {
   __typename?: 'BinThresholds';
   alertThreshold?: Maybe<Scalars['Int']['output']>;
@@ -640,6 +704,20 @@ export type Cases = {
   status?: Maybe<CaseStatus>;
   type?: Maybe<CaseType>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
+};
+
+export type ClientAccountBalanceUpdatedEvent = {
+  __typename?: 'ClientAccountBalanceUpdatedEvent';
+  clientId: Scalars['ID']['output'];
+  newAvailableCredit: Scalars['String']['output'];
+  newWalletBalance: Scalars['String']['output'];
+};
+
+export type ClientAccountLastPaymentDateUpdatedEvent = {
+  __typename?: 'ClientAccountLastPaymentDateUpdatedEvent';
+  clientId: Scalars['ID']['output'];
+  lastPaymentDate: Scalars['String']['output'];
+  paymentId: Scalars['ID']['output'];
 };
 
 export type ClientAccounts = {
@@ -1451,6 +1529,18 @@ export type CreateWmsProductInput = {
   width?: InputMaybe<Scalars['Float']['input']>;
 };
 
+export type CreditNoteAppliedEvent = {
+  __typename?: 'CreditNoteAppliedEvent';
+  appliedAmount: Scalars['String']['output'];
+  creditNote: CreditNotes;
+};
+
+export type CreditNoteOnDisputeApprovalEvent = {
+  __typename?: 'CreditNoteOnDisputeApprovalEvent';
+  creditNote: CreditNotes;
+  disputeId: Scalars['ID']['output'];
+};
+
 export type CreditNotes = {
   __typename?: 'CreditNotes';
   amount: Scalars['Float']['output'];
@@ -1468,6 +1558,20 @@ export type CreditNotes = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type CrmCaseAssignedEvent = {
+  __typename?: 'CrmCaseAssignedEvent';
+  id: Scalars['ID']['output'];
+  ownerId: Scalars['ID']['output'];
+  previousOwnerId: Scalars['ID']['output'];
+};
+
+export type CrmCaseStatusChangedEvent = {
+  __typename?: 'CrmCaseStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: CaseStatus;
+  previousStatus: CaseStatus;
+};
+
 export enum CrmInvoicePaymentMethod {
   BankTransfer = 'BANK_TRANSFER',
   Cash = 'CASH',
@@ -1479,6 +1583,20 @@ export enum CrmInvoicePaymentMethod {
   Stripe = 'STRIPE',
   WireTransfer = 'WIRE_TRANSFER'
 }
+
+export type CrmInvoiceStatusChangedEvent = {
+  __typename?: 'CrmInvoiceStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: InvoiceStatus;
+  previousStatus: InvoiceStatus;
+};
+
+export type CrmLeadStatusChangedEvent = {
+  __typename?: 'CrmLeadStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: LeadStatus;
+  previousStatus: LeadStatus;
+};
 
 export type CrmMutation = {
   __typename?: 'CrmMutation';
@@ -1708,6 +1826,21 @@ export type CrmMutationUpdateProductArgs = {
   value?: InputMaybe<UpdateProductInput>;
 };
 
+export type CrmNotificationMarkedEvent = {
+  __typename?: 'CrmNotificationMarkedEvent';
+  id: Scalars['ID']['output'];
+  isRead: Scalars['Boolean']['output'];
+  userId: Scalars['ID']['output'];
+};
+
+export type CrmOpportunityStageChangedEvent = {
+  __typename?: 'CrmOpportunityStageChangedEvent';
+  id: Scalars['ID']['output'];
+  newStage: OpportunityStage;
+  previousStage: OpportunityStage;
+  probability?: Maybe<Scalars['Float']['output']>;
+};
+
 export type CrmQuery = {
   __typename?: 'CrmQuery';
   attachment: Attachments;
@@ -1899,6 +2032,20 @@ export type CrmQueryProductsArgs = {
   type?: InputMaybe<ProductType>;
 };
 
+export type CrmSubscription = {
+  __typename?: 'CrmSubscription';
+  caseAssigned: CrmCaseAssignedEvent;
+  caseStatusChanged: CrmCaseStatusChangedEvent;
+  invoicePaid: Invoices;
+  invoiceStatusChanged: CrmInvoiceStatusChangedEvent;
+  leadConverted: Leads;
+  leadStatusChanged: CrmLeadStatusChangedEvent;
+  notificationMarked: CrmNotificationMarkedEvent;
+  opportunityLost: Opportunities;
+  opportunityStageChanged: CrmOpportunityStageChangedEvent;
+  opportunityWon: Opportunities;
+};
+
 export enum Currency {
   Aud = 'AUD',
   Cad = 'CAD',
@@ -1997,6 +2144,24 @@ export type DeliveryTasks = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type DisputeApprovedEvent = {
+  __typename?: 'DisputeApprovedEvent';
+  creditNoteId?: Maybe<Scalars['ID']['output']>;
+  dispute: Disputes;
+};
+
+export type DisputeDeniedEvent = {
+  __typename?: 'DisputeDeniedEvent';
+  denialReason?: Maybe<Scalars['String']['output']>;
+  dispute: Disputes;
+};
+
+export type DisputeResolvedEvent = {
+  __typename?: 'DisputeResolvedEvent';
+  dispute: Disputes;
+  resolutionDetails?: Maybe<Scalars['String']['output']>;
+};
+
 export enum DisputeStatus {
   Approved = 'APPROVED',
   Closed = 'CLOSED',
@@ -2005,6 +2170,14 @@ export enum DisputeStatus {
   Open = 'OPEN',
   UnderReview = 'UNDER_REVIEW'
 }
+
+export type DisputeStatusChangedEvent = {
+  __typename?: 'DisputeStatusChangedEvent';
+  clientId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  newStatus: DisputeStatus;
+  previousStatus: DisputeStatus;
+};
 
 export type Disputes = {
   __typename?: 'Disputes';
@@ -2021,6 +2194,26 @@ export type Disputes = {
   status?: Maybe<DisputeStatus>;
   submittedAt?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['Date']['output']>;
+};
+
+export type DmsDeliveryTaskFailedEvent = {
+  __typename?: 'DmsDeliveryTaskFailedEvent';
+  deliveryTask: DeliveryTasks;
+  failureReason?: Maybe<Scalars['String']['output']>;
+};
+
+export type DmsDeliveryTaskStatusChangedEvent = {
+  __typename?: 'DmsDeliveryTaskStatusChangedEvent';
+  deliveryRouteId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  newStatus: DeliveryTaskStatus;
+  previousStatus: DeliveryTaskStatus;
+};
+
+export type DmsDriverLocationRemovedEvent = {
+  __typename?: 'DmsDriverLocationRemovedEvent';
+  driverId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
 };
 
 export type DmsMutation = {
@@ -2221,6 +2414,46 @@ export type DmsQueryTaskEventsArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TaskEventStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+export type DmsSubscription = {
+  __typename?: 'DmsSubscription';
+  deliveryRouteCancelled: DeliveryRoutes;
+  deliveryRouteCompleted: DeliveryRoutes;
+  deliveryRoutePaused: DeliveryRoutes;
+  deliveryRouteStarted: DeliveryRoutes;
+  deliveryTaskDelivered: DeliveryTasks;
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent;
+  deliveryTaskOutForDelivery: DeliveryTasks;
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent;
+  driverLocationRemoved: DmsDriverLocationRemovedEvent;
+  driverLocationUpdated: DriverLocations;
+  proofOfDeliveryRecorded: DmsProofOfDeliveries;
+  taskEventRecorded: TaskEvents;
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent;
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent;
+  trackingLinkGenerated: CustomerTrackingLinks;
+};
+
+export type DmsTaskEventStatusUpdatedEvent = {
+  __typename?: 'DmsTaskEventStatusUpdatedEvent';
+  deliveryTaskId: Scalars['ID']['output'];
+  newStatus: TaskEventStatus;
+  taskEventId: Scalars['ID']['output'];
+};
+
+export type DmsTrackingLinkExpiredEvent = {
+  __typename?: 'DmsTrackingLinkExpiredEvent';
+  deliveryTaskId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  trackingToken: Scalars['String']['output'];
+};
+
+export type DocumentGeneratedEvent = {
+  __typename?: 'DocumentGeneratedEvent';
+  documentId: Scalars['ID']['output'];
+  documentType: Scalars['String']['output'];
+  shipmentId: Scalars['ID']['output'];
 };
 
 export enum DocumentType {
@@ -2497,6 +2730,12 @@ export enum InventoryStockStatus {
   Shipped = 'SHIPPED'
 }
 
+export type InvoiceDisputedEvent = {
+  __typename?: 'InvoiceDisputedEvent';
+  disputeId: Scalars['ID']['output'];
+  invoice: BillingInvoices;
+};
+
 export type InvoiceItems = {
   __typename?: 'InvoiceItems';
   createdAt?: Maybe<Scalars['Date']['output']>;
@@ -2528,6 +2767,28 @@ export type InvoiceLineItems = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type InvoiceOverdueEvent = {
+  __typename?: 'InvoiceOverdueEvent';
+  amountOutstanding: Scalars['String']['output'];
+  clientId: Scalars['ID']['output'];
+  dueDate: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+};
+
+export type InvoicePaidEvent = {
+  __typename?: 'InvoicePaidEvent';
+  invoice: BillingInvoices;
+  paidAmount: Scalars['String']['output'];
+  remainingBalance: Scalars['String']['output'];
+};
+
+export type InvoicePartiallyPaidEvent = {
+  __typename?: 'InvoicePartiallyPaidEvent';
+  invoice: BillingInvoices;
+  paymentAmount: Scalars['String']['output'];
+  remainingBalance: Scalars['String']['output'];
+};
+
 export enum InvoiceStatus {
   Cancelled = 'CANCELLED',
   Draft = 'DRAFT',
@@ -2535,6 +2796,14 @@ export enum InvoiceStatus {
   Paid = 'PAID',
   Sent = 'SENT'
 }
+
+export type InvoiceStatusChangedEvent = {
+  __typename?: 'InvoiceStatusChangedEvent';
+  clientId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  newStatus: BillingInvoiceStatus;
+  previousStatus: BillingInvoiceStatus;
+};
 
 export type Invoices = {
   __typename?: 'Invoices';
@@ -2811,6 +3080,12 @@ export type PartnerInvoices = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type PaymentFailedEvent = {
+  __typename?: 'PaymentFailedEvent';
+  failureReason?: Maybe<Scalars['String']['output']>;
+  payment: Payments;
+};
+
 export enum PaymentMethod {
   BankTransfer = 'BANK_TRANSFER',
   Cash = 'CASH',
@@ -2822,6 +3097,12 @@ export enum PaymentMethod {
   Wallet = 'WALLET'
 }
 
+export type PaymentRefundedEvent = {
+  __typename?: 'PaymentRefundedEvent';
+  payment: Payments;
+  refundAmount: Scalars['String']['output'];
+};
+
 export enum PaymentStatus {
   Cancelled = 'CANCELLED',
   Failed = 'FAILED',
@@ -2830,6 +3111,14 @@ export enum PaymentStatus {
   Refunded = 'REFUNDED',
   Successful = 'SUCCESSFUL'
 }
+
+export type PaymentStatusChangedEvent = {
+  __typename?: 'PaymentStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  invoiceId: Scalars['ID']['output'];
+  newStatus: PaymentStatus;
+  previousStatus: PaymentStatus;
+};
 
 export type Payments = {
   __typename?: 'Payments';
@@ -2995,6 +3284,19 @@ export type Query = {
   wms?: Maybe<WmsQuery>;
 };
 
+export type QuoteConvertedEvent = {
+  __typename?: 'QuoteConvertedEvent';
+  invoiceId: Scalars['ID']['output'];
+  quote: Quotes;
+};
+
+export type QuoteExpiredEvent = {
+  __typename?: 'QuoteExpiredEvent';
+  clientId?: Maybe<Scalars['ID']['output']>;
+  id: Scalars['ID']['output'];
+  quoteNumber?: Maybe<Scalars['String']['output']>;
+};
+
 export enum QuoteStatus {
   Accepted = 'ACCEPTED',
   Cancelled = 'CANCELLED',
@@ -3002,6 +3304,14 @@ export enum QuoteStatus {
   Expired = 'EXPIRED',
   Pending = 'PENDING'
 }
+
+export type QuoteStatusChangedEvent = {
+  __typename?: 'QuoteStatusChangedEvent';
+  clientId?: Maybe<Scalars['ID']['output']>;
+  id: Scalars['ID']['output'];
+  newStatus: QuoteStatus;
+  previousStatus: QuoteStatus;
+};
 
 export type Quotes = {
   __typename?: 'Quotes';
@@ -3024,6 +3334,13 @@ export type Quotes = {
   volume?: Maybe<Scalars['Float']['output']>;
   weight?: Maybe<Scalars['Float']['output']>;
   width?: Maybe<Scalars['Float']['output']>;
+};
+
+export type RateCardDeactivatedEvent = {
+  __typename?: 'RateCardDeactivatedEvent';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  reason: Scalars['String']['output'];
 };
 
 export type RateCards = {
@@ -3179,6 +3496,13 @@ export enum ServiceType {
   Storage = 'STORAGE'
 }
 
+export type ShipmentCreatedFromPaymentEvent = {
+  __typename?: 'ShipmentCreatedFromPaymentEvent';
+  paymentId: Scalars['ID']['output'];
+  quoteId?: Maybe<Scalars['ID']['output']>;
+  shipmentId: Scalars['ID']['output'];
+};
+
 export type ShipmentLegEvents = {
   __typename?: 'ShipmentLegEvents';
   eventTimestamp: Scalars['String']['output'];
@@ -3231,6 +3555,15 @@ export type StockTransfers = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  billing?: Maybe<BillingSubscription>;
+  crm?: Maybe<CrmSubscription>;
+  dms?: Maybe<DmsSubscription>;
+  tms?: Maybe<TmsSubscription>;
+  wms?: Maybe<WmsSubscription>;
+};
+
 export type Suppliers = {
   __typename?: 'Suppliers';
   contactPerson?: Maybe<Scalars['String']['output']>;
@@ -3249,6 +3582,12 @@ export enum SurchargeCalculationMethod {
   PerUnit = 'PER_UNIT',
   SlidingScale = 'SLIDING_SCALE'
 }
+
+export type SurchargeDeactivatedEvent = {
+  __typename?: 'SurchargeDeactivatedEvent';
+  id: Scalars['ID']['output'];
+  reason: Scalars['String']['output'];
+};
 
 export type Surcharges = {
   __typename?: 'Surcharges';
@@ -3371,6 +3710,33 @@ export type Tasks = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
   user?: Maybe<User>;
   warehouse: Warehouses;
+};
+
+export type TmsDriverStatusChangedEvent = {
+  __typename?: 'TmsDriverStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: DriverStatus;
+  previousStatus: DriverStatus;
+};
+
+export type TmsExpenseRejectedEvent = {
+  __typename?: 'TmsExpenseRejectedEvent';
+  expense: Expenses;
+  rejectionReason?: Maybe<Scalars['String']['output']>;
+};
+
+export type TmsExpenseStatusChangedEvent = {
+  __typename?: 'TmsExpenseStatusChangedEvent';
+  driverId?: Maybe<Scalars['ID']['output']>;
+  id: Scalars['ID']['output'];
+  newStatus: ExpenseStatus;
+  previousStatus: ExpenseStatus;
+};
+
+export type TmsGeofenceEvent = {
+  __typename?: 'TmsGeofenceEvent';
+  geofenceEvent: GeofenceEvents;
+  geofenceName: Scalars['String']['output'];
 };
 
 export type TmsMutation = {
@@ -3864,6 +4230,67 @@ export type TmsQueryVehiclesArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<VehicleStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+export type TmsSubscription = {
+  __typename?: 'TmsSubscription';
+  driverStatusChanged: TmsDriverStatusChangedEvent;
+  expenseApproved: Expenses;
+  expenseRejected: TmsExpenseRejectedEvent;
+  expenseStatusChanged: TmsExpenseStatusChangedEvent;
+  expenseSubmitted: Expenses;
+  geofenceEntered: TmsGeofenceEvent;
+  geofenceExited: TmsGeofenceEvent;
+  tripCancelled: Trips;
+  tripCompleted: Trips;
+  tripCreated: Trips;
+  tripStarted: Trips;
+  tripStatusChanged: TmsTripStatusChangedEvent;
+  tripStopArrived: TripStops;
+  tripStopCompleted: TripStops;
+  tripStopSkipped: TmsTripStopSkippedEvent;
+  vehicleMaintenanceScheduled: VehicleMaintenance;
+  vehicleStatusChanged: TmsVehicleStatusChangedEvent;
+};
+
+export type TmsTripStatusChangedEvent = {
+  __typename?: 'TmsTripStatusChangedEvent';
+  driverId?: Maybe<Scalars['ID']['output']>;
+  id: Scalars['ID']['output'];
+  newStatus: TripStatus;
+  previousStatus: TripStatus;
+  vehicleId?: Maybe<Scalars['ID']['output']>;
+};
+
+export type TmsTripStopSkippedEvent = {
+  __typename?: 'TmsTripStopSkippedEvent';
+  reason?: Maybe<Scalars['String']['output']>;
+  tripStop: TripStops;
+};
+
+export type TmsVehicleStatusChangedEvent = {
+  __typename?: 'TmsVehicleStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: VehicleStatus;
+  previousStatus: VehicleStatus;
+};
+
+export type TransactionCreditedEvent = {
+  __typename?: 'TransactionCreditedEvent';
+  amount: Scalars['String']['output'];
+  clientId: Scalars['ID']['output'];
+  paymentId: Scalars['ID']['output'];
+  runningBalance: Scalars['String']['output'];
+  transactionId: Scalars['ID']['output'];
+};
+
+export type TransactionDebitedEvent = {
+  __typename?: 'TransactionDebitedEvent';
+  amount: Scalars['String']['output'];
+  clientId: Scalars['ID']['output'];
+  invoiceId: Scalars['ID']['output'];
+  runningBalance: Scalars['String']['output'];
+  transactionId: Scalars['ID']['output'];
 };
 
 export enum TransactionType {
@@ -4594,6 +5021,58 @@ export type Warehouses = {
   updatedAt?: Maybe<Scalars['Date']['output']>;
 };
 
+export type WmsInboundShipmentStatusChangedEvent = {
+  __typename?: 'WmsInboundShipmentStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: InboundShipmentStatus;
+  previousStatus: InboundShipmentStatus;
+  warehouseId: Scalars['ID']['output'];
+};
+
+export type WmsInventoryAdjustmentDamagedReturnEvent = {
+  __typename?: 'WmsInventoryAdjustmentDamagedReturnEvent';
+  inventoryAdjustment: InventoryAdjustments;
+  returnId: Scalars['ID']['output'];
+};
+
+export type WmsInventoryAdjustmentRecordedEvent = {
+  __typename?: 'WmsInventoryAdjustmentRecordedEvent';
+  inventoryAdjustment: InventoryAdjustments;
+  previousQuantity: Scalars['Int']['output'];
+};
+
+export type WmsInventoryStockLowStockAlertEvent = {
+  __typename?: 'WmsInventoryStockLowStockAlertEvent';
+  currentQuantity: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
+  locationId: Scalars['ID']['output'];
+  productId: Scalars['ID']['output'];
+  reorderPoint: Scalars['Int']['output'];
+  warehouseId: Scalars['ID']['output'];
+};
+
+export type WmsInventoryStockReleasedEvent = {
+  __typename?: 'WmsInventoryStockReleasedEvent';
+  inventoryStock: InventoryStock;
+  releasedQuantity: Scalars['Int']['output'];
+};
+
+export type WmsInventoryStockReservedEvent = {
+  __typename?: 'WmsInventoryStockReservedEvent';
+  inventoryStock: InventoryStock;
+  reservedQuantity: Scalars['Int']['output'];
+};
+
+export type WmsInventoryStockStatusChangedEvent = {
+  __typename?: 'WmsInventoryStockStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  locationId: Scalars['ID']['output'];
+  newStatus: InventoryStockStatus;
+  previousStatus: InventoryStockStatus;
+  productId: Scalars['ID']['output'];
+  quantity: Scalars['Int']['output'];
+};
+
 export type WmsMutation = {
   __typename?: 'WmsMutation';
   addInboundShipmentItem: InboundShipmentItems;
@@ -5023,7 +5502,7 @@ export type WmsMutationUpdateReorderPointArgs = {
 
 export type WmsMutationUpdateReturnArgs = {
   id: Scalars['ID']['input'];
-  value: UpdateReturnInput;
+  value?: InputMaybe<UpdateReturnInput>;
 };
 
 
@@ -5035,7 +5514,7 @@ export type WmsMutationUpdateReturnItemArgs = {
 
 export type WmsMutationUpdateSalesOrderArgs = {
   id: Scalars['ID']['input'];
-  value: UpdateSalesOrderInput;
+  value?: InputMaybe<UpdateSalesOrderInput>;
 };
 
 
@@ -5078,6 +5557,21 @@ export type WmsMutationUpdateWarehouseArgs = {
 export type WmsMutationUpdateWmsProductArgs = {
   id: Scalars['ID']['input'];
   value?: InputMaybe<UpdateWmsProductInput>;
+};
+
+export type WmsOutboundShipmentStatusChangedEvent = {
+  __typename?: 'WmsOutboundShipmentStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: OutboundShipmentStatus;
+  previousStatus: OutboundShipmentStatus;
+  salesOrderId: Scalars['ID']['output'];
+};
+
+export type WmsPickBatchStatusChangedEvent = {
+  __typename?: 'WmsPickBatchStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: PickBatchStatus;
+  previousStatus: PickBatchStatus;
 };
 
 export type WmsProducts = {
@@ -5411,6 +5905,135 @@ export type WmsQueryWmsProductsArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<ProductStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
+};
+
+export type WmsReturnItemEvaluatedEvent = {
+  __typename?: 'WmsReturnItemEvaluatedEvent';
+  condition?: Maybe<ReturnItemCondition>;
+  returnItem: ReturnItems;
+};
+
+export type WmsReturnRejectedEvent = {
+  __typename?: 'WmsReturnRejectedEvent';
+  rejectionReason?: Maybe<Scalars['String']['output']>;
+  return: Returns;
+};
+
+export type WmsReturnStatusChangedEvent = {
+  __typename?: 'WmsReturnStatusChangedEvent';
+  clientId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  newStatus: ReturnStatus;
+  previousStatus: ReturnStatus;
+};
+
+export type WmsSalesOrderStatusChangedEvent = {
+  __typename?: 'WmsSalesOrderStatusChangedEvent';
+  clientId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  newStatus: SalesOrderStatus;
+  previousStatus: SalesOrderStatus;
+};
+
+export type WmsStockTransferStatusChangedEvent = {
+  __typename?: 'WmsStockTransferStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: StockTransferStatus;
+  previousStatus: StockTransferStatus;
+  productId: Scalars['ID']['output'];
+};
+
+export type WmsSubscription = {
+  __typename?: 'WmsSubscription';
+  inboundShipmentCompleted: InboundShipments;
+  inboundShipmentProcessing: InboundShipments;
+  inboundShipmentReceived: InboundShipments;
+  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent;
+  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent;
+  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent;
+  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent;
+  inventoryStockReleased: WmsInventoryStockReleasedEvent;
+  inventoryStockReserved: WmsInventoryStockReservedEvent;
+  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent;
+  outboundShipmentCreated: OutboundShipments;
+  outboundShipmentDelivered: OutboundShipments;
+  outboundShipmentPacked: OutboundShipments;
+  outboundShipmentPicking: OutboundShipments;
+  outboundShipmentShipped: OutboundShipments;
+  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent;
+  pickBatchCompleted: PickBatches;
+  pickBatchCreated: PickBatches;
+  pickBatchStarted: PickBatches;
+  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent;
+  returnApproved: Returns;
+  returnItemEvaluated: WmsReturnItemEvaluatedEvent;
+  returnProcessed: Returns;
+  returnReceived: Returns;
+  returnRejected: WmsReturnRejectedEvent;
+  returnStatusChanged: WmsReturnStatusChangedEvent;
+  salesOrderCompleted: SalesOrders;
+  salesOrderCreated: SalesOrders;
+  salesOrderProcessing: SalesOrders;
+  salesOrderShipped: SalesOrders;
+  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent;
+  stockTransferInTransit: StockTransfers;
+  stockTransferInitiated: StockTransfers;
+  stockTransferReceived: StockTransfers;
+  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent;
+  taskAssigned: WmsTaskAssignedEvent;
+  taskCancelled: Tasks;
+  taskCompleted: Tasks;
+  taskCreated: Tasks;
+  taskItemCompleted: TaskItems;
+  taskItemDamaged: TaskItems;
+  taskItemShortPicked: WmsTaskItemShortPickedEvent;
+  taskItemStatusChanged: WmsTaskItemStatusChangedEvent;
+  taskPutawayCreated: WmsTaskPutawayCreatedEvent;
+  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent;
+  taskStarted: Tasks;
+  taskStatusChanged: WmsTaskStatusChangedEvent;
+};
+
+export type WmsTaskAssignedEvent = {
+  __typename?: 'WmsTaskAssignedEvent';
+  previousUserId?: Maybe<Scalars['ID']['output']>;
+  task: Tasks;
+};
+
+export type WmsTaskItemShortPickedEvent = {
+  __typename?: 'WmsTaskItemShortPickedEvent';
+  shortQuantity: Scalars['Int']['output'];
+  taskItem: TaskItems;
+};
+
+export type WmsTaskItemStatusChangedEvent = {
+  __typename?: 'WmsTaskItemStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: TaskItemStatus;
+  previousStatus: TaskItemStatus;
+  taskId: Scalars['ID']['output'];
+};
+
+export type WmsTaskPutawayCreatedEvent = {
+  __typename?: 'WmsTaskPutawayCreatedEvent';
+  reason: Scalars['String']['output'];
+  returnId: Scalars['ID']['output'];
+  task: Tasks;
+};
+
+export type WmsTaskReplenishmentCreatedEvent = {
+  __typename?: 'WmsTaskReplenishmentCreatedEvent';
+  binId: Scalars['ID']['output'];
+  reason: Scalars['String']['output'];
+  task: Tasks;
+};
+
+export type WmsTaskStatusChangedEvent = {
+  __typename?: 'WmsTaskStatusChangedEvent';
+  id: Scalars['ID']['output'];
+  newStatus: TaskStatus;
+  previousStatus: TaskStatus;
+  type: TaskType;
 };
 
 export type CreateAccountTransactionMutationVariables = Exact<{

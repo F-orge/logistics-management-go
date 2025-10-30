@@ -51,3 +51,12 @@ extend type BillingMutation {
   updateSurcharge(id: ID!, value: UpdateSurchargeInput): Surcharges!
   removeSurcharge(id: ID!): DeleteResult!
 }
+
+type SurchargeDeactivatedEvent {
+  id: ID!
+  reason: String!
+}
+
+extend type BillingSubscription {
+  surchargeDeactivated: SurchargeDeactivatedEvent!
+}

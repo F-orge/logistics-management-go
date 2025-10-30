@@ -57,3 +57,22 @@ extend type WmsMutation {
   updateTaskItem(id: ID!, value: UpdateTaskItemInput): TaskItems!
   removeTaskItem(id: ID!): DeleteResult!
 }
+
+type WmsTaskItemStatusChangedEvent {
+  id: ID!
+  newStatus: TaskItemStatus!
+  previousStatus: TaskItemStatus!
+  taskId: ID!
+}
+
+type WmsTaskItemShortPickedEvent {
+  taskItem: TaskItems!
+  shortQuantity: Int!
+}
+
+extend type WmsSubscription {
+  taskItemCompleted: TaskItems!
+  taskItemStatusChanged: WmsTaskItemStatusChangedEvent!
+  taskItemShortPicked: WmsTaskItemShortPickedEvent!
+  taskItemDamaged: TaskItems!
+}

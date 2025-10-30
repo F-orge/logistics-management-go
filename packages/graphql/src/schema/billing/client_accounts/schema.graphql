@@ -44,3 +44,20 @@ extend type BillingMutation {
   updateClientAccount(id: ID!, value: UpdateClientAccountInput): ClientAccounts!
   removeClientAccount(id: ID!): DeleteResult!
 }
+
+type ClientAccountBalanceUpdatedEvent {
+  clientId: ID!
+  newAvailableCredit: String!
+  newWalletBalance: String!
+}
+
+type ClientAccountLastPaymentDateUpdatedEvent {
+  clientId: ID!
+  lastPaymentDate: String!
+  paymentId: ID!
+}
+
+extend type BillingSubscription {
+  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent!
+  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent!
+}

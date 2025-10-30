@@ -42,3 +42,17 @@ extend type WmsMutation {
   updateInboundShipment(id: ID!, value: UpdateInboundShipmentInput): InboundShipments!
   removeInboundShipment(id: ID!): DeleteResult!
 }
+
+type WmsInboundShipmentStatusChangedEvent {
+  id: ID!
+  newStatus: InboundShipmentStatus!
+  previousStatus: InboundShipmentStatus!
+  warehouseId: ID!
+}
+
+extend type WmsSubscription {
+  inboundShipmentReceived: InboundShipments!
+  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent!
+  inboundShipmentProcessing: InboundShipments!
+  inboundShipmentCompleted: InboundShipments!
+}

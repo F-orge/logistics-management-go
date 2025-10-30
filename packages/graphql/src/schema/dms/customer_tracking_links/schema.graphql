@@ -31,3 +31,25 @@ extend type DmsMutation {
   createCustomerTrackingLink(value: CreateCustomerTrackingLinkInput!): CustomerTrackingLinks!
   updateCustomerTrackingLink(id: ID!, value: UpdateCustomerTrackingLinkInput): CustomerTrackingLinks!
 }
+
+type DmsTrackingLinkExpiredEvent {
+  id: ID!
+  deliveryTaskId: ID!
+  trackingToken: String!
+}
+
+extend type DmsSubscription {
+  trackingLinkGenerated: CustomerTrackingLinks!
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent!
+}
+
+type DmsTrackingLinkExpiredEvent {
+  id: ID!
+  deliveryTaskId: ID!
+  trackingToken: String!
+}
+
+extend type DmsSubscription {
+  trackingLinkGenerated: CustomerTrackingLinks!
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent!
+}

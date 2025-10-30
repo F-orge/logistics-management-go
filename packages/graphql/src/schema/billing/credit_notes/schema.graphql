@@ -46,3 +46,19 @@ extend type BillingMutation {
   updateCreditNote(id: ID!, value: UpdateCreditNoteInput): CreditNotes!
   removeCreditNote(id: ID!): DeleteResult!
 }
+
+type CreditNoteAppliedEvent {
+  creditNote: CreditNotes!
+  appliedAmount: String!
+}
+
+type CreditNoteOnDisputeApprovalEvent {
+  creditNote: CreditNotes!
+  disputeId: ID!
+}
+
+extend type BillingSubscription {
+  creditNoteIssued: CreditNotes!
+  creditNoteApplied: CreditNoteAppliedEvent!
+  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent!
+}

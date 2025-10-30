@@ -14,6 +14,12 @@ type AccountTransactions {
   updatedAt: Date
 }
 
+type AccountingSyncFailedEvent {
+  errorMessage: String
+  sourceType: String!
+  syncLogId: ID!
+}
+
 type AccountingSyncLogs {
   createdAt: Date
   errorMessage: String
@@ -29,6 +35,17 @@ type AccountingSyncLogs {
   retryCount: Int
   status: SyncStatus
   updatedAt: Date
+}
+
+type AccountingSyncSucceededEvent {
+  sourceType: String!
+  syncLogId: ID!
+}
+
+type AccountingSyncTriggeredEvent {
+  sourceId: ID!
+  sourceType: String!
+  syncLogId: ID!
 }
 
 input AddInvoiceItemInput {
@@ -155,6 +172,49 @@ type BillingQuery {
   surcharges(calculationMethod: SurchargeCalculationMethod, from: Date, page: Int, perPage: Int, search: String, to: Date): [Surcharges!]!
 }
 
+type BillingSubscription {
+  accountingSyncFailed: AccountingSyncFailedEvent!
+  accountingSyncSucceeded: AccountingSyncSucceededEvent!
+  accountingSyncTriggered: AccountingSyncTriggeredEvent!
+  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent!
+  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent!
+  creditNoteApplied: CreditNoteAppliedEvent!
+  creditNoteIssued: CreditNotes!
+  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent!
+  disputeApproved: DisputeApprovedEvent!
+  disputeDenied: DisputeDeniedEvent!
+  disputeOpened: Disputes!
+  disputeResolved: DisputeResolvedEvent!
+  disputeStatusChanged: DisputeStatusChangedEvent!
+  disputeUnderReview: Disputes!
+  documentGenerated: DocumentGeneratedEvent!
+  invoiceCreated: BillingInvoices!
+  invoiceDisputed: InvoiceDisputedEvent!
+  invoiceOverdue: InvoiceOverdueEvent!
+  invoicePaid: InvoicePaidEvent!
+  invoicePartiallyPaid: InvoicePartiallyPaidEvent!
+  invoiceSent: BillingInvoices!
+  invoiceStatusChanged: InvoiceStatusChangedEvent!
+  invoiceViewed: BillingInvoices!
+  paymentFailed: PaymentFailedEvent!
+  paymentInitiated: Payments!
+  paymentProcessing: Payments!
+  paymentRefunded: PaymentRefundedEvent!
+  paymentStatusChanged: PaymentStatusChangedEvent!
+  paymentSuccessful: Payments!
+  quoteAccepted: Quotes!
+  quoteConverted: QuoteConvertedEvent!
+  quoteCreated: Quotes!
+  quoteExpired: QuoteExpiredEvent!
+  quoteSent: Quotes!
+  quoteStatusChanged: QuoteStatusChangedEvent!
+  rateCardDeactivated: RateCardDeactivatedEvent!
+  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent!
+  surchargeDeactivated: SurchargeDeactivatedEvent!
+  transactionCredited: TransactionCreditedEvent!
+  transactionDebited: TransactionDebitedEvent!
+}
+
 type BinThresholds {
   alertThreshold: Int
   createdAt: Date
@@ -250,6 +310,18 @@ type Cases {
   status: CaseStatus
   type: CaseType
   updatedAt: Date
+}
+
+type ClientAccountBalanceUpdatedEvent {
+  clientId: ID!
+  newAvailableCredit: String!
+  newWalletBalance: String!
+}
+
+type ClientAccountLastPaymentDateUpdatedEvent {
+  clientId: ID!
+  lastPaymentDate: String!
+  paymentId: ID!
 }
 
 type ClientAccounts {
@@ -1058,6 +1130,16 @@ input CreateWmsProductInput {
   width: Float
 }
 
+type CreditNoteAppliedEvent {
+  appliedAmount: String!
+  creditNote: CreditNotes!
+}
+
+type CreditNoteOnDisputeApprovalEvent {
+  creditNote: CreditNotes!
+  disputeId: ID!
+}
+
 type CreditNotes {
   amount: Float!
   appliedAt: String
@@ -1074,6 +1156,18 @@ type CreditNotes {
   updatedAt: Date
 }
 
+type CrmCaseAssignedEvent {
+  id: ID!
+  ownerId: ID!
+  previousOwnerId: ID!
+}
+
+type CrmCaseStatusChangedEvent {
+  id: ID!
+  newStatus: CaseStatus!
+  previousStatus: CaseStatus!
+}
+
 enum CrmInvoicePaymentMethod {
   BANK_TRANSFER
   CASH
@@ -1084,6 +1178,18 @@ enum CrmInvoicePaymentMethod {
   PAYPAL
   STRIPE
   WIRE_TRANSFER
+}
+
+type CrmInvoiceStatusChangedEvent {
+  id: ID!
+  newStatus: InvoiceStatus!
+  previousStatus: InvoiceStatus!
+}
+
+type CrmLeadStatusChangedEvent {
+  id: ID!
+  newStatus: LeadStatus!
+  previousStatus: LeadStatus!
 }
 
 type CrmMutation {
@@ -1124,6 +1230,19 @@ type CrmMutation {
   updateProduct(id: ID!, value: UpdateProductInput): Products!
 }
 
+type CrmNotificationMarkedEvent {
+  id: ID!
+  isRead: Boolean!
+  userId: ID!
+}
+
+type CrmOpportunityStageChangedEvent {
+  id: ID!
+  newStage: OpportunityStage!
+  previousStage: OpportunityStage!
+  probability: Float
+}
+
 type CrmQuery {
   attachment(id: ID!): Attachments!
   attachments(from: Date, page: Int, perPage: Int, search: String, to: Date): [Attachments!]!
@@ -1147,6 +1266,19 @@ type CrmQuery {
   opportunity(id: ID!): Opportunities!
   product(id: ID!): Products!
   products(from: Date, page: Int, perPage: Int, search: String, to: Date, type: ProductType): [Products!]!
+}
+
+type CrmSubscription {
+  caseAssigned: CrmCaseAssignedEvent!
+  caseStatusChanged: CrmCaseStatusChangedEvent!
+  invoicePaid: Invoices!
+  invoiceStatusChanged: CrmInvoiceStatusChangedEvent!
+  leadConverted: Leads!
+  leadStatusChanged: CrmLeadStatusChangedEvent!
+  notificationMarked: CrmNotificationMarkedEvent!
+  opportunityLost: Opportunities!
+  opportunityStageChanged: CrmOpportunityStageChangedEvent!
+  opportunityWon: Opportunities!
 }
 
 enum Currency {
@@ -1245,6 +1377,21 @@ type DeliveryTasks {
   updatedAt: Date
 }
 
+type DisputeApprovedEvent {
+  creditNoteId: ID
+  dispute: Disputes!
+}
+
+type DisputeDeniedEvent {
+  denialReason: String
+  dispute: Disputes!
+}
+
+type DisputeResolvedEvent {
+  dispute: Disputes!
+  resolutionDetails: String
+}
+
 enum DisputeStatus {
   APPROVED
   CLOSED
@@ -1252,6 +1399,13 @@ enum DisputeStatus {
   ESCALATED
   OPEN
   UNDER_REVIEW
+}
+
+type DisputeStatusChangedEvent {
+  clientId: ID!
+  id: ID!
+  newStatus: DisputeStatus!
+  previousStatus: DisputeStatus!
 }
 
 type Disputes {
@@ -1268,6 +1422,23 @@ type Disputes {
   status: DisputeStatus
   submittedAt: String
   updatedAt: Date
+}
+
+type DmsDeliveryTaskFailedEvent {
+  deliveryTask: DeliveryTasks!
+  failureReason: String
+}
+
+type DmsDeliveryTaskStatusChangedEvent {
+  deliveryRouteId: ID!
+  id: ID!
+  newStatus: DeliveryTaskStatus!
+  previousStatus: DeliveryTaskStatus!
+}
+
+type DmsDriverLocationRemovedEvent {
+  driverId: ID!
+  id: ID!
 }
 
 type DmsMutation {
@@ -1313,6 +1484,42 @@ type DmsQuery {
   driverLocations(from: Date, page: Int, perPage: Int, to: Date): [DriverLocations!]!
   taskEvent(id: ID!): TaskEvents!
   taskEvents(from: Date, page: Int, perPage: Int, search: String, status: TaskEventStatus, to: Date): [TaskEvents!]!
+}
+
+type DmsSubscription {
+  deliveryRouteCancelled: DeliveryRoutes!
+  deliveryRouteCompleted: DeliveryRoutes!
+  deliveryRoutePaused: DeliveryRoutes!
+  deliveryRouteStarted: DeliveryRoutes!
+  deliveryTaskDelivered: DeliveryTasks!
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
+  deliveryTaskOutForDelivery: DeliveryTasks!
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
+  driverLocationRemoved: DmsDriverLocationRemovedEvent!
+  driverLocationUpdated: DriverLocations!
+  proofOfDeliveryRecorded: DmsProofOfDeliveries!
+  taskEventRecorded: TaskEvents!
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent!
+  trackingLinkGenerated: CustomerTrackingLinks!
+}
+
+type DmsTaskEventStatusUpdatedEvent {
+  deliveryTaskId: ID!
+  newStatus: TaskEventStatus!
+  taskEventId: ID!
+}
+
+type DmsTrackingLinkExpiredEvent {
+  deliveryTaskId: ID!
+  id: ID!
+  trackingToken: String!
+}
+
+type DocumentGeneratedEvent {
+  documentId: ID!
+  documentType: String!
+  shipmentId: ID!
 }
 
 enum DocumentType {
@@ -1577,6 +1784,11 @@ enum InventoryStockStatus {
   SHIPPED
 }
 
+type InvoiceDisputedEvent {
+  disputeId: ID!
+  invoice: BillingInvoices!
+}
+
 type InvoiceItems {
   createdAt: Date
   id: ID!
@@ -1606,12 +1818,38 @@ type InvoiceLineItems {
   updatedAt: Date
 }
 
+type InvoiceOverdueEvent {
+  amountOutstanding: String!
+  clientId: ID!
+  dueDate: String!
+  id: ID!
+}
+
+type InvoicePaidEvent {
+  invoice: BillingInvoices!
+  paidAmount: String!
+  remainingBalance: String!
+}
+
+type InvoicePartiallyPaidEvent {
+  invoice: BillingInvoices!
+  paymentAmount: String!
+  remainingBalance: String!
+}
+
 enum InvoiceStatus {
   CANCELLED
   DRAFT
   OVERDUE
   PAID
   SENT
+}
+
+type InvoiceStatusChangedEvent {
+  clientId: ID!
+  id: ID!
+  newStatus: BillingInvoiceStatus!
+  previousStatus: BillingInvoiceStatus!
 }
 
 type Invoices {
@@ -1876,6 +2114,11 @@ type PartnerInvoices {
   updatedAt: Date
 }
 
+type PaymentFailedEvent {
+  failureReason: String
+  payment: Payments!
+}
+
 enum PaymentMethod {
   BANK_TRANSFER
   CASH
@@ -1887,6 +2130,11 @@ enum PaymentMethod {
   WALLET
 }
 
+type PaymentRefundedEvent {
+  payment: Payments!
+  refundAmount: String!
+}
+
 enum PaymentStatus {
   CANCELLED
   FAILED
@@ -1894,6 +2142,13 @@ enum PaymentStatus {
   PROCESSING
   REFUNDED
   SUCCESSFUL
+}
+
+type PaymentStatusChangedEvent {
+  id: ID!
+  invoiceId: ID!
+  newStatus: PaymentStatus!
+  previousStatus: PaymentStatus!
 }
 
 type Payments {
@@ -2053,12 +2308,30 @@ type Query {
   wms: WmsQuery
 }
 
+type QuoteConvertedEvent {
+  invoiceId: ID!
+  quote: Quotes!
+}
+
+type QuoteExpiredEvent {
+  clientId: ID
+  id: ID!
+  quoteNumber: String
+}
+
 enum QuoteStatus {
   ACCEPTED
   CANCELLED
   CONVERTED
   EXPIRED
   PENDING
+}
+
+type QuoteStatusChangedEvent {
+  clientId: ID
+  id: ID!
+  newStatus: QuoteStatus!
+  previousStatus: QuoteStatus!
 }
 
 type Quotes {
@@ -2081,6 +2354,12 @@ type Quotes {
   volume: Float
   weight: Float
   width: Float
+}
+
+type RateCardDeactivatedEvent {
+  id: ID!
+  name: String!
+  reason: String!
 }
 
 type RateCards {
@@ -2228,6 +2507,12 @@ enum ServiceType {
   STORAGE
 }
 
+type ShipmentCreatedFromPaymentEvent {
+  paymentId: ID!
+  quoteId: ID
+  shipmentId: ID!
+}
+
 type ShipmentLegEvents {
   eventTimestamp: String!
   id: ID!
@@ -2277,6 +2562,14 @@ type StockTransfers {
   updatedAt: Date
 }
 
+type Subscription {
+  billing: BillingSubscription
+  crm: CrmSubscription
+  dms: DmsSubscription
+  tms: TmsSubscription
+  wms: WmsSubscription
+}
+
 type Suppliers {
   contactPerson: String
   createdAt: Date
@@ -2293,6 +2586,11 @@ enum SurchargeCalculationMethod {
   PERCENTAGE
   PER_UNIT
   SLIDING_SCALE
+}
+
+type SurchargeDeactivatedEvent {
+  id: ID!
+  reason: String!
 }
 
 type Surcharges {
@@ -2414,6 +2712,29 @@ type Tasks {
   warehouse: Warehouses!
 }
 
+type TmsDriverStatusChangedEvent {
+  id: ID!
+  newStatus: DriverStatus!
+  previousStatus: DriverStatus!
+}
+
+type TmsExpenseRejectedEvent {
+  expense: Expenses!
+  rejectionReason: String
+}
+
+type TmsExpenseStatusChangedEvent {
+  driverId: ID
+  id: ID!
+  newStatus: ExpenseStatus!
+  previousStatus: ExpenseStatus!
+}
+
+type TmsGeofenceEvent {
+  geofenceEvent: GeofenceEvents!
+  geofenceName: String!
+}
+
 type TmsMutation {
   addPartnerInvoiceItem(id: ID!, value: CreatePartnerInvoiceItemInput!): PartnerInvoiceItems!
   addVehicleMaintenance(id: ID!, value: CreateVehicleMaintenanceInput!): VehicleMaintenance!
@@ -2487,6 +2808,61 @@ type TmsQuery {
   trips(from: Date, page: Int, perPage: Int, search: String, status: TripStatus, to: Date): [Trips!]!
   vehicle(id: ID!): Vehicles!
   vehicles(from: Date, page: Int, perPage: Int, search: String, status: VehicleStatus, to: Date): [Vehicles!]!
+}
+
+type TmsSubscription {
+  driverStatusChanged: TmsDriverStatusChangedEvent!
+  expenseApproved: Expenses!
+  expenseRejected: TmsExpenseRejectedEvent!
+  expenseStatusChanged: TmsExpenseStatusChangedEvent!
+  expenseSubmitted: Expenses!
+  geofenceEntered: TmsGeofenceEvent!
+  geofenceExited: TmsGeofenceEvent!
+  tripCancelled: Trips!
+  tripCompleted: Trips!
+  tripCreated: Trips!
+  tripStarted: Trips!
+  tripStatusChanged: TmsTripStatusChangedEvent!
+  tripStopArrived: TripStops!
+  tripStopCompleted: TripStops!
+  tripStopSkipped: TmsTripStopSkippedEvent!
+  vehicleMaintenanceScheduled: VehicleMaintenance!
+  vehicleStatusChanged: TmsVehicleStatusChangedEvent!
+}
+
+type TmsTripStatusChangedEvent {
+  driverId: ID
+  id: ID!
+  newStatus: TripStatus!
+  previousStatus: TripStatus!
+  vehicleId: ID
+}
+
+type TmsTripStopSkippedEvent {
+  reason: String
+  tripStop: TripStops!
+}
+
+type TmsVehicleStatusChangedEvent {
+  id: ID!
+  newStatus: VehicleStatus!
+  previousStatus: VehicleStatus!
+}
+
+type TransactionCreditedEvent {
+  amount: String!
+  clientId: ID!
+  paymentId: ID!
+  runningBalance: String!
+  transactionId: ID!
+}
+
+type TransactionDebitedEvent {
+  amount: String!
+  clientId: ID!
+  invoiceId: ID!
+  runningBalance: String!
+  transactionId: ID!
 }
 
 enum TransactionType {
@@ -3211,6 +3587,51 @@ type Warehouses {
   updatedAt: Date
 }
 
+type WmsInboundShipmentStatusChangedEvent {
+  id: ID!
+  newStatus: InboundShipmentStatus!
+  previousStatus: InboundShipmentStatus!
+  warehouseId: ID!
+}
+
+type WmsInventoryAdjustmentDamagedReturnEvent {
+  inventoryAdjustment: InventoryAdjustments!
+  returnId: ID!
+}
+
+type WmsInventoryAdjustmentRecordedEvent {
+  inventoryAdjustment: InventoryAdjustments!
+  previousQuantity: Int!
+}
+
+type WmsInventoryStockLowStockAlertEvent {
+  currentQuantity: Int!
+  id: ID!
+  locationId: ID!
+  productId: ID!
+  reorderPoint: Int!
+  warehouseId: ID!
+}
+
+type WmsInventoryStockReleasedEvent {
+  inventoryStock: InventoryStock!
+  releasedQuantity: Int!
+}
+
+type WmsInventoryStockReservedEvent {
+  inventoryStock: InventoryStock!
+  reservedQuantity: Int!
+}
+
+type WmsInventoryStockStatusChangedEvent {
+  id: ID!
+  locationId: ID!
+  newStatus: InventoryStockStatus!
+  previousStatus: InventoryStockStatus!
+  productId: ID!
+  quantity: Int!
+}
+
 type WmsMutation {
   addInboundShipmentItem(id: ID!, value: CreateInboundShipmentItemInput!): InboundShipmentItems!
   addOutboundShipmentItem(id: ID!, value: CreateOutboundShipmentItemInput!): OutboundShipmentItems!
@@ -3277,9 +3698,9 @@ type WmsMutation {
   updatePickBatchItem(id: ID!, value: UpdatePickBatchItemInput): PickBatchItems!
   updatePutawayRule(id: ID!, value: UpdatePutawayRuleInput): PutawayRules!
   updateReorderPoint(id: ID!, value: UpdateReorderPointInput): ReorderPoints!
-  updateReturn(id: ID!, value: UpdateReturnInput!): Returns!
+  updateReturn(id: ID!, value: UpdateReturnInput): Returns!
   updateReturnItem(id: ID!, value: UpdateReturnItemInput): ReturnItems!
-  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput!): SalesOrders!
+  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput): SalesOrders!
   updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput!): SalesOrderItems!
   updateStockTransfer(id: ID!, value: UpdateStockTransferInput): StockTransfers!
   updateSupplier(id: ID!, value: UpdateSupplierInput!): Suppliers!
@@ -3287,6 +3708,19 @@ type WmsMutation {
   updateTaskItem(id: ID!, value: UpdateTaskItemInput): TaskItems!
   updateWarehouse(id: ID!, value: UpdateWarehouseInput!): Warehouses!
   updateWmsProduct(id: ID!, value: UpdateWmsProductInput): WmsProducts!
+}
+
+type WmsOutboundShipmentStatusChangedEvent {
+  id: ID!
+  newStatus: OutboundShipmentStatus!
+  previousStatus: OutboundShipmentStatus!
+  salesOrderId: ID!
+}
+
+type WmsPickBatchStatusChangedEvent {
+  id: ID!
+  newStatus: PickBatchStatus!
+  previousStatus: PickBatchStatus!
 }
 
 type WmsProducts {
@@ -3358,4 +3792,121 @@ type WmsQuery {
   warehouses(from: Date, page: Int, perPage: Int, search: String, to: Date): [Warehouses!]!
   wmsProduct(id: ID!): WmsProducts!
   wmsProducts(from: Date, page: Int, perPage: Int, search: String, status: ProductStatus, to: Date): [WmsProducts!]!
+}
+
+type WmsReturnItemEvaluatedEvent {
+  condition: ReturnItemCondition
+  returnItem: ReturnItems!
+}
+
+type WmsReturnRejectedEvent {
+  rejectionReason: String
+  return: Returns!
+}
+
+type WmsReturnStatusChangedEvent {
+  clientId: ID!
+  id: ID!
+  newStatus: ReturnStatus!
+  previousStatus: ReturnStatus!
+}
+
+type WmsSalesOrderStatusChangedEvent {
+  clientId: ID!
+  id: ID!
+  newStatus: SalesOrderStatus!
+  previousStatus: SalesOrderStatus!
+}
+
+type WmsStockTransferStatusChangedEvent {
+  id: ID!
+  newStatus: StockTransferStatus!
+  previousStatus: StockTransferStatus!
+  productId: ID!
+}
+
+type WmsSubscription {
+  inboundShipmentCompleted: InboundShipments!
+  inboundShipmentProcessing: InboundShipments!
+  inboundShipmentReceived: InboundShipments!
+  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent!
+  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
+  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
+  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent!
+  inventoryStockReleased: WmsInventoryStockReleasedEvent!
+  inventoryStockReserved: WmsInventoryStockReservedEvent!
+  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
+  outboundShipmentCreated: OutboundShipments!
+  outboundShipmentDelivered: OutboundShipments!
+  outboundShipmentPacked: OutboundShipments!
+  outboundShipmentPicking: OutboundShipments!
+  outboundShipmentShipped: OutboundShipments!
+  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent!
+  pickBatchCompleted: PickBatches!
+  pickBatchCreated: PickBatches!
+  pickBatchStarted: PickBatches!
+  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent!
+  returnApproved: Returns!
+  returnItemEvaluated: WmsReturnItemEvaluatedEvent!
+  returnProcessed: Returns!
+  returnReceived: Returns!
+  returnRejected: WmsReturnRejectedEvent!
+  returnStatusChanged: WmsReturnStatusChangedEvent!
+  salesOrderCompleted: SalesOrders!
+  salesOrderCreated: SalesOrders!
+  salesOrderProcessing: SalesOrders!
+  salesOrderShipped: SalesOrders!
+  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent!
+  stockTransferInTransit: StockTransfers!
+  stockTransferInitiated: StockTransfers!
+  stockTransferReceived: StockTransfers!
+  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent!
+  taskAssigned: WmsTaskAssignedEvent!
+  taskCancelled: Tasks!
+  taskCompleted: Tasks!
+  taskCreated: Tasks!
+  taskItemCompleted: TaskItems!
+  taskItemDamaged: TaskItems!
+  taskItemShortPicked: WmsTaskItemShortPickedEvent!
+  taskItemStatusChanged: WmsTaskItemStatusChangedEvent!
+  taskPutawayCreated: WmsTaskPutawayCreatedEvent!
+  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent!
+  taskStarted: Tasks!
+  taskStatusChanged: WmsTaskStatusChangedEvent!
+}
+
+type WmsTaskAssignedEvent {
+  previousUserId: ID
+  task: Tasks!
+}
+
+type WmsTaskItemShortPickedEvent {
+  shortQuantity: Int!
+  taskItem: TaskItems!
+}
+
+type WmsTaskItemStatusChangedEvent {
+  id: ID!
+  newStatus: TaskItemStatus!
+  previousStatus: TaskItemStatus!
+  taskId: ID!
+}
+
+type WmsTaskPutawayCreatedEvent {
+  reason: String!
+  returnId: ID!
+  task: Tasks!
+}
+
+type WmsTaskReplenishmentCreatedEvent {
+  binId: ID!
+  reason: String!
+  task: Tasks!
+}
+
+type WmsTaskStatusChangedEvent {
+  id: ID!
+  newStatus: TaskStatus!
+  previousStatus: TaskStatus!
+  type: TaskType!
 }

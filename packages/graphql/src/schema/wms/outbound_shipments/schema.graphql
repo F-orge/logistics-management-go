@@ -42,3 +42,19 @@ extend type WmsMutation {
   updateOutboundShipment(id: ID!, value: UpdateOutboundShipmentInput): OutboundShipments!
   removeOutboundShipment(id: ID!): DeleteResult!
 }
+
+type WmsOutboundShipmentStatusChangedEvent {
+  id: ID!
+  newStatus: OutboundShipmentStatus!
+  previousStatus: OutboundShipmentStatus!
+  salesOrderId: ID!
+}
+
+extend type WmsSubscription {
+  outboundShipmentCreated: OutboundShipments!
+  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent!
+  outboundShipmentPicking: OutboundShipments!
+  outboundShipmentPacked: OutboundShipments!
+  outboundShipmentShipped: OutboundShipments!
+  outboundShipmentDelivered: OutboundShipments!
+}

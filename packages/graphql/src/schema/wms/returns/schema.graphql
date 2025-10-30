@@ -39,6 +39,26 @@ input UpdateReturnInput {
 
 extend type WmsMutation {
   createReturn(value: CreateReturnInput!): Returns!
-  updateReturn(id: ID!, value: UpdateReturnInput!): Returns!
+  updateReturn(id: ID!, value: UpdateReturnInput): Returns!
   removeReturn(id: ID!): DeleteResult!
+}
+
+type WmsReturnStatusChangedEvent {
+  id: ID!
+  newStatus: ReturnStatus!
+  previousStatus: ReturnStatus!
+  clientId: ID!
+}
+
+type WmsReturnRejectedEvent {
+  return: Returns!
+  rejectionReason: String
+}
+
+extend type WmsSubscription {
+  returnReceived: Returns!
+  returnStatusChanged: WmsReturnStatusChangedEvent!
+  returnApproved: Returns!
+  returnRejected: WmsReturnRejectedEvent!
+  returnProcessed: Returns!
 }

@@ -50,3 +50,19 @@ extend type TmsMutation {
   updateTrip(id: ID!, value: UpdateTripInput): Trips!
   removeTrip(id: ID!): DeleteResult!
 }
+
+type TmsTripStatusChangedEvent {
+  id: ID!
+  newStatus: TripStatus!
+  previousStatus: TripStatus!
+  driverId: ID
+  vehicleId: ID
+}
+
+extend type TmsSubscription {
+  tripCreated: Trips!
+  tripStarted: Trips!
+  tripCompleted: Trips!
+  tripCancelled: Trips!
+  tripStatusChanged: TmsTripStatusChangedEvent!
+}

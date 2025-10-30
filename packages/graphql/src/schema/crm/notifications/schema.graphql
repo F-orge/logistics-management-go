@@ -28,3 +28,13 @@ extend type CrmMutation {
   createNotification(value: CreateNotificationInput!): Notifications!
   updateNotification(id: ID!, value: UpdateNotificationInput): Notifications!
 }
+
+type CrmNotificationMarkedEvent {
+  id: ID!
+  userId: ID!
+  isRead: Boolean!
+}
+
+extend type CrmSubscription {
+  notificationMarked: CrmNotificationMarkedEvent!
+}

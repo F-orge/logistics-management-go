@@ -73,3 +73,16 @@ extend type WmsMutation {
   updatePickBatch(id: ID!, value: UpdatePickBatchInput): PickBatches!
   removePickBatch(id: ID!): DeleteResult!
 }
+
+type WmsPickBatchStatusChangedEvent {
+  id: ID!
+  newStatus: PickBatchStatus!
+  previousStatus: PickBatchStatus!
+}
+
+extend type WmsSubscription {
+  pickBatchCreated: PickBatches!
+  pickBatchStarted: PickBatches!
+  pickBatchCompleted: PickBatches!
+  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent!
+}

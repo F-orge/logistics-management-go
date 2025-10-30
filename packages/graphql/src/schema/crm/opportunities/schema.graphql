@@ -75,3 +75,16 @@ extend type CrmMutation {
   createOpportunity(value: CreateOpportunityInput!): Opportunities!
   updateOpportunity(id: ID!, value: UpdateOpportunityInput!): Opportunities!
 }
+
+type CrmOpportunityStageChangedEvent {
+  id: ID!
+  newStage: OpportunityStage!
+  previousStage: OpportunityStage!
+  probability: Float
+}
+
+extend type CrmSubscription {
+  opportunityStageChanged: CrmOpportunityStageChangedEvent!
+  opportunityWon: Opportunities!
+  opportunityLost: Opportunities!
+}

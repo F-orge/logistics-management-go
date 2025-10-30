@@ -2,10 +2,26 @@ type BillingQuery
 
 type BillingMutation 
 
+type BillingSubscription
+
 extend type Query {
-  billing:BillingQuery
+  billing: BillingQuery
 }
 
 extend type Mutation {
-  billing:BillingMutation
+  billing: BillingMutation
+}
+
+extend type Subscription {
+  billing: BillingSubscription
+}
+
+type ShipmentCreatedFromPaymentEvent {
+  paymentId: ID!
+  quoteId: ID
+  shipmentId: ID!
+}
+
+extend type BillingSubscription {
+  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent!
 }

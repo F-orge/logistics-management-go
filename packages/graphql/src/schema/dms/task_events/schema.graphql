@@ -40,3 +40,25 @@ input CreateTaskEventInput {
 extend type DmsMutation {
   createTaskEvent(value: CreateTaskEventInput!): TaskEvents!
 }
+
+type DmsTaskEventStatusUpdatedEvent {
+  taskEventId: ID!
+  deliveryTaskId: ID!
+  newStatus: TaskEventStatus!
+}
+
+extend type DmsSubscription {
+  taskEventRecorded: TaskEvents!
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
+}
+
+type DmsTaskEventStatusUpdatedEvent {
+  taskEventId: ID!
+  deliveryTaskId: ID!
+  newStatus: TaskEventStatus!
+}
+
+extend type DmsSubscription {
+  taskEventRecorded: TaskEvents!
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
+}

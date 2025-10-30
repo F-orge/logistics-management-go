@@ -87,3 +87,38 @@ extend type WmsMutation {
   updateTask(id: ID!, value: UpdateTaskInput): Tasks!
   removeTask(id: ID!): DeleteResult!
 }
+
+type WmsTaskAssignedEvent {
+  task: Tasks!
+  previousUserId: ID
+}
+
+type WmsTaskStatusChangedEvent {
+  id: ID!
+  newStatus: TaskStatus!
+  previousStatus: TaskStatus!
+  type: TaskType!
+}
+
+type WmsTaskReplenishmentCreatedEvent {
+  task: Tasks!
+  binId: ID!
+  reason: String!
+}
+
+type WmsTaskPutawayCreatedEvent {
+  task: Tasks!
+  returnId: ID!
+  reason: String!
+}
+
+extend type WmsSubscription {
+  taskCreated: Tasks!
+  taskAssigned: WmsTaskAssignedEvent!
+  taskStarted: Tasks!
+  taskCompleted: Tasks!
+  taskCancelled: Tasks!
+  taskStatusChanged: WmsTaskStatusChangedEvent!
+  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent!
+  taskPutawayCreated: WmsTaskPutawayCreatedEvent!
+}

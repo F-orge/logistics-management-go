@@ -53,3 +53,13 @@ extend type BillingMutation {
   updateRateCard(id: ID!, value: UpdateRateCardInput): RateCards!
   removeRateCard(id: ID!): DeleteResult!
 }
+
+type RateCardDeactivatedEvent {
+  id: ID!
+  name: String!
+  reason: String!
+}
+
+extend type BillingSubscription {
+  rateCardDeactivated: RateCardDeactivatedEvent!
+}

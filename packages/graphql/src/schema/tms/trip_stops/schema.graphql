@@ -46,3 +46,14 @@ extend type TmsMutation {
   updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!
   removeTripStop(id: ID!): DeleteResult!
 }
+
+type TmsTripStopSkippedEvent {
+  tripStop: TripStops!
+  reason: String
+}
+
+extend type TmsSubscription {
+  tripStopArrived: TripStops!
+  tripStopCompleted: TripStops!
+  tripStopSkipped: TmsTripStopSkippedEvent!
+}

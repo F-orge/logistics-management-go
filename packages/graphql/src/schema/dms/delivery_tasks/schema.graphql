@@ -76,3 +76,41 @@ extend type DmsMutation {
   createDeliveryTask(value: CreateDeliveryTaskInput!): DeliveryTasks!
   updateDeliveryTask(id: ID!, value: UpdateDeliveryTaskInput): DeliveryTasks!
 }
+
+type DmsDeliveryTaskStatusChangedEvent {
+  id: ID!
+  newStatus: DeliveryTaskStatus!
+  previousStatus: DeliveryTaskStatus!
+  deliveryRouteId: ID!
+}
+
+type DmsDeliveryTaskFailedEvent {
+  deliveryTask: DeliveryTasks!
+  failureReason: String
+}
+
+extend type DmsSubscription {
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
+  deliveryTaskOutForDelivery: DeliveryTasks!
+  deliveryTaskDelivered: DeliveryTasks!
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
+}
+
+type DmsDeliveryTaskStatusChangedEvent {
+  id: ID!
+  newStatus: DeliveryTaskStatus!
+  previousStatus: DeliveryTaskStatus!
+  deliveryRouteId: ID!
+}
+
+type DmsDeliveryTaskFailedEvent {
+  deliveryTask: DeliveryTasks!
+  failureReason: String
+}
+
+extend type DmsSubscription {
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
+  deliveryTaskOutForDelivery: DeliveryTasks!
+  deliveryTaskDelivered: DeliveryTasks!
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
+}

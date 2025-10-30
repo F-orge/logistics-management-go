@@ -40,3 +40,17 @@ extend type WmsMutation {
   updateStockTransfer(id: ID!, value: UpdateStockTransferInput): StockTransfers!
   removeStockTransfer(id: ID!): DeleteResult!
 }
+
+type WmsStockTransferStatusChangedEvent {
+  id: ID!
+  newStatus: StockTransferStatus!
+  previousStatus: StockTransferStatus!
+  productId: ID!
+}
+
+extend type WmsSubscription {
+  stockTransferInitiated: StockTransfers!
+  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent!
+  stockTransferInTransit: StockTransfers!
+  stockTransferReceived: StockTransfers!
+}

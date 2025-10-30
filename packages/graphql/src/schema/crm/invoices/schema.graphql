@@ -59,3 +59,14 @@ extend type CrmMutation {
   createInvoice(value: CreateInvoiceInput!): Invoices!
   updateInvoice(id: ID!, value: UpdateInvoiceInput): Invoices!
 }
+
+type CrmInvoiceStatusChangedEvent {
+  id: ID!
+  newStatus: InvoiceStatus!
+  previousStatus: InvoiceStatus!
+}
+
+extend type CrmSubscription {
+  invoiceStatusChanged: CrmInvoiceStatusChangedEvent!
+  invoicePaid: Invoices!
+}

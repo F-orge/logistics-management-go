@@ -43,6 +43,21 @@ input UpdateSalesOrderInput {
 
 extend type WmsMutation {
   createSalesOrder(value: CreateSalesOrderInput!): SalesOrders!
-  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput!): SalesOrders!
+  updateSalesOrder(id: ID!, value: UpdateSalesOrderInput): SalesOrders!
   removeSalesOrder(id: ID!): DeleteResult!
+}
+
+type WmsSalesOrderStatusChangedEvent {
+  id: ID!
+  newStatus: SalesOrderStatus!
+  previousStatus: SalesOrderStatus!
+  clientId: ID!
+}
+
+extend type WmsSubscription {
+  salesOrderCreated: SalesOrders!
+  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent!
+  salesOrderProcessing: SalesOrders!
+  salesOrderShipped: SalesOrders!
+  salesOrderCompleted: SalesOrders!
 }

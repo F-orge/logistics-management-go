@@ -72,3 +72,29 @@ extend type BillingMutation {
   updatePayment(id: ID!, value: UpdatePaymentInput): Payments!
   removePayment(id: ID!): DeleteResult!
 }
+
+type PaymentStatusChangedEvent {
+  id: ID!
+  newStatus: PaymentStatus!
+  previousStatus: PaymentStatus!
+  invoiceId: ID!
+}
+
+type PaymentFailedEvent {
+  payment: Payments!
+  failureReason: String
+}
+
+type PaymentRefundedEvent {
+  payment: Payments!
+  refundAmount: String!
+}
+
+extend type BillingSubscription {
+  paymentInitiated: Payments!
+  paymentProcessing: Payments!
+  paymentSuccessful: Payments!
+  paymentStatusChanged: PaymentStatusChangedEvent!
+  paymentFailed: PaymentFailedEvent!
+  paymentRefunded: PaymentRefundedEvent!
+}

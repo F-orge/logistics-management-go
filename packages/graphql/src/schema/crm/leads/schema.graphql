@@ -67,3 +67,14 @@ extend type CrmMutation {
   updateLead(id: ID!, value: UpdateLeadInput): Leads!
   removeLead(id: ID!): DeleteResult!
 }
+
+type CrmLeadStatusChangedEvent {
+  id: ID!
+  newStatus: LeadStatus!
+  previousStatus: LeadStatus!
+}
+
+extend type CrmSubscription {
+  leadConverted: Leads!
+  leadStatusChanged: CrmLeadStatusChangedEvent!
+}

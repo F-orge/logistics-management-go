@@ -27,3 +27,13 @@ extend type TmsMutation {
   createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
   updateGeofenceEvent(id: ID!, value: UpdateGeofenceEventInput): GeofenceEvents!
 }
+
+type TmsGeofenceEvent {
+  geofenceEvent: GeofenceEvents!
+  geofenceName: String!
+}
+
+extend type TmsSubscription {
+  geofenceEntered: TmsGeofenceEvent!
+  geofenceExited: TmsGeofenceEvent!
+}
