@@ -1,9 +1,9 @@
-import { PubSub } from "graphql-subscriptions";
 import { CrmEvents } from "./crm";
 import { BillingEvents } from "./billing";
 import { DmsEvents } from "./dms";
 import { TmsEvents } from "./tms";
 import { WmsEvents } from "./wms";
+import { PubSub } from "graphql-subscriptions";
 
 export type Events = CrmEvents &
   BillingEvents &
@@ -11,6 +11,4 @@ export type Events = CrmEvents &
   TmsEvents &
   WmsEvents;
 
-export const pubsub = new PubSub<Events>();
-
-export * from "./crm";
+export const pubsubFactory = () => new PubSub<Events>();

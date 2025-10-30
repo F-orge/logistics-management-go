@@ -18,7 +18,12 @@ import * as path from "path";
 import { Pool } from "pg";
 import { authFactory } from "./auth";
 import { BunStorageRepository } from "./storage";
-import { createYoga, createSchema, useReadinessCheck } from "graphql-yoga";
+import {
+  createYoga,
+  createSchema,
+  useReadinessCheck,
+  createPubSub,
+} from "graphql-yoga";
 import { typeDefs, resolvers } from "@packages/graphql";
 import {
   createInlineSigningKeyProvider,
@@ -26,6 +31,8 @@ import {
   useJWT,
 } from "@graphql-yoga/plugin-jwt";
 import { readdir } from "node:fs/promises";
+import { S3Client } from "bun";
+import { Events, pubsubFactory } from "@packages/graphql/events";
 
 type ServerFactory = {
   pool: Pool;
@@ -43,6 +50,17 @@ export type HonoVariables = {
 
 export const serverFactory = async ({ pool }: ServerFactory) => {
   const router = new Hono<{ Variables: HonoVariables }>();
+
+  // pubsub
+  const pubsub = pubsubFactory();
+
+  // minio
+  const minio = new S3Client({
+    endpoint: process.env.MINIO_ENDPOINT!,
+    accessKeyId: process.env.MINIO_ACCESS_KEY!,
+    secretAccessKey: process.env.MINIO_SECRET_KEY!,
+    bucket: process.env.MINIO_BUCKET!,
+  });
 
   // kysely
   const kysely = new Kysely<any>({
@@ -174,7 +192,7 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   // graphql yoga handler
   router.use("/api/graphql/*", async (ctx) =>
-    yoga.fetch(ctx.req.raw, { db: ctx.get("kysely") })
+    yoga.fetch(ctx.req.raw, { db: ctx.get("kysely"), minio, pubsub })
   );
 
   // frontend mounting

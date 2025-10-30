@@ -4448,11 +4448,17 @@ export type UpdateWmsProductInput = {
 
 export type User = {
   __typename?: 'User';
+  banExpires?: Maybe<Scalars['Date']['output']>;
+  banReason?: Maybe<Scalars['String']['output']>;
+  banned?: Maybe<Scalars['Boolean']['output']>;
+  createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  role?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type VehicleMaintenance = {

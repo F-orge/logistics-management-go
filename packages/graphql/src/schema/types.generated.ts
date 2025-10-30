@@ -4452,11 +4452,17 @@ export type UpdateWmsProductInput = {
 
 export type User = {
   __typename?: 'User';
+  banExpires?: Maybe<Scalars['Date']['output']>;
+  banReason?: Maybe<Scalars['String']['output']>;
+  banned?: Maybe<Scalars['Boolean']['output']>;
+  createdAt: Scalars['Date']['output'];
   email: Scalars['String']['output'];
   emailVerified: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
+  role?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['Date']['output'];
 };
 
 export type VehicleMaintenance = {
@@ -7376,11 +7382,17 @@ export type TripsResolvers<ContextType = GraphQLContext, ParentType extends Reso
 };
 
 export type UserResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  banExpires?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  banReason?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  banned?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   emailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
 };
 
 export type VehicleMaintenanceResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['VehicleMaintenance'] = ResolversParentTypes['VehicleMaintenance']> = {

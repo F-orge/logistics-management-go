@@ -3125,11 +3125,17 @@ input UpdateWmsProductInput {
 }
 
 type User {
+  banExpires: Date
+  banReason: String
+  banned: Boolean
+  createdAt: Date!
   email: String!
   emailVerified: Boolean!
   id: ID!
   image: String
   name: String!
+  role: String
+  updatedAt: Date!
 }
 
 type VehicleMaintenance {

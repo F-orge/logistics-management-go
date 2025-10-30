@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "bun run --hot --env-file ../../.env src/index.ts",
-    "build": "tsc && tsc-alias -p tsconfig.json && bun build dist/index.js --target node --outfile .output/server.js --production --minify",
+    "build": "tsc && tsc-alias -p tsconfig.json && bun build dist/index.js --target bun --outfile .output/server.js --production --minify",
     "start": "bun run dist/server.js",
     "typecheck": "tsc --noEmit",
     "lint": "biome lint src",
