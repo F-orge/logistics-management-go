@@ -27,9 +27,9 @@ extend type CrmQuery {
 }
 
 input CreateAttachmentInput {
-  file: File
-  recordId: ID
-  recordType: RecordType
+  file: File!
+  recordId: ID!
+  recordType: RecordType!
 }
 
 extend type CrmMutation {

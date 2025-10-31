@@ -404,9 +404,9 @@ input CreateAccountingSyncLogInput {
 }
 
 input CreateAttachmentInput {
-  file: File
-  recordId: ID
-  recordType: RecordType
+  file: File!
+  recordId: ID!
+  recordType: RecordType!
 }
 
 input CreateBillingInvoiceInput {

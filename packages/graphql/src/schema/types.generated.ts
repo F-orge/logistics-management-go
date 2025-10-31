@@ -801,9 +801,9 @@ export type CreateAccountingSyncLogInput = {
 };
 
 export type CreateAttachmentInput = {
-  file?: InputMaybe<Scalars['File']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<RecordType>;
+  file: Scalars['File']['input'];
+  recordId: Scalars['ID']['input'];
+  recordType: RecordType;
 };
 
 export type CreateBillingInvoiceInput = {

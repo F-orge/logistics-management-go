@@ -6625,9 +6625,13 @@
             "name": "file",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "File",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "File",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -6637,9 +6641,13 @@
             "name": "recordId",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -6649,9 +6657,13 @@
             "name": "recordType",
             "description": null,
             "type": {
-              "kind": "ENUM",
-              "name": "RecordType",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "RecordType",
+                "ofType": null
+              }
             },
             "defaultValue": null,
             "isDeprecated": false,

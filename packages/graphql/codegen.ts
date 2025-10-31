@@ -32,7 +32,7 @@ const config: CodegenConfig = {
         },
         scalarSchemas: {
           File: "z.file()",
-          Date: "z.date()",
+          Date: "z.coerce.date()",
         },
         enumsAsTypes: true,
         maybeValue: "T | undefined",

@@ -797,9 +797,9 @@ export type CreateAccountingSyncLogInput = {
 };
 
 export type CreateAttachmentInput = {
-  file?: InputMaybe<Scalars['File']['input']>;
-  recordId?: InputMaybe<Scalars['ID']['input']>;
-  recordType?: InputMaybe<RecordType>;
+  file: Scalars['File']['input'];
+  recordId: Scalars['ID']['input'];
+  recordType: RecordType;
 };
 
 export type CreateBillingInvoiceInput = {
@@ -6151,9 +6151,9 @@ export function CreateAccountingSyncLogInputSchema(): z.ZodObject<Properties<Cre
 
 export function CreateAttachmentInputSchema(): z.ZodObject<Properties<CreateAttachmentInput>> {
   return z.object({
-    file: z.file().optional(),
-    recordId: z.string().optional(),
-    recordType: RecordTypeSchema.optional()
+    file: z.file(),
+    recordId: z.string(),
+    recordType: RecordTypeSchema
   })
 }
 
@@ -6169,7 +6169,7 @@ export function CreateBillingInvoiceInputSchema(): z.ZodObject<Properties<Create
     notes: z.string().optional(),
     paymentTerms: z.string().optional(),
     quoteId: z.string().optional(),
-    sentAt: z.date().optional(),
+    sentAt: z.coerce.date().optional(),
     status: BillingInvoiceStatusSchema.optional()
   })
 }
@@ -6189,9 +6189,9 @@ export function CreateBinThresholdInputSchema(): z.ZodObject<Properties<CreateBi
 export function CreateCampaignInputSchema(): z.ZodObject<Properties<CreateCampaignInput>> {
   return z.object({
     budget: z.number().optional(),
-    endDate: z.date().optional(),
+    endDate: z.coerce.date().optional(),
     name: z.string(),
-    startDate: z.date()
+    startDate: z.coerce.date()
   })
 }
 
@@ -6395,7 +6395,7 @@ export function CreateExpenseInputSchema(): z.ZodObject<Properties<CreateExpense
     currency: CurrencySchema.optional(),
     description: z.string().optional(),
     driverId: z.string().optional(),
-    expenseDate: z.date().optional(),
+    expenseDate: z.coerce.date().optional(),
     fuelQuantity: z.number().optional(),
     odometerReading: z.number().optional(),
     receiptUrl: z.string().optional(),
@@ -6426,7 +6426,7 @@ export function CreateGpsPingInputSchema(): z.ZodObject<Properties<CreateGpsPing
   return z.object({
     latitude: z.number(),
     longitude: z.number(),
-    timestamp: z.date(),
+    timestamp: z.coerce.date(),
     vehicleId: z.string()
   })
 }
@@ -6452,7 +6452,7 @@ export function CreateInteractionInputSchema(): z.ZodObject<Properties<CreateInt
   return z.object({
     caseId: z.string().optional(),
     contactId: z.string(),
-    interactionDate: z.date().optional(),
+    interactionDate: z.coerce.date().optional(),
     notes: z.string().optional(),
     outcome: InteractionOutcomeSchema.optional(),
     type: InteractionTypeSchema.optional(),
@@ -6474,7 +6474,7 @@ export function CreateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<C
 export function CreateInventoryBatchInputSchema(): z.ZodObject<Properties<CreateInventoryBatchInput>> {
   return z.object({
     batchNumber: z.string(),
-    expirationDate: z.date().optional(),
+    expirationDate: z.coerce.date().optional(),
     productId: z.string()
   })
 }
@@ -6492,11 +6492,11 @@ export function CreateInventoryStockInputSchema(): z.ZodObject<Properties<Create
 
 export function CreateInvoiceInputSchema(): z.ZodObject<Properties<CreateInvoiceInput>> {
   return z.object({
-    dueDate: z.date(),
-    issueDate: z.date(),
+    dueDate: z.coerce.date(),
+    issueDate: z.coerce.date(),
     items: z.array(z.lazy(() => CreateInvoiceItemInputSchema())),
     opportunityId: z.string(),
-    paidAt: z.date().optional(),
+    paidAt: z.coerce.date().optional(),
     paymentMethod: CrmInvoicePaymentMethodSchema.optional(),
     status: InvoiceStatusSchema.optional()
   })
@@ -6570,7 +6570,7 @@ export function CreateOpportunityInputSchema(): z.ZodObject<Properties<CreateOpp
     companyId: z.string().optional(),
     contactId: z.string().optional(),
     dealValue: z.number().optional(),
-    expectedCloseDate: z.date().optional(),
+    expectedCloseDate: z.coerce.date().optional(),
     lostReason: z.string().optional(),
     name: z.string(),
     ownerId: z.string(),
@@ -6908,7 +6908,7 @@ export function CreateTaskEventInputSchema(): z.ZodObject<Properties<CreateTaskE
 export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>> {
   return z.object({
     actualDuration: z.number().optional(),
-    endTime: z.date().optional(),
+    endTime: z.coerce.date().optional(),
     estimatedDuration: z.number().optional(),
     instructions: z.string().optional(),
     notes: z.string().optional(),
@@ -6916,7 +6916,7 @@ export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>
     priority: z.number().optional(),
     sourceEntityId: z.string().optional(),
     sourceEntityType: z.string().optional(),
-    startTime: z.date().optional(),
+    startTime: z.coerce.date().optional(),
     status: TaskStatusSchema.optional(),
     taskNumber: z.string(),
     type: TaskTypeSchema,
@@ -6984,7 +6984,7 @@ export function CreateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<Cr
   return z.object({
     cost: z.number().optional(),
     notes: z.string().optional(),
-    serviceDate: z.date(),
+    serviceDate: z.coerce.date(),
     serviceType: VehicleServiceTypeSchema.optional()
   })
 }
@@ -7028,7 +7028,7 @@ export function UpdateBillingInvoiceInputSchema(): z.ZodObject<Properties<Update
     currency: z.string().optional(),
     dueDate: z.string().optional(),
     notes: z.string().optional(),
-    paidAt: z.date().optional(),
+    paidAt: z.coerce.date().optional(),
     paymentTerms: z.string().optional(),
     status: BillingInvoiceStatusSchema.optional()
   })
@@ -7047,9 +7047,9 @@ export function UpdateBinThresholdInputSchema(): z.ZodObject<Properties<UpdateBi
 export function UpdateCampaignInputSchema(): z.ZodObject<Properties<UpdateCampaignInput>> {
   return z.object({
     budget: z.number().optional(),
-    endDate: z.date().optional(),
+    endDate: z.coerce.date().optional(),
     name: z.string().optional(),
-    startDate: z.date().optional()
+    startDate: z.coerce.date().optional()
   })
 }
 
@@ -7087,7 +7087,7 @@ export function UpdateClientAccountInputSchema(): z.ZodObject<Properties<UpdateC
     creditLimit: z.number().optional(),
     currency: z.string().optional(),
     isCreditApproved: z.boolean().optional(),
-    lastPaymentDate: z.date().optional(),
+    lastPaymentDate: z.coerce.date().optional(),
     paymentTermsDays: z.number().optional(),
     walletBalance: z.number().optional()
   })
@@ -7220,7 +7220,7 @@ export function UpdateExpenseInputSchema(): z.ZodObject<Properties<UpdateExpense
     amount: z.number().optional(),
     currency: CurrencySchema.optional(),
     description: z.string().optional(),
-    expenseDate: z.date().optional(),
+    expenseDate: z.coerce.date().optional(),
     fuelQuantity: z.number().optional(),
     odometerReading: z.number().optional(),
     receiptUrl: z.string().optional(),
@@ -7268,7 +7268,7 @@ export function UpdateInboundShipmentItemInputSchema(): z.ZodObject<Properties<U
 
 export function UpdateInteractionInputSchema(): z.ZodObject<Properties<UpdateInteractionInput>> {
   return z.object({
-    interactionDate: z.date().optional(),
+    interactionDate: z.coerce.date().optional(),
     notes: z.string().optional(),
     outcome: InteractionOutcomeSchema.optional(),
     type: InteractionTypeSchema.optional()
@@ -7287,14 +7287,14 @@ export function UpdateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<U
 export function UpdateInventoryBatchInputSchema(): z.ZodObject<Properties<UpdateInventoryBatchInput>> {
   return z.object({
     batchNumber: z.string().optional(),
-    expirationDate: z.date().optional()
+    expirationDate: z.coerce.date().optional()
   })
 }
 
 export function UpdateInventoryStockInputSchema(): z.ZodObject<Properties<UpdateInventoryStockInput>> {
   return z.object({
-    lastCountedAt: z.date().optional(),
-    lastMovementAt: z.date().optional(),
+    lastCountedAt: z.coerce.date().optional(),
+    lastMovementAt: z.coerce.date().optional(),
     quantity: z.number().optional(),
     reservedQuantity: z.number().optional(),
     status: InventoryStockStatusSchema.optional()
@@ -7303,8 +7303,8 @@ export function UpdateInventoryStockInputSchema(): z.ZodObject<Properties<Update
 
 export function UpdateInvoiceInputSchema(): z.ZodObject<Properties<UpdateInvoiceInput>> {
   return z.object({
-    dueDate: z.date().optional(),
-    paidAt: z.date().optional(),
+    dueDate: z.coerce.date().optional(),
+    paidAt: z.coerce.date().optional(),
     paymentMethod: CrmInvoicePaymentMethodSchema.optional(),
     status: InvoiceStatusSchema.optional()
   })
@@ -7328,7 +7328,7 @@ export function UpdateInvoiceLineItemInputSchema(): z.ZodObject<Properties<Updat
 
 export function UpdateLeadInputSchema(): z.ZodObject<Properties<UpdateLeadInput>> {
   return z.object({
-    convertedAt: z.date().optional(),
+    convertedAt: z.coerce.date().optional(),
     convertedCompanyId: z.string().optional(),
     convertedContactId: z.string().optional(),
     convertedOpportunityId: z.string().optional(),
@@ -7370,7 +7370,7 @@ export function UpdateNotificationInputSchema(): z.ZodObject<Properties<UpdateNo
 export function UpdateOpportunityInputSchema(): z.ZodObject<Properties<UpdateOpportunityInput>> {
   return z.object({
     dealValue: z.number().optional(),
-    expectedCloseDate: z.date().optional(),
+    expectedCloseDate: z.coerce.date().optional(),
     lostReason: z.string().optional(),
     name: z.string().optional(),
     probability: z.number().optional(),
@@ -7408,10 +7408,10 @@ export function UpdatePackageInputSchema(): z.ZodObject<Properties<UpdatePackage
     length: z.number().optional(),
     packageNumber: z.string().optional(),
     packageType: z.string().optional(),
-    packedAt: z.date().optional(),
+    packedAt: z.coerce.date().optional(),
     requiresSignature: z.boolean().optional(),
     serviceLevel: z.string().optional(),
-    shippedAt: z.date().optional(),
+    shippedAt: z.coerce.date().optional(),
     trackingNumber: z.string().optional(),
     warehouseId: z.string().optional(),
     weight: z.number().optional(),
@@ -7455,7 +7455,7 @@ export function UpdatePickBatchInputSchema(): z.ZodObject<Properties<UpdatePickB
     actualDuration: z.number().optional(),
     assignedUserId: z.string().optional(),
     batchNumber: z.string().optional(),
-    completedAt: z.date().optional(),
+    completedAt: z.coerce.date().optional(),
     completedItems: z.number().optional(),
     priority: z.number().optional(),
     status: PickBatchStatusSchema.optional(),
@@ -7633,7 +7633,7 @@ export function UpdateSurchargeInputSchema(): z.ZodObject<Properties<UpdateSurch
 export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>> {
   return z.object({
     actualDuration: z.number().optional(),
-    endTime: z.date().optional(),
+    endTime: z.coerce.date().optional(),
     estimatedDuration: z.number().optional(),
     instructions: z.string().optional(),
     notes: z.string().optional(),
@@ -7641,7 +7641,7 @@ export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>
     priority: z.number().optional(),
     sourceEntityId: z.string().optional(),
     sourceEntityType: z.string().optional(),
-    startTime: z.date().optional(),
+    startTime: z.coerce.date().optional(),
     status: TaskStatusSchema.optional(),
     taskNumber: z.string().optional(),
     type: TaskTypeSchema.optional(),
@@ -7653,7 +7653,7 @@ export function UpdateTaskItemInputSchema(): z.ZodObject<Properties<UpdateTaskIt
   return z.object({
     completedAt: z.string().optional(),
     destinationLocationId: z.string().optional(),
-    expiryDate: z.date().optional(),
+    expiryDate: z.coerce.date().optional(),
     notes: z.string().optional(),
     quantityCompleted: z.number().optional(),
     quantityRequired: z.number().optional(),
@@ -7703,7 +7703,7 @@ export function UpdateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<Up
   return z.object({
     cost: z.number().optional(),
     notes: z.string().optional(),
-    serviceDate: z.date().optional(),
+    serviceDate: z.coerce.date().optional(),
     serviceType: VehicleServiceTypeSchema.optional()
   })
 }
