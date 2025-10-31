@@ -17,7 +17,6 @@ import nodemailer from "nodemailer";
 import * as path from "path";
 import { Pool } from "pg";
 import { authFactory } from "./auth";
-import { BunStorageRepository } from "./storage";
 import { createYoga, createSchema, useReadinessCheck } from "graphql-yoga";
 import { typeDefs, resolvers } from "@packages/graphql";
 import {
@@ -38,7 +37,6 @@ export type HonoVariables = {
     | ReturnType<typeof authFactory>["$Infer"]["Session"]["session"]
     | null;
   kysely: Kysely<any>;
-  storage: BunStorageRepository;
   mailer: ReturnType<typeof nodemailer.createTransport> | sgMail.MailService;
 };
 
@@ -101,17 +99,6 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
   const localMailer = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
     port: Number(process.env.MAIL_PORT),
-  });
-
-  // dependency injection
-  router.use("*", async (c, next) => {
-    c.set("kysely", kysely);
-    c.set(
-      "storage",
-      new BunStorageRepository(process.env.STORAGE_PATH ?? ".data/files")
-    );
-    c.set("mailer", sgMail || localMailer);
-    return next();
   });
 
   // better auth
@@ -186,7 +173,12 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
 
   // graphql yoga handler
   router.use("/api/graphql/*", async (ctx) =>
-    yoga.fetch(ctx.req.raw, { db: ctx.get("kysely"), minio, pubsub })
+    yoga.fetch(ctx.req.raw, {
+      db: kysely,
+      minio,
+      pubsub,
+      mailer: sgMail || localMailer,
+    })
   );
 
   // frontend mounting

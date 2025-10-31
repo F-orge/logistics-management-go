@@ -1,6 +1,6 @@
 import type { Insertable, Kysely } from "kysely";
 import { hashPassword } from "better-auth/crypto";
-import { DB, User, UserRole } from "@packages/db/db.types";
+import { DB, User, UserRole } from "@packages/graphql/db.types";
 import { Faker, en } from "@faker-js/faker";
 
 export async function seed(db: Kysely<DB>): Promise<void> {

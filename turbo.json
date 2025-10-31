@@ -25,26 +25,21 @@
     "lint:fix": {
       "dependsOn": ["^build"]
     },
-    "@packages/db#build": {
-      "inputs": ["src/**/*.ts", "tsconfig.json"],
-      "outputs": ["dist/**"]
-    },
     "@packages/ui#build": {
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"],
       "outputs": ["dist/**"]
     },
     "@packages/graphql#build": {
-      "dependsOn": ["@packages/db#build"],
       "inputs": ["src/**/*.{ts,graphql}", "codegen.ts", "tsconfig.json"],
       "outputs": ["dist/**"]
     },
     "@apps/frontend#build": {
-      "dependsOn": ["@packages/db#build", "@packages/ui#build", "@packages/graphql#build"],
+      "dependsOn": ["@packages/ui#build", "@packages/graphql#build"],
       "inputs": ["src/**/*.ts", "src/**/*.tsx", "rsbuild.config.ts", "tsconfig.json"],
       "outputs": [".output/**"]
     },
     "@apps/backend#build": {
-      "dependsOn": ["@packages/db#build","@packages/graphql#build","@packages/ui#build"],
+      "dependsOn": ["@packages/graphql#build","@packages/ui#build"],
       "inputs": ["src/**/*.ts", "tsconfig.json"],
       "outputs": [".output/**", "dist/**"]
     }

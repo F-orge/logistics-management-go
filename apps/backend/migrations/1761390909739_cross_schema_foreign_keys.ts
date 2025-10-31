@@ -1,4 +1,4 @@
-import { DB } from "@packages/db/db.types";
+import { DB } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
 
 // `any` is required here since migrations should be frozen in time. alternatively, keep a "snapshot" db interface.

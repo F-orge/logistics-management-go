@@ -26,7 +26,7 @@ import {
   CrmProduct,
   CrmProductType,
   CrmRecordType,
-} from "@packages/db/db.types";
+} from "@packages/graphql/db.types";
 
 // Utility function to randomly select from enum values
 const randomEnumValue = <T extends Record<string, string>>(

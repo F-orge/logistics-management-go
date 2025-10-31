@@ -26,6 +26,10 @@
     "./events": {
       "types": "./dist/src/events/index.d.ts",
       "import": "./dist/src/events/index.js"
+    },
+    "./db.types": {
+      "types": "./dist/src/db.types.d.ts",
+      "import": "./dist/src/db.types.js"
     }
   },
   "files": [

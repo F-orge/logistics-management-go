@@ -1,4 +1,4 @@
-import { DB, CrmRecordType } from "@packages/db/db.types";
+import { DB, CrmRecordType } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
 import { Faker, en } from "@faker-js/faker";
 import {

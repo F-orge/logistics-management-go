@@ -1,4 +1,4 @@
-import { DB } from "@packages/db/db.types";
+import { DB } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
 import { Faker, base, de, de_AT, en } from "@faker-js/faker";
 import {
