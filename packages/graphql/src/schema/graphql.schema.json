@@ -18020,7 +18020,7 @@
             "deprecationReason": null
           },
           {
-            "name": "invoicePaid",
+            "name": "crmInvoicePaid",
             "description": null,
             "args": [],
             "type": {
@@ -18036,7 +18036,7 @@
             "deprecationReason": null
           },
           {
-            "name": "invoiceStatusChanged",
+            "name": "crmInvoiceStatusChanged",
             "description": null,
             "args": [],
             "type": {

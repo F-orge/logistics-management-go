@@ -2029,8 +2029,8 @@ export type CrmSubscription = {
   __typename?: 'CrmSubscription';
   caseAssigned: CrmCaseAssignedEvent;
   caseStatusChanged: CrmCaseStatusChangedEvent;
-  invoicePaid: Invoices;
-  invoiceStatusChanged: CrmInvoiceStatusChangedEvent;
+  crmInvoicePaid: Invoices;
+  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent;
   leadConverted: Leads;
   leadStatusChanged: CrmLeadStatusChangedEvent;
   notificationMarked: CrmNotificationMarkedEvent;

@@ -2033,8 +2033,8 @@ export type CrmSubscription = {
   __typename?: 'CrmSubscription';
   caseAssigned: CrmCaseAssignedEvent;
   caseStatusChanged: CrmCaseStatusChangedEvent;
-  invoicePaid: Invoices;
-  invoiceStatusChanged: CrmInvoiceStatusChangedEvent;
+  crmInvoicePaid: Invoices;
+  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent;
   leadConverted: Leads;
   leadStatusChanged: CrmLeadStatusChangedEvent;
   notificationMarked: CrmNotificationMarkedEvent;
@@ -6173,7 +6173,7 @@ export type ResolversTypes = {
   CrmNotificationMarkedEvent: ResolverTypeWrapper<CrmNotificationMarkedEvent>;
   CrmOpportunityStageChangedEvent: ResolverTypeWrapper<Omit<CrmOpportunityStageChangedEvent, 'newStage' | 'previousStage'> & { newStage: ResolversTypes['OpportunityStage'], previousStage: ResolversTypes['OpportunityStage'] }>;
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
-  CrmSubscription: ResolverTypeWrapper<Omit<CrmSubscription, 'caseStatusChanged' | 'invoicePaid' | 'invoiceStatusChanged' | 'leadConverted' | 'leadStatusChanged' | 'opportunityLost' | 'opportunityStageChanged' | 'opportunityWon'> & { caseStatusChanged: ResolversTypes['CrmCaseStatusChangedEvent'], invoicePaid: ResolversTypes['Invoices'], invoiceStatusChanged: ResolversTypes['CrmInvoiceStatusChangedEvent'], leadConverted: ResolversTypes['Leads'], leadStatusChanged: ResolversTypes['CrmLeadStatusChangedEvent'], opportunityLost: ResolversTypes['Opportunities'], opportunityStageChanged: ResolversTypes['CrmOpportunityStageChangedEvent'], opportunityWon: ResolversTypes['Opportunities'] }>;
+  CrmSubscription: ResolverTypeWrapper<Omit<CrmSubscription, 'caseStatusChanged' | 'crmInvoicePaid' | 'crmInvoiceStatusChanged' | 'leadConverted' | 'leadStatusChanged' | 'opportunityLost' | 'opportunityStageChanged' | 'opportunityWon'> & { caseStatusChanged: ResolversTypes['CrmCaseStatusChangedEvent'], crmInvoicePaid: ResolversTypes['Invoices'], crmInvoiceStatusChanged: ResolversTypes['CrmInvoiceStatusChangedEvent'], leadConverted: ResolversTypes['Leads'], leadStatusChanged: ResolversTypes['CrmLeadStatusChangedEvent'], opportunityLost: ResolversTypes['Opportunities'], opportunityStageChanged: ResolversTypes['CrmOpportunityStageChangedEvent'], opportunityWon: ResolversTypes['Opportunities'] }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
   CustomerTrackingLinks: ResolverTypeWrapper<Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversTypes['DeliveryTasks'] }>;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
@@ -6543,7 +6543,7 @@ export type ResolversParentTypes = {
   CrmNotificationMarkedEvent: CrmNotificationMarkedEvent;
   CrmOpportunityStageChangedEvent: CrmOpportunityStageChangedEvent;
   CrmQuery: Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversParentTypes['Attachments'], attachments: Array<ResolversParentTypes['Attachments']>, case: ResolversParentTypes['Cases'], cases: Array<ResolversParentTypes['Cases']>, companies: Array<ResolversParentTypes['Companies']>, company: ResolversParentTypes['Companies'], contact: ResolversParentTypes['Contacts'], contacts: Array<ResolversParentTypes['Contacts']>, interaction: ResolversParentTypes['Interactions'], interactions: Array<ResolversParentTypes['Interactions']>, invoice: ResolversParentTypes['Invoices'], invoices: Array<ResolversParentTypes['Invoices']>, lead: ResolversParentTypes['Leads'], leads: Array<ResolversParentTypes['Leads']>, opportunities: Array<ResolversParentTypes['Opportunities']>, opportunity: ResolversParentTypes['Opportunities'], product: ResolversParentTypes['Products'], products: Array<ResolversParentTypes['Products']> };
-  CrmSubscription: Omit<CrmSubscription, 'caseStatusChanged' | 'invoicePaid' | 'invoiceStatusChanged' | 'leadConverted' | 'leadStatusChanged' | 'opportunityLost' | 'opportunityStageChanged' | 'opportunityWon'> & { caseStatusChanged: ResolversParentTypes['CrmCaseStatusChangedEvent'], invoicePaid: ResolversParentTypes['Invoices'], invoiceStatusChanged: ResolversParentTypes['CrmInvoiceStatusChangedEvent'], leadConverted: ResolversParentTypes['Leads'], leadStatusChanged: ResolversParentTypes['CrmLeadStatusChangedEvent'], opportunityLost: ResolversParentTypes['Opportunities'], opportunityStageChanged: ResolversParentTypes['CrmOpportunityStageChangedEvent'], opportunityWon: ResolversParentTypes['Opportunities'] };
+  CrmSubscription: Omit<CrmSubscription, 'caseStatusChanged' | 'crmInvoicePaid' | 'crmInvoiceStatusChanged' | 'leadConverted' | 'leadStatusChanged' | 'opportunityLost' | 'opportunityStageChanged' | 'opportunityWon'> & { caseStatusChanged: ResolversParentTypes['CrmCaseStatusChangedEvent'], crmInvoicePaid: ResolversParentTypes['Invoices'], crmInvoiceStatusChanged: ResolversParentTypes['CrmInvoiceStatusChangedEvent'], leadConverted: ResolversParentTypes['Leads'], leadStatusChanged: ResolversParentTypes['CrmLeadStatusChangedEvent'], opportunityLost: ResolversParentTypes['Opportunities'], opportunityStageChanged: ResolversParentTypes['CrmOpportunityStageChangedEvent'], opportunityWon: ResolversParentTypes['Opportunities'] };
   CustomerTrackingLinks: Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   Date: Scalars['Date']['output'];
   DeleteResult: DeleteResult;
@@ -7208,8 +7208,8 @@ export type CrmQueryResolvers<ContextType = GraphQLContext, ParentType extends R
 export type CrmSubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CrmSubscription'] = ResolversParentTypes['CrmSubscription']> = {
   caseAssigned?: Resolver<ResolversTypes['CrmCaseAssignedEvent'], ParentType, ContextType>;
   caseStatusChanged?: Resolver<ResolversTypes['CrmCaseStatusChangedEvent'], ParentType, ContextType>;
-  invoicePaid?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType>;
-  invoiceStatusChanged?: Resolver<ResolversTypes['CrmInvoiceStatusChangedEvent'], ParentType, ContextType>;
+  crmInvoicePaid?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType>;
+  crmInvoiceStatusChanged?: Resolver<ResolversTypes['CrmInvoiceStatusChangedEvent'], ParentType, ContextType>;
   leadConverted?: Resolver<ResolversTypes['Leads'], ParentType, ContextType>;
   leadStatusChanged?: Resolver<ResolversTypes['CrmLeadStatusChangedEvent'], ParentType, ContextType>;
   notificationMarked?: Resolver<ResolversTypes['CrmNotificationMarkedEvent'], ParentType, ContextType>;
