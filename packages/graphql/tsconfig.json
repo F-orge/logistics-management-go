@@ -31,6 +31,6 @@
       }
     ]
   },
-  "include": ["src","codegen.ts"],
+  "include": ["src","codegen.ts","tests"],
   "exclude": ["node_modules","dist",".turbo"]
 }
