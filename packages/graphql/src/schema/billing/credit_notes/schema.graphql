@@ -57,7 +57,7 @@ type CreditNoteOnDisputeApprovalEvent {
   disputeId: ID!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   creditNoteIssued: CreditNotes!
   creditNoteApplied: CreditNoteAppliedEvent!
   creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent!

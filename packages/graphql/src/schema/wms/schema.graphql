@@ -2,16 +2,10 @@ type WmsQuery
 
 type WmsMutation 
 
-type WmsSubscription
-
 extend type Query {
   wms:WmsQuery
 }
 
 extend type Mutation {
   wms:WmsMutation
-}
-
-extend type Subscription {
-  wms: WmsSubscription
 }

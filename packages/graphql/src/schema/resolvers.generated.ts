@@ -10,11 +10,135 @@ import    { crm as Mutation_crm } from './crm/resolvers/Mutation/crm';
 import    { dms as Mutation_dms } from './dms/resolvers/Mutation/dms';
 import    { tms as Mutation_tms } from './tms/resolvers/Mutation/tms';
 import    { wms as Mutation_wms } from './wms/resolvers/Mutation/wms';
-import    { billing as Subscription_billing } from './billing/resolvers/Subscription/billing';
-import    { crm as Subscription_crm } from './crm/resolvers/Subscription/crm';
-import    { dms as Subscription_dms } from './dms/resolvers/Subscription/dms';
-import    { tms as Subscription_tms } from './tms/resolvers/Subscription/tms';
-import    { wms as Subscription_wms } from './wms/resolvers/Subscription/wms';
+import    { accountingSyncFailed as Subscription_accountingSyncFailed } from './billing/accounting_sync_log/resolvers/Subscription/accountingSyncFailed';
+import    { accountingSyncSucceeded as Subscription_accountingSyncSucceeded } from './billing/accounting_sync_log/resolvers/Subscription/accountingSyncSucceeded';
+import    { accountingSyncTriggered as Subscription_accountingSyncTriggered } from './billing/accounting_sync_log/resolvers/Subscription/accountingSyncTriggered';
+import    { caseAssigned as Subscription_caseAssigned } from './crm/cases/resolvers/Subscription/caseAssigned';
+import    { caseStatusChanged as Subscription_caseStatusChanged } from './crm/cases/resolvers/Subscription/caseStatusChanged';
+import    { clientAccountBalanceUpdated as Subscription_clientAccountBalanceUpdated } from './billing/client_accounts/resolvers/Subscription/clientAccountBalanceUpdated';
+import    { clientAccountLastPaymentDateUpdated as Subscription_clientAccountLastPaymentDateUpdated } from './billing/client_accounts/resolvers/Subscription/clientAccountLastPaymentDateUpdated';
+import    { creditNoteApplied as Subscription_creditNoteApplied } from './billing/credit_notes/resolvers/Subscription/creditNoteApplied';
+import    { creditNoteIssued as Subscription_creditNoteIssued } from './billing/credit_notes/resolvers/Subscription/creditNoteIssued';
+import    { creditNoteOnDisputeApproval as Subscription_creditNoteOnDisputeApproval } from './billing/credit_notes/resolvers/Subscription/creditNoteOnDisputeApproval';
+import    { crmInvoicePaid as Subscription_crmInvoicePaid } from './crm/invoices/resolvers/Subscription/crmInvoicePaid';
+import    { crmInvoiceStatusChanged as Subscription_crmInvoiceStatusChanged } from './crm/invoices/resolvers/Subscription/crmInvoiceStatusChanged';
+import    { deliveryRouteCancelled as Subscription_deliveryRouteCancelled } from './dms/delivery_routes/resolvers/Subscription/deliveryRouteCancelled';
+import    { deliveryRouteCompleted as Subscription_deliveryRouteCompleted } from './dms/delivery_routes/resolvers/Subscription/deliveryRouteCompleted';
+import    { deliveryRoutePaused as Subscription_deliveryRoutePaused } from './dms/delivery_routes/resolvers/Subscription/deliveryRoutePaused';
+import    { deliveryRouteStarted as Subscription_deliveryRouteStarted } from './dms/delivery_routes/resolvers/Subscription/deliveryRouteStarted';
+import    { deliveryTaskDelivered as Subscription_deliveryTaskDelivered } from './dms/delivery_tasks/resolvers/Subscription/deliveryTaskDelivered';
+import    { deliveryTaskFailed as Subscription_deliveryTaskFailed } from './dms/delivery_tasks/resolvers/Subscription/deliveryTaskFailed';
+import    { deliveryTaskOutForDelivery as Subscription_deliveryTaskOutForDelivery } from './dms/delivery_tasks/resolvers/Subscription/deliveryTaskOutForDelivery';
+import    { deliveryTaskStatusChanged as Subscription_deliveryTaskStatusChanged } from './dms/delivery_tasks/resolvers/Subscription/deliveryTaskStatusChanged';
+import    { disputeApproved as Subscription_disputeApproved } from './billing/disputes/resolvers/Subscription/disputeApproved';
+import    { disputeDenied as Subscription_disputeDenied } from './billing/disputes/resolvers/Subscription/disputeDenied';
+import    { disputeOpened as Subscription_disputeOpened } from './billing/disputes/resolvers/Subscription/disputeOpened';
+import    { disputeResolved as Subscription_disputeResolved } from './billing/disputes/resolvers/Subscription/disputeResolved';
+import    { disputeStatusChanged as Subscription_disputeStatusChanged } from './billing/disputes/resolvers/Subscription/disputeStatusChanged';
+import    { disputeUnderReview as Subscription_disputeUnderReview } from './billing/disputes/resolvers/Subscription/disputeUnderReview';
+import    { documentGenerated as Subscription_documentGenerated } from './billing/documents/resolvers/Subscription/documentGenerated';
+import    { driverLocationRemoved as Subscription_driverLocationRemoved } from './dms/driver_locations/resolvers/Subscription/driverLocationRemoved';
+import    { driverLocationUpdated as Subscription_driverLocationUpdated } from './dms/driver_locations/resolvers/Subscription/driverLocationUpdated';
+import    { driverStatusChanged as Subscription_driverStatusChanged } from './tms/drivers/resolvers/Subscription/driverStatusChanged';
+import    { expenseApproved as Subscription_expenseApproved } from './tms/expenses/resolvers/Subscription/expenseApproved';
+import    { expenseRejected as Subscription_expenseRejected } from './tms/expenses/resolvers/Subscription/expenseRejected';
+import    { expenseStatusChanged as Subscription_expenseStatusChanged } from './tms/expenses/resolvers/Subscription/expenseStatusChanged';
+import    { expenseSubmitted as Subscription_expenseSubmitted } from './tms/expenses/resolvers/Subscription/expenseSubmitted';
+import    { geofenceEntered as Subscription_geofenceEntered } from './tms/geofence_events/resolvers/Subscription/geofenceEntered';
+import    { geofenceExited as Subscription_geofenceExited } from './tms/geofence_events/resolvers/Subscription/geofenceExited';
+import    { inboundShipmentCompleted as Subscription_inboundShipmentCompleted } from './wms/inbound_shipments/resolvers/Subscription/inboundShipmentCompleted';
+import    { inboundShipmentProcessing as Subscription_inboundShipmentProcessing } from './wms/inbound_shipments/resolvers/Subscription/inboundShipmentProcessing';
+import    { inboundShipmentReceived as Subscription_inboundShipmentReceived } from './wms/inbound_shipments/resolvers/Subscription/inboundShipmentReceived';
+import    { inboundShipmentStatusChanged as Subscription_inboundShipmentStatusChanged } from './wms/inbound_shipments/resolvers/Subscription/inboundShipmentStatusChanged';
+import    { inventoryAdjustmentDamagedReturn as Subscription_inventoryAdjustmentDamagedReturn } from './wms/inventory_adjustments/resolvers/Subscription/inventoryAdjustmentDamagedReturn';
+import    { inventoryAdjustmentRecorded as Subscription_inventoryAdjustmentRecorded } from './wms/inventory_adjustments/resolvers/Subscription/inventoryAdjustmentRecorded';
+import    { inventoryStockLowStockAlert as Subscription_inventoryStockLowStockAlert } from './wms/inventory_stock/resolvers/Subscription/inventoryStockLowStockAlert';
+import    { inventoryStockReleased as Subscription_inventoryStockReleased } from './wms/inventory_stock/resolvers/Subscription/inventoryStockReleased';
+import    { inventoryStockReserved as Subscription_inventoryStockReserved } from './wms/inventory_stock/resolvers/Subscription/inventoryStockReserved';
+import    { inventoryStockStatusChanged as Subscription_inventoryStockStatusChanged } from './wms/inventory_stock/resolvers/Subscription/inventoryStockStatusChanged';
+import    { invoiceCreated as Subscription_invoiceCreated } from './billing/invoices/resolvers/Subscription/invoiceCreated';
+import    { invoiceDisputed as Subscription_invoiceDisputed } from './billing/invoices/resolvers/Subscription/invoiceDisputed';
+import    { invoiceOverdue as Subscription_invoiceOverdue } from './billing/invoices/resolvers/Subscription/invoiceOverdue';
+import    { invoicePaid as Subscription_invoicePaid } from './billing/invoices/resolvers/Subscription/invoicePaid';
+import    { invoicePartiallyPaid as Subscription_invoicePartiallyPaid } from './billing/invoices/resolvers/Subscription/invoicePartiallyPaid';
+import    { invoiceSent as Subscription_invoiceSent } from './billing/invoices/resolvers/Subscription/invoiceSent';
+import    { invoiceStatusChanged as Subscription_invoiceStatusChanged } from './billing/invoices/resolvers/Subscription/invoiceStatusChanged';
+import    { invoiceViewed as Subscription_invoiceViewed } from './billing/invoices/resolvers/Subscription/invoiceViewed';
+import    { leadConverted as Subscription_leadConverted } from './crm/leads/resolvers/Subscription/leadConverted';
+import    { leadStatusChanged as Subscription_leadStatusChanged } from './crm/leads/resolvers/Subscription/leadStatusChanged';
+import    { notificationMarked as Subscription_notificationMarked } from './crm/notifications/resolvers/Subscription/notificationMarked';
+import    { opportunityLost as Subscription_opportunityLost } from './crm/opportunities/resolvers/Subscription/opportunityLost';
+import    { opportunityStageChanged as Subscription_opportunityStageChanged } from './crm/opportunities/resolvers/Subscription/opportunityStageChanged';
+import    { opportunityWon as Subscription_opportunityWon } from './crm/opportunities/resolvers/Subscription/opportunityWon';
+import    { outboundShipmentCreated as Subscription_outboundShipmentCreated } from './wms/outbound_shipments/resolvers/Subscription/outboundShipmentCreated';
+import    { outboundShipmentDelivered as Subscription_outboundShipmentDelivered } from './wms/outbound_shipments/resolvers/Subscription/outboundShipmentDelivered';
+import    { outboundShipmentPacked as Subscription_outboundShipmentPacked } from './wms/outbound_shipments/resolvers/Subscription/outboundShipmentPacked';
+import    { outboundShipmentPicking as Subscription_outboundShipmentPicking } from './wms/outbound_shipments/resolvers/Subscription/outboundShipmentPicking';
+import    { outboundShipmentShipped as Subscription_outboundShipmentShipped } from './wms/outbound_shipments/resolvers/Subscription/outboundShipmentShipped';
+import    { outboundShipmentStatusChanged as Subscription_outboundShipmentStatusChanged } from './wms/outbound_shipments/resolvers/Subscription/outboundShipmentStatusChanged';
+import    { paymentFailed as Subscription_paymentFailed } from './billing/payments/resolvers/Subscription/paymentFailed';
+import    { paymentInitiated as Subscription_paymentInitiated } from './billing/payments/resolvers/Subscription/paymentInitiated';
+import    { paymentProcessing as Subscription_paymentProcessing } from './billing/payments/resolvers/Subscription/paymentProcessing';
+import    { paymentRefunded as Subscription_paymentRefunded } from './billing/payments/resolvers/Subscription/paymentRefunded';
+import    { paymentStatusChanged as Subscription_paymentStatusChanged } from './billing/payments/resolvers/Subscription/paymentStatusChanged';
+import    { paymentSuccessful as Subscription_paymentSuccessful } from './billing/payments/resolvers/Subscription/paymentSuccessful';
+import    { pickBatchCompleted as Subscription_pickBatchCompleted } from './wms/pick_batches/resolvers/Subscription/pickBatchCompleted';
+import    { pickBatchCreated as Subscription_pickBatchCreated } from './wms/pick_batches/resolvers/Subscription/pickBatchCreated';
+import    { pickBatchStarted as Subscription_pickBatchStarted } from './wms/pick_batches/resolvers/Subscription/pickBatchStarted';
+import    { pickBatchStatusChanged as Subscription_pickBatchStatusChanged } from './wms/pick_batches/resolvers/Subscription/pickBatchStatusChanged';
+import    { proofOfDeliveryRecorded as Subscription_proofOfDeliveryRecorded } from './dms/proof_of_deliveries/resolvers/Subscription/proofOfDeliveryRecorded';
+import    { quoteAccepted as Subscription_quoteAccepted } from './billing/quotes/resolvers/Subscription/quoteAccepted';
+import    { quoteConverted as Subscription_quoteConverted } from './billing/quotes/resolvers/Subscription/quoteConverted';
+import    { quoteCreated as Subscription_quoteCreated } from './billing/quotes/resolvers/Subscription/quoteCreated';
+import    { quoteExpired as Subscription_quoteExpired } from './billing/quotes/resolvers/Subscription/quoteExpired';
+import    { quoteSent as Subscription_quoteSent } from './billing/quotes/resolvers/Subscription/quoteSent';
+import    { quoteStatusChanged as Subscription_quoteStatusChanged } from './billing/quotes/resolvers/Subscription/quoteStatusChanged';
+import    { rateCardDeactivated as Subscription_rateCardDeactivated } from './billing/rate_cards/resolvers/Subscription/rateCardDeactivated';
+import    { returnApproved as Subscription_returnApproved } from './wms/returns/resolvers/Subscription/returnApproved';
+import    { returnItemEvaluated as Subscription_returnItemEvaluated } from './wms/return_items/resolvers/Subscription/returnItemEvaluated';
+import    { returnProcessed as Subscription_returnProcessed } from './wms/returns/resolvers/Subscription/returnProcessed';
+import    { returnReceived as Subscription_returnReceived } from './wms/returns/resolvers/Subscription/returnReceived';
+import    { returnRejected as Subscription_returnRejected } from './wms/returns/resolvers/Subscription/returnRejected';
+import    { returnStatusChanged as Subscription_returnStatusChanged } from './wms/returns/resolvers/Subscription/returnStatusChanged';
+import    { salesOrderCompleted as Subscription_salesOrderCompleted } from './wms/sales_orders/resolvers/Subscription/salesOrderCompleted';
+import    { salesOrderCreated as Subscription_salesOrderCreated } from './wms/sales_orders/resolvers/Subscription/salesOrderCreated';
+import    { salesOrderProcessing as Subscription_salesOrderProcessing } from './wms/sales_orders/resolvers/Subscription/salesOrderProcessing';
+import    { salesOrderShipped as Subscription_salesOrderShipped } from './wms/sales_orders/resolvers/Subscription/salesOrderShipped';
+import    { salesOrderStatusChanged as Subscription_salesOrderStatusChanged } from './wms/sales_orders/resolvers/Subscription/salesOrderStatusChanged';
+import    { shipmentCreatedFromPayment as Subscription_shipmentCreatedFromPayment } from './billing/resolvers/Subscription/shipmentCreatedFromPayment';
+import    { stockTransferInTransit as Subscription_stockTransferInTransit } from './wms/stock_transfers/resolvers/Subscription/stockTransferInTransit';
+import    { stockTransferInitiated as Subscription_stockTransferInitiated } from './wms/stock_transfers/resolvers/Subscription/stockTransferInitiated';
+import    { stockTransferReceived as Subscription_stockTransferReceived } from './wms/stock_transfers/resolvers/Subscription/stockTransferReceived';
+import    { stockTransferStatusChanged as Subscription_stockTransferStatusChanged } from './wms/stock_transfers/resolvers/Subscription/stockTransferStatusChanged';
+import    { surchargeDeactivated as Subscription_surchargeDeactivated } from './billing/surcharges/resolvers/Subscription/surchargeDeactivated';
+import    { taskAssigned as Subscription_taskAssigned } from './wms/tasks/resolvers/Subscription/taskAssigned';
+import    { taskCancelled as Subscription_taskCancelled } from './wms/tasks/resolvers/Subscription/taskCancelled';
+import    { taskCompleted as Subscription_taskCompleted } from './wms/tasks/resolvers/Subscription/taskCompleted';
+import    { taskCreated as Subscription_taskCreated } from './wms/tasks/resolvers/Subscription/taskCreated';
+import    { taskEventRecorded as Subscription_taskEventRecorded } from './dms/task_events/resolvers/Subscription/taskEventRecorded';
+import    { taskEventStatusUpdated as Subscription_taskEventStatusUpdated } from './dms/task_events/resolvers/Subscription/taskEventStatusUpdated';
+import    { taskItemCompleted as Subscription_taskItemCompleted } from './wms/task_items/resolvers/Subscription/taskItemCompleted';
+import    { taskItemDamaged as Subscription_taskItemDamaged } from './wms/task_items/resolvers/Subscription/taskItemDamaged';
+import    { taskItemShortPicked as Subscription_taskItemShortPicked } from './wms/task_items/resolvers/Subscription/taskItemShortPicked';
+import    { taskItemStatusChanged as Subscription_taskItemStatusChanged } from './wms/task_items/resolvers/Subscription/taskItemStatusChanged';
+import    { taskPutawayCreated as Subscription_taskPutawayCreated } from './wms/tasks/resolvers/Subscription/taskPutawayCreated';
+import    { taskReplenishmentCreated as Subscription_taskReplenishmentCreated } from './wms/tasks/resolvers/Subscription/taskReplenishmentCreated';
+import    { taskStarted as Subscription_taskStarted } from './wms/tasks/resolvers/Subscription/taskStarted';
+import    { taskStatusChanged as Subscription_taskStatusChanged } from './wms/tasks/resolvers/Subscription/taskStatusChanged';
+import    { trackingLinkExpired as Subscription_trackingLinkExpired } from './dms/customer_tracking_links/resolvers/Subscription/trackingLinkExpired';
+import    { trackingLinkGenerated as Subscription_trackingLinkGenerated } from './dms/customer_tracking_links/resolvers/Subscription/trackingLinkGenerated';
+import    { transactionCredited as Subscription_transactionCredited } from './billing/account_transactions/resolvers/Subscription/transactionCredited';
+import    { transactionDebited as Subscription_transactionDebited } from './billing/account_transactions/resolvers/Subscription/transactionDebited';
+import    { tripCancelled as Subscription_tripCancelled } from './tms/trips/resolvers/Subscription/tripCancelled';
+import    { tripCompleted as Subscription_tripCompleted } from './tms/trips/resolvers/Subscription/tripCompleted';
+import    { tripCreated as Subscription_tripCreated } from './tms/trips/resolvers/Subscription/tripCreated';
+import    { tripStarted as Subscription_tripStarted } from './tms/trips/resolvers/Subscription/tripStarted';
+import    { tripStatusChanged as Subscription_tripStatusChanged } from './tms/trips/resolvers/Subscription/tripStatusChanged';
+import    { tripStopArrived as Subscription_tripStopArrived } from './tms/trip_stops/resolvers/Subscription/tripStopArrived';
+import    { tripStopCompleted as Subscription_tripStopCompleted } from './tms/trip_stops/resolvers/Subscription/tripStopCompleted';
+import    { tripStopSkipped as Subscription_tripStopSkipped } from './tms/trip_stops/resolvers/Subscription/tripStopSkipped';
+import    { vehicleMaintenanceScheduled as Subscription_vehicleMaintenanceScheduled } from './tms/vehicles/resolvers/Subscription/vehicleMaintenanceScheduled';
+import    { vehicleStatusChanged as Subscription_vehicleStatusChanged } from './tms/vehicles/resolvers/Subscription/vehicleStatusChanged';
 import    { AccountTransactions } from './billing/account_transactions/resolvers/AccountTransactions';
 import    { AccountingSyncFailedEvent } from './billing/accounting_sync_log/resolvers/AccountingSyncFailedEvent';
 import    { AccountingSyncLogs } from './billing/accounting_sync_log/resolvers/AccountingSyncLogs';
@@ -47,18 +171,6 @@ import    { BillingQuery as quotes_BillingQuery } from './billing/quotes/resolve
 import    { BillingQuery as rate_cards_BillingQuery } from './billing/rate_cards/resolvers/BillingQuery';
 import    { BillingQuery as rate_rules_BillingQuery } from './billing/rate_rules/resolvers/BillingQuery';
 import    { BillingQuery as surcharges_BillingQuery } from './billing/surcharges/resolvers/BillingQuery';
-import    { BillingSubscription as accounting_sync_log_BillingSubscription } from './billing/accounting_sync_log/resolvers/BillingSubscription';
-import    { BillingSubscription as client_accounts_BillingSubscription } from './billing/client_accounts/resolvers/BillingSubscription';
-import    { BillingSubscription as credit_notes_BillingSubscription } from './billing/credit_notes/resolvers/BillingSubscription';
-import    { BillingSubscription as disputes_BillingSubscription } from './billing/disputes/resolvers/BillingSubscription';
-import    { BillingSubscription as documents_BillingSubscription } from './billing/documents/resolvers/BillingSubscription';
-import    { BillingSubscription as invoices_BillingSubscription } from './billing/invoices/resolvers/BillingSubscription';
-import    { BillingSubscription as payments_BillingSubscription } from './billing/payments/resolvers/BillingSubscription';
-import    { BillingSubscription as quotes_BillingSubscription } from './billing/quotes/resolvers/BillingSubscription';
-import    { BillingSubscription as rate_cards_BillingSubscription } from './billing/rate_cards/resolvers/BillingSubscription';
-import    { BillingSubscription as billing_BillingSubscription } from './billing/resolvers/BillingSubscription';
-import    { BillingSubscription as surcharges_BillingSubscription } from './billing/surcharges/resolvers/BillingSubscription';
-import    { BillingSubscription as account_transactions_BillingSubscription } from './billing/account_transactions/resolvers/BillingSubscription';
 import    { BinThresholds } from './wms/bin_thresholds/resolvers/BinThresholds';
 import    { Campaigns } from './crm/campaigns/resolvers/Campaigns';
 import    { CarrierRates } from './tms/carrier_rates/resolvers/CarrierRates';
@@ -102,11 +214,6 @@ import    { CrmQuery as leads_CrmQuery } from './crm/leads/resolvers/CrmQuery';
 import    { CrmQuery as notifications_CrmQuery } from './crm/notifications/resolvers/CrmQuery';
 import    { CrmQuery as opportunities_CrmQuery } from './crm/opportunities/resolvers/CrmQuery';
 import    { CrmQuery as products_CrmQuery } from './crm/products/resolvers/CrmQuery';
-import    { CrmSubscription as cases_CrmSubscription } from './crm/cases/resolvers/CrmSubscription';
-import    { CrmSubscription as invoices_CrmSubscription } from './crm/invoices/resolvers/CrmSubscription';
-import    { CrmSubscription as leads_CrmSubscription } from './crm/leads/resolvers/CrmSubscription';
-import    { CrmSubscription as notifications_CrmSubscription } from './crm/notifications/resolvers/CrmSubscription';
-import    { CrmSubscription as opportunities_CrmSubscription } from './crm/opportunities/resolvers/CrmSubscription';
 import    { CustomerTrackingLinks } from './dms/customer_tracking_links/resolvers/CustomerTrackingLinks';
 import    { DeleteResult } from './base/resolvers/DeleteResult';
 import    { DeliveryRoutes } from './dms/delivery_routes/resolvers/DeliveryRoutes';
@@ -132,12 +239,6 @@ import    { DmsQuery as delivery_tasks_DmsQuery } from './dms/delivery_tasks/res
 import    { DmsQuery as proof_of_deliveries_DmsQuery } from './dms/proof_of_deliveries/resolvers/DmsQuery';
 import    { DmsQuery as driver_locations_DmsQuery } from './dms/driver_locations/resolvers/DmsQuery';
 import    { DmsQuery as task_events_DmsQuery } from './dms/task_events/resolvers/DmsQuery';
-import    { DmsSubscription as delivery_routes_DmsSubscription } from './dms/delivery_routes/resolvers/DmsSubscription';
-import    { DmsSubscription as delivery_tasks_DmsSubscription } from './dms/delivery_tasks/resolvers/DmsSubscription';
-import    { DmsSubscription as driver_locations_DmsSubscription } from './dms/driver_locations/resolvers/DmsSubscription';
-import    { DmsSubscription as proof_of_deliveries_DmsSubscription } from './dms/proof_of_deliveries/resolvers/DmsSubscription';
-import    { DmsSubscription as task_events_DmsSubscription } from './dms/task_events/resolvers/DmsSubscription';
-import    { DmsSubscription as customer_tracking_links_DmsSubscription } from './dms/customer_tracking_links/resolvers/DmsSubscription';
 import    { DmsTaskEventStatusUpdatedEvent } from './dms/task_events/resolvers/DmsTaskEventStatusUpdatedEvent';
 import    { DmsTrackingLinkExpiredEvent } from './dms/customer_tracking_links/resolvers/DmsTrackingLinkExpiredEvent';
 import    { DocumentGeneratedEvent } from './billing/documents/resolvers/DocumentGeneratedEvent';
@@ -239,12 +340,6 @@ import    { TmsQuery as routes_TmsQuery } from './tms/routes/resolvers/TmsQuery'
 import    { TmsQuery as shipment_legs_TmsQuery } from './tms/shipment_legs/resolvers/TmsQuery';
 import    { TmsQuery as trips_TmsQuery } from './tms/trips/resolvers/TmsQuery';
 import    { TmsQuery as vehicles_TmsQuery } from './tms/vehicles/resolvers/TmsQuery';
-import    { TmsSubscription as drivers_TmsSubscription } from './tms/drivers/resolvers/TmsSubscription';
-import    { TmsSubscription as expenses_TmsSubscription } from './tms/expenses/resolvers/TmsSubscription';
-import    { TmsSubscription as geofence_events_TmsSubscription } from './tms/geofence_events/resolvers/TmsSubscription';
-import    { TmsSubscription as trips_TmsSubscription } from './tms/trips/resolvers/TmsSubscription';
-import    { TmsSubscription as trip_stops_TmsSubscription } from './tms/trip_stops/resolvers/TmsSubscription';
-import    { TmsSubscription as vehicles_TmsSubscription } from './tms/vehicles/resolvers/TmsSubscription';
 import    { TmsTripStatusChangedEvent } from './tms/trips/resolvers/TmsTripStatusChangedEvent';
 import    { TmsTripStopSkippedEvent } from './tms/trip_stops/resolvers/TmsTripStopSkippedEvent';
 import    { TmsVehicleStatusChangedEvent } from './tms/vehicles/resolvers/TmsVehicleStatusChangedEvent';
@@ -314,17 +409,6 @@ import    { WmsReturnRejectedEvent } from './wms/returns/resolvers/WmsReturnReje
 import    { WmsReturnStatusChangedEvent } from './wms/returns/resolvers/WmsReturnStatusChangedEvent';
 import    { WmsSalesOrderStatusChangedEvent } from './wms/sales_orders/resolvers/WmsSalesOrderStatusChangedEvent';
 import    { WmsStockTransferStatusChangedEvent } from './wms/stock_transfers/resolvers/WmsStockTransferStatusChangedEvent';
-import    { WmsSubscription as inbound_shipments_WmsSubscription } from './wms/inbound_shipments/resolvers/WmsSubscription';
-import    { WmsSubscription as inventory_adjustments_WmsSubscription } from './wms/inventory_adjustments/resolvers/WmsSubscription';
-import    { WmsSubscription as inventory_stock_WmsSubscription } from './wms/inventory_stock/resolvers/WmsSubscription';
-import    { WmsSubscription as outbound_shipments_WmsSubscription } from './wms/outbound_shipments/resolvers/WmsSubscription';
-import    { WmsSubscription as pick_batches_WmsSubscription } from './wms/pick_batches/resolvers/WmsSubscription';
-import    { WmsSubscription as returns_WmsSubscription } from './wms/returns/resolvers/WmsSubscription';
-import    { WmsSubscription as return_items_WmsSubscription } from './wms/return_items/resolvers/WmsSubscription';
-import    { WmsSubscription as sales_orders_WmsSubscription } from './wms/sales_orders/resolvers/WmsSubscription';
-import    { WmsSubscription as stock_transfers_WmsSubscription } from './wms/stock_transfers/resolvers/WmsSubscription';
-import    { WmsSubscription as tasks_WmsSubscription } from './wms/tasks/resolvers/WmsSubscription';
-import    { WmsSubscription as task_items_WmsSubscription } from './wms/task_items/resolvers/WmsSubscription';
 import    { WmsTaskAssignedEvent } from './wms/tasks/resolvers/WmsTaskAssignedEvent';
 import    { WmsTaskItemShortPickedEvent } from './wms/task_items/resolvers/WmsTaskItemShortPickedEvent';
 import    { WmsTaskItemStatusChangedEvent } from './wms/task_items/resolvers/WmsTaskItemStatusChangedEvent';
@@ -336,7 +420,7 @@ import    { DateResolver } from 'graphql-scalars';
     export const resolvers: Resolvers = {
       Query: { billing: Query_billing,crm: Query_crm,dms: Query_dms,tms: Query_tms,wms: Query_wms },
       Mutation: { billing: Mutation_billing,crm: Mutation_crm,dms: Mutation_dms,tms: Mutation_tms,wms: Mutation_wms },
-      Subscription: { billing: Subscription_billing,crm: Subscription_crm,dms: Subscription_dms,tms: Subscription_tms,wms: Subscription_wms },
+      Subscription: { accountingSyncFailed: Subscription_accountingSyncFailed,accountingSyncSucceeded: Subscription_accountingSyncSucceeded,accountingSyncTriggered: Subscription_accountingSyncTriggered,caseAssigned: Subscription_caseAssigned,caseStatusChanged: Subscription_caseStatusChanged,clientAccountBalanceUpdated: Subscription_clientAccountBalanceUpdated,clientAccountLastPaymentDateUpdated: Subscription_clientAccountLastPaymentDateUpdated,creditNoteApplied: Subscription_creditNoteApplied,creditNoteIssued: Subscription_creditNoteIssued,creditNoteOnDisputeApproval: Subscription_creditNoteOnDisputeApproval,crmInvoicePaid: Subscription_crmInvoicePaid,crmInvoiceStatusChanged: Subscription_crmInvoiceStatusChanged,deliveryRouteCancelled: Subscription_deliveryRouteCancelled,deliveryRouteCompleted: Subscription_deliveryRouteCompleted,deliveryRoutePaused: Subscription_deliveryRoutePaused,deliveryRouteStarted: Subscription_deliveryRouteStarted,deliveryTaskDelivered: Subscription_deliveryTaskDelivered,deliveryTaskFailed: Subscription_deliveryTaskFailed,deliveryTaskOutForDelivery: Subscription_deliveryTaskOutForDelivery,deliveryTaskStatusChanged: Subscription_deliveryTaskStatusChanged,disputeApproved: Subscription_disputeApproved,disputeDenied: Subscription_disputeDenied,disputeOpened: Subscription_disputeOpened,disputeResolved: Subscription_disputeResolved,disputeStatusChanged: Subscription_disputeStatusChanged,disputeUnderReview: Subscription_disputeUnderReview,documentGenerated: Subscription_documentGenerated,driverLocationRemoved: Subscription_driverLocationRemoved,driverLocationUpdated: Subscription_driverLocationUpdated,driverStatusChanged: Subscription_driverStatusChanged,expenseApproved: Subscription_expenseApproved,expenseRejected: Subscription_expenseRejected,expenseStatusChanged: Subscription_expenseStatusChanged,expenseSubmitted: Subscription_expenseSubmitted,geofenceEntered: Subscription_geofenceEntered,geofenceExited: Subscription_geofenceExited,inboundShipmentCompleted: Subscription_inboundShipmentCompleted,inboundShipmentProcessing: Subscription_inboundShipmentProcessing,inboundShipmentReceived: Subscription_inboundShipmentReceived,inboundShipmentStatusChanged: Subscription_inboundShipmentStatusChanged,inventoryAdjustmentDamagedReturn: Subscription_inventoryAdjustmentDamagedReturn,inventoryAdjustmentRecorded: Subscription_inventoryAdjustmentRecorded,inventoryStockLowStockAlert: Subscription_inventoryStockLowStockAlert,inventoryStockReleased: Subscription_inventoryStockReleased,inventoryStockReserved: Subscription_inventoryStockReserved,inventoryStockStatusChanged: Subscription_inventoryStockStatusChanged,invoiceCreated: Subscription_invoiceCreated,invoiceDisputed: Subscription_invoiceDisputed,invoiceOverdue: Subscription_invoiceOverdue,invoicePaid: Subscription_invoicePaid,invoicePartiallyPaid: Subscription_invoicePartiallyPaid,invoiceSent: Subscription_invoiceSent,invoiceStatusChanged: Subscription_invoiceStatusChanged,invoiceViewed: Subscription_invoiceViewed,leadConverted: Subscription_leadConverted,leadStatusChanged: Subscription_leadStatusChanged,notificationMarked: Subscription_notificationMarked,opportunityLost: Subscription_opportunityLost,opportunityStageChanged: Subscription_opportunityStageChanged,opportunityWon: Subscription_opportunityWon,outboundShipmentCreated: Subscription_outboundShipmentCreated,outboundShipmentDelivered: Subscription_outboundShipmentDelivered,outboundShipmentPacked: Subscription_outboundShipmentPacked,outboundShipmentPicking: Subscription_outboundShipmentPicking,outboundShipmentShipped: Subscription_outboundShipmentShipped,outboundShipmentStatusChanged: Subscription_outboundShipmentStatusChanged,paymentFailed: Subscription_paymentFailed,paymentInitiated: Subscription_paymentInitiated,paymentProcessing: Subscription_paymentProcessing,paymentRefunded: Subscription_paymentRefunded,paymentStatusChanged: Subscription_paymentStatusChanged,paymentSuccessful: Subscription_paymentSuccessful,pickBatchCompleted: Subscription_pickBatchCompleted,pickBatchCreated: Subscription_pickBatchCreated,pickBatchStarted: Subscription_pickBatchStarted,pickBatchStatusChanged: Subscription_pickBatchStatusChanged,proofOfDeliveryRecorded: Subscription_proofOfDeliveryRecorded,quoteAccepted: Subscription_quoteAccepted,quoteConverted: Subscription_quoteConverted,quoteCreated: Subscription_quoteCreated,quoteExpired: Subscription_quoteExpired,quoteSent: Subscription_quoteSent,quoteStatusChanged: Subscription_quoteStatusChanged,rateCardDeactivated: Subscription_rateCardDeactivated,returnApproved: Subscription_returnApproved,returnItemEvaluated: Subscription_returnItemEvaluated,returnProcessed: Subscription_returnProcessed,returnReceived: Subscription_returnReceived,returnRejected: Subscription_returnRejected,returnStatusChanged: Subscription_returnStatusChanged,salesOrderCompleted: Subscription_salesOrderCompleted,salesOrderCreated: Subscription_salesOrderCreated,salesOrderProcessing: Subscription_salesOrderProcessing,salesOrderShipped: Subscription_salesOrderShipped,salesOrderStatusChanged: Subscription_salesOrderStatusChanged,shipmentCreatedFromPayment: Subscription_shipmentCreatedFromPayment,stockTransferInTransit: Subscription_stockTransferInTransit,stockTransferInitiated: Subscription_stockTransferInitiated,stockTransferReceived: Subscription_stockTransferReceived,stockTransferStatusChanged: Subscription_stockTransferStatusChanged,surchargeDeactivated: Subscription_surchargeDeactivated,taskAssigned: Subscription_taskAssigned,taskCancelled: Subscription_taskCancelled,taskCompleted: Subscription_taskCompleted,taskCreated: Subscription_taskCreated,taskEventRecorded: Subscription_taskEventRecorded,taskEventStatusUpdated: Subscription_taskEventStatusUpdated,taskItemCompleted: Subscription_taskItemCompleted,taskItemDamaged: Subscription_taskItemDamaged,taskItemShortPicked: Subscription_taskItemShortPicked,taskItemStatusChanged: Subscription_taskItemStatusChanged,taskPutawayCreated: Subscription_taskPutawayCreated,taskReplenishmentCreated: Subscription_taskReplenishmentCreated,taskStarted: Subscription_taskStarted,taskStatusChanged: Subscription_taskStatusChanged,trackingLinkExpired: Subscription_trackingLinkExpired,trackingLinkGenerated: Subscription_trackingLinkGenerated,transactionCredited: Subscription_transactionCredited,transactionDebited: Subscription_transactionDebited,tripCancelled: Subscription_tripCancelled,tripCompleted: Subscription_tripCompleted,tripCreated: Subscription_tripCreated,tripStarted: Subscription_tripStarted,tripStatusChanged: Subscription_tripStatusChanged,tripStopArrived: Subscription_tripStopArrived,tripStopCompleted: Subscription_tripStopCompleted,tripStopSkipped: Subscription_tripStopSkipped,vehicleMaintenanceScheduled: Subscription_vehicleMaintenanceScheduled,vehicleStatusChanged: Subscription_vehicleStatusChanged },
       AccountTransactions: AccountTransactions,
 AccountingSyncFailedEvent: AccountingSyncFailedEvent,
 AccountingSyncLogs: AccountingSyncLogs,
@@ -346,7 +430,6 @@ Attachments: Attachments,
 BillingInvoices: BillingInvoices,
 BillingMutation: { ...invoice_line_items_BillingMutation,...account_transactions_BillingMutation,...accounting_sync_log_BillingMutation,...invoices_BillingMutation,...client_accounts_BillingMutation,...credit_notes_BillingMutation,...disputes_BillingMutation,...documents_BillingMutation,...payments_BillingMutation,...quotes_BillingMutation,...rate_cards_BillingMutation,...rate_rules_BillingMutation,...surcharges_BillingMutation },
 BillingQuery: { ...account_transactions_BillingQuery,...accounting_sync_log_BillingQuery,...invoices_BillingQuery,...client_accounts_BillingQuery,...credit_notes_BillingQuery,...disputes_BillingQuery,...documents_BillingQuery,...payments_BillingQuery,...quotes_BillingQuery,...rate_cards_BillingQuery,...rate_rules_BillingQuery,...surcharges_BillingQuery },
-BillingSubscription: { ...accounting_sync_log_BillingSubscription,...client_accounts_BillingSubscription,...credit_notes_BillingSubscription,...disputes_BillingSubscription,...documents_BillingSubscription,...invoices_BillingSubscription,...payments_BillingSubscription,...quotes_BillingSubscription,...rate_cards_BillingSubscription,...billing_BillingSubscription,...surcharges_BillingSubscription,...account_transactions_BillingSubscription },
 BinThresholds: BinThresholds,
 Campaigns: Campaigns,
 CarrierRates: CarrierRates,
@@ -368,7 +451,6 @@ CrmMutation: { ...invoice_items_CrmMutation,...opportunity_products_CrmMutation,
 CrmNotificationMarkedEvent: CrmNotificationMarkedEvent,
 CrmOpportunityStageChangedEvent: CrmOpportunityStageChangedEvent,
 CrmQuery: { ...attachments_CrmQuery,...campaigns_CrmQuery,...cases_CrmQuery,...companies_CrmQuery,...contacts_CrmQuery,...interactions_CrmQuery,...invoices_CrmQuery,...leads_CrmQuery,...notifications_CrmQuery,...opportunities_CrmQuery,...products_CrmQuery },
-CrmSubscription: { ...cases_CrmSubscription,...invoices_CrmSubscription,...leads_CrmSubscription,...notifications_CrmSubscription,...opportunities_CrmSubscription },
 CustomerTrackingLinks: CustomerTrackingLinks,
 DeleteResult: DeleteResult,
 DeliveryRoutes: DeliveryRoutes,
@@ -384,7 +466,6 @@ DmsDriverLocationRemovedEvent: DmsDriverLocationRemovedEvent,
 DmsMutation: { ...customer_tracking_links_DmsMutation,...delivery_routes_DmsMutation,...delivery_tasks_DmsMutation,...proof_of_deliveries_DmsMutation,...driver_locations_DmsMutation,...task_events_DmsMutation },
 DmsProofOfDeliveries: DmsProofOfDeliveries,
 DmsQuery: { ...customer_tracking_links_DmsQuery,...delivery_routes_DmsQuery,...delivery_tasks_DmsQuery,...proof_of_deliveries_DmsQuery,...driver_locations_DmsQuery,...task_events_DmsQuery },
-DmsSubscription: { ...delivery_routes_DmsSubscription,...delivery_tasks_DmsSubscription,...driver_locations_DmsSubscription,...proof_of_deliveries_DmsSubscription,...task_events_DmsSubscription,...customer_tracking_links_DmsSubscription },
 DmsTaskEventStatusUpdatedEvent: DmsTaskEventStatusUpdatedEvent,
 DmsTrackingLinkExpiredEvent: DmsTrackingLinkExpiredEvent,
 DocumentGeneratedEvent: DocumentGeneratedEvent,
@@ -459,7 +540,6 @@ TmsExpenseStatusChangedEvent: TmsExpenseStatusChangedEvent,
 TmsGeofenceEvent: TmsGeofenceEvent,
 TmsMutation: { ...partner_invoice_items_TmsMutation,...vehicle_maintenance_TmsMutation,...carriers_TmsMutation,...carrier_rates_TmsMutation,...drivers_TmsMutation,...driver_schedules_TmsMutation,...expenses_TmsMutation,...geofences_TmsMutation,...geofence_events_TmsMutation,...gps_pings_TmsMutation,...partner_invoices_TmsMutation,...proof_of_deliveries_TmsMutation,...routes_TmsMutation,...shipment_legs_TmsMutation,...shipment_leg_events_TmsMutation,...trips_TmsMutation,...trip_stops_TmsMutation,...vehicles_TmsMutation },
 TmsQuery: { ...carriers_TmsQuery,...drivers_TmsQuery,...expenses_TmsQuery,...geofences_TmsQuery,...gps_pings_TmsQuery,...partner_invoices_TmsQuery,...proof_of_deliveries_TmsQuery,...routes_TmsQuery,...shipment_legs_TmsQuery,...trips_TmsQuery,...vehicles_TmsQuery },
-TmsSubscription: { ...drivers_TmsSubscription,...expenses_TmsSubscription,...geofence_events_TmsSubscription,...trips_TmsSubscription,...trip_stops_TmsSubscription,...vehicles_TmsSubscription },
 TmsTripStatusChangedEvent: TmsTripStatusChangedEvent,
 TmsTripStopSkippedEvent: TmsTripStopSkippedEvent,
 TmsVehicleStatusChangedEvent: TmsVehicleStatusChangedEvent,
@@ -488,7 +568,6 @@ WmsReturnRejectedEvent: WmsReturnRejectedEvent,
 WmsReturnStatusChangedEvent: WmsReturnStatusChangedEvent,
 WmsSalesOrderStatusChangedEvent: WmsSalesOrderStatusChangedEvent,
 WmsStockTransferStatusChangedEvent: WmsStockTransferStatusChangedEvent,
-WmsSubscription: { ...inbound_shipments_WmsSubscription,...inventory_adjustments_WmsSubscription,...inventory_stock_WmsSubscription,...outbound_shipments_WmsSubscription,...pick_batches_WmsSubscription,...returns_WmsSubscription,...return_items_WmsSubscription,...sales_orders_WmsSubscription,...stock_transfers_WmsSubscription,...tasks_WmsSubscription,...task_items_WmsSubscription },
 WmsTaskAssignedEvent: WmsTaskAssignedEvent,
 WmsTaskItemShortPickedEvent: WmsTaskItemShortPickedEvent,
 WmsTaskItemStatusChangedEvent: WmsTaskItemStatusChangedEvent,

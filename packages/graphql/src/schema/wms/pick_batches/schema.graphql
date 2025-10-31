@@ -80,7 +80,7 @@ type WmsPickBatchStatusChangedEvent {
   previousStatus: PickBatchStatus!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   pickBatchCreated: PickBatches!
   pickBatchStarted: PickBatches!
   pickBatchCompleted: PickBatches!

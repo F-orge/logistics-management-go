@@ -53,14 +53,14 @@ extend type DmsMutation {
   removeDeliveryRoute(id: ID!): DeleteResult!
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   deliveryRouteStarted: DeliveryRoutes!
   deliveryRouteCompleted: DeliveryRoutes!
   deliveryRoutePaused: DeliveryRoutes!
   deliveryRouteCancelled: DeliveryRoutes!
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   deliveryRouteStarted: DeliveryRoutes!
   deliveryRouteCompleted: DeliveryRoutes!
   deliveryRoutePaused: DeliveryRoutes!

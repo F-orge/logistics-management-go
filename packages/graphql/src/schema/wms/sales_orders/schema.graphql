@@ -54,7 +54,7 @@ type WmsSalesOrderStatusChangedEvent {
   clientId: ID!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   salesOrderCreated: SalesOrders!
   salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent!
   salesOrderProcessing: SalesOrders!

@@ -55,7 +55,7 @@ type WmsReturnRejectedEvent {
   rejectionReason: String
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   returnReceived: Returns!
   returnStatusChanged: WmsReturnStatusChangedEvent!
   returnApproved: Returns!

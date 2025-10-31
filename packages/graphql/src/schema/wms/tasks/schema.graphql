@@ -112,7 +112,7 @@ type WmsTaskPutawayCreatedEvent {
   reason: String!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   taskCreated: Tasks!
   taskAssigned: WmsTaskAssignedEvent!
   taskStarted: Tasks!

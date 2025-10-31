@@ -35,6 +35,6 @@ type CrmNotificationMarkedEvent {
   isRead: Boolean!
 }
 
-extend type CrmSubscription {
+extend type Subscription {
   notificationMarked: CrmNotificationMarkedEvent!
 }

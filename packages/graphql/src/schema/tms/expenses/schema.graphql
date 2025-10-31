@@ -90,7 +90,7 @@ type TmsExpenseRejectedEvent {
   rejectionReason: String
 }
 
-extend type TmsSubscription {
+extend type Subscription {
   expenseSubmitted: Expenses!
   expenseStatusChanged: TmsExpenseStatusChangedEvent!
   expenseApproved: Expenses!

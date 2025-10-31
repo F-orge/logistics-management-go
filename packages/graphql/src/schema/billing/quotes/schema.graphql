@@ -88,7 +88,7 @@ type QuoteConvertedEvent {
   invoiceId: ID!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   quoteCreated: Quotes!
   quoteSent: Quotes!
   quoteStatusChanged: QuoteStatusChangedEvent!

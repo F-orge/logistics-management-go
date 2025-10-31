@@ -2,16 +2,10 @@ type DmsQuery
 
 type DmsMutation
 
-type DmsSubscription
-
 extend type Query {
   dms: DmsQuery
 }
 
 extend type Mutation {
   dms: DmsMutation
-}
-
-extend type Subscription {
-  dms: DmsSubscription
 }

@@ -50,7 +50,7 @@ type WmsOutboundShipmentStatusChangedEvent {
   salesOrderId: ID!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   outboundShipmentCreated: OutboundShipments!
   outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent!
   outboundShipmentPicking: OutboundShipments!

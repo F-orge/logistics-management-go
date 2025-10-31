@@ -68,7 +68,7 @@ type TmsVehicleStatusChangedEvent {
   previousStatus: VehicleStatus!
 }
 
-extend type TmsSubscription {
+extend type Subscription {
   vehicleStatusChanged: TmsVehicleStatusChangedEvent!
   vehicleMaintenanceScheduled: VehicleMaintenance!
 }

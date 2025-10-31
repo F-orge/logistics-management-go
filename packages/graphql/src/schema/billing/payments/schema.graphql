@@ -90,7 +90,7 @@ type PaymentRefundedEvent {
   refundAmount: String!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   paymentInitiated: Payments!
   paymentProcessing: Payments!
   paymentSuccessful: Payments!

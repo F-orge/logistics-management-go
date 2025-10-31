@@ -172,49 +172,6 @@ type BillingQuery {
   surcharges(calculationMethod: SurchargeCalculationMethod, from: Date, page: Int, perPage: Int, search: String, to: Date): [Surcharges!]!
 }
 
-type BillingSubscription {
-  accountingSyncFailed: AccountingSyncFailedEvent!
-  accountingSyncSucceeded: AccountingSyncSucceededEvent!
-  accountingSyncTriggered: AccountingSyncTriggeredEvent!
-  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent!
-  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent!
-  creditNoteApplied: CreditNoteAppliedEvent!
-  creditNoteIssued: CreditNotes!
-  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent!
-  disputeApproved: DisputeApprovedEvent!
-  disputeDenied: DisputeDeniedEvent!
-  disputeOpened: Disputes!
-  disputeResolved: DisputeResolvedEvent!
-  disputeStatusChanged: DisputeStatusChangedEvent!
-  disputeUnderReview: Disputes!
-  documentGenerated: DocumentGeneratedEvent!
-  invoiceCreated: BillingInvoices!
-  invoiceDisputed: InvoiceDisputedEvent!
-  invoiceOverdue: InvoiceOverdueEvent!
-  invoicePaid: InvoicePaidEvent!
-  invoicePartiallyPaid: InvoicePartiallyPaidEvent!
-  invoiceSent: BillingInvoices!
-  invoiceStatusChanged: InvoiceStatusChangedEvent!
-  invoiceViewed: BillingInvoices!
-  paymentFailed: PaymentFailedEvent!
-  paymentInitiated: Payments!
-  paymentProcessing: Payments!
-  paymentRefunded: PaymentRefundedEvent!
-  paymentStatusChanged: PaymentStatusChangedEvent!
-  paymentSuccessful: Payments!
-  quoteAccepted: Quotes!
-  quoteConverted: QuoteConvertedEvent!
-  quoteCreated: Quotes!
-  quoteExpired: QuoteExpiredEvent!
-  quoteSent: Quotes!
-  quoteStatusChanged: QuoteStatusChangedEvent!
-  rateCardDeactivated: RateCardDeactivatedEvent!
-  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent!
-  surchargeDeactivated: SurchargeDeactivatedEvent!
-  transactionCredited: TransactionCreditedEvent!
-  transactionDebited: TransactionDebitedEvent!
-}
-
 type BinThresholds {
   alertThreshold: Int
   createdAt: Date
@@ -1268,19 +1225,6 @@ type CrmQuery {
   products(from: Date, page: Int, perPage: Int, search: String, to: Date, type: ProductType): [Products!]!
 }
 
-type CrmSubscription {
-  caseAssigned: CrmCaseAssignedEvent!
-  caseStatusChanged: CrmCaseStatusChangedEvent!
-  crmInvoicePaid: Invoices!
-  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent!
-  leadConverted: Leads!
-  leadStatusChanged: CrmLeadStatusChangedEvent!
-  notificationMarked: CrmNotificationMarkedEvent!
-  opportunityLost: Opportunities!
-  opportunityStageChanged: CrmOpportunityStageChangedEvent!
-  opportunityWon: Opportunities!
-}
-
 enum Currency {
   AUD
   CAD
@@ -1484,24 +1428,6 @@ type DmsQuery {
   driverLocations(from: Date, page: Int, perPage: Int, to: Date): [DriverLocations!]!
   taskEvent(id: ID!): TaskEvents!
   taskEvents(from: Date, page: Int, perPage: Int, search: String, status: TaskEventStatus, to: Date): [TaskEvents!]!
-}
-
-type DmsSubscription {
-  deliveryRouteCancelled: DeliveryRoutes!
-  deliveryRouteCompleted: DeliveryRoutes!
-  deliveryRoutePaused: DeliveryRoutes!
-  deliveryRouteStarted: DeliveryRoutes!
-  deliveryTaskDelivered: DeliveryTasks!
-  deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
-  deliveryTaskOutForDelivery: DeliveryTasks!
-  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
-  driverLocationRemoved: DmsDriverLocationRemovedEvent!
-  driverLocationUpdated: DriverLocations!
-  proofOfDeliveryRecorded: DmsProofOfDeliveries!
-  taskEventRecorded: TaskEvents!
-  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
-  trackingLinkExpired: DmsTrackingLinkExpiredEvent!
-  trackingLinkGenerated: CustomerTrackingLinks!
 }
 
 type DmsTaskEventStatusUpdatedEvent {
@@ -2563,11 +2489,135 @@ type StockTransfers {
 }
 
 type Subscription {
-  billing: BillingSubscription
-  crm: CrmSubscription
-  dms: DmsSubscription
-  tms: TmsSubscription
-  wms: WmsSubscription
+  accountingSyncFailed: AccountingSyncFailedEvent!
+  accountingSyncSucceeded: AccountingSyncSucceededEvent!
+  accountingSyncTriggered: AccountingSyncTriggeredEvent!
+  caseAssigned: CrmCaseAssignedEvent!
+  caseStatusChanged: CrmCaseStatusChangedEvent!
+  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent!
+  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent!
+  creditNoteApplied: CreditNoteAppliedEvent!
+  creditNoteIssued: CreditNotes!
+  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent!
+  crmInvoicePaid: Invoices!
+  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent!
+  deliveryRouteCancelled: DeliveryRoutes!
+  deliveryRouteCompleted: DeliveryRoutes!
+  deliveryRoutePaused: DeliveryRoutes!
+  deliveryRouteStarted: DeliveryRoutes!
+  deliveryTaskDelivered: DeliveryTasks!
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
+  deliveryTaskOutForDelivery: DeliveryTasks!
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
+  disputeApproved: DisputeApprovedEvent!
+  disputeDenied: DisputeDeniedEvent!
+  disputeOpened: Disputes!
+  disputeResolved: DisputeResolvedEvent!
+  disputeStatusChanged: DisputeStatusChangedEvent!
+  disputeUnderReview: Disputes!
+  documentGenerated: DocumentGeneratedEvent!
+  driverLocationRemoved: DmsDriverLocationRemovedEvent!
+  driverLocationUpdated: DriverLocations!
+  driverStatusChanged: TmsDriverStatusChangedEvent!
+  expenseApproved: Expenses!
+  expenseRejected: TmsExpenseRejectedEvent!
+  expenseStatusChanged: TmsExpenseStatusChangedEvent!
+  expenseSubmitted: Expenses!
+  geofenceEntered: TmsGeofenceEvent!
+  geofenceExited: TmsGeofenceEvent!
+  inboundShipmentCompleted: InboundShipments!
+  inboundShipmentProcessing: InboundShipments!
+  inboundShipmentReceived: InboundShipments!
+  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent!
+  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
+  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
+  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent!
+  inventoryStockReleased: WmsInventoryStockReleasedEvent!
+  inventoryStockReserved: WmsInventoryStockReservedEvent!
+  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
+  invoiceCreated: BillingInvoices!
+  invoiceDisputed: InvoiceDisputedEvent!
+  invoiceOverdue: InvoiceOverdueEvent!
+  invoicePaid: InvoicePaidEvent!
+  invoicePartiallyPaid: InvoicePartiallyPaidEvent!
+  invoiceSent: BillingInvoices!
+  invoiceStatusChanged: InvoiceStatusChangedEvent!
+  invoiceViewed: BillingInvoices!
+  leadConverted: Leads!
+  leadStatusChanged: CrmLeadStatusChangedEvent!
+  notificationMarked: CrmNotificationMarkedEvent!
+  opportunityLost: Opportunities!
+  opportunityStageChanged: CrmOpportunityStageChangedEvent!
+  opportunityWon: Opportunities!
+  outboundShipmentCreated: OutboundShipments!
+  outboundShipmentDelivered: OutboundShipments!
+  outboundShipmentPacked: OutboundShipments!
+  outboundShipmentPicking: OutboundShipments!
+  outboundShipmentShipped: OutboundShipments!
+  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent!
+  paymentFailed: PaymentFailedEvent!
+  paymentInitiated: Payments!
+  paymentProcessing: Payments!
+  paymentRefunded: PaymentRefundedEvent!
+  paymentStatusChanged: PaymentStatusChangedEvent!
+  paymentSuccessful: Payments!
+  pickBatchCompleted: PickBatches!
+  pickBatchCreated: PickBatches!
+  pickBatchStarted: PickBatches!
+  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent!
+  proofOfDeliveryRecorded: DmsProofOfDeliveries!
+  quoteAccepted: Quotes!
+  quoteConverted: QuoteConvertedEvent!
+  quoteCreated: Quotes!
+  quoteExpired: QuoteExpiredEvent!
+  quoteSent: Quotes!
+  quoteStatusChanged: QuoteStatusChangedEvent!
+  rateCardDeactivated: RateCardDeactivatedEvent!
+  returnApproved: Returns!
+  returnItemEvaluated: WmsReturnItemEvaluatedEvent!
+  returnProcessed: Returns!
+  returnReceived: Returns!
+  returnRejected: WmsReturnRejectedEvent!
+  returnStatusChanged: WmsReturnStatusChangedEvent!
+  salesOrderCompleted: SalesOrders!
+  salesOrderCreated: SalesOrders!
+  salesOrderProcessing: SalesOrders!
+  salesOrderShipped: SalesOrders!
+  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent!
+  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent!
+  stockTransferInTransit: StockTransfers!
+  stockTransferInitiated: StockTransfers!
+  stockTransferReceived: StockTransfers!
+  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent!
+  surchargeDeactivated: SurchargeDeactivatedEvent!
+  taskAssigned: WmsTaskAssignedEvent!
+  taskCancelled: Tasks!
+  taskCompleted: Tasks!
+  taskCreated: Tasks!
+  taskEventRecorded: TaskEvents!
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
+  taskItemCompleted: TaskItems!
+  taskItemDamaged: TaskItems!
+  taskItemShortPicked: WmsTaskItemShortPickedEvent!
+  taskItemStatusChanged: WmsTaskItemStatusChangedEvent!
+  taskPutawayCreated: WmsTaskPutawayCreatedEvent!
+  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent!
+  taskStarted: Tasks!
+  taskStatusChanged: WmsTaskStatusChangedEvent!
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent!
+  trackingLinkGenerated: CustomerTrackingLinks!
+  transactionCredited: TransactionCreditedEvent!
+  transactionDebited: TransactionDebitedEvent!
+  tripCancelled: Trips!
+  tripCompleted: Trips!
+  tripCreated: Trips!
+  tripStarted: Trips!
+  tripStatusChanged: TmsTripStatusChangedEvent!
+  tripStopArrived: TripStops!
+  tripStopCompleted: TripStops!
+  tripStopSkipped: TmsTripStopSkippedEvent!
+  vehicleMaintenanceScheduled: VehicleMaintenance!
+  vehicleStatusChanged: TmsVehicleStatusChangedEvent!
 }
 
 type Suppliers {
@@ -2808,26 +2858,6 @@ type TmsQuery {
   trips(from: Date, page: Int, perPage: Int, search: String, status: TripStatus, to: Date): [Trips!]!
   vehicle(id: ID!): Vehicles!
   vehicles(from: Date, page: Int, perPage: Int, search: String, status: VehicleStatus, to: Date): [Vehicles!]!
-}
-
-type TmsSubscription {
-  driverStatusChanged: TmsDriverStatusChangedEvent!
-  expenseApproved: Expenses!
-  expenseRejected: TmsExpenseRejectedEvent!
-  expenseStatusChanged: TmsExpenseStatusChangedEvent!
-  expenseSubmitted: Expenses!
-  geofenceEntered: TmsGeofenceEvent!
-  geofenceExited: TmsGeofenceEvent!
-  tripCancelled: Trips!
-  tripCompleted: Trips!
-  tripCreated: Trips!
-  tripStarted: Trips!
-  tripStatusChanged: TmsTripStatusChangedEvent!
-  tripStopArrived: TripStops!
-  tripStopCompleted: TripStops!
-  tripStopSkipped: TmsTripStopSkippedEvent!
-  vehicleMaintenanceScheduled: VehicleMaintenance!
-  vehicleStatusChanged: TmsVehicleStatusChangedEvent!
 }
 
 type TmsTripStatusChangedEvent {
@@ -3823,56 +3853,6 @@ type WmsStockTransferStatusChangedEvent {
   newStatus: StockTransferStatus!
   previousStatus: StockTransferStatus!
   productId: ID!
-}
-
-type WmsSubscription {
-  inboundShipmentCompleted: InboundShipments!
-  inboundShipmentProcessing: InboundShipments!
-  inboundShipmentReceived: InboundShipments!
-  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent!
-  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
-  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
-  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent!
-  inventoryStockReleased: WmsInventoryStockReleasedEvent!
-  inventoryStockReserved: WmsInventoryStockReservedEvent!
-  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
-  outboundShipmentCreated: OutboundShipments!
-  outboundShipmentDelivered: OutboundShipments!
-  outboundShipmentPacked: OutboundShipments!
-  outboundShipmentPicking: OutboundShipments!
-  outboundShipmentShipped: OutboundShipments!
-  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent!
-  pickBatchCompleted: PickBatches!
-  pickBatchCreated: PickBatches!
-  pickBatchStarted: PickBatches!
-  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent!
-  returnApproved: Returns!
-  returnItemEvaluated: WmsReturnItemEvaluatedEvent!
-  returnProcessed: Returns!
-  returnReceived: Returns!
-  returnRejected: WmsReturnRejectedEvent!
-  returnStatusChanged: WmsReturnStatusChangedEvent!
-  salesOrderCompleted: SalesOrders!
-  salesOrderCreated: SalesOrders!
-  salesOrderProcessing: SalesOrders!
-  salesOrderShipped: SalesOrders!
-  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent!
-  stockTransferInTransit: StockTransfers!
-  stockTransferInitiated: StockTransfers!
-  stockTransferReceived: StockTransfers!
-  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent!
-  taskAssigned: WmsTaskAssignedEvent!
-  taskCancelled: Tasks!
-  taskCompleted: Tasks!
-  taskCreated: Tasks!
-  taskItemCompleted: TaskItems!
-  taskItemDamaged: TaskItems!
-  taskItemShortPicked: WmsTaskItemShortPickedEvent!
-  taskItemStatusChanged: WmsTaskItemStatusChangedEvent!
-  taskPutawayCreated: WmsTaskPutawayCreatedEvent!
-  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent!
-  taskStarted: Tasks!
-  taskStatusChanged: WmsTaskStatusChangedEvent!
 }
 
 type WmsTaskAssignedEvent {

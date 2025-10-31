@@ -61,7 +61,7 @@ type TransactionCreditedEvent {
   runningBalance: String!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   transactionDebited: TransactionDebitedEvent!
   transactionCredited: TransactionCreditedEvent!
 }

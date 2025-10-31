@@ -75,7 +75,7 @@ type DisputeResolvedEvent {
   resolutionDetails: String
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   disputeOpened: Disputes!
   disputeStatusChanged: DisputeStatusChangedEvent!
   disputeUnderReview: Disputes!

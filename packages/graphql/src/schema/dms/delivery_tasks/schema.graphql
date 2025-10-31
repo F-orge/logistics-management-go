@@ -89,7 +89,7 @@ type DmsDeliveryTaskFailedEvent {
   failureReason: String
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
   deliveryTaskOutForDelivery: DeliveryTasks!
   deliveryTaskDelivered: DeliveryTasks!
@@ -108,7 +108,7 @@ type DmsDeliveryTaskFailedEvent {
   failureReason: String
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
   deliveryTaskOutForDelivery: DeliveryTasks!
   deliveryTaskDelivered: DeliveryTasks!

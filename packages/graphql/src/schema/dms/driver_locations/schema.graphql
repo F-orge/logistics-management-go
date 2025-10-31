@@ -47,7 +47,7 @@ type DmsDriverLocationRemovedEvent {
   driverId: ID!
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   driverLocationUpdated: DriverLocations!
   driverLocationRemoved: DmsDriverLocationRemovedEvent!
 }

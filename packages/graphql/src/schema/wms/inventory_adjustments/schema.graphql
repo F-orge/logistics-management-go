@@ -56,7 +56,7 @@ type WmsInventoryAdjustmentDamagedReturnEvent {
   returnId: ID!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
   inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
 }

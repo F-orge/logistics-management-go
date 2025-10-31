@@ -50,7 +50,7 @@ type WmsInboundShipmentStatusChangedEvent {
   warehouseId: ID!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   inboundShipmentReceived: InboundShipments!
   inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent!
   inboundShipmentProcessing: InboundShipments!

@@ -562,50 +562,6 @@ export type BillingQuerysurchargesArgs = {
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
-export type BillingSubscription = {
-  __typename?: 'BillingSubscription';
-  accountingSyncFailed: AccountingSyncFailedEvent;
-  accountingSyncSucceeded: AccountingSyncSucceededEvent;
-  accountingSyncTriggered: AccountingSyncTriggeredEvent;
-  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent;
-  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent;
-  creditNoteApplied: CreditNoteAppliedEvent;
-  creditNoteIssued: CreditNotes;
-  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent;
-  disputeApproved: DisputeApprovedEvent;
-  disputeDenied: DisputeDeniedEvent;
-  disputeOpened: Disputes;
-  disputeResolved: DisputeResolvedEvent;
-  disputeStatusChanged: DisputeStatusChangedEvent;
-  disputeUnderReview: Disputes;
-  documentGenerated: DocumentGeneratedEvent;
-  invoiceCreated: BillingInvoices;
-  invoiceDisputed: InvoiceDisputedEvent;
-  invoiceOverdue: InvoiceOverdueEvent;
-  invoicePaid: InvoicePaidEvent;
-  invoicePartiallyPaid: InvoicePartiallyPaidEvent;
-  invoiceSent: BillingInvoices;
-  invoiceStatusChanged: InvoiceStatusChangedEvent;
-  invoiceViewed: BillingInvoices;
-  paymentFailed: PaymentFailedEvent;
-  paymentInitiated: Payments;
-  paymentProcessing: Payments;
-  paymentRefunded: PaymentRefundedEvent;
-  paymentStatusChanged: PaymentStatusChangedEvent;
-  paymentSuccessful: Payments;
-  quoteAccepted: Quotes;
-  quoteConverted: QuoteConvertedEvent;
-  quoteCreated: Quotes;
-  quoteExpired: QuoteExpiredEvent;
-  quoteSent: Quotes;
-  quoteStatusChanged: QuoteStatusChangedEvent;
-  rateCardDeactivated: RateCardDeactivatedEvent;
-  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent;
-  surchargeDeactivated: SurchargeDeactivatedEvent;
-  transactionCredited: TransactionCreditedEvent;
-  transactionDebited: TransactionDebitedEvent;
-};
-
 export type BinThresholds = {
   __typename?: 'BinThresholds';
   alertThreshold?: Maybe<Scalars['Int']['output']>;
@@ -2029,20 +1985,6 @@ export type CrmQueryproductsArgs = {
   type?: InputMaybe<ProductType>;
 };
 
-export type CrmSubscription = {
-  __typename?: 'CrmSubscription';
-  caseAssigned: CrmCaseAssignedEvent;
-  caseStatusChanged: CrmCaseStatusChangedEvent;
-  crmInvoicePaid: Invoices;
-  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent;
-  leadConverted: Leads;
-  leadStatusChanged: CrmLeadStatusChangedEvent;
-  notificationMarked: CrmNotificationMarkedEvent;
-  opportunityLost: Opportunities;
-  opportunityStageChanged: CrmOpportunityStageChangedEvent;
-  opportunityWon: Opportunities;
-};
-
 export type Currency =
   | 'AUD'
   | 'CAD'
@@ -2406,25 +2348,6 @@ export type DmsQuerytaskEventsArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TaskEventStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
-};
-
-export type DmsSubscription = {
-  __typename?: 'DmsSubscription';
-  deliveryRouteCancelled: DeliveryRoutes;
-  deliveryRouteCompleted: DeliveryRoutes;
-  deliveryRoutePaused: DeliveryRoutes;
-  deliveryRouteStarted: DeliveryRoutes;
-  deliveryTaskDelivered: DeliveryTasks;
-  deliveryTaskFailed: DmsDeliveryTaskFailedEvent;
-  deliveryTaskOutForDelivery: DeliveryTasks;
-  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent;
-  driverLocationRemoved: DmsDriverLocationRemovedEvent;
-  driverLocationUpdated: DriverLocations;
-  proofOfDeliveryRecorded: DmsProofOfDeliveries;
-  taskEventRecorded: TaskEvents;
-  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent;
-  trackingLinkExpired: DmsTrackingLinkExpiredEvent;
-  trackingLinkGenerated: CustomerTrackingLinks;
 };
 
 export type DmsTaskEventStatusUpdatedEvent = {
@@ -3513,11 +3436,135 @@ export type StockTransfers = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  billing?: Maybe<BillingSubscription>;
-  crm?: Maybe<CrmSubscription>;
-  dms?: Maybe<DmsSubscription>;
-  tms?: Maybe<TmsSubscription>;
-  wms?: Maybe<WmsSubscription>;
+  accountingSyncFailed: AccountingSyncFailedEvent;
+  accountingSyncSucceeded: AccountingSyncSucceededEvent;
+  accountingSyncTriggered: AccountingSyncTriggeredEvent;
+  caseAssigned: CrmCaseAssignedEvent;
+  caseStatusChanged: CrmCaseStatusChangedEvent;
+  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent;
+  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent;
+  creditNoteApplied: CreditNoteAppliedEvent;
+  creditNoteIssued: CreditNotes;
+  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent;
+  crmInvoicePaid: Invoices;
+  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent;
+  deliveryRouteCancelled: DeliveryRoutes;
+  deliveryRouteCompleted: DeliveryRoutes;
+  deliveryRoutePaused: DeliveryRoutes;
+  deliveryRouteStarted: DeliveryRoutes;
+  deliveryTaskDelivered: DeliveryTasks;
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent;
+  deliveryTaskOutForDelivery: DeliveryTasks;
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent;
+  disputeApproved: DisputeApprovedEvent;
+  disputeDenied: DisputeDeniedEvent;
+  disputeOpened: Disputes;
+  disputeResolved: DisputeResolvedEvent;
+  disputeStatusChanged: DisputeStatusChangedEvent;
+  disputeUnderReview: Disputes;
+  documentGenerated: DocumentGeneratedEvent;
+  driverLocationRemoved: DmsDriverLocationRemovedEvent;
+  driverLocationUpdated: DriverLocations;
+  driverStatusChanged: TmsDriverStatusChangedEvent;
+  expenseApproved: Expenses;
+  expenseRejected: TmsExpenseRejectedEvent;
+  expenseStatusChanged: TmsExpenseStatusChangedEvent;
+  expenseSubmitted: Expenses;
+  geofenceEntered: TmsGeofenceEvent;
+  geofenceExited: TmsGeofenceEvent;
+  inboundShipmentCompleted: InboundShipments;
+  inboundShipmentProcessing: InboundShipments;
+  inboundShipmentReceived: InboundShipments;
+  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent;
+  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent;
+  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent;
+  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent;
+  inventoryStockReleased: WmsInventoryStockReleasedEvent;
+  inventoryStockReserved: WmsInventoryStockReservedEvent;
+  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent;
+  invoiceCreated: BillingInvoices;
+  invoiceDisputed: InvoiceDisputedEvent;
+  invoiceOverdue: InvoiceOverdueEvent;
+  invoicePaid: InvoicePaidEvent;
+  invoicePartiallyPaid: InvoicePartiallyPaidEvent;
+  invoiceSent: BillingInvoices;
+  invoiceStatusChanged: InvoiceStatusChangedEvent;
+  invoiceViewed: BillingInvoices;
+  leadConverted: Leads;
+  leadStatusChanged: CrmLeadStatusChangedEvent;
+  notificationMarked: CrmNotificationMarkedEvent;
+  opportunityLost: Opportunities;
+  opportunityStageChanged: CrmOpportunityStageChangedEvent;
+  opportunityWon: Opportunities;
+  outboundShipmentCreated: OutboundShipments;
+  outboundShipmentDelivered: OutboundShipments;
+  outboundShipmentPacked: OutboundShipments;
+  outboundShipmentPicking: OutboundShipments;
+  outboundShipmentShipped: OutboundShipments;
+  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent;
+  paymentFailed: PaymentFailedEvent;
+  paymentInitiated: Payments;
+  paymentProcessing: Payments;
+  paymentRefunded: PaymentRefundedEvent;
+  paymentStatusChanged: PaymentStatusChangedEvent;
+  paymentSuccessful: Payments;
+  pickBatchCompleted: PickBatches;
+  pickBatchCreated: PickBatches;
+  pickBatchStarted: PickBatches;
+  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent;
+  proofOfDeliveryRecorded: DmsProofOfDeliveries;
+  quoteAccepted: Quotes;
+  quoteConverted: QuoteConvertedEvent;
+  quoteCreated: Quotes;
+  quoteExpired: QuoteExpiredEvent;
+  quoteSent: Quotes;
+  quoteStatusChanged: QuoteStatusChangedEvent;
+  rateCardDeactivated: RateCardDeactivatedEvent;
+  returnApproved: Returns;
+  returnItemEvaluated: WmsReturnItemEvaluatedEvent;
+  returnProcessed: Returns;
+  returnReceived: Returns;
+  returnRejected: WmsReturnRejectedEvent;
+  returnStatusChanged: WmsReturnStatusChangedEvent;
+  salesOrderCompleted: SalesOrders;
+  salesOrderCreated: SalesOrders;
+  salesOrderProcessing: SalesOrders;
+  salesOrderShipped: SalesOrders;
+  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent;
+  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent;
+  stockTransferInTransit: StockTransfers;
+  stockTransferInitiated: StockTransfers;
+  stockTransferReceived: StockTransfers;
+  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent;
+  surchargeDeactivated: SurchargeDeactivatedEvent;
+  taskAssigned: WmsTaskAssignedEvent;
+  taskCancelled: Tasks;
+  taskCompleted: Tasks;
+  taskCreated: Tasks;
+  taskEventRecorded: TaskEvents;
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent;
+  taskItemCompleted: TaskItems;
+  taskItemDamaged: TaskItems;
+  taskItemShortPicked: WmsTaskItemShortPickedEvent;
+  taskItemStatusChanged: WmsTaskItemStatusChangedEvent;
+  taskPutawayCreated: WmsTaskPutawayCreatedEvent;
+  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent;
+  taskStarted: Tasks;
+  taskStatusChanged: WmsTaskStatusChangedEvent;
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent;
+  trackingLinkGenerated: CustomerTrackingLinks;
+  transactionCredited: TransactionCreditedEvent;
+  transactionDebited: TransactionDebitedEvent;
+  tripCancelled: Trips;
+  tripCompleted: Trips;
+  tripCreated: Trips;
+  tripStarted: Trips;
+  tripStatusChanged: TmsTripStatusChangedEvent;
+  tripStopArrived: TripStops;
+  tripStopCompleted: TripStops;
+  tripStopSkipped: TmsTripStopSkippedEvent;
+  vehicleMaintenanceScheduled: VehicleMaintenance;
+  vehicleStatusChanged: TmsVehicleStatusChangedEvent;
 };
 
 export type Suppliers = {
@@ -4180,27 +4227,6 @@ export type TmsQueryvehiclesArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<VehicleStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
-};
-
-export type TmsSubscription = {
-  __typename?: 'TmsSubscription';
-  driverStatusChanged: TmsDriverStatusChangedEvent;
-  expenseApproved: Expenses;
-  expenseRejected: TmsExpenseRejectedEvent;
-  expenseStatusChanged: TmsExpenseStatusChangedEvent;
-  expenseSubmitted: Expenses;
-  geofenceEntered: TmsGeofenceEvent;
-  geofenceExited: TmsGeofenceEvent;
-  tripCancelled: Trips;
-  tripCompleted: Trips;
-  tripCreated: Trips;
-  tripStarted: Trips;
-  tripStatusChanged: TmsTripStatusChangedEvent;
-  tripStopArrived: TripStops;
-  tripStopCompleted: TripStops;
-  tripStopSkipped: TmsTripStopSkippedEvent;
-  vehicleMaintenanceScheduled: VehicleMaintenance;
-  vehicleStatusChanged: TmsVehicleStatusChangedEvent;
 };
 
 export type TmsTripStatusChangedEvent = {
@@ -5888,57 +5914,6 @@ export type WmsStockTransferStatusChangedEvent = {
   productId: Scalars['ID']['output'];
 };
 
-export type WmsSubscription = {
-  __typename?: 'WmsSubscription';
-  inboundShipmentCompleted: InboundShipments;
-  inboundShipmentProcessing: InboundShipments;
-  inboundShipmentReceived: InboundShipments;
-  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent;
-  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent;
-  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent;
-  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent;
-  inventoryStockReleased: WmsInventoryStockReleasedEvent;
-  inventoryStockReserved: WmsInventoryStockReservedEvent;
-  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent;
-  outboundShipmentCreated: OutboundShipments;
-  outboundShipmentDelivered: OutboundShipments;
-  outboundShipmentPacked: OutboundShipments;
-  outboundShipmentPicking: OutboundShipments;
-  outboundShipmentShipped: OutboundShipments;
-  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent;
-  pickBatchCompleted: PickBatches;
-  pickBatchCreated: PickBatches;
-  pickBatchStarted: PickBatches;
-  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent;
-  returnApproved: Returns;
-  returnItemEvaluated: WmsReturnItemEvaluatedEvent;
-  returnProcessed: Returns;
-  returnReceived: Returns;
-  returnRejected: WmsReturnRejectedEvent;
-  returnStatusChanged: WmsReturnStatusChangedEvent;
-  salesOrderCompleted: SalesOrders;
-  salesOrderCreated: SalesOrders;
-  salesOrderProcessing: SalesOrders;
-  salesOrderShipped: SalesOrders;
-  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent;
-  stockTransferInTransit: StockTransfers;
-  stockTransferInitiated: StockTransfers;
-  stockTransferReceived: StockTransfers;
-  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent;
-  taskAssigned: WmsTaskAssignedEvent;
-  taskCancelled: Tasks;
-  taskCompleted: Tasks;
-  taskCreated: Tasks;
-  taskItemCompleted: TaskItems;
-  taskItemDamaged: TaskItems;
-  taskItemShortPicked: WmsTaskItemShortPickedEvent;
-  taskItemStatusChanged: WmsTaskItemStatusChangedEvent;
-  taskPutawayCreated: WmsTaskPutawayCreatedEvent;
-  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent;
-  taskStarted: Tasks;
-  taskStatusChanged: WmsTaskStatusChangedEvent;
-};
-
 export type WmsTaskAssignedEvent = {
   __typename?: 'WmsTaskAssignedEvent';
   previousUserId?: Maybe<Scalars['ID']['output']>;
@@ -6070,7 +6045,6 @@ export type ResolversTypes = {
   BillingInvoices: ResolverTypeWrapper<Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote' | 'status'> & { client: ResolversTypes['Companies'], creditNotes?: Maybe<Array<ResolversTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversTypes['Payments']>>, quote?: Maybe<ResolversTypes['Quotes']>, status?: Maybe<ResolversTypes['BillingInvoiceStatus']> }>;
   BillingMutation: ResolverTypeWrapper<Omit<BillingMutation, 'addInvoiceLineItem' | 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { addInvoiceLineItem: ResolversTypes['InvoiceLineItems'], createAccountTransaction: ResolversTypes['AccountTransactions'], createAccountingSyncLog: ResolversTypes['AccountingSyncLogs'], createBillingInvoice: ResolversTypes['BillingInvoices'], createClientAccount: ResolversTypes['ClientAccounts'], createCreditNote: ResolversTypes['CreditNotes'], createDispute: ResolversTypes['Disputes'], createDocument: ResolversTypes['Documents'], createPayment: ResolversTypes['Payments'], createQuote: ResolversTypes['Quotes'], createRateCard: ResolversTypes['RateCards'], createRateRule: ResolversTypes['RateRules'], createSurcharge: ResolversTypes['Surcharges'], updateBillingInvoice: ResolversTypes['BillingInvoices'], updateClientAccount: ResolversTypes['ClientAccounts'], updateCreditNote: ResolversTypes['CreditNotes'], updateDispute: ResolversTypes['Disputes'], updateDocument: ResolversTypes['Documents'], updateInvoiceLineItem: ResolversTypes['InvoiceLineItems'], updatePayment: ResolversTypes['Payments'], updateQuote: ResolversTypes['Quotes'], updateRateCard: ResolversTypes['RateCards'], updateRateRule: ResolversTypes['RateRules'], updateSurcharge: ResolversTypes['Surcharges'] }>;
   BillingQuery: ResolverTypeWrapper<Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversTypes['AccountTransactions'], accountTransactions: Array<ResolversTypes['AccountTransactions']>, accountingSyncLog: ResolversTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversTypes['AccountingSyncLogs']>, billingInvoice: ResolversTypes['BillingInvoices'], billingInvoices: Array<ResolversTypes['BillingInvoices']>, clientAccount: ResolversTypes['ClientAccounts'], clientAccounts: Array<ResolversTypes['ClientAccounts']>, creditNote: ResolversTypes['CreditNotes'], creditNotes: Array<ResolversTypes['CreditNotes']>, dispute: ResolversTypes['Disputes'], disputes: Array<ResolversTypes['Disputes']>, document: ResolversTypes['Documents'], documents: Array<ResolversTypes['Documents']>, payment: ResolversTypes['Payments'], payments: Array<ResolversTypes['Payments']>, quote: ResolversTypes['Quotes'], quotes: Array<ResolversTypes['Quotes']>, rateCard: ResolversTypes['RateCards'], rateCards: Array<ResolversTypes['RateCards']>, rateRule: ResolversTypes['RateRules'], rateRules: Array<ResolversTypes['RateRules']>, surcharge: ResolversTypes['Surcharges'], surcharges: Array<ResolversTypes['Surcharges']> }>;
-  BillingSubscription: ResolverTypeWrapper<Omit<BillingSubscription, 'creditNoteApplied' | 'creditNoteIssued' | 'creditNoteOnDisputeApproval' | 'disputeApproved' | 'disputeDenied' | 'disputeOpened' | 'disputeResolved' | 'disputeStatusChanged' | 'disputeUnderReview' | 'invoiceCreated' | 'invoiceDisputed' | 'invoicePaid' | 'invoicePartiallyPaid' | 'invoiceSent' | 'invoiceStatusChanged' | 'invoiceViewed' | 'paymentFailed' | 'paymentInitiated' | 'paymentProcessing' | 'paymentRefunded' | 'paymentStatusChanged' | 'paymentSuccessful' | 'quoteAccepted' | 'quoteConverted' | 'quoteCreated' | 'quoteSent' | 'quoteStatusChanged'> & { creditNoteApplied: ResolversTypes['CreditNoteAppliedEvent'], creditNoteIssued: ResolversTypes['CreditNotes'], creditNoteOnDisputeApproval: ResolversTypes['CreditNoteOnDisputeApprovalEvent'], disputeApproved: ResolversTypes['DisputeApprovedEvent'], disputeDenied: ResolversTypes['DisputeDeniedEvent'], disputeOpened: ResolversTypes['Disputes'], disputeResolved: ResolversTypes['DisputeResolvedEvent'], disputeStatusChanged: ResolversTypes['DisputeStatusChangedEvent'], disputeUnderReview: ResolversTypes['Disputes'], invoiceCreated: ResolversTypes['BillingInvoices'], invoiceDisputed: ResolversTypes['InvoiceDisputedEvent'], invoicePaid: ResolversTypes['InvoicePaidEvent'], invoicePartiallyPaid: ResolversTypes['InvoicePartiallyPaidEvent'], invoiceSent: ResolversTypes['BillingInvoices'], invoiceStatusChanged: ResolversTypes['InvoiceStatusChangedEvent'], invoiceViewed: ResolversTypes['BillingInvoices'], paymentFailed: ResolversTypes['PaymentFailedEvent'], paymentInitiated: ResolversTypes['Payments'], paymentProcessing: ResolversTypes['Payments'], paymentRefunded: ResolversTypes['PaymentRefundedEvent'], paymentStatusChanged: ResolversTypes['PaymentStatusChangedEvent'], paymentSuccessful: ResolversTypes['Payments'], quoteAccepted: ResolversTypes['Quotes'], quoteConverted: ResolversTypes['QuoteConvertedEvent'], quoteCreated: ResolversTypes['Quotes'], quoteSent: ResolversTypes['Quotes'], quoteStatusChanged: ResolversTypes['QuoteStatusChangedEvent'] }>;
   BinThresholds: ResolverTypeWrapper<Omit<BinThresholds, 'location' | 'product'> & { location: ResolversTypes['Locations'], product: ResolversTypes['WmsProducts'] }>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Campaigns: ResolverTypeWrapper<Campaigns>;
@@ -6173,7 +6147,6 @@ export type ResolversTypes = {
   CrmNotificationMarkedEvent: ResolverTypeWrapper<CrmNotificationMarkedEvent>;
   CrmOpportunityStageChangedEvent: ResolverTypeWrapper<Omit<CrmOpportunityStageChangedEvent, 'newStage' | 'previousStage'> & { newStage: ResolversTypes['OpportunityStage'], previousStage: ResolversTypes['OpportunityStage'] }>;
   CrmQuery: ResolverTypeWrapper<Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversTypes['Attachments'], attachments: Array<ResolversTypes['Attachments']>, case: ResolversTypes['Cases'], cases: Array<ResolversTypes['Cases']>, companies: Array<ResolversTypes['Companies']>, company: ResolversTypes['Companies'], contact: ResolversTypes['Contacts'], contacts: Array<ResolversTypes['Contacts']>, interaction: ResolversTypes['Interactions'], interactions: Array<ResolversTypes['Interactions']>, invoice: ResolversTypes['Invoices'], invoices: Array<ResolversTypes['Invoices']>, lead: ResolversTypes['Leads'], leads: Array<ResolversTypes['Leads']>, opportunities: Array<ResolversTypes['Opportunities']>, opportunity: ResolversTypes['Opportunities'], product: ResolversTypes['Products'], products: Array<ResolversTypes['Products']> }>;
-  CrmSubscription: ResolverTypeWrapper<Omit<CrmSubscription, 'caseStatusChanged' | 'crmInvoicePaid' | 'crmInvoiceStatusChanged' | 'leadConverted' | 'leadStatusChanged' | 'opportunityLost' | 'opportunityStageChanged' | 'opportunityWon'> & { caseStatusChanged: ResolversTypes['CrmCaseStatusChangedEvent'], crmInvoicePaid: ResolversTypes['Invoices'], crmInvoiceStatusChanged: ResolversTypes['CrmInvoiceStatusChangedEvent'], leadConverted: ResolversTypes['Leads'], leadStatusChanged: ResolversTypes['CrmLeadStatusChangedEvent'], opportunityLost: ResolversTypes['Opportunities'], opportunityStageChanged: ResolversTypes['CrmOpportunityStageChangedEvent'], opportunityWon: ResolversTypes['Opportunities'] }>;
   Currency: ResolverTypeWrapper<'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY' | 'PHP'>;
   CustomerTrackingLinks: ResolverTypeWrapper<Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversTypes['DeliveryTasks'] }>;
   Date: ResolverTypeWrapper<Scalars['Date']['output']>;
@@ -6195,7 +6168,6 @@ export type ResolversTypes = {
   DmsMutation: ResolverTypeWrapper<Omit<DmsMutation, 'createCustomerTrackingLink' | 'createDeliveryRoute' | 'createDeliveryTask' | 'createDmsProofOfDelivery' | 'createDriverLocation' | 'createTaskEvent' | 'updateCustomerTrackingLink' | 'updateDeliveryRoute' | 'updateDeliveryTask' | 'updateDriverLocation'> & { createCustomerTrackingLink: ResolversTypes['CustomerTrackingLinks'], createDeliveryRoute: ResolversTypes['DeliveryRoutes'], createDeliveryTask: ResolversTypes['DeliveryTasks'], createDmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], createDriverLocation: ResolversTypes['DriverLocations'], createTaskEvent: ResolversTypes['TaskEvents'], updateCustomerTrackingLink: ResolversTypes['CustomerTrackingLinks'], updateDeliveryRoute: ResolversTypes['DeliveryRoutes'], updateDeliveryTask: ResolversTypes['DeliveryTasks'], updateDriverLocation: ResolversTypes['DriverLocations'] }>;
   DmsProofOfDeliveries: ResolverTypeWrapper<Omit<DmsProofOfDeliveries, 'deliveryTask' | 'type'> & { deliveryTask: ResolversTypes['DeliveryTasks'], type: ResolversTypes['ProofOfDeliveryType'] }>;
   DmsQuery: ResolverTypeWrapper<Omit<DmsQuery, 'customerTrackingLink' | 'customerTrackingLinks' | 'deliveryRoute' | 'deliveryRoutes' | 'deliveryTask' | 'deliveryTasks' | 'dmsProofOfDeliveries' | 'dmsProofOfDelivery' | 'driverLocation' | 'driverLocations' | 'taskEvent' | 'taskEvents'> & { customerTrackingLink: ResolversTypes['CustomerTrackingLinks'], customerTrackingLinks: Array<ResolversTypes['CustomerTrackingLinks']>, deliveryRoute: ResolversTypes['DeliveryRoutes'], deliveryRoutes: Array<ResolversTypes['DeliveryRoutes']>, deliveryTask: ResolversTypes['DeliveryTasks'], deliveryTasks: Array<ResolversTypes['DeliveryTasks']>, dmsProofOfDeliveries: Array<ResolversTypes['DmsProofOfDeliveries']>, dmsProofOfDelivery: ResolversTypes['DmsProofOfDeliveries'], driverLocation: ResolversTypes['DriverLocations'], driverLocations: Array<ResolversTypes['DriverLocations']>, taskEvent: ResolversTypes['TaskEvents'], taskEvents: Array<ResolversTypes['TaskEvents']> }>;
-  DmsSubscription: ResolverTypeWrapper<Omit<DmsSubscription, 'deliveryRouteCancelled' | 'deliveryRouteCompleted' | 'deliveryRoutePaused' | 'deliveryRouteStarted' | 'deliveryTaskDelivered' | 'deliveryTaskFailed' | 'deliveryTaskOutForDelivery' | 'deliveryTaskStatusChanged' | 'driverLocationUpdated' | 'proofOfDeliveryRecorded' | 'taskEventRecorded' | 'taskEventStatusUpdated' | 'trackingLinkGenerated'> & { deliveryRouteCancelled: ResolversTypes['DeliveryRoutes'], deliveryRouteCompleted: ResolversTypes['DeliveryRoutes'], deliveryRoutePaused: ResolversTypes['DeliveryRoutes'], deliveryRouteStarted: ResolversTypes['DeliveryRoutes'], deliveryTaskDelivered: ResolversTypes['DeliveryTasks'], deliveryTaskFailed: ResolversTypes['DmsDeliveryTaskFailedEvent'], deliveryTaskOutForDelivery: ResolversTypes['DeliveryTasks'], deliveryTaskStatusChanged: ResolversTypes['DmsDeliveryTaskStatusChangedEvent'], driverLocationUpdated: ResolversTypes['DriverLocations'], proofOfDeliveryRecorded: ResolversTypes['DmsProofOfDeliveries'], taskEventRecorded: ResolversTypes['TaskEvents'], taskEventStatusUpdated: ResolversTypes['DmsTaskEventStatusUpdatedEvent'], trackingLinkGenerated: ResolversTypes['CustomerTrackingLinks'] }>;
   DmsTaskEventStatusUpdatedEvent: ResolverTypeWrapper<Omit<DmsTaskEventStatusUpdatedEvent, 'newStatus'> & { newStatus: ResolversTypes['TaskEventStatus'] }>;
   DmsTrackingLinkExpiredEvent: ResolverTypeWrapper<DmsTrackingLinkExpiredEvent>;
   DocumentGeneratedEvent: ResolverTypeWrapper<DocumentGeneratedEvent>;
@@ -6316,7 +6288,6 @@ export type ResolversTypes = {
   TmsGeofenceEvent: ResolverTypeWrapper<Omit<TmsGeofenceEvent, 'geofenceEvent'> & { geofenceEvent: ResolversTypes['GeofenceEvents'] }>;
   TmsMutation: ResolverTypeWrapper<Omit<TmsMutation, 'addPartnerInvoiceItem' | 'addVehicleMaintenance' | 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { addPartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], addVehicleMaintenance: ResolversTypes['VehicleMaintenance'], createCarrier: ResolversTypes['Carriers'], createCarrierRate: ResolversTypes['CarrierRates'], createDriver: ResolversTypes['Drivers'], createDriverSchedule: ResolversTypes['DriverSchedules'], createExpense: ResolversTypes['Expenses'], createGeofence: ResolversTypes['Geofences'], createGeofenceEvent: ResolversTypes['GeofenceEvents'], createGpsPing: ResolversTypes['GpsPings'], createPartnerInvoice: ResolversTypes['PartnerInvoices'], createProofOfDelivery: ResolversTypes['ProofOfDeliveries'], createRoute: ResolversTypes['Routes'], createShipmentLeg: ResolversTypes['ShipmentLegs'], createShipmentLegEvent: ResolversTypes['ShipmentLegEvents'], createTrip: ResolversTypes['Trips'], createTripStop: ResolversTypes['TripStops'], createVehicle: ResolversTypes['Vehicles'], updateCarrier: ResolversTypes['Carriers'], updateCarrierRate: ResolversTypes['CarrierRates'], updateDriver: ResolversTypes['Drivers'], updateDriverSchedule: ResolversTypes['DriverSchedules'], updateExpense: ResolversTypes['Expenses'], updateGeofence: ResolversTypes['Geofences'], updateGeofenceEvent: ResolversTypes['GeofenceEvents'], updateGpsPing: ResolversTypes['GpsPings'], updatePartnerInvoice: ResolversTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversTypes['ProofOfDeliveries'], updateRoute: ResolversTypes['Routes'], updateShipmentLeg: ResolversTypes['ShipmentLegs'], updateTrip: ResolversTypes['Trips'], updateTripStop: ResolversTypes['TripStops'], updateVehicle: ResolversTypes['Vehicles'], updateVehicleMaintenance: ResolversTypes['VehicleMaintenance'] }>;
   TmsQuery: ResolverTypeWrapper<Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversTypes['Carriers'], carriers: Array<ResolversTypes['Carriers']>, driver: ResolversTypes['Drivers'], drivers: Array<ResolversTypes['Drivers']>, expense: ResolversTypes['Expenses'], expenses: Array<ResolversTypes['Expenses']>, geofence: ResolversTypes['Geofences'], geofences: Array<ResolversTypes['Geofences']>, gpsPing: ResolversTypes['GpsPings'], gpsPings: Array<ResolversTypes['GpsPings']>, partnerInvoice: ResolversTypes['PartnerInvoices'], partnerInvoices: Array<ResolversTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversTypes['ProofOfDeliveries'], route: ResolversTypes['Routes'], routes: Array<ResolversTypes['Routes']>, shipmentLeg: ResolversTypes['ShipmentLegs'], shipmentLegs: Array<ResolversTypes['ShipmentLegs']>, trip: ResolversTypes['Trips'], trips: Array<ResolversTypes['Trips']>, vehicle: ResolversTypes['Vehicles'], vehicles: Array<ResolversTypes['Vehicles']> }>;
-  TmsSubscription: ResolverTypeWrapper<Omit<TmsSubscription, 'driverStatusChanged' | 'expenseApproved' | 'expenseRejected' | 'expenseStatusChanged' | 'expenseSubmitted' | 'geofenceEntered' | 'geofenceExited' | 'tripCancelled' | 'tripCompleted' | 'tripCreated' | 'tripStarted' | 'tripStatusChanged' | 'tripStopArrived' | 'tripStopCompleted' | 'tripStopSkipped' | 'vehicleMaintenanceScheduled' | 'vehicleStatusChanged'> & { driverStatusChanged: ResolversTypes['TmsDriverStatusChangedEvent'], expenseApproved: ResolversTypes['Expenses'], expenseRejected: ResolversTypes['TmsExpenseRejectedEvent'], expenseStatusChanged: ResolversTypes['TmsExpenseStatusChangedEvent'], expenseSubmitted: ResolversTypes['Expenses'], geofenceEntered: ResolversTypes['TmsGeofenceEvent'], geofenceExited: ResolversTypes['TmsGeofenceEvent'], tripCancelled: ResolversTypes['Trips'], tripCompleted: ResolversTypes['Trips'], tripCreated: ResolversTypes['Trips'], tripStarted: ResolversTypes['Trips'], tripStatusChanged: ResolversTypes['TmsTripStatusChangedEvent'], tripStopArrived: ResolversTypes['TripStops'], tripStopCompleted: ResolversTypes['TripStops'], tripStopSkipped: ResolversTypes['TmsTripStopSkippedEvent'], vehicleMaintenanceScheduled: ResolversTypes['VehicleMaintenance'], vehicleStatusChanged: ResolversTypes['TmsVehicleStatusChangedEvent'] }>;
   TmsTripStatusChangedEvent: ResolverTypeWrapper<Omit<TmsTripStatusChangedEvent, 'newStatus' | 'previousStatus'> & { newStatus: ResolversTypes['TripStatus'], previousStatus: ResolversTypes['TripStatus'] }>;
   TmsTripStopSkippedEvent: ResolverTypeWrapper<Omit<TmsTripStopSkippedEvent, 'tripStop'> & { tripStop: ResolversTypes['TripStops'] }>;
   TmsVehicleStatusChangedEvent: ResolverTypeWrapper<Omit<TmsVehicleStatusChangedEvent, 'newStatus' | 'previousStatus'> & { newStatus: ResolversTypes['VehicleStatus'], previousStatus: ResolversTypes['VehicleStatus'] }>;
@@ -6419,7 +6390,6 @@ export type ResolversTypes = {
   WmsReturnStatusChangedEvent: ResolverTypeWrapper<Omit<WmsReturnStatusChangedEvent, 'newStatus' | 'previousStatus'> & { newStatus: ResolversTypes['ReturnStatus'], previousStatus: ResolversTypes['ReturnStatus'] }>;
   WmsSalesOrderStatusChangedEvent: ResolverTypeWrapper<Omit<WmsSalesOrderStatusChangedEvent, 'newStatus' | 'previousStatus'> & { newStatus: ResolversTypes['SalesOrderStatus'], previousStatus: ResolversTypes['SalesOrderStatus'] }>;
   WmsStockTransferStatusChangedEvent: ResolverTypeWrapper<Omit<WmsStockTransferStatusChangedEvent, 'newStatus' | 'previousStatus'> & { newStatus: ResolversTypes['StockTransferStatus'], previousStatus: ResolversTypes['StockTransferStatus'] }>;
-  WmsSubscription: ResolverTypeWrapper<Omit<WmsSubscription, 'inboundShipmentCompleted' | 'inboundShipmentProcessing' | 'inboundShipmentReceived' | 'inboundShipmentStatusChanged' | 'inventoryAdjustmentDamagedReturn' | 'inventoryAdjustmentRecorded' | 'inventoryStockReleased' | 'inventoryStockReserved' | 'inventoryStockStatusChanged' | 'outboundShipmentCreated' | 'outboundShipmentDelivered' | 'outboundShipmentPacked' | 'outboundShipmentPicking' | 'outboundShipmentShipped' | 'outboundShipmentStatusChanged' | 'pickBatchCompleted' | 'pickBatchCreated' | 'pickBatchStarted' | 'pickBatchStatusChanged' | 'returnApproved' | 'returnItemEvaluated' | 'returnProcessed' | 'returnReceived' | 'returnRejected' | 'returnStatusChanged' | 'salesOrderCompleted' | 'salesOrderCreated' | 'salesOrderProcessing' | 'salesOrderShipped' | 'salesOrderStatusChanged' | 'stockTransferInTransit' | 'stockTransferInitiated' | 'stockTransferReceived' | 'stockTransferStatusChanged' | 'taskAssigned' | 'taskCancelled' | 'taskCompleted' | 'taskCreated' | 'taskItemCompleted' | 'taskItemDamaged' | 'taskItemShortPicked' | 'taskItemStatusChanged' | 'taskPutawayCreated' | 'taskReplenishmentCreated' | 'taskStarted' | 'taskStatusChanged'> & { inboundShipmentCompleted: ResolversTypes['InboundShipments'], inboundShipmentProcessing: ResolversTypes['InboundShipments'], inboundShipmentReceived: ResolversTypes['InboundShipments'], inboundShipmentStatusChanged: ResolversTypes['WmsInboundShipmentStatusChangedEvent'], inventoryAdjustmentDamagedReturn: ResolversTypes['WmsInventoryAdjustmentDamagedReturnEvent'], inventoryAdjustmentRecorded: ResolversTypes['WmsInventoryAdjustmentRecordedEvent'], inventoryStockReleased: ResolversTypes['WmsInventoryStockReleasedEvent'], inventoryStockReserved: ResolversTypes['WmsInventoryStockReservedEvent'], inventoryStockStatusChanged: ResolversTypes['WmsInventoryStockStatusChangedEvent'], outboundShipmentCreated: ResolversTypes['OutboundShipments'], outboundShipmentDelivered: ResolversTypes['OutboundShipments'], outboundShipmentPacked: ResolversTypes['OutboundShipments'], outboundShipmentPicking: ResolversTypes['OutboundShipments'], outboundShipmentShipped: ResolversTypes['OutboundShipments'], outboundShipmentStatusChanged: ResolversTypes['WmsOutboundShipmentStatusChangedEvent'], pickBatchCompleted: ResolversTypes['PickBatches'], pickBatchCreated: ResolversTypes['PickBatches'], pickBatchStarted: ResolversTypes['PickBatches'], pickBatchStatusChanged: ResolversTypes['WmsPickBatchStatusChangedEvent'], returnApproved: ResolversTypes['Returns'], returnItemEvaluated: ResolversTypes['WmsReturnItemEvaluatedEvent'], returnProcessed: ResolversTypes['Returns'], returnReceived: ResolversTypes['Returns'], returnRejected: ResolversTypes['WmsReturnRejectedEvent'], returnStatusChanged: ResolversTypes['WmsReturnStatusChangedEvent'], salesOrderCompleted: ResolversTypes['SalesOrders'], salesOrderCreated: ResolversTypes['SalesOrders'], salesOrderProcessing: ResolversTypes['SalesOrders'], salesOrderShipped: ResolversTypes['SalesOrders'], salesOrderStatusChanged: ResolversTypes['WmsSalesOrderStatusChangedEvent'], stockTransferInTransit: ResolversTypes['StockTransfers'], stockTransferInitiated: ResolversTypes['StockTransfers'], stockTransferReceived: ResolversTypes['StockTransfers'], stockTransferStatusChanged: ResolversTypes['WmsStockTransferStatusChangedEvent'], taskAssigned: ResolversTypes['WmsTaskAssignedEvent'], taskCancelled: ResolversTypes['Tasks'], taskCompleted: ResolversTypes['Tasks'], taskCreated: ResolversTypes['Tasks'], taskItemCompleted: ResolversTypes['TaskItems'], taskItemDamaged: ResolversTypes['TaskItems'], taskItemShortPicked: ResolversTypes['WmsTaskItemShortPickedEvent'], taskItemStatusChanged: ResolversTypes['WmsTaskItemStatusChangedEvent'], taskPutawayCreated: ResolversTypes['WmsTaskPutawayCreatedEvent'], taskReplenishmentCreated: ResolversTypes['WmsTaskReplenishmentCreatedEvent'], taskStarted: ResolversTypes['Tasks'], taskStatusChanged: ResolversTypes['WmsTaskStatusChangedEvent'] }>;
   WmsTaskAssignedEvent: ResolverTypeWrapper<Omit<WmsTaskAssignedEvent, 'task'> & { task: ResolversTypes['Tasks'] }>;
   WmsTaskItemShortPickedEvent: ResolverTypeWrapper<Omit<WmsTaskItemShortPickedEvent, 'taskItem'> & { taskItem: ResolversTypes['TaskItems'] }>;
   WmsTaskItemStatusChangedEvent: ResolverTypeWrapper<Omit<WmsTaskItemStatusChangedEvent, 'newStatus' | 'previousStatus'> & { newStatus: ResolversTypes['TaskItemStatus'], previousStatus: ResolversTypes['TaskItemStatus'] }>;
@@ -6445,7 +6415,6 @@ export type ResolversParentTypes = {
   BillingInvoices: Omit<BillingInvoices, 'client' | 'creditNotes' | 'lineItems' | 'payments' | 'quote'> & { client: ResolversParentTypes['Companies'], creditNotes?: Maybe<Array<ResolversParentTypes['CreditNotes']>>, lineItems?: Maybe<Array<ResolversParentTypes['InvoiceLineItems']>>, payments?: Maybe<Array<ResolversParentTypes['Payments']>>, quote?: Maybe<ResolversParentTypes['Quotes']> };
   BillingMutation: Omit<BillingMutation, 'addInvoiceLineItem' | 'createAccountTransaction' | 'createAccountingSyncLog' | 'createBillingInvoice' | 'createClientAccount' | 'createCreditNote' | 'createDispute' | 'createDocument' | 'createPayment' | 'createQuote' | 'createRateCard' | 'createRateRule' | 'createSurcharge' | 'updateBillingInvoice' | 'updateClientAccount' | 'updateCreditNote' | 'updateDispute' | 'updateDocument' | 'updateInvoiceLineItem' | 'updatePayment' | 'updateQuote' | 'updateRateCard' | 'updateRateRule' | 'updateSurcharge'> & { addInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], createAccountTransaction: ResolversParentTypes['AccountTransactions'], createAccountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], createBillingInvoice: ResolversParentTypes['BillingInvoices'], createClientAccount: ResolversParentTypes['ClientAccounts'], createCreditNote: ResolversParentTypes['CreditNotes'], createDispute: ResolversParentTypes['Disputes'], createDocument: ResolversParentTypes['Documents'], createPayment: ResolversParentTypes['Payments'], createQuote: ResolversParentTypes['Quotes'], createRateCard: ResolversParentTypes['RateCards'], createRateRule: ResolversParentTypes['RateRules'], createSurcharge: ResolversParentTypes['Surcharges'], updateBillingInvoice: ResolversParentTypes['BillingInvoices'], updateClientAccount: ResolversParentTypes['ClientAccounts'], updateCreditNote: ResolversParentTypes['CreditNotes'], updateDispute: ResolversParentTypes['Disputes'], updateDocument: ResolversParentTypes['Documents'], updateInvoiceLineItem: ResolversParentTypes['InvoiceLineItems'], updatePayment: ResolversParentTypes['Payments'], updateQuote: ResolversParentTypes['Quotes'], updateRateCard: ResolversParentTypes['RateCards'], updateRateRule: ResolversParentTypes['RateRules'], updateSurcharge: ResolversParentTypes['Surcharges'] };
   BillingQuery: Omit<BillingQuery, 'accountTransaction' | 'accountTransactions' | 'accountingSyncLog' | 'accountingSyncLogs' | 'billingInvoice' | 'billingInvoices' | 'clientAccount' | 'clientAccounts' | 'creditNote' | 'creditNotes' | 'dispute' | 'disputes' | 'document' | 'documents' | 'payment' | 'payments' | 'quote' | 'quotes' | 'rateCard' | 'rateCards' | 'rateRule' | 'rateRules' | 'surcharge' | 'surcharges'> & { accountTransaction: ResolversParentTypes['AccountTransactions'], accountTransactions: Array<ResolversParentTypes['AccountTransactions']>, accountingSyncLog: ResolversParentTypes['AccountingSyncLogs'], accountingSyncLogs: Array<ResolversParentTypes['AccountingSyncLogs']>, billingInvoice: ResolversParentTypes['BillingInvoices'], billingInvoices: Array<ResolversParentTypes['BillingInvoices']>, clientAccount: ResolversParentTypes['ClientAccounts'], clientAccounts: Array<ResolversParentTypes['ClientAccounts']>, creditNote: ResolversParentTypes['CreditNotes'], creditNotes: Array<ResolversParentTypes['CreditNotes']>, dispute: ResolversParentTypes['Disputes'], disputes: Array<ResolversParentTypes['Disputes']>, document: ResolversParentTypes['Documents'], documents: Array<ResolversParentTypes['Documents']>, payment: ResolversParentTypes['Payments'], payments: Array<ResolversParentTypes['Payments']>, quote: ResolversParentTypes['Quotes'], quotes: Array<ResolversParentTypes['Quotes']>, rateCard: ResolversParentTypes['RateCards'], rateCards: Array<ResolversParentTypes['RateCards']>, rateRule: ResolversParentTypes['RateRules'], rateRules: Array<ResolversParentTypes['RateRules']>, surcharge: ResolversParentTypes['Surcharges'], surcharges: Array<ResolversParentTypes['Surcharges']> };
-  BillingSubscription: Omit<BillingSubscription, 'creditNoteApplied' | 'creditNoteIssued' | 'creditNoteOnDisputeApproval' | 'disputeApproved' | 'disputeDenied' | 'disputeOpened' | 'disputeResolved' | 'disputeStatusChanged' | 'disputeUnderReview' | 'invoiceCreated' | 'invoiceDisputed' | 'invoicePaid' | 'invoicePartiallyPaid' | 'invoiceSent' | 'invoiceStatusChanged' | 'invoiceViewed' | 'paymentFailed' | 'paymentInitiated' | 'paymentProcessing' | 'paymentRefunded' | 'paymentStatusChanged' | 'paymentSuccessful' | 'quoteAccepted' | 'quoteConverted' | 'quoteCreated' | 'quoteSent' | 'quoteStatusChanged'> & { creditNoteApplied: ResolversParentTypes['CreditNoteAppliedEvent'], creditNoteIssued: ResolversParentTypes['CreditNotes'], creditNoteOnDisputeApproval: ResolversParentTypes['CreditNoteOnDisputeApprovalEvent'], disputeApproved: ResolversParentTypes['DisputeApprovedEvent'], disputeDenied: ResolversParentTypes['DisputeDeniedEvent'], disputeOpened: ResolversParentTypes['Disputes'], disputeResolved: ResolversParentTypes['DisputeResolvedEvent'], disputeStatusChanged: ResolversParentTypes['DisputeStatusChangedEvent'], disputeUnderReview: ResolversParentTypes['Disputes'], invoiceCreated: ResolversParentTypes['BillingInvoices'], invoiceDisputed: ResolversParentTypes['InvoiceDisputedEvent'], invoicePaid: ResolversParentTypes['InvoicePaidEvent'], invoicePartiallyPaid: ResolversParentTypes['InvoicePartiallyPaidEvent'], invoiceSent: ResolversParentTypes['BillingInvoices'], invoiceStatusChanged: ResolversParentTypes['InvoiceStatusChangedEvent'], invoiceViewed: ResolversParentTypes['BillingInvoices'], paymentFailed: ResolversParentTypes['PaymentFailedEvent'], paymentInitiated: ResolversParentTypes['Payments'], paymentProcessing: ResolversParentTypes['Payments'], paymentRefunded: ResolversParentTypes['PaymentRefundedEvent'], paymentStatusChanged: ResolversParentTypes['PaymentStatusChangedEvent'], paymentSuccessful: ResolversParentTypes['Payments'], quoteAccepted: ResolversParentTypes['Quotes'], quoteConverted: ResolversParentTypes['QuoteConvertedEvent'], quoteCreated: ResolversParentTypes['Quotes'], quoteSent: ResolversParentTypes['Quotes'], quoteStatusChanged: ResolversParentTypes['QuoteStatusChangedEvent'] };
   BinThresholds: Omit<BinThresholds, 'location' | 'product'> & { location: ResolversParentTypes['Locations'], product: ResolversParentTypes['WmsProducts'] };
   Boolean: Scalars['Boolean']['output'];
   Campaigns: Campaigns;
@@ -6543,7 +6512,6 @@ export type ResolversParentTypes = {
   CrmNotificationMarkedEvent: CrmNotificationMarkedEvent;
   CrmOpportunityStageChangedEvent: CrmOpportunityStageChangedEvent;
   CrmQuery: Omit<CrmQuery, 'attachment' | 'attachments' | 'case' | 'cases' | 'companies' | 'company' | 'contact' | 'contacts' | 'interaction' | 'interactions' | 'invoice' | 'invoices' | 'lead' | 'leads' | 'opportunities' | 'opportunity' | 'product' | 'products'> & { attachment: ResolversParentTypes['Attachments'], attachments: Array<ResolversParentTypes['Attachments']>, case: ResolversParentTypes['Cases'], cases: Array<ResolversParentTypes['Cases']>, companies: Array<ResolversParentTypes['Companies']>, company: ResolversParentTypes['Companies'], contact: ResolversParentTypes['Contacts'], contacts: Array<ResolversParentTypes['Contacts']>, interaction: ResolversParentTypes['Interactions'], interactions: Array<ResolversParentTypes['Interactions']>, invoice: ResolversParentTypes['Invoices'], invoices: Array<ResolversParentTypes['Invoices']>, lead: ResolversParentTypes['Leads'], leads: Array<ResolversParentTypes['Leads']>, opportunities: Array<ResolversParentTypes['Opportunities']>, opportunity: ResolversParentTypes['Opportunities'], product: ResolversParentTypes['Products'], products: Array<ResolversParentTypes['Products']> };
-  CrmSubscription: Omit<CrmSubscription, 'caseStatusChanged' | 'crmInvoicePaid' | 'crmInvoiceStatusChanged' | 'leadConverted' | 'leadStatusChanged' | 'opportunityLost' | 'opportunityStageChanged' | 'opportunityWon'> & { caseStatusChanged: ResolversParentTypes['CrmCaseStatusChangedEvent'], crmInvoicePaid: ResolversParentTypes['Invoices'], crmInvoiceStatusChanged: ResolversParentTypes['CrmInvoiceStatusChangedEvent'], leadConverted: ResolversParentTypes['Leads'], leadStatusChanged: ResolversParentTypes['CrmLeadStatusChangedEvent'], opportunityLost: ResolversParentTypes['Opportunities'], opportunityStageChanged: ResolversParentTypes['CrmOpportunityStageChangedEvent'], opportunityWon: ResolversParentTypes['Opportunities'] };
   CustomerTrackingLinks: Omit<CustomerTrackingLinks, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   Date: Scalars['Date']['output'];
   DeleteResult: DeleteResult;
@@ -6560,7 +6528,6 @@ export type ResolversParentTypes = {
   DmsMutation: Omit<DmsMutation, 'createCustomerTrackingLink' | 'createDeliveryRoute' | 'createDeliveryTask' | 'createDmsProofOfDelivery' | 'createDriverLocation' | 'createTaskEvent' | 'updateCustomerTrackingLink' | 'updateDeliveryRoute' | 'updateDeliveryTask' | 'updateDriverLocation'> & { createCustomerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], createDeliveryRoute: ResolversParentTypes['DeliveryRoutes'], createDeliveryTask: ResolversParentTypes['DeliveryTasks'], createDmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], createDriverLocation: ResolversParentTypes['DriverLocations'], createTaskEvent: ResolversParentTypes['TaskEvents'], updateCustomerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], updateDeliveryRoute: ResolversParentTypes['DeliveryRoutes'], updateDeliveryTask: ResolversParentTypes['DeliveryTasks'], updateDriverLocation: ResolversParentTypes['DriverLocations'] };
   DmsProofOfDeliveries: Omit<DmsProofOfDeliveries, 'deliveryTask'> & { deliveryTask: ResolversParentTypes['DeliveryTasks'] };
   DmsQuery: Omit<DmsQuery, 'customerTrackingLink' | 'customerTrackingLinks' | 'deliveryRoute' | 'deliveryRoutes' | 'deliveryTask' | 'deliveryTasks' | 'dmsProofOfDeliveries' | 'dmsProofOfDelivery' | 'driverLocation' | 'driverLocations' | 'taskEvent' | 'taskEvents'> & { customerTrackingLink: ResolversParentTypes['CustomerTrackingLinks'], customerTrackingLinks: Array<ResolversParentTypes['CustomerTrackingLinks']>, deliveryRoute: ResolversParentTypes['DeliveryRoutes'], deliveryRoutes: Array<ResolversParentTypes['DeliveryRoutes']>, deliveryTask: ResolversParentTypes['DeliveryTasks'], deliveryTasks: Array<ResolversParentTypes['DeliveryTasks']>, dmsProofOfDeliveries: Array<ResolversParentTypes['DmsProofOfDeliveries']>, dmsProofOfDelivery: ResolversParentTypes['DmsProofOfDeliveries'], driverLocation: ResolversParentTypes['DriverLocations'], driverLocations: Array<ResolversParentTypes['DriverLocations']>, taskEvent: ResolversParentTypes['TaskEvents'], taskEvents: Array<ResolversParentTypes['TaskEvents']> };
-  DmsSubscription: Omit<DmsSubscription, 'deliveryRouteCancelled' | 'deliveryRouteCompleted' | 'deliveryRoutePaused' | 'deliveryRouteStarted' | 'deliveryTaskDelivered' | 'deliveryTaskFailed' | 'deliveryTaskOutForDelivery' | 'deliveryTaskStatusChanged' | 'driverLocationUpdated' | 'proofOfDeliveryRecorded' | 'taskEventRecorded' | 'taskEventStatusUpdated' | 'trackingLinkGenerated'> & { deliveryRouteCancelled: ResolversParentTypes['DeliveryRoutes'], deliveryRouteCompleted: ResolversParentTypes['DeliveryRoutes'], deliveryRoutePaused: ResolversParentTypes['DeliveryRoutes'], deliveryRouteStarted: ResolversParentTypes['DeliveryRoutes'], deliveryTaskDelivered: ResolversParentTypes['DeliveryTasks'], deliveryTaskFailed: ResolversParentTypes['DmsDeliveryTaskFailedEvent'], deliveryTaskOutForDelivery: ResolversParentTypes['DeliveryTasks'], deliveryTaskStatusChanged: ResolversParentTypes['DmsDeliveryTaskStatusChangedEvent'], driverLocationUpdated: ResolversParentTypes['DriverLocations'], proofOfDeliveryRecorded: ResolversParentTypes['DmsProofOfDeliveries'], taskEventRecorded: ResolversParentTypes['TaskEvents'], taskEventStatusUpdated: ResolversParentTypes['DmsTaskEventStatusUpdatedEvent'], trackingLinkGenerated: ResolversParentTypes['CustomerTrackingLinks'] };
   DmsTaskEventStatusUpdatedEvent: DmsTaskEventStatusUpdatedEvent;
   DmsTrackingLinkExpiredEvent: DmsTrackingLinkExpiredEvent;
   DocumentGeneratedEvent: DocumentGeneratedEvent;
@@ -6639,7 +6606,6 @@ export type ResolversParentTypes = {
   TmsGeofenceEvent: Omit<TmsGeofenceEvent, 'geofenceEvent'> & { geofenceEvent: ResolversParentTypes['GeofenceEvents'] };
   TmsMutation: Omit<TmsMutation, 'addPartnerInvoiceItem' | 'addVehicleMaintenance' | 'createCarrier' | 'createCarrierRate' | 'createDriver' | 'createDriverSchedule' | 'createExpense' | 'createGeofence' | 'createGeofenceEvent' | 'createGpsPing' | 'createPartnerInvoice' | 'createProofOfDelivery' | 'createRoute' | 'createShipmentLeg' | 'createShipmentLegEvent' | 'createTrip' | 'createTripStop' | 'createVehicle' | 'updateCarrier' | 'updateCarrierRate' | 'updateDriver' | 'updateDriverSchedule' | 'updateExpense' | 'updateGeofence' | 'updateGeofenceEvent' | 'updateGpsPing' | 'updatePartnerInvoice' | 'updatePartnerInvoiceItem' | 'updateProofOfDelivery' | 'updateRoute' | 'updateShipmentLeg' | 'updateTrip' | 'updateTripStop' | 'updateVehicle' | 'updateVehicleMaintenance'> & { addPartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], addVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'], createCarrier: ResolversParentTypes['Carriers'], createCarrierRate: ResolversParentTypes['CarrierRates'], createDriver: ResolversParentTypes['Drivers'], createDriverSchedule: ResolversParentTypes['DriverSchedules'], createExpense: ResolversParentTypes['Expenses'], createGeofence: ResolversParentTypes['Geofences'], createGeofenceEvent: ResolversParentTypes['GeofenceEvents'], createGpsPing: ResolversParentTypes['GpsPings'], createPartnerInvoice: ResolversParentTypes['PartnerInvoices'], createProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], createRoute: ResolversParentTypes['Routes'], createShipmentLeg: ResolversParentTypes['ShipmentLegs'], createShipmentLegEvent: ResolversParentTypes['ShipmentLegEvents'], createTrip: ResolversParentTypes['Trips'], createTripStop: ResolversParentTypes['TripStops'], createVehicle: ResolversParentTypes['Vehicles'], updateCarrier: ResolversParentTypes['Carriers'], updateCarrierRate: ResolversParentTypes['CarrierRates'], updateDriver: ResolversParentTypes['Drivers'], updateDriverSchedule: ResolversParentTypes['DriverSchedules'], updateExpense: ResolversParentTypes['Expenses'], updateGeofence: ResolversParentTypes['Geofences'], updateGeofenceEvent: ResolversParentTypes['GeofenceEvents'], updateGpsPing: ResolversParentTypes['GpsPings'], updatePartnerInvoice: ResolversParentTypes['PartnerInvoices'], updatePartnerInvoiceItem: ResolversParentTypes['PartnerInvoiceItems'], updateProofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], updateRoute: ResolversParentTypes['Routes'], updateShipmentLeg: ResolversParentTypes['ShipmentLegs'], updateTrip: ResolversParentTypes['Trips'], updateTripStop: ResolversParentTypes['TripStops'], updateVehicle: ResolversParentTypes['Vehicles'], updateVehicleMaintenance: ResolversParentTypes['VehicleMaintenance'] };
   TmsQuery: Omit<TmsQuery, 'carrier' | 'carriers' | 'driver' | 'drivers' | 'expense' | 'expenses' | 'geofence' | 'geofences' | 'gpsPing' | 'gpsPings' | 'partnerInvoice' | 'partnerInvoices' | 'proofOfDeliveries' | 'proofOfDelivery' | 'route' | 'routes' | 'shipmentLeg' | 'shipmentLegs' | 'trip' | 'trips' | 'vehicle' | 'vehicles'> & { carrier: ResolversParentTypes['Carriers'], carriers: Array<ResolversParentTypes['Carriers']>, driver: ResolversParentTypes['Drivers'], drivers: Array<ResolversParentTypes['Drivers']>, expense: ResolversParentTypes['Expenses'], expenses: Array<ResolversParentTypes['Expenses']>, geofence: ResolversParentTypes['Geofences'], geofences: Array<ResolversParentTypes['Geofences']>, gpsPing: ResolversParentTypes['GpsPings'], gpsPings: Array<ResolversParentTypes['GpsPings']>, partnerInvoice: ResolversParentTypes['PartnerInvoices'], partnerInvoices: Array<ResolversParentTypes['PartnerInvoices']>, proofOfDeliveries: Array<ResolversParentTypes['ProofOfDeliveries']>, proofOfDelivery: ResolversParentTypes['ProofOfDeliveries'], route: ResolversParentTypes['Routes'], routes: Array<ResolversParentTypes['Routes']>, shipmentLeg: ResolversParentTypes['ShipmentLegs'], shipmentLegs: Array<ResolversParentTypes['ShipmentLegs']>, trip: ResolversParentTypes['Trips'], trips: Array<ResolversParentTypes['Trips']>, vehicle: ResolversParentTypes['Vehicles'], vehicles: Array<ResolversParentTypes['Vehicles']> };
-  TmsSubscription: Omit<TmsSubscription, 'driverStatusChanged' | 'expenseApproved' | 'expenseRejected' | 'expenseStatusChanged' | 'expenseSubmitted' | 'geofenceEntered' | 'geofenceExited' | 'tripCancelled' | 'tripCompleted' | 'tripCreated' | 'tripStarted' | 'tripStatusChanged' | 'tripStopArrived' | 'tripStopCompleted' | 'tripStopSkipped' | 'vehicleMaintenanceScheduled' | 'vehicleStatusChanged'> & { driverStatusChanged: ResolversParentTypes['TmsDriverStatusChangedEvent'], expenseApproved: ResolversParentTypes['Expenses'], expenseRejected: ResolversParentTypes['TmsExpenseRejectedEvent'], expenseStatusChanged: ResolversParentTypes['TmsExpenseStatusChangedEvent'], expenseSubmitted: ResolversParentTypes['Expenses'], geofenceEntered: ResolversParentTypes['TmsGeofenceEvent'], geofenceExited: ResolversParentTypes['TmsGeofenceEvent'], tripCancelled: ResolversParentTypes['Trips'], tripCompleted: ResolversParentTypes['Trips'], tripCreated: ResolversParentTypes['Trips'], tripStarted: ResolversParentTypes['Trips'], tripStatusChanged: ResolversParentTypes['TmsTripStatusChangedEvent'], tripStopArrived: ResolversParentTypes['TripStops'], tripStopCompleted: ResolversParentTypes['TripStops'], tripStopSkipped: ResolversParentTypes['TmsTripStopSkippedEvent'], vehicleMaintenanceScheduled: ResolversParentTypes['VehicleMaintenance'], vehicleStatusChanged: ResolversParentTypes['TmsVehicleStatusChangedEvent'] };
   TmsTripStatusChangedEvent: TmsTripStatusChangedEvent;
   TmsTripStopSkippedEvent: Omit<TmsTripStopSkippedEvent, 'tripStop'> & { tripStop: ResolversParentTypes['TripStops'] };
   TmsVehicleStatusChangedEvent: TmsVehicleStatusChangedEvent;
@@ -6737,7 +6703,6 @@ export type ResolversParentTypes = {
   WmsReturnStatusChangedEvent: WmsReturnStatusChangedEvent;
   WmsSalesOrderStatusChangedEvent: WmsSalesOrderStatusChangedEvent;
   WmsStockTransferStatusChangedEvent: WmsStockTransferStatusChangedEvent;
-  WmsSubscription: Omit<WmsSubscription, 'inboundShipmentCompleted' | 'inboundShipmentProcessing' | 'inboundShipmentReceived' | 'inboundShipmentStatusChanged' | 'inventoryAdjustmentDamagedReturn' | 'inventoryAdjustmentRecorded' | 'inventoryStockReleased' | 'inventoryStockReserved' | 'inventoryStockStatusChanged' | 'outboundShipmentCreated' | 'outboundShipmentDelivered' | 'outboundShipmentPacked' | 'outboundShipmentPicking' | 'outboundShipmentShipped' | 'outboundShipmentStatusChanged' | 'pickBatchCompleted' | 'pickBatchCreated' | 'pickBatchStarted' | 'pickBatchStatusChanged' | 'returnApproved' | 'returnItemEvaluated' | 'returnProcessed' | 'returnReceived' | 'returnRejected' | 'returnStatusChanged' | 'salesOrderCompleted' | 'salesOrderCreated' | 'salesOrderProcessing' | 'salesOrderShipped' | 'salesOrderStatusChanged' | 'stockTransferInTransit' | 'stockTransferInitiated' | 'stockTransferReceived' | 'stockTransferStatusChanged' | 'taskAssigned' | 'taskCancelled' | 'taskCompleted' | 'taskCreated' | 'taskItemCompleted' | 'taskItemDamaged' | 'taskItemShortPicked' | 'taskItemStatusChanged' | 'taskPutawayCreated' | 'taskReplenishmentCreated' | 'taskStarted' | 'taskStatusChanged'> & { inboundShipmentCompleted: ResolversParentTypes['InboundShipments'], inboundShipmentProcessing: ResolversParentTypes['InboundShipments'], inboundShipmentReceived: ResolversParentTypes['InboundShipments'], inboundShipmentStatusChanged: ResolversParentTypes['WmsInboundShipmentStatusChangedEvent'], inventoryAdjustmentDamagedReturn: ResolversParentTypes['WmsInventoryAdjustmentDamagedReturnEvent'], inventoryAdjustmentRecorded: ResolversParentTypes['WmsInventoryAdjustmentRecordedEvent'], inventoryStockReleased: ResolversParentTypes['WmsInventoryStockReleasedEvent'], inventoryStockReserved: ResolversParentTypes['WmsInventoryStockReservedEvent'], inventoryStockStatusChanged: ResolversParentTypes['WmsInventoryStockStatusChangedEvent'], outboundShipmentCreated: ResolversParentTypes['OutboundShipments'], outboundShipmentDelivered: ResolversParentTypes['OutboundShipments'], outboundShipmentPacked: ResolversParentTypes['OutboundShipments'], outboundShipmentPicking: ResolversParentTypes['OutboundShipments'], outboundShipmentShipped: ResolversParentTypes['OutboundShipments'], outboundShipmentStatusChanged: ResolversParentTypes['WmsOutboundShipmentStatusChangedEvent'], pickBatchCompleted: ResolversParentTypes['PickBatches'], pickBatchCreated: ResolversParentTypes['PickBatches'], pickBatchStarted: ResolversParentTypes['PickBatches'], pickBatchStatusChanged: ResolversParentTypes['WmsPickBatchStatusChangedEvent'], returnApproved: ResolversParentTypes['Returns'], returnItemEvaluated: ResolversParentTypes['WmsReturnItemEvaluatedEvent'], returnProcessed: ResolversParentTypes['Returns'], returnReceived: ResolversParentTypes['Returns'], returnRejected: ResolversParentTypes['WmsReturnRejectedEvent'], returnStatusChanged: ResolversParentTypes['WmsReturnStatusChangedEvent'], salesOrderCompleted: ResolversParentTypes['SalesOrders'], salesOrderCreated: ResolversParentTypes['SalesOrders'], salesOrderProcessing: ResolversParentTypes['SalesOrders'], salesOrderShipped: ResolversParentTypes['SalesOrders'], salesOrderStatusChanged: ResolversParentTypes['WmsSalesOrderStatusChangedEvent'], stockTransferInTransit: ResolversParentTypes['StockTransfers'], stockTransferInitiated: ResolversParentTypes['StockTransfers'], stockTransferReceived: ResolversParentTypes['StockTransfers'], stockTransferStatusChanged: ResolversParentTypes['WmsStockTransferStatusChangedEvent'], taskAssigned: ResolversParentTypes['WmsTaskAssignedEvent'], taskCancelled: ResolversParentTypes['Tasks'], taskCompleted: ResolversParentTypes['Tasks'], taskCreated: ResolversParentTypes['Tasks'], taskItemCompleted: ResolversParentTypes['TaskItems'], taskItemDamaged: ResolversParentTypes['TaskItems'], taskItemShortPicked: ResolversParentTypes['WmsTaskItemShortPickedEvent'], taskItemStatusChanged: ResolversParentTypes['WmsTaskItemStatusChangedEvent'], taskPutawayCreated: ResolversParentTypes['WmsTaskPutawayCreatedEvent'], taskReplenishmentCreated: ResolversParentTypes['WmsTaskReplenishmentCreatedEvent'], taskStarted: ResolversParentTypes['Tasks'], taskStatusChanged: ResolversParentTypes['WmsTaskStatusChangedEvent'] };
   WmsTaskAssignedEvent: Omit<WmsTaskAssignedEvent, 'task'> & { task: ResolversParentTypes['Tasks'] };
   WmsTaskItemShortPickedEvent: Omit<WmsTaskItemShortPickedEvent, 'taskItem'> & { taskItem: ResolversParentTypes['TaskItems'] };
   WmsTaskItemStatusChangedEvent: WmsTaskItemStatusChangedEvent;
@@ -6898,49 +6863,6 @@ export type BillingQueryResolvers<ContextType = GraphQLContext, ParentType exten
   rateRules?: Resolver<Array<ResolversTypes['RateRules']>, ParentType, ContextType, Partial<BillingQueryrateRulesArgs>>;
   surcharge?: Resolver<ResolversTypes['Surcharges'], ParentType, ContextType, RequireFields<BillingQuerysurchargeArgs, 'id'>>;
   surcharges?: Resolver<Array<ResolversTypes['Surcharges']>, ParentType, ContextType, Partial<BillingQuerysurchargesArgs>>;
-};
-
-export type BillingSubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BillingSubscription'] = ResolversParentTypes['BillingSubscription']> = {
-  accountingSyncFailed?: Resolver<ResolversTypes['AccountingSyncFailedEvent'], ParentType, ContextType>;
-  accountingSyncSucceeded?: Resolver<ResolversTypes['AccountingSyncSucceededEvent'], ParentType, ContextType>;
-  accountingSyncTriggered?: Resolver<ResolversTypes['AccountingSyncTriggeredEvent'], ParentType, ContextType>;
-  clientAccountBalanceUpdated?: Resolver<ResolversTypes['ClientAccountBalanceUpdatedEvent'], ParentType, ContextType>;
-  clientAccountLastPaymentDateUpdated?: Resolver<ResolversTypes['ClientAccountLastPaymentDateUpdatedEvent'], ParentType, ContextType>;
-  creditNoteApplied?: Resolver<ResolversTypes['CreditNoteAppliedEvent'], ParentType, ContextType>;
-  creditNoteIssued?: Resolver<ResolversTypes['CreditNotes'], ParentType, ContextType>;
-  creditNoteOnDisputeApproval?: Resolver<ResolversTypes['CreditNoteOnDisputeApprovalEvent'], ParentType, ContextType>;
-  disputeApproved?: Resolver<ResolversTypes['DisputeApprovedEvent'], ParentType, ContextType>;
-  disputeDenied?: Resolver<ResolversTypes['DisputeDeniedEvent'], ParentType, ContextType>;
-  disputeOpened?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType>;
-  disputeResolved?: Resolver<ResolversTypes['DisputeResolvedEvent'], ParentType, ContextType>;
-  disputeStatusChanged?: Resolver<ResolversTypes['DisputeStatusChangedEvent'], ParentType, ContextType>;
-  disputeUnderReview?: Resolver<ResolversTypes['Disputes'], ParentType, ContextType>;
-  documentGenerated?: Resolver<ResolversTypes['DocumentGeneratedEvent'], ParentType, ContextType>;
-  invoiceCreated?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType>;
-  invoiceDisputed?: Resolver<ResolversTypes['InvoiceDisputedEvent'], ParentType, ContextType>;
-  invoiceOverdue?: Resolver<ResolversTypes['InvoiceOverdueEvent'], ParentType, ContextType>;
-  invoicePaid?: Resolver<ResolversTypes['InvoicePaidEvent'], ParentType, ContextType>;
-  invoicePartiallyPaid?: Resolver<ResolversTypes['InvoicePartiallyPaidEvent'], ParentType, ContextType>;
-  invoiceSent?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType>;
-  invoiceStatusChanged?: Resolver<ResolversTypes['InvoiceStatusChangedEvent'], ParentType, ContextType>;
-  invoiceViewed?: Resolver<ResolversTypes['BillingInvoices'], ParentType, ContextType>;
-  paymentFailed?: Resolver<ResolversTypes['PaymentFailedEvent'], ParentType, ContextType>;
-  paymentInitiated?: Resolver<ResolversTypes['Payments'], ParentType, ContextType>;
-  paymentProcessing?: Resolver<ResolversTypes['Payments'], ParentType, ContextType>;
-  paymentRefunded?: Resolver<ResolversTypes['PaymentRefundedEvent'], ParentType, ContextType>;
-  paymentStatusChanged?: Resolver<ResolversTypes['PaymentStatusChangedEvent'], ParentType, ContextType>;
-  paymentSuccessful?: Resolver<ResolversTypes['Payments'], ParentType, ContextType>;
-  quoteAccepted?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType>;
-  quoteConverted?: Resolver<ResolversTypes['QuoteConvertedEvent'], ParentType, ContextType>;
-  quoteCreated?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType>;
-  quoteExpired?: Resolver<ResolversTypes['QuoteExpiredEvent'], ParentType, ContextType>;
-  quoteSent?: Resolver<ResolversTypes['Quotes'], ParentType, ContextType>;
-  quoteStatusChanged?: Resolver<ResolversTypes['QuoteStatusChangedEvent'], ParentType, ContextType>;
-  rateCardDeactivated?: Resolver<ResolversTypes['RateCardDeactivatedEvent'], ParentType, ContextType>;
-  shipmentCreatedFromPayment?: Resolver<ResolversTypes['ShipmentCreatedFromPaymentEvent'], ParentType, ContextType>;
-  surchargeDeactivated?: Resolver<ResolversTypes['SurchargeDeactivatedEvent'], ParentType, ContextType>;
-  transactionCredited?: Resolver<ResolversTypes['TransactionCreditedEvent'], ParentType, ContextType>;
-  transactionDebited?: Resolver<ResolversTypes['TransactionDebitedEvent'], ParentType, ContextType>;
 };
 
 export type BinThresholdsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['BinThresholds'] = ResolversParentTypes['BinThresholds']> = {
@@ -7205,19 +7127,6 @@ export type CrmQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   products?: Resolver<Array<ResolversTypes['Products']>, ParentType, ContextType, Partial<CrmQueryproductsArgs>>;
 };
 
-export type CrmSubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CrmSubscription'] = ResolversParentTypes['CrmSubscription']> = {
-  caseAssigned?: Resolver<ResolversTypes['CrmCaseAssignedEvent'], ParentType, ContextType>;
-  caseStatusChanged?: Resolver<ResolversTypes['CrmCaseStatusChangedEvent'], ParentType, ContextType>;
-  crmInvoicePaid?: Resolver<ResolversTypes['Invoices'], ParentType, ContextType>;
-  crmInvoiceStatusChanged?: Resolver<ResolversTypes['CrmInvoiceStatusChangedEvent'], ParentType, ContextType>;
-  leadConverted?: Resolver<ResolversTypes['Leads'], ParentType, ContextType>;
-  leadStatusChanged?: Resolver<ResolversTypes['CrmLeadStatusChangedEvent'], ParentType, ContextType>;
-  notificationMarked?: Resolver<ResolversTypes['CrmNotificationMarkedEvent'], ParentType, ContextType>;
-  opportunityLost?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType>;
-  opportunityStageChanged?: Resolver<ResolversTypes['CrmOpportunityStageChangedEvent'], ParentType, ContextType>;
-  opportunityWon?: Resolver<ResolversTypes['Opportunities'], ParentType, ContextType>;
-};
-
 export type CurrencyResolvers = EnumResolverSignature<{ AUD?: any, CAD?: any, EUR?: any, GBP?: any, JPY?: any, PHP?: any, USD?: any }, ResolversTypes['Currency']>;
 
 export type CustomerTrackingLinksResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['CustomerTrackingLinks'] = ResolversParentTypes['CustomerTrackingLinks']> = {
@@ -7385,24 +7294,6 @@ export type DmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   driverLocations?: Resolver<Array<ResolversTypes['DriverLocations']>, ParentType, ContextType, Partial<DmsQuerydriverLocationsArgs>>;
   taskEvent?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType, RequireFields<DmsQuerytaskEventArgs, 'id'>>;
   taskEvents?: Resolver<Array<ResolversTypes['TaskEvents']>, ParentType, ContextType, Partial<DmsQuerytaskEventsArgs>>;
-};
-
-export type DmsSubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsSubscription'] = ResolversParentTypes['DmsSubscription']> = {
-  deliveryRouteCancelled?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType>;
-  deliveryRouteCompleted?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType>;
-  deliveryRoutePaused?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType>;
-  deliveryRouteStarted?: Resolver<ResolversTypes['DeliveryRoutes'], ParentType, ContextType>;
-  deliveryTaskDelivered?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
-  deliveryTaskFailed?: Resolver<ResolversTypes['DmsDeliveryTaskFailedEvent'], ParentType, ContextType>;
-  deliveryTaskOutForDelivery?: Resolver<ResolversTypes['DeliveryTasks'], ParentType, ContextType>;
-  deliveryTaskStatusChanged?: Resolver<ResolversTypes['DmsDeliveryTaskStatusChangedEvent'], ParentType, ContextType>;
-  driverLocationRemoved?: Resolver<ResolversTypes['DmsDriverLocationRemovedEvent'], ParentType, ContextType>;
-  driverLocationUpdated?: Resolver<ResolversTypes['DriverLocations'], ParentType, ContextType>;
-  proofOfDeliveryRecorded?: Resolver<ResolversTypes['DmsProofOfDeliveries'], ParentType, ContextType>;
-  taskEventRecorded?: Resolver<ResolversTypes['TaskEvents'], ParentType, ContextType>;
-  taskEventStatusUpdated?: Resolver<ResolversTypes['DmsTaskEventStatusUpdatedEvent'], ParentType, ContextType>;
-  trackingLinkExpired?: Resolver<ResolversTypes['DmsTrackingLinkExpiredEvent'], ParentType, ContextType>;
-  trackingLinkGenerated?: Resolver<ResolversTypes['CustomerTrackingLinks'], ParentType, ContextType>;
 };
 
 export type DmsTaskEventStatusUpdatedEventResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['DmsTaskEventStatusUpdatedEvent'] = ResolversParentTypes['DmsTaskEventStatusUpdatedEvent']> = {
@@ -8227,11 +8118,135 @@ export type StockTransfersResolvers<ContextType = GraphQLContext, ParentType ext
 };
 
 export type SubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
-  billing?: SubscriptionResolver<Maybe<ResolversTypes['BillingSubscription']>, "billing", ParentType, ContextType>;
-  crm?: SubscriptionResolver<Maybe<ResolversTypes['CrmSubscription']>, "crm", ParentType, ContextType>;
-  dms?: SubscriptionResolver<Maybe<ResolversTypes['DmsSubscription']>, "dms", ParentType, ContextType>;
-  tms?: SubscriptionResolver<Maybe<ResolversTypes['TmsSubscription']>, "tms", ParentType, ContextType>;
-  wms?: SubscriptionResolver<Maybe<ResolversTypes['WmsSubscription']>, "wms", ParentType, ContextType>;
+  accountingSyncFailed?: SubscriptionResolver<ResolversTypes['AccountingSyncFailedEvent'], "accountingSyncFailed", ParentType, ContextType>;
+  accountingSyncSucceeded?: SubscriptionResolver<ResolversTypes['AccountingSyncSucceededEvent'], "accountingSyncSucceeded", ParentType, ContextType>;
+  accountingSyncTriggered?: SubscriptionResolver<ResolversTypes['AccountingSyncTriggeredEvent'], "accountingSyncTriggered", ParentType, ContextType>;
+  caseAssigned?: SubscriptionResolver<ResolversTypes['CrmCaseAssignedEvent'], "caseAssigned", ParentType, ContextType>;
+  caseStatusChanged?: SubscriptionResolver<ResolversTypes['CrmCaseStatusChangedEvent'], "caseStatusChanged", ParentType, ContextType>;
+  clientAccountBalanceUpdated?: SubscriptionResolver<ResolversTypes['ClientAccountBalanceUpdatedEvent'], "clientAccountBalanceUpdated", ParentType, ContextType>;
+  clientAccountLastPaymentDateUpdated?: SubscriptionResolver<ResolversTypes['ClientAccountLastPaymentDateUpdatedEvent'], "clientAccountLastPaymentDateUpdated", ParentType, ContextType>;
+  creditNoteApplied?: SubscriptionResolver<ResolversTypes['CreditNoteAppliedEvent'], "creditNoteApplied", ParentType, ContextType>;
+  creditNoteIssued?: SubscriptionResolver<ResolversTypes['CreditNotes'], "creditNoteIssued", ParentType, ContextType>;
+  creditNoteOnDisputeApproval?: SubscriptionResolver<ResolversTypes['CreditNoteOnDisputeApprovalEvent'], "creditNoteOnDisputeApproval", ParentType, ContextType>;
+  crmInvoicePaid?: SubscriptionResolver<ResolversTypes['Invoices'], "crmInvoicePaid", ParentType, ContextType>;
+  crmInvoiceStatusChanged?: SubscriptionResolver<ResolversTypes['CrmInvoiceStatusChangedEvent'], "crmInvoiceStatusChanged", ParentType, ContextType>;
+  deliveryRouteCancelled?: SubscriptionResolver<ResolversTypes['DeliveryRoutes'], "deliveryRouteCancelled", ParentType, ContextType>;
+  deliveryRouteCompleted?: SubscriptionResolver<ResolversTypes['DeliveryRoutes'], "deliveryRouteCompleted", ParentType, ContextType>;
+  deliveryRoutePaused?: SubscriptionResolver<ResolversTypes['DeliveryRoutes'], "deliveryRoutePaused", ParentType, ContextType>;
+  deliveryRouteStarted?: SubscriptionResolver<ResolversTypes['DeliveryRoutes'], "deliveryRouteStarted", ParentType, ContextType>;
+  deliveryTaskDelivered?: SubscriptionResolver<ResolversTypes['DeliveryTasks'], "deliveryTaskDelivered", ParentType, ContextType>;
+  deliveryTaskFailed?: SubscriptionResolver<ResolversTypes['DmsDeliveryTaskFailedEvent'], "deliveryTaskFailed", ParentType, ContextType>;
+  deliveryTaskOutForDelivery?: SubscriptionResolver<ResolversTypes['DeliveryTasks'], "deliveryTaskOutForDelivery", ParentType, ContextType>;
+  deliveryTaskStatusChanged?: SubscriptionResolver<ResolversTypes['DmsDeliveryTaskStatusChangedEvent'], "deliveryTaskStatusChanged", ParentType, ContextType>;
+  disputeApproved?: SubscriptionResolver<ResolversTypes['DisputeApprovedEvent'], "disputeApproved", ParentType, ContextType>;
+  disputeDenied?: SubscriptionResolver<ResolversTypes['DisputeDeniedEvent'], "disputeDenied", ParentType, ContextType>;
+  disputeOpened?: SubscriptionResolver<ResolversTypes['Disputes'], "disputeOpened", ParentType, ContextType>;
+  disputeResolved?: SubscriptionResolver<ResolversTypes['DisputeResolvedEvent'], "disputeResolved", ParentType, ContextType>;
+  disputeStatusChanged?: SubscriptionResolver<ResolversTypes['DisputeStatusChangedEvent'], "disputeStatusChanged", ParentType, ContextType>;
+  disputeUnderReview?: SubscriptionResolver<ResolversTypes['Disputes'], "disputeUnderReview", ParentType, ContextType>;
+  documentGenerated?: SubscriptionResolver<ResolversTypes['DocumentGeneratedEvent'], "documentGenerated", ParentType, ContextType>;
+  driverLocationRemoved?: SubscriptionResolver<ResolversTypes['DmsDriverLocationRemovedEvent'], "driverLocationRemoved", ParentType, ContextType>;
+  driverLocationUpdated?: SubscriptionResolver<ResolversTypes['DriverLocations'], "driverLocationUpdated", ParentType, ContextType>;
+  driverStatusChanged?: SubscriptionResolver<ResolversTypes['TmsDriverStatusChangedEvent'], "driverStatusChanged", ParentType, ContextType>;
+  expenseApproved?: SubscriptionResolver<ResolversTypes['Expenses'], "expenseApproved", ParentType, ContextType>;
+  expenseRejected?: SubscriptionResolver<ResolversTypes['TmsExpenseRejectedEvent'], "expenseRejected", ParentType, ContextType>;
+  expenseStatusChanged?: SubscriptionResolver<ResolversTypes['TmsExpenseStatusChangedEvent'], "expenseStatusChanged", ParentType, ContextType>;
+  expenseSubmitted?: SubscriptionResolver<ResolversTypes['Expenses'], "expenseSubmitted", ParentType, ContextType>;
+  geofenceEntered?: SubscriptionResolver<ResolversTypes['TmsGeofenceEvent'], "geofenceEntered", ParentType, ContextType>;
+  geofenceExited?: SubscriptionResolver<ResolversTypes['TmsGeofenceEvent'], "geofenceExited", ParentType, ContextType>;
+  inboundShipmentCompleted?: SubscriptionResolver<ResolversTypes['InboundShipments'], "inboundShipmentCompleted", ParentType, ContextType>;
+  inboundShipmentProcessing?: SubscriptionResolver<ResolversTypes['InboundShipments'], "inboundShipmentProcessing", ParentType, ContextType>;
+  inboundShipmentReceived?: SubscriptionResolver<ResolversTypes['InboundShipments'], "inboundShipmentReceived", ParentType, ContextType>;
+  inboundShipmentStatusChanged?: SubscriptionResolver<ResolversTypes['WmsInboundShipmentStatusChangedEvent'], "inboundShipmentStatusChanged", ParentType, ContextType>;
+  inventoryAdjustmentDamagedReturn?: SubscriptionResolver<ResolversTypes['WmsInventoryAdjustmentDamagedReturnEvent'], "inventoryAdjustmentDamagedReturn", ParentType, ContextType>;
+  inventoryAdjustmentRecorded?: SubscriptionResolver<ResolversTypes['WmsInventoryAdjustmentRecordedEvent'], "inventoryAdjustmentRecorded", ParentType, ContextType>;
+  inventoryStockLowStockAlert?: SubscriptionResolver<ResolversTypes['WmsInventoryStockLowStockAlertEvent'], "inventoryStockLowStockAlert", ParentType, ContextType>;
+  inventoryStockReleased?: SubscriptionResolver<ResolversTypes['WmsInventoryStockReleasedEvent'], "inventoryStockReleased", ParentType, ContextType>;
+  inventoryStockReserved?: SubscriptionResolver<ResolversTypes['WmsInventoryStockReservedEvent'], "inventoryStockReserved", ParentType, ContextType>;
+  inventoryStockStatusChanged?: SubscriptionResolver<ResolversTypes['WmsInventoryStockStatusChangedEvent'], "inventoryStockStatusChanged", ParentType, ContextType>;
+  invoiceCreated?: SubscriptionResolver<ResolversTypes['BillingInvoices'], "invoiceCreated", ParentType, ContextType>;
+  invoiceDisputed?: SubscriptionResolver<ResolversTypes['InvoiceDisputedEvent'], "invoiceDisputed", ParentType, ContextType>;
+  invoiceOverdue?: SubscriptionResolver<ResolversTypes['InvoiceOverdueEvent'], "invoiceOverdue", ParentType, ContextType>;
+  invoicePaid?: SubscriptionResolver<ResolversTypes['InvoicePaidEvent'], "invoicePaid", ParentType, ContextType>;
+  invoicePartiallyPaid?: SubscriptionResolver<ResolversTypes['InvoicePartiallyPaidEvent'], "invoicePartiallyPaid", ParentType, ContextType>;
+  invoiceSent?: SubscriptionResolver<ResolversTypes['BillingInvoices'], "invoiceSent", ParentType, ContextType>;
+  invoiceStatusChanged?: SubscriptionResolver<ResolversTypes['InvoiceStatusChangedEvent'], "invoiceStatusChanged", ParentType, ContextType>;
+  invoiceViewed?: SubscriptionResolver<ResolversTypes['BillingInvoices'], "invoiceViewed", ParentType, ContextType>;
+  leadConverted?: SubscriptionResolver<ResolversTypes['Leads'], "leadConverted", ParentType, ContextType>;
+  leadStatusChanged?: SubscriptionResolver<ResolversTypes['CrmLeadStatusChangedEvent'], "leadStatusChanged", ParentType, ContextType>;
+  notificationMarked?: SubscriptionResolver<ResolversTypes['CrmNotificationMarkedEvent'], "notificationMarked", ParentType, ContextType>;
+  opportunityLost?: SubscriptionResolver<ResolversTypes['Opportunities'], "opportunityLost", ParentType, ContextType>;
+  opportunityStageChanged?: SubscriptionResolver<ResolversTypes['CrmOpportunityStageChangedEvent'], "opportunityStageChanged", ParentType, ContextType>;
+  opportunityWon?: SubscriptionResolver<ResolversTypes['Opportunities'], "opportunityWon", ParentType, ContextType>;
+  outboundShipmentCreated?: SubscriptionResolver<ResolversTypes['OutboundShipments'], "outboundShipmentCreated", ParentType, ContextType>;
+  outboundShipmentDelivered?: SubscriptionResolver<ResolversTypes['OutboundShipments'], "outboundShipmentDelivered", ParentType, ContextType>;
+  outboundShipmentPacked?: SubscriptionResolver<ResolversTypes['OutboundShipments'], "outboundShipmentPacked", ParentType, ContextType>;
+  outboundShipmentPicking?: SubscriptionResolver<ResolversTypes['OutboundShipments'], "outboundShipmentPicking", ParentType, ContextType>;
+  outboundShipmentShipped?: SubscriptionResolver<ResolversTypes['OutboundShipments'], "outboundShipmentShipped", ParentType, ContextType>;
+  outboundShipmentStatusChanged?: SubscriptionResolver<ResolversTypes['WmsOutboundShipmentStatusChangedEvent'], "outboundShipmentStatusChanged", ParentType, ContextType>;
+  paymentFailed?: SubscriptionResolver<ResolversTypes['PaymentFailedEvent'], "paymentFailed", ParentType, ContextType>;
+  paymentInitiated?: SubscriptionResolver<ResolversTypes['Payments'], "paymentInitiated", ParentType, ContextType>;
+  paymentProcessing?: SubscriptionResolver<ResolversTypes['Payments'], "paymentProcessing", ParentType, ContextType>;
+  paymentRefunded?: SubscriptionResolver<ResolversTypes['PaymentRefundedEvent'], "paymentRefunded", ParentType, ContextType>;
+  paymentStatusChanged?: SubscriptionResolver<ResolversTypes['PaymentStatusChangedEvent'], "paymentStatusChanged", ParentType, ContextType>;
+  paymentSuccessful?: SubscriptionResolver<ResolversTypes['Payments'], "paymentSuccessful", ParentType, ContextType>;
+  pickBatchCompleted?: SubscriptionResolver<ResolversTypes['PickBatches'], "pickBatchCompleted", ParentType, ContextType>;
+  pickBatchCreated?: SubscriptionResolver<ResolversTypes['PickBatches'], "pickBatchCreated", ParentType, ContextType>;
+  pickBatchStarted?: SubscriptionResolver<ResolversTypes['PickBatches'], "pickBatchStarted", ParentType, ContextType>;
+  pickBatchStatusChanged?: SubscriptionResolver<ResolversTypes['WmsPickBatchStatusChangedEvent'], "pickBatchStatusChanged", ParentType, ContextType>;
+  proofOfDeliveryRecorded?: SubscriptionResolver<ResolversTypes['DmsProofOfDeliveries'], "proofOfDeliveryRecorded", ParentType, ContextType>;
+  quoteAccepted?: SubscriptionResolver<ResolversTypes['Quotes'], "quoteAccepted", ParentType, ContextType>;
+  quoteConverted?: SubscriptionResolver<ResolversTypes['QuoteConvertedEvent'], "quoteConverted", ParentType, ContextType>;
+  quoteCreated?: SubscriptionResolver<ResolversTypes['Quotes'], "quoteCreated", ParentType, ContextType>;
+  quoteExpired?: SubscriptionResolver<ResolversTypes['QuoteExpiredEvent'], "quoteExpired", ParentType, ContextType>;
+  quoteSent?: SubscriptionResolver<ResolversTypes['Quotes'], "quoteSent", ParentType, ContextType>;
+  quoteStatusChanged?: SubscriptionResolver<ResolversTypes['QuoteStatusChangedEvent'], "quoteStatusChanged", ParentType, ContextType>;
+  rateCardDeactivated?: SubscriptionResolver<ResolversTypes['RateCardDeactivatedEvent'], "rateCardDeactivated", ParentType, ContextType>;
+  returnApproved?: SubscriptionResolver<ResolversTypes['Returns'], "returnApproved", ParentType, ContextType>;
+  returnItemEvaluated?: SubscriptionResolver<ResolversTypes['WmsReturnItemEvaluatedEvent'], "returnItemEvaluated", ParentType, ContextType>;
+  returnProcessed?: SubscriptionResolver<ResolversTypes['Returns'], "returnProcessed", ParentType, ContextType>;
+  returnReceived?: SubscriptionResolver<ResolversTypes['Returns'], "returnReceived", ParentType, ContextType>;
+  returnRejected?: SubscriptionResolver<ResolversTypes['WmsReturnRejectedEvent'], "returnRejected", ParentType, ContextType>;
+  returnStatusChanged?: SubscriptionResolver<ResolversTypes['WmsReturnStatusChangedEvent'], "returnStatusChanged", ParentType, ContextType>;
+  salesOrderCompleted?: SubscriptionResolver<ResolversTypes['SalesOrders'], "salesOrderCompleted", ParentType, ContextType>;
+  salesOrderCreated?: SubscriptionResolver<ResolversTypes['SalesOrders'], "salesOrderCreated", ParentType, ContextType>;
+  salesOrderProcessing?: SubscriptionResolver<ResolversTypes['SalesOrders'], "salesOrderProcessing", ParentType, ContextType>;
+  salesOrderShipped?: SubscriptionResolver<ResolversTypes['SalesOrders'], "salesOrderShipped", ParentType, ContextType>;
+  salesOrderStatusChanged?: SubscriptionResolver<ResolversTypes['WmsSalesOrderStatusChangedEvent'], "salesOrderStatusChanged", ParentType, ContextType>;
+  shipmentCreatedFromPayment?: SubscriptionResolver<ResolversTypes['ShipmentCreatedFromPaymentEvent'], "shipmentCreatedFromPayment", ParentType, ContextType>;
+  stockTransferInTransit?: SubscriptionResolver<ResolversTypes['StockTransfers'], "stockTransferInTransit", ParentType, ContextType>;
+  stockTransferInitiated?: SubscriptionResolver<ResolversTypes['StockTransfers'], "stockTransferInitiated", ParentType, ContextType>;
+  stockTransferReceived?: SubscriptionResolver<ResolversTypes['StockTransfers'], "stockTransferReceived", ParentType, ContextType>;
+  stockTransferStatusChanged?: SubscriptionResolver<ResolversTypes['WmsStockTransferStatusChangedEvent'], "stockTransferStatusChanged", ParentType, ContextType>;
+  surchargeDeactivated?: SubscriptionResolver<ResolversTypes['SurchargeDeactivatedEvent'], "surchargeDeactivated", ParentType, ContextType>;
+  taskAssigned?: SubscriptionResolver<ResolversTypes['WmsTaskAssignedEvent'], "taskAssigned", ParentType, ContextType>;
+  taskCancelled?: SubscriptionResolver<ResolversTypes['Tasks'], "taskCancelled", ParentType, ContextType>;
+  taskCompleted?: SubscriptionResolver<ResolversTypes['Tasks'], "taskCompleted", ParentType, ContextType>;
+  taskCreated?: SubscriptionResolver<ResolversTypes['Tasks'], "taskCreated", ParentType, ContextType>;
+  taskEventRecorded?: SubscriptionResolver<ResolversTypes['TaskEvents'], "taskEventRecorded", ParentType, ContextType>;
+  taskEventStatusUpdated?: SubscriptionResolver<ResolversTypes['DmsTaskEventStatusUpdatedEvent'], "taskEventStatusUpdated", ParentType, ContextType>;
+  taskItemCompleted?: SubscriptionResolver<ResolversTypes['TaskItems'], "taskItemCompleted", ParentType, ContextType>;
+  taskItemDamaged?: SubscriptionResolver<ResolversTypes['TaskItems'], "taskItemDamaged", ParentType, ContextType>;
+  taskItemShortPicked?: SubscriptionResolver<ResolversTypes['WmsTaskItemShortPickedEvent'], "taskItemShortPicked", ParentType, ContextType>;
+  taskItemStatusChanged?: SubscriptionResolver<ResolversTypes['WmsTaskItemStatusChangedEvent'], "taskItemStatusChanged", ParentType, ContextType>;
+  taskPutawayCreated?: SubscriptionResolver<ResolversTypes['WmsTaskPutawayCreatedEvent'], "taskPutawayCreated", ParentType, ContextType>;
+  taskReplenishmentCreated?: SubscriptionResolver<ResolversTypes['WmsTaskReplenishmentCreatedEvent'], "taskReplenishmentCreated", ParentType, ContextType>;
+  taskStarted?: SubscriptionResolver<ResolversTypes['Tasks'], "taskStarted", ParentType, ContextType>;
+  taskStatusChanged?: SubscriptionResolver<ResolversTypes['WmsTaskStatusChangedEvent'], "taskStatusChanged", ParentType, ContextType>;
+  trackingLinkExpired?: SubscriptionResolver<ResolversTypes['DmsTrackingLinkExpiredEvent'], "trackingLinkExpired", ParentType, ContextType>;
+  trackingLinkGenerated?: SubscriptionResolver<ResolversTypes['CustomerTrackingLinks'], "trackingLinkGenerated", ParentType, ContextType>;
+  transactionCredited?: SubscriptionResolver<ResolversTypes['TransactionCreditedEvent'], "transactionCredited", ParentType, ContextType>;
+  transactionDebited?: SubscriptionResolver<ResolversTypes['TransactionDebitedEvent'], "transactionDebited", ParentType, ContextType>;
+  tripCancelled?: SubscriptionResolver<ResolversTypes['Trips'], "tripCancelled", ParentType, ContextType>;
+  tripCompleted?: SubscriptionResolver<ResolversTypes['Trips'], "tripCompleted", ParentType, ContextType>;
+  tripCreated?: SubscriptionResolver<ResolversTypes['Trips'], "tripCreated", ParentType, ContextType>;
+  tripStarted?: SubscriptionResolver<ResolversTypes['Trips'], "tripStarted", ParentType, ContextType>;
+  tripStatusChanged?: SubscriptionResolver<ResolversTypes['TmsTripStatusChangedEvent'], "tripStatusChanged", ParentType, ContextType>;
+  tripStopArrived?: SubscriptionResolver<ResolversTypes['TripStops'], "tripStopArrived", ParentType, ContextType>;
+  tripStopCompleted?: SubscriptionResolver<ResolversTypes['TripStops'], "tripStopCompleted", ParentType, ContextType>;
+  tripStopSkipped?: SubscriptionResolver<ResolversTypes['TmsTripStopSkippedEvent'], "tripStopSkipped", ParentType, ContextType>;
+  vehicleMaintenanceScheduled?: SubscriptionResolver<ResolversTypes['VehicleMaintenance'], "vehicleMaintenanceScheduled", ParentType, ContextType>;
+  vehicleStatusChanged?: SubscriptionResolver<ResolversTypes['TmsVehicleStatusChangedEvent'], "vehicleStatusChanged", ParentType, ContextType>;
 };
 
 export type SuppliersResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Suppliers'] = ResolversParentTypes['Suppliers']> = {
@@ -8428,26 +8443,6 @@ export type TmsQueryResolvers<ContextType = GraphQLContext, ParentType extends R
   trips?: Resolver<Array<ResolversTypes['Trips']>, ParentType, ContextType, Partial<TmsQuerytripsArgs>>;
   vehicle?: Resolver<ResolversTypes['Vehicles'], ParentType, ContextType, RequireFields<TmsQueryvehicleArgs, 'id'>>;
   vehicles?: Resolver<Array<ResolversTypes['Vehicles']>, ParentType, ContextType, Partial<TmsQueryvehiclesArgs>>;
-};
-
-export type TmsSubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TmsSubscription'] = ResolversParentTypes['TmsSubscription']> = {
-  driverStatusChanged?: Resolver<ResolversTypes['TmsDriverStatusChangedEvent'], ParentType, ContextType>;
-  expenseApproved?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType>;
-  expenseRejected?: Resolver<ResolversTypes['TmsExpenseRejectedEvent'], ParentType, ContextType>;
-  expenseStatusChanged?: Resolver<ResolversTypes['TmsExpenseStatusChangedEvent'], ParentType, ContextType>;
-  expenseSubmitted?: Resolver<ResolversTypes['Expenses'], ParentType, ContextType>;
-  geofenceEntered?: Resolver<ResolversTypes['TmsGeofenceEvent'], ParentType, ContextType>;
-  geofenceExited?: Resolver<ResolversTypes['TmsGeofenceEvent'], ParentType, ContextType>;
-  tripCancelled?: Resolver<ResolversTypes['Trips'], ParentType, ContextType>;
-  tripCompleted?: Resolver<ResolversTypes['Trips'], ParentType, ContextType>;
-  tripCreated?: Resolver<ResolversTypes['Trips'], ParentType, ContextType>;
-  tripStarted?: Resolver<ResolversTypes['Trips'], ParentType, ContextType>;
-  tripStatusChanged?: Resolver<ResolversTypes['TmsTripStatusChangedEvent'], ParentType, ContextType>;
-  tripStopArrived?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType>;
-  tripStopCompleted?: Resolver<ResolversTypes['TripStops'], ParentType, ContextType>;
-  tripStopSkipped?: Resolver<ResolversTypes['TmsTripStopSkippedEvent'], ParentType, ContextType>;
-  vehicleMaintenanceScheduled?: Resolver<ResolversTypes['VehicleMaintenance'], ParentType, ContextType>;
-  vehicleStatusChanged?: Resolver<ResolversTypes['TmsVehicleStatusChangedEvent'], ParentType, ContextType>;
 };
 
 export type TmsTripStatusChangedEventResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['TmsTripStatusChangedEvent'] = ResolversParentTypes['TmsTripStatusChangedEvent']> = {
@@ -8837,56 +8832,6 @@ export type WmsStockTransferStatusChangedEventResolvers<ContextType = GraphQLCon
   productId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
-export type WmsSubscriptionResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['WmsSubscription'] = ResolversParentTypes['WmsSubscription']> = {
-  inboundShipmentCompleted?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType>;
-  inboundShipmentProcessing?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType>;
-  inboundShipmentReceived?: Resolver<ResolversTypes['InboundShipments'], ParentType, ContextType>;
-  inboundShipmentStatusChanged?: Resolver<ResolversTypes['WmsInboundShipmentStatusChangedEvent'], ParentType, ContextType>;
-  inventoryAdjustmentDamagedReturn?: Resolver<ResolversTypes['WmsInventoryAdjustmentDamagedReturnEvent'], ParentType, ContextType>;
-  inventoryAdjustmentRecorded?: Resolver<ResolversTypes['WmsInventoryAdjustmentRecordedEvent'], ParentType, ContextType>;
-  inventoryStockLowStockAlert?: Resolver<ResolversTypes['WmsInventoryStockLowStockAlertEvent'], ParentType, ContextType>;
-  inventoryStockReleased?: Resolver<ResolversTypes['WmsInventoryStockReleasedEvent'], ParentType, ContextType>;
-  inventoryStockReserved?: Resolver<ResolversTypes['WmsInventoryStockReservedEvent'], ParentType, ContextType>;
-  inventoryStockStatusChanged?: Resolver<ResolversTypes['WmsInventoryStockStatusChangedEvent'], ParentType, ContextType>;
-  outboundShipmentCreated?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType>;
-  outboundShipmentDelivered?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType>;
-  outboundShipmentPacked?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType>;
-  outboundShipmentPicking?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType>;
-  outboundShipmentShipped?: Resolver<ResolversTypes['OutboundShipments'], ParentType, ContextType>;
-  outboundShipmentStatusChanged?: Resolver<ResolversTypes['WmsOutboundShipmentStatusChangedEvent'], ParentType, ContextType>;
-  pickBatchCompleted?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType>;
-  pickBatchCreated?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType>;
-  pickBatchStarted?: Resolver<ResolversTypes['PickBatches'], ParentType, ContextType>;
-  pickBatchStatusChanged?: Resolver<ResolversTypes['WmsPickBatchStatusChangedEvent'], ParentType, ContextType>;
-  returnApproved?: Resolver<ResolversTypes['Returns'], ParentType, ContextType>;
-  returnItemEvaluated?: Resolver<ResolversTypes['WmsReturnItemEvaluatedEvent'], ParentType, ContextType>;
-  returnProcessed?: Resolver<ResolversTypes['Returns'], ParentType, ContextType>;
-  returnReceived?: Resolver<ResolversTypes['Returns'], ParentType, ContextType>;
-  returnRejected?: Resolver<ResolversTypes['WmsReturnRejectedEvent'], ParentType, ContextType>;
-  returnStatusChanged?: Resolver<ResolversTypes['WmsReturnStatusChangedEvent'], ParentType, ContextType>;
-  salesOrderCompleted?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
-  salesOrderCreated?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
-  salesOrderProcessing?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
-  salesOrderShipped?: Resolver<ResolversTypes['SalesOrders'], ParentType, ContextType>;
-  salesOrderStatusChanged?: Resolver<ResolversTypes['WmsSalesOrderStatusChangedEvent'], ParentType, ContextType>;
-  stockTransferInTransit?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType>;
-  stockTransferInitiated?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType>;
-  stockTransferReceived?: Resolver<ResolversTypes['StockTransfers'], ParentType, ContextType>;
-  stockTransferStatusChanged?: Resolver<ResolversTypes['WmsStockTransferStatusChangedEvent'], ParentType, ContextType>;
-  taskAssigned?: Resolver<ResolversTypes['WmsTaskAssignedEvent'], ParentType, ContextType>;
-  taskCancelled?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType>;
-  taskCompleted?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType>;
-  taskCreated?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType>;
-  taskItemCompleted?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType>;
-  taskItemDamaged?: Resolver<ResolversTypes['TaskItems'], ParentType, ContextType>;
-  taskItemShortPicked?: Resolver<ResolversTypes['WmsTaskItemShortPickedEvent'], ParentType, ContextType>;
-  taskItemStatusChanged?: Resolver<ResolversTypes['WmsTaskItemStatusChangedEvent'], ParentType, ContextType>;
-  taskPutawayCreated?: Resolver<ResolversTypes['WmsTaskPutawayCreatedEvent'], ParentType, ContextType>;
-  taskReplenishmentCreated?: Resolver<ResolversTypes['WmsTaskReplenishmentCreatedEvent'], ParentType, ContextType>;
-  taskStarted?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType>;
-  taskStatusChanged?: Resolver<ResolversTypes['WmsTaskStatusChangedEvent'], ParentType, ContextType>;
-};
-
 export type WmsTaskAssignedEventResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['WmsTaskAssignedEvent'] = ResolversParentTypes['WmsTaskAssignedEvent']> = {
   previousUserId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   task?: Resolver<ResolversTypes['Tasks'], ParentType, ContextType>;
@@ -8934,7 +8879,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   BillingInvoices?: BillingInvoicesResolvers<ContextType>;
   BillingMutation?: BillingMutationResolvers<ContextType>;
   BillingQuery?: BillingQueryResolvers<ContextType>;
-  BillingSubscription?: BillingSubscriptionResolvers<ContextType>;
   BinThresholds?: BinThresholdsResolvers<ContextType>;
   Campaigns?: CampaignsResolvers<ContextType>;
   CarrierRateUnit?: CarrierRateUnitResolvers;
@@ -8961,7 +8905,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   CrmNotificationMarkedEvent?: CrmNotificationMarkedEventResolvers<ContextType>;
   CrmOpportunityStageChangedEvent?: CrmOpportunityStageChangedEventResolvers<ContextType>;
   CrmQuery?: CrmQueryResolvers<ContextType>;
-  CrmSubscription?: CrmSubscriptionResolvers<ContextType>;
   Currency?: CurrencyResolvers;
   CustomerTrackingLinks?: CustomerTrackingLinksResolvers<ContextType>;
   Date?: GraphQLScalarType;
@@ -8983,7 +8926,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   DmsMutation?: DmsMutationResolvers<ContextType>;
   DmsProofOfDeliveries?: DmsProofOfDeliveriesResolvers<ContextType>;
   DmsQuery?: DmsQueryResolvers<ContextType>;
-  DmsSubscription?: DmsSubscriptionResolvers<ContextType>;
   DmsTaskEventStatusUpdatedEvent?: DmsTaskEventStatusUpdatedEventResolvers<ContextType>;
   DmsTrackingLinkExpiredEvent?: DmsTrackingLinkExpiredEventResolvers<ContextType>;
   DocumentGeneratedEvent?: DocumentGeneratedEventResolvers<ContextType>;
@@ -9104,7 +9046,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   TmsGeofenceEvent?: TmsGeofenceEventResolvers<ContextType>;
   TmsMutation?: TmsMutationResolvers<ContextType>;
   TmsQuery?: TmsQueryResolvers<ContextType>;
-  TmsSubscription?: TmsSubscriptionResolvers<ContextType>;
   TmsTripStatusChangedEvent?: TmsTripStatusChangedEventResolvers<ContextType>;
   TmsTripStopSkippedEvent?: TmsTripStopSkippedEventResolvers<ContextType>;
   TmsVehicleStatusChangedEvent?: TmsVehicleStatusChangedEventResolvers<ContextType>;
@@ -9138,7 +9079,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   WmsReturnStatusChangedEvent?: WmsReturnStatusChangedEventResolvers<ContextType>;
   WmsSalesOrderStatusChangedEvent?: WmsSalesOrderStatusChangedEventResolvers<ContextType>;
   WmsStockTransferStatusChangedEvent?: WmsStockTransferStatusChangedEventResolvers<ContextType>;
-  WmsSubscription?: WmsSubscriptionResolvers<ContextType>;
   WmsTaskAssignedEvent?: WmsTaskAssignedEventResolvers<ContextType>;
   WmsTaskItemShortPickedEvent?: WmsTaskItemShortPickedEventResolvers<ContextType>;
   WmsTaskItemStatusChangedEvent?: WmsTaskItemStatusChangedEventResolvers<ContextType>;

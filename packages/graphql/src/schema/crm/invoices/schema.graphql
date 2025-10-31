@@ -74,7 +74,7 @@ type CrmInvoiceStatusChangedEvent {
 	previousStatus: InvoiceStatus!
 }
 
-extend type CrmSubscription {
+extend type Subscription {
 	crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent!
 	crmInvoicePaid: Invoices!
 }

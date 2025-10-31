@@ -42,6 +42,6 @@ extend type DmsMutation {
   createDmsProofOfDelivery(value: CreateDmsProofOfDeliveryInput!): DmsProofOfDeliveries!
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   proofOfDeliveryRecorded: DmsProofOfDeliveries!
 }

@@ -558,50 +558,6 @@ export type BillingQuerySurchargesArgs = {
   to?: InputMaybe<Scalars['Date']['input']>;
 };
 
-export type BillingSubscription = {
-  __typename?: 'BillingSubscription';
-  accountingSyncFailed: AccountingSyncFailedEvent;
-  accountingSyncSucceeded: AccountingSyncSucceededEvent;
-  accountingSyncTriggered: AccountingSyncTriggeredEvent;
-  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent;
-  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent;
-  creditNoteApplied: CreditNoteAppliedEvent;
-  creditNoteIssued: CreditNotes;
-  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent;
-  disputeApproved: DisputeApprovedEvent;
-  disputeDenied: DisputeDeniedEvent;
-  disputeOpened: Disputes;
-  disputeResolved: DisputeResolvedEvent;
-  disputeStatusChanged: DisputeStatusChangedEvent;
-  disputeUnderReview: Disputes;
-  documentGenerated: DocumentGeneratedEvent;
-  invoiceCreated: BillingInvoices;
-  invoiceDisputed: InvoiceDisputedEvent;
-  invoiceOverdue: InvoiceOverdueEvent;
-  invoicePaid: InvoicePaidEvent;
-  invoicePartiallyPaid: InvoicePartiallyPaidEvent;
-  invoiceSent: BillingInvoices;
-  invoiceStatusChanged: InvoiceStatusChangedEvent;
-  invoiceViewed: BillingInvoices;
-  paymentFailed: PaymentFailedEvent;
-  paymentInitiated: Payments;
-  paymentProcessing: Payments;
-  paymentRefunded: PaymentRefundedEvent;
-  paymentStatusChanged: PaymentStatusChangedEvent;
-  paymentSuccessful: Payments;
-  quoteAccepted: Quotes;
-  quoteConverted: QuoteConvertedEvent;
-  quoteCreated: Quotes;
-  quoteExpired: QuoteExpiredEvent;
-  quoteSent: Quotes;
-  quoteStatusChanged: QuoteStatusChangedEvent;
-  rateCardDeactivated: RateCardDeactivatedEvent;
-  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent;
-  surchargeDeactivated: SurchargeDeactivatedEvent;
-  transactionCredited: TransactionCreditedEvent;
-  transactionDebited: TransactionDebitedEvent;
-};
-
 export type BinThresholds = {
   __typename?: 'BinThresholds';
   alertThreshold?: Maybe<Scalars['Int']['output']>;
@@ -2025,20 +1981,6 @@ export type CrmQueryProductsArgs = {
   type?: InputMaybe<ProductType>;
 };
 
-export type CrmSubscription = {
-  __typename?: 'CrmSubscription';
-  caseAssigned: CrmCaseAssignedEvent;
-  caseStatusChanged: CrmCaseStatusChangedEvent;
-  crmInvoicePaid: Invoices;
-  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent;
-  leadConverted: Leads;
-  leadStatusChanged: CrmLeadStatusChangedEvent;
-  notificationMarked: CrmNotificationMarkedEvent;
-  opportunityLost: Opportunities;
-  opportunityStageChanged: CrmOpportunityStageChangedEvent;
-  opportunityWon: Opportunities;
-};
-
 export type Currency =
   | 'AUD'
   | 'CAD'
@@ -2402,25 +2344,6 @@ export type DmsQueryTaskEventsArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<TaskEventStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
-};
-
-export type DmsSubscription = {
-  __typename?: 'DmsSubscription';
-  deliveryRouteCancelled: DeliveryRoutes;
-  deliveryRouteCompleted: DeliveryRoutes;
-  deliveryRoutePaused: DeliveryRoutes;
-  deliveryRouteStarted: DeliveryRoutes;
-  deliveryTaskDelivered: DeliveryTasks;
-  deliveryTaskFailed: DmsDeliveryTaskFailedEvent;
-  deliveryTaskOutForDelivery: DeliveryTasks;
-  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent;
-  driverLocationRemoved: DmsDriverLocationRemovedEvent;
-  driverLocationUpdated: DriverLocations;
-  proofOfDeliveryRecorded: DmsProofOfDeliveries;
-  taskEventRecorded: TaskEvents;
-  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent;
-  trackingLinkExpired: DmsTrackingLinkExpiredEvent;
-  trackingLinkGenerated: CustomerTrackingLinks;
 };
 
 export type DmsTaskEventStatusUpdatedEvent = {
@@ -3509,11 +3432,135 @@ export type StockTransfers = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  billing?: Maybe<BillingSubscription>;
-  crm?: Maybe<CrmSubscription>;
-  dms?: Maybe<DmsSubscription>;
-  tms?: Maybe<TmsSubscription>;
-  wms?: Maybe<WmsSubscription>;
+  accountingSyncFailed: AccountingSyncFailedEvent;
+  accountingSyncSucceeded: AccountingSyncSucceededEvent;
+  accountingSyncTriggered: AccountingSyncTriggeredEvent;
+  caseAssigned: CrmCaseAssignedEvent;
+  caseStatusChanged: CrmCaseStatusChangedEvent;
+  clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent;
+  clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent;
+  creditNoteApplied: CreditNoteAppliedEvent;
+  creditNoteIssued: CreditNotes;
+  creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent;
+  crmInvoicePaid: Invoices;
+  crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent;
+  deliveryRouteCancelled: DeliveryRoutes;
+  deliveryRouteCompleted: DeliveryRoutes;
+  deliveryRoutePaused: DeliveryRoutes;
+  deliveryRouteStarted: DeliveryRoutes;
+  deliveryTaskDelivered: DeliveryTasks;
+  deliveryTaskFailed: DmsDeliveryTaskFailedEvent;
+  deliveryTaskOutForDelivery: DeliveryTasks;
+  deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent;
+  disputeApproved: DisputeApprovedEvent;
+  disputeDenied: DisputeDeniedEvent;
+  disputeOpened: Disputes;
+  disputeResolved: DisputeResolvedEvent;
+  disputeStatusChanged: DisputeStatusChangedEvent;
+  disputeUnderReview: Disputes;
+  documentGenerated: DocumentGeneratedEvent;
+  driverLocationRemoved: DmsDriverLocationRemovedEvent;
+  driverLocationUpdated: DriverLocations;
+  driverStatusChanged: TmsDriverStatusChangedEvent;
+  expenseApproved: Expenses;
+  expenseRejected: TmsExpenseRejectedEvent;
+  expenseStatusChanged: TmsExpenseStatusChangedEvent;
+  expenseSubmitted: Expenses;
+  geofenceEntered: TmsGeofenceEvent;
+  geofenceExited: TmsGeofenceEvent;
+  inboundShipmentCompleted: InboundShipments;
+  inboundShipmentProcessing: InboundShipments;
+  inboundShipmentReceived: InboundShipments;
+  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent;
+  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent;
+  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent;
+  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent;
+  inventoryStockReleased: WmsInventoryStockReleasedEvent;
+  inventoryStockReserved: WmsInventoryStockReservedEvent;
+  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent;
+  invoiceCreated: BillingInvoices;
+  invoiceDisputed: InvoiceDisputedEvent;
+  invoiceOverdue: InvoiceOverdueEvent;
+  invoicePaid: InvoicePaidEvent;
+  invoicePartiallyPaid: InvoicePartiallyPaidEvent;
+  invoiceSent: BillingInvoices;
+  invoiceStatusChanged: InvoiceStatusChangedEvent;
+  invoiceViewed: BillingInvoices;
+  leadConverted: Leads;
+  leadStatusChanged: CrmLeadStatusChangedEvent;
+  notificationMarked: CrmNotificationMarkedEvent;
+  opportunityLost: Opportunities;
+  opportunityStageChanged: CrmOpportunityStageChangedEvent;
+  opportunityWon: Opportunities;
+  outboundShipmentCreated: OutboundShipments;
+  outboundShipmentDelivered: OutboundShipments;
+  outboundShipmentPacked: OutboundShipments;
+  outboundShipmentPicking: OutboundShipments;
+  outboundShipmentShipped: OutboundShipments;
+  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent;
+  paymentFailed: PaymentFailedEvent;
+  paymentInitiated: Payments;
+  paymentProcessing: Payments;
+  paymentRefunded: PaymentRefundedEvent;
+  paymentStatusChanged: PaymentStatusChangedEvent;
+  paymentSuccessful: Payments;
+  pickBatchCompleted: PickBatches;
+  pickBatchCreated: PickBatches;
+  pickBatchStarted: PickBatches;
+  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent;
+  proofOfDeliveryRecorded: DmsProofOfDeliveries;
+  quoteAccepted: Quotes;
+  quoteConverted: QuoteConvertedEvent;
+  quoteCreated: Quotes;
+  quoteExpired: QuoteExpiredEvent;
+  quoteSent: Quotes;
+  quoteStatusChanged: QuoteStatusChangedEvent;
+  rateCardDeactivated: RateCardDeactivatedEvent;
+  returnApproved: Returns;
+  returnItemEvaluated: WmsReturnItemEvaluatedEvent;
+  returnProcessed: Returns;
+  returnReceived: Returns;
+  returnRejected: WmsReturnRejectedEvent;
+  returnStatusChanged: WmsReturnStatusChangedEvent;
+  salesOrderCompleted: SalesOrders;
+  salesOrderCreated: SalesOrders;
+  salesOrderProcessing: SalesOrders;
+  salesOrderShipped: SalesOrders;
+  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent;
+  shipmentCreatedFromPayment: ShipmentCreatedFromPaymentEvent;
+  stockTransferInTransit: StockTransfers;
+  stockTransferInitiated: StockTransfers;
+  stockTransferReceived: StockTransfers;
+  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent;
+  surchargeDeactivated: SurchargeDeactivatedEvent;
+  taskAssigned: WmsTaskAssignedEvent;
+  taskCancelled: Tasks;
+  taskCompleted: Tasks;
+  taskCreated: Tasks;
+  taskEventRecorded: TaskEvents;
+  taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent;
+  taskItemCompleted: TaskItems;
+  taskItemDamaged: TaskItems;
+  taskItemShortPicked: WmsTaskItemShortPickedEvent;
+  taskItemStatusChanged: WmsTaskItemStatusChangedEvent;
+  taskPutawayCreated: WmsTaskPutawayCreatedEvent;
+  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent;
+  taskStarted: Tasks;
+  taskStatusChanged: WmsTaskStatusChangedEvent;
+  trackingLinkExpired: DmsTrackingLinkExpiredEvent;
+  trackingLinkGenerated: CustomerTrackingLinks;
+  transactionCredited: TransactionCreditedEvent;
+  transactionDebited: TransactionDebitedEvent;
+  tripCancelled: Trips;
+  tripCompleted: Trips;
+  tripCreated: Trips;
+  tripStarted: Trips;
+  tripStatusChanged: TmsTripStatusChangedEvent;
+  tripStopArrived: TripStops;
+  tripStopCompleted: TripStops;
+  tripStopSkipped: TmsTripStopSkippedEvent;
+  vehicleMaintenanceScheduled: VehicleMaintenance;
+  vehicleStatusChanged: TmsVehicleStatusChangedEvent;
 };
 
 export type Suppliers = {
@@ -4176,27 +4223,6 @@ export type TmsQueryVehiclesArgs = {
   search?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<VehicleStatus>;
   to?: InputMaybe<Scalars['Date']['input']>;
-};
-
-export type TmsSubscription = {
-  __typename?: 'TmsSubscription';
-  driverStatusChanged: TmsDriverStatusChangedEvent;
-  expenseApproved: Expenses;
-  expenseRejected: TmsExpenseRejectedEvent;
-  expenseStatusChanged: TmsExpenseStatusChangedEvent;
-  expenseSubmitted: Expenses;
-  geofenceEntered: TmsGeofenceEvent;
-  geofenceExited: TmsGeofenceEvent;
-  tripCancelled: Trips;
-  tripCompleted: Trips;
-  tripCreated: Trips;
-  tripStarted: Trips;
-  tripStatusChanged: TmsTripStatusChangedEvent;
-  tripStopArrived: TripStops;
-  tripStopCompleted: TripStops;
-  tripStopSkipped: TmsTripStopSkippedEvent;
-  vehicleMaintenanceScheduled: VehicleMaintenance;
-  vehicleStatusChanged: TmsVehicleStatusChangedEvent;
 };
 
 export type TmsTripStatusChangedEvent = {
@@ -5882,57 +5908,6 @@ export type WmsStockTransferStatusChangedEvent = {
   newStatus: StockTransferStatus;
   previousStatus: StockTransferStatus;
   productId: Scalars['ID']['output'];
-};
-
-export type WmsSubscription = {
-  __typename?: 'WmsSubscription';
-  inboundShipmentCompleted: InboundShipments;
-  inboundShipmentProcessing: InboundShipments;
-  inboundShipmentReceived: InboundShipments;
-  inboundShipmentStatusChanged: WmsInboundShipmentStatusChangedEvent;
-  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent;
-  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent;
-  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent;
-  inventoryStockReleased: WmsInventoryStockReleasedEvent;
-  inventoryStockReserved: WmsInventoryStockReservedEvent;
-  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent;
-  outboundShipmentCreated: OutboundShipments;
-  outboundShipmentDelivered: OutboundShipments;
-  outboundShipmentPacked: OutboundShipments;
-  outboundShipmentPicking: OutboundShipments;
-  outboundShipmentShipped: OutboundShipments;
-  outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent;
-  pickBatchCompleted: PickBatches;
-  pickBatchCreated: PickBatches;
-  pickBatchStarted: PickBatches;
-  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent;
-  returnApproved: Returns;
-  returnItemEvaluated: WmsReturnItemEvaluatedEvent;
-  returnProcessed: Returns;
-  returnReceived: Returns;
-  returnRejected: WmsReturnRejectedEvent;
-  returnStatusChanged: WmsReturnStatusChangedEvent;
-  salesOrderCompleted: SalesOrders;
-  salesOrderCreated: SalesOrders;
-  salesOrderProcessing: SalesOrders;
-  salesOrderShipped: SalesOrders;
-  salesOrderStatusChanged: WmsSalesOrderStatusChangedEvent;
-  stockTransferInTransit: StockTransfers;
-  stockTransferInitiated: StockTransfers;
-  stockTransferReceived: StockTransfers;
-  stockTransferStatusChanged: WmsStockTransferStatusChangedEvent;
-  taskAssigned: WmsTaskAssignedEvent;
-  taskCancelled: Tasks;
-  taskCompleted: Tasks;
-  taskCreated: Tasks;
-  taskItemCompleted: TaskItems;
-  taskItemDamaged: TaskItems;
-  taskItemShortPicked: WmsTaskItemShortPickedEvent;
-  taskItemStatusChanged: WmsTaskItemStatusChangedEvent;
-  taskPutawayCreated: WmsTaskPutawayCreatedEvent;
-  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent;
-  taskStarted: Tasks;
-  taskStatusChanged: WmsTaskStatusChangedEvent;
 };
 
 export type WmsTaskAssignedEvent = {

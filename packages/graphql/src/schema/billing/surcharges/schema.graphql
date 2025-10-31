@@ -57,6 +57,6 @@ type SurchargeDeactivatedEvent {
   reason: String!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   surchargeDeactivated: SurchargeDeactivatedEvent!
 }

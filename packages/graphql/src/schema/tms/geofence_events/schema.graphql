@@ -33,7 +33,7 @@ type TmsGeofenceEvent {
   geofenceName: String!
 }
 
-extend type TmsSubscription {
+extend type Subscription {
   geofenceEntered: TmsGeofenceEvent!
   geofenceExited: TmsGeofenceEvent!
 }

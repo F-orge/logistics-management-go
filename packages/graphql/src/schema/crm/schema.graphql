@@ -1,6 +1,5 @@
 type CrmQuery
 type CrmMutation
-type CrmSubscription
 
 extend type Query {
   crm: CrmQuery
@@ -8,8 +7,4 @@ extend type Query {
 
 extend type Mutation {
   crm: CrmMutation
-}
-
-extend type Subscription {
-  crm: CrmSubscription
 }

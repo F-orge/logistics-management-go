@@ -57,7 +57,7 @@ type ClientAccountLastPaymentDateUpdatedEvent {
   paymentId: ID!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   clientAccountBalanceUpdated: ClientAccountBalanceUpdatedEvent!
   clientAccountLastPaymentDateUpdated: ClientAccountLastPaymentDateUpdatedEvent!
 }

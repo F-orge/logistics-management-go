@@ -104,7 +104,7 @@ type InvoiceDisputedEvent {
   disputeId: ID!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   invoiceCreated: BillingInvoices!
   invoiceSent: BillingInvoices!
   invoiceViewed: BillingInvoices!

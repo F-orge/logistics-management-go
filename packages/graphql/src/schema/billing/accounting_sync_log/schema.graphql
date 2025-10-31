@@ -63,7 +63,7 @@ type AccountingSyncFailedEvent {
   errorMessage: String
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   accountingSyncTriggered: AccountingSyncTriggeredEvent!
   accountingSyncSucceeded: AccountingSyncSucceededEvent!
   accountingSyncFailed: AccountingSyncFailedEvent!

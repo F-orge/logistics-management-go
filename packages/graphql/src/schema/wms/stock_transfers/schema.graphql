@@ -48,7 +48,7 @@ type WmsStockTransferStatusChangedEvent {
   productId: ID!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   stockTransferInitiated: StockTransfers!
   stockTransferStatusChanged: WmsStockTransferStatusChangedEvent!
   stockTransferInTransit: StockTransfers!

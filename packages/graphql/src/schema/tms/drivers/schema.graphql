@@ -52,6 +52,6 @@ type TmsDriverStatusChangedEvent {
   previousStatus: DriverStatus!
 }
 
-extend type TmsSubscription {
+extend type Subscription {
   driverStatusChanged: TmsDriverStatusChangedEvent!
 }

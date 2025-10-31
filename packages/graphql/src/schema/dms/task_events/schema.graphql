@@ -47,7 +47,7 @@ type DmsTaskEventStatusUpdatedEvent {
   newStatus: TaskEventStatus!
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   taskEventRecorded: TaskEvents!
   taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
 }
@@ -58,7 +58,7 @@ type DmsTaskEventStatusUpdatedEvent {
   newStatus: TaskEventStatus!
 }
 
-extend type DmsSubscription {
+extend type Subscription {
   taskEventRecorded: TaskEvents!
   taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
 }

@@ -52,7 +52,7 @@ type TmsTripStopSkippedEvent {
   reason: String
 }
 
-extend type TmsSubscription {
+extend type Subscription {
   tripStopArrived: TripStops!
   tripStopCompleted: TripStops!
   tripStopSkipped: TmsTripStopSkippedEvent!

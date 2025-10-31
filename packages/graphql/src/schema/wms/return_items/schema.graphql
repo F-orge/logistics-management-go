@@ -40,6 +40,6 @@ type WmsReturnItemEvaluatedEvent {
   condition: ReturnItemCondition
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   returnItemEvaluated: WmsReturnItemEvaluatedEvent!
 }

@@ -2,16 +2,10 @@ type TmsQuery
 
 type TmsMutation
 
-type TmsSubscription
-
 extend type Query {
   tms:TmsQuery
 }
 
 extend type Mutation {
   tms:TmsMutation
-}
-
-extend type Subscription {
-  tms: TmsSubscription
 }

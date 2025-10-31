@@ -60,6 +60,6 @@ type RateCardDeactivatedEvent {
   reason: String!
 }
 
-extend type BillingSubscription {
+extend type Subscription {
   rateCardDeactivated: RateCardDeactivatedEvent!
 }

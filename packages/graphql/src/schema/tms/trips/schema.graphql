@@ -59,7 +59,7 @@ type TmsTripStatusChangedEvent {
   vehicleId: ID
 }
 
-extend type TmsSubscription {
+extend type Subscription {
   tripCreated: Trips!
   tripStarted: Trips!
   tripCompleted: Trips!

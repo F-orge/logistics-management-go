@@ -79,7 +79,7 @@ type WmsInventoryStockLowStockAlertEvent {
   warehouseId: ID!
 }
 
-extend type WmsSubscription {
+extend type Subscription {
   inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
   inventoryStockReserved: WmsInventoryStockReservedEvent!
   inventoryStockReleased: WmsInventoryStockReleasedEvent!
