@@ -234,7 +234,7 @@ describe("Graphql Table RateRules Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.rate_rules).toBeDefined();
+			expect(response.data?.billing?.rateRules).toBeDefined();
 			testCase.validate(response.data as TableRateRuleQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search RateRules Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.rate_rules).toBeDefined();
+			expect(response.data?.billing?.rateRules).toBeDefined();
 			testCase.validate(response.data as SearchRateRulesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics RateRules Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.rate_rules).toBeDefined();
+			expect(response.data?.billing?.rateRules).toBeDefined();
 			testCase.validate(response.data as AnalyticsRateRulesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

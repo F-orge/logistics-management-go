@@ -4,8 +4,8 @@ import { graphQLQueryExecutor } from "../../helpers";
 import type {
 	CreateAccountingSyncLogMutation as CreateAccountingSyncLogMutationType,
 	CreateAccountingSyncLogMutationVariables,
-	TableAccountingSyncLogQuery as TableAccountingSyncLogQueryType,
-	TableAccountingSyncLogQueryVariables,
+	AccountingSyncLogsQuery as TableAccountingSyncLogQueryType,
+	AccountingSyncLogsQueryVariables,
 	SearchAccountingSyncLogsQuery as SearchAccountingSyncLogsQueryType,
 	SearchAccountingSyncLogsQueryVariables,
 	AnalyticsAccountingSyncLogsQuery as AnalyticsAccountingSyncLogsQueryType,
@@ -16,7 +16,7 @@ import type {
 } from "../../../src/client/generated/graphql";
 import {
 	CreateAccountingSyncLogMutation,
-	TableAccountingSyncLogQuery,
+	AccountingSyncLogsQuery,
 	SearchAccountingSyncLogsQuery,
 	AnalyticsAccountingSyncLogsQuery,
 } from "../../../src/client";
@@ -31,7 +31,7 @@ type CreateAccountingSyncLogTestCase = GraphQLTestCase<
 >;
 
 type TableAccountingSyncLogTestCase = GraphQLTestCase<
-	TableAccountingSyncLogQueryVariables,
+	AccountingSyncLogsQueryVariables,
 	TableAccountingSyncLogQueryType
 > & {
 	validate: (response: TableAccountingSyncLogQueryType) => void;
@@ -103,11 +103,11 @@ describe("Graphql Table AccountingSyncLogs Query", () => {
 	const cases: TableAccountingSyncLogTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableAccountingSyncLogQuery, testCase.variables);
+		const response = await executor(AccountingSyncLogsQuery, testCase.variables);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.accounting_sync_logs).toBeDefined();
+			expect(response.data?.billing?.accountingSyncLogs).toBeDefined();
 			testCase.validate(response.data as TableAccountingSyncLogQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -133,7 +133,7 @@ describe("Graphql Search AccountingSyncLogs Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.accounting_sync_logs).toBeDefined();
+			expect(response.data?.billing?.accountingSyncLogs).toBeDefined();
 			testCase.validate(response.data as SearchAccountingSyncLogsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -159,7 +159,7 @@ describe("Graphql Analytics AccountingSyncLogs Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.accounting_sync_logs).toBeDefined();
+			expect(response.data?.billing?.accountingSyncLogs).toBeDefined();
 			testCase.validate(response.data as AnalyticsAccountingSyncLogsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

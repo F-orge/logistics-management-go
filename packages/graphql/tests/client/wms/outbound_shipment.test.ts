@@ -234,7 +234,7 @@ describe("Graphql Table OutboundShipments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.outbound_shipments).toBeDefined();
+			expect(response.data?.wms?.outboundShipments).toBeDefined();
 			testCase.validate(response.data as TableOutboundShipmentQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search OutboundShipments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.outbound_shipments).toBeDefined();
+			expect(response.data?.wms?.outboundShipments).toBeDefined();
 			testCase.validate(response.data as SearchOutboundShipmentsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics OutboundShipments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.outbound_shipments).toBeDefined();
+			expect(response.data?.wms?.outboundShipments).toBeDefined();
 			testCase.validate(response.data as AnalyticsOutboundShipmentsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

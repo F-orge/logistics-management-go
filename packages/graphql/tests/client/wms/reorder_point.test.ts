@@ -224,7 +224,7 @@ describe("Graphql Table ReorderPoints Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.reorder_points).toBeDefined();
+			expect(response.data?.wms?.reorderPoints).toBeDefined();
 			testCase.validate(response.data as TableReorderPointQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -250,7 +250,7 @@ describe("Graphql Analytics ReorderPoints Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.reorder_points).toBeDefined();
+			expect(response.data?.wms?.reorderPoints).toBeDefined();
 			testCase.validate(response.data as AnalyticsReorderPointsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

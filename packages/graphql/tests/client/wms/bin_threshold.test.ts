@@ -224,7 +224,7 @@ describe("Graphql Table BinThresholds Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.bin_thresholds).toBeDefined();
+			expect(response.data?.wms?.binThresholds).toBeDefined();
 			testCase.validate(response.data as TableBinThresholdQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -250,7 +250,7 @@ describe("Graphql Analytics BinThresholds Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.bin_thresholds).toBeDefined();
+			expect(response.data?.wms?.binThresholds).toBeDefined();
 			testCase.validate(response.data as AnalyticsBinThresholdsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

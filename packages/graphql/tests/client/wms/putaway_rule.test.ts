@@ -224,7 +224,7 @@ describe("Graphql Table PutawayRules Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.putaway_rules).toBeDefined();
+			expect(response.data?.wms?.putawayRules).toBeDefined();
 			testCase.validate(response.data as TablePutawayRuleQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -250,7 +250,7 @@ describe("Graphql Analytics PutawayRules Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.putaway_rules).toBeDefined();
+			expect(response.data?.wms?.putawayRules).toBeDefined();
 			testCase.validate(response.data as AnalyticsPutawayRulesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

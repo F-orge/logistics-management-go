@@ -224,7 +224,7 @@ describe("Graphql Table InboundShipments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inbound_shipments).toBeDefined();
+			expect(response.data?.wms?.inboundShipments).toBeDefined();
 			testCase.validate(response.data as TableInboundShipmentQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -250,7 +250,7 @@ describe("Graphql Analytics InboundShipments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inbound_shipments).toBeDefined();
+			expect(response.data?.wms?.inboundShipments).toBeDefined();
 			testCase.validate(response.data as AnalyticsInboundShipmentsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

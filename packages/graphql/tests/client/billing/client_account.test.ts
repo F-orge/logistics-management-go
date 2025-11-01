@@ -234,7 +234,7 @@ describe("Graphql Table ClientAccounts Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.client_accounts).toBeDefined();
+			expect(response.data?.billing?.clientAccounts).toBeDefined();
 			testCase.validate(response.data as TableClientAccountQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search ClientAccounts Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.client_accounts).toBeDefined();
+			expect(response.data?.billing?.clientAccounts).toBeDefined();
 			testCase.validate(response.data as SearchClientAccountsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics ClientAccounts Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.client_accounts).toBeDefined();
+			expect(response.data?.billing?.clientAccounts).toBeDefined();
 			testCase.validate(response.data as AnalyticsClientAccountsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

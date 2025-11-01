@@ -224,7 +224,7 @@ describe("Graphql Table StockTransfers Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.stock_transfers).toBeDefined();
+			expect(response.data?.wms?.stockTransfers).toBeDefined();
 			testCase.validate(response.data as TableStockTransferQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -250,7 +250,7 @@ describe("Graphql Analytics StockTransfers Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.stock_transfers).toBeDefined();
+			expect(response.data?.wms?.stockTransfers).toBeDefined();
 			testCase.validate(response.data as AnalyticsStockTransfersQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

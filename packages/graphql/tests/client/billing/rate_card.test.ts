@@ -234,7 +234,7 @@ describe("Graphql Table RateCards Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.rate_cards).toBeDefined();
+			expect(response.data?.billing?.rateCards).toBeDefined();
 			testCase.validate(response.data as TableRateCardQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search RateCards Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.rate_cards).toBeDefined();
+			expect(response.data?.billing?.rateCards).toBeDefined();
 			testCase.validate(response.data as SearchRateCardsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics RateCards Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.rate_cards).toBeDefined();
+			expect(response.data?.billing?.rateCards).toBeDefined();
 			testCase.validate(response.data as AnalyticsRateCardsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

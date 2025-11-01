@@ -10,10 +10,10 @@ import type {
 	RemovePickBatchMutationVariables,
 	TablePickBatchQuery as TablePickBatchQueryType,
 	TablePickBatchQueryVariables,
-	SearchPickBatchsQuery as SearchPickBatchsQueryType,
-	SearchPickBatchsQueryVariables,
-	AnalyticsPickBatchsQuery as AnalyticsPickBatchsQueryType,
-	AnalyticsPickBatchsQueryVariables,
+	SearchPickBatchesQuery as SearchPickBatchsQueryType,
+	SearchPickBatchesQueryVariables,
+	AnalyticsPickBatchesQuery as AnalyticsPickBatchsQueryType,
+	AnalyticsPickBatchesQueryVariables,
 } from "../../../src/client/generated/graphql";
 import type {
 	CreatePickBatchInput,
@@ -24,8 +24,8 @@ import {
 	UpdatePickBatchMutation,
 	RemovePickBatchMutation,
 	TablePickBatchQuery,
-	SearchPickBatchsQuery,
-	AnalyticsPickBatchsQuery,
+	SearchPickBatchesQuery,
+	AnalyticsPickBatchesQuery,
 } from "../../../src/client";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 // ============================================
@@ -63,14 +63,14 @@ type TablePickBatchTestCase = GraphQLTestCase<
 };
 
 type SearchPickBatchsTestCase = GraphQLTestCase<
-	SearchPickBatchsQueryVariables,
+	SearchPickBatchesQueryVariables,
 	SearchPickBatchsQueryType
 > & {
 	validate: (response: SearchPickBatchsQueryType) => void;
 };
 
 type AnalyticsPickBatchsTestCase = GraphQLTestCase<
-	AnalyticsPickBatchsQueryVariables,
+	AnalyticsPickBatchesQueryVariables,
 	AnalyticsPickBatchsQueryType
 > & {
 	validate: (response: AnalyticsPickBatchsQueryType) => void;
@@ -234,7 +234,7 @@ describe("Graphql Table PickBatchs Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.pick_batchs).toBeDefined();
+			expect(response.data?.wms?.pickBatches).toBeDefined();
 			testCase.validate(response.data as TablePickBatchQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -256,11 +256,11 @@ describe("Graphql Search PickBatchs Query", () => {
 	const cases: SearchPickBatchsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchPickBatchsQuery, testCase.variables);
+		const response = await executor(SearchPickBatchesQuery, testCase.variables);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.pick_batchs).toBeDefined();
+			expect(response.data?.wms?.pickBatches).toBeDefined();
 			testCase.validate(response.data as SearchPickBatchsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -282,11 +282,11 @@ describe("Graphql Analytics PickBatchs Query", () => {
 	const cases: AnalyticsPickBatchsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsPickBatchsQuery, testCase.variables);
+		const response = await executor(AnalyticsPickBatchesQuery, testCase.variables);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.pick_batchs).toBeDefined();
+			expect(response.data?.wms?.pickBatches).toBeDefined();
 			testCase.validate(response.data as AnalyticsPickBatchsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

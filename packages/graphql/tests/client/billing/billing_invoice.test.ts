@@ -234,7 +234,7 @@ describe("Graphql Table BillingInvoices Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.billing_invoices).toBeDefined();
+			expect(response.data?.billing?.billingInvoices).toBeDefined();
 			testCase.validate(response.data as TableBillingInvoiceQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search BillingInvoices Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.billing_invoices).toBeDefined();
+			expect(response.data?.billing?.billingInvoices).toBeDefined();
 			testCase.validate(response.data as SearchBillingInvoicesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics BillingInvoices Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.billing_invoices).toBeDefined();
+			expect(response.data?.billing?.billingInvoices).toBeDefined();
 			testCase.validate(response.data as AnalyticsBillingInvoicesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

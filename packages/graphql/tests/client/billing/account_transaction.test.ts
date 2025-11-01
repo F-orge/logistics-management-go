@@ -4,19 +4,17 @@ import { graphQLQueryExecutor } from "../../helpers";
 import type {
 	CreateAccountTransactionMutation as CreateAccountTransactionMutationType,
 	CreateAccountTransactionMutationVariables,
-	TableAccountTransactionQuery as TableAccountTransactionQueryType,
-	TableAccountTransactionQueryVariables,
+	AccountTransactionsQuery as TableAccountTransactionQueryType,
+	AccountTransactionsQueryVariables,
 	SearchAccountTransactionsQuery as SearchAccountTransactionsQueryType,
 	SearchAccountTransactionsQueryVariables,
 	AnalyticsAccountTransactionsQuery as AnalyticsAccountTransactionsQueryType,
 	AnalyticsAccountTransactionsQueryVariables,
 } from "../../../src/client/generated/graphql";
-import type {
-	CreateAccountTransactionInput,
-} from "../../../src/client/generated/graphql";
+import type { CreateAccountTransactionInput } from "../../../src/client/generated/graphql";
 import {
 	CreateAccountTransactionMutation,
-	TableAccountTransactionQuery,
+	AccountTransactionsQuery,
 	SearchAccountTransactionsQuery,
 	AnalyticsAccountTransactionsQuery,
 } from "../../../src/client";
@@ -31,7 +29,7 @@ type CreateAccountTransactionTestCase = GraphQLTestCase<
 >;
 
 type TableAccountTransactionTestCase = GraphQLTestCase<
-	TableAccountTransactionQueryVariables,
+	AccountTransactionsQueryVariables,
 	TableAccountTransactionQueryType
 > & {
 	validate: (response: TableAccountTransactionQueryType) => void;
@@ -64,13 +62,18 @@ describe("Graphql Create AccountTransaction", () => {
 	const cases: CreateAccountTransactionTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateAccountTransactionMutation, testCase.variables);
+		const response = await executor(
+			CreateAccountTransactionMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
 			expect(response.errors).toBeUndefined();
 			expect(response.data?.billing?.createAccountTransaction).toBeDefined();
-			expect(response.data?.billing?.createAccountTransaction?.id).toBeDefined();
+			expect(
+				response.data?.billing?.createAccountTransaction?.id,
+			).toBeDefined();
 		} else {
 			expect(response.errors).toBeDefined();
 			expect(Array.isArray(response.errors)).toBe(true);
@@ -103,11 +106,14 @@ describe("Graphql Table AccountTransactions Query", () => {
 	const cases: TableAccountTransactionTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableAccountTransactionQuery, testCase.variables);
+		const response = await executor(
+			AccountTransactionsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.account_transactions).toBeDefined();
+			expect(response.data?.billing?.accountTransactions).toBeDefined();
 			testCase.validate(response.data as TableAccountTransactionQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -129,11 +135,14 @@ describe("Graphql Search AccountTransactions Query", () => {
 	const cases: SearchAccountTransactionsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchAccountTransactionsQuery, testCase.variables);
+		const response = await executor(
+			SearchAccountTransactionsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.account_transactions).toBeDefined();
+			expect(response.data?.billing?.accountTransactions).toBeDefined();
 			testCase.validate(response.data as SearchAccountTransactionsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -155,11 +164,14 @@ describe("Graphql Analytics AccountTransactions Query", () => {
 	const cases: AnalyticsAccountTransactionsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsAccountTransactionsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsAccountTransactionsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.account_transactions).toBeDefined();
+			expect(response.data?.billing?.accountTransactions).toBeDefined();
 			testCase.validate(response.data as AnalyticsAccountTransactionsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

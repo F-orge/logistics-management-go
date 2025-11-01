@@ -10,8 +10,8 @@ import type {
 	RemoveInventoryStockMutationVariables,
 	TableInventoryStockQuery as TableInventoryStockQueryType,
 	TableInventoryStockQueryVariables,
-	AnalyticsInventoryStocksQuery as AnalyticsInventoryStocksQueryType,
-	AnalyticsInventoryStocksQueryVariables,
+	AnalyticsInventoryStockQuery as AnalyticsInventoryStocksQueryType,
+	AnalyticsInventoryStockQueryVariables,
 } from "../../../src/client/generated/graphql";
 import type {
 	CreateInventoryStockInput,
@@ -22,7 +22,7 @@ import {
 	UpdateInventoryStockMutation,
 	RemoveInventoryStockMutation,
 	TableInventoryStockQuery,
-	AnalyticsInventoryStocksQuery,
+	AnalyticsInventoryStockQuery,
 } from "../../../src/client";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 // ============================================
@@ -60,7 +60,7 @@ type TableInventoryStockTestCase = GraphQLTestCase<
 };
 
 type AnalyticsInventoryStocksTestCase = GraphQLTestCase<
-	AnalyticsInventoryStocksQueryVariables,
+	AnalyticsInventoryStockQueryVariables,
 	AnalyticsInventoryStocksQueryType
 > & {
 	validate: (response: AnalyticsInventoryStocksQueryType) => void;
@@ -224,7 +224,7 @@ describe("Graphql Table InventoryStocks Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_stocks).toBeDefined();
+			expect(response.data?.wms?.inventoryStocks).toBeDefined();
 			testCase.validate(response.data as TableInventoryStockQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -246,11 +246,11 @@ describe("Graphql Analytics InventoryStocks Query", () => {
 	const cases: AnalyticsInventoryStocksTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsInventoryStocksQuery, testCase.variables);
+		const response = await executor(AnalyticsInventoryStockQuery, testCase.variables);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_stocks).toBeDefined();
+			expect(response.data?.wms?.inventoryStocks).toBeDefined();
 			testCase.validate(response.data as AnalyticsInventoryStocksQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

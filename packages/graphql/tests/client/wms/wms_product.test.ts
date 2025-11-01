@@ -234,7 +234,7 @@ describe("Graphql Table WmsProducts Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.wms_products).toBeDefined();
+			expect(response.data?.wms?.wmsProducts).toBeDefined();
 			testCase.validate(response.data as TableWmsProductQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search WmsProducts Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.wms_products).toBeDefined();
+			expect(response.data?.wms?.wmsProducts).toBeDefined();
 			testCase.validate(response.data as SearchWmsProductsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics WmsProducts Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.wms_products).toBeDefined();
+			expect(response.data?.wms?.wmsProducts).toBeDefined();
 			testCase.validate(response.data as AnalyticsWmsProductsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

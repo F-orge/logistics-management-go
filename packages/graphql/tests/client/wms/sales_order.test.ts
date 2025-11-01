@@ -234,7 +234,7 @@ describe("Graphql Table SalesOrders Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.sales_orders).toBeDefined();
+			expect(response.data?.wms?.salesOrders).toBeDefined();
 			testCase.validate(response.data as TableSalesOrderQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search SalesOrders Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.sales_orders).toBeDefined();
+			expect(response.data?.wms?.salesOrders).toBeDefined();
 			testCase.validate(response.data as SearchSalesOrdersQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics SalesOrders Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.sales_orders).toBeDefined();
+			expect(response.data?.wms?.salesOrders).toBeDefined();
 			testCase.validate(response.data as AnalyticsSalesOrdersQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

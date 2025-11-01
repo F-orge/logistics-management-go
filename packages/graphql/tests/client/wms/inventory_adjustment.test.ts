@@ -234,7 +234,7 @@ describe("Graphql Table InventoryAdjustments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_adjustments).toBeDefined();
+			expect(response.data?.wms?.inventoryAdjustments).toBeDefined();
 			testCase.validate(response.data as TableInventoryAdjustmentQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search InventoryAdjustments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_adjustments).toBeDefined();
+			expect(response.data?.wms?.inventoryAdjustments).toBeDefined();
 			testCase.validate(response.data as SearchInventoryAdjustmentsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics InventoryAdjustments Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_adjustments).toBeDefined();
+			expect(response.data?.wms?.inventoryAdjustments).toBeDefined();
 			testCase.validate(response.data as AnalyticsInventoryAdjustmentsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();

@@ -234,7 +234,7 @@ describe("Graphql Table CreditNotes Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.credit_notes).toBeDefined();
+			expect(response.data?.billing?.creditNotes).toBeDefined();
 			testCase.validate(response.data as TableCreditNoteQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -260,7 +260,7 @@ describe("Graphql Search CreditNotes Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.credit_notes).toBeDefined();
+			expect(response.data?.billing?.creditNotes).toBeDefined();
 			testCase.validate(response.data as SearchCreditNotesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -286,7 +286,7 @@ describe("Graphql Analytics CreditNotes Query", () => {
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.billing?.credit_notes).toBeDefined();
+			expect(response.data?.billing?.creditNotes).toBeDefined();
 			testCase.validate(response.data as AnalyticsCreditNotesQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
