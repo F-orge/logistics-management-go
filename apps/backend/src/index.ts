@@ -17,15 +17,9 @@ import nodemailer from "nodemailer";
 import * as path from "path";
 import { Pool } from "pg";
 import { authFactory } from "./auth";
-import { createYoga, createSchema, useReadinessCheck } from "graphql-yoga";
-import { typeDefs, resolvers } from "@packages/graphql";
-import {
-  createInlineSigningKeyProvider,
-  extractFromHeader,
-  useJWT,
-} from "@graphql-yoga/plugin-jwt";
 import { S3Client } from "bun";
 import { pubsubFactory } from "@packages/graphql/events";
+import { createGraphQLYoga } from "@packages/graphql";
 
 type ServerFactory = {
   pool: Pool;
@@ -128,47 +122,15 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
     return auth.handler(c.req.raw);
   });
 
-  const graphqlSchema = createSchema({ typeDefs, resolvers });
-
-  const yoga = createYoga({
-    schema: graphqlSchema,
-    graphiql: process.env.NODE_ENV !== "production",
-    graphqlEndpoint: "/api/graphql",
-    plugins: [
-      useJWT({
-        signingKeyProviders: [
-          createInlineSigningKeyProvider(process.env.JWT_SIGNING_KEY!),
-        ],
-        tokenLookupLocations: [
-          extractFromHeader({ name: "authorization", prefix: "Bearer" }),
-        ],
-        tokenVerification: {
-          issuer:
-            process.env.NODE_ENV !== "production"
-              ? "http://localhost:3001"
-              : process.env.JWT_ISSUER!,
-          audience: process.env.JWT_AUDIENCE!,
-          algorithms: ["HS256"],
-        },
-        reject: {
-          invalidToken: true,
-        },
-      }),
-      useReadinessCheck({
-        endpoint: "/api/graphql/health",
-        check: async () => {
-          try {
-            await pool.query("SELECT 1");
-            return true;
-          } catch (error) {
-            console.error("Health check failed:", error);
-            return false;
-          }
-        },
-      }),
-    ],
-    logging: process.env.NODE_ENV !== "production" ? "debug" : "error",
-    healthCheckEndpoint: "/api/graphql/health",
+  const yoga = createGraphQLYoga({
+    pool,
+    jwtSigningKey: process.env.JWT_SIGNING_KEY!,
+    jwtIssuer:
+      process.env.NODE_ENV !== "production"
+        ? "http://localhost:3001"
+        : process.env.JWT_ISSUER!,
+    jwtAudience: process.env.JWT_AUDIENCE!,
+    environment: (process.env.NODE_ENV as "development" | "production") || "development",
   });
 
   // graphql yoga handler

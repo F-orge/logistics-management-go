@@ -20,7 +20,6 @@ services:
       - POSTGRES_USER=${DOCKER_POSTGRES_USER}
       - POSTGRES_PASSWORD=${DOCKER_POSTGRES_PASSWORD}
       - POSTGRES_DB=${DOCKER_POSTGRES_DB}
-
   minio:
     image: quay.io/minio/minio
     ports:
