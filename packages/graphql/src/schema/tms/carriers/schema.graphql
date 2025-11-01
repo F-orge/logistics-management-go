@@ -1,40 +1,46 @@
 type Carriers {
-  id: ID!
-  name: String!
-  contactPerson: String
-  contactEmail: String
-  contactPhone: String
-  servicesOffered: String
-  createdAt: Date
-  updatedAt: Date
-  rates: [CarrierRates!]
-  shipmentLegs: [ShipmentLegs!]
-  partnerInvoices: [PartnerInvoices!]
+	id: ID!
+	name: String!
+	contactPerson: String
+	contactEmail: String
+	contactPhone: String
+	servicesOffered: String
+	createdAt: Date
+	updatedAt: Date
+	rates: [CarrierRates!]
+	shipmentLegs: [ShipmentLegs!]
+	partnerInvoices: [PartnerInvoices!]
 }
 
 extend type TmsQuery {
-  carriers(page: Int, perPage: Int, from: Date, to: Date, search: String): [Carriers!]!
-  carrier(id: ID!): Carriers!
+	carriers(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Carriers!]!
+	carrier(id: ID!): Carriers!
 }
 
 input CreateCarrierInput {
-  name: String!
-  contactPerson: String
-  contactEmail: String
-  contactPhone: String
-  servicesOffered: String
+	name: String! @constraint(minLength: 1)
+	contactPerson: String @constraint(minLength: 1)
+	contactEmail: String @constraint(minLength: 1)
+	contactPhone: String @constraint(minLength: 1)
+	servicesOffered: String @constraint(minLength: 1)
 }
 
 input UpdateCarrierInput {
-  name: String
-  contactPerson: String
-  contactEmail: String
-  contactPhone: String
-  servicesOffered: String
+	name: String @constraint(minLength: 1)
+	contactPerson: String @constraint(minLength: 1)
+	contactEmail: String @constraint(minLength: 1)
+	contactPhone: String @constraint(minLength: 1)
+	servicesOffered: String @constraint(minLength: 1)
 }
 
 extend type TmsMutation {
-  createCarrier(value: CreateCarrierInput!): Carriers!
-  updateCarrier(id: ID!, value: UpdateCarrierInput): Carriers!
-  removeCarrier(id: ID!): DeleteResult!
+	createCarrier(value: CreateCarrierInput!): Carriers!
+	updateCarrier(id: ID!, value: UpdateCarrierInput): Carriers!
+	removeCarrier(id: ID!): DeleteResult!
 }

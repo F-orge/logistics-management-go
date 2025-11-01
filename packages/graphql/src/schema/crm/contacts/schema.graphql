@@ -1,38 +1,44 @@
 type Contacts {
-  id: ID!
-  name: String!
-  email: String
-  phoneNumber: String
-  jobTitle: String
-  company: Companies!
-  owner: User
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	name: String!
+	email: String
+	phoneNumber: String
+	jobTitle: String
+	company: Companies!
+	owner: User
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type CrmQuery {
-  contacts(page: Int, perPage: Int, from: Date, to: Date, search: String): [Contacts!]!
-  contact(id: ID!): Contacts!
+	contacts(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Contacts!]!
+	contact(id: ID!): Contacts!
 }
 
 input CreateContactInput {
-  name: String!
-  email: String!
-  phoneNumber: String
-  jobTitle: String
-  companyId: ID!
-  ownerId: ID!
+	name: String! @constraint(minLength: 1)
+	email: String! @constraint(format: "email")
+	phoneNumber: String @constraint(minLength: 1)
+	jobTitle: String @constraint(minLength: 1)
+	companyId: ID!
+	ownerId: ID!
 }
 
 input UpdateContactInput {
-  name: String
-  email: String
-  phoneNumber: String
-  jobTitle: String
+	name: String @constraint(minLength: 1)
+	email: String @constraint(format: "email")
+	phoneNumber: String @constraint(minLength: 1)
+	jobTitle: String @constraint(minLength: 1)
 }
 
 extend type CrmMutation {
-  createContact(value: CreateContactInput!): Contacts!
-  updateContact(id: ID!, value: UpdateContactInput): Contacts!
-  removeContact(id: ID!): DeleteResult!
+	createContact(value: CreateContactInput!): Contacts!
+	updateContact(id: ID!, value: UpdateContactInput): Contacts!
+	removeContact(id: ID!): DeleteResult!
 }

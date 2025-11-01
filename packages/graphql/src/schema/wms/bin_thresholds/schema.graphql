@@ -1,41 +1,46 @@
 type BinThresholds {
-  id: ID!
-  location: Locations!
-  product: WmsProducts!
-  minQuantity: Int!
-  maxQuantity: Int!
-  reorderQuantity: Int
-  alertThreshold: Int
-  isActive: Boolean
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	location: Locations!
+	product: WmsProducts!
+	minQuantity: Int!
+	maxQuantity: Int!
+	reorderQuantity: Int
+	alertThreshold: Int
+	isActive: Boolean
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type WmsQuery {
-  binThresholds(page: Int, perPage: Int, from: Date, to: Date): [BinThresholds!]!
-  binThreshold(id: ID!): BinThresholds!
+	binThresholds(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+	): [BinThresholds!]!
+	binThreshold(id: ID!): BinThresholds!
 }
 
 input CreateBinThresholdInput {
-  locationId: ID!
-  productId: ID!
-  minQuantity: Int!
-  maxQuantity: Int!
-  reorderQuantity: Int
-  alertThreshold: Int
-  isActive: Boolean
+	locationId: ID!
+	productId: ID!
+	minQuantity: Int! @constraint(min: 0)
+	maxQuantity: Int! @constraint(min: 0)
+	reorderQuantity: Int @constraint(min: 0)
+	alertThreshold: Int @constraint(min: 0)
+	isActive: Boolean
 }
 
 input UpdateBinThresholdInput {
-  minQuantity: Int
-  maxQuantity: Int
-  reorderQuantity: Int
-  alertThreshold: Int
-  isActive: Boolean
+	minQuantity: Int @constraint(min: 0)
+	maxQuantity: Int @constraint(min: 0)
+	reorderQuantity: Int @constraint(min: 0)
+	alertThreshold: Int @constraint(min: 0)
+	isActive: Boolean
 }
 
 extend type WmsMutation {
-  createBinThreshold(value: CreateBinThresholdInput!): BinThresholds!
-  updateBinThreshold(id: ID!, value: UpdateBinThresholdInput): BinThresholds!
-  removeBinThreshold(id: ID!): DeleteResult!
+	createBinThreshold(value: CreateBinThresholdInput!): BinThresholds!
+	updateBinThreshold(id: ID!, value: UpdateBinThresholdInput): BinThresholds!
+	removeBinThreshold(id: ID!): DeleteResult!
 }

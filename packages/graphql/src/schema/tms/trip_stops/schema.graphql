@@ -1,59 +1,59 @@
 enum TripStopStatus {
-  PENDING
-  ARRIVED
-  COMPLETED
-  SKIPPED
+	PENDING
+	ARRIVED
+	COMPLETED
+	SKIPPED
 }
 
 type TripStops {
-  id: ID!
-  trip: Trips!
-  shipment: OutboundShipments
-  sequence: Int!
-  address: String
-  status: TripStopStatus
-  estimatedArrivalTime: String
-  actualArrivalTime: String
-  estimatedDepartureTime: String
-  actualDepartureTime: String
-  createdAt: Date
-  updatedAt: Date
-  proofOfDeliveries: [ProofOfDeliveries!]
+	id: ID!
+	trip: Trips!
+	shipment: OutboundShipments
+	sequence: Int!
+	address: String
+	status: TripStopStatus
+	estimatedArrivalTime: String
+	actualArrivalTime: String
+	estimatedDepartureTime: String
+	actualDepartureTime: String
+	createdAt: Date
+	updatedAt: Date
+	proofOfDeliveries: [ProofOfDeliveries!]
 }
 
 input CreateTripStopInput {
-  tripId: ID!
-  shipmentId: ID
-  sequence: Int!
-  address: String
-  status: TripStopStatus
-  estimatedArrivalTime: String
-  estimatedDepartureTime: String
+	tripId: ID!
+	shipmentId: ID
+	sequence: Int! @constraint(min: 0)
+	address: String @constraint(minLength: 1)
+	status: TripStopStatus
+	estimatedArrivalTime: String @constraint(minLength: 1)
+	estimatedDepartureTime: String @constraint(minLength: 1)
 }
 
 input UpdateTripStopInput {
-  sequence: Int
-  address: String
-  status: TripStopStatus
-  estimatedArrivalTime: String
-  actualArrivalTime: String
-  estimatedDepartureTime: String
-  actualDepartureTime: String
+	sequence: Int @constraint(min: 0)
+	address: String @constraint(minLength: 1)
+	status: TripStopStatus
+	estimatedArrivalTime: String @constraint(minLength: 1)
+	actualArrivalTime: String @constraint(minLength: 1)
+	estimatedDepartureTime: String @constraint(minLength: 1)
+	actualDepartureTime: String @constraint(minLength: 1)
 }
 
 extend type TmsMutation {
-  createTripStop(value: CreateTripStopInput!): TripStops!
-  updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!
-  removeTripStop(id: ID!): DeleteResult!
+	createTripStop(value: CreateTripStopInput!): TripStops!
+	updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!
+	removeTripStop(id: ID!): DeleteResult!
 }
 
 type TmsTripStopSkippedEvent {
-  tripStop: TripStops!
-  reason: String
+	tripStop: TripStops!
+	reason: String
 }
 
 extend type Subscription {
-  tripStopArrived: TripStops!
-  tripStopCompleted: TripStops!
-  tripStopSkipped: TmsTripStopSkippedEvent!
+	tripStopArrived: TripStops!
+	tripStopCompleted: TripStops!
+	tripStopSkipped: TmsTripStopSkippedEvent!
 }

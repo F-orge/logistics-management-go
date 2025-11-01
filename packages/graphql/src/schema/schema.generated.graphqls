@@ -1,3 +1,5 @@
+directive @constraint(contains: String, endsWith: String, exclusiveMax: Float, exclusiveMin: Float, format: String, max: Float, maxItems: Int, maxLength: Int, maxSize: Int, min: Float, minItems: Int, minLength: Int, multipleOf: Float, notContains: String, pattern: String, startsWith: String, uniqueItems: Boolean, uniqueTypeName: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
 type AccountTransactions {
   amount: Float!
   clientAccount: ClientAccounts!

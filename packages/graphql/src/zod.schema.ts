@@ -6082,44 +6082,44 @@ export const VehicleStatusSchema = z.enum(['AVAILABLE', 'IN_MAINTENANCE', 'ON_TR
 export function AddInvoiceItemInputSchema(): z.ZodObject<Properties<AddInvoiceItemInput>> {
   return z.object({
     productId: z.string(),
-    quantity: z.number()
+    quantity: z.number().min(0.01)
   })
 }
 
 export function AddOpportunityProductInputSchema(): z.ZodObject<Properties<AddOpportunityProductInput>> {
   return z.object({
     productId: z.string(),
-    quantity: z.number()
+    quantity: z.number().min(0.01)
   })
 }
 
 export function CreateAccountTransactionInputSchema(): z.ZodObject<Properties<CreateAccountTransactionInput>> {
   return z.object({
-    amount: z.number(),
+    amount: z.number().min(0),
     clientAccountId: z.string(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     processedByUserId: z.string().optional(),
-    referenceNumber: z.string().optional(),
-    runningBalance: z.number().optional(),
+    referenceNumber: z.string().min(1).optional(),
+    runningBalance: z.number().min(0).optional(),
     sourceRecordId: z.string().optional(),
-    sourceRecordType: z.string().optional(),
-    transactionDate: z.string().optional(),
+    sourceRecordType: z.string().min(1).optional(),
+    transactionDate: z.string().min(1).optional(),
     type: TransactionTypeSchema
   })
 }
 
 export function CreateAccountingSyncLogInputSchema(): z.ZodObject<Properties<CreateAccountingSyncLogInput>> {
   return z.object({
-    errorMessage: z.string().optional(),
-    externalId: z.string().optional(),
-    externalSystem: z.string(),
-    lastSyncAt: z.string().optional(),
-    nextRetryAt: z.string().optional(),
+    errorMessage: z.string().min(1).optional(),
+    externalId: z.string().min(1).optional(),
+    externalSystem: z.string().min(1),
+    lastSyncAt: z.string().min(1).optional(),
+    nextRetryAt: z.string().min(1).optional(),
     recordId: z.string(),
-    recordType: z.string(),
-    requestPayload: z.string().optional(),
-    responsePayload: z.string().optional(),
-    retryCount: z.number().optional(),
+    recordType: z.string().min(1),
+    requestPayload: z.string().min(1).optional(),
+    responsePayload: z.string().min(1).optional(),
+    retryCount: z.number().min(0).optional(),
     status: SyncStatusSchema.optional()
   })
 }
@@ -6136,13 +6136,13 @@ export function CreateBillingInvoiceInputSchema(): z.ZodObject<Properties<Create
   return z.object({
     clientId: z.string(),
     createdByUserId: z.string().optional(),
-    currency: z.string().optional(),
-    dueDate: z.string(),
-    invoiceNumber: z.string(),
-    issueDate: z.string(),
+    currency: z.string().min(1).optional(),
+    dueDate: z.string().min(1),
+    invoiceNumber: z.string().min(1),
+    issueDate: z.string().min(1),
     items: z.array(z.lazy(() => CreateInvoiceLineItemInputSchema())),
-    notes: z.string().optional(),
-    paymentTerms: z.string().optional(),
+    notes: z.string().min(1).optional(),
+    paymentTerms: z.string().min(1).optional(),
     quoteId: z.string().optional(),
     sentAt: z.coerce.date().optional(),
     status: BillingInvoiceStatusSchema.optional()
@@ -6151,51 +6151,51 @@ export function CreateBillingInvoiceInputSchema(): z.ZodObject<Properties<Create
 
 export function CreateBinThresholdInputSchema(): z.ZodObject<Properties<CreateBinThresholdInput>> {
   return z.object({
-    alertThreshold: z.number().optional(),
+    alertThreshold: z.number().min(0).optional(),
     isActive: z.boolean().optional(),
     locationId: z.string(),
-    maxQuantity: z.number(),
-    minQuantity: z.number(),
+    maxQuantity: z.number().min(0),
+    minQuantity: z.number().min(0),
     productId: z.string(),
-    reorderQuantity: z.number().optional()
+    reorderQuantity: z.number().min(0).optional()
   })
 }
 
 export function CreateCampaignInputSchema(): z.ZodObject<Properties<CreateCampaignInput>> {
   return z.object({
-    budget: z.number().optional(),
+    budget: z.number().min(0).optional(),
     endDate: z.coerce.date().optional(),
-    name: z.string(),
+    name: z.string().min(1),
     startDate: z.coerce.date()
   })
 }
 
 export function CreateCarrierInputSchema(): z.ZodObject<Properties<CreateCarrierInput>> {
   return z.object({
-    contactEmail: z.string().optional(),
-    contactPerson: z.string().optional(),
-    contactPhone: z.string().optional(),
-    name: z.string(),
-    servicesOffered: z.string().optional()
+    contactEmail: z.string().min(1).optional(),
+    contactPerson: z.string().min(1).optional(),
+    contactPhone: z.string().min(1).optional(),
+    name: z.string().min(1),
+    servicesOffered: z.string().min(1).optional()
   })
 }
 
 export function CreateCarrierRateInputSchema(): z.ZodObject<Properties<CreateCarrierRateInput>> {
   return z.object({
     carrierId: z.string(),
-    destination: z.string().optional(),
-    origin: z.string().optional(),
-    rate: z.number(),
-    serviceType: z.string().optional(),
+    destination: z.string().min(1).optional(),
+    origin: z.string().min(1).optional(),
+    rate: z.number().min(0),
+    serviceType: z.string().min(1).optional(),
     unit: CarrierRateUnitSchema.optional()
   })
 }
 
 export function CreateCaseInputSchema(): z.ZodObject<Properties<CreateCaseInput>> {
   return z.object({
-    caseNumber: z.string(),
+    caseNumber: z.string().min(1),
     contactId: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     ownerId: z.string(),
     priority: CasePrioritySchema.optional(),
     status: CaseStatusSchema.optional(),
@@ -6205,90 +6205,90 @@ export function CreateCaseInputSchema(): z.ZodObject<Properties<CreateCaseInput>
 
 export function CreateClientAccountInputSchema(): z.ZodObject<Properties<CreateClientAccountInput>> {
   return z.object({
-    availableCredit: z.number().optional(),
+    availableCredit: z.number().min(0).optional(),
     clientId: z.string(),
-    creditLimit: z.number().optional(),
-    currency: z.string().optional(),
+    creditLimit: z.number().min(0).optional(),
+    currency: z.string().min(1).optional(),
     isCreditApproved: z.boolean().optional(),
-    lastPaymentDate: z.string().optional(),
-    paymentTermsDays: z.number().optional(),
-    walletBalance: z.number().optional()
+    lastPaymentDate: z.string().min(1).optional(),
+    paymentTermsDays: z.number().min(0).optional(),
+    walletBalance: z.number().min(0).optional()
   })
 }
 
 export function CreateCompanyInputSchema(): z.ZodObject<Properties<CreateCompanyInput>> {
   return z.object({
-    annualRevenue: z.number().optional(),
-    city: z.string().optional(),
-    country: z.string().optional(),
-    industry: z.string().optional(),
-    name: z.string(),
+    annualRevenue: z.number().min(0).optional(),
+    city: z.string().min(1).optional(),
+    country: z.string().min(1).optional(),
+    industry: z.string().min(1).optional(),
+    name: z.string().min(1),
     ownerId: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    postalCode: z.string().optional(),
-    state: z.string().optional(),
-    street: z.string().optional(),
-    website: z.string().optional()
+    phoneNumber: z.string().min(1).optional(),
+    postalCode: z.string().min(1).optional(),
+    state: z.string().min(1).optional(),
+    street: z.string().min(1).optional(),
+    website: z.string().url().optional()
   })
 }
 
 export function CreateContactInputSchema(): z.ZodObject<Properties<CreateContactInput>> {
   return z.object({
     companyId: z.string(),
-    email: z.string(),
-    jobTitle: z.string().optional(),
-    name: z.string(),
+    email: z.string().email(),
+    jobTitle: z.string().min(1).optional(),
+    name: z.string().min(1),
     ownerId: z.string(),
-    phoneNumber: z.string().optional()
+    phoneNumber: z.string().min(1).optional()
   })
 }
 
 export function CreateCreditNoteInputSchema(): z.ZodObject<Properties<CreateCreditNoteInput>> {
   return z.object({
-    amount: z.number(),
-    appliedAt: z.string().optional(),
+    amount: z.number().min(0),
+    appliedAt: z.string().min(1).optional(),
     createdByUserId: z.string().optional(),
-    creditNoteNumber: z.string(),
-    currency: z.string().optional(),
+    creditNoteNumber: z.string().min(1),
+    currency: z.string().min(1).optional(),
     disputeId: z.string().optional(),
     invoiceId: z.string(),
-    issueDate: z.string(),
-    notes: z.string().optional(),
-    reason: z.string()
+    issueDate: z.string().min(1),
+    notes: z.string().min(1).optional(),
+    reason: z.string().min(1)
   })
 }
 
 export function CreateCustomerTrackingLinkInputSchema(): z.ZodObject<Properties<CreateCustomerTrackingLinkInput>> {
   return z.object({
     deliveryTaskId: z.string(),
-    expiresAt: z.string().optional(),
-    trackingToken: z.string()
+    expiresAt: z.string().min(1).optional(),
+    trackingToken: z.string().min(1)
   })
 }
 
 export function CreateDeliveryRouteInputSchema(): z.ZodObject<Properties<CreateDeliveryRouteInput>> {
   return z.object({
     driverId: z.string(),
-    estimatedDurationMinutes: z.number().optional(),
-    optimizedRouteData: z.string().optional(),
-    routeDate: z.string(),
-    startedAt: z.string().optional(),
+    estimatedDurationMinutes: z.number().min(0).optional(),
+    optimizedRouteData: z.string().min(1).optional(),
+    routeDate: z.string().min(1),
+    startedAt: z.string().min(1).optional(),
     status: DeliveryRouteStatusSchema.optional(),
-    totalDistanceKm: z.number().optional()
+    totalDistanceKm: z.number().min(0).optional()
   })
 }
 
 export function CreateDeliveryTaskInputSchema(): z.ZodObject<Properties<CreateDeliveryTaskInput>> {
   return z.object({
-    actualArrivalTime: z.string().optional(),
-    deliveryAddress: z.string(),
-    deliveryInstructions: z.string().optional(),
+    actualArrivalTime: z.string().min(1).optional(),
+    deliveryAddress: z.string().min(1),
+    deliveryInstructions: z.string().min(1).optional(),
     deliveryRouteId: z.string(),
-    estimatedArrivalTime: z.string().optional(),
+    estimatedArrivalTime: z.string().min(1).optional(),
     packageId: z.string(),
-    recipientName: z.string().optional(),
-    recipientPhone: z.string().optional(),
-    routeSequence: z.number(),
+    recipientName: z.string().min(1).optional(),
+    recipientPhone: z.string().min(1).optional(),
+    routeSequence: z.number().min(1),
     status: DeliveryTaskStatusSchema.optional()
   })
 }
@@ -6296,11 +6296,11 @@ export function CreateDeliveryTaskInputSchema(): z.ZodObject<Properties<CreateDe
 export function CreateDisputeInputSchema(): z.ZodObject<Properties<CreateDisputeInput>> {
   return z.object({
     clientId: z.string(),
-    disputedAmount: z.number().optional(),
+    disputedAmount: z.number().min(0).optional(),
     lineItemId: z.string(),
-    reason: z.string(),
-    resolutionNotes: z.string().optional(),
-    resolvedAt: z.string().optional(),
+    reason: z.string().min(1),
+    resolutionNotes: z.string().min(1).optional(),
+    resolvedAt: z.string().min(1).optional(),
     resolvedByUserId: z.string().optional(),
     status: DisputeStatusSchema.optional()
   })
@@ -6310,34 +6310,34 @@ export function CreateDmsProofOfDeliveryInputSchema(): z.ZodObject<Properties<Cr
   return z.object({
     deliveryTaskId: z.string(),
     file: z.file().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    recipientName: z.string().optional(),
-    signatureData: z.string().optional(),
-    timestamp: z.string().optional(),
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
+    recipientName: z.string().min(1).optional(),
+    signatureData: z.string().min(1).optional(),
+    timestamp: z.string().min(1).optional(),
     type: ProofOfDeliveryTypeSchema,
-    verificationCode: z.string().optional()
+    verificationCode: z.string().min(1).optional()
   })
 }
 
 export function CreateDocumentInputSchema(): z.ZodObject<Properties<CreateDocumentInput>> {
   return z.object({
     documentType: DocumentTypeSchema,
-    fileName: z.string(),
-    filePath: z.string(),
-    fileSize: z.number().optional(),
-    mimeType: z.string().optional(),
+    fileName: z.string().min(1),
+    filePath: z.string().min(1),
+    fileSize: z.number().min(0).optional(),
+    mimeType: z.string().min(1).optional(),
     recordId: z.string(),
-    recordType: z.string(),
+    recordType: z.string().min(1),
     uploadedByUserId: z.string().optional()
   })
 }
 
 export function CreateDriverInputSchema(): z.ZodObject<Properties<CreateDriverInput>> {
   return z.object({
-    contactPhone: z.string().optional(),
+    contactPhone: z.string().min(1).optional(),
     licenseExpiryDate: z.string().optional(),
-    licenseNumber: z.string(),
+    licenseNumber: z.string().min(1),
     status: DriverStatusSchema.optional(),
     userId: z.string()
   })
@@ -6345,35 +6345,35 @@ export function CreateDriverInputSchema(): z.ZodObject<Properties<CreateDriverIn
 
 export function CreateDriverLocationInputSchema(): z.ZodObject<Properties<CreateDriverLocationInput>> {
   return z.object({
-    accuracy: z.number().optional(),
-    altitude: z.number().optional(),
+    accuracy: z.number().min(0).optional(),
+    altitude: z.number().min(-500).optional(),
     driverId: z.string(),
-    heading: z.number().optional(),
-    latitude: z.number(),
-    longitude: z.number(),
-    speedKmh: z.number().optional()
+    heading: z.number().min(0).optional(),
+    latitude: z.number().min(-90).max(90),
+    longitude: z.number().min(-180).max(180),
+    speedKmh: z.number().min(0).optional()
   })
 }
 
 export function CreateDriverScheduleInputSchema(): z.ZodObject<Properties<CreateDriverScheduleInput>> {
   return z.object({
     driverId: z.string(),
-    endDate: z.string(),
+    endDate: z.string().min(1),
     reason: DriverScheduleReasonSchema.optional(),
-    startDate: z.string()
+    startDate: z.string().min(1)
   })
 }
 
 export function CreateExpenseInputSchema(): z.ZodObject<Properties<CreateExpenseInput>> {
   return z.object({
-    amount: z.number(),
+    amount: z.number().min(0),
     currency: CurrencySchema.optional(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     driverId: z.string().optional(),
     expenseDate: z.coerce.date().optional(),
-    fuelQuantity: z.number().optional(),
-    odometerReading: z.number().optional(),
-    receiptUrl: z.string().optional(),
+    fuelQuantity: z.number().min(0).optional(),
+    odometerReading: z.number().min(0).optional(),
+    receiptUrl: z.string().min(1).optional(),
     status: ExpenseStatusSchema.optional(),
     tripId: z.string().optional(),
     type: ExpenseTypeSchema.optional()
@@ -6391,16 +6391,16 @@ export function CreateGeofenceEventInputSchema(): z.ZodObject<Properties<CreateG
 
 export function CreateGeofenceInputSchema(): z.ZodObject<Properties<CreateGeofenceInput>> {
   return z.object({
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    name: z.string()
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
+    name: z.string().min(1)
   })
 }
 
 export function CreateGpsPingInputSchema(): z.ZodObject<Properties<CreateGpsPingInput>> {
   return z.object({
-    latitude: z.number(),
-    longitude: z.number(),
+    latitude: z.number().min(-90).max(90),
+    longitude: z.number().min(-180).max(180),
     timestamp: z.coerce.date(),
     vehicleId: z.string()
   })
@@ -6409,7 +6409,7 @@ export function CreateGpsPingInputSchema(): z.ZodObject<Properties<CreateGpsPing
 export function CreateInboundShipmentInputSchema(): z.ZodObject<Properties<CreateInboundShipmentInput>> {
   return z.object({
     clientId: z.string().optional(),
-    expectedArrivalDate: z.string().optional(),
+    expectedArrivalDate: z.string().min(1).optional(),
     items: z.array(z.lazy(() => CreateInboundShipmentItemInputSchema())),
     status: InboundShipmentStatusSchema.optional(),
     warehouseId: z.string()
@@ -6418,7 +6418,7 @@ export function CreateInboundShipmentInputSchema(): z.ZodObject<Properties<Creat
 
 export function CreateInboundShipmentItemInputSchema(): z.ZodObject<Properties<CreateInboundShipmentItemInput>> {
   return z.object({
-    expectedQuantity: z.number(),
+    expectedQuantity: z.number().min(1),
     productId: z.string()
   })
 }
@@ -6428,7 +6428,7 @@ export function CreateInteractionInputSchema(): z.ZodObject<Properties<CreateInt
     caseId: z.string().optional(),
     contactId: z.string(),
     interactionDate: z.coerce.date().optional(),
-    notes: z.string().optional(),
+    notes: z.string().min(1).optional(),
     outcome: InteractionOutcomeSchema.optional(),
     type: InteractionTypeSchema.optional(),
     userId: z.string()
@@ -6437,7 +6437,7 @@ export function CreateInteractionInputSchema(): z.ZodObject<Properties<CreateInt
 
 export function CreateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<CreateInventoryAdjustmentInput>> {
   return z.object({
-    notes: z.string().optional(),
+    notes: z.string().min(1).optional(),
     productId: z.string(),
     quantityChange: z.number(),
     reason: InventoryAdjustmentReasonSchema.optional(),
@@ -6448,7 +6448,7 @@ export function CreateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<C
 
 export function CreateInventoryBatchInputSchema(): z.ZodObject<Properties<CreateInventoryBatchInput>> {
   return z.object({
-    batchNumber: z.string(),
+    batchNumber: z.string().min(1),
     expirationDate: z.coerce.date().optional(),
     productId: z.string()
   })
@@ -6459,8 +6459,8 @@ export function CreateInventoryStockInputSchema(): z.ZodObject<Properties<Create
     batchId: z.string().optional(),
     locationId: z.string(),
     productId: z.string(),
-    quantity: z.number(),
-    reservedQuantity: z.number(),
+    quantity: z.number().min(0),
+    reservedQuantity: z.number().min(0),
     status: InventoryStockStatusSchema.optional()
   })
 }
@@ -6480,29 +6480,29 @@ export function CreateInvoiceInputSchema(): z.ZodObject<Properties<CreateInvoice
 export function CreateInvoiceItemInputSchema(): z.ZodObject<Properties<CreateInvoiceItemInput>> {
   return z.object({
     productId: z.string(),
-    quantity: z.number()
+    quantity: z.number().min(0.01)
   })
 }
 
 export function CreateInvoiceLineItemInputSchema(): z.ZodObject<Properties<CreateInvoiceLineItemInput>> {
   return z.object({
-    description: z.string(),
-    discountRate: z.number().optional(),
-    quantity: z.number(),
+    description: z.string().min(1),
+    discountRate: z.number().min(0).max(100).optional(),
+    quantity: z.number().min(0.01),
     sourceRecordId: z.string().optional(),
-    sourceRecordType: z.string().optional(),
-    taxRate: z.number().optional(),
-    unitPrice: z.number()
+    sourceRecordType: z.string().min(1).optional(),
+    taxRate: z.number().min(0).max(100).optional(),
+    unitPrice: z.number().min(0)
   })
 }
 
 export function CreateLeadInputSchema(): z.ZodObject<Properties<CreateLeadInput>> {
   return z.object({
     campaignId: z.string().optional(),
-    email: z.string(),
-    leadScore: z.number().optional(),
+    email: z.string().email(),
+    leadScore: z.number().min(0).max(100).optional(),
     leadSource: LeadSourceSchema.optional(),
-    name: z.string(),
+    name: z.string().min(1),
     ownerId: z.string(),
     status: LeadStatusSchema.optional()
   })
@@ -6510,17 +6510,17 @@ export function CreateLeadInputSchema(): z.ZodObject<Properties<CreateLeadInput>
 
 export function CreateLocationInputSchema(): z.ZodObject<Properties<CreateLocationInput>> {
   return z.object({
-    barcode: z.string().optional(),
+    barcode: z.string().min(1).optional(),
     hazmatApproved: z.boolean().optional(),
     isPickable: z.boolean().optional(),
     isReceivable: z.boolean().optional(),
-    level: z.number().optional(),
-    maxPallets: z.number().optional(),
-    maxVolume: z.number().optional(),
-    maxWeight: z.number().optional(),
-    name: z.string(),
+    level: z.number().min(0).optional(),
+    maxPallets: z.number().min(0).optional(),
+    maxVolume: z.number().min(0).optional(),
+    maxWeight: z.number().min(0).optional(),
+    name: z.string().min(1),
     parentLocationId: z.string().optional(),
-    path: z.string().optional(),
+    path: z.string().min(1).optional(),
     temperatureControlled: z.boolean().optional(),
     type: LocationTypeSchema,
     warehouseId: z.string(),
@@ -6533,8 +6533,8 @@ export function CreateLocationInputSchema(): z.ZodObject<Properties<CreateLocati
 export function CreateNotificationInputSchema(): z.ZodObject<Properties<CreateNotificationInput>> {
   return z.object({
     isRead: z.boolean().optional(),
-    link: z.string().optional(),
-    message: z.string(),
+    link: z.string().url().optional(),
+    message: z.string().min(1),
     userId: z.string()
   })
 }
@@ -6544,12 +6544,12 @@ export function CreateOpportunityInputSchema(): z.ZodObject<Properties<CreateOpp
     campaignId: z.string().optional(),
     companyId: z.string().optional(),
     contactId: z.string().optional(),
-    dealValue: z.number().optional(),
+    dealValue: z.number().min(0).optional(),
     expectedCloseDate: z.coerce.date().optional(),
-    lostReason: z.string().optional(),
-    name: z.string(),
+    lostReason: z.string().min(1).optional(),
+    name: z.string().min(1),
     ownerId: z.string(),
-    probability: z.number().optional(),
+    probability: z.number().min(0).max(100).optional(),
     products: z.array(z.lazy(() => CreateOpportunityProductInputSchema())),
     source: OpportunitySourceSchema,
     stage: OpportunityStageSchema
@@ -6559,17 +6559,17 @@ export function CreateOpportunityInputSchema(): z.ZodObject<Properties<CreateOpp
 export function CreateOpportunityProductInputSchema(): z.ZodObject<Properties<CreateOpportunityProductInput>> {
   return z.object({
     productId: z.string(),
-    quantity: z.number()
+    quantity: z.number().min(0.01)
   })
 }
 
 export function CreateOutboundShipmentInputSchema(): z.ZodObject<Properties<CreateOutboundShipmentInput>> {
   return z.object({
-    carrier: z.string().optional(),
+    carrier: z.string().min(1).optional(),
     items: z.array(z.lazy(() => CreateOutboundShipmentItemInputSchema())),
     salesOrderId: z.string(),
     status: OutboundShipmentStatusSchema.optional(),
-    trackingNumber: z.string().optional(),
+    trackingNumber: z.string().min(1).optional(),
     warehouseId: z.string()
   })
 }
@@ -6578,44 +6578,44 @@ export function CreateOutboundShipmentItemInputSchema(): z.ZodObject<Properties<
   return z.object({
     batchId: z.string().optional(),
     productId: z.string(),
-    quantityShipped: z.number(),
+    quantityShipped: z.number().min(1),
     salesOrderItemId: z.string()
   })
 }
 
 export function CreatePackageInputSchema(): z.ZodObject<Properties<CreatePackageInput>> {
   return z.object({
-    carrier: z.string().optional(),
-    height: z.number().optional(),
-    insuranceValue: z.number().optional(),
+    carrier: z.string().min(1).optional(),
+    height: z.number().min(0).optional(),
+    insuranceValue: z.number().min(0).optional(),
     isFragile: z.boolean().optional(),
     isHazmat: z.boolean().optional(),
-    length: z.number().optional(),
-    packageNumber: z.string(),
-    packageType: z.string().optional(),
+    length: z.number().min(0).optional(),
+    packageNumber: z.string().min(1),
+    packageType: z.string().min(1).optional(),
     packedAt: z.string().optional(),
     packedByUserId: z.string().optional(),
     requiresSignature: z.boolean().optional(),
     salesOrderId: z.string(),
-    serviceLevel: z.string().optional(),
+    serviceLevel: z.string().min(1).optional(),
     shippedAt: z.string().optional(),
-    trackingNumber: z.string().optional(),
+    trackingNumber: z.string().min(1).optional(),
     warehouseId: z.string(),
-    weight: z.number().optional(),
-    width: z.number().optional()
+    weight: z.number().min(0).optional(),
+    width: z.number().min(0).optional()
   })
 }
 
 export function CreatePackageItemInputSchema(): z.ZodObject<Properties<CreatePackageItemInput>> {
   return z.object({
     batchId: z.string().optional(),
-    expiryDate: z.string().optional(),
-    lotNumber: z.string().optional(),
+    expiryDate: z.string().min(1).optional(),
+    lotNumber: z.string().min(1).optional(),
     packageId: z.string(),
     productId: z.string(),
-    quantity: z.number(),
+    quantity: z.number().min(1),
     serialNumbers: z.array(z.string()),
-    unitWeight: z.number().optional()
+    unitWeight: z.number().min(0).optional()
   })
 }
 
@@ -6638,53 +6638,53 @@ export function CreatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<Cr
 
 export function CreatePaymentInputSchema(): z.ZodObject<Properties<CreatePaymentInput>> {
   return z.object({
-    amount: z.number(),
-    currency: z.string().optional(),
-    exchangeRate: z.number().optional(),
-    fees: z.number().optional(),
-    gatewayReference: z.string().optional(),
+    amount: z.number().min(0),
+    currency: z.string().min(1).optional(),
+    exchangeRate: z.number().min(0).optional(),
+    fees: z.number().min(0).optional(),
+    gatewayReference: z.string().min(1).optional(),
     invoiceId: z.string(),
-    notes: z.string().optional(),
-    paymentDate: z.string().optional(),
+    notes: z.string().min(1).optional(),
+    paymentDate: z.string().min(1).optional(),
     paymentMethod: PaymentMethodSchema,
-    processedAt: z.string().optional(),
+    processedAt: z.string().min(1).optional(),
     processedByUserId: z.string().optional(),
     status: PaymentStatusSchema.optional(),
-    transactionId: z.string().optional()
+    transactionId: z.string().min(1).optional()
   })
 }
 
 export function CreatePickBatchInputSchema(): z.ZodObject<Properties<CreatePickBatchInput>> {
   return z.object({
     assignedUserId: z.string().optional(),
-    batchNumber: z.string(),
-    estimatedDuration: z.number().optional(),
+    batchNumber: z.string().min(1),
+    estimatedDuration: z.number().min(0).optional(),
     items: z.array(z.lazy(() => CreatePickBatchItemInputSchema())),
-    priority: z.number().optional(),
-    startedAt: z.string().optional(),
+    priority: z.number().min(1).max(10).optional(),
+    startedAt: z.string().min(1).optional(),
     status: PickBatchStatusSchema.optional(),
     strategy: PickStrategySchema,
     warehouseId: z.string(),
-    waveId: z.string().optional(),
+    waveId: z.string().min(1).optional(),
     zoneRestrictions: z.array(z.string())
   })
 }
 
 export function CreatePickBatchItemInputSchema(): z.ZodObject<Properties<CreatePickBatchItemInput>> {
   return z.object({
-    actualPickTime: z.number().optional(),
-    estimatedPickTime: z.number().optional(),
-    orderPriority: z.number().optional(),
+    actualPickTime: z.number().min(0).optional(),
+    estimatedPickTime: z.number().min(0).optional(),
+    orderPriority: z.number().min(1).max(10).optional(),
     salesOrderId: z.string()
   })
 }
 
 export function CreateProductInputSchema(): z.ZodObject<Properties<CreateProductInput>> {
   return z.object({
-    description: z.string().optional(),
-    name: z.string(),
-    price: z.number(),
-    sku: z.string().optional(),
+    description: z.string().min(1).optional(),
+    name: z.string().min(1),
+    price: z.number().min(0),
+    sku: z.string().min(1).optional(),
     type: ProductTypeSchema.optional()
   })
 }
@@ -6692,8 +6692,8 @@ export function CreateProductInputSchema(): z.ZodObject<Properties<CreateProduct
 export function CreateProofOfDeliveryInputSchema(): z.ZodObject<Properties<CreateProofOfDeliveryInput>> {
   return z.object({
     files: z.array(z.file()),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
     tripStopId: z.string(),
     type: ProofTypeSchema.optional()
   })
@@ -6704,16 +6704,16 @@ export function CreatePutawayRuleInputSchema(): z.ZodObject<Properties<CreatePut
     clientId: z.string().optional(),
     isActive: z.boolean().optional(),
     locationType: LocationTypeSchema.optional(),
-    maxQuantity: z.number().optional(),
-    minQuantity: z.number().optional(),
+    maxQuantity: z.number().min(0).optional(),
+    minQuantity: z.number().min(0).optional(),
     preferredLocationId: z.string().optional(),
-    priority: z.number(),
+    priority: z.number().min(1).max(10),
     productId: z.string(),
     requiresHazmatApproval: z.boolean().optional(),
     requiresTemperatureControl: z.boolean().optional(),
-    volumeThreshold: z.number().optional(),
+    volumeThreshold: z.number().min(0).optional(),
     warehouseId: z.string(),
-    weightThreshold: z.number().optional()
+    weightThreshold: z.number().min(0).optional()
   })
 }
 
@@ -6721,51 +6721,51 @@ export function CreateQuoteInputSchema(): z.ZodObject<Properties<CreateQuoteInpu
   return z.object({
     clientId: z.string().optional(),
     createdByUserId: z.string().optional(),
-    destinationDetails: z.string(),
-    expiresAt: z.string().optional(),
-    height: z.number().optional(),
-    length: z.number().optional(),
-    notes: z.string().optional(),
-    originDetails: z.string(),
-    quoteNumber: z.string().optional(),
-    quotedPrice: z.number(),
-    serviceLevel: z.string().optional(),
+    destinationDetails: z.string().min(1),
+    expiresAt: z.string().min(1).optional(),
+    height: z.number().min(0).optional(),
+    length: z.number().min(0).optional(),
+    notes: z.string().min(1).optional(),
+    originDetails: z.string().min(1),
+    quoteNumber: z.string().min(1).optional(),
+    quotedPrice: z.number().min(0),
+    serviceLevel: z.string().min(1).optional(),
     status: QuoteStatusSchema.optional(),
-    weight: z.number().optional(),
-    width: z.number().optional()
+    weight: z.number().min(0).optional(),
+    width: z.number().min(0).optional()
   })
 }
 
 export function CreateRateCardInputSchema(): z.ZodObject<Properties<CreateRateCardInput>> {
   return z.object({
     createdByUserId: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    name: z.string(),
+    name: z.string().min(1),
     serviceType: ServiceTypeSchema,
-    validFrom: z.string(),
-    validTo: z.string().optional()
+    validFrom: z.string().min(1),
+    validTo: z.string().min(1).optional()
   })
 }
 
 export function CreateRateRuleInputSchema(): z.ZodObject<Properties<CreateRateRuleInput>> {
   return z.object({
-    condition: z.string(),
+    condition: z.string().min(1),
     isActive: z.boolean().optional(),
-    maxValue: z.number().optional(),
-    minValue: z.number().optional(),
-    price: z.number(),
+    maxValue: z.number().min(0).optional(),
+    minValue: z.number().min(0).optional(),
+    price: z.number().min(0),
     pricingModel: PricingModelSchema,
-    priority: z.number().optional(),
+    priority: z.number().min(1).max(10).optional(),
     rateCardId: z.string(),
-    value: z.string()
+    value: z.string().min(1)
   })
 }
 
 export function CreateReorderPointInputSchema(): z.ZodObject<Properties<CreateReorderPointInput>> {
   return z.object({
     productId: z.string(),
-    threshold: z.number(),
+    threshold: z.number().min(0),
     warehouseId: z.string()
   })
 }
@@ -6774,8 +6774,8 @@ export function CreateReturnInputSchema(): z.ZodObject<Properties<CreateReturnIn
   return z.object({
     clientId: z.string(),
     items: z.array(z.lazy(() => CreateReturnItemInputSchema())),
-    reason: z.string().optional(),
-    returnNumber: z.string(),
+    reason: z.string().min(1).optional(),
+    returnNumber: z.string().min(1),
     salesOrderId: z.string().optional(),
     status: ReturnStatusSchema.optional()
   })
@@ -6785,15 +6785,15 @@ export function CreateReturnItemInputSchema(): z.ZodObject<Properties<CreateRetu
   return z.object({
     condition: ReturnItemConditionSchema.optional(),
     productId: z.string(),
-    quantityExpected: z.number()
+    quantityExpected: z.number().min(1)
   })
 }
 
 export function CreateRouteInputSchema(): z.ZodObject<Properties<CreateRouteInput>> {
   return z.object({
-    optimizedRouteData: z.string().optional(),
-    totalDistance: z.number().optional(),
-    totalDuration: z.number().optional(),
+    optimizedRouteData: z.string().min(1).optional(),
+    totalDistance: z.number().min(0).optional(),
+    totalDuration: z.number().min(0).optional(),
     tripId: z.string()
   })
 }
@@ -6803,8 +6803,8 @@ export function CreateSalesOrderInputSchema(): z.ZodObject<Properties<CreateSale
     clientId: z.string(),
     crmOpportunityId: z.string().optional(),
     items: z.array(z.lazy(() => CreateSalesOrderItemInputSchema())),
-    orderNumber: z.string(),
-    shippingAddress: z.string().optional(),
+    orderNumber: z.string().min(1),
+    shippingAddress: z.string().min(1).optional(),
     status: SalesOrderStatusSchema.optional()
   })
 }
@@ -6812,7 +6812,7 @@ export function CreateSalesOrderInputSchema(): z.ZodObject<Properties<CreateSale
 export function CreateSalesOrderItemInputSchema(): z.ZodObject<Properties<CreateSalesOrderItemInput>> {
   return z.object({
     productId: z.string(),
-    quantityOrdered: z.number()
+    quantityOrdered: z.number().min(1)
   })
 }
 
@@ -6827,11 +6827,11 @@ export function CreateShipmentLegEventInputSchema(): z.ZodObject<Properties<Crea
 export function CreateShipmentLegInputSchema(): z.ZodObject<Properties<CreateShipmentLegInput>> {
   return z.object({
     carrierId: z.string().optional(),
-    endLocation: z.string().optional(),
+    endLocation: z.string().min(1).optional(),
     internalTripId: z.string().optional(),
-    legSequence: z.number(),
+    legSequence: z.number().min(0),
     shipmentId: z.string(),
-    startLocation: z.string().optional(),
+    startLocation: z.string().min(1).optional(),
     status: ShipmentLegStatusSchema.optional()
   })
 }
@@ -6840,7 +6840,7 @@ export function CreateStockTransferInputSchema(): z.ZodObject<Properties<CreateS
   return z.object({
     destinationWarehouseId: z.string(),
     productId: z.string(),
-    quantity: z.number(),
+    quantity: z.number().min(0),
     sourceWarehouseId: z.string(),
     status: StockTransferStatusSchema.optional()
   })
@@ -6848,52 +6848,52 @@ export function CreateStockTransferInputSchema(): z.ZodObject<Properties<CreateS
 
 export function CreateSupplierInputSchema(): z.ZodObject<Properties<CreateSupplierInput>> {
   return z.object({
-    contactPerson: z.string().optional(),
-    email: z.string().optional(),
-    name: z.string(),
-    phoneNumber: z.string().optional()
+    contactPerson: z.string().min(1).optional(),
+    email: z.string().email().optional(),
+    name: z.string().min(1),
+    phoneNumber: z.string().min(1).optional()
   })
 }
 
 export function CreateSurchargeInputSchema(): z.ZodObject<Properties<CreateSurchargeInput>> {
   return z.object({
-    amount: z.number(),
+    amount: z.number().min(0),
     calculationMethod: SurchargeCalculationMethodSchema,
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    name: z.string(),
-    type: z.string(),
-    validFrom: z.string().optional(),
-    validTo: z.string().optional()
+    name: z.string().min(1),
+    type: z.string().min(1),
+    validFrom: z.string().min(1).optional(),
+    validTo: z.string().min(1).optional()
   })
 }
 
 export function CreateTaskEventInputSchema(): z.ZodObject<Properties<CreateTaskEventInput>> {
   return z.object({
     deliveryTaskId: z.string(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    notes: z.string().optional(),
-    reason: z.string().optional(),
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
+    notes: z.string().min(1).optional(),
+    reason: z.string().min(1).optional(),
     status: TaskEventStatusSchema,
-    timestamp: z.string().optional()
+    timestamp: z.string().min(1).optional()
   })
 }
 
 export function CreateTaskInputSchema(): z.ZodObject<Properties<CreateTaskInput>> {
   return z.object({
-    actualDuration: z.number().optional(),
+    actualDuration: z.number().min(0).optional(),
     endTime: z.coerce.date().optional(),
-    estimatedDuration: z.number().optional(),
-    instructions: z.string().optional(),
-    notes: z.string().optional(),
+    estimatedDuration: z.number().min(0).optional(),
+    instructions: z.string().min(1).optional(),
+    notes: z.string().min(1).optional(),
     pickBatchId: z.string().optional(),
-    priority: z.number().optional(),
+    priority: z.number().min(1).max(10).optional(),
     sourceEntityId: z.string().optional(),
-    sourceEntityType: z.string().optional(),
+    sourceEntityType: z.string().min(1).optional(),
     startTime: z.coerce.date().optional(),
     status: TaskStatusSchema.optional(),
-    taskNumber: z.string(),
+    taskNumber: z.string().min(1),
     type: TaskTypeSchema,
     userId: z.string().optional(),
     warehouseId: z.string()
@@ -6904,12 +6904,12 @@ export function CreateTaskItemInputSchema(): z.ZodObject<Properties<CreateTaskIt
   return z.object({
     batchId: z.string().optional(),
     destinationLocationId: z.string().optional(),
-    expiryDate: z.string().optional(),
-    lotNumber: z.string().optional(),
-    notes: z.string().optional(),
+    expiryDate: z.string().min(1).optional(),
+    lotNumber: z.string().min(1).optional(),
+    notes: z.string().min(1).optional(),
     productId: z.string(),
-    quantityCompleted: z.number(),
-    quantityRequired: z.number(),
+    quantityCompleted: z.number().min(0),
+    quantityRequired: z.number().min(1),
     serialNumbers: z.array(z.string()),
     sourceLocationId: z.string().optional(),
     status: TaskItemStatusSchema.optional()
@@ -6919,9 +6919,9 @@ export function CreateTaskItemInputSchema(): z.ZodObject<Properties<CreateTaskIt
 export function CreateTripInputSchema(): z.ZodObject<Properties<CreateTripInput>> {
   return z.object({
     driverId: z.string().optional(),
-    endLocation: z.string().optional(),
+    endLocation: z.string().min(1).optional(),
     endTime: z.string().optional(),
-    startLocation: z.string().optional(),
+    startLocation: z.string().min(1).optional(),
     startTime: z.string().optional(),
     status: TripStatusSchema.optional(),
     vehicleId: z.string().optional()
@@ -6930,10 +6930,10 @@ export function CreateTripInputSchema(): z.ZodObject<Properties<CreateTripInput>
 
 export function CreateTripStopInputSchema(): z.ZodObject<Properties<CreateTripStopInput>> {
   return z.object({
-    address: z.string().optional(),
-    estimatedArrivalTime: z.string().optional(),
-    estimatedDepartureTime: z.string().optional(),
-    sequence: z.number(),
+    address: z.string().min(1).optional(),
+    estimatedArrivalTime: z.string().min(1).optional(),
+    estimatedDepartureTime: z.string().min(1).optional(),
+    sequence: z.number().min(0),
     shipmentId: z.string().optional(),
     status: TripStopStatusSchema.optional(),
     tripId: z.string()
@@ -6942,16 +6942,16 @@ export function CreateTripStopInputSchema(): z.ZodObject<Properties<CreateTripSt
 
 export function CreateVehicleInputSchema(): z.ZodObject<Properties<CreateVehicleInput>> {
   return z.object({
-    capacityVolume: z.number().optional(),
-    capacityWeight: z.number().optional(),
-    currentMileage: z.number().optional(),
+    capacityVolume: z.number().min(0).optional(),
+    capacityWeight: z.number().min(0).optional(),
+    currentMileage: z.number().min(0).optional(),
     lastMaintenanceDate: z.string().optional(),
-    make: z.string().optional(),
-    model: z.string().optional(),
-    registrationNumber: z.string(),
+    make: z.string().min(1).optional(),
+    model: z.string().min(1).optional(),
+    registrationNumber: z.string().min(1),
     status: VehicleStatusSchema.optional(),
-    vin: z.string().optional(),
-    year: z.number().optional()
+    vin: z.string().min(1).optional(),
+    year: z.number().min(0).optional()
   })
 }
 
@@ -6966,84 +6966,84 @@ export function CreateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<Cr
 
 export function CreateWarehouseInputSchema(): z.ZodObject<Properties<CreateWarehouseInput>> {
   return z.object({
-    address: z.string().optional(),
-    city: z.string().optional(),
-    contactEmail: z.string().optional(),
-    contactPerson: z.string().optional(),
-    contactPhone: z.string().optional(),
-    country: z.string().optional(),
+    address: z.string().min(1).optional(),
+    city: z.string().min(1).optional(),
+    contactEmail: z.string().email().optional(),
+    contactPerson: z.string().min(1).optional(),
+    contactPhone: z.string().min(1).optional(),
+    country: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    name: z.string(),
-    postalCode: z.string().optional(),
-    state: z.string().optional(),
-    timezone: z.string().optional()
+    name: z.string().min(1),
+    postalCode: z.string().min(1).optional(),
+    state: z.string().min(1).optional(),
+    timezone: z.string().min(1).optional()
   })
 }
 
 export function CreateWmsProductInputSchema(): z.ZodObject<Properties<CreateWmsProductInput>> {
   return z.object({
-    barcode: z.string().optional(),
+    barcode: z.string().min(1).optional(),
     clientId: z.string().optional(),
-    costPrice: z.number().optional(),
-    description: z.string().optional(),
-    height: z.number().optional(),
-    length: z.number().optional(),
-    name: z.string(),
-    sku: z.string(),
+    costPrice: z.number().min(0).optional(),
+    description: z.string().min(1).optional(),
+    height: z.number().min(0).optional(),
+    length: z.number().min(0).optional(),
+    name: z.string().min(1),
+    sku: z.string().min(1),
     status: ProductStatusSchema.optional(),
     supplierId: z.string().optional(),
-    weight: z.number().optional(),
-    width: z.number().optional()
+    weight: z.number().min(0).optional(),
+    width: z.number().min(0).optional()
   })
 }
 
 export function UpdateBillingInvoiceInputSchema(): z.ZodObject<Properties<UpdateBillingInvoiceInput>> {
   return z.object({
-    amountPaid: z.number().optional(),
-    currency: z.string().optional(),
-    dueDate: z.string().optional(),
-    notes: z.string().optional(),
+    amountPaid: z.number().min(0).optional(),
+    currency: z.string().min(1).optional(),
+    dueDate: z.string().min(1).optional(),
+    notes: z.string().min(1).optional(),
     paidAt: z.coerce.date().optional(),
-    paymentTerms: z.string().optional(),
+    paymentTerms: z.string().min(1).optional(),
     status: BillingInvoiceStatusSchema.optional()
   })
 }
 
 export function UpdateBinThresholdInputSchema(): z.ZodObject<Properties<UpdateBinThresholdInput>> {
   return z.object({
-    alertThreshold: z.number().optional(),
+    alertThreshold: z.number().min(0).optional(),
     isActive: z.boolean().optional(),
-    maxQuantity: z.number().optional(),
-    minQuantity: z.number().optional(),
-    reorderQuantity: z.number().optional()
+    maxQuantity: z.number().min(0).optional(),
+    minQuantity: z.number().min(0).optional(),
+    reorderQuantity: z.number().min(0).optional()
   })
 }
 
 export function UpdateCampaignInputSchema(): z.ZodObject<Properties<UpdateCampaignInput>> {
   return z.object({
-    budget: z.number().optional(),
+    budget: z.number().min(0).optional(),
     endDate: z.coerce.date().optional(),
-    name: z.string().optional(),
+    name: z.string().min(1).optional(),
     startDate: z.coerce.date().optional()
   })
 }
 
 export function UpdateCarrierInputSchema(): z.ZodObject<Properties<UpdateCarrierInput>> {
   return z.object({
-    contactEmail: z.string().optional(),
-    contactPerson: z.string().optional(),
-    contactPhone: z.string().optional(),
-    name: z.string().optional(),
-    servicesOffered: z.string().optional()
+    contactEmail: z.string().min(1).optional(),
+    contactPerson: z.string().min(1).optional(),
+    contactPhone: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
+    servicesOffered: z.string().min(1).optional()
   })
 }
 
 export function UpdateCarrierRateInputSchema(): z.ZodObject<Properties<UpdateCarrierRateInput>> {
   return z.object({
-    destination: z.string().optional(),
-    origin: z.string().optional(),
-    rate: z.number().optional(),
-    serviceType: z.string().optional(),
+    destination: z.string().min(1).optional(),
+    origin: z.string().min(1).optional(),
+    rate: z.number().min(0).optional(),
+    serviceType: z.string().min(1).optional(),
     unit: CarrierRateUnitSchema.optional()
   })
 }
@@ -7058,92 +7058,92 @@ export function UpdateCaseInputSchema(): z.ZodObject<Properties<UpdateCaseInput>
 
 export function UpdateClientAccountInputSchema(): z.ZodObject<Properties<UpdateClientAccountInput>> {
   return z.object({
-    availableCredit: z.number().optional(),
-    creditLimit: z.number().optional(),
-    currency: z.string().optional(),
+    availableCredit: z.number().min(0).optional(),
+    creditLimit: z.number().min(0).optional(),
+    currency: z.string().min(1).optional(),
     isCreditApproved: z.boolean().optional(),
     lastPaymentDate: z.coerce.date().optional(),
-    paymentTermsDays: z.number().optional(),
-    walletBalance: z.number().optional()
+    paymentTermsDays: z.number().min(0).optional(),
+    walletBalance: z.number().min(0).optional()
   })
 }
 
 export function UpdateCompanyInputSchema(): z.ZodObject<Properties<UpdateCompanyInput>> {
   return z.object({
-    annualRevenue: z.number().optional(),
-    city: z.string().optional(),
-    country: z.string().optional(),
-    industry: z.string().optional(),
-    name: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    postalCode: z.string().optional(),
-    state: z.string().optional(),
-    street: z.string().optional(),
-    website: z.string().optional()
+    annualRevenue: z.number().min(0).optional(),
+    city: z.string().min(1).optional(),
+    country: z.string().min(1).optional(),
+    industry: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
+    phoneNumber: z.string().min(1).optional(),
+    postalCode: z.string().min(1).optional(),
+    state: z.string().min(1).optional(),
+    street: z.string().min(1).optional(),
+    website: z.string().url().optional()
   })
 }
 
 export function UpdateContactInputSchema(): z.ZodObject<Properties<UpdateContactInput>> {
   return z.object({
-    email: z.string().optional(),
-    jobTitle: z.string().optional(),
-    name: z.string().optional(),
-    phoneNumber: z.string().optional()
+    email: z.string().email().optional(),
+    jobTitle: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
+    phoneNumber: z.string().min(1).optional()
   })
 }
 
 export function UpdateCreditNoteInputSchema(): z.ZodObject<Properties<UpdateCreditNoteInput>> {
   return z.object({
-    amount: z.number().optional(),
-    appliedAt: z.string().optional(),
-    creditNoteNumber: z.string().optional(),
-    currency: z.string().optional(),
-    notes: z.string().optional(),
-    reason: z.string().optional()
+    amount: z.number().min(0).optional(),
+    appliedAt: z.string().min(1).optional(),
+    creditNoteNumber: z.string().min(1).optional(),
+    currency: z.string().min(1).optional(),
+    notes: z.string().min(1).optional(),
+    reason: z.string().min(1).optional()
   })
 }
 
 export function UpdateCustomerTrackingLinkInputSchema(): z.ZodObject<Properties<UpdateCustomerTrackingLinkInput>> {
   return z.object({
-    accessCount: z.number().optional(),
-    expiresAt: z.string().optional(),
+    accessCount: z.number().min(0).optional(),
+    expiresAt: z.string().min(1).optional(),
     isActive: z.boolean().optional()
   })
 }
 
 export function UpdateDeliveryRouteInputSchema(): z.ZodObject<Properties<UpdateDeliveryRouteInput>> {
   return z.object({
-    completedAt: z.string().optional(),
-    estimatedDurationMinutes: z.number().optional(),
-    optimizedRouteData: z.string().optional(),
-    routeDate: z.string().optional(),
-    startedAt: z.string().optional(),
+    completedAt: z.string().min(1).optional(),
+    estimatedDurationMinutes: z.number().min(0).optional(),
+    optimizedRouteData: z.string().min(1).optional(),
+    routeDate: z.string().min(1).optional(),
+    startedAt: z.string().min(1).optional(),
     status: DeliveryRouteStatusSchema.optional(),
-    totalDistanceKm: z.number().optional()
+    totalDistanceKm: z.number().min(0).optional()
   })
 }
 
 export function UpdateDeliveryTaskInputSchema(): z.ZodObject<Properties<UpdateDeliveryTaskInput>> {
   return z.object({
-    actualArrivalTime: z.string().optional(),
-    attemptCount: z.number().optional(),
-    deliveryAddress: z.string().optional(),
-    deliveryInstructions: z.string().optional(),
-    deliveryTime: z.string().optional(),
-    estimatedArrivalTime: z.string().optional(),
+    actualArrivalTime: z.string().min(1).optional(),
+    attemptCount: z.number().min(0).optional(),
+    deliveryAddress: z.string().min(1).optional(),
+    deliveryInstructions: z.string().min(1).optional(),
+    deliveryTime: z.string().min(1).optional(),
+    estimatedArrivalTime: z.string().min(1).optional(),
     failureReason: DeliveryFailureReasonSchema.optional(),
-    recipientName: z.string().optional(),
-    recipientPhone: z.string().optional(),
+    recipientName: z.string().min(1).optional(),
+    recipientPhone: z.string().min(1).optional(),
     status: DeliveryTaskStatusSchema.optional()
   })
 }
 
 export function UpdateDisputeInputSchema(): z.ZodObject<Properties<UpdateDisputeInput>> {
   return z.object({
-    disputedAmount: z.number().optional(),
-    reason: z.string().optional(),
-    resolutionNotes: z.string().optional(),
-    resolvedAt: z.string().optional(),
+    disputedAmount: z.number().min(0).optional(),
+    reason: z.string().min(1).optional(),
+    resolutionNotes: z.string().min(1).optional(),
+    resolvedAt: z.string().min(1).optional(),
     resolvedByUserId: z.string().optional(),
     status: DisputeStatusSchema.optional()
   })
@@ -7152,53 +7152,53 @@ export function UpdateDisputeInputSchema(): z.ZodObject<Properties<UpdateDispute
 export function UpdateDocumentInputSchema(): z.ZodObject<Properties<UpdateDocumentInput>> {
   return z.object({
     documentType: DocumentTypeSchema.optional(),
-    fileName: z.string().optional(),
-    filePath: z.string().optional(),
-    fileSize: z.number().optional(),
-    mimeType: z.string().optional(),
+    fileName: z.string().min(1).optional(),
+    filePath: z.string().min(1).optional(),
+    fileSize: z.number().min(0).optional(),
+    mimeType: z.string().min(1).optional(),
     recordId: z.string().optional(),
-    recordType: z.string().optional(),
+    recordType: z.string().min(1).optional(),
     uploadedByUserId: z.string().optional()
   })
 }
 
 export function UpdateDriverInputSchema(): z.ZodObject<Properties<UpdateDriverInput>> {
   return z.object({
-    contactPhone: z.string().optional(),
+    contactPhone: z.string().min(1).optional(),
     licenseExpiryDate: z.string().optional(),
-    licenseNumber: z.string().optional(),
+    licenseNumber: z.string().min(1).optional(),
     status: DriverStatusSchema.optional()
   })
 }
 
 export function UpdateDriverLocationInputSchema(): z.ZodObject<Properties<UpdateDriverLocationInput>> {
   return z.object({
-    accuracy: z.number().optional(),
-    altitude: z.number().optional(),
-    heading: z.number().optional(),
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    speedKmh: z.number().optional()
+    accuracy: z.number().min(0).optional(),
+    altitude: z.number().min(-500).optional(),
+    heading: z.number().min(0).optional(),
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
+    speedKmh: z.number().min(0).optional()
   })
 }
 
 export function UpdateDriverScheduleInputSchema(): z.ZodObject<Properties<UpdateDriverScheduleInput>> {
   return z.object({
-    endDate: z.string().optional(),
+    endDate: z.string().min(1).optional(),
     reason: DriverScheduleReasonSchema.optional(),
-    startDate: z.string().optional()
+    startDate: z.string().min(1).optional()
   })
 }
 
 export function UpdateExpenseInputSchema(): z.ZodObject<Properties<UpdateExpenseInput>> {
   return z.object({
-    amount: z.number().optional(),
+    amount: z.number().min(0).optional(),
     currency: CurrencySchema.optional(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     expenseDate: z.coerce.date().optional(),
-    fuelQuantity: z.number().optional(),
-    odometerReading: z.number().optional(),
-    receiptUrl: z.string().optional(),
+    fuelQuantity: z.number().min(0).optional(),
+    odometerReading: z.number().min(0).optional(),
+    receiptUrl: z.string().min(1).optional(),
     status: ExpenseStatusSchema.optional(),
     type: ExpenseTypeSchema.optional()
   })
@@ -7212,39 +7212,39 @@ export function UpdateGeofenceEventInputSchema(): z.ZodObject<Properties<UpdateG
 
 export function UpdateGeofenceInputSchema(): z.ZodObject<Properties<UpdateGeofenceInput>> {
   return z.object({
-    latitude: z.number().optional(),
-    longitude: z.number().optional(),
-    name: z.string().optional()
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional(),
+    name: z.string().min(1).optional()
   })
 }
 
 export function UpdateGpsPingInputSchema(): z.ZodObject<Properties<UpdateGpsPingInput>> {
   return z.object({
-    latitude: z.number().optional(),
-    longitude: z.number().optional()
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional()
   })
 }
 
 export function UpdateInboundShipmentInputSchema(): z.ZodObject<Properties<UpdateInboundShipmentInput>> {
   return z.object({
-    actualArrivalDate: z.string().optional(),
-    expectedArrivalDate: z.string().optional(),
+    actualArrivalDate: z.string().min(1).optional(),
+    expectedArrivalDate: z.string().min(1).optional(),
     status: InboundShipmentStatusSchema.optional()
   })
 }
 
 export function UpdateInboundShipmentItemInputSchema(): z.ZodObject<Properties<UpdateInboundShipmentItemInput>> {
   return z.object({
-    discrepancyNotes: z.string().optional(),
-    expectedQuantity: z.number().optional(),
-    receivedQuantity: z.number().optional()
+    discrepancyNotes: z.string().min(1).optional(),
+    expectedQuantity: z.number().min(1).optional(),
+    receivedQuantity: z.number().min(0).optional()
   })
 }
 
 export function UpdateInteractionInputSchema(): z.ZodObject<Properties<UpdateInteractionInput>> {
   return z.object({
     interactionDate: z.coerce.date().optional(),
-    notes: z.string().optional(),
+    notes: z.string().min(1).optional(),
     outcome: InteractionOutcomeSchema.optional(),
     type: InteractionTypeSchema.optional()
   })
@@ -7252,7 +7252,7 @@ export function UpdateInteractionInputSchema(): z.ZodObject<Properties<UpdateInt
 
 export function UpdateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<UpdateInventoryAdjustmentInput>> {
   return z.object({
-    notes: z.string().optional(),
+    notes: z.string().min(1).optional(),
     quantityChange: z.number().optional(),
     reason: InventoryAdjustmentReasonSchema.optional(),
     userId: z.string().optional()
@@ -7261,7 +7261,7 @@ export function UpdateInventoryAdjustmentInputSchema(): z.ZodObject<Properties<U
 
 export function UpdateInventoryBatchInputSchema(): z.ZodObject<Properties<UpdateInventoryBatchInput>> {
   return z.object({
-    batchNumber: z.string().optional(),
+    batchNumber: z.string().min(1).optional(),
     expirationDate: z.coerce.date().optional()
   })
 }
@@ -7270,8 +7270,8 @@ export function UpdateInventoryStockInputSchema(): z.ZodObject<Properties<Update
   return z.object({
     lastCountedAt: z.coerce.date().optional(),
     lastMovementAt: z.coerce.date().optional(),
-    quantity: z.number().optional(),
-    reservedQuantity: z.number().optional(),
+    quantity: z.number().min(0).optional(),
+    reservedQuantity: z.number().min(0).optional(),
     status: InventoryStockStatusSchema.optional()
   })
 }
@@ -7287,17 +7287,17 @@ export function UpdateInvoiceInputSchema(): z.ZodObject<Properties<UpdateInvoice
 
 export function UpdateInvoiceItemInputSchema(): z.ZodObject<Properties<UpdateInvoiceItemInput>> {
   return z.object({
-    quantity: z.number()
+    quantity: z.number().min(0.01)
   })
 }
 
 export function UpdateInvoiceLineItemInputSchema(): z.ZodObject<Properties<UpdateInvoiceLineItemInput>> {
   return z.object({
-    description: z.string().optional(),
-    discountRate: z.number().optional(),
-    quantity: z.number().optional(),
-    taxRate: z.number().optional(),
-    unitPrice: z.number().optional()
+    description: z.string().min(1).optional(),
+    discountRate: z.number().min(0).max(100).optional(),
+    quantity: z.number().min(0.01).optional(),
+    taxRate: z.number().min(0).max(100).optional(),
+    unitPrice: z.number().min(0).optional()
   })
 }
 
@@ -7307,27 +7307,27 @@ export function UpdateLeadInputSchema(): z.ZodObject<Properties<UpdateLeadInput>
     convertedCompanyId: z.string().optional(),
     convertedContactId: z.string().optional(),
     convertedOpportunityId: z.string().optional(),
-    email: z.string().optional(),
-    leadScore: z.number().optional(),
+    email: z.string().email().optional(),
+    leadScore: z.number().min(0).max(100).optional(),
     leadSource: LeadSourceSchema.optional(),
-    name: z.string().optional(),
+    name: z.string().min(1).optional(),
     status: LeadStatusSchema.optional()
   })
 }
 
 export function UpdateLocationInputSchema(): z.ZodObject<Properties<UpdateLocationInput>> {
   return z.object({
-    barcode: z.string().optional(),
+    barcode: z.string().min(1).optional(),
     hazmatApproved: z.boolean().optional(),
     isActive: z.boolean().optional(),
     isPickable: z.boolean().optional(),
     isReceivable: z.boolean().optional(),
-    level: z.number().optional(),
-    maxPallets: z.number().optional(),
-    maxVolume: z.number().optional(),
-    maxWeight: z.number().optional(),
-    name: z.string().optional(),
-    path: z.string().optional(),
+    level: z.number().min(0).optional(),
+    maxPallets: z.number().min(0).optional(),
+    maxVolume: z.number().min(0).optional(),
+    maxWeight: z.number().min(0).optional(),
+    name: z.string().min(1).optional(),
+    path: z.string().min(1).optional(),
     temperatureControlled: z.boolean().optional(),
     type: LocationTypeSchema.optional(),
     xCoordinate: z.number().optional(),
@@ -7344,11 +7344,11 @@ export function UpdateNotificationInputSchema(): z.ZodObject<Properties<UpdateNo
 
 export function UpdateOpportunityInputSchema(): z.ZodObject<Properties<UpdateOpportunityInput>> {
   return z.object({
-    dealValue: z.number().optional(),
+    dealValue: z.number().min(0).optional(),
     expectedCloseDate: z.coerce.date().optional(),
-    lostReason: z.string().optional(),
-    name: z.string().optional(),
-    probability: z.number().optional(),
+    lostReason: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
+    probability: z.number().min(0).max(100).optional(),
     source: OpportunitySourceSchema.optional(),
     stage: OpportunityStageSchema.optional()
   })
@@ -7356,50 +7356,50 @@ export function UpdateOpportunityInputSchema(): z.ZodObject<Properties<UpdateOpp
 
 export function UpdateOpportunityProductInputSchema(): z.ZodObject<Properties<UpdateOpportunityProductInput>> {
   return z.object({
-    quantity: z.number()
+    quantity: z.number().min(0.01)
   })
 }
 
 export function UpdateOutboundShipmentInputSchema(): z.ZodObject<Properties<UpdateOutboundShipmentInput>> {
   return z.object({
-    carrier: z.string().optional(),
+    carrier: z.string().min(1).optional(),
     status: OutboundShipmentStatusSchema.optional()
   })
 }
 
 export function UpdateOutboundShipmentItemInputSchema(): z.ZodObject<Properties<UpdateOutboundShipmentItemInput>> {
   return z.object({
-    quantityShipped: z.number().optional()
+    quantityShipped: z.number().min(1).optional()
   })
 }
 
 export function UpdatePackageInputSchema(): z.ZodObject<Properties<UpdatePackageInput>> {
   return z.object({
-    carrier: z.string().optional(),
-    height: z.number().optional(),
-    insuranceValue: z.number().optional(),
+    carrier: z.string().min(1).optional(),
+    height: z.number().min(0).optional(),
+    insuranceValue: z.number().min(0).optional(),
     isFragile: z.boolean().optional(),
     isHazmat: z.boolean().optional(),
-    length: z.number().optional(),
-    packageNumber: z.string().optional(),
-    packageType: z.string().optional(),
+    length: z.number().min(0).optional(),
+    packageNumber: z.string().min(1).optional(),
+    packageType: z.string().min(1).optional(),
     packedAt: z.coerce.date().optional(),
     requiresSignature: z.boolean().optional(),
-    serviceLevel: z.string().optional(),
+    serviceLevel: z.string().min(1).optional(),
     shippedAt: z.coerce.date().optional(),
-    trackingNumber: z.string().optional(),
+    trackingNumber: z.string().min(1).optional(),
     warehouseId: z.string().optional(),
-    weight: z.number().optional(),
-    width: z.number().optional()
+    weight: z.number().min(0).optional(),
+    width: z.number().min(0).optional()
   })
 }
 
 export function UpdatePackageItemInputSchema(): z.ZodObject<Properties<UpdatePackageItemInput>> {
   return z.object({
-    expiryDate: z.string().optional(),
-    lotNumber: z.string().optional(),
-    quantity: z.number().optional(),
-    unitWeight: z.number().optional()
+    expiryDate: z.string().min(1).optional(),
+    lotNumber: z.string().min(1).optional(),
+    quantity: z.number().min(1).optional(),
+    unitWeight: z.number().min(0).optional()
   })
 }
 
@@ -7417,44 +7417,44 @@ export function UpdatePartnerInvoiceItemInputSchema(): z.ZodObject<Properties<Up
 
 export function UpdatePaymentInputSchema(): z.ZodObject<Properties<UpdatePaymentInput>> {
   return z.object({
-    currency: z.string().optional(),
-    exchangeRate: z.number().optional(),
-    fees: z.number().optional(),
-    notes: z.string().optional(),
+    currency: z.string().min(1).optional(),
+    exchangeRate: z.number().min(0).optional(),
+    fees: z.number().min(0).optional(),
+    notes: z.string().min(1).optional(),
     status: PaymentStatusSchema.optional()
   })
 }
 
 export function UpdatePickBatchInputSchema(): z.ZodObject<Properties<UpdatePickBatchInput>> {
   return z.object({
-    actualDuration: z.number().optional(),
+    actualDuration: z.number().min(0).optional(),
     assignedUserId: z.string().optional(),
-    batchNumber: z.string().optional(),
+    batchNumber: z.string().min(1).optional(),
     completedAt: z.coerce.date().optional(),
-    completedItems: z.number().optional(),
-    priority: z.number().optional(),
+    completedItems: z.number().min(0).optional(),
+    priority: z.number().min(1).max(10).optional(),
     status: PickBatchStatusSchema.optional(),
     strategy: PickStrategySchema.optional(),
     warehouseId: z.string().optional(),
-    waveId: z.string().optional(),
+    waveId: z.string().min(1).optional(),
     zoneRestrictions: z.array(z.string())
   })
 }
 
 export function UpdatePickBatchItemInputSchema(): z.ZodObject<Properties<UpdatePickBatchItemInput>> {
   return z.object({
-    actualPickTime: z.number().optional(),
-    estimatedPickTime: z.number().optional(),
-    orderPriority: z.number().optional()
+    actualPickTime: z.number().min(0).optional(),
+    estimatedPickTime: z.number().min(0).optional(),
+    orderPriority: z.number().min(1).max(10).optional()
   })
 }
 
 export function UpdateProductInputSchema(): z.ZodObject<Properties<UpdateProductInput>> {
   return z.object({
-    description: z.string().optional(),
-    name: z.string().optional(),
-    price: z.number().optional(),
-    sku: z.string().optional(),
+    description: z.string().min(1).optional(),
+    name: z.string().min(1).optional(),
+    price: z.number().min(0).optional(),
+    sku: z.string().min(1).optional(),
     type: ProductTypeSchema.optional()
   })
 }
@@ -7469,69 +7469,69 @@ export function UpdatePutawayRuleInputSchema(): z.ZodObject<Properties<UpdatePut
   return z.object({
     isActive: z.boolean().optional(),
     locationType: LocationTypeSchema.optional(),
-    maxQuantity: z.number().optional(),
-    minQuantity: z.number().optional(),
+    maxQuantity: z.number().min(0).optional(),
+    minQuantity: z.number().min(0).optional(),
     preferredLocationId: z.string().optional(),
-    priority: z.number().optional(),
+    priority: z.number().min(1).max(10).optional(),
     requiresHazmatApproval: z.boolean().optional(),
     requiresTemperatureControl: z.boolean().optional(),
-    volumeThreshold: z.number().optional(),
+    volumeThreshold: z.number().min(0).optional(),
     warehouseId: z.string().optional(),
-    weightThreshold: z.number().optional()
+    weightThreshold: z.number().min(0).optional()
   })
 }
 
 export function UpdateQuoteInputSchema(): z.ZodObject<Properties<UpdateQuoteInput>> {
   return z.object({
-    destinationDetails: z.string().optional(),
-    expiresAt: z.string().optional(),
-    height: z.number().optional(),
-    length: z.number().optional(),
-    notes: z.string().optional(),
-    originDetails: z.string().optional(),
-    quotedPrice: z.number().optional(),
-    serviceLevel: z.string().optional(),
+    destinationDetails: z.string().min(1).optional(),
+    expiresAt: z.string().min(1).optional(),
+    height: z.number().min(0).optional(),
+    length: z.number().min(0).optional(),
+    notes: z.string().min(1).optional(),
+    originDetails: z.string().min(1).optional(),
+    quotedPrice: z.number().min(0).optional(),
+    serviceLevel: z.string().min(1).optional(),
     status: QuoteStatusSchema.optional(),
-    weight: z.number().optional(),
-    width: z.number().optional()
+    weight: z.number().min(0).optional(),
+    width: z.number().min(0).optional()
   })
 }
 
 export function UpdateRateCardInputSchema(): z.ZodObject<Properties<UpdateRateCardInput>> {
   return z.object({
     createdByUserId: z.string().optional(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    name: z.string().optional(),
+    name: z.string().min(1).optional(),
     serviceType: ServiceTypeSchema.optional(),
-    validFrom: z.string().optional(),
-    validTo: z.string().optional()
+    validFrom: z.string().min(1).optional(),
+    validTo: z.string().min(1).optional()
   })
 }
 
 export function UpdateRateRuleInputSchema(): z.ZodObject<Properties<UpdateRateRuleInput>> {
   return z.object({
-    condition: z.string().optional(),
+    condition: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    maxValue: z.number().optional(),
-    minValue: z.number().optional(),
-    price: z.number().optional(),
+    maxValue: z.number().min(0).optional(),
+    minValue: z.number().min(0).optional(),
+    price: z.number().min(0).optional(),
     pricingModel: PricingModelSchema.optional(),
-    priority: z.number().optional(),
+    priority: z.number().min(1).max(10).optional(),
     rateCardId: z.string().optional(),
-    value: z.string().optional()
+    value: z.string().min(1).optional()
   })
 }
 
 export function UpdateReorderPointInputSchema(): z.ZodObject<Properties<UpdateReorderPointInput>> {
   return z.object({
-    threshold: z.number().optional()
+    threshold: z.number().min(0).optional()
   })
 }
 
 export function UpdateReturnInputSchema(): z.ZodObject<Properties<UpdateReturnInput>> {
   return z.object({
-    reason: z.string().optional(),
+    reason: z.string().min(1).optional(),
     status: ReturnStatusSchema.optional()
   })
 }
@@ -7539,38 +7539,38 @@ export function UpdateReturnInputSchema(): z.ZodObject<Properties<UpdateReturnIn
 export function UpdateReturnItemInputSchema(): z.ZodObject<Properties<UpdateReturnItemInput>> {
   return z.object({
     condition: ReturnItemConditionSchema.optional(),
-    quantityReceived: z.number().optional()
+    quantityReceived: z.number().min(0).optional()
   })
 }
 
 export function UpdateRouteInputSchema(): z.ZodObject<Properties<UpdateRouteInput>> {
   return z.object({
-    optimizedRouteData: z.string().optional(),
-    totalDistance: z.number().optional(),
-    totalDuration: z.number().optional()
+    optimizedRouteData: z.string().min(1).optional(),
+    totalDistance: z.number().min(0).optional(),
+    totalDuration: z.number().min(0).optional()
   })
 }
 
 export function UpdateSalesOrderInputSchema(): z.ZodObject<Properties<UpdateSalesOrderInput>> {
   return z.object({
-    shippingAddress: z.string().optional(),
+    shippingAddress: z.string().min(1).optional(),
     status: SalesOrderStatusSchema.optional()
   })
 }
 
 export function UpdateSalesOrderItemInputSchema(): z.ZodObject<Properties<UpdateSalesOrderItemInput>> {
   return z.object({
-    quantityOrdered: z.number().optional()
+    quantityOrdered: z.number().min(1).optional()
   })
 }
 
 export function UpdateShipmentLegInputSchema(): z.ZodObject<Properties<UpdateShipmentLegInput>> {
   return z.object({
     carrierId: z.string().optional(),
-    endLocation: z.string().optional(),
+    endLocation: z.string().min(1).optional(),
     internalTripId: z.string().optional(),
-    legSequence: z.number().optional(),
-    startLocation: z.string().optional(),
+    legSequence: z.number().min(0).optional(),
+    startLocation: z.string().min(1).optional(),
     status: ShipmentLegStatusSchema.optional()
   })
 }
@@ -7578,47 +7578,47 @@ export function UpdateShipmentLegInputSchema(): z.ZodObject<Properties<UpdateShi
 export function UpdateStockTransferInputSchema(): z.ZodObject<Properties<UpdateStockTransferInput>> {
   return z.object({
     destinationWarehouseId: z.string().optional(),
-    quantity: z.number().optional(),
+    quantity: z.number().min(0).optional(),
     status: StockTransferStatusSchema.optional()
   })
 }
 
 export function UpdateSupplierInputSchema(): z.ZodObject<Properties<UpdateSupplierInput>> {
   return z.object({
-    contactPerson: z.string().optional(),
-    email: z.string().optional(),
-    name: z.string().optional(),
-    phoneNumber: z.string().optional()
+    contactPerson: z.string().min(1).optional(),
+    email: z.string().email().optional(),
+    name: z.string().min(1).optional(),
+    phoneNumber: z.string().min(1).optional()
   })
 }
 
 export function UpdateSurchargeInputSchema(): z.ZodObject<Properties<UpdateSurchargeInput>> {
   return z.object({
-    amount: z.number().optional(),
+    amount: z.number().min(0).optional(),
     calculationMethod: SurchargeCalculationMethodSchema.optional(),
-    description: z.string().optional(),
+    description: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    name: z.string().optional(),
-    type: z.string().optional(),
-    validFrom: z.string().optional(),
-    validTo: z.string().optional()
+    name: z.string().min(1).optional(),
+    type: z.string().min(1).optional(),
+    validFrom: z.string().min(1).optional(),
+    validTo: z.string().min(1).optional()
   })
 }
 
 export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>> {
   return z.object({
-    actualDuration: z.number().optional(),
+    actualDuration: z.number().min(0).optional(),
     endTime: z.coerce.date().optional(),
-    estimatedDuration: z.number().optional(),
-    instructions: z.string().optional(),
-    notes: z.string().optional(),
+    estimatedDuration: z.number().min(0).optional(),
+    instructions: z.string().min(1).optional(),
+    notes: z.string().min(1).optional(),
     pickBatchId: z.string().optional(),
-    priority: z.number().optional(),
+    priority: z.number().min(1).max(10).optional(),
     sourceEntityId: z.string().optional(),
-    sourceEntityType: z.string().optional(),
+    sourceEntityType: z.string().min(1).optional(),
     startTime: z.coerce.date().optional(),
     status: TaskStatusSchema.optional(),
-    taskNumber: z.string().optional(),
+    taskNumber: z.string().min(1).optional(),
     type: TaskTypeSchema.optional(),
     userId: z.string().optional()
   })
@@ -7626,12 +7626,12 @@ export function UpdateTaskInputSchema(): z.ZodObject<Properties<UpdateTaskInput>
 
 export function UpdateTaskItemInputSchema(): z.ZodObject<Properties<UpdateTaskItemInput>> {
   return z.object({
-    completedAt: z.string().optional(),
+    completedAt: z.string().min(1).optional(),
     destinationLocationId: z.string().optional(),
     expiryDate: z.coerce.date().optional(),
-    notes: z.string().optional(),
-    quantityCompleted: z.number().optional(),
-    quantityRequired: z.number().optional(),
+    notes: z.string().min(1).optional(),
+    quantityCompleted: z.number().min(0).optional(),
+    quantityRequired: z.number().min(1).optional(),
     sourceLocationId: z.string().optional(),
     status: TaskItemStatusSchema.optional()
   })
@@ -7639,9 +7639,9 @@ export function UpdateTaskItemInputSchema(): z.ZodObject<Properties<UpdateTaskIt
 
 export function UpdateTripInputSchema(): z.ZodObject<Properties<UpdateTripInput>> {
   return z.object({
-    endLocation: z.string().optional(),
+    endLocation: z.string().min(1).optional(),
     endTime: z.string().optional(),
-    startLocation: z.string().optional(),
+    startLocation: z.string().min(1).optional(),
     startTime: z.string().optional(),
     status: TripStatusSchema.optional()
   })
@@ -7649,28 +7649,28 @@ export function UpdateTripInputSchema(): z.ZodObject<Properties<UpdateTripInput>
 
 export function UpdateTripStopInputSchema(): z.ZodObject<Properties<UpdateTripStopInput>> {
   return z.object({
-    actualArrivalTime: z.string().optional(),
-    actualDepartureTime: z.string().optional(),
-    address: z.string().optional(),
-    estimatedArrivalTime: z.string().optional(),
-    estimatedDepartureTime: z.string().optional(),
-    sequence: z.number().optional(),
+    actualArrivalTime: z.string().min(1).optional(),
+    actualDepartureTime: z.string().min(1).optional(),
+    address: z.string().min(1).optional(),
+    estimatedArrivalTime: z.string().min(1).optional(),
+    estimatedDepartureTime: z.string().min(1).optional(),
+    sequence: z.number().min(0).optional(),
     status: TripStopStatusSchema.optional()
   })
 }
 
 export function UpdateVehicleInputSchema(): z.ZodObject<Properties<UpdateVehicleInput>> {
   return z.object({
-    capacityVolume: z.number().optional(),
-    capacityWeight: z.number().optional(),
-    currentMileage: z.number().optional(),
+    capacityVolume: z.number().min(0).optional(),
+    capacityWeight: z.number().min(0).optional(),
+    currentMileage: z.number().min(0).optional(),
     lastMaintenanceDate: z.string().optional(),
-    make: z.string().optional(),
-    model: z.string().optional(),
-    registrationNumber: z.string().optional(),
+    make: z.string().min(1).optional(),
+    model: z.string().min(1).optional(),
+    registrationNumber: z.string().min(1).optional(),
     status: VehicleStatusSchema.optional(),
-    vin: z.string().optional(),
-    year: z.number().optional()
+    vin: z.string().min(1).optional(),
+    year: z.number().min(0).optional()
   })
 }
 
@@ -7685,31 +7685,31 @@ export function UpdateVehicleMaintenanceInputSchema(): z.ZodObject<Properties<Up
 
 export function UpdateWarehouseInputSchema(): z.ZodObject<Properties<UpdateWarehouseInput>> {
   return z.object({
-    address: z.string().optional(),
-    city: z.string().optional(),
-    contactEmail: z.string().optional(),
-    contactPerson: z.string().optional(),
-    contactPhone: z.string().optional(),
-    country: z.string().optional(),
+    address: z.string().min(1).optional(),
+    city: z.string().min(1).optional(),
+    contactEmail: z.string().email().optional(),
+    contactPerson: z.string().min(1).optional(),
+    contactPhone: z.string().min(1).optional(),
+    country: z.string().min(1).optional(),
     isActive: z.boolean().optional(),
-    name: z.string().optional(),
-    postalCode: z.string().optional(),
-    state: z.string().optional(),
-    timezone: z.string().optional()
+    name: z.string().min(1).optional(),
+    postalCode: z.string().min(1).optional(),
+    state: z.string().min(1).optional(),
+    timezone: z.string().min(1).optional()
   })
 }
 
 export function UpdateWmsProductInputSchema(): z.ZodObject<Properties<UpdateWmsProductInput>> {
   return z.object({
-    barcode: z.string().optional(),
-    costPrice: z.number().optional(),
-    description: z.string().optional(),
-    height: z.number().optional(),
-    length: z.number().optional(),
-    name: z.string().optional(),
-    sku: z.string().optional(),
+    barcode: z.string().min(1).optional(),
+    costPrice: z.number().min(0).optional(),
+    description: z.string().min(1).optional(),
+    height: z.number().min(0).optional(),
+    length: z.number().min(0).optional(),
+    name: z.string().min(1).optional(),
+    sku: z.string().min(1).optional(),
     status: ProductStatusSchema.optional(),
-    weight: z.number().optional(),
-    width: z.number().optional()
+    weight: z.number().min(0).optional(),
+    width: z.number().min(0).optional()
   })
 }

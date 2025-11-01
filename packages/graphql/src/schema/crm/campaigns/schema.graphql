@@ -1,34 +1,40 @@
 type Campaigns {
-  id: ID!
-  name: String!
-  budget: Float
-  startDate: Date!
-  endDate: Date
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	name: String!
+	budget: Float
+	startDate: Date!
+	endDate: Date
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type CrmQuery {
-  campaigns(page: Int, perPage: Int, from: Date, to: Date, search: String): [Campaigns!]!
-  campaign(id: ID!): Campaigns!
+	campaigns(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Campaigns!]!
+	campaign(id: ID!): Campaigns!
 }
 
 input CreateCampaignInput {
-  name: String!
-  budget: Float
-  startDate: Date!
-  endDate: Date
+	name: String! @constraint(minLength: 1)
+	budget: Float @constraint(min: 0)
+	startDate: Date!
+	endDate: Date
 }
 
 input UpdateCampaignInput {
-  name: String
-  budget: Float
-  startDate: Date
-  endDate: Date
+	name: String @constraint(minLength: 1)
+	budget: Float @constraint(min: 0)
+	startDate: Date
+	endDate: Date
 }
 
 extend type CrmMutation {
-  createCampaign(value: CreateCampaignInput!): Campaigns!
-  updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!
-  removeCampaign(id: ID!): DeleteResult!
+	createCampaign(value: CreateCampaignInput!): Campaigns!
+	updateCampaign(id: ID!, value: UpdateCampaignInput): Campaigns!
+	removeCampaign(id: ID!): DeleteResult!
 }

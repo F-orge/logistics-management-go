@@ -1,29 +1,34 @@
 type ReorderPoints {
-  id: ID!
-  product: WmsProducts!
-  warehouse: Warehouses!
-  threshold: Int!
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	product: WmsProducts!
+	warehouse: Warehouses!
+	threshold: Int!
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type WmsQuery {
-  reorderPoints(page: Int, perPage: Int, from: Date, to: Date): [ReorderPoints!]!
-  reorderPoint(id: ID!): ReorderPoints!
+	reorderPoints(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+	): [ReorderPoints!]!
+	reorderPoint(id: ID!): ReorderPoints!
 }
 
 input CreateReorderPointInput {
-  productId: ID!
-  warehouseId: ID!
-  threshold: Int!
+	productId: ID!
+	warehouseId: ID!
+	threshold: Int! @constraint(min: 0)
 }
 
 input UpdateReorderPointInput {
-  threshold: Int
+	threshold: Int @constraint(min: 0)
 }
 
 extend type WmsMutation {
-  createReorderPoint(value: CreateReorderPointInput!): ReorderPoints!
-  updateReorderPoint(id: ID!, value: UpdateReorderPointInput): ReorderPoints!
-  removeReorderPoint(id: ID!): DeleteResult!
+	createReorderPoint(value: CreateReorderPointInput!): ReorderPoints!
+	updateReorderPoint(id: ID!, value: UpdateReorderPointInput): ReorderPoints!
+	removeReorderPoint(id: ID!): DeleteResult!
 }

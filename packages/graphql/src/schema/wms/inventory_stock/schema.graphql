@@ -1,87 +1,96 @@
 enum InventoryStockStatus {
-  AVAILABLE
-  ALLOCATED
-  DAMAGED
-  QUARANTINE
-  HOLD
-  SHIPPED
-  EXPIRED
+	AVAILABLE
+	ALLOCATED
+	DAMAGED
+	QUARANTINE
+	HOLD
+	SHIPPED
+	EXPIRED
 }
 
 type InventoryStock {
-  id: ID!
-  location: Locations!
-  product: WmsProducts!
-  batch: InventoryBatches
-  quantity: Int!
-  reservedQuantity: Int!
-  availableQuantity: Int
-  status: InventoryStockStatus
-  lastCountedAt: Date
-  lastMovementAt: Date
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	location: Locations!
+	product: WmsProducts!
+	batch: InventoryBatches
+	quantity: Int!
+	reservedQuantity: Int!
+	availableQuantity: Int
+	status: InventoryStockStatus
+	lastCountedAt: Date
+	lastMovementAt: Date
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type WmsQuery {
-  inventoryStocks(page: Int, perPage: Int, from: Date, to: Date, status: InventoryStockStatus): [InventoryStock!]!
-  inventoryStock(id: ID!): InventoryStock!
+	inventoryStocks(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		status: InventoryStockStatus
+	): [InventoryStock!]!
+	inventoryStock(id: ID!): InventoryStock!
 }
 
 input CreateInventoryStockInput {
-  locationId: ID!
-  productId: ID!
-  batchId: ID
-  quantity: Int!
-  reservedQuantity: Int!
-  status: InventoryStockStatus
+	locationId: ID!
+	productId: ID!
+	batchId: ID
+	quantity: Int! @constraint(min: 0)
+	reservedQuantity: Int! @constraint(min: 0)
+	status: InventoryStockStatus
 }
 
 input UpdateInventoryStockInput {
-  quantity: Int
-  reservedQuantity: Int
-  status: InventoryStockStatus
-  lastCountedAt: Date
-  lastMovementAt: Date
+	quantity: Int @constraint(min: 0)
+	reservedQuantity: Int @constraint(min: 0)
+	status: InventoryStockStatus
+	lastCountedAt: Date
+	lastMovementAt: Date
 }
 
 extend type WmsMutation {
-  createInventoryStock(value: CreateInventoryStockInput!): InventoryStock!
-  updateInventoryStock(id: ID!, value: UpdateInventoryStockInput): InventoryStock!
-  removeInventoryStock(id: ID!): DeleteResult!
+	createInventoryStock(value: CreateInventoryStockInput!): InventoryStock!
+	updateInventoryStock(
+		id: ID!
+		value: UpdateInventoryStockInput
+	): InventoryStock!
+	removeInventoryStock(id: ID!): DeleteResult!
 }
 
 type WmsInventoryStockStatusChangedEvent {
-  id: ID!
-  newStatus: InventoryStockStatus!
-  previousStatus: InventoryStockStatus!
-  productId: ID!
-  locationId: ID!
-  quantity: Int!
+	id: ID!
+	newStatus: InventoryStockStatus!
+	previousStatus: InventoryStockStatus!
+	productId: ID!
+	locationId: ID!
+	quantity: Int!
 }
 
 type WmsInventoryStockReservedEvent {
-  inventoryStock: InventoryStock!
-  reservedQuantity: Int!
+	inventoryStock: InventoryStock!
+	reservedQuantity: Int!
 }
 
 type WmsInventoryStockReleasedEvent {
-  inventoryStock: InventoryStock!
-  releasedQuantity: Int!
+	inventoryStock: InventoryStock!
+	releasedQuantity: Int!
 }
 
 type WmsInventoryStockLowStockAlertEvent {
-  id: ID!
-  productId: ID!
-  locationId: ID!
-  currentQuantity: Int!
-  reorderPoint: Int!
-  warehouseId: ID!
+	id: ID!
+	productId: ID!
+	locationId: ID!
+	currentQuantity: Int!
+	reorderPoint: Int!
+	warehouseId: ID!
 }
 
 extend type Subscription {
-  inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
-  inventoryStockReserved: WmsInventoryStockReservedEvent!
-  inventoryStockReleased: WmsInventoryStockReleasedEvent!
-  inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent!
+	inventoryStockStatusChanged: WmsInventoryStockStatusChangedEvent!
+	inventoryStockReserved: WmsInventoryStockReservedEvent!
+	inventoryStockReleased: WmsInventoryStockReleasedEvent!
+	inventoryStockLowStockAlert: WmsInventoryStockLowStockAlertEvent!
 }

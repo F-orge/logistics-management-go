@@ -1,29 +1,34 @@
 type InboundShipmentItems {
-  id: ID!
-  inboundShipment: InboundShipments!
-  product: WmsProducts!
-  expectedQuantity: Int!
-  receivedQuantity: Int
-  discrepancyQuantity: Int
-  discrepancyNotes: String
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	inboundShipment: InboundShipments!
+	product: WmsProducts!
+	expectedQuantity: Int!
+	receivedQuantity: Int
+	discrepancyQuantity: Int
+	discrepancyNotes: String
+	createdAt: Date
+	updatedAt: Date
 }
 
-
 input CreateInboundShipmentItemInput {
-  productId: ID!
-  expectedQuantity: Int!
+	productId: ID!
+	expectedQuantity: Int! @constraint(min: 1)
 }
 
 input UpdateInboundShipmentItemInput {
-  expectedQuantity: Int
-  receivedQuantity: Int
-  discrepancyNotes: String
+	expectedQuantity: Int @constraint(min: 1)
+	receivedQuantity: Int @constraint(min: 0)
+	discrepancyNotes: String @constraint(minLength: 1)
 }
 
 extend type WmsMutation {
-  addInboundShipmentItem(id: ID!, value: CreateInboundShipmentItemInput!): InboundShipmentItems!
-  updateInboundShipmentItem(id: ID!, value: UpdateInboundShipmentItemInput): InboundShipmentItems!
-  removeInboundShipmentItem(id: ID!): DeleteResult!
+	addInboundShipmentItem(
+		id: ID!
+		value: CreateInboundShipmentItemInput!
+	): InboundShipmentItems!
+	updateInboundShipmentItem(
+		id: ID!
+		value: UpdateInboundShipmentItemInput
+	): InboundShipmentItems!
+	removeInboundShipmentItem(id: ID!): DeleteResult!
 }

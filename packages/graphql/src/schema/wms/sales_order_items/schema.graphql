@@ -1,24 +1,30 @@
 type SalesOrderItems {
-  id: ID!
-  salesOrder: SalesOrders!
-  product: WmsProducts!
-  quantityOrdered: Int!
-  createdAt: Date
-  updatedAt: Date
-  outboundShipmentItems: [OutboundShipmentItems!]
+	id: ID!
+	salesOrder: SalesOrders!
+	product: WmsProducts!
+	quantityOrdered: Int!
+	createdAt: Date
+	updatedAt: Date
+	outboundShipmentItems: [OutboundShipmentItems!]
 }
 
 input CreateSalesOrderItemInput {
-  productId: ID!
-  quantityOrdered: Int!
+	productId: ID!
+	quantityOrdered: Int! @constraint(min: 1)
 }
 
 input UpdateSalesOrderItemInput {
-  quantityOrdered: Int
+	quantityOrdered: Int @constraint(min: 1)
 }
 
 extend type WmsMutation {
-  addSalesOrderItem(id:ID!, value: CreateSalesOrderItemInput!): SalesOrderItems!
-  updateSalesOrderItem(id: ID!, value: UpdateSalesOrderItemInput!): SalesOrderItems!
-  removeSalesOrderItem(id: ID!): DeleteResult!
+	addSalesOrderItem(
+		id: ID!
+		value: CreateSalesOrderItemInput!
+	): SalesOrderItems!
+	updateSalesOrderItem(
+		id: ID!
+		value: UpdateSalesOrderItemInput!
+	): SalesOrderItems!
+	removeSalesOrderItem(id: ID!): DeleteResult!
 }

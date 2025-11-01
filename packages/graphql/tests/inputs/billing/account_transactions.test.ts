@@ -43,7 +43,7 @@ describe("Account Transaction Inputs", () => {
 						clientAccountId: "acc-003",
 						type: "DEBIT",
 					},
-					success: true,
+					success: false,
 				},
 				{
 					name: "should accept zero amount",

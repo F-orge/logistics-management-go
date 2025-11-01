@@ -41,21 +41,21 @@ extend type CrmQuery {
 }
 
 input CreateLeadInput {
-  name: String!
-  email: String!
+  name: String! @constraint(minLength: 1)
+  email: String! @constraint(format: "email")
   leadSource: LeadSource
   status: LeadStatus
-  leadScore: Int
+  leadScore: Int @constraint(min: 0, max: 100)
   ownerId: ID!
   campaignId: ID
 }
 
 input UpdateLeadInput {
-  name: String
-  email: String
+  name: String @constraint(minLength: 1)
+  email: String @constraint(format: "email")
   leadSource: LeadSource
   status: LeadStatus
-  leadScore: Int
+  leadScore: Int @constraint(min: 0, max: 100)
   convertedAt: Date
   convertedContactId: ID
   convertedCompanyId: ID

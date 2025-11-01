@@ -1,32 +1,38 @@
 type Geofences {
-  id: ID!
-  name: String!
-  longitude: Float
-  latitude: Float
-  createdAt: Date
-  updatedAt: Date
-  events: [GeofenceEvents!]
+	id: ID!
+	name: String!
+	longitude: Float
+	latitude: Float
+	createdAt: Date
+	updatedAt: Date
+	events: [GeofenceEvents!]
 }
 
 extend type TmsQuery {
-  geofences(page: Int, perPage: Int, from: Date, to: Date, search: String): [Geofences!]!
-  geofence(id: ID!): Geofences!
+	geofences(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Geofences!]!
+	geofence(id: ID!): Geofences!
 }
 
 input CreateGeofenceInput {
-  name: String!
-  longitude: Float
-  latitude: Float
+	name: String! @constraint(minLength: 1)
+	longitude: Float @constraint(min: -180, max: 180)
+	latitude: Float @constraint(min: -90, max: 90)
 }
 
 input UpdateGeofenceInput {
-  name: String
-  longitude: Float
-  latitude: Float
+	name: String @constraint(minLength: 1)
+	longitude: Float @constraint(min: -180, max: 180)
+	latitude: Float @constraint(min: -90, max: 90)
 }
 
 extend type TmsMutation {
-  createGeofence(value: CreateGeofenceInput!): Geofences!
-  updateGeofence(id: ID!, value: UpdateGeofenceInput): Geofences!
-  removeGeofence(id: ID!): DeleteResult!
+	createGeofence(value: CreateGeofenceInput!): Geofences!
+	updateGeofence(id: ID!, value: UpdateGeofenceInput): Geofences!
+	removeGeofence(id: ID!): DeleteResult!
 }

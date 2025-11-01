@@ -1,38 +1,38 @@
 type PackageItems {
-  id: ID!
-  package: Packages!
-  product: WmsProducts!
-  batch: InventoryBatches
-  quantity: Int!
-  lotNumber: String
-  serialNumbers: [String!]!
-  expiryDate: String
-  unitWeight: Float
-  totalWeight: Float
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	package: Packages!
+	product: WmsProducts!
+	batch: InventoryBatches
+	quantity: Int!
+	lotNumber: String
+	serialNumbers: [String!]!
+	expiryDate: String
+	unitWeight: Float
+	totalWeight: Float
+	createdAt: Date
+	updatedAt: Date
 }
 
 input CreatePackageItemInput {
-  packageId: ID!
-  productId: ID!
-  batchId: ID
-  quantity: Int!
-  lotNumber: String
-  serialNumbers: [String!]!
-  expiryDate: String
-  unitWeight: Float
+	packageId: ID!
+	productId: ID!
+	batchId: ID
+	quantity: Int! @constraint(min: 1)
+	lotNumber: String @constraint(minLength: 1)
+	serialNumbers: [String!]!
+	expiryDate: String @constraint(minLength: 1)
+	unitWeight: Float @constraint(min: 0)
 }
 
 input UpdatePackageItemInput {
-  quantity: Int
-  lotNumber: String
-  expiryDate: String
-  unitWeight: Float
+	quantity: Int @constraint(min: 1)
+	lotNumber: String @constraint(minLength: 1)
+	expiryDate: String @constraint(minLength: 1)
+	unitWeight: Float @constraint(min: 0)
 }
 
 extend type WmsMutation {
-  addPackageItem(id: ID!, value: CreatePackageItemInput!): PackageItems!
-  updatePackageItem(id: ID!, value: UpdatePackageItemInput!): PackageItems!
-  removePackageItem(id: ID!): DeleteResult!
+	addPackageItem(id: ID!, value: CreatePackageItemInput!): PackageItems!
+	updatePackageItem(id: ID!, value: UpdatePackageItemInput!): PackageItems!
+	removePackageItem(id: ID!): DeleteResult!
 }

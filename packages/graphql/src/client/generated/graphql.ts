@@ -7013,7 +7013,7 @@ export type CreateProductMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createProduct: { __typename?: 'Products', id: string } } | null };
+export type CreateProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createProduct: { __typename?: 'Products', id: string, name: string, description?: string | null, price: number, sku?: string | null, type?: ProductType | null } } | null };
 
 export type UpdateProductMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -7021,7 +7021,7 @@ export type UpdateProductMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateProduct: { __typename?: 'Products', id: string } } | null };
+export type UpdateProductMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', updateProduct: { __typename?: 'Products', id: string, name: string, description?: string | null, price: number, sku?: string | null, type?: ProductType | null } } | null };
 
 export type RemoveProductMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10645,6 +10645,11 @@ export const CreateProductDocument = new TypedDocumentString(`
   crm {
     createProduct(value: $product) {
       id
+      name
+      description
+      price
+      sku
+      type
     }
   }
 }
@@ -10654,6 +10659,11 @@ export const UpdateProductDocument = new TypedDocumentString(`
   crm {
     updateProduct(id: $id, value: $product) {
       id
+      name
+      description
+      price
+      sku
+      type
     }
   }
 }

@@ -1,88 +1,96 @@
 enum PickBatchStatus {
-  OPEN
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
+	OPEN
+	IN_PROGRESS
+	COMPLETED
+	CANCELLED
 }
 
 enum PickStrategy {
-  BATCH_PICKING
-  ZONE_PICKING
-  WAVE_PICKING
-  SINGLE_ORDER_PICKING
-  CLUSTER_PICKING
+	BATCH_PICKING
+	ZONE_PICKING
+	WAVE_PICKING
+	SINGLE_ORDER_PICKING
+	CLUSTER_PICKING
 }
 
 type PickBatches {
-  id: ID!
-  batchNumber: String!
-  warehouse: Warehouses!
-  status: PickBatchStatus
-  strategy: PickStrategy!
-  priority: Int
-  assignedUser: User
-  waveId: String
-  zoneRestrictions: [String]
-  estimatedDuration: Int
-  actualDuration: Int
-  totalItems: Int
-  completedItems: Int
-  startedAt: String
-  completedAt: String
-  createdAt: Date
-  updatedAt: Date
-  items: [PickBatchItems!]
-  tasks: [Tasks!]
+	id: ID!
+	batchNumber: String!
+	warehouse: Warehouses!
+	status: PickBatchStatus
+	strategy: PickStrategy!
+	priority: Int
+	assignedUser: User
+	waveId: String
+	zoneRestrictions: [String]
+	estimatedDuration: Int
+	actualDuration: Int
+	totalItems: Int
+	completedItems: Int
+	startedAt: String
+	completedAt: String
+	createdAt: Date
+	updatedAt: Date
+	items: [PickBatchItems!]
+	tasks: [Tasks!]
 }
 
 extend type WmsQuery {
-  pickBatches(page: Int, perPage: Int, from: Date, to: Date, search: String, status: PickBatchStatus, strategy: PickStrategy): [PickBatches!]!
-  pickBatch(id: ID!): PickBatches!
+	pickBatches(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: PickBatchStatus
+		strategy: PickStrategy
+	): [PickBatches!]!
+	pickBatch(id: ID!): PickBatches!
 }
 
 input CreatePickBatchInput {
-  batchNumber: String!
-  warehouseId: ID!
-  status: PickBatchStatus
-  strategy: PickStrategy!
-  priority: Int
-  assignedUserId: ID
-  waveId: String
-  zoneRestrictions: [String!]!
-  estimatedDuration: Int
-  startedAt: String
-  items: [CreatePickBatchItemInput!]!
+	batchNumber: String! @constraint(minLength: 1)
+	warehouseId: ID!
+	status: PickBatchStatus
+	strategy: PickStrategy!
+	priority: Int @constraint(min: 1, max: 10)
+	assignedUserId: ID
+	waveId: String @constraint(minLength: 1)
+	zoneRestrictions: [String!]!
+	estimatedDuration: Int @constraint(min: 0)
+	startedAt: String @constraint(minLength: 1)
+	items: [CreatePickBatchItemInput!]!
 }
 
 input UpdatePickBatchInput {
-  batchNumber: String
-  warehouseId: ID
-  status: PickBatchStatus
-  strategy: PickStrategy
-  priority: Int
-  assignedUserId: ID
-  waveId: String
-  zoneRestrictions: [String!]!
-  actualDuration: Int
-  completedItems: Int
-  completedAt: Date
+	batchNumber: String @constraint(minLength: 1)
+	warehouseId: ID
+	status: PickBatchStatus
+	strategy: PickStrategy
+	priority: Int @constraint(min: 1, max: 10)
+	assignedUserId: ID
+	waveId: String @constraint(minLength: 1)
+	zoneRestrictions: [String!]!
+	actualDuration: Int @constraint(min: 0)
+	completedItems: Int @constraint(min: 0)
+	completedAt: Date
 }
 
 extend type WmsMutation {
-  createPickBatch(value: CreatePickBatchInput!): PickBatches!
-  updatePickBatch(id: ID!, value: UpdatePickBatchInput): PickBatches!
-  removePickBatch(id: ID!): DeleteResult!
+	createPickBatch(value: CreatePickBatchInput!): PickBatches!
+	updatePickBatch(id: ID!, value: UpdatePickBatchInput): PickBatches!
+	removePickBatch(id: ID!): DeleteResult!
 }
 
 type WmsPickBatchStatusChangedEvent {
-  id: ID!
-  newStatus: PickBatchStatus!
-  previousStatus: PickBatchStatus!
+	id: ID!
+	newStatus: PickBatchStatus!
+	previousStatus: PickBatchStatus!
 }
 
 extend type Subscription {
-  pickBatchCreated: PickBatches!
-  pickBatchStarted: PickBatches!
-  pickBatchCompleted: PickBatches!
-  pickBatchStatusChanged: WmsPickBatchStatusChangedEvent!
+	pickBatchCreated: PickBatches!
+	pickBatchStarted: PickBatches!
+	pickBatchCompleted: PickBatches!
+	pickBatchStatusChanged: WmsPickBatchStatusChangedEvent!
 }

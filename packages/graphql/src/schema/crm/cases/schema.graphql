@@ -1,83 +1,92 @@
 enum CaseStatus {
-  NEW
-  IN_PROGRESS
-  WAITING_FOR_CUSTOMER
-  WAITING_FOR_INTERNAL
-  ESCALATED
-  RESOLVED
-  CLOSED
-  CANCELLED
+	NEW
+	IN_PROGRESS
+	WAITING_FOR_CUSTOMER
+	WAITING_FOR_INTERNAL
+	ESCALATED
+	RESOLVED
+	CLOSED
+	CANCELLED
 }
 
 enum CasePriority {
-  CRITICAL
-  HIGH
-  MEDIUM
-  LOW
+	CRITICAL
+	HIGH
+	MEDIUM
+	LOW
 }
 
 enum CaseType {
-  QUESTION
-  PROBLEM
-  COMPLAINT
-  FEATURE_REQUEST
-  BUG_REPORT
-  TECHNICAL_SUPPORT
+	QUESTION
+	PROBLEM
+	COMPLAINT
+	FEATURE_REQUEST
+	BUG_REPORT
+	TECHNICAL_SUPPORT
 }
 
 type Cases {
-  id: ID!
-  caseNumber: String!
-  status: CaseStatus
-  priority: CasePriority
-  type: CaseType
-  owner: User
-  contact: Contacts
-  description: String
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	caseNumber: String!
+	status: CaseStatus
+	priority: CasePriority
+	type: CaseType
+	owner: User
+	contact: Contacts
+	description: String
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type CrmQuery {
-  cases(page: Int, perPage: Int, from: Date, to: Date, search: String, status: CaseStatus, priority: CasePriority, type: CaseType): [Cases!]!
-  case(id: ID!): Cases!
+	cases(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: CaseStatus
+		priority: CasePriority
+		type: CaseType
+	): [Cases!]!
+	case(id: ID!): Cases!
 }
 
 input CreateCaseInput {
-  caseNumber: String!
-  status: CaseStatus
-  priority: CasePriority
-  type: CaseType
-  ownerId: ID!
-  contactId: ID
-  description: String
+	caseNumber: String! @constraint(minLength: 1)
+	status: CaseStatus
+	priority: CasePriority
+	type: CaseType
+	ownerId: ID!
+	contactId: ID
+	description: String @constraint(minLength: 1)
 }
 
 input UpdateCaseInput {
-  status: CaseStatus
-  priority: CasePriority
-  type: CaseType
+	status: CaseStatus
+	priority: CasePriority
+	type: CaseType
 }
 
 extend type CrmMutation {
-  createCase(value: CreateCaseInput!): Cases!
-  updateCase(id: ID!, value: UpdateCaseInput): Cases!
-  removeCase(id: ID!): DeleteResult!
+	createCase(value: CreateCaseInput!): Cases!
+	updateCase(id: ID!, value: UpdateCaseInput): Cases!
+	removeCase(id: ID!): DeleteResult!
 }
 
 type CrmCaseStatusChangedEvent {
-  id: ID!
-  newStatus: CaseStatus!
-  previousStatus: CaseStatus!
+	id: ID!
+	newStatus: CaseStatus!
+	previousStatus: CaseStatus!
 }
 
 type CrmCaseAssignedEvent {
-  id: ID!
-  ownerId: ID!
-  previousOwnerId: ID!
+	id: ID!
+	ownerId: ID!
+	previousOwnerId: ID!
 }
 
 extend type Subscription {
-  caseStatusChanged: CrmCaseStatusChangedEvent!
-  caseAssigned: CrmCaseAssignedEvent!
+	caseStatusChanged: CrmCaseStatusChangedEvent!
+	caseAssigned: CrmCaseAssignedEvent!
 }

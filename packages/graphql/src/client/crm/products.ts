@@ -5,6 +5,11 @@ export const CreateProductMutation = graphql(`
     crm {
       createProduct(value: $product) {
         id
+        name
+        description
+        price
+        sku
+        type
       }
     }
   }
@@ -15,6 +20,11 @@ export const UpdateProductMutation = graphql(`
     crm {
       updateProduct(id: $id, value: $product) {
         id
+        name
+        description
+        price
+        sku
+        type
       }
     }
   }

@@ -88,7 +88,7 @@ describe("Contact Inputs", () => {
 						ownerId: "owner-456",
 						jobTitle: "",
 					},
-					success: true,
+					success: false,
 				},
 				{
 					name: "valid with empty phoneNumber string",
@@ -99,7 +99,7 @@ describe("Contact Inputs", () => {
 						ownerId: "owner-456",
 						phoneNumber: "",
 					},
-					success: true,
+					success: false,
 				},
 				{
 					name: "valid with special characters in name",
@@ -335,7 +335,7 @@ describe("Contact Inputs", () => {
 						jobTitle: "",
 						phoneNumber: "",
 					},
-					success: true,
+					success: false,
 				},
 				{
 					name: "update with special character email",

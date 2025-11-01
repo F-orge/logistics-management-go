@@ -30,30 +30,30 @@ extend type WmsQuery {
 }
 
 input CreateWarehouseInput {
-  name: String!
-  address: String
-  city: String
-  state: String
-  postalCode: String
-  country: String
-  timezone: String
-  contactPerson: String
-  contactEmail: String
-  contactPhone: String
+  name: String! @constraint(minLength: 1)
+  address: String @constraint(minLength: 1)
+  city: String @constraint(minLength: 1)
+  state: String @constraint(minLength: 1)
+  postalCode: String @constraint(minLength: 1)
+  country: String @constraint(minLength: 1)
+  timezone: String @constraint(minLength: 1)
+  contactPerson: String @constraint(minLength: 1)
+  contactEmail: String @constraint(format: "email")
+  contactPhone: String @constraint(minLength: 1)
   isActive: Boolean
 }
 
 input UpdateWarehouseInput {
-  name: String
-  address: String
-  city: String
-  state: String
-  postalCode: String
-  country: String
-  timezone: String
-  contactPerson: String
-  contactEmail: String
-  contactPhone: String
+  name: String @constraint(minLength: 1)
+  address: String @constraint(minLength: 1)
+  city: String @constraint(minLength: 1)
+  state: String @constraint(minLength: 1)
+  postalCode: String @constraint(minLength: 1)
+  country: String @constraint(minLength: 1)
+  timezone: String @constraint(minLength: 1)
+  contactPerson: String @constraint(minLength: 1)
+  contactEmail: String @constraint(format: "email")
+  contactPhone: String @constraint(minLength: 1)
   isActive: Boolean
 }
 

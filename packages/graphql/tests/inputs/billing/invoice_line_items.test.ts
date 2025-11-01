@@ -47,7 +47,7 @@ describe("InvoiceLineItem Inputs", () => {
 						quantity: 0,
 						unitPrice: 50,
 					},
-					success: true,
+					success: false,
 				},
 				{
 					name: "should accept with zero unit price",

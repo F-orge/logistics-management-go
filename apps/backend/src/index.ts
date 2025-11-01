@@ -130,7 +130,9 @@ export const serverFactory = async ({ pool }: ServerFactory) => {
         ? "http://localhost:3001"
         : process.env.JWT_ISSUER!,
     jwtAudience: process.env.JWT_AUDIENCE!,
-    environment: (process.env.NODE_ENV as "development" | "production") || "development",
+    environment:
+      (process.env.NODE_ENV as "development" | "production") || "development",
+    enableJWT: true,
   });
 
   // graphql yoga handler

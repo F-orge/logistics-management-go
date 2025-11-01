@@ -1,124 +1,132 @@
 enum TaskType {
-  PUTAWAY
-  PICK
-  PACK
-  REPLENISHMENT
-  CYCLE_COUNT
-  CROSS_DOCK
-  RETURNS_PROCESSING
-  DAMAGE_INSPECTION
-  QUALITY_CHECK
+	PUTAWAY
+	PICK
+	PACK
+	REPLENISHMENT
+	CYCLE_COUNT
+	CROSS_DOCK
+	RETURNS_PROCESSING
+	DAMAGE_INSPECTION
+	QUALITY_CHECK
 }
 
 enum TaskStatus {
-  PENDING
-  ASSIGNED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-  ERROR
+	PENDING
+	ASSIGNED
+	IN_PROGRESS
+	COMPLETED
+	CANCELLED
+	ERROR
 }
 
 type Tasks {
-  id: ID!
-  taskNumber: String!
-  warehouse: Warehouses!
-  user: User
-  type: TaskType!
-  status: TaskStatus
-  priority: Int
-  sourceEntityId: ID
-  sourceEntityType: String
-  pickBatch: PickBatches
-  estimatedDuration: Int
-  actualDuration: Int
-  instructions: String
-  notes: String
-  startTime: String
-  endTime: String
-  durationSeconds: Int
-  createdAt: Date
-  updatedAt: Date
-  items: [TaskItems!]
+	id: ID!
+	taskNumber: String!
+	warehouse: Warehouses!
+	user: User
+	type: TaskType!
+	status: TaskStatus
+	priority: Int
+	sourceEntityId: ID
+	sourceEntityType: String
+	pickBatch: PickBatches
+	estimatedDuration: Int
+	actualDuration: Int
+	instructions: String
+	notes: String
+	startTime: String
+	endTime: String
+	durationSeconds: Int
+	createdAt: Date
+	updatedAt: Date
+	items: [TaskItems!]
 }
 
 extend type WmsQuery {
-  tasks(page: Int, perPage: Int, from: Date, to: Date, search: String, type: TaskType, status: TaskStatus): [Tasks!]!
-  task(id: ID!): Tasks!
+	tasks(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		type: TaskType
+		status: TaskStatus
+	): [Tasks!]!
+	task(id: ID!): Tasks!
 }
 
 input CreateTaskInput {
-  taskNumber: String!
-  warehouseId: ID!
-  userId: ID
-  type: TaskType!
-  status: TaskStatus
-  priority: Int
-  sourceEntityId: ID
-  sourceEntityType: String
-  pickBatchId: ID
-  estimatedDuration: Int
-  actualDuration: Int
-  instructions: String
-  notes: String
-  startTime: Date
-  endTime: Date
+	taskNumber: String! @constraint(minLength: 1)
+	warehouseId: ID!
+	userId: ID
+	type: TaskType!
+	status: TaskStatus
+	priority: Int @constraint(min: 1, max: 10)
+	sourceEntityId: ID
+	sourceEntityType: String @constraint(minLength: 1)
+	pickBatchId: ID
+	estimatedDuration: Int @constraint(min: 0)
+	actualDuration: Int @constraint(min: 0)
+	instructions: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	startTime: Date
+	endTime: Date
 }
 
 input UpdateTaskInput {
-  taskNumber: String
-  userId: ID
-  type: TaskType
-  status: TaskStatus
-  priority: Int
-  sourceEntityId: ID
-  sourceEntityType: String
-  pickBatchId: ID
-  estimatedDuration: Int
-  actualDuration: Int
-  instructions: String
-  notes: String
-  startTime: Date
-  endTime: Date
+	taskNumber: String @constraint(minLength: 1)
+	userId: ID
+	type: TaskType
+	status: TaskStatus
+	priority: Int @constraint(min: 1, max: 10)
+	sourceEntityId: ID
+	sourceEntityType: String @constraint(minLength: 1)
+	pickBatchId: ID
+	estimatedDuration: Int @constraint(min: 0)
+	actualDuration: Int @constraint(min: 0)
+	instructions: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	startTime: Date
+	endTime: Date
 }
 
 extend type WmsMutation {
-  createTask(value: CreateTaskInput!): Tasks!
-  updateTask(id: ID!, value: UpdateTaskInput): Tasks!
-  removeTask(id: ID!): DeleteResult!
+	createTask(value: CreateTaskInput!): Tasks!
+	updateTask(id: ID!, value: UpdateTaskInput): Tasks!
+	removeTask(id: ID!): DeleteResult!
 }
 
 type WmsTaskAssignedEvent {
-  task: Tasks!
-  previousUserId: ID
+	task: Tasks!
+	previousUserId: ID
 }
 
 type WmsTaskStatusChangedEvent {
-  id: ID!
-  newStatus: TaskStatus!
-  previousStatus: TaskStatus!
-  type: TaskType!
+	id: ID!
+	newStatus: TaskStatus!
+	previousStatus: TaskStatus!
+	type: TaskType!
 }
 
 type WmsTaskReplenishmentCreatedEvent {
-  task: Tasks!
-  binId: ID!
-  reason: String!
+	task: Tasks!
+	binId: ID!
+	reason: String!
 }
 
 type WmsTaskPutawayCreatedEvent {
-  task: Tasks!
-  returnId: ID!
-  reason: String!
+	task: Tasks!
+	returnId: ID!
+	reason: String!
 }
 
 extend type Subscription {
-  taskCreated: Tasks!
-  taskAssigned: WmsTaskAssignedEvent!
-  taskStarted: Tasks!
-  taskCompleted: Tasks!
-  taskCancelled: Tasks!
-  taskStatusChanged: WmsTaskStatusChangedEvent!
-  taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent!
-  taskPutawayCreated: WmsTaskPutawayCreatedEvent!
+	taskCreated: Tasks!
+	taskAssigned: WmsTaskAssignedEvent!
+	taskStarted: Tasks!
+	taskCompleted: Tasks!
+	taskCancelled: Tasks!
+	taskStatusChanged: WmsTaskStatusChangedEvent!
+	taskReplenishmentCreated: WmsTaskReplenishmentCreatedEvent!
+	taskPutawayCreated: WmsTaskPutawayCreatedEvent!
 }

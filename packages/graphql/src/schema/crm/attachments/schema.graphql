@@ -1,38 +1,44 @@
 enum RecordType {
-  COMPANIES
-  CONTACTS
-  LEADS
-  OPPORTUNITIES
-  CASES
-  INTERACTIONS
-  CAMPAIGNS
-  PRODUCTS
-  INVOICES
+	COMPANIES
+	CONTACTS
+	LEADS
+	OPPORTUNITIES
+	CASES
+	INTERACTIONS
+	CAMPAIGNS
+	PRODUCTS
+	INVOICES
 }
 
 type Attachments {
-  id: ID!
-  fileName: String!
-  filePath: String!
-  mimeType: String
-  recordId: ID
-  recordType: RecordType
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	fileName: String!
+	filePath: String!
+	mimeType: String
+	recordId: ID
+	recordType: RecordType
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type CrmQuery {
-  attachments(page: Int, perPage: Int, from: Date, to: Date, search: String): [Attachments!]!
-  attachment(id: ID!): Attachments!
+	attachments(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Attachments!]!
+	attachment(id: ID!): Attachments!
 }
 
 input CreateAttachmentInput {
-  file: File!
-  recordId: ID!
-  recordType: RecordType!
+	file: File! @constraint(maxSize: 10485760)
+	recordId: ID!
+	recordType: RecordType!
 }
 
 extend type CrmMutation {
-  createAttachment(value: CreateAttachmentInput!): Attachments!
-  removeAttachment(id: ID!): DeleteResult!
+	createAttachment(value: CreateAttachmentInput!): Attachments!
+	removeAttachment(id: ID!): DeleteResult!
 }

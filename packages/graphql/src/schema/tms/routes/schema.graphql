@@ -1,33 +1,39 @@
 type Routes {
-  id: ID!
-  trip: Trips!
-  optimizedRouteData: String
-  totalDistance: Float
-  totalDuration: Float
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	trip: Trips!
+	optimizedRouteData: String
+	totalDistance: Float
+	totalDuration: Float
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type TmsQuery {
-  routes(page: Int, perPage: Int, from: Date, to: Date, search: String): [Routes!]!
-  route(id: ID!): Routes!
+	routes(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Routes!]!
+	route(id: ID!): Routes!
 }
 
 input CreateRouteInput {
-  tripId: ID!
-  optimizedRouteData: String
-  totalDistance: Float
-  totalDuration: Float
+	tripId: ID!
+	optimizedRouteData: String @constraint(minLength: 1)
+	totalDistance: Float @constraint(min: 0)
+	totalDuration: Float @constraint(min: 0)
 }
 
 input UpdateRouteInput {
-  optimizedRouteData: String
-  totalDistance: Float
-  totalDuration: Float
+	optimizedRouteData: String @constraint(minLength: 1)
+	totalDistance: Float @constraint(min: 0)
+	totalDuration: Float @constraint(min: 0)
 }
 
 extend type TmsMutation {
-  createRoute(value: CreateRouteInput!): Routes!
-  updateRoute(id: ID!, value: UpdateRouteInput): Routes!
-  removeRoute(id: ID!): DeleteResult!
+	createRoute(value: CreateRouteInput!): Routes!
+	updateRoute(id: ID!, value: UpdateRouteInput): Routes!
+	removeRoute(id: ID!): DeleteResult!
 }

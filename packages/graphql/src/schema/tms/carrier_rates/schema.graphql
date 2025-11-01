@@ -1,43 +1,42 @@
 enum CarrierRateUnit {
-  PER_KG
-  PER_CONTAINER
-  PER_MILE
-  PER_KM
-  FLAT_RATE
+	PER_KG
+	PER_CONTAINER
+	PER_MILE
+	PER_KM
+	FLAT_RATE
 }
 
 type CarrierRates {
-  id: ID!
-  carrier: Carriers!
-  serviceType: String
-  origin: String
-  destination: String
-  rate: Float!
-  unit: CarrierRateUnit
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	carrier: Carriers!
+	serviceType: String
+	origin: String
+	destination: String
+	rate: Float!
+	unit: CarrierRateUnit
+	createdAt: Date
+	updatedAt: Date
 }
 
-
 input CreateCarrierRateInput {
-  carrierId: ID!
-  serviceType: String
-  origin: String
-  destination: String
-  rate: Float!
-  unit: CarrierRateUnit
+	carrierId: ID!
+	serviceType: String @constraint(minLength: 1)
+	origin: String @constraint(minLength: 1)
+	destination: String @constraint(minLength: 1)
+	rate: Float! @constraint(min: 0)
+	unit: CarrierRateUnit
 }
 
 input UpdateCarrierRateInput {
-  serviceType: String
-  origin: String
-  destination: String
-  rate: Float
-  unit: CarrierRateUnit
+	serviceType: String @constraint(minLength: 1)
+	origin: String @constraint(minLength: 1)
+	destination: String @constraint(minLength: 1)
+	rate: Float @constraint(min: 0)
+	unit: CarrierRateUnit
 }
 
 extend type TmsMutation {
-  createCarrierRate(value: CreateCarrierRateInput!): CarrierRates!
-  updateCarrierRate(id: ID!, value: UpdateCarrierRateInput): CarrierRates!
-  removeCarrierRate(id: ID!): DeleteResult!
+	createCarrierRate(value: CreateCarrierRateInput!): CarrierRates!
+	updateCarrierRate(id: ID!, value: UpdateCarrierRateInput): CarrierRates!
+	removeCarrierRate(id: ID!): DeleteResult!
 }

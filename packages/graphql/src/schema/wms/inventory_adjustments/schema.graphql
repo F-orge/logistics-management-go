@@ -1,62 +1,74 @@
 enum InventoryAdjustmentReason {
-  CYCLE_COUNT
-  DAMAGED_GOODS
-  THEFT
-  EXPIRED
-  RETURN_TO_VENDOR
-  MANUAL_CORRECTION
+	CYCLE_COUNT
+	DAMAGED_GOODS
+	THEFT
+	EXPIRED
+	RETURN_TO_VENDOR
+	MANUAL_CORRECTION
 }
 
 type InventoryAdjustments {
-  id: ID!
-  product: WmsProducts!
-  warehouseId: ID!
-  user: User!
-  quantityChange: Int!
-  reason: InventoryAdjustmentReason
-  notes: String
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	product: WmsProducts!
+	warehouseId: ID!
+	user: User!
+	quantityChange: Int!
+	reason: InventoryAdjustmentReason
+	notes: String
+	createdAt: Date
+	updatedAt: Date
 }
 
 extend type WmsQuery {
-  inventoryAdjustments(page: Int, perPage: Int, from: Date, to: Date, search: String, reason: InventoryAdjustmentReason): [InventoryAdjustments!]!
-  inventoryAdjustment(id: ID!): InventoryAdjustments!
+	inventoryAdjustments(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		reason: InventoryAdjustmentReason
+	): [InventoryAdjustments!]!
+	inventoryAdjustment(id: ID!): InventoryAdjustments!
 }
 
 input CreateInventoryAdjustmentInput {
-  productId: ID!
-  warehouseId: ID!
-  userId: ID!
-  quantityChange: Int!
-  reason: InventoryAdjustmentReason
-  notes: String
+	productId: ID!
+	warehouseId: ID!
+	userId: ID!
+	quantityChange: Int!
+	reason: InventoryAdjustmentReason
+	notes: String @constraint(minLength: 1)
 }
 
 input UpdateInventoryAdjustmentInput {
-  userId: ID
-  quantityChange: Int
-  reason: InventoryAdjustmentReason
-  notes: String
+	userId: ID
+	quantityChange: Int
+	reason: InventoryAdjustmentReason
+	notes: String @constraint(minLength: 1)
 }
 
 extend type WmsMutation {
-  createInventoryAdjustment(value: CreateInventoryAdjustmentInput!): InventoryAdjustments!
-  updateInventoryAdjustment(id: ID!, value: UpdateInventoryAdjustmentInput): InventoryAdjustments!
-  removeInventoryAdjustment(id: ID!): DeleteResult!
+	createInventoryAdjustment(
+		value: CreateInventoryAdjustmentInput!
+	): InventoryAdjustments!
+	updateInventoryAdjustment(
+		id: ID!
+		value: UpdateInventoryAdjustmentInput
+	): InventoryAdjustments!
+	removeInventoryAdjustment(id: ID!): DeleteResult!
 }
 
 type WmsInventoryAdjustmentRecordedEvent {
-  inventoryAdjustment: InventoryAdjustments!
-  previousQuantity: Int!
+	inventoryAdjustment: InventoryAdjustments!
+	previousQuantity: Int!
 }
 
 type WmsInventoryAdjustmentDamagedReturnEvent {
-  inventoryAdjustment: InventoryAdjustments!
-  returnId: ID!
+	inventoryAdjustment: InventoryAdjustments!
+	returnId: ID!
 }
 
 extend type Subscription {
-  inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
-  inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
+	inventoryAdjustmentRecorded: WmsInventoryAdjustmentRecordedEvent!
+	inventoryAdjustmentDamagedReturn: WmsInventoryAdjustmentDamagedReturnEvent!
 }

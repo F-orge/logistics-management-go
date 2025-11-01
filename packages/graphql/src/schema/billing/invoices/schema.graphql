@@ -1,116 +1,126 @@
 enum BillingInvoiceStatus {
-  DRAFT
-  SENT
-  VIEWED
-  PAID
-  PARTIAL_PAID
-  PAST_DUE
-  DISPUTED
-  CANCELLED
-  VOID
+	DRAFT
+	SENT
+	VIEWED
+	PAID
+	PARTIAL_PAID
+	PAST_DUE
+	DISPUTED
+	CANCELLED
+	VOID
 }
 
 type BillingInvoices {
-  id: ID!
-  client: Companies!
-  quote: Quotes
-  invoiceNumber: String!
-  status: BillingInvoiceStatus
-  issueDate: String!
-  dueDate: String!
-  totalAmount: Float!
-  amountPaid: Float
-  amountOutstanding: Float
-  currency: String
-  taxAmount: Float
-  discountAmount: Float
-  subtotal: Float
-  paymentTerms: String
-  notes: String
-  sentAt: String
-  paidAt: String
-  createdByUser: User
-  createdAt: Date
-  updatedAt: Date
-  lineItems: [InvoiceLineItems!]
-  payments: [Payments!]
-  creditNotes: [CreditNotes!]
+	id: ID!
+	client: Companies!
+	quote: Quotes
+	invoiceNumber: String!
+	status: BillingInvoiceStatus
+	issueDate: String!
+	dueDate: String!
+	totalAmount: Float!
+	amountPaid: Float
+	amountOutstanding: Float
+	currency: String
+	taxAmount: Float
+	discountAmount: Float
+	subtotal: Float
+	paymentTerms: String
+	notes: String
+	sentAt: String
+	paidAt: String
+	createdByUser: User
+	createdAt: Date
+	updatedAt: Date
+	lineItems: [InvoiceLineItems!]
+	payments: [Payments!]
+	creditNotes: [CreditNotes!]
 }
 
 extend type BillingQuery {
-  billingInvoices(page: Int, perPage: Int, from: Date, to: Date, search: String, status: BillingInvoiceStatus): [BillingInvoices!]!
-  billingInvoice(id: ID!): BillingInvoices!
+	billingInvoices(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: BillingInvoiceStatus
+	): [BillingInvoices!]!
+	billingInvoice(id: ID!): BillingInvoices!
 }
 
 input CreateBillingInvoiceInput {
-  clientId: ID!
-  quoteId: ID
-  invoiceNumber: String!
-  status: BillingInvoiceStatus
-  issueDate: String!
-  dueDate: String!
-  currency: String
-  paymentTerms: String
-  notes: String
-  sentAt: Date
-  createdByUserId: ID
-  items: [CreateInvoiceLineItemInput!]!
+	clientId: ID!
+	quoteId: ID
+	invoiceNumber: String! @constraint(minLength: 1)
+	status: BillingInvoiceStatus
+	issueDate: String! @constraint(minLength: 1)
+	dueDate: String! @constraint(minLength: 1)
+	currency: String @constraint(minLength: 1)
+	paymentTerms: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	sentAt: Date
+	createdByUserId: ID
+	items: [CreateInvoiceLineItemInput!]!
 }
 
 input UpdateBillingInvoiceInput {
-  status: BillingInvoiceStatus
-  dueDate: String
-  amountPaid: Float
-  currency: String
-  paymentTerms: String
-  notes: String
-  paidAt: Date
+	status: BillingInvoiceStatus
+	dueDate: String @constraint(minLength: 1)
+	amountPaid: Float @constraint(min: 0)
+	currency: String @constraint(minLength: 1)
+	paymentTerms: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	paidAt: Date
 }
 
 extend type BillingMutation {
-  createBillingInvoice(value: CreateBillingInvoiceInput!): BillingInvoices!
-  updateBillingInvoice(id: ID!, value: UpdateBillingInvoiceInput): BillingInvoices!
-  removeBillingInvoice(id: ID!): DeleteResult!
+	createBillingInvoice(value: CreateBillingInvoiceInput!): BillingInvoices!
+	updateBillingInvoice(
+		id: ID!
+		value: UpdateBillingInvoiceInput
+	): BillingInvoices!
+	removeBillingInvoice(id: ID!): DeleteResult!
 }
 
 type InvoiceStatusChangedEvent {
-  id: ID!
-  newStatus: BillingInvoiceStatus!
-  previousStatus: BillingInvoiceStatus!
-  clientId: ID!
+	id: ID!
+	newStatus: BillingInvoiceStatus!
+	previousStatus: BillingInvoiceStatus!
+	clientId: ID!
 }
 
 type InvoicePaidEvent {
-  invoice: BillingInvoices!
-  paidAmount: String!
-  remainingBalance: String!
+	invoice: BillingInvoices!
+	paidAmount: String!
+	remainingBalance: String!
 }
 
 type InvoicePartiallyPaidEvent {
-  invoice: BillingInvoices!
-  paymentAmount: String!
-  remainingBalance: String!
+	invoice: BillingInvoices!
+	paymentAmount: String!
+	remainingBalance: String!
 }
 
 type InvoiceOverdueEvent {
-  id: ID!
-  clientId: ID!
-  amountOutstanding: String!
-  dueDate: String!
+	id: ID!
+	clientId: ID!
+	amountOutstanding: String!
+	dueDate: String!
 }
 
 type InvoiceDisputedEvent {
-  invoice: BillingInvoices!
-  disputeId: ID!
+	invoice: BillingInvoices!
+	disputeId: ID!
 }
 
 extend type Subscription {
-  invoiceCreated: BillingInvoices!
-  invoiceSent: BillingInvoices!
-  invoiceViewed: BillingInvoices!
-  invoiceStatusChanged: InvoiceStatusChangedEvent!
-  invoicePaid: InvoicePaidEvent!
-  invoicePartiallyPaid: InvoicePartiallyPaidEvent!
-  invoiceOverdue: InvoiceOverdueEvent!
-  invoiceDisputed: InvoiceDisputedEvent!
+	invoiceCreated: BillingInvoices!
+	invoiceSent: BillingInvoices!
+	invoiceViewed: BillingInvoices!
+	invoiceStatusChanged: InvoiceStatusChangedEvent!
+	invoicePaid: InvoicePaidEvent!
+	invoicePartiallyPaid: InvoicePartiallyPaidEvent!
+	invoiceOverdue: InvoiceOverdueEvent!
+	invoiceDisputed: InvoiceDisputedEvent!
 }

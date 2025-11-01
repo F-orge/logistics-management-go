@@ -1,85 +1,92 @@
 enum DisputeStatus {
-  OPEN
-  UNDER_REVIEW
-  APPROVED
-  DENIED
-  ESCALATED
-  CLOSED
+	OPEN
+	UNDER_REVIEW
+	APPROVED
+	DENIED
+	ESCALATED
+	CLOSED
 }
 
 type Disputes {
-  id: ID!
-  lineItem: InvoiceLineItems!
-  client: Companies!
-  reason: String!
-  status: DisputeStatus
-  disputedAmount: Float
-  resolutionNotes: String
-  submittedAt: String
-  resolvedAt: String
-  resolvedByUser: User
-  createdAt: Date
-  updatedAt: Date
-  creditNotes: [CreditNotes!]
+	id: ID!
+	lineItem: InvoiceLineItems!
+	client: Companies!
+	reason: String!
+	status: DisputeStatus
+	disputedAmount: Float
+	resolutionNotes: String
+	submittedAt: String
+	resolvedAt: String
+	resolvedByUser: User
+	createdAt: Date
+	updatedAt: Date
+	creditNotes: [CreditNotes!]
 }
 
 extend type BillingQuery {
-  disputes(page: Int, perPage: Int, from: Date, to: Date, search: String, status: DisputeStatus): [Disputes!]!
-  dispute(id: ID!): Disputes!
+	disputes(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: DisputeStatus
+	): [Disputes!]!
+	dispute(id: ID!): Disputes!
 }
 
 input CreateDisputeInput {
-  lineItemId: ID!
-  clientId: ID!
-  reason: String!
-  status: DisputeStatus
-  disputedAmount: Float
-  resolutionNotes: String
-  resolvedAt: String
-  resolvedByUserId: ID
+	lineItemId: ID!
+	clientId: ID!
+	reason: String! @constraint(minLength: 1)
+	status: DisputeStatus
+	disputedAmount: Float @constraint(min: 0)
+	resolutionNotes: String @constraint(minLength: 1)
+	resolvedAt: String @constraint(minLength: 1)
+	resolvedByUserId: ID
 }
 
 input UpdateDisputeInput {
-  reason: String
-  status: DisputeStatus
-  disputedAmount: Float
-  resolutionNotes: String
-  resolvedAt: String
-  resolvedByUserId: ID
+	reason: String @constraint(minLength: 1)
+	status: DisputeStatus
+	disputedAmount: Float @constraint(min: 0)
+	resolutionNotes: String @constraint(minLength: 1)
+	resolvedAt: String @constraint(minLength: 1)
+	resolvedByUserId: ID
 }
 
 extend type BillingMutation {
-  createDispute(value: CreateDisputeInput!): Disputes!
-  updateDispute(id: ID!, value: UpdateDisputeInput): Disputes!
+	createDispute(value: CreateDisputeInput!): Disputes!
+	updateDispute(id: ID!, value: UpdateDisputeInput): Disputes!
 }
 
 type DisputeStatusChangedEvent {
-  id: ID!
-  newStatus: DisputeStatus!
-  previousStatus: DisputeStatus!
-  clientId: ID!
+	id: ID!
+	newStatus: DisputeStatus!
+	previousStatus: DisputeStatus!
+	clientId: ID!
 }
 
 type DisputeApprovedEvent {
-  dispute: Disputes!
-  creditNoteId: ID
+	dispute: Disputes!
+	creditNoteId: ID
 }
 
 type DisputeDeniedEvent {
-  dispute: Disputes!
-  denialReason: String
+	dispute: Disputes!
+	denialReason: String
 }
 
 type DisputeResolvedEvent {
-  dispute: Disputes!
-  resolutionDetails: String
+	dispute: Disputes!
+	resolutionDetails: String
 }
 
 extend type Subscription {
-  disputeOpened: Disputes!
-  disputeStatusChanged: DisputeStatusChangedEvent!
-  disputeUnderReview: Disputes!
-  disputeApproved: DisputeApprovedEvent!
-  disputeDenied: DisputeDeniedEvent!
-  disputeResolved: DisputeResolvedEvent!
+	disputeOpened: Disputes!
+	disputeStatusChanged: DisputeStatusChangedEvent!
+	disputeUnderReview: Disputes!
+	disputeApproved: DisputeApprovedEvent!
+	disputeDenied: DisputeDeniedEvent!
+	disputeResolved: DisputeResolvedEvent!
 }

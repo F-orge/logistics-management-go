@@ -15,17 +15,17 @@ extend type WmsQuery {
 }
 
 input CreateSupplierInput {
-  name: String!
-  contactPerson: String
-  email: String
-  phoneNumber: String
+  name: String! @constraint(minLength: 1)
+  contactPerson: String @constraint(minLength: 1)
+  email: String @constraint(format: "email")
+  phoneNumber: String @constraint(minLength: 1)
 }
 
 input UpdateSupplierInput {
-  name: String
-  contactPerson: String
-  email: String
-  phoneNumber: String
+  name: String @constraint(minLength: 1)
+  contactPerson: String @constraint(minLength: 1)
+  email: String @constraint(format: "email")
+  phoneNumber: String @constraint(minLength: 1)
 }
 
 extend type WmsMutation {

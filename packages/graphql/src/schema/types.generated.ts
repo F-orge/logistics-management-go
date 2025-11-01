@@ -6711,6 +6711,29 @@ export type ResolversParentTypes = {
   WmsTaskStatusChangedEvent: WmsTaskStatusChangedEvent;
 };
 
+export type constraintDirectiveArgs = {
+  contains?: Maybe<Scalars['String']['input']>;
+  endsWith?: Maybe<Scalars['String']['input']>;
+  exclusiveMax?: Maybe<Scalars['Float']['input']>;
+  exclusiveMin?: Maybe<Scalars['Float']['input']>;
+  format?: Maybe<Scalars['String']['input']>;
+  max?: Maybe<Scalars['Float']['input']>;
+  maxItems?: Maybe<Scalars['Int']['input']>;
+  maxLength?: Maybe<Scalars['Int']['input']>;
+  maxSize?: Maybe<Scalars['Int']['input']>;
+  min?: Maybe<Scalars['Float']['input']>;
+  minItems?: Maybe<Scalars['Int']['input']>;
+  minLength?: Maybe<Scalars['Int']['input']>;
+  multipleOf?: Maybe<Scalars['Float']['input']>;
+  notContains?: Maybe<Scalars['String']['input']>;
+  pattern?: Maybe<Scalars['String']['input']>;
+  startsWith?: Maybe<Scalars['String']['input']>;
+  uniqueItems?: Maybe<Scalars['Boolean']['input']>;
+  uniqueTypeName?: Maybe<Scalars['String']['input']>;
+};
+
+export type constraintDirectiveResolver<Result, Parent, ContextType = GraphQLContext, Args = constraintDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type AccountTransactionsResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['AccountTransactions'] = ResolversParentTypes['AccountTransactions']> = {
   amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   clientAccount?: Resolver<ResolversTypes['ClientAccounts'], ParentType, ContextType>;
@@ -9087,3 +9110,6 @@ export type Resolvers<ContextType = GraphQLContext> = {
   WmsTaskStatusChangedEvent?: WmsTaskStatusChangedEventResolvers<ContextType>;
 };
 
+export type DirectiveResolvers<ContextType = GraphQLContext> = {
+  constraint?: constraintDirectiveResolver<any, any, ContextType>;
+};
