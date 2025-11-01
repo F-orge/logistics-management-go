@@ -1,4 +1,5 @@
 // CRM Exports
+export * from "./crm/attachments";
 export * from "./crm/campaigns";
 export * from "./crm/cases";
 export * from "./crm/companies";
@@ -65,6 +66,7 @@ export * from "./billing/accounting_sync_log";
 export * from "./billing/client_accounts";
 export * from "./billing/credit_notes";
 export * from "./billing/disputes";
+export * from "./billing/documents";
 export * from "./billing/invoice_line_items";
 export * from "./billing/invoices";
 export * from "./billing/payments";

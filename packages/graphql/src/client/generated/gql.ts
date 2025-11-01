@@ -40,6 +40,13 @@ type Documents = {
     "\n  query TableDispute(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: DisputeStatus\n  ) {\n    billing {\n      disputes(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        client {\n          annualRevenue\n          city\n          id\n          industry\n          name\n          website\n          phoneNumber\n        }\n        disputedAmount\n        id\n        reason\n        resolutionNotes\n        resolvedAt\n        status\n        submittedAt\n        updatedAt\n        resolvedByUser {\n          email\n          id\n          image\n          name\n        }\n        lineItem {\n          discountAmount\n          discountRate\n          description\n          id\n          lineTotal\n          quantity\n          sourceRecordId\n          sourceRecordType\n          taxAmount\n          taxRate\n          totalPrice\n          unitPrice\n          updatedAt\n          invoice {\n            amountPaid\n            currency\n            discountAmount\n            dueDate\n            id\n            invoiceNumber\n            issueDate\n            notes\n            paidAt\n            paymentTerms\n            sentAt\n            status\n            subtotal\n            taxAmount\n            totalAmount\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n": typeof types.TableDisputeDocument,
     "\n  query SearchDisputes($search: String!) {\n    billing {\n      disputes(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: reason\n      }\n    }\n  }\n": typeof types.SearchDisputesDocument,
     "\n  query AnalyticsDisputes($from: Date, $to: Date) {\n    billing {\n      disputes(from: $from, to: $to) {\n        disputedAmount\n        status\n      }\n    }\n  }\n": typeof types.AnalyticsDisputesDocument,
+    "\n  mutation CreateDocument($document: CreateDocumentInput!) {\n    billing {\n      createDocument(value: $document) {\n        id\n      }\n    }\n  }\n": typeof types.CreateDocumentDocument,
+    "\n  mutation UpdateDocument($id: ID!, $document: UpdateDocumentInput!) {\n    billing {\n      updateDocument(id: $id, value: $document) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateDocumentDocument,
+    "\n  mutation RemoveDocument($id: ID!) {\n    billing {\n      removeDocument(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveDocumentDocument,
+    "\n  query TableDocument(\n    $page: Int\n    $perPage: Int\n    $from: Date\n    $to: Date\n  ) {\n    billing {\n      documents(page: $page, perPage: $perPage, from: $from, to: $to) {\n        id\n        recordId\n        recordType\n        documentType\n        filePath\n        fileName\n        fileSize\n        mimeType\n        createdAt\n        updatedAt\n        uploadedByUser {\n          id\n          email\n          name\n          image\n        }\n      }\n    }\n  }\n": typeof types.TableDocumentDocument,
+    "\n  query FindDocument($id: ID!) {\n    billing {\n      document(id: $id) {\n        id\n        recordId\n        recordType\n        documentType\n        filePath\n        fileName\n        fileSize\n        mimeType\n        createdAt\n        updatedAt\n        uploadedByUser {\n          id\n          email\n          name\n          image\n        }\n      }\n    }\n  }\n": typeof types.FindDocumentDocument,
+    "\n  query SearchDocuments($from: Date, $to: Date) {\n    billing {\n      documents(from: $from, to: $to, page: 1, perPage: 10) {\n        value: id\n        label: fileName\n      }\n    }\n  }\n": typeof types.SearchDocumentsDocument,
+    "\n  query AnalyticsDocuments($from: Date, $to: Date) {\n    billing {\n      documents(from: $from, to: $to) {\n        id\n        documentType\n        fileSize\n        createdAt\n      }\n    }\n  }\n": typeof types.AnalyticsDocumentsDocument,
     "\n  mutation UpdateInvoiceLineItem(\n    $id: ID!\n    $invoiceLineItem: UpdateInvoiceLineItemInput!\n  ) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateInvoiceLineItemDocument,
     "\n  mutation RemoveInvoiceLineItem($id: ID!) {\n    billing {\n      removeInvoiceLineItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveInvoiceLineItemDocument,
     "\n  mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {\n    billing {\n      createBillingInvoice(value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": typeof types.CreateBillingInvoiceDocument,
@@ -78,6 +85,12 @@ type Documents = {
     "\n  query TableSurcharge(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $calculationMethod: SurchargeCalculationMethod\n  ) {\n    billing {\n      surcharges(\n        page: $page\n        perPage: $perPage\n        search: $search\n        calculationMethod: $calculationMethod\n      ) {\n        amount\n        calculationMethod\n        createdAt\n        description\n        id\n        isActive\n        name\n        type\n        updatedAt\n        validFrom\n        validTo\n      }\n    }\n  }\n": typeof types.TableSurchargeDocument,
     "\n  query SearchSurcharges($search: String!) {\n    billing {\n      surcharges(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": typeof types.SearchSurchargesDocument,
     "\n  query AnalyticsSurcharges($from: Date, $to: Date) {\n    billing {\n      surcharges(from: $from, to: $to) {\n        amount\n        calculationMethod\n      }\n    }\n  }\n": typeof types.AnalyticsSurchargesDocument,
+    "\n  mutation CreateAttachment($attachment: CreateAttachmentInput!) {\n    crm {\n      createAttachment(value: $attachment) {\n        id\n      }\n    }\n  }\n": typeof types.CreateAttachmentDocument,
+    "\n  mutation RemoveAttachment($id: ID!) {\n    crm {\n      removeAttachment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveAttachmentDocument,
+    "\n  query TableAttachment(\n    $page: Int\n    $perPage: Int\n    $from: Date\n    $to: Date\n    $search: String\n  ) {\n    crm {\n      attachments(\n        page: $page\n        perPage: $perPage\n        from: $from\n        to: $to\n        search: $search\n      ) {\n        id\n        fileName\n        filePath\n        mimeType\n        recordId\n        recordType\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": typeof types.TableAttachmentDocument,
+    "\n  query FindAttachment($id: ID!) {\n    crm {\n      attachment(id: $id) {\n        id\n        fileName\n        filePath\n        mimeType\n        recordId\n        recordType\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": typeof types.FindAttachmentDocument,
+    "\n  query SearchAttachments($search: String!) {\n    crm {\n      attachments(page: 1, perPage: 10, search: $search) {\n        value: id\n        label: fileName\n      }\n    }\n  }\n": typeof types.SearchAttachmentsDocument,
+    "\n  query AnalyticsAttachments($from: Date, $to: Date) {\n    crm {\n      attachments(from: $from, to: $to) {\n        id\n        mimeType\n        recordType\n        createdAt\n      }\n    }\n  }\n": typeof types.AnalyticsAttachmentsDocument,
     "\n  mutation CreateCampaign($campaign: CreateCampaignInput!) {\n    crm {\n      createCampaign(value: $campaign) {\n        id\n      }\n    }\n  }\n": typeof types.CreateCampaignDocument,
     "\n  mutation UpdateCampaign($id: ID!, $campaign: UpdateCampaignInput!) {\n    crm {\n      updateCampaign(id: $id, value: $campaign) {\n        id\n      }\n    }\n  }\n": typeof types.UpdateCampaignDocument,
     "\n  mutation RemoveCampaign($id: ID!) {\n    crm {\n      removeCampaign(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": typeof types.RemoveCampaignDocument,
@@ -376,6 +389,13 @@ const documents: Documents = {
     "\n  query TableDispute(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $status: DisputeStatus\n  ) {\n    billing {\n      disputes(\n        page: $page\n        perPage: $perPage\n        search: $search\n        status: $status\n      ) {\n        createdAt\n        client {\n          annualRevenue\n          city\n          id\n          industry\n          name\n          website\n          phoneNumber\n        }\n        disputedAmount\n        id\n        reason\n        resolutionNotes\n        resolvedAt\n        status\n        submittedAt\n        updatedAt\n        resolvedByUser {\n          email\n          id\n          image\n          name\n        }\n        lineItem {\n          discountAmount\n          discountRate\n          description\n          id\n          lineTotal\n          quantity\n          sourceRecordId\n          sourceRecordType\n          taxAmount\n          taxRate\n          totalPrice\n          unitPrice\n          updatedAt\n          invoice {\n            amountPaid\n            currency\n            discountAmount\n            dueDate\n            id\n            invoiceNumber\n            issueDate\n            notes\n            paidAt\n            paymentTerms\n            sentAt\n            status\n            subtotal\n            taxAmount\n            totalAmount\n            updatedAt\n          }\n        }\n      }\n    }\n  }\n": types.TableDisputeDocument,
     "\n  query SearchDisputes($search: String!) {\n    billing {\n      disputes(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: reason\n      }\n    }\n  }\n": types.SearchDisputesDocument,
     "\n  query AnalyticsDisputes($from: Date, $to: Date) {\n    billing {\n      disputes(from: $from, to: $to) {\n        disputedAmount\n        status\n      }\n    }\n  }\n": types.AnalyticsDisputesDocument,
+    "\n  mutation CreateDocument($document: CreateDocumentInput!) {\n    billing {\n      createDocument(value: $document) {\n        id\n      }\n    }\n  }\n": types.CreateDocumentDocument,
+    "\n  mutation UpdateDocument($id: ID!, $document: UpdateDocumentInput!) {\n    billing {\n      updateDocument(id: $id, value: $document) {\n        id\n      }\n    }\n  }\n": types.UpdateDocumentDocument,
+    "\n  mutation RemoveDocument($id: ID!) {\n    billing {\n      removeDocument(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveDocumentDocument,
+    "\n  query TableDocument(\n    $page: Int\n    $perPage: Int\n    $from: Date\n    $to: Date\n  ) {\n    billing {\n      documents(page: $page, perPage: $perPage, from: $from, to: $to) {\n        id\n        recordId\n        recordType\n        documentType\n        filePath\n        fileName\n        fileSize\n        mimeType\n        createdAt\n        updatedAt\n        uploadedByUser {\n          id\n          email\n          name\n          image\n        }\n      }\n    }\n  }\n": types.TableDocumentDocument,
+    "\n  query FindDocument($id: ID!) {\n    billing {\n      document(id: $id) {\n        id\n        recordId\n        recordType\n        documentType\n        filePath\n        fileName\n        fileSize\n        mimeType\n        createdAt\n        updatedAt\n        uploadedByUser {\n          id\n          email\n          name\n          image\n        }\n      }\n    }\n  }\n": types.FindDocumentDocument,
+    "\n  query SearchDocuments($from: Date, $to: Date) {\n    billing {\n      documents(from: $from, to: $to, page: 1, perPage: 10) {\n        value: id\n        label: fileName\n      }\n    }\n  }\n": types.SearchDocumentsDocument,
+    "\n  query AnalyticsDocuments($from: Date, $to: Date) {\n    billing {\n      documents(from: $from, to: $to) {\n        id\n        documentType\n        fileSize\n        createdAt\n      }\n    }\n  }\n": types.AnalyticsDocumentsDocument,
     "\n  mutation UpdateInvoiceLineItem(\n    $id: ID!\n    $invoiceLineItem: UpdateInvoiceLineItemInput!\n  ) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n": types.UpdateInvoiceLineItemDocument,
     "\n  mutation RemoveInvoiceLineItem($id: ID!) {\n    billing {\n      removeInvoiceLineItem(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveInvoiceLineItemDocument,
     "\n  mutation CreateBillingInvoice($billingInvoice: CreateBillingInvoiceInput!) {\n    billing {\n      createBillingInvoice(value: $billingInvoice) {\n        id\n      }\n    }\n  }\n": types.CreateBillingInvoiceDocument,
@@ -414,6 +434,12 @@ const documents: Documents = {
     "\n  query TableSurcharge(\n    $page: Int\n    $perPage: Int\n    $search: String\n    $calculationMethod: SurchargeCalculationMethod\n  ) {\n    billing {\n      surcharges(\n        page: $page\n        perPage: $perPage\n        search: $search\n        calculationMethod: $calculationMethod\n      ) {\n        amount\n        calculationMethod\n        createdAt\n        description\n        id\n        isActive\n        name\n        type\n        updatedAt\n        validFrom\n        validTo\n      }\n    }\n  }\n": types.TableSurchargeDocument,
     "\n  query SearchSurcharges($search: String!) {\n    billing {\n      surcharges(search: $search, page: 1, perPage: 10) {\n        value: id\n        label: name\n      }\n    }\n  }\n": types.SearchSurchargesDocument,
     "\n  query AnalyticsSurcharges($from: Date, $to: Date) {\n    billing {\n      surcharges(from: $from, to: $to) {\n        amount\n        calculationMethod\n      }\n    }\n  }\n": types.AnalyticsSurchargesDocument,
+    "\n  mutation CreateAttachment($attachment: CreateAttachmentInput!) {\n    crm {\n      createAttachment(value: $attachment) {\n        id\n      }\n    }\n  }\n": types.CreateAttachmentDocument,
+    "\n  mutation RemoveAttachment($id: ID!) {\n    crm {\n      removeAttachment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveAttachmentDocument,
+    "\n  query TableAttachment(\n    $page: Int\n    $perPage: Int\n    $from: Date\n    $to: Date\n    $search: String\n  ) {\n    crm {\n      attachments(\n        page: $page\n        perPage: $perPage\n        from: $from\n        to: $to\n        search: $search\n      ) {\n        id\n        fileName\n        filePath\n        mimeType\n        recordId\n        recordType\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": types.TableAttachmentDocument,
+    "\n  query FindAttachment($id: ID!) {\n    crm {\n      attachment(id: $id) {\n        id\n        fileName\n        filePath\n        mimeType\n        recordId\n        recordType\n        createdAt\n        updatedAt\n      }\n    }\n  }\n": types.FindAttachmentDocument,
+    "\n  query SearchAttachments($search: String!) {\n    crm {\n      attachments(page: 1, perPage: 10, search: $search) {\n        value: id\n        label: fileName\n      }\n    }\n  }\n": types.SearchAttachmentsDocument,
+    "\n  query AnalyticsAttachments($from: Date, $to: Date) {\n    crm {\n      attachments(from: $from, to: $to) {\n        id\n        mimeType\n        recordType\n        createdAt\n      }\n    }\n  }\n": types.AnalyticsAttachmentsDocument,
     "\n  mutation CreateCampaign($campaign: CreateCampaignInput!) {\n    crm {\n      createCampaign(value: $campaign) {\n        id\n      }\n    }\n  }\n": types.CreateCampaignDocument,
     "\n  mutation UpdateCampaign($id: ID!, $campaign: UpdateCampaignInput!) {\n    crm {\n      updateCampaign(id: $id, value: $campaign) {\n        id\n      }\n    }\n  }\n": types.UpdateCampaignDocument,
     "\n  mutation RemoveCampaign($id: ID!) {\n    crm {\n      removeCampaign(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n": types.RemoveCampaignDocument,
@@ -790,6 +816,34 @@ export function graphql(source: "\n  query AnalyticsDisputes($from: Date, $to: D
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation CreateDocument($document: CreateDocumentInput!) {\n    billing {\n      createDocument(value: $document) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateDocumentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateDocument($id: ID!, $document: UpdateDocumentInput!) {\n    billing {\n      updateDocument(id: $id, value: $document) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateDocumentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RemoveDocument($id: ID!) {\n    billing {\n      removeDocument(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveDocumentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query TableDocument(\n    $page: Int\n    $perPage: Int\n    $from: Date\n    $to: Date\n  ) {\n    billing {\n      documents(page: $page, perPage: $perPage, from: $from, to: $to) {\n        id\n        recordId\n        recordType\n        documentType\n        filePath\n        fileName\n        fileSize\n        mimeType\n        createdAt\n        updatedAt\n        uploadedByUser {\n          id\n          email\n          name\n          image\n        }\n      }\n    }\n  }\n"): typeof import('./graphql').TableDocumentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query FindDocument($id: ID!) {\n    billing {\n      document(id: $id) {\n        id\n        recordId\n        recordType\n        documentType\n        filePath\n        fileName\n        fileSize\n        mimeType\n        createdAt\n        updatedAt\n        uploadedByUser {\n          id\n          email\n          name\n          image\n        }\n      }\n    }\n  }\n"): typeof import('./graphql').FindDocumentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query SearchDocuments($from: Date, $to: Date) {\n    billing {\n      documents(from: $from, to: $to, page: 1, perPage: 10) {\n        value: id\n        label: fileName\n      }\n    }\n  }\n"): typeof import('./graphql').SearchDocumentsDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query AnalyticsDocuments($from: Date, $to: Date) {\n    billing {\n      documents(from: $from, to: $to) {\n        id\n        documentType\n        fileSize\n        createdAt\n      }\n    }\n  }\n"): typeof import('./graphql').AnalyticsDocumentsDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation UpdateInvoiceLineItem(\n    $id: ID!\n    $invoiceLineItem: UpdateInvoiceLineItemInput!\n  ) {\n    billing {\n      updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').UpdateInvoiceLineItemDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -939,6 +993,30 @@ export function graphql(source: "\n  query SearchSurcharges($search: String!) {\
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query AnalyticsSurcharges($from: Date, $to: Date) {\n    billing {\n      surcharges(from: $from, to: $to) {\n        amount\n        calculationMethod\n      }\n    }\n  }\n"): typeof import('./graphql').AnalyticsSurchargesDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation CreateAttachment($attachment: CreateAttachmentInput!) {\n    crm {\n      createAttachment(value: $attachment) {\n        id\n      }\n    }\n  }\n"): typeof import('./graphql').CreateAttachmentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RemoveAttachment($id: ID!) {\n    crm {\n      removeAttachment(id: $id) {\n        success\n        numDeletedRows\n      }\n    }\n  }\n"): typeof import('./graphql').RemoveAttachmentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query TableAttachment(\n    $page: Int\n    $perPage: Int\n    $from: Date\n    $to: Date\n    $search: String\n  ) {\n    crm {\n      attachments(\n        page: $page\n        perPage: $perPage\n        from: $from\n        to: $to\n        search: $search\n      ) {\n        id\n        fileName\n        filePath\n        mimeType\n        recordId\n        recordType\n        createdAt\n        updatedAt\n      }\n    }\n  }\n"): typeof import('./graphql').TableAttachmentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query FindAttachment($id: ID!) {\n    crm {\n      attachment(id: $id) {\n        id\n        fileName\n        filePath\n        mimeType\n        recordId\n        recordType\n        createdAt\n        updatedAt\n      }\n    }\n  }\n"): typeof import('./graphql').FindAttachmentDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query SearchAttachments($search: String!) {\n    crm {\n      attachments(page: 1, perPage: 10, search: $search) {\n        value: id\n        label: fileName\n      }\n    }\n  }\n"): typeof import('./graphql').SearchAttachmentsDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query AnalyticsAttachments($from: Date, $to: Date) {\n    crm {\n      attachments(from: $from, to: $to) {\n        id\n        mimeType\n        recordType\n        createdAt\n      }\n    }\n  }\n"): typeof import('./graphql').AnalyticsAttachmentsDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

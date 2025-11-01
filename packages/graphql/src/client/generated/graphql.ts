@@ -6207,6 +6207,61 @@ export type AnalyticsDisputesQueryVariables = Exact<{
 
 export type AnalyticsDisputesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', disputes: Array<{ __typename?: 'Disputes', disputedAmount?: number | null, status?: DisputeStatus | null }> } | null };
 
+export type CreateDocumentMutationVariables = Exact<{
+  document: CreateDocumentInput;
+}>;
+
+
+export type CreateDocumentMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', createDocument: { __typename?: 'Documents', id: string } } | null };
+
+export type UpdateDocumentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  document: UpdateDocumentInput;
+}>;
+
+
+export type UpdateDocumentMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', updateDocument: { __typename?: 'Documents', id: string } } | null };
+
+export type RemoveDocumentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveDocumentMutation = { __typename?: 'Mutation', billing?: { __typename?: 'BillingMutation', removeDocument: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableDocumentQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type TableDocumentQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', documents: Array<{ __typename?: 'Documents', id: string, recordId: string, recordType: string, documentType: DocumentType, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedByUser?: { __typename?: 'User', id: string, email: string, name: string, image?: string | null } | null }> } | null };
+
+export type FindDocumentQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type FindDocumentQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', document: { __typename?: 'Documents', id: string, recordId: string, recordType: string, documentType: DocumentType, filePath: string, fileName: string, fileSize?: number | null, mimeType?: string | null, createdAt?: any | null, updatedAt?: any | null, uploadedByUser?: { __typename?: 'User', id: string, email: string, name: string, image?: string | null } | null } } | null };
+
+export type SearchDocumentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type SearchDocumentsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', documents: Array<{ __typename?: 'Documents', value: string, label: string }> } | null };
+
+export type AnalyticsDocumentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsDocumentsQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', documents: Array<{ __typename?: 'Documents', id: string, documentType: DocumentType, fileSize?: number | null, createdAt?: any | null }> } | null };
+
 export type UpdateInvoiceLineItemMutationVariables = Exact<{
   id: Scalars['ID']['input'];
   invoiceLineItem: UpdateInvoiceLineItemInput;
@@ -6504,6 +6559,53 @@ export type AnalyticsSurchargesQueryVariables = Exact<{
 
 
 export type AnalyticsSurchargesQuery = { __typename?: 'Query', billing?: { __typename?: 'BillingQuery', surcharges: Array<{ __typename?: 'Surcharges', amount: number, calculationMethod: SurchargeCalculationMethod }> } | null };
+
+export type CreateAttachmentMutationVariables = Exact<{
+  attachment: CreateAttachmentInput;
+}>;
+
+
+export type CreateAttachmentMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', createAttachment: { __typename?: 'Attachments', id: string } } | null };
+
+export type RemoveAttachmentMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type RemoveAttachmentMutation = { __typename?: 'Mutation', crm?: { __typename?: 'CrmMutation', removeAttachment: { __typename?: 'DeleteResult', success: boolean, numDeletedRows: number } } | null };
+
+export type TableAttachmentQueryVariables = Exact<{
+  page?: InputMaybe<Scalars['Int']['input']>;
+  perPage?: InputMaybe<Scalars['Int']['input']>;
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type TableAttachmentQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', attachments: Array<{ __typename?: 'Attachments', id: string, fileName: string, filePath: string, mimeType?: string | null, recordId?: string | null, recordType?: RecordType | null, createdAt?: any | null, updatedAt?: any | null }> } | null };
+
+export type FindAttachmentQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type FindAttachmentQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', attachment: { __typename?: 'Attachments', id: string, fileName: string, filePath: string, mimeType?: string | null, recordId?: string | null, recordType?: RecordType | null, createdAt?: any | null, updatedAt?: any | null } } | null };
+
+export type SearchAttachmentsQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+}>;
+
+
+export type SearchAttachmentsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', attachments: Array<{ __typename?: 'Attachments', value: string, label: string }> } | null };
+
+export type AnalyticsAttachmentsQueryVariables = Exact<{
+  from?: InputMaybe<Scalars['Date']['input']>;
+  to?: InputMaybe<Scalars['Date']['input']>;
+}>;
+
+
+export type AnalyticsAttachmentsQuery = { __typename?: 'Query', crm?: { __typename?: 'CrmQuery', attachments: Array<{ __typename?: 'Attachments', id: string, mimeType?: string | null, recordType?: RecordType | null, createdAt?: any | null }> } | null };
 
 export type CreateCampaignMutationVariables = Exact<{
   campaign: CreateCampaignInput;
@@ -9052,6 +9154,104 @@ export const AnalyticsDisputesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsDisputesQuery, AnalyticsDisputesQueryVariables>;
+export const CreateDocumentDocument = new TypedDocumentString(`
+    mutation CreateDocument($document: CreateDocumentInput!) {
+  billing {
+    createDocument(value: $document) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateDocumentMutation, CreateDocumentMutationVariables>;
+export const UpdateDocumentDocument = new TypedDocumentString(`
+    mutation UpdateDocument($id: ID!, $document: UpdateDocumentInput!) {
+  billing {
+    updateDocument(id: $id, value: $document) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateDocumentMutation, UpdateDocumentMutationVariables>;
+export const RemoveDocumentDocument = new TypedDocumentString(`
+    mutation RemoveDocument($id: ID!) {
+  billing {
+    removeDocument(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveDocumentMutation, RemoveDocumentMutationVariables>;
+export const TableDocumentDocument = new TypedDocumentString(`
+    query TableDocument($page: Int, $perPage: Int, $from: Date, $to: Date) {
+  billing {
+    documents(page: $page, perPage: $perPage, from: $from, to: $to) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedByUser {
+        id
+        email
+        name
+        image
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableDocumentQuery, TableDocumentQueryVariables>;
+export const FindDocumentDocument = new TypedDocumentString(`
+    query FindDocument($id: ID!) {
+  billing {
+    document(id: $id) {
+      id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
+      uploadedByUser {
+        id
+        email
+        name
+        image
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<FindDocumentQuery, FindDocumentQueryVariables>;
+export const SearchDocumentsDocument = new TypedDocumentString(`
+    query SearchDocuments($from: Date, $to: Date) {
+  billing {
+    documents(from: $from, to: $to, page: 1, perPage: 10) {
+      value: id
+      label: fileName
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchDocumentsQuery, SearchDocumentsQueryVariables>;
+export const AnalyticsDocumentsDocument = new TypedDocumentString(`
+    query AnalyticsDocuments($from: Date, $to: Date) {
+  billing {
+    documents(from: $from, to: $to) {
+      id
+      documentType
+      fileSize
+      createdAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsDocumentsQuery, AnalyticsDocumentsQueryVariables>;
 export const UpdateInvoiceLineItemDocument = new TypedDocumentString(`
     mutation UpdateInvoiceLineItem($id: ID!, $invoiceLineItem: UpdateInvoiceLineItemInput!) {
   billing {
@@ -9612,6 +9812,85 @@ export const AnalyticsSurchargesDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<AnalyticsSurchargesQuery, AnalyticsSurchargesQueryVariables>;
+export const CreateAttachmentDocument = new TypedDocumentString(`
+    mutation CreateAttachment($attachment: CreateAttachmentInput!) {
+  crm {
+    createAttachment(value: $attachment) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateAttachmentMutation, CreateAttachmentMutationVariables>;
+export const RemoveAttachmentDocument = new TypedDocumentString(`
+    mutation RemoveAttachment($id: ID!) {
+  crm {
+    removeAttachment(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RemoveAttachmentMutation, RemoveAttachmentMutationVariables>;
+export const TableAttachmentDocument = new TypedDocumentString(`
+    query TableAttachment($page: Int, $perPage: Int, $from: Date, $to: Date, $search: String) {
+  crm {
+    attachments(
+      page: $page
+      perPage: $perPage
+      from: $from
+      to: $to
+      search: $search
+    ) {
+      id
+      fileName
+      filePath
+      mimeType
+      recordId
+      recordType
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<TableAttachmentQuery, TableAttachmentQueryVariables>;
+export const FindAttachmentDocument = new TypedDocumentString(`
+    query FindAttachment($id: ID!) {
+  crm {
+    attachment(id: $id) {
+      id
+      fileName
+      filePath
+      mimeType
+      recordId
+      recordType
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<FindAttachmentQuery, FindAttachmentQueryVariables>;
+export const SearchAttachmentsDocument = new TypedDocumentString(`
+    query SearchAttachments($search: String!) {
+  crm {
+    attachments(page: 1, perPage: 10, search: $search) {
+      value: id
+      label: fileName
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<SearchAttachmentsQuery, SearchAttachmentsQueryVariables>;
+export const AnalyticsAttachmentsDocument = new TypedDocumentString(`
+    query AnalyticsAttachments($from: Date, $to: Date) {
+  crm {
+    attachments(from: $from, to: $to) {
+      id
+      mimeType
+      recordType
+      createdAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<AnalyticsAttachmentsQuery, AnalyticsAttachmentsQueryVariables>;
 export const CreateCampaignDocument = new TypedDocumentString(`
     mutation CreateCampaign($campaign: CreateCampaignInput!) {
   crm {
