@@ -126,23 +126,28 @@ afterAll(async () => {
 	// Cleanup S3 bucket
 	try {
 		if (s3Client) {
-			// List all objects in the bucket
-			const listResult = await s3Client.list(null);
+			try {
+				// List all objects in the bucket
+				const listResult = await s3Client.list();
 
-			// Delete all objects in the bucket
-			if (listResult.contents && listResult.contents.length > 0) {
-				for (const obj of listResult.contents) {
-					await s3Client.delete(obj.key);
+				// Delete all objects in the bucket
+				if (listResult.contents && listResult.contents.length > 0) {
+					for (const obj of listResult.contents) {
+						await s3Client.delete(obj.key);
+					}
+					console.log(
+						`✓ Deleted ${listResult.contents.length} objects from S3 bucket`,
+					);
 				}
-				console.log(
-					`✓ Deleted ${listResult.contents.length} objects from S3 bucket`,
-				);
-			}
 
-			console.log(`✓ S3 bucket cleaned: ${TEST_BUCKET_NAME}`);
+				console.log(`✓ S3 bucket cleaned: ${TEST_BUCKET_NAME}`);
+			} catch (s3Error: any) {
+				// S3 bucket might not exist or other S3 errors - just warn
+				console.warn(`⚠ S3 bucket cleanup warning: ${s3Error?.message}`);
+			}
 		}
 	} catch (error) {
-		console.error("Failed to cleanup S3 bucket:", error);
+		console.warn(`⚠ Failed to cleanup S3 bucket:`, error);
 	}
 
 	// Cleanup MailHog messages
