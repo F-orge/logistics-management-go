@@ -8,8 +8,8 @@ import type {
 	UpdateReturnMutationVariables,
 	RemoveReturnMutation as RemoveReturnMutationType,
 	RemoveReturnMutationVariables,
-	TableReturnQuery as TableReturnQueryType,
-	TableReturnQueryVariables,
+	TableReturnQueryQuery as TableReturnQueryType,
+	TableReturnQueryQueryVariables,
 	SearchReturnsQuery as SearchReturnsQueryType,
 	SearchReturnsQueryVariables,
 	AnalyticsReturnsQuery as AnalyticsReturnsQueryType,
@@ -56,7 +56,7 @@ type RemoveReturnTestCase = GraphQLTestCase<
 };
 
 type TableReturnTestCase = GraphQLTestCase<
-	TableReturnQueryVariables,
+	TableReturnQueryQueryVariables,
 	TableReturnQueryType
 > & {
 	validate: (response: TableReturnQueryType) => void;

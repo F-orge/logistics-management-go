@@ -10,10 +10,8 @@ import type {
 	RemoveInventoryBatchMutationVariables,
 	TableInventoryBatchQuery as TableInventoryBatchQueryType,
 	TableInventoryBatchQueryVariables,
-	SearchInventoryBatchsQuery as SearchInventoryBatchsQueryType,
-	SearchInventoryBatchsQueryVariables,
-	AnalyticsInventoryBatchsQuery as AnalyticsInventoryBatchsQueryType,
-	AnalyticsInventoryBatchsQueryVariables,
+	SearchInventoryBatchesQuery as SearchInventoryBatchsQueryType,
+	SearchInventoryBatchesQueryVariables,
 } from "../../../src/client/generated/graphql";
 import type {
 	CreateInventoryBatchInput,
@@ -24,8 +22,7 @@ import {
 	UpdateInventoryBatchMutation,
 	RemoveInventoryBatchMutation,
 	TableInventoryBatchQuery,
-	SearchInventoryBatchsQuery,
-	AnalyticsInventoryBatchsQuery,
+	SearchInventoryBatchesQuery,
 } from "../../../src/client";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 // ============================================
@@ -43,7 +40,10 @@ type UpdateInventoryBatchTestCase = GraphQLTestCase<
 > & {
 	createData: CreateInventoryBatchInput;
 	updateData: UpdateInventoryBatchInput;
-	validate?: (response: UpdateInventoryBatchMutationType, createdInventoryBatch: any) => void;
+	validate?: (
+		response: UpdateInventoryBatchMutationType,
+		createdInventoryBatch: any,
+	) => void;
 };
 
 type RemoveInventoryBatchTestCase = GraphQLTestCase<
@@ -63,17 +63,10 @@ type TableInventoryBatchTestCase = GraphQLTestCase<
 };
 
 type SearchInventoryBatchsTestCase = GraphQLTestCase<
-	SearchInventoryBatchsQueryVariables,
+	SearchInventoryBatchesQueryVariables,
 	SearchInventoryBatchsQueryType
 > & {
 	validate: (response: SearchInventoryBatchsQueryType) => void;
-};
-
-type AnalyticsInventoryBatchsTestCase = GraphQLTestCase<
-	AnalyticsInventoryBatchsQueryVariables,
-	AnalyticsInventoryBatchsQueryType
-> & {
-	validate: (response: AnalyticsInventoryBatchsQueryType) => void;
 };
 // ============================================
 // Test Suite: Create InventoryBatch
@@ -89,7 +82,10 @@ describe("Graphql Create InventoryBatch", () => {
 	const cases: CreateInventoryBatchTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateInventoryBatchMutation, testCase.variables);
+		const response = await executor(
+			CreateInventoryBatchMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -134,8 +130,10 @@ describe("Graphql Update InventoryBatch", () => {
 		});
 
 		expect(createResponse.data?.wms?.createInventoryBatch?.id).toBeDefined();
-		const inventoryBatchId = createResponse.data!.wms!.createInventoryBatch!.id!;
-		const createdInventoryBatch = createResponse.data!.wms!.createInventoryBatch!;
+		const inventoryBatchId =
+			createResponse.data!.wms!.createInventoryBatch!.id!;
+		const createdInventoryBatch =
+			createResponse.data!.wms!.createInventoryBatch!;
 
 		// Update InventoryBatch
 		const updateResponse = await executor(UpdateInventoryBatchMutation, {
@@ -206,12 +204,16 @@ describe("Graphql Remove InventoryBatch", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeInventoryBatch?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeInventoryBatch?.success).toBe(
+					false,
+				);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveInventoryBatchMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveInventoryBatchMutationType,
+			);
 		}
 	});
 });
@@ -230,11 +232,14 @@ describe("Graphql Table InventoryBatchs Query", () => {
 	const cases: TableInventoryBatchTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableInventoryBatchQuery, testCase.variables);
+		const response = await executor(
+			TableInventoryBatchQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_batchs).toBeDefined();
+			expect(response.data?.wms?.inventoryBatches).toBeDefined();
 			testCase.validate(response.data as TableInventoryBatchQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
@@ -256,38 +261,15 @@ describe("Graphql Search InventoryBatchs Query", () => {
 	const cases: SearchInventoryBatchsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchInventoryBatchsQuery, testCase.variables);
+		const response = await executor(
+			SearchInventoryBatchesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_batchs).toBeDefined();
+			expect(response.data?.wms?.inventoryBatches).toBeDefined();
 			testCase.validate(response.data as SearchInventoryBatchsQueryType);
-		} else {
-			expect(response.errors).toBeDefined();
-		}
-	});
-});
-
-// ============================================
-// Test Suite: Analytics InventoryBatchs Query
-// ============================================
-
-describe("Graphql Analytics InventoryBatchs Query", () => {
-	let executor: ReturnType<typeof graphQLQueryExecutor>;
-
-	beforeAll(() => {
-		executor = graphQLQueryExecutor({ enableJWT: false });
-	});
-
-	const cases: AnalyticsInventoryBatchsTestCase[] = [];
-
-	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsInventoryBatchsQuery, testCase.variables);
-
-		if (testCase.success) {
-			expect(response.errors).toBeUndefined();
-			expect(response.data?.wms?.inventory_batchs).toBeDefined();
-			testCase.validate(response.data as AnalyticsInventoryBatchsQueryType);
 		} else {
 			expect(response.errors).toBeDefined();
 		}
