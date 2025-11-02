@@ -5,6 +5,22 @@ export const CreateBinThresholdMutation = graphql(`
     wms {
       createBinThreshold(value: $binThreshold) {
         id
+        minQuantity
+        maxQuantity
+        reorderQuantity
+        alertThreshold
+        isActive
+        createdAt
+        updatedAt
+        location {
+          id
+          name
+        }
+        product {
+          id
+          name
+          sku
+        }
       }
     }
   }
@@ -18,6 +34,22 @@ export const UpdateBinThresholdMutation = graphql(`
     wms {
       updateBinThreshold(id: $id, value: $binThreshold) {
         id
+        minQuantity
+        maxQuantity
+        reorderQuantity
+        alertThreshold
+        isActive
+        createdAt
+        updatedAt
+        location {
+          id
+          name
+        }
+        product {
+          id
+          name
+          sku
+        }
       }
     }
   }
