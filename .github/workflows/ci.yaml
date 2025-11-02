@@ -8,55 +8,6 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    env:
-      DOCKER_POSTGRES_USER: dummy
-      DOCKER_POSTGRES_PASSWORD: dummy
-      DOCKER_POSTGRES_DB: dummy
-      DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
-      MAIL_HOST: localhost
-      MAIL_PORT: "1025"
-      MAIL_SECURE: "false"
-      MAIL_FROM_ADDRESS: dummy@example.com
-      DOCKER_MINIO_ROOT_USER: minioadmin
-      DOCKER_MINIO_ROOT_PASSWORD: minioadmin
-      DOCKER_MINIO_BUCKET: staging-bucket
-      DOCKER_MINIO_ENDPOINT: http://localhost:9000
-
-    services:
-      postgres:
-        image: postgres:17.2-alpine3.20
-        env:
-          POSTGRES_USER: dummy
-          POSTGRES_PASSWORD: dummy
-          POSTGRES_DB: dummy
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-      mailhog:
-        image: mailhog/mailhog:latest
-        ports:
-          - 1025:1025
-          - 8025:8025
-
-       minio:
-         image: minio/minio:latest
-         env:
-           MINIO_ROOT_USER: minioadmin
-           MINIO_ROOT_PASSWORD: minioadmin
-         options: >-
-           --health-cmd "curl -f http://localhost:9000/minio/health/live"
-           --health-interval 10s
-           --health-timeout 5s
-           --health-retries 5
-           server /data
-         ports:
-           - 9000:9000
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -68,6 +19,9 @@ jobs:
 
       - name: Install dependencies
         run: bun install
+
+      - name: Start Docker services
+        run: docker compose -f compose.dev.yaml up -d
 
       - name: Lint with Biome
         run: bun run lint
