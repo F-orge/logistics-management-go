@@ -5,6 +5,27 @@ export const CreateDriverLocationMutation = graphql(`
     dms {
       createDriverLocation(value: $driverLocation) {
         id
+        latitude
+        longitude
+        altitude
+        accuracy
+        speedKmh
+        heading
+        timestamp
+        createdAt
+        updatedAt
+        driver {
+          id
+          user {
+            email
+            id
+            image
+            name
+          }
+          contactPhone
+          licenseNumber
+          status
+        }
       }
     }
   }
@@ -18,6 +39,26 @@ export const UpdateDriverLocationMutation = graphql(`
     dms {
       updateDriverLocation(id: $id, value: $driverLocation) {
         id
+        latitude
+        longitude
+        altitude
+        accuracy
+        speedKmh
+        heading
+        timestamp
+        updatedAt
+        driver {
+          id
+          user {
+            email
+            id
+            image
+            name
+          }
+          contactPhone
+          licenseNumber
+          status
+        }
       }
     }
   }

@@ -5,6 +5,18 @@ export const CreateVehicleMutation = graphql(`
     tms {
       createVehicle(value: $vehicle) {
         id
+        registrationNumber
+        make
+        model
+        year
+        vin
+        capacityWeight
+        capacityVolume
+        currentMileage
+        lastMaintenanceDate
+        status
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +27,18 @@ export const UpdateVehicleMutation = graphql(`
     tms {
       updateVehicle(id: $id, value: $vehicle) {
         id
+        registrationNumber
+        make
+        model
+        year
+        vin
+        capacityWeight
+        capacityVolume
+        currentMileage
+        lastMaintenanceDate
+        status
+        createdAt
+        updatedAt
       }
     }
   }

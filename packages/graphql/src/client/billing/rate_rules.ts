@@ -5,6 +5,16 @@ export const CreateRateRuleMutation = graphql(`
     billing {
       createRateRule(value: $rateRule) {
         id
+        condition
+        value
+        price
+        pricingModel
+        minValue
+        maxValue
+        priority
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +25,16 @@ export const UpdateRateRuleMutation = graphql(`
     billing {
       updateRateRule(id: $id, value: $rateRule) {
         id
+        condition
+        value
+        price
+        pricingModel
+        minValue
+        maxValue
+        priority
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }

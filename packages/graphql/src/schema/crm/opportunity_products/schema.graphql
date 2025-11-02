@@ -22,7 +22,7 @@ input UpdateOpportunityProductInput {
 extend type CrmMutation {
 	addOpportunityProduct(
 		id: ID!
-		value: CreateOpportunityProductInput!
+		value: AddOpportunityProductInput!
 	): OpportunityProducts!
 	updateOpportunityProduct(
 		id: ID!

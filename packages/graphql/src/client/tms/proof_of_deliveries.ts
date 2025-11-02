@@ -7,6 +7,27 @@ export const CreateProofOfDeliveryMutation = graphql(`
     tms {
       createProofOfDelivery(value: $proofOfDelivery) {
         id
+        tripStop {
+          id
+          trip {
+            id
+            status
+          }
+          shipment {
+            id
+            trackingNumber
+          }
+          sequence
+          address
+          status
+        }
+        type
+        filePath
+        timestamp
+        latitude
+        longitude
+        createdAt
+        updatedAt
       }
     }
   }
@@ -20,6 +41,27 @@ export const UpdateProofOfDeliveryMutation = graphql(`
     tms {
       updateProofOfDelivery(id: $id, value: $proofOfDelivery) {
         id
+        tripStop {
+          id
+          trip {
+            id
+            status
+          }
+          shipment {
+            id
+            trackingNumber
+          }
+          sequence
+          address
+          status
+        }
+        type
+        filePath
+        timestamp
+        latitude
+        longitude
+        createdAt
+        updatedAt
       }
     }
   }

@@ -5,6 +5,22 @@ export const CreateShipmentLegMutation = graphql(`
     tms {
       createShipmentLeg(value: $shipmentLeg) {
         id
+        shipment {
+          id
+        }
+        legSequence
+        startLocation
+        endLocation
+        carrier {
+          id
+          name
+        }
+        internalTrip {
+          id
+        }
+        status
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +31,22 @@ export const UpdateShipmentLegMutation = graphql(`
     tms {
       updateShipmentLeg(id: $id, value: $shipmentLeg) {
         id
+        shipment {
+          id
+        }
+        legSequence
+        startLocation
+        endLocation
+        carrier {
+          id
+          name
+        }
+        internalTrip {
+          id
+        }
+        status
+        createdAt
+        updatedAt
       }
     }
   }

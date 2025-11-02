@@ -5,6 +5,19 @@ export const CreateWmsProductMutation = graphql(`
     wms {
       createWmsProduct(value: $wmsProduct) {
         id
+        name
+        sku
+        barcode
+        description
+        costPrice
+        length
+        width
+        height
+        volume
+        weight
+        status
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +28,19 @@ export const UpdateWmsProductMutation = graphql(`
     wms {
       updateWmsProduct(id: $id, value: $wmsProduct) {
         id
+        name
+        sku
+        barcode
+        description
+        costPrice
+        length
+        width
+        height
+        volume
+        weight
+        status
+        createdAt
+        updatedAt
       }
     }
   }

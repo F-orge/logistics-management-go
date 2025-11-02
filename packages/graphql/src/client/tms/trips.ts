@@ -5,6 +5,29 @@ export const CreateTripMutation = graphql(`
     tms {
       createTrip(value: $trip) {
         id
+        driver {
+          id
+          user {
+            id
+            name
+            email
+          }
+          licenseNumber
+          status
+        }
+        vehicle {
+          id
+          registrationNumber
+          make
+          model
+        }
+        status
+        startLocation
+        startTime
+        endLocation
+        endTime
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +38,29 @@ export const UpdateTripMutation = graphql(`
     tms {
       updateTrip(id: $id, value: $trip) {
         id
+        driver {
+          id
+          user {
+            id
+            name
+            email
+          }
+          licenseNumber
+          status
+        }
+        vehicle {
+          id
+          registrationNumber
+          make
+          model
+        }
+        status
+        startLocation
+        startTime
+        endLocation
+        endTime
+        createdAt
+        updatedAt
       }
     }
   }

@@ -5,6 +5,14 @@ import { graphql } from "../generated/gql";
 //     wms {
 //       createPackageItem(value: $packageItem) {
 //         id
+//         quantity
+//         lotNumber
+//         serialNumbers
+//         expiryDate
+//         unitWeight
+//         totalWeight
+//         createdAt
+//         updatedAt
 //       }
 //     }
 //   }
@@ -15,6 +23,14 @@ export const UpdatePackageItemMutation = graphql(`
     wms {
       updatePackageItem(id: $id, value: $packageItem) {
         id
+        quantity
+        lotNumber
+        serialNumbers
+        expiryDate
+        unitWeight
+        totalWeight
+        createdAt
+        updatedAt
       }
     }
   }

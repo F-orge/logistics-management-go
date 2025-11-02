@@ -5,6 +5,10 @@ export const CreateInventoryBatchMutation = graphql(`
     wms {
       createInventoryBatch(value: $inventoryBatch) {
         id
+        batchNumber
+        expirationDate
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +22,10 @@ export const UpdateInventoryBatchMutation = graphql(`
     wms {
       updateInventoryBatch(id: $id, value: $inventoryBatch) {
         id
+        batchNumber
+        expirationDate
+        createdAt
+        updatedAt
       }
     }
   }

@@ -5,6 +5,28 @@ export const CreateExpenseMutation = graphql(`
     tms {
       createExpense(value: $expense) {
         id
+        type
+        amount
+        currency
+        status
+        description
+        expenseDate
+        receiptUrl
+        fuelQuantity
+        odometerReading
+        driver {
+          id
+          user {
+            id
+            name
+          }
+        }
+        trip {
+          id
+          status
+        }
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +37,28 @@ export const UpdateExpenseMutation = graphql(`
     tms {
       updateExpense(id: $id, value: $expense) {
         id
+        type
+        amount
+        currency
+        status
+        description
+        expenseDate
+        receiptUrl
+        fuelQuantity
+        odometerReading
+        driver {
+          id
+          user {
+            id
+            name
+          }
+        }
+        trip {
+          id
+          status
+        }
+        createdAt
+        updatedAt
       }
     }
   }

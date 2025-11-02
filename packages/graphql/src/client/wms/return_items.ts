@@ -5,6 +5,12 @@ import { graphql } from "../generated/gql";
 //     wms {
 //       createReturnItem(value: $returnItem) {
 //         id
+//         quantityExpected
+//         quantityReceived
+//         quantityVariance
+//         condition
+//         createdAt
+//         updatedAt
 //       }
 //     }
 //   }
@@ -15,6 +21,12 @@ export const UpdateReturnItemMutation = graphql(`
     wms {
       updateReturnItem(id: $id, value: $returnItem) {
         id
+        quantityExpected
+        quantityReceived
+        quantityVariance
+        condition
+        createdAt
+        updatedAt
       }
     }
   }

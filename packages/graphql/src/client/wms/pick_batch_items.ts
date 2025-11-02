@@ -5,6 +5,11 @@ import { graphql } from "../generated/gql";
 //     wms {
 //       createPickBatchItem(value: $pickBatchItem) {
 //         id
+//         orderPriority
+//         estimatedPickTime
+//         actualPickTime
+//         createdAt
+//         updatedAt
 //       }
 //     }
 //   }
@@ -18,6 +23,11 @@ export const UpdatePickBatchItemMutation = graphql(`
     wms {
       updatePickBatchItem(id: $id, value: $pickBatchItem) {
         id
+        orderPriority
+        estimatedPickTime
+        actualPickTime
+        createdAt
+        updatedAt
       }
     }
   }

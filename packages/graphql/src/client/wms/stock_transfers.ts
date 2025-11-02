@@ -5,6 +5,10 @@ export const CreateStockTransferMutation = graphql(`
     wms {
       createStockTransfer(value: $stockTransfer) {
         id
+        quantity
+        status
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +22,10 @@ export const UpdateStockTransferMutation = graphql(`
     wms {
       updateStockTransfer(id: $id, value: $stockTransfer) {
         id
+        quantity
+        status
+        createdAt
+        updatedAt
       }
     }
   }

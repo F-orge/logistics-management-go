@@ -5,6 +5,15 @@ export const CreateClientAccountMutation = graphql(`
     billing {
       createClientAccount(value: $clientAccount) {
         id
+        creditLimit
+        availableCredit
+        walletBalance
+        currency
+        paymentTermsDays
+        isCreditApproved
+        lastPaymentDate
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +27,15 @@ export const UpdateClientAccountMutation = graphql(`
     billing {
       updateClientAccount(id: $id, value: $clientAccount) {
         id
+        creditLimit
+        availableCredit
+        walletBalance
+        currency
+        paymentTermsDays
+        isCreditApproved
+        lastPaymentDate
+        createdAt
+        updatedAt
       }
     }
   }

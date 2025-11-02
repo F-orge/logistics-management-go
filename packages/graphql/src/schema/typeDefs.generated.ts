@@ -13079,10 +13079,7 @@ export const typeDefs = {
 								kind: "NonNullType",
 								type: {
 									kind: "NamedType",
-									name: {
-										kind: "Name",
-										value: "CreateOpportunityProductInput",
-									},
+									name: { kind: "Name", value: "AddOpportunityProductInput" },
 								},
 							},
 							directives: [],

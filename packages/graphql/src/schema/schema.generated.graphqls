@@ -1263,7 +1263,7 @@ type CrmMutation {
 	addInvoiceItem(id: ID!, value: AddInvoiceItemInput!): InvoiceItems!
 	addOpportunityProduct(
 		id: ID!
-		value: CreateOpportunityProductInput!
+		value: AddOpportunityProductInput!
 	): OpportunityProducts!
 	createAttachment(value: CreateAttachmentInput!): Attachments!
 	createCampaign(value: CreateCampaignInput!): Campaigns!

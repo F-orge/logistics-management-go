@@ -5,6 +5,23 @@ export const CreateDriverScheduleMutation = graphql(`
     tms {
       createDriverSchedule(value: $driverSchedule) {
         id
+        driver {
+          id
+          user {
+            id
+            name
+            email
+          }
+          licenseNumber
+          licenseExpiryDate
+          status
+          contactPhone
+        }
+        startDate
+        endDate
+        reason
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +35,23 @@ export const UpdateDriverScheduleMutation = graphql(`
     tms {
       updateDriverSchedule(id: $id, value: $driverSchedule) {
         id
+        driver {
+          id
+          user {
+            id
+            name
+            email
+          }
+          licenseNumber
+          licenseExpiryDate
+          status
+          contactPhone
+        }
+        startDate
+        endDate
+        reason
+        createdAt
+        updatedAt
       }
     }
   }

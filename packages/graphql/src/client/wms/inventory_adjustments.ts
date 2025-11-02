@@ -7,6 +7,12 @@ export const CreateInventoryAdjustmentMutation = graphql(`
     wms {
       createInventoryAdjustment(value: $inventoryAdjustment) {
         id
+        warehouseId
+        quantityChange
+        reason
+        notes
+        createdAt
+        updatedAt
       }
     }
   }
@@ -20,6 +26,12 @@ export const UpdateInventoryAdjustmentMutation = graphql(`
     wms {
       updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {
         id
+        warehouseId
+        quantityChange
+        reason
+        notes
+        createdAt
+        updatedAt
       }
     }
   }

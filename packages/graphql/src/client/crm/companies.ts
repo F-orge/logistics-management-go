@@ -5,6 +5,13 @@ export const CreateCompanyMutation = graphql(`
     crm {
       createCompany(value: $company) {
         id
+        name
+        industry
+        phoneNumber
+        website
+        annualRevenue
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +22,12 @@ export const UpdateCompanyMutation = graphql(`
     crm {
       updateCompany(id: $id, value: $company) {
         id
+        name
+        industry
+        phoneNumber
+        website
+        annualRevenue
+        updatedAt
       }
     }
   }
@@ -66,9 +79,12 @@ export const TableCompanyQuery = graphql(`
 export const SearchCompaniesQuery = graphql(`
   query SearchCompanies($search: String!) {
     crm {
-      companies(page: 1, perPage: 10,search: $search) {
+      companies(page: 1, perPage: 10, search: $search) {
         value: id
         label: name
+        id
+        name
+        industry
       }
     }
   }
@@ -78,7 +94,9 @@ export const AnalyticsCompaniesQuery = graphql(`
   query AnalyticsCompanies($from: Date, $to: Date) {
     crm {
       companies(from: $from, to: $to) {
+        id
         annualRevenue
+        industry
       }
     }
   }

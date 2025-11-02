@@ -1,5 +1,5 @@
 /* eslint-disable */
-import type { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
+import { DocumentTypeDecoration } from "@graphql-typed-document-node/core";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -1555,7 +1555,7 @@ export type CrmMutationAddInvoiceItemArgs = {
 
 export type CrmMutationAddOpportunityProductArgs = {
 	id: Scalars["ID"]["input"];
-	value: CreateOpportunityProductInput;
+	value: AddOpportunityProductInput;
 };
 
 export type CrmMutationCreateAttachmentArgs = {
@@ -5716,6 +5716,16 @@ export type CreateAccountTransactionMutation = {
 		createAccountTransaction: {
 			__typename?: "AccountTransactions";
 			id: string;
+			type: TransactionType;
+			amount: number;
+			runningBalance?: number | null;
+			sourceRecordId?: string | null;
+			sourceRecordType?: string | null;
+			description?: string | null;
+			referenceNumber?: string | null;
+			transactionDate?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
 		};
 	} | null;
 };
@@ -5813,7 +5823,23 @@ export type CreateAccountingSyncLogMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createAccountingSyncLog: { __typename?: "AccountingSyncLogs"; id: string };
+		createAccountingSyncLog: {
+			__typename?: "AccountingSyncLogs";
+			id: string;
+			recordId: string;
+			recordType: string;
+			externalSystem: string;
+			externalId?: string | null;
+			status?: SyncStatus | null;
+			errorMessage?: string | null;
+			requestPayload?: string | null;
+			responsePayload?: string | null;
+			lastSyncAt?: string | null;
+			retryCount?: number | null;
+			nextRetryAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -5889,7 +5915,19 @@ export type CreateClientAccountMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createClientAccount: { __typename?: "ClientAccounts"; id: string };
+		createClientAccount: {
+			__typename?: "ClientAccounts";
+			id: string;
+			creditLimit?: number | null;
+			availableCredit?: number | null;
+			walletBalance?: number | null;
+			currency?: string | null;
+			paymentTermsDays?: number | null;
+			isCreditApproved?: boolean | null;
+			lastPaymentDate?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -5902,7 +5940,19 @@ export type UpdateClientAccountMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateClientAccount: { __typename?: "ClientAccounts"; id: string };
+		updateClientAccount: {
+			__typename?: "ClientAccounts";
+			id: string;
+			creditLimit?: number | null;
+			availableCredit?: number | null;
+			walletBalance?: number | null;
+			currency?: string | null;
+			paymentTermsDays?: number | null;
+			isCreditApproved?: boolean | null;
+			lastPaymentDate?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6012,7 +6062,19 @@ export type CreateCreditNoteMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createCreditNote: { __typename?: "CreditNotes"; id: string };
+		createCreditNote: {
+			__typename?: "CreditNotes";
+			id: string;
+			creditNoteNumber: string;
+			amount: number;
+			reason: string;
+			issueDate: string;
+			appliedAt?: string | null;
+			currency?: string | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6025,7 +6087,19 @@ export type UpdateCreditNoteMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateCreditNote: { __typename?: "CreditNotes"; id: string };
+		updateCreditNote: {
+			__typename?: "CreditNotes";
+			id: string;
+			creditNoteNumber: string;
+			amount: number;
+			reason: string;
+			issueDate: string;
+			appliedAt?: string | null;
+			currency?: string | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6143,7 +6217,18 @@ export type CreateDisputeMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createDispute: { __typename?: "Disputes"; id: string };
+		createDispute: {
+			__typename?: "Disputes";
+			id: string;
+			reason: string;
+			status?: DisputeStatus | null;
+			disputedAmount?: number | null;
+			resolutionNotes?: string | null;
+			submittedAt?: string | null;
+			resolvedAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6156,7 +6241,18 @@ export type UpdateDisputeMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateDispute: { __typename?: "Disputes"; id: string };
+		updateDispute: {
+			__typename?: "Disputes";
+			id: string;
+			reason: string;
+			status?: DisputeStatus | null;
+			disputedAmount?: number | null;
+			resolutionNotes?: string | null;
+			submittedAt?: string | null;
+			resolvedAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6275,7 +6371,19 @@ export type CreateDocumentMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createDocument: { __typename?: "Documents"; id: string };
+		createDocument: {
+			__typename?: "Documents";
+			id: string;
+			recordId: string;
+			recordType: string;
+			documentType: DocumentType;
+			filePath: string;
+			fileName: string;
+			fileSize?: number | null;
+			mimeType?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6288,7 +6396,19 @@ export type UpdateDocumentMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateDocument: { __typename?: "Documents"; id: string };
+		updateDocument: {
+			__typename?: "Documents";
+			id: string;
+			recordId: string;
+			recordType: string;
+			documentType: DocumentType;
+			filePath: string;
+			fileName: string;
+			fileSize?: number | null;
+			mimeType?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6418,7 +6538,23 @@ export type UpdateInvoiceLineItemMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateInvoiceLineItem: { __typename?: "InvoiceLineItems"; id: string };
+		updateInvoiceLineItem: {
+			__typename?: "InvoiceLineItems";
+			id: string;
+			sourceRecordId?: string | null;
+			sourceRecordType?: string | null;
+			description: string;
+			quantity: number;
+			unitPrice: number;
+			totalPrice?: number | null;
+			taxRate?: number | null;
+			taxAmount?: number | null;
+			discountRate?: number | null;
+			discountAmount?: number | null;
+			lineTotal?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6446,7 +6582,27 @@ export type CreateBillingInvoiceMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createBillingInvoice: { __typename?: "BillingInvoices"; id: string };
+		createBillingInvoice: {
+			__typename?: "BillingInvoices";
+			id: string;
+			invoiceNumber: string;
+			status?: BillingInvoiceStatus | null;
+			issueDate: string;
+			dueDate: string;
+			totalAmount: number;
+			amountPaid?: number | null;
+			amountOutstanding?: number | null;
+			currency?: string | null;
+			taxAmount?: number | null;
+			discountAmount?: number | null;
+			subtotal?: number | null;
+			paymentTerms?: string | null;
+			notes?: string | null;
+			sentAt?: string | null;
+			paidAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6459,7 +6615,27 @@ export type UpdateBillingInvoiceMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateBillingInvoice: { __typename?: "BillingInvoices"; id: string };
+		updateBillingInvoice: {
+			__typename?: "BillingInvoices";
+			id: string;
+			invoiceNumber: string;
+			status?: BillingInvoiceStatus | null;
+			issueDate: string;
+			dueDate: string;
+			totalAmount: number;
+			amountPaid?: number | null;
+			amountOutstanding?: number | null;
+			currency?: string | null;
+			taxAmount?: number | null;
+			discountAmount?: number | null;
+			subtotal?: number | null;
+			paymentTerms?: string | null;
+			notes?: string | null;
+			sentAt?: string | null;
+			paidAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6576,7 +6752,24 @@ export type CreatePaymentMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createPayment: { __typename?: "Payments"; id: string };
+		createPayment: {
+			__typename?: "Payments";
+			id: string;
+			amount: number;
+			paymentMethod: PaymentMethod;
+			transactionId?: string | null;
+			gatewayReference?: string | null;
+			status?: PaymentStatus | null;
+			paymentDate?: string | null;
+			processedAt?: string | null;
+			currency?: string | null;
+			exchangeRate?: number | null;
+			fees?: number | null;
+			netAmount?: number | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6589,7 +6782,24 @@ export type UpdatePaymentMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updatePayment: { __typename?: "Payments"; id: string };
+		updatePayment: {
+			__typename?: "Payments";
+			id: string;
+			amount: number;
+			paymentMethod: PaymentMethod;
+			transactionId?: string | null;
+			gatewayReference?: string | null;
+			status?: PaymentStatus | null;
+			paymentDate?: string | null;
+			processedAt?: string | null;
+			currency?: string | null;
+			exchangeRate?: number | null;
+			fees?: number | null;
+			netAmount?: number | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6699,7 +6909,25 @@ export type CreateQuoteMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createQuote: { __typename?: "Quotes"; id: string };
+		createQuote: {
+			__typename?: "Quotes";
+			id: string;
+			originDetails: string;
+			destinationDetails: string;
+			weight?: number | null;
+			length?: number | null;
+			width?: number | null;
+			height?: number | null;
+			volume?: number | null;
+			quotedPrice: number;
+			serviceLevel?: string | null;
+			expiresAt?: string | null;
+			status?: QuoteStatus | null;
+			quoteNumber?: string | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6712,7 +6940,25 @@ export type UpdateQuoteMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateQuote: { __typename?: "Quotes"; id: string };
+		updateQuote: {
+			__typename?: "Quotes";
+			id: string;
+			originDetails: string;
+			destinationDetails: string;
+			weight?: number | null;
+			length?: number | null;
+			width?: number | null;
+			height?: number | null;
+			volume?: number | null;
+			quotedPrice: number;
+			serviceLevel?: string | null;
+			expiresAt?: string | null;
+			status?: QuoteStatus | null;
+			quoteNumber?: string | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6838,7 +7084,18 @@ export type CreateRateCardMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createRateCard: { __typename?: "RateCards"; id: string };
+		createRateCard: {
+			__typename?: "RateCards";
+			id: string;
+			name: string;
+			serviceType: ServiceType;
+			isActive?: boolean | null;
+			validFrom: string;
+			validTo?: string | null;
+			description?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6851,7 +7108,18 @@ export type UpdateRateCardMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateRateCard: { __typename?: "RateCards"; id: string };
+		updateRateCard: {
+			__typename?: "RateCards";
+			id: string;
+			name: string;
+			serviceType: ServiceType;
+			isActive?: boolean | null;
+			validFrom: string;
+			validTo?: string | null;
+			description?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6953,7 +7221,20 @@ export type CreateRateRuleMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createRateRule: { __typename?: "RateRules"; id: string };
+		createRateRule: {
+			__typename?: "RateRules";
+			id: string;
+			condition: string;
+			value: string;
+			price: number;
+			pricingModel: PricingModel;
+			minValue?: number | null;
+			maxValue?: number | null;
+			priority?: number | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -6966,7 +7247,20 @@ export type UpdateRateRuleMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateRateRule: { __typename?: "RateRules"; id: string };
+		updateRateRule: {
+			__typename?: "RateRules";
+			id: string;
+			condition: string;
+			value: string;
+			price: number;
+			pricingModel: PricingModel;
+			minValue?: number | null;
+			maxValue?: number | null;
+			priority?: number | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7077,7 +7371,20 @@ export type CreateSurchargeMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		createSurcharge: { __typename?: "Surcharges"; id: string };
+		createSurcharge: {
+			__typename?: "Surcharges";
+			id: string;
+			name: string;
+			type: string;
+			amount: number;
+			calculationMethod: SurchargeCalculationMethod;
+			isActive?: boolean | null;
+			validFrom?: string | null;
+			validTo?: string | null;
+			description?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7090,7 +7397,20 @@ export type UpdateSurchargeMutation = {
 	__typename?: "Mutation";
 	billing?: {
 		__typename?: "BillingMutation";
-		updateSurcharge: { __typename?: "Surcharges"; id: string };
+		updateSurcharge: {
+			__typename?: "Surcharges";
+			id: string;
+			name: string;
+			type: string;
+			amount: number;
+			calculationMethod: SurchargeCalculationMethod;
+			isActive?: boolean | null;
+			validFrom?: string | null;
+			validTo?: string | null;
+			description?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7290,7 +7610,16 @@ export type CreateCampaignMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createCampaign: { __typename?: "Campaigns"; id: string };
+		createCampaign: {
+			__typename?: "Campaigns";
+			id: string;
+			name: string;
+			startDate: any;
+			endDate?: any | null;
+			budget?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7303,7 +7632,16 @@ export type UpdateCampaignMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateCampaign: { __typename?: "Campaigns"; id: string };
+		updateCampaign: {
+			__typename?: "Campaigns";
+			id: string;
+			name: string;
+			budget?: number | null;
+			startDate: any;
+			endDate?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7383,7 +7721,16 @@ export type CreateCaseMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createCase: { __typename?: "Cases"; id: string };
+		createCase: {
+			__typename?: "Cases";
+			id: string;
+			caseNumber: string;
+			type?: CaseType | null;
+			status?: CaseStatus | null;
+			priority?: CasePriority | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7396,7 +7743,22 @@ export type UpdateCaseMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateCase: { __typename?: "Cases"; id: string };
+		updateCase: {
+			__typename?: "Cases";
+			id: string;
+			caseNumber: string;
+			type?: CaseType | null;
+			status?: CaseStatus | null;
+			priority?: CasePriority | null;
+			updatedAt?: any | null;
+			description?: string | null;
+			contact?: {
+				__typename?: "Contacts";
+				id: string;
+				name: string;
+				email?: string | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -7495,7 +7857,17 @@ export type CreateCompanyMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createCompany: { __typename?: "Companies"; id: string };
+		createCompany: {
+			__typename?: "Companies";
+			id: string;
+			name: string;
+			industry?: string | null;
+			phoneNumber?: string | null;
+			website?: string | null;
+			annualRevenue?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7508,7 +7880,16 @@ export type UpdateCompanyMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateCompany: { __typename?: "Companies"; id: string };
+		updateCompany: {
+			__typename?: "Companies";
+			id: string;
+			name: string;
+			industry?: string | null;
+			phoneNumber?: string | null;
+			website?: string | null;
+			annualRevenue?: number | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7579,6 +7960,9 @@ export type SearchCompaniesQuery = {
 		__typename?: "CrmQuery";
 		companies: Array<{
 			__typename?: "Companies";
+			id: string;
+			name: string;
+			industry?: string | null;
 			value: string;
 			label: string;
 		}>;
@@ -7596,7 +7980,9 @@ export type AnalyticsCompaniesQuery = {
 		__typename?: "CrmQuery";
 		companies: Array<{
 			__typename?: "Companies";
+			id: string;
 			annualRevenue?: number | null;
+			industry?: string | null;
 		}>;
 	} | null;
 };
@@ -7609,7 +7995,17 @@ export type CreateContactMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createContact: { __typename?: "Contacts"; id: string };
+		createContact: {
+			__typename?: "Contacts";
+			id: string;
+			name: string;
+			email?: string | null;
+			phoneNumber?: string | null;
+			jobTitle?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			company: { __typename?: "Companies"; id: string; name: string };
+		};
 	} | null;
 };
 
@@ -7622,7 +8018,22 @@ export type UpdateContactMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateContact: { __typename?: "Contacts"; id: string };
+		updateContact: {
+			__typename?: "Contacts";
+			id: string;
+			name: string;
+			email?: string | null;
+			phoneNumber?: string | null;
+			jobTitle?: string | null;
+			updatedAt?: any | null;
+			company: { __typename?: "Companies"; id: string; name: string };
+			owner?: {
+				__typename?: "User";
+				id: string;
+				email: string;
+				name: string;
+			} | null;
+		};
 	} | null;
 };
 
@@ -7700,7 +8111,16 @@ export type CreateInteractionMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createInteraction: { __typename?: "Interactions"; id: string };
+		createInteraction: {
+			__typename?: "Interactions";
+			id: string;
+			type?: InteractionType | null;
+			notes?: string | null;
+			outcome?: InteractionOutcome | null;
+			interactionDate?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7713,7 +8133,21 @@ export type UpdateInteractionMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateInteraction: { __typename?: "Interactions"; id: string };
+		updateInteraction: {
+			__typename?: "Interactions";
+			id: string;
+			type?: InteractionType | null;
+			notes?: string | null;
+			outcome?: InteractionOutcome | null;
+			interactionDate?: any | null;
+			updatedAt?: any | null;
+			contact: {
+				__typename?: "Contacts";
+				id: string;
+				name: string;
+				email?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -7812,6 +8246,19 @@ export type AnalyticsInteractionsQuery = {
 	} | null;
 };
 
+export type AddInvoiceItemMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+	invoiceItem: AddInvoiceItemInput;
+}>;
+
+export type AddInvoiceItemMutation = {
+	__typename?: "Mutation";
+	crm?: {
+		__typename?: "CrmMutation";
+		addInvoiceItem: { __typename?: "InvoiceItems"; id: string };
+	} | null;
+};
+
 export type UpdateInvoiceItemMutationVariables = Exact<{
 	id: Scalars["ID"]["input"];
 	invoiceItem: UpdateInvoiceItemInput;
@@ -7849,7 +8296,16 @@ export type CreateInvoiceMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createInvoice: { __typename?: "Invoices"; id: string };
+		createInvoice: {
+			__typename?: "Invoices";
+			id: string;
+			issueDate: any;
+			dueDate: any;
+			total: number;
+			status?: InvoiceStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7862,7 +8318,23 @@ export type UpdateInvoiceMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateInvoice: { __typename?: "Invoices"; id: string };
+		updateInvoice: {
+			__typename?: "Invoices";
+			id: string;
+			issueDate: any;
+			dueDate: any;
+			total: number;
+			status?: InvoiceStatus | null;
+			sentAt?: any | null;
+			paidAt?: any | null;
+			updatedAt?: any | null;
+			items?: Array<{
+				__typename?: "InvoiceItems";
+				id: string;
+				quantity: number;
+				price: number;
+			}> | null;
+		};
 	} | null;
 };
 
@@ -7962,7 +8434,16 @@ export type CreateLeadMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createLead: { __typename?: "Leads"; id: string };
+		createLead: {
+			__typename?: "Leads";
+			id: string;
+			name: string;
+			email?: string | null;
+			leadSource?: LeadSource | null;
+			status?: LeadStatus | null;
+			leadScore?: number | null;
+			createdAt?: any | null;
+		};
 	} | null;
 };
 
@@ -7975,7 +8456,23 @@ export type UpdateLeadMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateLead: { __typename?: "Leads"; id: string };
+		updateLead: {
+			__typename?: "Leads";
+			id: string;
+			name: string;
+			email?: string | null;
+			leadSource?: LeadSource | null;
+			status?: LeadStatus | null;
+			leadScore?: number | null;
+			updatedAt?: any | null;
+			owner?: {
+				__typename?: "User";
+				id: string;
+				email: string;
+				image?: string | null;
+				name: string;
+			} | null;
+		};
 	} | null;
 };
 
@@ -8001,6 +8498,8 @@ export type TableLeadQueryVariables = Exact<{
 	search?: InputMaybe<Scalars["String"]["input"]>;
 	status?: InputMaybe<LeadStatus>;
 	source?: InputMaybe<LeadSource>;
+	from?: InputMaybe<Scalars["Date"]["input"]>;
+	to?: InputMaybe<Scalars["Date"]["input"]>;
 }>;
 
 export type TableLeadQuery = {
@@ -8031,6 +8530,7 @@ export type TableLeadQuery = {
 				endDate?: any | null;
 				startDate: any;
 				budget?: number | null;
+				id: string;
 			} | null;
 			convertedCompany?: {
 				__typename?: "Companies";
@@ -8061,6 +8561,7 @@ export type TableLeadQuery = {
 				dealValue?: number | null;
 				source?: OpportunitySource | null;
 				stage?: OpportunityStage | null;
+				id: string;
 			} | null;
 		}>;
 	} | null;
@@ -8068,13 +8569,25 @@ export type TableLeadQuery = {
 
 export type SearchLeadsQueryVariables = Exact<{
 	search: Scalars["String"]["input"];
+	status?: InputMaybe<LeadStatus>;
+	source?: InputMaybe<LeadSource>;
 }>;
 
 export type SearchLeadsQuery = {
 	__typename?: "Query";
 	crm?: {
 		__typename?: "CrmQuery";
-		leads: Array<{ __typename?: "Leads"; value: string; label: string }>;
+		leads: Array<{
+			__typename?: "Leads";
+			id: string;
+			name: string;
+			email?: string | null;
+			status?: LeadStatus | null;
+			leadSource?: LeadSource | null;
+			createdAt?: any | null;
+			value: string;
+			label: string;
+		}>;
 	} | null;
 };
 
@@ -8089,9 +8602,11 @@ export type AnalyticsLeadsQuery = {
 		__typename?: "CrmQuery";
 		leads: Array<{
 			__typename?: "Leads";
+			id: string;
 			leadScore?: number | null;
 			status?: LeadStatus | null;
 			leadSource?: LeadSource | null;
+			createdAt?: any | null;
 		}>;
 	} | null;
 };
@@ -8104,7 +8619,15 @@ export type CreateNotificationMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createNotification: { __typename?: "Notifications"; id: string };
+		createNotification: {
+			__typename?: "Notifications";
+			id: string;
+			message: string;
+			link?: string | null;
+			isRead?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -8117,7 +8640,12 @@ export type UpdateNotificationMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateNotification: { __typename?: "Notifications"; id: string };
+		updateNotification: {
+			__typename?: "Notifications";
+			id: string;
+			isRead?: boolean | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -8174,7 +8702,17 @@ export type CreateOpportunityMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		createOpportunity: { __typename?: "Opportunities"; id: string };
+		createOpportunity: {
+			__typename?: "Opportunities";
+			id: string;
+			name: string;
+			dealValue?: number | null;
+			stage?: OpportunityStage | null;
+			probability?: number | null;
+			expectedCloseDate?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -8187,7 +8725,23 @@ export type UpdateOpportunityMutation = {
 	__typename?: "Mutation";
 	crm?: {
 		__typename?: "CrmMutation";
-		updateOpportunity: { __typename?: "Opportunities"; id: string };
+		updateOpportunity: {
+			__typename?: "Opportunities";
+			id: string;
+			name: string;
+			dealValue?: number | null;
+			stage?: OpportunityStage | null;
+			probability?: number | null;
+			expectedCloseDate?: any | null;
+			updatedAt?: any | null;
+			company?: { __typename?: "Companies"; id: string; name: string } | null;
+			contact?: {
+				__typename?: "Contacts";
+				id: string;
+				name: string;
+				email?: string | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -8303,6 +8857,56 @@ export type AnalyticsOpportunitiesQuery = {
 			stage?: OpportunityStage | null;
 			source?: OpportunitySource | null;
 		}>;
+	} | null;
+};
+
+export type AddOpportunityProductMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+	opportunityProduct: AddOpportunityProductInput;
+}>;
+
+export type AddOpportunityProductMutation = {
+	__typename?: "Mutation";
+	crm?: {
+		__typename?: "CrmMutation";
+		addOpportunityProduct: {
+			__typename?: "OpportunityProducts";
+			opportunity: { __typename?: "Opportunities"; id: string };
+			product: { __typename?: "Products"; id: string };
+		};
+	} | null;
+};
+
+export type UpdateOpportunityProductMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+	opportunityProduct: UpdateOpportunityProductInput;
+}>;
+
+export type UpdateOpportunityProductMutation = {
+	__typename?: "Mutation";
+	crm?: {
+		__typename?: "CrmMutation";
+		updateOpportunityProduct: {
+			__typename?: "OpportunityProducts";
+			opportunity: { __typename?: "Opportunities"; id: string };
+			product: { __typename?: "Products"; id: string };
+		};
+	} | null;
+};
+
+export type RemoveOpportunityProductMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+}>;
+
+export type RemoveOpportunityProductMutation = {
+	__typename?: "Mutation";
+	crm?: {
+		__typename?: "CrmMutation";
+		removeOpportunityProduct: {
+			__typename?: "DeleteResult";
+			success: boolean;
+			numDeletedRows: number;
+		};
 	} | null;
 };
 
@@ -8424,6 +9028,25 @@ export type CreateCustomerTrackingLinkMutation = {
 		createCustomerTrackingLink: {
 			__typename?: "CustomerTrackingLinks";
 			id: string;
+			trackingToken: string;
+			isActive?: boolean | null;
+			accessCount?: number | null;
+			expiresAt?: string | null;
+			lastAccessedAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			deliveryTask: {
+				__typename?: "DeliveryTasks";
+				id: string;
+				recipientName?: string | null;
+				deliveryAddress: string;
+				status?: DeliveryTaskStatus | null;
+				deliveryRoute: {
+					__typename?: "DeliveryRoutes";
+					id: string;
+					status?: DeliveryRouteStatus | null;
+				};
+			};
 		};
 	} | null;
 };
@@ -8440,6 +9063,19 @@ export type UpdateCustomerTrackingLinkMutation = {
 		updateCustomerTrackingLink: {
 			__typename?: "CustomerTrackingLinks";
 			id: string;
+			trackingToken: string;
+			isActive?: boolean | null;
+			accessCount?: number | null;
+			expiresAt?: string | null;
+			lastAccessedAt?: string | null;
+			updatedAt?: any | null;
+			deliveryTask: {
+				__typename?: "DeliveryTasks";
+				id: string;
+				recipientName?: string | null;
+				deliveryAddress: string;
+				status?: DeliveryTaskStatus | null;
+			};
 		};
 	} | null;
 };
@@ -8508,7 +9144,30 @@ export type CreateDeliveryRouteMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		createDeliveryRoute: { __typename?: "DeliveryRoutes"; id: string };
+		createDeliveryRoute: {
+			__typename?: "DeliveryRoutes";
+			id: string;
+			routeDate: string;
+			status?: DeliveryRouteStatus | null;
+			totalDistanceKm?: number | null;
+			estimatedDurationMinutes?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver: {
+				__typename?: "Drivers";
+				id: string;
+				status?: DriverStatus | null;
+				licenseNumber: string;
+				contactPhone?: string | null;
+				user: {
+					__typename?: "User";
+					email: string;
+					id: string;
+					image?: string | null;
+					name: string;
+				};
+			};
+		};
 	} | null;
 };
 
@@ -8521,7 +9180,39 @@ export type UpdateDeliveryRouteMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		updateDeliveryRoute: { __typename?: "DeliveryRoutes"; id: string };
+		updateDeliveryRoute: {
+			__typename?: "DeliveryRoutes";
+			id: string;
+			routeDate: string;
+			status?: DeliveryRouteStatus | null;
+			totalDistanceKm?: number | null;
+			estimatedDurationMinutes?: number | null;
+			actualDurationMinutes?: number | null;
+			startedAt?: string | null;
+			completedAt?: string | null;
+			updatedAt?: any | null;
+			driver: {
+				__typename?: "Drivers";
+				id: string;
+				status?: DriverStatus | null;
+				licenseNumber: string;
+				contactPhone?: string | null;
+				user: {
+					__typename?: "User";
+					email: string;
+					id: string;
+					image?: string | null;
+					name: string;
+				};
+			};
+			tasks?: Array<{
+				__typename?: "DeliveryTasks";
+				id: string;
+				recipientName?: string | null;
+				deliveryAddress: string;
+				status?: DeliveryTaskStatus | null;
+			}> | null;
+		};
 	} | null;
 };
 
@@ -8626,7 +9317,34 @@ export type CreateDeliveryTaskMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		createDeliveryTask: { __typename?: "DeliveryTasks"; id: string };
+		createDeliveryTask: {
+			__typename?: "DeliveryTasks";
+			id: string;
+			recipientName?: string | null;
+			recipientPhone?: string | null;
+			deliveryAddress: string;
+			deliveryInstructions?: string | null;
+			status?: DeliveryTaskStatus | null;
+			estimatedArrivalTime?: string | null;
+			routeSequence: number;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			deliveryRoute: {
+				__typename?: "DeliveryRoutes";
+				id: string;
+				driver: {
+					__typename?: "Drivers";
+					id: string;
+					user: { __typename?: "User"; email: string; name: string };
+				};
+			};
+			package: {
+				__typename?: "Packages";
+				id: string;
+				packageNumber: string;
+				trackingNumber?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -8639,7 +9357,37 @@ export type UpdateDeliveryTaskMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		updateDeliveryTask: { __typename?: "DeliveryTasks"; id: string };
+		updateDeliveryTask: {
+			__typename?: "DeliveryTasks";
+			id: string;
+			recipientName?: string | null;
+			recipientPhone?: string | null;
+			deliveryAddress: string;
+			deliveryInstructions?: string | null;
+			status?: DeliveryTaskStatus | null;
+			failureReason?: DeliveryFailureReason | null;
+			estimatedArrivalTime?: string | null;
+			actualArrivalTime?: string | null;
+			deliveryTime?: string | null;
+			attemptCount?: number | null;
+			updatedAt?: any | null;
+			deliveryRoute: {
+				__typename?: "DeliveryRoutes";
+				id: string;
+				status?: DeliveryRouteStatus | null;
+				driver: {
+					__typename?: "Drivers";
+					id: string;
+					user: { __typename?: "User"; email: string; name: string };
+				};
+			};
+			package: {
+				__typename?: "Packages";
+				id: string;
+				packageNumber: string;
+				trackingNumber?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -8751,7 +9499,33 @@ export type CreateDriverLocationMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		createDriverLocation: { __typename?: "DriverLocations"; id: string };
+		createDriverLocation: {
+			__typename?: "DriverLocations";
+			id: string;
+			latitude: number;
+			longitude: number;
+			altitude?: number | null;
+			accuracy?: number | null;
+			speedKmh?: number | null;
+			heading?: number | null;
+			timestamp?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver: {
+				__typename?: "Drivers";
+				id: string;
+				contactPhone?: string | null;
+				licenseNumber: string;
+				status?: DriverStatus | null;
+				user: {
+					__typename?: "User";
+					email: string;
+					id: string;
+					image?: string | null;
+					name: string;
+				};
+			};
+		};
 	} | null;
 };
 
@@ -8764,7 +9538,32 @@ export type UpdateDriverLocationMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		updateDriverLocation: { __typename?: "DriverLocations"; id: string };
+		updateDriverLocation: {
+			__typename?: "DriverLocations";
+			id: string;
+			latitude: number;
+			longitude: number;
+			altitude?: number | null;
+			accuracy?: number | null;
+			speedKmh?: number | null;
+			heading?: number | null;
+			timestamp?: string | null;
+			updatedAt?: any | null;
+			driver: {
+				__typename?: "Drivers";
+				id: string;
+				contactPhone?: string | null;
+				licenseNumber: string;
+				status?: DriverStatus | null;
+				user: {
+					__typename?: "User";
+					email: string;
+					id: string;
+					image?: string | null;
+					name: string;
+				};
+			};
+		};
 	} | null;
 };
 
@@ -8850,6 +9649,23 @@ export type CreateDmsProofOfDeliveryMutation = {
 		createDmsProofOfDelivery: {
 			__typename?: "DmsProofOfDeliveries";
 			id: string;
+			type: ProofOfDeliveryType;
+			recipientName?: string | null;
+			timestamp?: string | null;
+			filePath?: string | null;
+			signatureData?: string | null;
+			verificationCode?: string | null;
+			latitude?: number | null;
+			longitude?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			deliveryTask: {
+				__typename?: "DeliveryTasks";
+				id: string;
+				recipientName?: string | null;
+				deliveryAddress: string;
+				status?: DeliveryTaskStatus | null;
+			};
 		};
 	} | null;
 };
@@ -8947,7 +9763,30 @@ export type CreateTaskEventMutation = {
 	__typename?: "Mutation";
 	dms?: {
 		__typename?: "DmsMutation";
-		createTaskEvent: { __typename?: "TaskEvents"; id: string };
+		createTaskEvent: {
+			__typename?: "TaskEvents";
+			id: string;
+			status: TaskEventStatus;
+			reason?: string | null;
+			notes?: string | null;
+			latitude?: number | null;
+			longitude?: number | null;
+			timestamp?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			deliveryTask: {
+				__typename?: "DeliveryTasks";
+				id: string;
+				recipientName?: string | null;
+				deliveryAddress: string;
+				status?: DeliveryTaskStatus | null;
+				package: {
+					__typename?: "Packages";
+					id: string;
+					trackingNumber?: string | null;
+				};
+			};
+		};
 	} | null;
 };
 
@@ -9030,7 +9869,24 @@ export type CreateCarrierRateMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createCarrierRate: { __typename?: "CarrierRates"; id: string };
+		createCarrierRate: {
+			__typename?: "CarrierRates";
+			id: string;
+			serviceType?: string | null;
+			origin?: string | null;
+			destination?: string | null;
+			rate: number;
+			unit?: CarrierRateUnit | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			carrier: {
+				__typename?: "Carriers";
+				id: string;
+				name: string;
+				contactEmail?: string | null;
+				contactPhone?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -9043,7 +9899,24 @@ export type UpdateCarrierRateMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateCarrierRate: { __typename?: "CarrierRates"; id: string };
+		updateCarrierRate: {
+			__typename?: "CarrierRates";
+			id: string;
+			serviceType?: string | null;
+			origin?: string | null;
+			destination?: string | null;
+			rate: number;
+			unit?: CarrierRateUnit | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			carrier: {
+				__typename?: "Carriers";
+				id: string;
+				name: string;
+				contactEmail?: string | null;
+				contactPhone?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -9071,7 +9944,17 @@ export type CreateCarrierMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createCarrier: { __typename?: "Carriers"; id: string };
+		createCarrier: {
+			__typename?: "Carriers";
+			id: string;
+			name: string;
+			contactPerson?: string | null;
+			contactEmail?: string | null;
+			contactPhone?: string | null;
+			servicesOffered?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -9084,7 +9967,17 @@ export type UpdateCarrierMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateCarrier: { __typename?: "Carriers"; id: string };
+		updateCarrier: {
+			__typename?: "Carriers";
+			id: string;
+			name: string;
+			contactPerson?: string | null;
+			contactEmail?: string | null;
+			contactPhone?: string | null;
+			servicesOffered?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -9182,7 +10075,24 @@ export type CreateDriverScheduleMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createDriverSchedule: { __typename?: "DriverSchedules"; id: string };
+		createDriverSchedule: {
+			__typename?: "DriverSchedules";
+			id: string;
+			startDate: string;
+			endDate: string;
+			reason?: DriverScheduleReason | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver: {
+				__typename?: "Drivers";
+				id: string;
+				licenseNumber: string;
+				licenseExpiryDate?: string | null;
+				status?: DriverStatus | null;
+				contactPhone?: string | null;
+				user: { __typename?: "User"; id: string; name: string; email: string };
+			};
+		};
 	} | null;
 };
 
@@ -9195,7 +10105,24 @@ export type UpdateDriverScheduleMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateDriverSchedule: { __typename?: "DriverSchedules"; id: string };
+		updateDriverSchedule: {
+			__typename?: "DriverSchedules";
+			id: string;
+			startDate: string;
+			endDate: string;
+			reason?: DriverScheduleReason | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver: {
+				__typename?: "Drivers";
+				id: string;
+				licenseNumber: string;
+				licenseExpiryDate?: string | null;
+				status?: DriverStatus | null;
+				contactPhone?: string | null;
+				user: { __typename?: "User"; id: string; name: string; email: string };
+			};
+		};
 	} | null;
 };
 
@@ -9223,7 +10150,23 @@ export type CreateDriverMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createDriver: { __typename?: "Drivers"; id: string };
+		createDriver: {
+			__typename?: "Drivers";
+			id: string;
+			licenseNumber: string;
+			licenseExpiryDate?: string | null;
+			status?: DriverStatus | null;
+			contactPhone?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			user: {
+				__typename?: "User";
+				id: string;
+				name: string;
+				email: string;
+				image?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -9236,7 +10179,23 @@ export type UpdateDriverMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateDriver: { __typename?: "Drivers"; id: string };
+		updateDriver: {
+			__typename?: "Drivers";
+			id: string;
+			licenseNumber: string;
+			licenseExpiryDate?: string | null;
+			status?: DriverStatus | null;
+			contactPhone?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			user: {
+				__typename?: "User";
+				id: string;
+				name: string;
+				email: string;
+				image?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -9320,7 +10279,31 @@ export type CreateExpenseMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createExpense: { __typename?: "Expenses"; id: string };
+		createExpense: {
+			__typename?: "Expenses";
+			id: string;
+			type?: ExpenseType | null;
+			amount: number;
+			currency?: Currency | null;
+			status?: ExpenseStatus | null;
+			description?: string | null;
+			expenseDate?: string | null;
+			receiptUrl?: string | null;
+			fuelQuantity?: number | null;
+			odometerReading?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver?: {
+				__typename?: "Drivers";
+				id: string;
+				user: { __typename?: "User"; id: string; name: string };
+			} | null;
+			trip?: {
+				__typename?: "Trips";
+				id: string;
+				status?: TripStatus | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -9333,7 +10316,31 @@ export type UpdateExpenseMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateExpense: { __typename?: "Expenses"; id: string };
+		updateExpense: {
+			__typename?: "Expenses";
+			id: string;
+			type?: ExpenseType | null;
+			amount: number;
+			currency?: Currency | null;
+			status?: ExpenseStatus | null;
+			description?: string | null;
+			expenseDate?: string | null;
+			receiptUrl?: string | null;
+			fuelQuantity?: number | null;
+			odometerReading?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver?: {
+				__typename?: "Drivers";
+				id: string;
+				user: { __typename?: "User"; id: string; name: string };
+			} | null;
+			trip?: {
+				__typename?: "Trips";
+				id: string;
+				status?: TripStatus | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -9457,7 +10464,27 @@ export type CreateGeofenceEventMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createGeofenceEvent: { __typename?: "GeofenceEvents"; id: string };
+		createGeofenceEvent: {
+			__typename?: "GeofenceEvents";
+			id: string;
+			eventType: GeofenceEventType;
+			timestamp: string;
+			vehicle: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				model?: string | null;
+				make?: string | null;
+				status?: VehicleStatus | null;
+			};
+			geofence: {
+				__typename?: "Geofences";
+				id: string;
+				name: string;
+				latitude?: number | null;
+				longitude?: number | null;
+			};
+		};
 	} | null;
 };
 
@@ -9470,7 +10497,27 @@ export type UpdateGeofenceEventMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateGeofenceEvent: { __typename?: "GeofenceEvents"; id: string };
+		updateGeofenceEvent: {
+			__typename?: "GeofenceEvents";
+			id: string;
+			eventType: GeofenceEventType;
+			timestamp: string;
+			vehicle: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				model?: string | null;
+				make?: string | null;
+				status?: VehicleStatus | null;
+			};
+			geofence: {
+				__typename?: "Geofences";
+				id: string;
+				name: string;
+				latitude?: number | null;
+				longitude?: number | null;
+			};
+		};
 	} | null;
 };
 
@@ -9482,7 +10529,15 @@ export type CreateGeofenceMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createGeofence: { __typename?: "Geofences"; id: string };
+		createGeofence: {
+			__typename?: "Geofences";
+			id: string;
+			name: string;
+			longitude?: number | null;
+			latitude?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -9495,7 +10550,15 @@ export type UpdateGeofenceMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateGeofence: { __typename?: "Geofences"; id: string };
+		updateGeofence: {
+			__typename?: "Geofences";
+			id: string;
+			name: string;
+			longitude?: number | null;
+			latitude?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -9560,7 +10623,23 @@ export type CreateGpsPingMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createGpsPing: { __typename?: "GpsPings"; id: string };
+		createGpsPing: {
+			__typename?: "GpsPings";
+			id: string;
+			latitude: number;
+			longitude: number;
+			timestamp: any;
+			vehicle: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				model?: string | null;
+				make?: string | null;
+				year?: number | null;
+				vin?: string | null;
+				status?: VehicleStatus | null;
+			};
+		};
 	} | null;
 };
 
@@ -9573,7 +10652,23 @@ export type UpdateGpsPingMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateGpsPing: { __typename?: "GpsPings"; id: string };
+		updateGpsPing: {
+			__typename?: "GpsPings";
+			id: string;
+			latitude: number;
+			longitude: number;
+			timestamp: any;
+			vehicle: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				model?: string | null;
+				make?: string | null;
+				year?: number | null;
+				vin?: string | null;
+				status?: VehicleStatus | null;
+			};
+		};
 	} | null;
 };
 
@@ -9618,6 +10713,30 @@ export type UpdatePartnerInvoiceItemMutation = {
 		updatePartnerInvoiceItem: {
 			__typename?: "PartnerInvoiceItems";
 			id: string;
+			amount: number;
+			partnerInvoice: {
+				__typename?: "PartnerInvoices";
+				id: string;
+				invoiceNumber: string;
+				invoiceDate: string;
+				totalAmount: number;
+				status?: PartnerInvoiceStatus | null;
+				createdAt?: any | null;
+				updatedAt?: any | null;
+				carrier: { __typename?: "Carriers"; id: string; name: string };
+			};
+			shipmentLeg: {
+				__typename?: "ShipmentLegs";
+				id: string;
+				legSequence: number;
+				startLocation?: string | null;
+				endLocation?: string | null;
+				status?: ShipmentLegStatus | null;
+				createdAt?: any | null;
+				updatedAt?: any | null;
+				shipment?: { __typename?: "OutboundShipments"; id: string } | null;
+				carrier?: { __typename?: "Carriers"; id: string; name: string } | null;
+			};
 		};
 	} | null;
 };
@@ -9646,7 +10765,17 @@ export type CreatePartnerInvoiceMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createPartnerInvoice: { __typename?: "PartnerInvoices"; id: string };
+		createPartnerInvoice: {
+			__typename?: "PartnerInvoices";
+			id: string;
+			invoiceNumber: string;
+			invoiceDate: string;
+			totalAmount: number;
+			status?: PartnerInvoiceStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			carrier: { __typename?: "Carriers"; id: string; name: string };
+		};
 	} | null;
 };
 
@@ -9659,7 +10788,17 @@ export type UpdatePartnerInvoiceMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updatePartnerInvoice: { __typename?: "PartnerInvoices"; id: string };
+		updatePartnerInvoice: {
+			__typename?: "PartnerInvoices";
+			id: string;
+			invoiceNumber: string;
+			invoiceDate: string;
+			totalAmount: number;
+			status?: PartnerInvoiceStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			carrier: { __typename?: "Carriers"; id: string; name: string };
+		};
 	} | null;
 };
 
@@ -9743,7 +10882,30 @@ export type CreateProofOfDeliveryMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createProofOfDelivery: { __typename?: "ProofOfDeliveries"; id: string };
+		createProofOfDelivery: {
+			__typename?: "ProofOfDeliveries";
+			id: string;
+			type?: ProofType | null;
+			filePath?: string | null;
+			timestamp: string;
+			latitude?: number | null;
+			longitude?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			tripStop: {
+				__typename?: "TripStops";
+				id: string;
+				sequence: number;
+				address?: string | null;
+				status?: TripStopStatus | null;
+				trip: { __typename?: "Trips"; id: string; status?: TripStatus | null };
+				shipment?: {
+					__typename?: "OutboundShipments";
+					id: string;
+					trackingNumber?: string | null;
+				} | null;
+			};
+		};
 	} | null;
 };
 
@@ -9756,7 +10918,30 @@ export type UpdateProofOfDeliveryMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateProofOfDelivery: { __typename?: "ProofOfDeliveries"; id: string };
+		updateProofOfDelivery: {
+			__typename?: "ProofOfDeliveries";
+			id: string;
+			type?: ProofType | null;
+			filePath?: string | null;
+			timestamp: string;
+			latitude?: number | null;
+			longitude?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			tripStop: {
+				__typename?: "TripStops";
+				id: string;
+				sequence: number;
+				address?: string | null;
+				status?: TripStopStatus | null;
+				trip: { __typename?: "Trips"; id: string; status?: TripStatus | null };
+				shipment?: {
+					__typename?: "OutboundShipments";
+					id: string;
+					trackingNumber?: string | null;
+				} | null;
+			};
+		};
 	} | null;
 };
 
@@ -9861,7 +11046,16 @@ export type CreateRouteMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createRoute: { __typename?: "Routes"; id: string };
+		createRoute: {
+			__typename?: "Routes";
+			id: string;
+			optimizedRouteData?: string | null;
+			totalDistance?: number | null;
+			totalDuration?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			trip: { __typename?: "Trips"; id: string; status?: TripStatus | null };
+		};
 	} | null;
 };
 
@@ -9874,7 +11068,16 @@ export type UpdateRouteMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateRoute: { __typename?: "Routes"; id: string };
+		updateRoute: {
+			__typename?: "Routes";
+			id: string;
+			optimizedRouteData?: string | null;
+			totalDistance?: number | null;
+			totalDuration?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			trip: { __typename?: "Trips"; id: string; status?: TripStatus | null };
+		};
 	} | null;
 };
 
@@ -9962,7 +11165,21 @@ export type CreateShipmentLegEventMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createShipmentLegEvent: { __typename?: "ShipmentLegEvents"; id: string };
+		createShipmentLegEvent: {
+			__typename?: "ShipmentLegEvents";
+			id: string;
+			statusMessage?: string | null;
+			location?: string | null;
+			eventTimestamp: string;
+			shipmentLeg: {
+				__typename?: "ShipmentLegs";
+				id: string;
+				legSequence: number;
+				startLocation?: string | null;
+				endLocation?: string | null;
+				status?: ShipmentLegStatus | null;
+			};
+		};
 	} | null;
 };
 
@@ -9974,7 +11191,19 @@ export type CreateShipmentLegMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createShipmentLeg: { __typename?: "ShipmentLegs"; id: string };
+		createShipmentLeg: {
+			__typename?: "ShipmentLegs";
+			id: string;
+			legSequence: number;
+			startLocation?: string | null;
+			endLocation?: string | null;
+			status?: ShipmentLegStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			shipment?: { __typename?: "OutboundShipments"; id: string } | null;
+			carrier?: { __typename?: "Carriers"; id: string; name: string } | null;
+			internalTrip?: { __typename?: "Trips"; id: string } | null;
+		};
 	} | null;
 };
 
@@ -9987,7 +11216,19 @@ export type UpdateShipmentLegMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateShipmentLeg: { __typename?: "ShipmentLegs"; id: string };
+		updateShipmentLeg: {
+			__typename?: "ShipmentLegs";
+			id: string;
+			legSequence: number;
+			startLocation?: string | null;
+			endLocation?: string | null;
+			status?: ShipmentLegStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			shipment?: { __typename?: "OutboundShipments"; id: string } | null;
+			carrier?: { __typename?: "Carriers"; id: string; name: string } | null;
+			internalTrip?: { __typename?: "Trips"; id: string } | null;
+		};
 	} | null;
 };
 
@@ -10073,7 +11314,23 @@ export type CreateTripStopMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createTripStop: { __typename?: "TripStops"; id: string };
+		createTripStop: {
+			__typename?: "TripStops";
+			id: string;
+			sequence: number;
+			address?: string | null;
+			status?: TripStopStatus | null;
+			estimatedArrivalTime?: string | null;
+			estimatedDepartureTime?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			trip: { __typename?: "Trips"; id: string; status?: TripStatus | null };
+			shipment?: {
+				__typename?: "OutboundShipments";
+				id: string;
+				status?: OutboundShipmentStatus | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -10086,7 +11343,25 @@ export type UpdateTripStopMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateTripStop: { __typename?: "TripStops"; id: string };
+		updateTripStop: {
+			__typename?: "TripStops";
+			id: string;
+			sequence: number;
+			address?: string | null;
+			status?: TripStopStatus | null;
+			estimatedArrivalTime?: string | null;
+			estimatedDepartureTime?: string | null;
+			actualArrivalTime?: string | null;
+			actualDepartureTime?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			trip: { __typename?: "Trips"; id: string; status?: TripStatus | null };
+			shipment?: {
+				__typename?: "OutboundShipments";
+				id: string;
+				status?: OutboundShipmentStatus | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -10114,7 +11389,31 @@ export type CreateTripMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createTrip: { __typename?: "Trips"; id: string };
+		createTrip: {
+			__typename?: "Trips";
+			id: string;
+			status?: TripStatus | null;
+			startLocation?: string | null;
+			startTime?: string | null;
+			endLocation?: string | null;
+			endTime?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver?: {
+				__typename?: "Drivers";
+				id: string;
+				licenseNumber: string;
+				status?: DriverStatus | null;
+				user: { __typename?: "User"; id: string; name: string; email: string };
+			} | null;
+			vehicle?: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				make?: string | null;
+				model?: string | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -10127,7 +11426,31 @@ export type UpdateTripMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateTrip: { __typename?: "Trips"; id: string };
+		updateTrip: {
+			__typename?: "Trips";
+			id: string;
+			status?: TripStatus | null;
+			startLocation?: string | null;
+			startTime?: string | null;
+			endLocation?: string | null;
+			endTime?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			driver?: {
+				__typename?: "Drivers";
+				id: string;
+				licenseNumber: string;
+				status?: DriverStatus | null;
+				user: { __typename?: "User"; id: string; name: string; email: string };
+			} | null;
+			vehicle?: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				make?: string | null;
+				model?: string | null;
+			} | null;
+		};
 	} | null;
 };
 
@@ -10223,6 +11546,35 @@ export type AnalyticsTripsQuery = {
 	} | null;
 };
 
+export type CreateVehicleMaintenanceMutationVariables = Exact<{
+	id: Scalars["ID"]["input"];
+	vehicleMaintenance: CreateVehicleMaintenanceInput;
+}>;
+
+export type CreateVehicleMaintenanceMutation = {
+	__typename?: "Mutation";
+	tms?: {
+		__typename?: "TmsMutation";
+		addVehicleMaintenance: {
+			__typename?: "VehicleMaintenance";
+			id: string;
+			serviceDate: any;
+			serviceType?: VehicleServiceType | null;
+			cost?: number | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			vehicle: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				make?: string | null;
+				model?: string | null;
+			};
+		};
+	} | null;
+};
+
 export type UpdateVehicleMaintenanceMutationVariables = Exact<{
 	id: Scalars["ID"]["input"];
 	vehicleMaintenance: UpdateVehicleMaintenanceInput;
@@ -10232,7 +11584,23 @@ export type UpdateVehicleMaintenanceMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateVehicleMaintenance: { __typename?: "VehicleMaintenance"; id: string };
+		updateVehicleMaintenance: {
+			__typename?: "VehicleMaintenance";
+			id: string;
+			serviceDate: any;
+			serviceType?: VehicleServiceType | null;
+			cost?: number | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			vehicle: {
+				__typename?: "Vehicles";
+				id: string;
+				registrationNumber: string;
+				make?: string | null;
+				model?: string | null;
+			};
+		};
 	} | null;
 };
 
@@ -10260,7 +11628,22 @@ export type CreateVehicleMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		createVehicle: { __typename?: "Vehicles"; id: string };
+		createVehicle: {
+			__typename?: "Vehicles";
+			id: string;
+			registrationNumber: string;
+			make?: string | null;
+			model?: string | null;
+			year?: number | null;
+			vin?: string | null;
+			capacityWeight?: number | null;
+			capacityVolume?: number | null;
+			currentMileage?: number | null;
+			lastMaintenanceDate?: string | null;
+			status?: VehicleStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10273,7 +11656,22 @@ export type UpdateVehicleMutation = {
 	__typename?: "Mutation";
 	tms?: {
 		__typename?: "TmsMutation";
-		updateVehicle: { __typename?: "Vehicles"; id: string };
+		updateVehicle: {
+			__typename?: "Vehicles";
+			id: string;
+			registrationNumber: string;
+			make?: string | null;
+			model?: string | null;
+			year?: number | null;
+			vin?: string | null;
+			capacityWeight?: number | null;
+			capacityVolume?: number | null;
+			currentMileage?: number | null;
+			lastMaintenanceDate?: string | null;
+			status?: VehicleStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10372,7 +11770,24 @@ export type CreateBinThresholdMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createBinThreshold: { __typename?: "BinThresholds"; id: string };
+		createBinThreshold: {
+			__typename?: "BinThresholds";
+			id: string;
+			minQuantity: number;
+			maxQuantity: number;
+			reorderQuantity?: number | null;
+			alertThreshold?: number | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			location: { __typename?: "Locations"; id: string; name: string };
+			product: {
+				__typename?: "WmsProducts";
+				id: string;
+				name: string;
+				sku: string;
+			};
+		};
 	} | null;
 };
 
@@ -10385,7 +11800,24 @@ export type UpdateBinThresholdMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateBinThreshold: { __typename?: "BinThresholds"; id: string };
+		updateBinThreshold: {
+			__typename?: "BinThresholds";
+			id: string;
+			minQuantity: number;
+			maxQuantity: number;
+			reorderQuantity?: number | null;
+			alertThreshold?: number | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			location: { __typename?: "Locations"; id: string; name: string };
+			product: {
+				__typename?: "WmsProducts";
+				id: string;
+				name: string;
+				sku: string;
+			};
+		};
 	} | null;
 };
 
@@ -10468,6 +11900,12 @@ export type UpdateInboundShipmentItemMutation = {
 		updateInboundShipmentItem: {
 			__typename?: "InboundShipmentItems";
 			id: string;
+			expectedQuantity: number;
+			receivedQuantity?: number | null;
+			discrepancyQuantity?: number | null;
+			discrepancyNotes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
 		};
 	} | null;
 };
@@ -10496,7 +11934,17 @@ export type CreateInboundShipmentMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createInboundShipment: { __typename?: "InboundShipments"; id: string };
+		createInboundShipment: {
+			__typename?: "InboundShipments";
+			id: string;
+			warehouseId: string;
+			status?: InboundShipmentStatus | null;
+			expectedArrivalDate?: string | null;
+			actualArrivalDate?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			client?: { __typename?: "Companies"; id: string; name: string } | null;
+		};
 	} | null;
 };
 
@@ -10509,7 +11957,17 @@ export type UpdateInboundShipmentMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateInboundShipment: { __typename?: "InboundShipments"; id: string };
+		updateInboundShipment: {
+			__typename?: "InboundShipments";
+			id: string;
+			warehouseId: string;
+			status?: InboundShipmentStatus | null;
+			expectedArrivalDate?: string | null;
+			actualArrivalDate?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+			client?: { __typename?: "Companies"; id: string; name: string } | null;
+		};
 	} | null;
 };
 
@@ -10586,6 +12044,12 @@ export type CreateInventoryAdjustmentMutation = {
 		createInventoryAdjustment: {
 			__typename?: "InventoryAdjustments";
 			id: string;
+			warehouseId: string;
+			quantityChange: number;
+			reason?: InventoryAdjustmentReason | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
 		};
 	} | null;
 };
@@ -10602,6 +12066,12 @@ export type UpdateInventoryAdjustmentMutation = {
 		updateInventoryAdjustment: {
 			__typename?: "InventoryAdjustments";
 			id: string;
+			warehouseId: string;
+			quantityChange: number;
+			reason?: InventoryAdjustmentReason | null;
+			notes?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
 		};
 	} | null;
 };
@@ -10703,7 +12173,14 @@ export type CreateInventoryBatchMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createInventoryBatch: { __typename?: "InventoryBatches"; id: string };
+		createInventoryBatch: {
+			__typename?: "InventoryBatches";
+			id: string;
+			batchNumber: string;
+			expirationDate?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10716,7 +12193,14 @@ export type UpdateInventoryBatchMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateInventoryBatch: { __typename?: "InventoryBatches"; id: string };
+		updateInventoryBatch: {
+			__typename?: "InventoryBatches";
+			id: string;
+			batchNumber: string;
+			expirationDate?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10798,7 +12282,18 @@ export type CreateInventoryStockMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createInventoryStock: { __typename?: "InventoryStock"; id: string };
+		createInventoryStock: {
+			__typename?: "InventoryStock";
+			id: string;
+			quantity: number;
+			reservedQuantity: number;
+			availableQuantity?: number | null;
+			status?: InventoryStockStatus | null;
+			lastCountedAt?: any | null;
+			lastMovementAt?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10811,7 +12306,18 @@ export type UpdateInventoryStockMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateInventoryStock: { __typename?: "InventoryStock"; id: string };
+		updateInventoryStock: {
+			__typename?: "InventoryStock";
+			id: string;
+			quantity: number;
+			reservedQuantity: number;
+			availableQuantity?: number | null;
+			status?: InventoryStockStatus | null;
+			lastCountedAt?: any | null;
+			lastMovementAt?: any | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10906,7 +12412,28 @@ export type CreateLocationMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createLocation: { __typename?: "Locations"; id: string };
+		createLocation: {
+			__typename?: "Locations";
+			id: string;
+			name: string;
+			barcode?: string | null;
+			type: LocationType;
+			isActive?: boolean | null;
+			isPickable?: boolean | null;
+			isReceivable?: boolean | null;
+			level?: number | null;
+			maxPallets?: number | null;
+			maxVolume?: number | null;
+			maxWeight?: number | null;
+			temperatureControlled?: boolean | null;
+			hazmatApproved?: boolean | null;
+			xCoordinate?: number | null;
+			yCoordinate?: number | null;
+			zCoordinate?: number | null;
+			path?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -10919,7 +12446,28 @@ export type UpdateLocationMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateLocation: { __typename?: "Locations"; id: string };
+		updateLocation: {
+			__typename?: "Locations";
+			id: string;
+			name: string;
+			barcode?: string | null;
+			type: LocationType;
+			isActive?: boolean | null;
+			isPickable?: boolean | null;
+			isReceivable?: boolean | null;
+			level?: number | null;
+			maxPallets?: number | null;
+			maxVolume?: number | null;
+			maxWeight?: number | null;
+			temperatureControlled?: boolean | null;
+			hazmatApproved?: boolean | null;
+			xCoordinate?: number | null;
+			yCoordinate?: number | null;
+			zCoordinate?: number | null;
+			path?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11036,6 +12584,9 @@ export type UpdateOutboundShipmentItemMutation = {
 		updateOutboundShipmentItem: {
 			__typename?: "OutboundShipmentItems";
 			id: string;
+			quantityShipped: number;
+			createdAt?: any | null;
+			updatedAt?: any | null;
 		};
 	} | null;
 };
@@ -11064,7 +12615,16 @@ export type CreateOutboundShipmentMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createOutboundShipment: { __typename?: "OutboundShipments"; id: string };
+		createOutboundShipment: {
+			__typename?: "OutboundShipments";
+			id: string;
+			carrier?: string | null;
+			trackingNumber?: string | null;
+			status?: OutboundShipmentStatus | null;
+			warehouseId: string;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11077,7 +12637,16 @@ export type UpdateOutboundShipmentMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateOutboundShipment: { __typename?: "OutboundShipments"; id: string };
+		updateOutboundShipment: {
+			__typename?: "OutboundShipments";
+			id: string;
+			carrier?: string | null;
+			trackingNumber?: string | null;
+			status?: OutboundShipmentStatus | null;
+			warehouseId: string;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11169,7 +12738,18 @@ export type UpdatePackageItemMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updatePackageItem: { __typename?: "PackageItems"; id: string };
+		updatePackageItem: {
+			__typename?: "PackageItems";
+			id: string;
+			quantity: number;
+			lotNumber?: string | null;
+			serialNumbers: Array<string>;
+			expiryDate?: string | null;
+			unitWeight?: number | null;
+			totalWeight?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11197,7 +12777,28 @@ export type CreatePackageMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createPackage: { __typename?: "Packages"; id: string };
+		createPackage: {
+			__typename?: "Packages";
+			id: string;
+			packageNumber: string;
+			packageType?: string | null;
+			weight?: number | null;
+			length?: number | null;
+			width?: number | null;
+			height?: number | null;
+			volume?: number | null;
+			trackingNumber?: string | null;
+			carrier?: string | null;
+			serviceLevel?: string | null;
+			packedAt?: string | null;
+			shippedAt?: string | null;
+			isFragile?: boolean | null;
+			isHazmat?: boolean | null;
+			requiresSignature?: boolean | null;
+			insuranceValue?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11210,7 +12811,28 @@ export type UpdatePackageMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updatePackage: { __typename?: "Packages"; id: string };
+		updatePackage: {
+			__typename?: "Packages";
+			id: string;
+			packageNumber: string;
+			packageType?: string | null;
+			weight?: number | null;
+			length?: number | null;
+			width?: number | null;
+			height?: number | null;
+			volume?: number | null;
+			trackingNumber?: string | null;
+			carrier?: string | null;
+			serviceLevel?: string | null;
+			packedAt?: string | null;
+			shippedAt?: string | null;
+			isFragile?: boolean | null;
+			isHazmat?: boolean | null;
+			requiresSignature?: boolean | null;
+			insuranceValue?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11323,7 +12945,15 @@ export type UpdatePickBatchItemMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updatePickBatchItem: { __typename?: "PickBatchItems"; id: string };
+		updatePickBatchItem: {
+			__typename?: "PickBatchItems";
+			id: string;
+			orderPriority?: number | null;
+			estimatedPickTime?: number | null;
+			actualPickTime?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11351,7 +12981,24 @@ export type CreatePickBatchMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createPickBatch: { __typename?: "PickBatches"; id: string };
+		createPickBatch: {
+			__typename?: "PickBatches";
+			id: string;
+			batchNumber: string;
+			status?: PickBatchStatus | null;
+			strategy: PickStrategy;
+			priority?: number | null;
+			waveId?: string | null;
+			zoneRestrictions?: Array<string | null> | null;
+			estimatedDuration?: number | null;
+			actualDuration?: number | null;
+			totalItems?: number | null;
+			completedItems?: number | null;
+			startedAt?: string | null;
+			completedAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11364,7 +13011,24 @@ export type UpdatePickBatchMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updatePickBatch: { __typename?: "PickBatches"; id: string };
+		updatePickBatch: {
+			__typename?: "PickBatches";
+			id: string;
+			batchNumber: string;
+			status?: PickBatchStatus | null;
+			strategy: PickStrategy;
+			priority?: number | null;
+			waveId?: string | null;
+			zoneRestrictions?: Array<string | null> | null;
+			estimatedDuration?: number | null;
+			actualDuration?: number | null;
+			totalItems?: number | null;
+			completedItems?: number | null;
+			startedAt?: string | null;
+			completedAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11476,7 +13140,23 @@ export type CreateWmsProductMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createWmsProduct: { __typename?: "WmsProducts"; id: string };
+		createWmsProduct: {
+			__typename?: "WmsProducts";
+			id: string;
+			name: string;
+			sku: string;
+			barcode?: string | null;
+			description?: string | null;
+			costPrice?: number | null;
+			length?: number | null;
+			width?: number | null;
+			height?: number | null;
+			volume?: number | null;
+			weight?: number | null;
+			status?: ProductStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11489,7 +13169,23 @@ export type UpdateWmsProductMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateWmsProduct: { __typename?: "WmsProducts"; id: string };
+		updateWmsProduct: {
+			__typename?: "WmsProducts";
+			id: string;
+			name: string;
+			sku: string;
+			barcode?: string | null;
+			description?: string | null;
+			costPrice?: number | null;
+			length?: number | null;
+			width?: number | null;
+			height?: number | null;
+			volume?: number | null;
+			weight?: number | null;
+			status?: ProductStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11593,7 +13289,21 @@ export type CreatePutawayRuleMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createPutawayRule: { __typename?: "PutawayRules"; id: string };
+		createPutawayRule: {
+			__typename?: "PutawayRules";
+			id: string;
+			locationType?: LocationType | null;
+			priority: number;
+			minQuantity?: number | null;
+			maxQuantity?: number | null;
+			weightThreshold?: number | null;
+			volumeThreshold?: number | null;
+			requiresTemperatureControl?: boolean | null;
+			requiresHazmatApproval?: boolean | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11606,7 +13316,21 @@ export type UpdatePutawayRuleMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updatePutawayRule: { __typename?: "PutawayRules"; id: string };
+		updatePutawayRule: {
+			__typename?: "PutawayRules";
+			id: string;
+			locationType?: LocationType | null;
+			priority: number;
+			minQuantity?: number | null;
+			maxQuantity?: number | null;
+			weightThreshold?: number | null;
+			volumeThreshold?: number | null;
+			requiresTemperatureControl?: boolean | null;
+			requiresHazmatApproval?: boolean | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11710,7 +13434,13 @@ export type CreateReorderPointMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createReorderPoint: { __typename?: "ReorderPoints"; id: string };
+		createReorderPoint: {
+			__typename?: "ReorderPoints";
+			id: string;
+			threshold: number;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11723,7 +13453,13 @@ export type UpdateReorderPointMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateReorderPoint: { __typename?: "ReorderPoints"; id: string };
+		updateReorderPoint: {
+			__typename?: "ReorderPoints";
+			id: string;
+			threshold: number;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11802,7 +13538,16 @@ export type UpdateReturnItemMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateReturnItem: { __typename?: "ReturnItems"; id: string };
+		updateReturnItem: {
+			__typename?: "ReturnItems";
+			id: string;
+			quantityExpected: number;
+			quantityReceived?: number | null;
+			quantityVariance?: number | null;
+			condition?: ReturnItemCondition | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11830,7 +13575,15 @@ export type CreateReturnMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createReturn: { __typename?: "Returns"; id: string };
+		createReturn: {
+			__typename?: "Returns";
+			id: string;
+			returnNumber: string;
+			status?: ReturnStatus | null;
+			reason?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11843,7 +13596,15 @@ export type UpdateReturnMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateReturn: { __typename?: "Returns"; id: string };
+		updateReturn: {
+			__typename?: "Returns";
+			id: string;
+			returnNumber: string;
+			status?: ReturnStatus | null;
+			reason?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11955,7 +13716,13 @@ export type UpdateSalesOrderItemMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateSalesOrderItem: { __typename?: "SalesOrderItems"; id: string };
+		updateSalesOrderItem: {
+			__typename?: "SalesOrderItems";
+			id: string;
+			quantityOrdered: number;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11983,7 +13750,15 @@ export type CreateSalesOrderMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createSalesOrder: { __typename?: "SalesOrders"; id: string };
+		createSalesOrder: {
+			__typename?: "SalesOrders";
+			id: string;
+			orderNumber: string;
+			status?: SalesOrderStatus | null;
+			shippingAddress?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -11996,7 +13771,15 @@ export type UpdateSalesOrderMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateSalesOrder: { __typename?: "SalesOrders"; id: string };
+		updateSalesOrder: {
+			__typename?: "SalesOrders";
+			id: string;
+			orderNumber: string;
+			status?: SalesOrderStatus | null;
+			shippingAddress?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12094,7 +13877,14 @@ export type CreateStockTransferMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createStockTransfer: { __typename?: "StockTransfers"; id: string };
+		createStockTransfer: {
+			__typename?: "StockTransfers";
+			id: string;
+			quantity: number;
+			status?: StockTransferStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12107,7 +13897,14 @@ export type UpdateStockTransferMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateStockTransfer: { __typename?: "StockTransfers"; id: string };
+		updateStockTransfer: {
+			__typename?: "StockTransfers";
+			id: string;
+			quantity: number;
+			status?: StockTransferStatus | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12202,7 +13999,16 @@ export type CreateSupplierMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createSupplier: { __typename?: "Suppliers"; id: string };
+		createSupplier: {
+			__typename?: "Suppliers";
+			id: string;
+			name: string;
+			contactPerson?: string | null;
+			email?: string | null;
+			phoneNumber?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12215,7 +14021,16 @@ export type UpdateSupplierMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateSupplier: { __typename?: "Suppliers"; id: string };
+		updateSupplier: {
+			__typename?: "Suppliers";
+			id: string;
+			name: string;
+			contactPerson?: string | null;
+			email?: string | null;
+			phoneNumber?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12293,7 +14108,21 @@ export type UpdateTaskItemMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateTaskItem: { __typename?: "TaskItems"; id: string };
+		updateTaskItem: {
+			__typename?: "TaskItems";
+			id: string;
+			quantityRequired: number;
+			quantityCompleted: number;
+			quantityRemaining?: number | null;
+			status?: TaskItemStatus | null;
+			lotNumber?: string | null;
+			serialNumbers?: Array<string | null> | null;
+			expiryDate?: string | null;
+			notes?: string | null;
+			completedAt?: string | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12321,7 +14150,25 @@ export type CreateTaskMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createTask: { __typename?: "Tasks"; id: string };
+		createTask: {
+			__typename?: "Tasks";
+			id: string;
+			taskNumber: string;
+			type: TaskType;
+			status?: TaskStatus | null;
+			priority?: number | null;
+			sourceEntityId?: string | null;
+			sourceEntityType?: string | null;
+			estimatedDuration?: number | null;
+			actualDuration?: number | null;
+			instructions?: string | null;
+			notes?: string | null;
+			startTime?: string | null;
+			endTime?: string | null;
+			durationSeconds?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12334,7 +14181,25 @@ export type UpdateTaskMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateTask: { __typename?: "Tasks"; id: string };
+		updateTask: {
+			__typename?: "Tasks";
+			id: string;
+			taskNumber: string;
+			type: TaskType;
+			status?: TaskStatus | null;
+			priority?: number | null;
+			sourceEntityId?: string | null;
+			sourceEntityType?: string | null;
+			estimatedDuration?: number | null;
+			actualDuration?: number | null;
+			instructions?: string | null;
+			notes?: string | null;
+			startTime?: string | null;
+			endTime?: string | null;
+			durationSeconds?: number | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12480,7 +14345,23 @@ export type CreateWarehouseMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		createWarehouse: { __typename?: "Warehouses"; id: string };
+		createWarehouse: {
+			__typename?: "Warehouses";
+			id: string;
+			name: string;
+			address?: string | null;
+			city?: string | null;
+			state?: string | null;
+			postalCode?: string | null;
+			country?: string | null;
+			timezone?: string | null;
+			contactPerson?: string | null;
+			contactEmail?: string | null;
+			contactPhone?: string | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12493,7 +14374,23 @@ export type UpdateWarehouseMutation = {
 	__typename?: "Mutation";
 	wms?: {
 		__typename?: "WmsMutation";
-		updateWarehouse: { __typename?: "Warehouses"; id: string };
+		updateWarehouse: {
+			__typename?: "Warehouses";
+			id: string;
+			name: string;
+			address?: string | null;
+			city?: string | null;
+			state?: string | null;
+			postalCode?: string | null;
+			country?: string | null;
+			timezone?: string | null;
+			contactPerson?: string | null;
+			contactEmail?: string | null;
+			contactPhone?: string | null;
+			isActive?: boolean | null;
+			createdAt?: any | null;
+			updatedAt?: any | null;
+		};
 	} | null;
 };
 
@@ -12663,6 +14560,16 @@ export const CreateAccountTransactionDocument = new TypedDocumentString(`
   billing {
     createAccountTransaction(value: $accountTransaction) {
       id
+      type
+      amount
+      runningBalance
+      sourceRecordId
+      sourceRecordType
+      description
+      referenceNumber
+      transactionDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -12749,6 +14656,19 @@ export const CreateAccountingSyncLogDocument = new TypedDocumentString(`
   billing {
     createAccountingSyncLog(value: $accountingSyncLog) {
       id
+      recordId
+      recordType
+      externalSystem
+      externalId
+      status
+      errorMessage
+      requestPayload
+      responsePayload
+      lastSyncAt
+      retryCount
+      nextRetryAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -12817,6 +14737,15 @@ export const CreateClientAccountDocument = new TypedDocumentString(`
   billing {
     createClientAccount(value: $clientAccount) {
       id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -12829,6 +14758,15 @@ export const UpdateClientAccountDocument = new TypedDocumentString(`
   billing {
     updateClientAccount(id: $id, value: $clientAccount) {
       id
+      creditLimit
+      availableCredit
+      walletBalance
+      currency
+      paymentTermsDays
+      isCreditApproved
+      lastPaymentDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -12922,6 +14860,15 @@ export const CreateCreditNoteDocument = new TypedDocumentString(`
   billing {
     createCreditNote(value: $creditNote) {
       id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -12934,6 +14881,15 @@ export const UpdateCreditNoteDocument = new TypedDocumentString(`
   billing {
     updateCreditNote(id: $id, value: $creditNote) {
       id
+      creditNoteNumber
+      amount
+      reason
+      issueDate
+      appliedAt
+      currency
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13037,6 +14993,14 @@ export const CreateDisputeDocument = new TypedDocumentString(`
   billing {
     createDispute(value: $dispute) {
       id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13049,6 +15013,14 @@ export const UpdateDisputeDocument = new TypedDocumentString(`
   billing {
     updateDispute(id: $id, value: $dispute) {
       id
+      reason
+      status
+      disputedAmount
+      resolutionNotes
+      submittedAt
+      resolvedAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13155,6 +15127,15 @@ export const CreateDocumentDocument = new TypedDocumentString(`
   billing {
     createDocument(value: $document) {
       id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13167,6 +15148,15 @@ export const UpdateDocumentDocument = new TypedDocumentString(`
   billing {
     updateDocument(id: $id, value: $document) {
       id
+      recordId
+      recordType
+      documentType
+      filePath
+      fileName
+      fileSize
+      mimeType
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13274,6 +15264,19 @@ export const UpdateInvoiceLineItemDocument = new TypedDocumentString(`
   billing {
     updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {
       id
+      sourceRecordId
+      sourceRecordType
+      description
+      quantity
+      unitPrice
+      totalPrice
+      taxRate
+      taxAmount
+      discountRate
+      discountAmount
+      lineTotal
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13299,6 +15302,23 @@ export const CreateBillingInvoiceDocument = new TypedDocumentString(`
   billing {
     createBillingInvoice(value: $billingInvoice) {
       id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13311,6 +15331,23 @@ export const UpdateBillingInvoiceDocument = new TypedDocumentString(`
   billing {
     updateBillingInvoice(id: $id, value: $billingInvoice) {
       id
+      invoiceNumber
+      status
+      issueDate
+      dueDate
+      totalAmount
+      amountPaid
+      amountOutstanding
+      currency
+      taxAmount
+      discountAmount
+      subtotal
+      paymentTerms
+      notes
+      sentAt
+      paidAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13416,6 +15453,20 @@ export const CreatePaymentDocument = new TypedDocumentString(`
   billing {
     createPayment(value: $payment) {
       id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13428,6 +15479,20 @@ export const UpdatePaymentDocument = new TypedDocumentString(`
   billing {
     updatePayment(id: $id, value: $payment) {
       id
+      amount
+      paymentMethod
+      transactionId
+      gatewayReference
+      status
+      paymentDate
+      processedAt
+      currency
+      exchangeRate
+      fees
+      netAmount
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13525,6 +15590,21 @@ export const CreateQuoteDocument = new TypedDocumentString(`
   billing {
     createQuote(value: $quote) {
       id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13537,6 +15617,21 @@ export const UpdateQuoteDocument = new TypedDocumentString(`
   billing {
     updateQuote(id: $id, value: $quote) {
       id
+      originDetails
+      destinationDetails
+      weight
+      length
+      width
+      height
+      volume
+      quotedPrice
+      serviceLevel
+      expiresAt
+      status
+      quoteNumber
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13644,6 +15739,14 @@ export const CreateRateCardDocument = new TypedDocumentString(`
   billing {
     createRateCard(value: $rateCard) {
       id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13656,6 +15759,14 @@ export const UpdateRateCardDocument = new TypedDocumentString(`
   billing {
     updateRateCard(id: $id, value: $rateCard) {
       id
+      name
+      serviceType
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13748,6 +15859,16 @@ export const CreateRateRuleDocument = new TypedDocumentString(`
   billing {
     createRateRule(value: $rateRule) {
       id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13760,6 +15881,16 @@ export const UpdateRateRuleDocument = new TypedDocumentString(`
   billing {
     updateRateRule(id: $id, value: $rateRule) {
       id
+      condition
+      value
+      price
+      pricingModel
+      minValue
+      maxValue
+      priority
+      isActive
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13858,6 +15989,16 @@ export const CreateSurchargeDocument = new TypedDocumentString(`
   billing {
     createSurcharge(value: $surcharge) {
       id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
     }
   }
 }
@@ -13870,6 +16011,16 @@ export const UpdateSurchargeDocument = new TypedDocumentString(`
   billing {
     updateSurcharge(id: $id, value: $surcharge) {
       id
+      name
+      type
+      amount
+      calculationMethod
+      isActive
+      validFrom
+      validTo
+      description
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14045,6 +16196,12 @@ export const CreateCampaignDocument = new TypedDocumentString(`
   crm {
     createCampaign(value: $campaign) {
       id
+      name
+      startDate
+      endDate
+      budget
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14057,6 +16214,12 @@ export const UpdateCampaignDocument = new TypedDocumentString(`
   crm {
     updateCampaign(id: $id, value: $campaign) {
       id
+      name
+      budget
+      startDate
+      endDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14125,6 +16288,12 @@ export const CreateCaseDocument = new TypedDocumentString(`
   crm {
     createCase(value: $case) {
       id
+      caseNumber
+      type
+      status
+      priority
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14137,6 +16306,17 @@ export const UpdateCaseDocument = new TypedDocumentString(`
   crm {
     updateCase(id: $id, value: $case) {
       id
+      caseNumber
+      type
+      status
+      priority
+      updatedAt
+      description
+      contact {
+        id
+        name
+        email
+      }
     }
   }
 }
@@ -14227,6 +16407,13 @@ export const CreateCompanyDocument = new TypedDocumentString(`
   crm {
     createCompany(value: $company) {
       id
+      name
+      industry
+      phoneNumber
+      website
+      annualRevenue
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14239,6 +16426,12 @@ export const UpdateCompanyDocument = new TypedDocumentString(`
   crm {
     updateCompany(id: $id, value: $company) {
       id
+      name
+      industry
+      phoneNumber
+      website
+      annualRevenue
+      updatedAt
     }
   }
 }
@@ -14299,6 +16492,9 @@ export const SearchCompaniesDocument = new TypedDocumentString(`
     companies(page: 1, perPage: 10, search: $search) {
       value: id
       label: name
+      id
+      name
+      industry
     }
   }
 }
@@ -14310,7 +16506,9 @@ export const AnalyticsCompaniesDocument = new TypedDocumentString(`
     query AnalyticsCompanies($from: Date, $to: Date) {
   crm {
     companies(from: $from, to: $to) {
+      id
       annualRevenue
+      industry
     }
   }
 }
@@ -14323,6 +16521,16 @@ export const CreateContactDocument = new TypedDocumentString(`
   crm {
     createContact(value: $contact) {
       id
+      name
+      email
+      phoneNumber
+      jobTitle
+      createdAt
+      updatedAt
+      company {
+        id
+        name
+      }
     }
   }
 }
@@ -14335,6 +16543,20 @@ export const UpdateContactDocument = new TypedDocumentString(`
   crm {
     updateContact(id: $id, value: $contact) {
       id
+      name
+      email
+      phoneNumber
+      jobTitle
+      updatedAt
+      company {
+        id
+        name
+      }
+      owner {
+        id
+        email
+        name
+      }
     }
   }
 }
@@ -14404,6 +16626,12 @@ export const CreateInteractionDocument = new TypedDocumentString(`
   crm {
     createInteraction(value: $interaction) {
       id
+      type
+      notes
+      outcome
+      interactionDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14416,6 +16644,16 @@ export const UpdateInteractionDocument = new TypedDocumentString(`
   crm {
     updateInteraction(id: $id, value: $interaction) {
       id
+      type
+      notes
+      outcome
+      interactionDate
+      updatedAt
+      contact {
+        id
+        name
+        email
+      }
     }
   }
 }
@@ -14504,6 +16742,18 @@ export const AnalyticsInteractionsDocument = new TypedDocumentString(`
 	AnalyticsInteractionsQuery,
 	AnalyticsInteractionsQueryVariables
 >;
+export const AddInvoiceItemDocument = new TypedDocumentString(`
+    mutation AddInvoiceItem($id: ID!, $invoiceItem: AddInvoiceItemInput!) {
+  crm {
+    addInvoiceItem(id: $id, value: $invoiceItem) {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+	AddInvoiceItemMutation,
+	AddInvoiceItemMutationVariables
+>;
 export const UpdateInvoiceItemDocument = new TypedDocumentString(`
     mutation UpdateInvoiceItem($id: ID!, $invoiceItem: UpdateInvoiceItemInput!) {
   crm {
@@ -14534,6 +16784,12 @@ export const CreateInvoiceDocument = new TypedDocumentString(`
   crm {
     createInvoice(value: $invoice) {
       id
+      issueDate
+      dueDate
+      total
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14546,6 +16802,18 @@ export const UpdateInvoiceDocument = new TypedDocumentString(`
   crm {
     updateInvoice(id: $id, value: $invoice) {
       id
+      issueDate
+      dueDate
+      total
+      status
+      sentAt
+      paidAt
+      updatedAt
+      items {
+        id
+        quantity
+        price
+      }
     }
   }
 }
@@ -14635,6 +16903,12 @@ export const CreateLeadDocument = new TypedDocumentString(`
   crm {
     createLead(value: $lead) {
       id
+      name
+      email
+      leadSource
+      status
+      leadScore
+      createdAt
     }
   }
 }
@@ -14647,6 +16921,18 @@ export const UpdateLeadDocument = new TypedDocumentString(`
   crm {
     updateLead(id: $id, value: $lead) {
       id
+      name
+      email
+      leadSource
+      status
+      leadScore
+      updatedAt
+      owner {
+        id
+        email
+        image
+        name
+      }
     }
   }
 }
@@ -14668,7 +16954,7 @@ export const RemoveLeadDocument = new TypedDocumentString(`
 	RemoveLeadMutationVariables
 >;
 export const TableLeadDocument = new TypedDocumentString(`
-    query TableLead($page: Int, $perPage: Int, $search: String, $status: LeadStatus, $source: LeadSource) {
+    query TableLead($page: Int, $perPage: Int, $search: String, $status: LeadStatus, $source: LeadSource, $from: Date, $to: Date) {
   crm {
     leads(
       page: $page
@@ -14676,6 +16962,8 @@ export const TableLeadDocument = new TypedDocumentString(`
       search: $search
       status: $status
       leadSource: $source
+      from: $from
+      to: $to
     ) {
       convertedAt
       createdAt
@@ -14697,6 +16985,7 @@ export const TableLeadDocument = new TypedDocumentString(`
         endDate
         startDate
         budget
+        id
       }
       convertedCompany {
         name
@@ -14723,6 +17012,7 @@ export const TableLeadDocument = new TypedDocumentString(`
         dealValue
         source
         stage
+        id
       }
     }
   }
@@ -14732,11 +17022,23 @@ export const TableLeadDocument = new TypedDocumentString(`
 	TableLeadQueryVariables
 >;
 export const SearchLeadsDocument = new TypedDocumentString(`
-    query SearchLeads($search: String!) {
+    query SearchLeads($search: String!, $status: LeadStatus, $source: LeadSource) {
   crm {
-    leads(page: 1, perPage: 10, search: $search) {
+    leads(
+      page: 1
+      perPage: 10
+      search: $search
+      status: $status
+      leadSource: $source
+    ) {
       value: id
       label: name
+      id
+      name
+      email
+      status
+      leadSource
+      createdAt
     }
   }
 }
@@ -14748,9 +17050,11 @@ export const AnalyticsLeadsDocument = new TypedDocumentString(`
     query AnalyticsLeads($from: Date, $to: Date) {
   crm {
     leads(from: $from, to: $to) {
+      id
       leadScore
       status
       leadSource
+      createdAt
     }
   }
 }
@@ -14763,6 +17067,11 @@ export const CreateNotificationDocument = new TypedDocumentString(`
   crm {
     createNotification(value: $notification) {
       id
+      message
+      link
+      isRead
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14775,6 +17084,8 @@ export const UpdateNotificationDocument = new TypedDocumentString(`
   crm {
     updateNotification(id: $id, value: $notification) {
       id
+      isRead
+      updatedAt
     }
   }
 }
@@ -14823,6 +17134,13 @@ export const CreateOpportunityDocument = new TypedDocumentString(`
   crm {
     createOpportunity(value: $opportunity) {
       id
+      name
+      dealValue
+      stage
+      probability
+      expectedCloseDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -14835,6 +17153,21 @@ export const UpdateOpportunityDocument = new TypedDocumentString(`
   crm {
     updateOpportunity(id: $id, value: $opportunity) {
       id
+      name
+      dealValue
+      stage
+      probability
+      expectedCloseDate
+      updatedAt
+      company {
+        id
+        name
+      }
+      contact {
+        id
+        name
+        email
+      }
     }
   }
 }
@@ -14942,6 +17275,53 @@ export const AnalyticsOpportunitiesDocument = new TypedDocumentString(`
 	AnalyticsOpportunitiesQuery,
 	AnalyticsOpportunitiesQueryVariables
 >;
+export const AddOpportunityProductDocument = new TypedDocumentString(`
+    mutation AddOpportunityProduct($id: ID!, $opportunityProduct: AddOpportunityProductInput!) {
+  crm {
+    addOpportunityProduct(id: $id, value: $opportunityProduct) {
+      opportunity {
+        id
+      }
+      product {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+	AddOpportunityProductMutation,
+	AddOpportunityProductMutationVariables
+>;
+export const UpdateOpportunityProductDocument = new TypedDocumentString(`
+    mutation UpdateOpportunityProduct($id: ID!, $opportunityProduct: UpdateOpportunityProductInput!) {
+  crm {
+    updateOpportunityProduct(id: $id, value: $opportunityProduct) {
+      opportunity {
+        id
+      }
+      product {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+	UpdateOpportunityProductMutation,
+	UpdateOpportunityProductMutationVariables
+>;
+export const RemoveOpportunityProductDocument = new TypedDocumentString(`
+    mutation RemoveOpportunityProduct($id: ID!) {
+  crm {
+    removeOpportunityProduct(id: $id) {
+      success
+      numDeletedRows
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+	RemoveOpportunityProductMutation,
+	RemoveOpportunityProductMutationVariables
+>;
 export const CreateProductDocument = new TypedDocumentString(`
     mutation CreateProduct($product: CreateProductInput!) {
   crm {
@@ -15038,6 +17418,23 @@ export const CreateCustomerTrackingLinkDocument = new TypedDocumentString(`
   dms {
     createCustomerTrackingLink(value: $customerTrackingLink) {
       id
+      trackingToken
+      isActive
+      accessCount
+      expiresAt
+      lastAccessedAt
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        recipientName
+        deliveryAddress
+        status
+        deliveryRoute {
+          id
+          status
+        }
+      }
     }
   }
 }
@@ -15050,6 +17447,18 @@ export const UpdateCustomerTrackingLinkDocument = new TypedDocumentString(`
   dms {
     updateCustomerTrackingLink(id: $id, value: $customerTrackingLink) {
       id
+      trackingToken
+      isActive
+      accessCount
+      expiresAt
+      lastAccessedAt
+      updatedAt
+      deliveryTask {
+        id
+        recipientName
+        deliveryAddress
+        status
+      }
     }
   }
 }
@@ -15106,6 +17515,24 @@ export const CreateDeliveryRouteDocument = new TypedDocumentString(`
   dms {
     createDeliveryRoute(value: $deliveryRoute) {
       id
+      routeDate
+      status
+      totalDistanceKm
+      estimatedDurationMinutes
+      createdAt
+      updatedAt
+      driver {
+        id
+        user {
+          email
+          id
+          image
+          name
+        }
+        status
+        licenseNumber
+        contactPhone
+      }
     }
   }
 }
@@ -15118,6 +17545,32 @@ export const UpdateDeliveryRouteDocument = new TypedDocumentString(`
   dms {
     updateDeliveryRoute(id: $id, value: $deliveryRoute) {
       id
+      routeDate
+      status
+      totalDistanceKm
+      estimatedDurationMinutes
+      actualDurationMinutes
+      startedAt
+      completedAt
+      updatedAt
+      driver {
+        id
+        user {
+          email
+          id
+          image
+          name
+        }
+        status
+        licenseNumber
+        contactPhone
+      }
+      tasks {
+        id
+        recipientName
+        deliveryAddress
+        status
+      }
     }
   }
 }
@@ -15205,6 +17658,30 @@ export const CreateDeliveryTaskDocument = new TypedDocumentString(`
   dms {
     createDeliveryTask(value: $deliveryTask) {
       id
+      recipientName
+      recipientPhone
+      deliveryAddress
+      deliveryInstructions
+      status
+      estimatedArrivalTime
+      routeSequence
+      createdAt
+      updatedAt
+      deliveryRoute {
+        id
+        driver {
+          id
+          user {
+            email
+            name
+          }
+        }
+      }
+      package {
+        id
+        packageNumber
+        trackingNumber
+      }
     }
   }
 }
@@ -15217,6 +17694,33 @@ export const UpdateDeliveryTaskDocument = new TypedDocumentString(`
   dms {
     updateDeliveryTask(id: $id, value: $deliveryTask) {
       id
+      recipientName
+      recipientPhone
+      deliveryAddress
+      deliveryInstructions
+      status
+      failureReason
+      estimatedArrivalTime
+      actualArrivalTime
+      deliveryTime
+      attemptCount
+      updatedAt
+      deliveryRoute {
+        id
+        status
+        driver {
+          id
+          user {
+            email
+            name
+          }
+        }
+      }
+      package {
+        id
+        packageNumber
+        trackingNumber
+      }
     }
   }
 }
@@ -15316,6 +17820,27 @@ export const CreateDriverLocationDocument = new TypedDocumentString(`
   dms {
     createDriverLocation(value: $driverLocation) {
       id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      createdAt
+      updatedAt
+      driver {
+        id
+        user {
+          email
+          id
+          image
+          name
+        }
+        contactPhone
+        licenseNumber
+        status
+      }
     }
   }
 }
@@ -15328,6 +17853,26 @@ export const UpdateDriverLocationDocument = new TypedDocumentString(`
   dms {
     updateDriverLocation(id: $id, value: $driverLocation) {
       id
+      latitude
+      longitude
+      altitude
+      accuracy
+      speedKmh
+      heading
+      timestamp
+      updatedAt
+      driver {
+        id
+        user {
+          email
+          id
+          image
+          name
+        }
+        contactPhone
+        licenseNumber
+        status
+      }
     }
   }
 }
@@ -15398,6 +17943,22 @@ export const CreateDmsProofOfDeliveryDocument = new TypedDocumentString(`
   dms {
     createDmsProofOfDelivery(value: $dmsProofOfDelivery) {
       id
+      type
+      recipientName
+      timestamp
+      filePath
+      signatureData
+      verificationCode
+      latitude
+      longitude
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        recipientName
+        deliveryAddress
+        status
+      }
     }
   }
 }
@@ -15484,6 +18045,24 @@ export const CreateTaskEventDocument = new TypedDocumentString(`
   dms {
     createTaskEvent(value: $taskEvent) {
       id
+      status
+      reason
+      notes
+      latitude
+      longitude
+      timestamp
+      createdAt
+      updatedAt
+      deliveryTask {
+        id
+        recipientName
+        deliveryAddress
+        status
+        package {
+          id
+          trackingNumber
+        }
+      }
     }
   }
 }
@@ -15555,6 +18134,19 @@ export const CreateCarrierRateDocument = new TypedDocumentString(`
   tms {
     createCarrierRate(value: $carrierRate) {
       id
+      carrier {
+        id
+        name
+        contactEmail
+        contactPhone
+      }
+      serviceType
+      origin
+      destination
+      rate
+      unit
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15567,6 +18159,19 @@ export const UpdateCarrierRateDocument = new TypedDocumentString(`
   tms {
     updateCarrierRate(id: $id, value: $carrierRate) {
       id
+      carrier {
+        id
+        name
+        contactEmail
+        contactPhone
+      }
+      serviceType
+      origin
+      destination
+      rate
+      unit
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15592,6 +18197,13 @@ export const CreateCarrierDocument = new TypedDocumentString(`
   tms {
     createCarrier(value: $carrier) {
       id
+      name
+      contactPerson
+      contactEmail
+      contactPhone
+      servicesOffered
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15604,6 +18216,13 @@ export const UpdateCarrierDocument = new TypedDocumentString(`
   tms {
     updateCarrier(id: $id, value: $carrier) {
       id
+      name
+      contactPerson
+      contactEmail
+      contactPhone
+      servicesOffered
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15690,6 +18309,23 @@ export const CreateDriverScheduleDocument = new TypedDocumentString(`
   tms {
     createDriverSchedule(value: $driverSchedule) {
       id
+      driver {
+        id
+        user {
+          id
+          name
+          email
+        }
+        licenseNumber
+        licenseExpiryDate
+        status
+        contactPhone
+      }
+      startDate
+      endDate
+      reason
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15702,6 +18338,23 @@ export const UpdateDriverScheduleDocument = new TypedDocumentString(`
   tms {
     updateDriverSchedule(id: $id, value: $driverSchedule) {
       id
+      driver {
+        id
+        user {
+          id
+          name
+          email
+        }
+        licenseNumber
+        licenseExpiryDate
+        status
+        contactPhone
+      }
+      startDate
+      endDate
+      reason
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15727,6 +18380,18 @@ export const CreateDriverDocument = new TypedDocumentString(`
   tms {
     createDriver(value: $driver) {
       id
+      user {
+        id
+        name
+        email
+        image
+      }
+      licenseNumber
+      licenseExpiryDate
+      status
+      contactPhone
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15739,6 +18404,18 @@ export const UpdateDriverDocument = new TypedDocumentString(`
   tms {
     updateDriver(id: $id, value: $driver) {
       id
+      user {
+        id
+        name
+        email
+        image
+      }
+      licenseNumber
+      licenseExpiryDate
+      status
+      contactPhone
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15813,6 +18490,28 @@ export const CreateExpenseDocument = new TypedDocumentString(`
   tms {
     createExpense(value: $expense) {
       id
+      type
+      amount
+      currency
+      status
+      description
+      expenseDate
+      receiptUrl
+      fuelQuantity
+      odometerReading
+      driver {
+        id
+        user {
+          id
+          name
+        }
+      }
+      trip {
+        id
+        status
+      }
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15825,6 +18524,28 @@ export const UpdateExpenseDocument = new TypedDocumentString(`
   tms {
     updateExpense(id: $id, value: $expense) {
       id
+      type
+      amount
+      currency
+      status
+      description
+      expenseDate
+      receiptUrl
+      fuelQuantity
+      odometerReading
+      driver {
+        id
+        user {
+          id
+          name
+        }
+      }
+      trip {
+        id
+        status
+      }
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15934,6 +18655,21 @@ export const CreateGeofenceEventDocument = new TypedDocumentString(`
   tms {
     createGeofenceEvent(value: $geofenceEvent) {
       id
+      vehicle {
+        id
+        registrationNumber
+        model
+        make
+        status
+      }
+      geofence {
+        id
+        name
+        latitude
+        longitude
+      }
+      eventType
+      timestamp
     }
   }
 }
@@ -15946,6 +18682,21 @@ export const UpdateGeofenceEventDocument = new TypedDocumentString(`
   tms {
     updateGeofenceEvent(id: $id, value: $geofenceEvent) {
       id
+      vehicle {
+        id
+        registrationNumber
+        model
+        make
+        status
+      }
+      geofence {
+        id
+        name
+        latitude
+        longitude
+      }
+      eventType
+      timestamp
     }
   }
 }
@@ -15958,6 +18709,11 @@ export const CreateGeofenceDocument = new TypedDocumentString(`
   tms {
     createGeofence(value: $geofence) {
       id
+      name
+      longitude
+      latitude
+      createdAt
+      updatedAt
     }
   }
 }
@@ -15970,6 +18726,11 @@ export const UpdateGeofenceDocument = new TypedDocumentString(`
   tms {
     updateGeofence(id: $id, value: $geofence) {
       id
+      name
+      longitude
+      latitude
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16025,6 +18786,18 @@ export const CreateGpsPingDocument = new TypedDocumentString(`
   tms {
     createGpsPing(value: $gpsPing) {
       id
+      vehicle {
+        id
+        registrationNumber
+        model
+        make
+        year
+        vin
+        status
+      }
+      latitude
+      longitude
+      timestamp
     }
   }
 }
@@ -16037,6 +18810,18 @@ export const UpdateGpsPingDocument = new TypedDocumentString(`
   tms {
     updateGpsPing(id: $id, value: $gpsPing) {
       id
+      vehicle {
+        id
+        registrationNumber
+        model
+        make
+        year
+        vin
+        status
+      }
+      latitude
+      longitude
+      timestamp
     }
   }
 }
@@ -16073,6 +18858,36 @@ export const UpdatePartnerInvoiceItemDocument = new TypedDocumentString(`
   tms {
     updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {
       id
+      partnerInvoice {
+        id
+        carrier {
+          id
+          name
+        }
+        invoiceNumber
+        invoiceDate
+        totalAmount
+        status
+        createdAt
+        updatedAt
+      }
+      shipmentLeg {
+        id
+        shipment {
+          id
+        }
+        legSequence
+        startLocation
+        endLocation
+        carrier {
+          id
+          name
+        }
+        status
+        createdAt
+        updatedAt
+      }
+      amount
     }
   }
 }
@@ -16098,6 +18913,16 @@ export const CreatePartnerInvoiceDocument = new TypedDocumentString(`
   tms {
     createPartnerInvoice(value: $partnerInvoice) {
       id
+      carrier {
+        id
+        name
+      }
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16110,6 +18935,16 @@ export const UpdatePartnerInvoiceDocument = new TypedDocumentString(`
   tms {
     updatePartnerInvoice(id: $id, value: $partnerInvoice) {
       id
+      carrier {
+        id
+        name
+      }
+      invoiceNumber
+      invoiceDate
+      totalAmount
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16183,6 +19018,27 @@ export const CreateProofOfDeliveryDocument = new TypedDocumentString(`
   tms {
     createProofOfDelivery(value: $proofOfDelivery) {
       id
+      tripStop {
+        id
+        trip {
+          id
+          status
+        }
+        shipment {
+          id
+          trackingNumber
+        }
+        sequence
+        address
+        status
+      }
+      type
+      filePath
+      timestamp
+      latitude
+      longitude
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16195,6 +19051,27 @@ export const UpdateProofOfDeliveryDocument = new TypedDocumentString(`
   tms {
     updateProofOfDelivery(id: $id, value: $proofOfDelivery) {
       id
+      tripStop {
+        id
+        trip {
+          id
+          status
+        }
+        shipment {
+          id
+          trackingNumber
+        }
+        sequence
+        address
+        status
+      }
+      type
+      filePath
+      timestamp
+      latitude
+      longitude
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16282,6 +19159,15 @@ export const CreateRouteDocument = new TypedDocumentString(`
   tms {
     createRoute(value: $route) {
       id
+      trip {
+        id
+        status
+      }
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16294,6 +19180,15 @@ export const UpdateRouteDocument = new TypedDocumentString(`
   tms {
     updateRoute(id: $id, value: $route) {
       id
+      trip {
+        id
+        status
+      }
+      optimizedRouteData
+      totalDistance
+      totalDuration
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16367,6 +19262,16 @@ export const CreateShipmentLegEventDocument = new TypedDocumentString(`
   tms {
     createShipmentLegEvent(value: $shipmentLegEvent) {
       id
+      shipmentLeg {
+        id
+        legSequence
+        startLocation
+        endLocation
+        status
+      }
+      statusMessage
+      location
+      eventTimestamp
     }
   }
 }
@@ -16379,6 +19284,22 @@ export const CreateShipmentLegDocument = new TypedDocumentString(`
   tms {
     createShipmentLeg(value: $shipmentLeg) {
       id
+      shipment {
+        id
+      }
+      legSequence
+      startLocation
+      endLocation
+      carrier {
+        id
+        name
+      }
+      internalTrip {
+        id
+      }
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16391,6 +19312,22 @@ export const UpdateShipmentLegDocument = new TypedDocumentString(`
   tms {
     updateShipmentLeg(id: $id, value: $shipmentLeg) {
       id
+      shipment {
+        id
+      }
+      legSequence
+      startLocation
+      endLocation
+      carrier {
+        id
+        name
+      }
+      internalTrip {
+        id
+      }
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16461,6 +19398,21 @@ export const CreateTripStopDocument = new TypedDocumentString(`
   tms {
     createTripStop(value: $tripStop) {
       id
+      trip {
+        id
+        status
+      }
+      shipment {
+        id
+        status
+      }
+      sequence
+      address
+      status
+      estimatedArrivalTime
+      estimatedDepartureTime
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16473,6 +19425,23 @@ export const UpdateTripStopDocument = new TypedDocumentString(`
   tms {
     updateTripStop(id: $id, value: $tripStop) {
       id
+      trip {
+        id
+        status
+      }
+      shipment {
+        id
+        status
+      }
+      sequence
+      address
+      status
+      estimatedArrivalTime
+      estimatedDepartureTime
+      actualArrivalTime
+      actualDepartureTime
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16498,6 +19467,29 @@ export const CreateTripDocument = new TypedDocumentString(`
   tms {
     createTrip(value: $trip) {
       id
+      driver {
+        id
+        user {
+          id
+          name
+          email
+        }
+        licenseNumber
+        status
+      }
+      vehicle {
+        id
+        registrationNumber
+        make
+        model
+      }
+      status
+      startLocation
+      startTime
+      endLocation
+      endTime
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16510,6 +19502,29 @@ export const UpdateTripDocument = new TypedDocumentString(`
   tms {
     updateTrip(id: $id, value: $trip) {
       id
+      driver {
+        id
+        user {
+          id
+          name
+          email
+        }
+        licenseNumber
+        status
+      }
+      vehicle {
+        id
+        registrationNumber
+        make
+        model
+      }
+      status
+      startLocation
+      startTime
+      endLocation
+      endTime
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16593,11 +19608,47 @@ export const AnalyticsTripsDocument = new TypedDocumentString(`
 	AnalyticsTripsQuery,
 	AnalyticsTripsQueryVariables
 >;
+export const CreateVehicleMaintenanceDocument = new TypedDocumentString(`
+    mutation CreateVehicleMaintenance($id: ID!, $vehicleMaintenance: CreateVehicleMaintenanceInput!) {
+  tms {
+    addVehicleMaintenance(id: $id, value: $vehicleMaintenance) {
+      id
+      vehicle {
+        id
+        registrationNumber
+        make
+        model
+      }
+      serviceDate
+      serviceType
+      cost
+      notes
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<
+	CreateVehicleMaintenanceMutation,
+	CreateVehicleMaintenanceMutationVariables
+>;
 export const UpdateVehicleMaintenanceDocument = new TypedDocumentString(`
     mutation UpdateVehicleMaintenance($id: ID!, $vehicleMaintenance: UpdateVehicleMaintenanceInput!) {
   tms {
     updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {
       id
+      vehicle {
+        id
+        registrationNumber
+        make
+        model
+      }
+      serviceDate
+      serviceType
+      cost
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16623,6 +19674,18 @@ export const CreateVehicleDocument = new TypedDocumentString(`
   tms {
     createVehicle(value: $vehicle) {
       id
+      registrationNumber
+      make
+      model
+      year
+      vin
+      capacityWeight
+      capacityVolume
+      currentMileage
+      lastMaintenanceDate
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16635,6 +19698,18 @@ export const UpdateVehicleDocument = new TypedDocumentString(`
   tms {
     updateVehicle(id: $id, value: $vehicle) {
       id
+      registrationNumber
+      make
+      model
+      year
+      vin
+      capacityWeight
+      capacityVolume
+      currentMileage
+      lastMaintenanceDate
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16721,6 +19796,22 @@ export const CreateBinThresholdDocument = new TypedDocumentString(`
   wms {
     createBinThreshold(value: $binThreshold) {
       id
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+      isActive
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+        sku
+      }
     }
   }
 }
@@ -16733,6 +19824,22 @@ export const UpdateBinThresholdDocument = new TypedDocumentString(`
   wms {
     updateBinThreshold(id: $id, value: $binThreshold) {
       id
+      minQuantity
+      maxQuantity
+      reorderQuantity
+      alertThreshold
+      isActive
+      createdAt
+      updatedAt
+      location {
+        id
+        name
+      }
+      product {
+        id
+        name
+        sku
+      }
     }
   }
 }
@@ -16800,6 +19907,12 @@ export const UpdateInboundShipmentItemDocument = new TypedDocumentString(`
   wms {
     updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {
       id
+      expectedQuantity
+      receivedQuantity
+      discrepancyQuantity
+      discrepancyNotes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16825,6 +19938,16 @@ export const CreateInboundShipmentDocument = new TypedDocumentString(`
   wms {
     createInboundShipment(value: $inboundShipment) {
       id
+      warehouseId
+      status
+      expectedArrivalDate
+      actualArrivalDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
     }
   }
 }
@@ -16837,6 +19960,16 @@ export const UpdateInboundShipmentDocument = new TypedDocumentString(`
   wms {
     updateInboundShipment(id: $id, value: $inboundShipment) {
       id
+      warehouseId
+      status
+      expectedArrivalDate
+      actualArrivalDate
+      createdAt
+      updatedAt
+      client {
+        id
+        name
+      }
     }
   }
 }
@@ -16898,6 +20031,12 @@ export const CreateInventoryAdjustmentDocument = new TypedDocumentString(`
   wms {
     createInventoryAdjustment(value: $inventoryAdjustment) {
       id
+      warehouseId
+      quantityChange
+      reason
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16910,6 +20049,12 @@ export const UpdateInventoryAdjustmentDocument = new TypedDocumentString(`
   wms {
     updateInventoryAdjustment(id: $id, value: $inventoryAdjustment) {
       id
+      warehouseId
+      quantityChange
+      reason
+      notes
+      createdAt
+      updatedAt
     }
   }
 }
@@ -16998,6 +20143,10 @@ export const CreateInventoryBatchDocument = new TypedDocumentString(`
   wms {
     createInventoryBatch(value: $inventoryBatch) {
       id
+      batchNumber
+      expirationDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17010,6 +20159,10 @@ export const UpdateInventoryBatchDocument = new TypedDocumentString(`
   wms {
     updateInventoryBatch(id: $id, value: $inventoryBatch) {
       id
+      batchNumber
+      expirationDate
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17079,6 +20232,14 @@ export const CreateInventoryStockDocument = new TypedDocumentString(`
   wms {
     createInventoryStock(value: $inventoryStock) {
       id
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+      lastCountedAt
+      lastMovementAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17091,6 +20252,14 @@ export const UpdateInventoryStockDocument = new TypedDocumentString(`
   wms {
     updateInventoryStock(id: $id, value: $inventoryStock) {
       id
+      quantity
+      reservedQuantity
+      availableQuantity
+      status
+      lastCountedAt
+      lastMovementAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17172,6 +20341,24 @@ export const CreateLocationDocument = new TypedDocumentString(`
   wms {
     createLocation(value: $location) {
       id
+      name
+      barcode
+      type
+      isActive
+      isPickable
+      isReceivable
+      level
+      maxPallets
+      maxVolume
+      maxWeight
+      temperatureControlled
+      hazmatApproved
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      path
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17184,6 +20371,24 @@ export const UpdateLocationDocument = new TypedDocumentString(`
   wms {
     updateLocation(id: $id, value: $location) {
       id
+      name
+      barcode
+      type
+      isActive
+      isPickable
+      isReceivable
+      level
+      maxPallets
+      maxVolume
+      maxWeight
+      temperatureControlled
+      hazmatApproved
+      xCoordinate
+      yCoordinate
+      zCoordinate
+      path
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17279,6 +20484,9 @@ export const UpdateOutboundShipmentItemDocument = new TypedDocumentString(`
   wms {
     updateOutboundShipmentItem(id: $id, value: $outboundShipmentItem) {
       id
+      quantityShipped
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17304,6 +20512,12 @@ export const CreateOutboundShipmentDocument = new TypedDocumentString(`
   wms {
     createOutboundShipment(value: $outboundShipment) {
       id
+      carrier
+      trackingNumber
+      status
+      warehouseId
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17316,6 +20530,12 @@ export const UpdateOutboundShipmentDocument = new TypedDocumentString(`
   wms {
     updateOutboundShipment(id: $id, value: $outboundShipment) {
       id
+      carrier
+      trackingNumber
+      status
+      warehouseId
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17395,6 +20615,14 @@ export const UpdatePackageItemDocument = new TypedDocumentString(`
   wms {
     updatePackageItem(id: $id, value: $packageItem) {
       id
+      quantity
+      lotNumber
+      serialNumbers
+      expiryDate
+      unitWeight
+      totalWeight
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17420,6 +20648,24 @@ export const CreatePackageDocument = new TypedDocumentString(`
   wms {
     createPackage(value: $package) {
       id
+      packageNumber
+      packageType
+      weight
+      length
+      width
+      height
+      volume
+      trackingNumber
+      carrier
+      serviceLevel
+      packedAt
+      shippedAt
+      isFragile
+      isHazmat
+      requiresSignature
+      insuranceValue
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17432,6 +20678,24 @@ export const UpdatePackageDocument = new TypedDocumentString(`
   wms {
     updatePackage(id: $id, value: $package) {
       id
+      packageNumber
+      packageType
+      weight
+      length
+      width
+      height
+      volume
+      trackingNumber
+      carrier
+      serviceLevel
+      packedAt
+      shippedAt
+      isFragile
+      isHazmat
+      requiresSignature
+      insuranceValue
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17531,6 +20795,11 @@ export const UpdatePickBatchItemDocument = new TypedDocumentString(`
   wms {
     updatePickBatchItem(id: $id, value: $pickBatchItem) {
       id
+      orderPriority
+      estimatedPickTime
+      actualPickTime
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17556,6 +20825,20 @@ export const CreatePickBatchDocument = new TypedDocumentString(`
   wms {
     createPickBatch(value: $pickBatch) {
       id
+      batchNumber
+      status
+      strategy
+      priority
+      waveId
+      zoneRestrictions
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17568,6 +20851,20 @@ export const UpdatePickBatchDocument = new TypedDocumentString(`
   wms {
     updatePickBatch(id: $id, value: $pickBatch) {
       id
+      batchNumber
+      status
+      strategy
+      priority
+      waveId
+      zoneRestrictions
+      estimatedDuration
+      actualDuration
+      totalItems
+      completedItems
+      startedAt
+      completedAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17667,6 +20964,19 @@ export const CreateWmsProductDocument = new TypedDocumentString(`
   wms {
     createWmsProduct(value: $wmsProduct) {
       id
+      name
+      sku
+      barcode
+      description
+      costPrice
+      length
+      width
+      height
+      volume
+      weight
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17679,6 +20989,19 @@ export const UpdateWmsProductDocument = new TypedDocumentString(`
   wms {
     updateWmsProduct(id: $id, value: $wmsProduct) {
       id
+      name
+      sku
+      barcode
+      description
+      costPrice
+      length
+      width
+      height
+      volume
+      weight
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17766,6 +21089,17 @@ export const CreatePutawayRuleDocument = new TypedDocumentString(`
   wms {
     createPutawayRule(value: $putawayRule) {
       id
+      locationType
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      requiresTemperatureControl
+      requiresHazmatApproval
+      isActive
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17778,6 +21112,17 @@ export const UpdatePutawayRuleDocument = new TypedDocumentString(`
   wms {
     updatePutawayRule(id: $id, value: $putawayRule) {
       id
+      locationType
+      priority
+      minQuantity
+      maxQuantity
+      weightThreshold
+      volumeThreshold
+      requiresTemperatureControl
+      requiresHazmatApproval
+      isActive
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17867,6 +21212,9 @@ export const CreateReorderPointDocument = new TypedDocumentString(`
   wms {
     createReorderPoint(value: $reorderPoint) {
       id
+      threshold
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17879,6 +21227,9 @@ export const UpdateReorderPointDocument = new TypedDocumentString(`
   wms {
     updateReorderPoint(id: $id, value: $reorderPoint) {
       id
+      threshold
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17947,6 +21298,12 @@ export const UpdateReturnItemDocument = new TypedDocumentString(`
   wms {
     updateReturnItem(id: $id, value: $returnItem) {
       id
+      quantityExpected
+      quantityReceived
+      quantityVariance
+      condition
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17972,6 +21329,11 @@ export const CreateReturnDocument = new TypedDocumentString(`
   wms {
     createReturn(value: $return) {
       id
+      returnNumber
+      status
+      reason
+      createdAt
+      updatedAt
     }
   }
 }
@@ -17984,6 +21346,11 @@ export const UpdateReturnDocument = new TypedDocumentString(`
   wms {
     updateReturn(id: $id, value: $return) {
       id
+      returnNumber
+      status
+      reason
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18082,6 +21449,9 @@ export const UpdateSalesOrderItemDocument = new TypedDocumentString(`
   wms {
     updateSalesOrderItem(id: $id, value: $salesOrderItem) {
       id
+      quantityOrdered
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18107,6 +21477,11 @@ export const CreateSalesOrderDocument = new TypedDocumentString(`
   wms {
     createSalesOrder(value: $salesOrder) {
       id
+      orderNumber
+      status
+      shippingAddress
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18119,6 +21494,11 @@ export const UpdateSalesOrderDocument = new TypedDocumentString(`
   wms {
     updateSalesOrder(id: $id, value: $salesOrder) {
       id
+      orderNumber
+      status
+      shippingAddress
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18199,6 +21579,10 @@ export const CreateStockTransferDocument = new TypedDocumentString(`
   wms {
     createStockTransfer(value: $stockTransfer) {
       id
+      quantity
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18211,6 +21595,10 @@ export const UpdateStockTransferDocument = new TypedDocumentString(`
   wms {
     updateStockTransfer(id: $id, value: $stockTransfer) {
       id
+      quantity
+      status
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18291,6 +21679,12 @@ export const CreateSupplierDocument = new TypedDocumentString(`
   wms {
     createSupplier(value: $supplier) {
       id
+      name
+      contactPerson
+      email
+      phoneNumber
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18303,6 +21697,12 @@ export const UpdateSupplierDocument = new TypedDocumentString(`
   wms {
     updateSupplier(id: $id, value: $supplier) {
       id
+      name
+      contactPerson
+      email
+      phoneNumber
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18368,6 +21768,17 @@ export const UpdateTaskItemDocument = new TypedDocumentString(`
   wms {
     updateTaskItem(id: $id, value: $taskItem) {
       id
+      quantityRequired
+      quantityCompleted
+      quantityRemaining
+      status
+      lotNumber
+      serialNumbers
+      expiryDate
+      notes
+      completedAt
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18393,6 +21804,21 @@ export const CreateTaskDocument = new TypedDocumentString(`
   wms {
     createTask(value: $task) {
       id
+      taskNumber
+      type
+      status
+      priority
+      sourceEntityId
+      sourceEntityType
+      estimatedDuration
+      actualDuration
+      instructions
+      notes
+      startTime
+      endTime
+      durationSeconds
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18405,6 +21831,21 @@ export const UpdateTaskDocument = new TypedDocumentString(`
   wms {
     updateTask(id: $id, value: $task) {
       id
+      taskNumber
+      type
+      status
+      priority
+      sourceEntityId
+      sourceEntityType
+      estimatedDuration
+      actualDuration
+      instructions
+      notes
+      startTime
+      endTime
+      durationSeconds
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18539,6 +21980,19 @@ export const CreateWarehouseDocument = new TypedDocumentString(`
   wms {
     createWarehouse(value: $warehouse) {
       id
+      name
+      address
+      city
+      state
+      postalCode
+      country
+      timezone
+      contactPerson
+      contactEmail
+      contactPhone
+      isActive
+      createdAt
+      updatedAt
     }
   }
 }
@@ -18551,6 +22005,19 @@ export const UpdateWarehouseDocument = new TypedDocumentString(`
   wms {
     updateWarehouse(id: $id, value: $warehouse) {
       id
+      name
+      address
+      city
+      state
+      postalCode
+      country
+      timezone
+      contactPerson
+      contactEmail
+      contactPhone
+      isActive
+      createdAt
+      updatedAt
     }
   }
 }

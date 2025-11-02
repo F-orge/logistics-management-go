@@ -5,6 +5,11 @@ export const CreateNotificationMutation = graphql(`
     crm {
       createNotification(value: $notification) {
         id
+        message
+        link
+        isRead
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +23,8 @@ export const UpdateNotificationMutation = graphql(`
     crm {
       updateNotification(id: $id, value: $notification) {
         id
+        isRead
+        updatedAt
       }
     }
   }

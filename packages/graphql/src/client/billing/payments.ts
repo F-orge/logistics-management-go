@@ -5,6 +5,20 @@ export const CreatePaymentMutation = graphql(`
     billing {
       createPayment(value: $payment) {
         id
+        amount
+        paymentMethod
+        transactionId
+        gatewayReference
+        status
+        paymentDate
+        processedAt
+        currency
+        exchangeRate
+        fees
+        netAmount
+        notes
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +29,20 @@ export const UpdatePaymentMutation = graphql(`
     billing {
       updatePayment(id: $id, value: $payment) {
         id
+        amount
+        paymentMethod
+        transactionId
+        gatewayReference
+        status
+        paymentDate
+        processedAt
+        currency
+        exchangeRate
+        fees
+        netAmount
+        notes
+        createdAt
+        updatedAt
       }
     }
   }

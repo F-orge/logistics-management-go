@@ -5,6 +5,23 @@ export const CreateBillingInvoiceMutation = graphql(`
     billing {
       createBillingInvoice(value: $billingInvoice) {
         id
+        invoiceNumber
+        status
+        issueDate
+        dueDate
+        totalAmount
+        amountPaid
+        amountOutstanding
+        currency
+        taxAmount
+        discountAmount
+        subtotal
+        paymentTerms
+        notes
+        sentAt
+        paidAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +35,23 @@ export const UpdateBillingInvoiceMutation = graphql(`
     billing {
       updateBillingInvoice(id: $id, value: $billingInvoice) {
         id
+        invoiceNumber
+        status
+        issueDate
+        dueDate
+        totalAmount
+        amountPaid
+        amountOutstanding
+        currency
+        taxAmount
+        discountAmount
+        subtotal
+        paymentTerms
+        notes
+        sentAt
+        paidAt
+        createdAt
+        updatedAt
       }
     }
   }

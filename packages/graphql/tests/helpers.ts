@@ -4,6 +4,7 @@ import type { Transporter } from "nodemailer";
 import type { Pool, PoolClient } from "pg";
 import type { GraphqlResponse } from "../src/client";
 import type { TypedDocumentString } from "../src/client/generated/graphql";
+import { DB } from "../src/db.types";
 import { pubsubFactory } from "../src/events";
 import { createGraphQLYoga } from "../src/yoga";
 
@@ -223,6 +224,15 @@ export const clearMailHog = async (): Promise<void> => {
 };
 
 // GraphQL test helpers
+
+export const kyselyInstance = () => {
+	const pool = getTestPool();
+
+	return new Kysely<DB>({
+		dialect: new PostgresDialect({ pool }),
+		plugins: [new CamelCasePlugin()],
+	});
+};
 
 /**
  * Creates a GraphQL query executor function for testing purposes.

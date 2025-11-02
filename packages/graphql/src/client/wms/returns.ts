@@ -5,6 +5,11 @@ export const CreateReturnMutation = graphql(`
     wms {
       createReturn(value: $return) {
         id
+        returnNumber
+        status
+        reason
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +20,11 @@ export const UpdateReturnMutation = graphql(`
     wms {
       updateReturn(id: $id, value: $return) {
         id
+        returnNumber
+        status
+        reason
+        createdAt
+        updatedAt
       }
     }
   }

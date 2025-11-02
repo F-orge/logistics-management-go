@@ -5,6 +5,21 @@ export const CreateQuoteMutation = graphql(`
     billing {
       createQuote(value: $quote) {
         id
+        originDetails
+        destinationDetails
+        weight
+        length
+        width
+        height
+        volume
+        quotedPrice
+        serviceLevel
+        expiresAt
+        status
+        quoteNumber
+        notes
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +30,21 @@ export const UpdateQuoteMutation = graphql(`
     billing {
       updateQuote(id: $id, value: $quote) {
         id
+        originDetails
+        destinationDetails
+        weight
+        length
+        width
+        height
+        volume
+        quotedPrice
+        serviceLevel
+        expiresAt
+        status
+        quoteNumber
+        notes
+        createdAt
+        updatedAt
       }
     }
   }

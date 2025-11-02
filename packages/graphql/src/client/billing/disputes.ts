@@ -5,6 +5,14 @@ export const CreateDisputeMutation = graphql(`
     billing {
       createDispute(value: $dispute) {
         id
+        reason
+        status
+        disputedAmount
+        resolutionNotes
+        submittedAt
+        resolvedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +23,14 @@ export const UpdateDisputeMutation = graphql(`
     billing {
       updateDispute(id: $id, value: $dispute) {
         id
+        reason
+        status
+        disputedAmount
+        resolutionNotes
+        submittedAt
+        resolvedAt
+        createdAt
+        updatedAt
       }
     }
   }

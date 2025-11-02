@@ -5,6 +5,16 @@ export const CreateContactMutation = graphql(`
     crm {
       createContact(value: $contact) {
         id
+        name
+        email
+        phoneNumber
+        jobTitle
+        createdAt
+        updatedAt
+        company {
+          id
+          name
+        }
       }
     }
   }
@@ -15,6 +25,20 @@ export const UpdateContactMutation = graphql(`
     crm {
       updateContact(id: $id, value: $contact) {
         id
+        name
+        email
+        phoneNumber
+        jobTitle
+        updatedAt
+        company {
+          id
+          name
+        }
+        owner {
+          id
+          email
+          name
+        }
       }
     }
   }

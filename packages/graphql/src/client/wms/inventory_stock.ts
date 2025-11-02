@@ -5,6 +5,14 @@ export const CreateInventoryStockMutation = graphql(`
     wms {
       createInventoryStock(value: $inventoryStock) {
         id
+        quantity
+        reservedQuantity
+        availableQuantity
+        status
+        lastCountedAt
+        lastMovementAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +26,14 @@ export const UpdateInventoryStockMutation = graphql(`
     wms {
       updateInventoryStock(id: $id, value: $inventoryStock) {
         id
+        quantity
+        reservedQuantity
+        availableQuantity
+        status
+        lastCountedAt
+        lastMovementAt
+        createdAt
+        updatedAt
       }
     }
   }

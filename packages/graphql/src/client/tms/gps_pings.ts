@@ -5,6 +5,18 @@ export const CreateGpsPingMutation = graphql(`
     tms {
       createGpsPing(value: $gpsPing) {
         id
+        vehicle {
+          id
+          registrationNumber
+          model
+          make
+          year
+          vin
+          status
+        }
+        latitude
+        longitude
+        timestamp
       }
     }
   }
@@ -15,6 +27,18 @@ export const UpdateGpsPingMutation = graphql(`
     tms {
       updateGpsPing(id: $id, value: $gpsPing) {
         id
+        vehicle {
+          id
+          registrationNumber
+          model
+          make
+          year
+          vin
+          status
+        }
+        latitude
+        longitude
+        timestamp
       }
     }
   }

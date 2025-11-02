@@ -5,6 +5,17 @@ export const CreatePutawayRuleMutation = graphql(`
     wms {
       createPutawayRule(value: $putawayRule) {
         id
+        locationType
+        priority
+        minQuantity
+        maxQuantity
+        weightThreshold
+        volumeThreshold
+        requiresTemperatureControl
+        requiresHazmatApproval
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +26,17 @@ export const UpdatePutawayRuleMutation = graphql(`
     wms {
       updatePutawayRule(id: $id, value: $putawayRule) {
         id
+        locationType
+        priority
+        minQuantity
+        maxQuantity
+        weightThreshold
+        volumeThreshold
+        requiresTemperatureControl
+        requiresHazmatApproval
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }

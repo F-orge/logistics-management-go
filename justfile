@@ -17,11 +17,14 @@ dev:
   docker compose -f compose.dev.yaml up -d
   bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
 
+test:
+  AGENT=1 bun test --preload ./packages/graphql/tests/setup.ts
+
 introspect:
   bun kysely-codegen --out-file packages/graphql/src/db.types.ts --camel-case --runtime-enums screaming-snake-case --singularize --numeric-parser number
 
 build:
-  bun turbo build
+  bun turbo build && bun biome check --fix
 
 typecheck:
   bun run typecheck

@@ -5,6 +5,13 @@ export const CreateCarrierMutation = graphql(`
     tms {
       createCarrier(value: $carrier) {
         id
+        name
+        contactPerson
+        contactEmail
+        contactPhone
+        servicesOffered
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +22,13 @@ export const UpdateCarrierMutation = graphql(`
     tms {
       updateCarrier(id: $id, value: $carrier) {
         id
+        name
+        contactPerson
+        contactEmail
+        contactPhone
+        servicesOffered
+        createdAt
+        updatedAt
       }
     }
   }

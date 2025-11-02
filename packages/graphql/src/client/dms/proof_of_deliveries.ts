@@ -7,6 +7,22 @@ export const CreateDmsProofOfDeliveryMutation = graphql(`
     dms {
       createDmsProofOfDelivery(value: $dmsProofOfDelivery) {
         id
+        type
+        recipientName
+        timestamp
+        filePath
+        signatureData
+        verificationCode
+        latitude
+        longitude
+        createdAt
+        updatedAt
+        deliveryTask {
+          id
+          recipientName
+          deliveryAddress
+          status
+        }
       }
     }
   }

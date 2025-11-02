@@ -5,6 +5,12 @@ export const CreateCampaignMutation = graphql(`
     crm {
       createCampaign(value: $campaign) {
         id
+        name
+        startDate
+        endDate
+        budget
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +21,12 @@ export const UpdateCampaignMutation = graphql(`
     crm {
       updateCampaign(id: $id, value: $campaign) {
         id
+        name
+        budget
+        startDate
+        endDate
+        createdAt
+        updatedAt
       }
     }
   }

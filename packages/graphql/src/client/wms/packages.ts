@@ -5,6 +5,24 @@ export const CreatePackageMutation = graphql(`
     wms {
       createPackage(value: $package) {
         id
+        packageNumber
+        packageType
+        weight
+        length
+        width
+        height
+        volume
+        trackingNumber
+        carrier
+        serviceLevel
+        packedAt
+        shippedAt
+        isFragile
+        isHazmat
+        requiresSignature
+        insuranceValue
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +33,24 @@ export const UpdatePackageMutation = graphql(`
     wms {
       updatePackage(id: $id, value: $package) {
         id
+        packageNumber
+        packageType
+        weight
+        length
+        width
+        height
+        volume
+        trackingNumber
+        carrier
+        serviceLevel
+        packedAt
+        shippedAt
+        isFragile
+        isHazmat
+        requiresSignature
+        insuranceValue
+        createdAt
+        updatedAt
       }
     }
   }

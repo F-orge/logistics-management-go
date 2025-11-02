@@ -5,6 +5,11 @@ export const CreateGeofenceMutation = graphql(`
     tms {
       createGeofence(value: $geofence) {
         id
+        name
+        longitude
+        latitude
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +20,11 @@ export const UpdateGeofenceMutation = graphql(`
     tms {
       updateGeofence(id: $id, value: $geofence) {
         id
+        name
+        longitude
+        latitude
+        createdAt
+        updatedAt
       }
     }
   }

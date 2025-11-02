@@ -1,16 +1,29 @@
 import { graphql } from "../generated/gql";
 
-// export const CreateVehicleMaintenanceMutation = graphql(`
-//   mutation CreateVehicleMaintenance(
-//     $vehicleMaintenance: CreateVehicleMaintenanceInput!
-//   ) {
-//     tms {
-//       createVehicleMaintenance(value: $vehicleMaintenance) {
-//         id
-//       }
-//     }
-//   }
-// `);
+export const CreateVehicleMaintenanceMutation = graphql(`
+  mutation CreateVehicleMaintenance(
+    $id: ID!
+    $vehicleMaintenance: CreateVehicleMaintenanceInput!
+  ) {
+    tms {
+      addVehicleMaintenance(id: $id, value: $vehicleMaintenance) {
+        id
+        vehicle {
+          id
+          registrationNumber
+          make
+          model
+        }
+        serviceDate
+        serviceType
+        cost
+        notes
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`);
 
 export const UpdateVehicleMaintenanceMutation = graphql(`
   mutation UpdateVehicleMaintenance(
@@ -20,6 +33,18 @@ export const UpdateVehicleMaintenanceMutation = graphql(`
     tms {
       updateVehicleMaintenance(id: $id, value: $vehicleMaintenance) {
         id
+        vehicle {
+          id
+          registrationNumber
+          make
+          model
+        }
+        serviceDate
+        serviceType
+        cost
+        notes
+        createdAt
+        updatedAt
       }
     }
   }

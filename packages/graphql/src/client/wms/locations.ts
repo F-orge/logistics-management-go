@@ -5,6 +5,24 @@ export const CreateLocationMutation = graphql(`
     wms {
       createLocation(value: $location) {
         id
+        name
+        barcode
+        type
+        isActive
+        isPickable
+        isReceivable
+        level
+        maxPallets
+        maxVolume
+        maxWeight
+        temperatureControlled
+        hazmatApproved
+        xCoordinate
+        yCoordinate
+        zCoordinate
+        path
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +33,24 @@ export const UpdateLocationMutation = graphql(`
     wms {
       updateLocation(id: $id, value: $location) {
         id
+        name
+        barcode
+        type
+        isActive
+        isPickable
+        isReceivable
+        level
+        maxPallets
+        maxVolume
+        maxWeight
+        temperatureControlled
+        hazmatApproved
+        xCoordinate
+        yCoordinate
+        zCoordinate
+        path
+        createdAt
+        updatedAt
       }
     }
   }

@@ -5,6 +5,24 @@ export const CreateDeliveryRouteMutation = graphql(`
     dms {
       createDeliveryRoute(value: $deliveryRoute) {
         id
+        routeDate
+        status
+        totalDistanceKm
+        estimatedDurationMinutes
+        createdAt
+        updatedAt
+        driver {
+          id
+          user {
+            email
+            id
+            image
+            name
+          }
+          status
+          licenseNumber
+          contactPhone
+        }
       }
     }
   }
@@ -18,6 +36,32 @@ export const UpdateDeliveryRouteMutation = graphql(`
     dms {
       updateDeliveryRoute(id: $id, value: $deliveryRoute) {
         id
+        routeDate
+        status
+        totalDistanceKm
+        estimatedDurationMinutes
+        actualDurationMinutes
+        startedAt
+        completedAt
+        updatedAt
+        driver {
+          id
+          user {
+            email
+            id
+            image
+            name
+          }
+          status
+          licenseNumber
+          contactPhone
+        }
+        tasks {
+          id
+          recipientName
+          deliveryAddress
+          status
+        }
       }
     }
   }

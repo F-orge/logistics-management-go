@@ -7,6 +7,12 @@ export const CreateOutboundShipmentMutation = graphql(`
     wms {
       createOutboundShipment(value: $outboundShipment) {
         id
+        carrier
+        trackingNumber
+        status
+        warehouseId
+        createdAt
+        updatedAt
       }
     }
   }
@@ -20,6 +26,12 @@ export const UpdateOutboundShipmentMutation = graphql(`
     wms {
       updateOutboundShipment(id: $id, value: $outboundShipment) {
         id
+        carrier
+        trackingNumber
+        status
+        warehouseId
+        createdAt
+        updatedAt
       }
     }
   }

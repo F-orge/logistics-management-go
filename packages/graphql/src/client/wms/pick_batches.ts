@@ -5,6 +5,20 @@ export const CreatePickBatchMutation = graphql(`
     wms {
       createPickBatch(value: $pickBatch) {
         id
+        batchNumber
+        status
+        strategy
+        priority
+        waveId
+        zoneRestrictions
+        estimatedDuration
+        actualDuration
+        totalItems
+        completedItems
+        startedAt
+        completedAt
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +29,20 @@ export const UpdatePickBatchMutation = graphql(`
     wms {
       updatePickBatch(id: $id, value: $pickBatch) {
         id
+        batchNumber
+        status
+        strategy
+        priority
+        waveId
+        zoneRestrictions
+        estimatedDuration
+        actualDuration
+        totalItems
+        completedItems
+        startedAt
+        completedAt
+        createdAt
+        updatedAt
       }
     }
   }

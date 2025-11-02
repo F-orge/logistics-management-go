@@ -5,6 +5,12 @@ export const CreateLeadMutation = graphql(`
     crm {
       createLead(value: $lead) {
         id
+        name
+        email
+        leadSource
+        status
+        leadScore
+        createdAt
       }
     }
   }
@@ -15,6 +21,18 @@ export const UpdateLeadMutation = graphql(`
     crm {
       updateLead(id: $id, value: $lead) {
         id
+        name
+        email
+        leadSource
+        status
+        leadScore
+        updatedAt
+        owner {
+          id
+          email
+          image
+          name
+        }
       }
     }
   }
@@ -38,6 +56,8 @@ export const TableLeadQuery = graphql(`
     $search: String
     $status: LeadStatus
     $source: LeadSource
+    $from: Date
+    $to: Date
   ) {
     crm {
       leads(
@@ -46,6 +66,8 @@ export const TableLeadQuery = graphql(`
         search: $search
         status: $status
         leadSource: $source
+        from: $from
+        to: $to
       ) {
         convertedAt
         createdAt
@@ -67,6 +89,7 @@ export const TableLeadQuery = graphql(`
           endDate
           startDate
           budget
+          id
         }
         convertedCompany {
           name
@@ -93,6 +116,7 @@ export const TableLeadQuery = graphql(`
           dealValue
           source
           stage
+          id
         }
       }
     }
@@ -100,11 +124,17 @@ export const TableLeadQuery = graphql(`
 `);
 
 export const SearchLeadsQuery = graphql(`
-  query SearchLeads($search: String!) {
+  query SearchLeads($search: String!, $status: LeadStatus, $source: LeadSource) {
     crm {
-      leads(page: 1, perPage: 10, search: $search) {
+      leads(page: 1, perPage: 10, search: $search, status: $status, leadSource: $source) {
         value: id
         label: name
+        id
+        name
+        email
+        status
+        leadSource
+        createdAt
       }
     }
   }
@@ -114,9 +144,11 @@ export const AnalyticsLeadsQuery = graphql(`
   query AnalyticsLeads($from: Date, $to: Date) {
     crm {
       leads(from: $from, to: $to) {
+        id
         leadScore
         status
         leadSource
+        createdAt
       }
     }
   }

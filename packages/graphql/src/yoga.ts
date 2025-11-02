@@ -73,7 +73,7 @@ export const createGraphQLYoga = (config: GraphQLYogaConfig) => {
 				},
 			}),
 		],
-		logging: environment !== "production" ? "debug" : "error",
+		logging: "error",
 		healthCheckEndpoint,
 	});
 

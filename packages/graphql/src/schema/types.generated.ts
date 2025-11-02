@@ -1,9 +1,9 @@
-import type {
+import {
 	GraphQLResolveInfo,
 	GraphQLScalarType,
 	GraphQLScalarTypeConfig,
 } from "graphql";
-import type { GraphQLContext } from "../context";
+import { GraphQLContext } from "../context";
 export type Maybe<T> = T | undefined;
 export type InputMaybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -1556,7 +1556,7 @@ export type CrmMutationaddInvoiceItemArgs = {
 
 export type CrmMutationaddOpportunityProductArgs = {
 	id: Scalars["ID"]["input"];
-	value: CreateOpportunityProductInput;
+	value: AddOpportunityProductInput;
 };
 
 export type CrmMutationcreateAttachmentArgs = {

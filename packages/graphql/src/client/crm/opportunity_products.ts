@@ -1,55 +1,48 @@
 import { graphql } from "../generated/gql";
 
-// export const CreateOpportunityProductMutation = graphql(`
-//   mutation CreateOpportunityProduct(
-//     $opportunityProduct: CreateOpportunityProductInput!
-//   ) {
-//     crm {
-//       createOpportunityProduct(value: $opportunityProduct) {
-//         opportunity {
-//           id
-//         }
-//         product {
-//           id
-//         }
-//       }
-//     }
-//   }
-// `);
+export const AddOpportunityProductMutation = graphql(`
+  mutation AddOpportunityProduct(
+    $id: ID!
+    $opportunityProduct: AddOpportunityProductInput!
+  ) {
+    crm {
+      addOpportunityProduct(id: $id, value: $opportunityProduct) {
+        opportunity {
+          id
+        }
+        product {
+          id
+        }
+      }
+    }
+  }
+`);
 
-// export const UpdateOpportunityProductMutation = graphql(`
-//   mutation UpdateOpportunityProduct(
-//     $opportunityId: ID!
-//     $productId: ID!
-//     $opportunityProduct: UpdateOpportunityProductInput!
-//   ) {
-//     crm {
-//       updateOpportunityProduct(
-//         opportunityId: $opportunityId
-//         productId: $productId
-//         value: $opportunityProduct
-//       ) {
-//         opportunity {
-//           id
-//         }
-//         product {
-//           id
-//         }
-//       }
-//     }
-//   }
-// `);
+export const UpdateOpportunityProductMutation = graphql(`
+  mutation UpdateOpportunityProduct(
+    $id: ID!
+    $opportunityProduct: UpdateOpportunityProductInput!
+  ) {
+    crm {
+      updateOpportunityProduct(id: $id, value: $opportunityProduct) {
+        opportunity {
+          id
+        }
+        product {
+          id
+        }
+      }
+    }
+  }
+`);
 
-// export const RemoveOpportunityProductMutation = graphql(`
-//   mutation RemoveOpportunityProduct($opportunityId: ID!, $productId: ID!) {
-//     crm {
-//       removeOpportunityProduct(
-//         opportunityId: $opportunityId
-//         productId: $productId
-//       ) {
-//         success
-//         numDeletedRows
-//       }
-//     }
-//   }
-// `);
+export const RemoveOpportunityProductMutation = graphql(`
+  mutation RemoveOpportunityProduct($id: ID!) {
+    crm {
+      removeOpportunityProduct(id: $id) {
+        success
+        numDeletedRows
+      }
+    }
+  }
+`);

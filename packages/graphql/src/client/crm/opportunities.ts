@@ -5,6 +5,13 @@ export const CreateOpportunityMutation = graphql(`
     crm {
       createOpportunity(value: $opportunity) {
         id
+        name
+        dealValue
+        stage
+        probability
+        expectedCloseDate
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +22,21 @@ export const UpdateOpportunityMutation = graphql(`
     crm {
       updateOpportunity(id: $id, value: $opportunity) {
         id
+        name
+        dealValue
+        stage
+        probability
+        expectedCloseDate
+        updatedAt
+        company {
+          id
+          name
+        }
+        contact {
+          id
+          name
+          email
+        }
       }
     }
   }

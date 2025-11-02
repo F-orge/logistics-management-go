@@ -5,6 +5,21 @@ export const CreateTripStopMutation = graphql(`
     tms {
       createTripStop(value: $tripStop) {
         id
+        trip {
+          id
+          status
+        }
+        shipment {
+          id
+          status
+        }
+        sequence
+        address
+        status
+        estimatedArrivalTime
+        estimatedDepartureTime
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +30,23 @@ export const UpdateTripStopMutation = graphql(`
     tms {
       updateTripStop(id: $id, value: $tripStop) {
         id
+        trip {
+          id
+          status
+        }
+        shipment {
+          id
+          status
+        }
+        sequence
+        address
+        status
+        estimatedArrivalTime
+        estimatedDepartureTime
+        actualArrivalTime
+        actualDepartureTime
+        createdAt
+        updatedAt
       }
     }
   }

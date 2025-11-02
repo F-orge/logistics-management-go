@@ -5,6 +5,21 @@ export const CreateTaskMutation = graphql(`
     wms {
       createTask(value: $task) {
         id
+        taskNumber
+        type
+        status
+        priority
+        sourceEntityId
+        sourceEntityType
+        estimatedDuration
+        actualDuration
+        instructions
+        notes
+        startTime
+        endTime
+        durationSeconds
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +30,21 @@ export const UpdateTaskMutation = graphql(`
     wms {
       updateTask(id: $id, value: $task) {
         id
+        taskNumber
+        type
+        status
+        priority
+        sourceEntityId
+        sourceEntityType
+        estimatedDuration
+        actualDuration
+        instructions
+        notes
+        startTime
+        endTime
+        durationSeconds
+        createdAt
+        updatedAt
       }
     }
   }

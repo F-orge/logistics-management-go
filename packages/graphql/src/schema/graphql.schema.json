@@ -14483,7 +14483,7 @@
 									"name": null,
 									"ofType": {
 										"kind": "INPUT_OBJECT",
-										"name": "CreateOpportunityProductInput",
+										"name": "AddOpportunityProductInput",
 										"ofType": null
 									}
 								},

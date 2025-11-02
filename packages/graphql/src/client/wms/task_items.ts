@@ -5,6 +5,17 @@ import { graphql } from "../generated/gql";
 //     wms {
 //       createTaskItem(value: $taskItem) {
 //         id
+//         quantityRequired
+//         quantityCompleted
+//         quantityRemaining
+//         status
+//         lotNumber
+//         serialNumbers
+//         expiryDate
+//         notes
+//         completedAt
+//         createdAt
+//         updatedAt
 //       }
 //     }
 //   }
@@ -15,6 +26,17 @@ export const UpdateTaskItemMutation = graphql(`
     wms {
       updateTaskItem(id: $id, value: $taskItem) {
         id
+        quantityRequired
+        quantityCompleted
+        quantityRemaining
+        status
+        lotNumber
+        serialNumbers
+        expiryDate
+        notes
+        completedAt
+        createdAt
+        updatedAt
       }
     }
   }

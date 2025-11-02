@@ -5,6 +5,30 @@ export const CreateDeliveryTaskMutation = graphql(`
     dms {
       createDeliveryTask(value: $deliveryTask) {
         id
+        recipientName
+        recipientPhone
+        deliveryAddress
+        deliveryInstructions
+        status
+        estimatedArrivalTime
+        routeSequence
+        createdAt
+        updatedAt
+        deliveryRoute {
+          id
+          driver {
+            id
+            user {
+              email
+              name
+            }
+          }
+        }
+        package {
+          id
+          packageNumber
+          trackingNumber
+        }
       }
     }
   }
@@ -18,6 +42,33 @@ export const UpdateDeliveryTaskMutation = graphql(`
     dms {
       updateDeliveryTask(id: $id, value: $deliveryTask) {
         id
+        recipientName
+        recipientPhone
+        deliveryAddress
+        deliveryInstructions
+        status
+        failureReason
+        estimatedArrivalTime
+        actualArrivalTime
+        deliveryTime
+        attemptCount
+        updatedAt
+        deliveryRoute {
+          id
+          status
+          driver {
+            id
+            user {
+              email
+              name
+            }
+          }
+        }
+        package {
+          id
+          packageNumber
+          trackingNumber
+        }
       }
     }
   }

@@ -5,6 +5,12 @@ export const CreateInvoiceMutation = graphql(`
     crm {
       createInvoice(value: $invoice) {
         id
+        issueDate
+        dueDate
+        total
+        status
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +21,18 @@ export const UpdateInvoiceMutation = graphql(`
     crm {
       updateInvoice(id: $id, value: $invoice) {
         id
+        issueDate
+        dueDate
+        total
+        status
+        sentAt
+        paidAt
+        updatedAt
+        items {
+          id
+          quantity
+          price
+        }
       }
     }
   }

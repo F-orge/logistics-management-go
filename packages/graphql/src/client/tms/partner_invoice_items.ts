@@ -20,6 +20,36 @@ export const UpdatePartnerInvoiceItemMutation = graphql(`
     tms {
       updatePartnerInvoiceItem(id: $id, value: $partnerInvoiceItem) {
         id
+        partnerInvoice {
+          id
+          carrier {
+            id
+            name
+          }
+          invoiceNumber
+          invoiceDate
+          totalAmount
+          status
+          createdAt
+          updatedAt
+        }
+        shipmentLeg {
+          id
+          shipment {
+            id
+          }
+          legSequence
+          startLocation
+          endLocation
+          carrier {
+            id
+            name
+          }
+          status
+          createdAt
+          updatedAt
+        }
+        amount
       }
     }
   }

@@ -5,6 +5,19 @@ export const CreateWarehouseMutation = graphql(`
     wms {
       createWarehouse(value: $warehouse) {
         id
+        name
+        address
+        city
+        state
+        postalCode
+        country
+        timezone
+        contactPerson
+        contactEmail
+        contactPhone
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +28,19 @@ export const UpdateWarehouseMutation = graphql(`
     wms {
       updateWarehouse(id: $id, value: $warehouse) {
         id
+        name
+        address
+        city
+        state
+        postalCode
+        country
+        timezone
+        contactPerson
+        contactEmail
+        contactPhone
+        isActive
+        createdAt
+        updatedAt
       }
     }
   }

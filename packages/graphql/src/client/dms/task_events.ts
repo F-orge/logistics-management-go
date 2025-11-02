@@ -5,6 +5,24 @@ export const CreateTaskEventMutation = graphql(`
     dms {
       createTaskEvent(value: $taskEvent) {
         id
+        status
+        reason
+        notes
+        latitude
+        longitude
+        timestamp
+        createdAt
+        updatedAt
+        deliveryTask {
+          id
+          recipientName
+          deliveryAddress
+          status
+          package {
+            id
+            trackingNumber
+          }
+        }
       }
     }
   }

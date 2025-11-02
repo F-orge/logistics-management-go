@@ -5,6 +5,12 @@ export const CreateInteractionMutation = graphql(`
     crm {
       createInteraction(value: $interaction) {
         id
+        type
+        notes
+        outcome
+        interactionDate
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +21,16 @@ export const UpdateInteractionMutation = graphql(`
     crm {
       updateInteraction(id: $id, value: $interaction) {
         id
+        type
+        notes
+        outcome
+        interactionDate
+        updatedAt
+        contact {
+          id
+          name
+          email
+        }
       }
     }
   }

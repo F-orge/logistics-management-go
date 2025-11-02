@@ -5,6 +5,16 @@ export const CreatePartnerInvoiceMutation = graphql(`
     tms {
       createPartnerInvoice(value: $partnerInvoice) {
         id
+        carrier {
+          id
+          name
+        }
+        invoiceNumber
+        invoiceDate
+        totalAmount
+        status
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +28,16 @@ export const UpdatePartnerInvoiceMutation = graphql(`
     tms {
       updatePartnerInvoice(id: $id, value: $partnerInvoice) {
         id
+        carrier {
+          id
+          name
+        }
+        invoiceNumber
+        invoiceDate
+        totalAmount
+        status
+        createdAt
+        updatedAt
       }
     }
   }

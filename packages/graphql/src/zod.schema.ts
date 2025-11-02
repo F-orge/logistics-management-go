@@ -1544,7 +1544,7 @@ export type CrmMutationAddInvoiceItemArgs = {
 
 export type CrmMutationAddOpportunityProductArgs = {
 	id: Scalars["ID"]["input"];
-	value: CreateOpportunityProductInput;
+	value: AddOpportunityProductInput;
 };
 
 export type CrmMutationCreateAttachmentArgs = {

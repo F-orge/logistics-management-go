@@ -5,6 +5,12 @@ export const CreateSupplierMutation = graphql(`
     wms {
       createSupplier(value: $supplier) {
         id
+        name
+        contactPerson
+        email
+        phoneNumber
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +21,12 @@ export const UpdateSupplierMutation = graphql(`
     wms {
       updateSupplier(id: $id, value: $supplier) {
         id
+        name
+        contactPerson
+        email
+        phoneNumber
+        createdAt
+        updatedAt
       }
     }
   }

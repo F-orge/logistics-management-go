@@ -5,6 +5,14 @@ export const CreateRateCardMutation = graphql(`
     billing {
       createRateCard(value: $rateCard) {
         id
+        name
+        serviceType
+        isActive
+        validFrom
+        validTo
+        description
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +23,14 @@ export const UpdateRateCardMutation = graphql(`
     billing {
       updateRateCard(id: $id, value: $rateCard) {
         id
+        name
+        serviceType
+        isActive
+        validFrom
+        validTo
+        description
+        createdAt
+        updatedAt
       }
     }
   }

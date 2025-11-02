@@ -5,6 +5,15 @@ export const CreateDocumentMutation = graphql(`
     billing {
       createDocument(value: $document) {
         id
+        recordId
+        recordType
+        documentType
+        filePath
+        fileName
+        fileSize
+        mimeType
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +24,15 @@ export const UpdateDocumentMutation = graphql(`
     billing {
       updateDocument(id: $id, value: $document) {
         id
+        recordId
+        recordType
+        documentType
+        filePath
+        fileName
+        fileSize
+        mimeType
+        createdAt
+        updatedAt
       }
     }
   }

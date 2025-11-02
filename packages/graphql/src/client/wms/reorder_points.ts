@@ -5,6 +5,9 @@ export const CreateReorderPointMutation = graphql(`
     wms {
       createReorderPoint(value: $reorderPoint) {
         id
+        threshold
+        createdAt
+        updatedAt
       }
     }
   }
@@ -18,6 +21,9 @@ export const UpdateReorderPointMutation = graphql(`
     wms {
       updateReorderPoint(id: $id, value: $reorderPoint) {
         id
+        threshold
+        createdAt
+        updatedAt
       }
     }
   }

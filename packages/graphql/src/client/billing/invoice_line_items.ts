@@ -20,6 +20,19 @@ export const UpdateInvoiceLineItemMutation = graphql(`
     billing {
       updateInvoiceLineItem(id: $id, value: $invoiceLineItem) {
         id
+        sourceRecordId
+        sourceRecordType
+        description
+        quantity
+        unitPrice
+        totalPrice
+        taxRate
+        taxAmount
+        discountRate
+        discountAmount
+        lineTotal
+        createdAt
+        updatedAt
       }
     }
   }

@@ -7,6 +7,16 @@ export const CreateAccountTransactionMutation = graphql(`
     billing {
       createAccountTransaction(value: $accountTransaction) {
         id
+        type
+        amount
+        runningBalance
+        sourceRecordId
+        sourceRecordType
+        description
+        referenceNumber
+        transactionDate
+        createdAt
+        updatedAt
       }
     }
   }

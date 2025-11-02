@@ -7,6 +7,23 @@ export const CreateCustomerTrackingLinkMutation = graphql(`
     dms {
       createCustomerTrackingLink(value: $customerTrackingLink) {
         id
+        trackingToken
+        isActive
+        accessCount
+        expiresAt
+        lastAccessedAt
+        createdAt
+        updatedAt
+        deliveryTask {
+          id
+          recipientName
+          deliveryAddress
+          status
+          deliveryRoute {
+            id
+            status
+          }
+        }
       }
     }
   }
@@ -20,6 +37,18 @@ export const UpdateCustomerTrackingLinkMutation = graphql(`
     dms {
       updateCustomerTrackingLink(id: $id, value: $customerTrackingLink) {
         id
+        trackingToken
+        isActive
+        accessCount
+        expiresAt
+        lastAccessedAt
+        updatedAt
+        deliveryTask {
+          id
+          recipientName
+          deliveryAddress
+          status
+        }
       }
     }
   }

@@ -5,6 +5,15 @@ export const CreateRouteMutation = graphql(`
     tms {
       createRoute(value: $route) {
         id
+        trip {
+          id
+          status
+        }
+        optimizedRouteData
+        totalDistance
+        totalDuration
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +24,15 @@ export const UpdateRouteMutation = graphql(`
     tms {
       updateRoute(id: $id, value: $route) {
         id
+        trip {
+          id
+          status
+        }
+        optimizedRouteData
+        totalDistance
+        totalDuration
+        createdAt
+        updatedAt
       }
     }
   }

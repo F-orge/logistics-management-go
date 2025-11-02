@@ -5,6 +5,12 @@ export const CreateCaseMutation = graphql(`
     crm {
       createCase(value: $case) {
         id
+        caseNumber
+        type
+        status
+        priority
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +21,17 @@ export const UpdateCaseMutation = graphql(`
     crm {
       updateCase(id: $id, value: $case) {
         id
+        caseNumber
+        type
+        status
+        priority
+        updatedAt
+        description
+        contact {
+          id
+          name
+          email
+        }
       }
     }
   }

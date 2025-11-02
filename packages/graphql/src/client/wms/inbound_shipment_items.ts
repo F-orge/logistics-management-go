@@ -7,6 +7,12 @@ import { graphql } from "../generated/gql";
 //     wms {
 //       createInboundShipmentItem(value: $inboundShipmentItem) {
 //         id
+//         expectedQuantity
+//         receivedQuantity
+//         discrepancyQuantity
+//         discrepancyNotes
+//         createdAt
+//         updatedAt
 //       }
 //     }
 //   }
@@ -20,6 +26,12 @@ export const UpdateInboundShipmentItemMutation = graphql(`
     wms {
       updateInboundShipmentItem(id: $id, value: $inboundShipmentItem) {
         id
+        expectedQuantity
+        receivedQuantity
+        discrepancyQuantity
+        discrepancyNotes
+        createdAt
+        updatedAt
       }
     }
   }

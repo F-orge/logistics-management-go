@@ -5,6 +5,15 @@ export const CreateCreditNoteMutation = graphql(`
     billing {
       createCreditNote(value: $creditNote) {
         id
+        creditNoteNumber
+        amount
+        reason
+        issueDate
+        appliedAt
+        currency
+        notes
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +24,15 @@ export const UpdateCreditNoteMutation = graphql(`
     billing {
       updateCreditNote(id: $id, value: $creditNote) {
         id
+        creditNoteNumber
+        amount
+        reason
+        issueDate
+        appliedAt
+        currency
+        notes
+        createdAt
+        updatedAt
       }
     }
   }

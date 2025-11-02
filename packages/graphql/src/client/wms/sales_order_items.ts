@@ -5,6 +5,9 @@ import { graphql } from "../generated/gql";
 //     wms {
 //       createSalesOrderItem(value: $salesOrderItem) {
 //         id
+//         quantityOrdered
+//         createdAt
+//         updatedAt
 //       }
 //     }
 //   }
@@ -18,6 +21,9 @@ export const UpdateSalesOrderItemMutation = graphql(`
     wms {
       updateSalesOrderItem(id: $id, value: $salesOrderItem) {
         id
+        quantityOrdered
+        createdAt
+        updatedAt
       }
     }
   }

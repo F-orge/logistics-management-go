@@ -5,6 +5,16 @@ export const CreateSurchargeMutation = graphql(`
     billing {
       createSurcharge(value: $surcharge) {
         id
+        name
+        type
+        amount
+        calculationMethod
+        isActive
+        validFrom
+        validTo
+        description
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +25,16 @@ export const UpdateSurchargeMutation = graphql(`
     billing {
       updateSurcharge(id: $id, value: $surcharge) {
         id
+        name
+        type
+        amount
+        calculationMethod
+        isActive
+        validFrom
+        validTo
+        description
+        createdAt
+        updatedAt
       }
     }
   }

@@ -7,6 +7,16 @@ export const CreateShipmentLegEventMutation = graphql(`
     tms {
       createShipmentLegEvent(value: $shipmentLegEvent) {
         id
+        shipmentLeg {
+          id
+          legSequence
+          startLocation
+          endLocation
+          status
+        }
+        statusMessage
+        location
+        eventTimestamp
       }
     }
   }

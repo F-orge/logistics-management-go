@@ -5,6 +5,11 @@ export const CreateSalesOrderMutation = graphql(`
     wms {
       createSalesOrder(value: $salesOrder) {
         id
+        orderNumber
+        status
+        shippingAddress
+        createdAt
+        updatedAt
       }
     }
   }
@@ -15,6 +20,11 @@ export const UpdateSalesOrderMutation = graphql(`
     wms {
       updateSalesOrder(id: $id, value: $salesOrder) {
         id
+        orderNumber
+        status
+        shippingAddress
+        createdAt
+        updatedAt
       }
     }
   }

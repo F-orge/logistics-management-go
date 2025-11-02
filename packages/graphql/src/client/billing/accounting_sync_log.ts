@@ -7,6 +7,19 @@ export const CreateAccountingSyncLogMutation = graphql(`
     billing {
       createAccountingSyncLog(value: $accountingSyncLog) {
         id
+        recordId
+        recordType
+        externalSystem
+        externalId
+        status
+        errorMessage
+        requestPayload
+        responsePayload
+        lastSyncAt
+        retryCount
+        nextRetryAt
+        createdAt
+        updatedAt
       }
     }
   }
