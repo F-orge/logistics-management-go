@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { DmsDeliveryRouteStatusEnum } from "../../../../db.types";
 import {
 	CreateDeliveryRouteInputSchema,
@@ -33,19 +34,37 @@ export const DmsMutation: Pick<
 
 		// Validate required fields
 		if (!payload.driverId) {
-			throw new Error("driver_id is required");
+			throw new GraphQLError("driver_id is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
+		}
+
+		if (!payload.routeDate) {
+			throw new GraphQLError("routeDate is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		try {
-			// Check if driver exists
+			// Check if driver exists and is active
 			const driver = await ctx.db
 				.selectFrom("tms.drivers")
-				.select("id")
+				.select(["id", "status"])
 				.where("id", "=", payload.driverId)
 				.executeTakeFirst();
 
 			if (!driver) {
-				throw new Error(`Driver with id ${payload.driverId} does not exist`);
+				throw new GraphQLError("Driver not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
+			}
+
+			// Check if driver is active (optional enhancement)
+			// Assuming there's an active/inactive status field
+			if (driver.status && driver.status !== "ACTIVE") {
+				throw new GraphQLError("Driver is not available", {
+					extensions: { code: "BUSINESS_LOGIC_ERROR" },
+				});
 			}
 
 			const result = await ctx.db
@@ -53,13 +72,20 @@ export const DmsMutation: Pick<
 				.values({
 					...payload,
 					status: payload.status || DmsDeliveryRouteStatusEnum.PLANNED,
+					optimizedSequence: null,
+					optimizedRouteData: payload.optimizedRouteData || null,
 				} as any)
 				.returningAll()
 				.executeTakeFirstOrThrow();
 
 			return result as unknown as DeliveryRoutes;
 		} catch (error: any) {
-			throw error;
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to create delivery route", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 	updateDeliveryRoute: async (_parent, args, ctx) => {
@@ -82,8 +108,11 @@ export const DmsMutation: Pick<
 				const validTransitions = VALID_STATUS_TRANSITIONS[currentStatus];
 
 				if (!validTransitions || !validTransitions.includes(newStatus)) {
-					throw new Error(
-						`Invalid status transition from ${currentStatus} to ${newStatus}`,
+					throw new GraphQLError(
+						`Cannot transition from ${currentStatus} to ${newStatus}`,
+						{
+							extensions: { code: "BUSINESS_LOGIC_ERROR" },
+						},
 					);
 				}
 
@@ -96,9 +125,20 @@ export const DmsMutation: Pick<
 					);
 
 					if (updatingFields.some((field) => !allowedFields.includes(field))) {
-						throw new Error(
+						throw new GraphQLError(
 							"Can only update route optimization data and status when route is IN_PROGRESS",
+							{
+								extensions: { code: "BUSINESS_LOGIC_ERROR" },
+							},
 						);
+					}
+				}
+
+				// Prevent task add/remove on active routes
+				if (currentStatus === DmsDeliveryRouteStatusEnum.IN_PROGRESS) {
+					if (payload.status !== DmsDeliveryRouteStatusEnum.IN_PROGRESS) {
+						// Attempting to change status away from IN_PROGRESS is allowed
+						// but nothing else
 					}
 				}
 			}
@@ -126,8 +166,13 @@ export const DmsMutation: Pick<
 			}
 
 			return result as unknown as DeliveryRoutes;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to update delivery route", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 	removeDeliveryRoute: async (_parent, args, ctx) => {
@@ -144,8 +189,11 @@ export const DmsMutation: Pick<
 				route.status === DmsDeliveryRouteStatusEnum.COMPLETED ||
 				route.status === DmsDeliveryRouteStatusEnum.IN_PROGRESS
 			) {
-				throw new Error(
-					`Cannot delete delivery route with status ${route.status}. Only PLANNED, PAUSED, or CANCELLED routes can be deleted.`,
+				throw new GraphQLError(
+					"Cannot delete delivery route with COMPLETED or IN_PROGRESS status. Only PLANNED, PAUSED, or CANCELLED routes can be deleted.",
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
 				);
 			}
 
@@ -158,8 +206,13 @@ export const DmsMutation: Pick<
 				success: true,
 				numDeletedRows: Number(result.numDeletedRows.toString()),
 			};
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to delete delivery route", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 };

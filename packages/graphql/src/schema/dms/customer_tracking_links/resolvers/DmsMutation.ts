@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { DmsDeliveryTaskStatusEnum } from "../../../../db.types";
 import {
 	CreateCustomerTrackingLinkInputSchema,
@@ -22,22 +23,28 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (!deliveryTask) {
-				throw new Error(
-					`Delivery task with id ${payload.deliveryTaskId} does not exist`,
-				);
+				throw new GraphQLError("Delivery task not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
 			}
 
 			// Validate task status is OUT_FOR_DELIVERY
 			if (deliveryTask.status !== DmsDeliveryTaskStatusEnum.OUT_FOR_DELIVERY) {
-				throw new Error(
+				throw new GraphQLError(
 					`Tracking link can only be created for tasks with status OUT_FOR_DELIVERY, current status is ${deliveryTask.status}`,
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
 				);
 			}
 
 			// Validate customer contact info exists (at least name or phone)
 			if (!deliveryTask.recipientName && !deliveryTask.recipientPhone) {
-				throw new Error(
+				throw new GraphQLError(
 					"Cannot create tracking link: recipient name or phone number is required",
+					{
+						extensions: { code: "VALIDATION_ERROR" },
+					},
 				);
 			}
 
@@ -49,8 +56,11 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (existingLink) {
-				throw new Error(
-					`Tracking link already exists for delivery task ${payload.deliveryTaskId}`,
+				throw new GraphQLError(
+					"Tracking link already exists for this delivery task",
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
 				);
 			}
 
@@ -68,8 +78,13 @@ export const DmsMutation: Pick<
 			await ctx.pubsub.publish("dms.trackingLink.generated", result);
 
 			return result as unknown as CustomerTrackingLinks;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to create tracking link", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 	updateCustomerTrackingLink: async (_parent, args, ctx) => {
@@ -85,12 +100,16 @@ export const DmsMutation: Pick<
 
 			// Prevent updates to expired links
 			if (link.expiresAt && new Date(link.expiresAt) <= new Date()) {
-				throw new Error("Cannot update expired tracking link");
+				throw new GraphQLError("Cannot update expired tracking link", {
+					extensions: { code: "BUSINESS_LOGIC_ERROR" },
+				});
 			}
 
 			// Prevent updates to inactive links
 			if (link.isActive !== true) {
-				throw new Error("Cannot update inactive tracking link");
+				throw new GraphQLError("Cannot update inactive tracking link", {
+					extensions: { code: "BUSINESS_LOGIC_ERROR" },
+				});
 			}
 
 			// Get the associated delivery task to check its status
@@ -106,8 +125,11 @@ export const DmsMutation: Pick<
 				deliveryTask.status === DmsDeliveryTaskStatusEnum.FAILED ||
 				deliveryTask.status === DmsDeliveryTaskStatusEnum.CANCELLED
 			) {
-				throw new Error(
+				throw new GraphQLError(
 					`Cannot update tracking link for delivery task with status ${deliveryTask.status}`,
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
 				);
 			}
 
@@ -145,8 +167,13 @@ export const DmsMutation: Pick<
 			}
 
 			return result as unknown as CustomerTrackingLinks;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to update tracking link", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 };

@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { DmsDeliveryTaskStatusEnum } from "../../../../db.types";
 import {
 	CreateDmsProofOfDeliveryInputSchema,
@@ -14,7 +15,9 @@ export const DmsMutation: Pick<
 
 		// Validate that task exists
 		if (!payload.deliveryTaskId) {
-			throw new Error("deliveryTaskId is required");
+			throw new GraphQLError("deliveryTaskId is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		try {
@@ -26,22 +29,28 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (!task) {
-				throw new Error(
-					`Delivery task with id ${payload.deliveryTaskId} does not exist`,
-				);
+				throw new GraphQLError("Delivery task not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
 			}
 
 			// Validate task status is DELIVERED
 			if (task.status !== DmsDeliveryTaskStatusEnum.DELIVERED) {
-				throw new Error(
-					`Delivery task must be in DELIVERED status, current status is ${task.status}`,
+				throw new GraphQLError(
+					`Proof of delivery can only be created for DELIVERED tasks, current status is ${task.status}`,
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
 				);
 			}
 
 			// Require at least one of (signature, photo)
 			if (!payload.signatureData && !payload.file) {
-				throw new Error(
+				throw new GraphQLError(
 					"At least one of signature or photo is required for proof of delivery",
+					{
+						extensions: { code: "VALIDATION_ERROR" },
+					},
 				);
 			}
 
@@ -53,8 +62,11 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (existingPod) {
-				throw new Error(
-					`Proof of delivery already exists for task ${payload.deliveryTaskId}`,
+				throw new GraphQLError(
+					"Proof of delivery already exists for this task",
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
 				);
 			}
 
@@ -74,8 +86,13 @@ export const DmsMutation: Pick<
 			await ctx.pubsub.publish("dms.proofOfDelivery.recorded", result);
 
 			return result as unknown as DmsProofOfDeliveries;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to create proof of delivery", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 };

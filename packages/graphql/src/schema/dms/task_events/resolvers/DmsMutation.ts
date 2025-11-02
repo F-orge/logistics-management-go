@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { DmsTaskEventStatusEnum } from "../../../../db.types";
 import {
 	CreateTaskEventInputSchema,
@@ -11,7 +12,9 @@ export const DmsMutation: Pick<DmsMutationResolvers, "createTaskEvent"> = {
 
 		// Validate that delivery_task exists
 		if (!payload.deliveryTaskId) {
-			throw new Error("deliveryTaskId is required");
+			throw new GraphQLError("deliveryTaskId is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		try {
@@ -23,16 +26,21 @@ export const DmsMutation: Pick<DmsMutationResolvers, "createTaskEvent"> = {
 				.executeTakeFirst();
 
 			if (!task) {
-				throw new Error(
-					`Delivery task with id ${payload.deliveryTaskId} does not exist`,
-				);
+				throw new GraphQLError("Delivery task not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
 			}
 
 			// Validate status is valid enum value
 			if (payload.status) {
 				const validStatuses = Object.values(DmsTaskEventStatusEnum);
 				if (!validStatuses.includes(payload.status as DmsTaskEventStatusEnum)) {
-					throw new Error(`Invalid task event status: ${payload.status}`);
+					throw new GraphQLError(
+						`Invalid task event status: ${payload.status}`,
+						{
+							extensions: { code: "VALIDATION_ERROR" },
+						},
+					);
 				}
 			}
 
@@ -64,8 +72,13 @@ export const DmsMutation: Pick<DmsMutationResolvers, "createTaskEvent"> = {
 			}
 
 			return result as unknown as TaskEvents;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to create task event", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 };

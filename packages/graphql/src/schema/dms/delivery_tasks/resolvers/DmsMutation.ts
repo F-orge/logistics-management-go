@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
 	DmsDeliveryFailureReasonEnum,
 	DmsDeliveryTaskStatusEnum,
@@ -42,15 +43,21 @@ export const DmsMutation: Pick<
 
 		// Validate required fields
 		if (!payload.deliveryAddress) {
-			throw new Error("delivery_address is required");
+			throw new GraphQLError("delivery_address is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		if (!payload.deliveryRouteId) {
-			throw new Error("delivery_route_id is required");
+			throw new GraphQLError("delivery_route_id is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		if (!payload.packageId) {
-			throw new Error("package_id is required");
+			throw new GraphQLError("package_id is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		try {
@@ -62,9 +69,9 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (!route) {
-				throw new Error(
-					`Delivery route with id ${payload.deliveryRouteId} does not exist`,
-				);
+				throw new GraphQLError("Delivery route not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
 			}
 
 			// Validate package exists
@@ -75,7 +82,9 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (!pkg) {
-				throw new Error(`Package with id ${payload.packageId} does not exist`);
+				throw new GraphQLError("Package not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
 			}
 
 			const result = await ctx.db
@@ -90,8 +99,13 @@ export const DmsMutation: Pick<
 				.executeTakeFirstOrThrow();
 
 			return result as unknown as DeliveryTasks;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to create delivery task", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 	updateDeliveryTask: async (_parent, args, ctx) => {
@@ -107,7 +121,12 @@ export const DmsMutation: Pick<
 
 			// Prevent modifications to DELIVERED tasks
 			if (previousTask.status === DmsDeliveryTaskStatusEnum.DELIVERED) {
-				throw new Error("Cannot update delivery task that has been delivered");
+				throw new GraphQLError(
+					"Cannot update delivery task that has been delivered",
+					{
+						extensions: { code: "BUSINESS_LOGIC_ERROR" },
+					},
+				);
 			}
 
 			// Validate status transition
@@ -118,8 +137,11 @@ export const DmsMutation: Pick<
 				const validTransitions = VALID_TASK_STATUS_TRANSITIONS[currentStatus];
 
 				if (!validTransitions || !validTransitions.includes(newStatus)) {
-					throw new Error(
-						`Invalid status transition from ${currentStatus} to ${newStatus}`,
+					throw new GraphQLError(
+						`Cannot transition from ${currentStatus} to ${newStatus}`,
+						{
+							extensions: { code: "BUSINESS_LOGIC_ERROR" },
+						},
 					);
 				}
 
@@ -128,7 +150,12 @@ export const DmsMutation: Pick<
 					newStatus === DmsDeliveryTaskStatusEnum.FAILED &&
 					!payload.failureReason
 				) {
-					throw new Error("failureReason is required when status is FAILED");
+					throw new GraphQLError(
+						"failureReason is required when status is FAILED",
+						{
+							extensions: { code: "VALIDATION_ERROR" },
+						},
+					);
 				}
 
 				// Prevent address/time window updates once OUT_FOR_DELIVERY
@@ -136,8 +163,11 @@ export const DmsMutation: Pick<
 					currentStatus === DmsDeliveryTaskStatusEnum.OUT_FOR_DELIVERY &&
 					(payload.deliveryAddress || payload.estimatedArrivalTime)
 				) {
-					throw new Error(
+					throw new GraphQLError(
 						"Cannot update delivery address or time window once delivery is OUT_FOR_DELIVERY",
+						{
+							extensions: { code: "BUSINESS_LOGIC_ERROR" },
+						},
 					);
 				}
 			}
@@ -178,8 +208,13 @@ export const DmsMutation: Pick<
 			}
 
 			return result as unknown as DeliveryTasks;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to update delivery task", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 };

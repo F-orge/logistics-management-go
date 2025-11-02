@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
 	CreateDriverLocationInputSchema,
 	type DriverLocations,
@@ -13,7 +14,9 @@ export const DmsMutation: Pick<
 
 		// Validate driver exists
 		if (!payload.driverId) {
-			throw new Error("driverId is required");
+			throw new GraphQLError("driverId is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
 		}
 
 		try {
@@ -25,16 +28,22 @@ export const DmsMutation: Pick<
 				.executeTakeFirst();
 
 			if (!driver) {
-				throw new Error(`Driver with id ${payload.driverId} does not exist`);
+				throw new GraphQLError("Driver not found", {
+					extensions: { code: "NOT_FOUND" },
+				});
 			}
 
 			// Validate coordinates
 			if (payload.latitude < -90 || payload.latitude > 90) {
-				throw new Error("Latitude must be between -90 and 90");
+				throw new GraphQLError("Latitude must be between -90 and 90", {
+					extensions: { code: "VALIDATION_ERROR" },
+				});
 			}
 
 			if (payload.longitude < -180 || payload.longitude > 180) {
-				throw new Error("Longitude must be between -180 and 180");
+				throw new GraphQLError("Longitude must be between -180 and 180", {
+					extensions: { code: "VALIDATION_ERROR" },
+				});
 			}
 
 			const result = await ctx.db
@@ -47,13 +56,21 @@ export const DmsMutation: Pick<
 			await ctx.pubsub.publish("dms.driverLocation.updated", result);
 
 			return result as unknown as DriverLocations;
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to create driver location", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
-	updateDriverLocation: async (_parent, args, ctx) => {
-		throw new Error(
+	updateDriverLocation: async (_parent, _args, _ctx) => {
+		throw new GraphQLError(
 			"Driver locations are immutable after creation. Cannot update existing location.",
+			{
+				extensions: { code: "BUSINESS_LOGIC_ERROR" },
+			},
 		);
 	},
 	removeDriverLocation: async (_parent, args, ctx) => {
@@ -80,8 +97,13 @@ export const DmsMutation: Pick<
 				success: true,
 				numDeletedRows: Number(result.numDeletedRows.toString()),
 			};
-		} catch (error) {
-			throw error;
+		} catch (error: any) {
+			if (error.extensions?.code) {
+				throw error;
+			}
+			throw new GraphQLError("Failed to remove driver location", {
+				extensions: { code: "DATABASE_ERROR" },
+			});
 		}
 	},
 };
