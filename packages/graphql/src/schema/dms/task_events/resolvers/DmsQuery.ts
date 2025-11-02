@@ -12,8 +12,6 @@ export const DmsQuery: Pick<DmsQueryResolvers, "taskEvent" | "taskEvents"> = {
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
@@ -31,7 +29,7 @@ export const DmsQuery: Pick<DmsQueryResolvers, "taskEvent" | "taskEvents"> = {
 			query = query.where("status", "=", DmsTaskEventStatusEnum[args.status]);
 		}
 
-		const results = await query.execute();
+		const results = await query.orderBy("timestamp", "asc").execute();
 
 		return results as unknown as TaskEvents[];
 	},
@@ -42,6 +40,6 @@ export const DmsQuery: Pick<DmsQueryResolvers, "taskEvent" | "taskEvents"> = {
 			.where("id", "=", args.id)
 			.executeTakeFirst();
 
-		return result as unknown as TaskEvents;
+		return (result as unknown as TaskEvents) || null;
 	},
 };

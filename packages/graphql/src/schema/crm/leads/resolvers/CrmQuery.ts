@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { CrmLeadSource, CrmLeadStatus } from "../../../../db.types";
 import type { Leads } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
@@ -12,8 +13,6 @@ export const CrmQuery: Pick<CrmQueryResolvers, "lead" | "leads"> = {
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
@@ -33,6 +32,21 @@ export const CrmQuery: Pick<CrmQueryResolvers, "lead" | "leads"> = {
 
 		if (args.status) {
 			query = query.where("status", "=", CrmLeadStatus[args.status]);
+		}
+
+		// Apply sorting
+		if (args.sortBy) {
+			const direction = args.sortDirection === "DESC" ? "desc" : "asc";
+			if (args.sortBy === "createdAt") {
+				query = query.orderBy("createdAt", direction);
+			} else if (args.sortBy === "status") {
+				query = query.orderBy("status", direction);
+			} else if (args.sortBy === "name") {
+				query = query.orderBy("name", direction);
+			}
+		} else {
+			// Default sorting
+			query = query.orderBy("createdAt", "desc");
 		}
 
 		const results = await query.execute();

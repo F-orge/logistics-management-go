@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import type { Companies } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
 export const CrmQuery: Pick<CrmQueryResolvers, "companies" | "company"> = {
@@ -11,8 +12,6 @@ export const CrmQuery: Pick<CrmQueryResolvers, "companies" | "company"> = {
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
@@ -41,6 +40,14 @@ export const CrmQuery: Pick<CrmQueryResolvers, "companies" | "company"> = {
 			.selectAll()
 			.where("id", "=", args.id)
 			.executeTakeFirst();
+
+		if (!result) {
+			throw new GraphQLError("Company not found", {
+				extensions: {
+					code: "NOT_FOUND",
+				},
+			});
+		}
 
 		return result as Companies;
 	},

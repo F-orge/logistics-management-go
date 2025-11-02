@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
 	type Contacts,
 	CreateContactInputSchema,
@@ -10,6 +11,36 @@ export const CrmMutation: Pick<
 > = {
 	createContact: async (_parent, args, ctx) => {
 		const payload = CreateContactInputSchema().parse(args.value);
+
+		// FK validation: check if company exists
+		const company = await ctx.db
+			.selectFrom("crm.companies")
+			.select("id")
+			.where("id", "=", payload.companyId)
+			.executeTakeFirst();
+
+		if (!company) {
+			throw new GraphQLError("Company not found", {
+				extensions: {
+					code: "VALIDATION_ERROR",
+				},
+			});
+		}
+
+		// FK validation: check if owner/user exists
+		const owner = await ctx.db
+			.selectFrom("user")
+			.select("id")
+			.where("id", "=", payload.ownerId)
+			.executeTakeFirst();
+
+		if (!owner) {
+			throw new GraphQLError("Owner not found", {
+				extensions: {
+					code: "VALIDATION_ERROR",
+				},
+			});
+		}
 
 		const result = await ctx.db
 			.insertInto("crm.contacts")

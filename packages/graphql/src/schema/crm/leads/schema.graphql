@@ -18,6 +18,11 @@ enum LeadStatus {
 	CONVERTED
 }
 
+enum SortDirection {
+	ASC
+	DESC
+}
+
 type Leads {
 	id: ID!
 	name: String!
@@ -44,6 +49,8 @@ extend type CrmQuery {
 		search: String
 		leadSource: LeadSource
 		status: LeadStatus
+		sortBy: String
+		sortDirection: SortDirection
 	): [Leads!]!
 	lead(id: ID!): Leads!
 }

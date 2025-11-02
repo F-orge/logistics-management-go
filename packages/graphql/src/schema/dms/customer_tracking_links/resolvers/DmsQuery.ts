@@ -14,19 +14,20 @@ export const DmsQuery: Pick<
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
 
 		if (args.search) {
 			query = query.where((eb) =>
-				eb.or([eb("trackingToken", "ilike", `%${args.search}%`)]),
+				eb.or([
+					eb("trackingToken", "ilike", `%${args.search}%`),
+					eb("deliveryTaskId", "ilike", `%${args.search}%`),
+				]),
 			);
 		}
 
-		const results = await query.execute();
+		const results = await query.orderBy("createdAt", "desc").execute();
 
 		return results as unknown as CustomerTrackingLinks[];
 	},
@@ -35,8 +36,8 @@ export const DmsQuery: Pick<
 			.selectFrom("dms.customerTrackingLinks")
 			.selectAll()
 			.where("id", "=", args.id)
-			.executeTakeFirstOrThrow();
+			.executeTakeFirst();
 
-		return result as unknown as CustomerTrackingLinks;
+		return (result as unknown as CustomerTrackingLinks) || null;
 	},
 };

@@ -41,6 +41,23 @@ type Opportunities {
 	salesOrders: [SalesOrders!]
 }
 
+type StageCount {
+	stage: String!
+	count: Int!
+}
+
+type StageRevenue {
+	stage: String!
+	revenue: Float!
+}
+
+type OpportunitiesAnalytics {
+	countByStage: [StageCount!]!
+	totalRevenueByStage: [StageRevenue!]!
+	winRate: Float!
+	averageDealSize: Float!
+}
+
 extend type CrmQuery {
 	opportunities(
 		page: Int
@@ -50,8 +67,17 @@ extend type CrmQuery {
 		search: String
 		stage: OpportunityStage
 		source: OpportunitySource
+		amountMin: Float
+		amountMax: Float
+		closeDateFrom: Date
+		closeDateTo: Date
+		companyId: ID
+		ownerId: ID
+		sortBy: String
+		sortDirection: String
 	): [Opportunities!]!
 	opportunity(id: ID!): Opportunities!
+	opportunitiesAnalytics: OpportunitiesAnalytics!
 }
 
 input CreateOpportunityInput {

@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
 	CrmOpportunitySource,
 	CrmOpportunityStage,
@@ -13,6 +14,66 @@ export const CrmMutation: Pick<
 	"createOpportunity" | "updateOpportunity"
 > = {
 	createOpportunity: async (_, args, ctx) => {
+		// Validate required fields
+		if (!args.value.name || args.value.name.trim().length === 0) {
+			throw new GraphQLError("Opportunity name is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
+		}
+
+		if (!args.value.stage) {
+			throw new GraphQLError("Opportunity stage is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
+		}
+
+		if (!args.value.companyId) {
+			throw new GraphQLError("Company ID is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
+		}
+
+		if (!args.value.contactId) {
+			throw new GraphQLError("Contact ID is required", {
+				extensions: { code: "VALIDATION_ERROR" },
+			});
+		}
+
+		// Validate amount (dealValue must be greater than 0 if provided)
+		if (args.value.dealValue !== undefined && args.value.dealValue !== null) {
+			if (args.value.dealValue <= 0) {
+				throw new GraphQLError("Deal value must be greater than 0", {
+					extensions: { code: "VALIDATION_ERROR" },
+				});
+			}
+		}
+
+		// Validate FK: company exists
+		const company = await ctx.db
+			.selectFrom("crm.companies")
+			.select("id")
+			.where("id", "=", args.value.companyId)
+			.executeTakeFirst();
+
+		if (!company) {
+			throw new GraphQLError("Company not found", {
+				extensions: { code: "NOT_FOUND" },
+			});
+		}
+
+		// Validate FK: contact exists
+		const contact = await ctx.db
+			.selectFrom("crm.contacts")
+			.select("id")
+			.where("id", "=", args.value.contactId)
+			.executeTakeFirst();
+
+		if (!contact) {
+			throw new GraphQLError("Contact not found", {
+				extensions: { code: "NOT_FOUND" },
+			});
+		}
+
 		const trx = await ctx.db.startTransaction().execute();
 
 		const { products, ...rest } = args.value;
@@ -75,7 +136,22 @@ export const CrmMutation: Pick<
 			.selectFrom("crm.opportunities")
 			.selectAll()
 			.where("id", "=", args.id)
-			.executeTakeFirstOrThrow();
+			.executeTakeFirst();
+
+		if (!previousOpportunity) {
+			throw new GraphQLError("Opportunity not found", {
+				extensions: { code: "NOT_FOUND" },
+			});
+		}
+
+		// Validate amount if provided (dealValue must be greater than 0)
+		if (payload.dealValue !== undefined && payload.dealValue !== null) {
+			if (payload.dealValue <= 0) {
+				throw new GraphQLError("Deal value must be greater than 0", {
+					extensions: { code: "VALIDATION_ERROR" },
+				});
+			}
+		}
 
 		const updatedOpportunity = await trx
 			.updateTable("crm.opportunities")
@@ -85,9 +161,7 @@ export const CrmMutation: Pick<
 				source: payload.source
 					? CrmOpportunitySource[payload.source]
 					: undefined,
-				stage: args.value.stage
-					? CrmOpportunityStage[args.value.stage]
-					: undefined,
+				stage: payload.stage ? CrmOpportunityStage[payload.stage] : undefined,
 			})
 			.where("id", "=", args.id)
 			.returningAll()
@@ -96,9 +170,9 @@ export const CrmMutation: Pick<
 		await trx.commit().execute();
 
 		if (updatedOpportunity) {
-			// Publish stage changed event
-			if (args.value.stage && args.value.stage !== previousOpportunity.stage) {
-				const newStage = CrmOpportunityStage[args.value.stage];
+			// Publish stage changed event - use payload.stage instead of args.value.stage
+			if (payload.stage && payload.stage !== previousOpportunity.stage) {
+				const newStage = CrmOpportunityStage[payload.stage];
 
 				await ctx.pubsub.publish("crm.opportunity.stageChanged", {
 					id: updatedOpportunity.id,

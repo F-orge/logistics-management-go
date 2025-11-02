@@ -4,6 +4,9 @@ APP_NAME := `cat package.json | jq -r '.name'`
 APP_VERSION := `cat package.json | jq -r '.version'`
 ORG_NAME := 'f-orge'
 
+lint:
+  bun biome check --fix
+
 dev-backend:
   bun --filter @apps/backend dev
 

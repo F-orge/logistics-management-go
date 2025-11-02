@@ -1739,6 +1739,7 @@ export type CrmQuery = {
 	notification: Notifications;
 	notifications: Array<Notifications>;
 	opportunities: Array<Opportunities>;
+	opportunitiesAnalytics: OpportunitiesAnalytics;
 	opportunity: Opportunities;
 	product: Products;
 	products: Array<Products>;
@@ -1773,11 +1774,15 @@ export type CrmQuerycaseArgs = {
 };
 
 export type CrmQuerycasesArgs = {
+	active?: InputMaybe<Scalars["Boolean"]["input"]>;
+	assignedTo?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	priority?: InputMaybe<CasePriority>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	status?: InputMaybe<CaseStatus>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 	type?: InputMaybe<CaseType>;
@@ -1800,10 +1805,15 @@ export type CrmQuerycontactArgs = {
 };
 
 export type CrmQuerycontactsArgs = {
+	companyId?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
+	jobTitle?: InputMaybe<Scalars["String"]["input"]>;
+	ownerId?: InputMaybe<Scalars["ID"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 };
 
@@ -1812,11 +1822,15 @@ export type CrmQueryinteractionArgs = {
 };
 
 export type CrmQueryinteractionsArgs = {
+	contactId?: InputMaybe<Scalars["ID"]["input"]>;
+	createdBy?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	interactionType?: InputMaybe<InteractionType>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 };
 
@@ -1844,6 +1858,8 @@ export type CrmQueryleadsArgs = {
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<SortDirection>;
 	status?: InputMaybe<LeadStatus>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 };
@@ -1861,10 +1877,18 @@ export type CrmQuerynotificationsArgs = {
 };
 
 export type CrmQueryopportunitiesArgs = {
+	amountMax?: InputMaybe<Scalars["Float"]["input"]>;
+	amountMin?: InputMaybe<Scalars["Float"]["input"]>;
+	closeDateFrom?: InputMaybe<Scalars["Date"]["input"]>;
+	closeDateTo?: InputMaybe<Scalars["Date"]["input"]>;
+	companyId?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
+	ownerId?: InputMaybe<Scalars["ID"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	source?: InputMaybe<OpportunitySource>;
 	stage?: InputMaybe<OpportunityStage>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
@@ -2695,6 +2719,14 @@ export type Opportunities = {
 	updatedAt?: Maybe<Scalars["Date"]["output"]>;
 };
 
+export type OpportunitiesAnalytics = {
+	__typename?: "OpportunitiesAnalytics";
+	averageDealSize: Scalars["Float"]["output"];
+	countByStage: Array<StageCount>;
+	totalRevenueByStage: Array<StageRevenue>;
+	winRate: Scalars["Float"]["output"];
+};
+
 export type OpportunityProducts = {
 	__typename?: "OpportunityProducts";
 	id: Scalars["ID"]["output"];
@@ -3259,6 +3291,20 @@ export type ShipmentLegs = {
 	startLocation?: Maybe<Scalars["String"]["output"]>;
 	status?: Maybe<ShipmentLegStatus>;
 	updatedAt?: Maybe<Scalars["Date"]["output"]>;
+};
+
+export type SortDirection = "ASC" | "DESC";
+
+export type StageCount = {
+	__typename?: "StageCount";
+	count: Scalars["Int"]["output"];
+	stage: Scalars["String"]["output"];
+};
+
+export type StageRevenue = {
+	__typename?: "StageRevenue";
+	revenue: Scalars["Float"]["output"];
+	stage: Scalars["String"]["output"];
 };
 
 export type StockTransferStatus =
@@ -6644,6 +6690,7 @@ export type ResolversTypes = {
 			stage?: Maybe<ResolversTypes["OpportunityStage"]>;
 		}
 	>;
+	OpportunitiesAnalytics: ResolverTypeWrapper<OpportunitiesAnalytics>;
 	OpportunityProducts: ResolverTypeWrapper<
 		Omit<OpportunityProducts, "opportunity" | "product"> & {
 			opportunity: ResolversTypes["Opportunities"];
@@ -6988,6 +7035,9 @@ export type ResolversTypes = {
 			status?: Maybe<ResolversTypes["ShipmentLegStatus"]>;
 		}
 	>;
+	SortDirection: ResolverTypeWrapper<"ASC" | "DESC">;
+	StageCount: ResolverTypeWrapper<StageCount>;
+	StageRevenue: ResolverTypeWrapper<StageRevenue>;
 	StockTransferStatus: ResolverTypeWrapper<
 		"PENDING" | "IN_TRANSIT" | "RECEIVED" | "CANCELLED"
 	>;
@@ -8345,6 +8395,7 @@ export type ResolversParentTypes = {
 		products?: Maybe<Array<ResolversParentTypes["OpportunityProducts"]>>;
 		salesOrders?: Maybe<Array<ResolversParentTypes["SalesOrders"]>>;
 	};
+	OpportunitiesAnalytics: OpportunitiesAnalytics;
 	OpportunityProducts: Omit<OpportunityProducts, "opportunity" | "product"> & {
 		opportunity: ResolversParentTypes["Opportunities"];
 		product: ResolversParentTypes["Products"];
@@ -8494,6 +8545,8 @@ export type ResolversParentTypes = {
 		>;
 		shipment?: Maybe<ResolversParentTypes["OutboundShipments"]>;
 	};
+	StageCount: StageCount;
+	StageRevenue: StageRevenue;
 	StockTransfers: Omit<
 		StockTransfers,
 		"destinationWarehouse" | "product" | "sourceWarehouse"
@@ -10534,6 +10587,11 @@ export type CrmQueryResolvers<
 		ContextType,
 		Partial<CrmQueryopportunitiesArgs>
 	>;
+	opportunitiesAnalytics?: Resolver<
+		ResolversTypes["OpportunitiesAnalytics"],
+		ParentType,
+		ContextType
+	>;
 	opportunity?: Resolver<
 		ResolversTypes["Opportunities"],
 		ParentType,
@@ -12147,6 +12205,25 @@ export type OpportunitiesResolvers<
 	updatedAt?: Resolver<Maybe<ResolversTypes["Date"]>, ParentType, ContextType>;
 };
 
+export type OpportunitiesAnalyticsResolvers<
+	ContextType = GraphQLContext,
+	ParentType extends
+		ResolversParentTypes["OpportunitiesAnalytics"] = ResolversParentTypes["OpportunitiesAnalytics"],
+> = {
+	averageDealSize?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+	countByStage?: Resolver<
+		Array<ResolversTypes["StageCount"]>,
+		ParentType,
+		ContextType
+	>;
+	totalRevenueByStage?: Resolver<
+		Array<ResolversTypes["StageRevenue"]>,
+		ParentType,
+		ContextType
+	>;
+	winRate?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+};
+
 export type OpportunityProductsResolvers<
 	ContextType = GraphQLContext,
 	ParentType extends
@@ -13308,6 +13385,29 @@ export type ShipmentLegsResolvers<
 		ContextType
 	>;
 	updatedAt?: Resolver<Maybe<ResolversTypes["Date"]>, ParentType, ContextType>;
+};
+
+export type SortDirectionResolvers = EnumResolverSignature<
+	{ ASC?: any; DESC?: any },
+	ResolversTypes["SortDirection"]
+>;
+
+export type StageCountResolvers<
+	ContextType = GraphQLContext,
+	ParentType extends
+		ResolversParentTypes["StageCount"] = ResolversParentTypes["StageCount"],
+> = {
+	count?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+	stage?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+};
+
+export type StageRevenueResolvers<
+	ContextType = GraphQLContext,
+	ParentType extends
+		ResolversParentTypes["StageRevenue"] = ResolversParentTypes["StageRevenue"],
+> = {
+	revenue?: Resolver<ResolversTypes["Float"], ParentType, ContextType>;
+	stage?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
 };
 
 export type StockTransferStatusResolvers = EnumResolverSignature<
@@ -16493,6 +16593,7 @@ export type Resolvers<ContextType = GraphQLContext> = {
 	Mutation?: MutationResolvers<ContextType>;
 	Notifications?: NotificationsResolvers<ContextType>;
 	Opportunities?: OpportunitiesResolvers<ContextType>;
+	OpportunitiesAnalytics?: OpportunitiesAnalyticsResolvers<ContextType>;
 	OpportunityProducts?: OpportunityProductsResolvers<ContextType>;
 	OpportunitySource?: OpportunitySourceResolvers;
 	OpportunityStage?: OpportunityStageResolvers;
@@ -16546,6 +16647,9 @@ export type Resolvers<ContextType = GraphQLContext> = {
 	ShipmentLegEvents?: ShipmentLegEventsResolvers<ContextType>;
 	ShipmentLegStatus?: ShipmentLegStatusResolvers;
 	ShipmentLegs?: ShipmentLegsResolvers<ContextType>;
+	SortDirection?: SortDirectionResolvers;
+	StageCount?: StageCountResolvers<ContextType>;
+	StageRevenue?: StageRevenueResolvers<ContextType>;
 	StockTransferStatus?: StockTransferStatusResolvers;
 	StockTransfers?: StockTransfersResolvers<ContextType>;
 	Subscription?: SubscriptionResolvers<ContextType>;

@@ -1335,11 +1335,15 @@ type CrmQuery {
 	): [Campaigns!]!
 	case(id: ID!): Cases!
 	cases(
+		active: Boolean
+		assignedTo: ID
 		from: Date
 		page: Int
 		perPage: Int
 		priority: CasePriority
 		search: String
+		sortBy: String
+		sortDirection: String
 		status: CaseStatus
 		to: Date
 		type: CaseType
@@ -1354,19 +1358,28 @@ type CrmQuery {
 	company(id: ID!): Companies!
 	contact(id: ID!): Contacts!
 	contacts(
+		companyId: ID
 		from: Date
+		jobTitle: String
+		ownerId: ID
 		page: Int
 		perPage: Int
 		search: String
+		sortBy: String
+		sortDirection: String
 		to: Date
 	): [Contacts!]!
 	interaction(id: ID!): Interactions!
 	interactions(
+		contactId: ID
+		createdBy: ID
 		from: Date
 		interactionType: InteractionType
 		page: Int
 		perPage: Int
 		search: String
+		sortBy: String
+		sortDirection: String
 		to: Date
 	): [Interactions!]!
 	invoice(id: ID!): Invoices!
@@ -1386,6 +1399,8 @@ type CrmQuery {
 		page: Int
 		perPage: Int
 		search: String
+		sortBy: String
+		sortDirection: SortDirection
 		status: LeadStatus
 		to: Date
 	): [Leads!]!
@@ -1398,14 +1413,23 @@ type CrmQuery {
 		to: Date
 	): [Notifications!]!
 	opportunities(
+		amountMax: Float
+		amountMin: Float
+		closeDateFrom: Date
+		closeDateTo: Date
+		companyId: ID
 		from: Date
+		ownerId: ID
 		page: Int
 		perPage: Int
 		search: String
+		sortBy: String
+		sortDirection: String
 		source: OpportunitySource
 		stage: OpportunityStage
 		to: Date
 	): [Opportunities!]!
+	opportunitiesAnalytics: OpportunitiesAnalytics!
 	opportunity(id: ID!): Opportunities!
 	product(id: ID!): Products!
 	products(
@@ -2152,6 +2176,13 @@ type Opportunities {
 	updatedAt: Date
 }
 
+type OpportunitiesAnalytics {
+	averageDealSize: Float!
+	countByStage: [StageCount!]!
+	totalRevenueByStage: [StageRevenue!]!
+	winRate: Float!
+}
+
 type OpportunityProducts {
 	id: ID!
 	opportunity: Opportunities!
@@ -2711,6 +2742,21 @@ type ShipmentLegs {
 	startLocation: String
 	status: ShipmentLegStatus
 	updatedAt: Date
+}
+
+enum SortDirection {
+	ASC
+	DESC
+}
+
+type StageCount {
+	count: Int!
+	stage: String!
+}
+
+type StageRevenue {
+	revenue: Float!
+	stage: String!
 }
 
 enum StockTransferStatus {

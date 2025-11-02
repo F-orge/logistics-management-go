@@ -16167,6 +16167,30 @@
 						"description": null,
 						"args": [
 							{
+								"name": "active",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Boolean",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "assignedTo",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "from",
 								"description": null,
 								"type": {
@@ -16216,6 +16240,30 @@
 							},
 							{
 								"name": "search",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortBy",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortDirection",
 								"description": null,
 								"type": {
 									"kind": "SCALAR",
@@ -16439,11 +16487,47 @@
 						"description": null,
 						"args": [
 							{
+								"name": "companyId",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "from",
 								"description": null,
 								"type": {
 									"kind": "SCALAR",
 									"name": "Date",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "jobTitle",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "ownerId",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
 									"ofType": null
 								},
 								"defaultValue": null,
@@ -16476,6 +16560,30 @@
 							},
 							{
 								"name": "search",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortBy",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortDirection",
 								"description": null,
 								"type": {
 									"kind": "SCALAR",
@@ -16557,6 +16665,30 @@
 						"description": null,
 						"args": [
 							{
+								"name": "contactId",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "createdBy",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "from",
 								"description": null,
 								"type": {
@@ -16606,6 +16738,30 @@
 							},
 							{
 								"name": "search",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortBy",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortDirection",
 								"description": null,
 								"type": {
 									"kind": "SCALAR",
@@ -16889,6 +17045,30 @@
 								"deprecationReason": null
 							},
 							{
+								"name": "sortBy",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortDirection",
+								"description": null,
+								"type": {
+									"kind": "ENUM",
+									"name": "SortDirection",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "status",
 								"description": null,
 								"type": {
@@ -17056,11 +17236,83 @@
 						"description": null,
 						"args": [
 							{
+								"name": "amountMax",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Float",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "amountMin",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Float",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "closeDateFrom",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Date",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "closeDateTo",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "Date",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "companyId",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
 								"name": "from",
 								"description": null,
 								"type": {
 									"kind": "SCALAR",
 									"name": "Date",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "ownerId",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "ID",
 									"ofType": null
 								},
 								"defaultValue": null,
@@ -17093,6 +17345,30 @@
 							},
 							{
 								"name": "search",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortBy",
+								"description": null,
+								"type": {
+									"kind": "SCALAR",
+									"name": "String",
+									"ofType": null
+								},
+								"defaultValue": null,
+								"isDeprecated": false,
+								"deprecationReason": null
+							},
+							{
+								"name": "sortDirection",
 								"description": null,
 								"type": {
 									"kind": "SCALAR",
@@ -17155,6 +17431,22 @@
 										"ofType": null
 									}
 								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "opportunitiesAnalytics",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "OBJECT",
+								"name": "OpportunitiesAnalytics",
+								"ofType": null
 							}
 						},
 						"isDeprecated": false,
@@ -24956,6 +25248,98 @@
 			},
 			{
 				"kind": "OBJECT",
+				"name": "OpportunitiesAnalytics",
+				"description": null,
+				"isOneOf": null,
+				"fields": [
+					{
+						"name": "averageDealSize",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Float",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "countByStage",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "LIST",
+								"name": null,
+								"ofType": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "OBJECT",
+										"name": "StageCount",
+										"ofType": null
+									}
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "totalRevenueByStage",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "LIST",
+								"name": null,
+								"ofType": {
+									"kind": "NON_NULL",
+									"name": null,
+									"ofType": {
+										"kind": "OBJECT",
+										"name": "StageRevenue",
+										"ofType": null
+									}
+								}
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "winRate",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Float",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
 				"name": "OpportunityProducts",
 				"description": null,
 				"isOneOf": null,
@@ -30282,6 +30666,118 @@
 							"kind": "SCALAR",
 							"name": "Date",
 							"ofType": null
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "ENUM",
+				"name": "SortDirection",
+				"description": null,
+				"isOneOf": null,
+				"fields": null,
+				"inputFields": null,
+				"interfaces": null,
+				"enumValues": [
+					{
+						"name": "ASC",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "DESC",
+						"description": null,
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
+				"name": "StageCount",
+				"description": null,
+				"isOneOf": null,
+				"fields": [
+					{
+						"name": "count",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Int",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "stage",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					}
+				],
+				"inputFields": null,
+				"interfaces": [],
+				"enumValues": null,
+				"possibleTypes": null
+			},
+			{
+				"kind": "OBJECT",
+				"name": "StageRevenue",
+				"description": null,
+				"isOneOf": null,
+				"fields": [
+					{
+						"name": "revenue",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "Float",
+								"ofType": null
+							}
+						},
+						"isDeprecated": false,
+						"deprecationReason": null
+					},
+					{
+						"name": "stage",
+						"description": null,
+						"args": [],
+						"type": {
+							"kind": "NON_NULL",
+							"name": null,
+							"ofType": {
+								"kind": "SCALAR",
+								"name": "String",
+								"ofType": null
+							}
 						},
 						"isDeprecated": false,
 						"deprecationReason": null

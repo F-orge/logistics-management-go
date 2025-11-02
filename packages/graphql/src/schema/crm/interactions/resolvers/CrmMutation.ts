@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { CrmInteractionType } from "../../../../db.types";
 import {
 	CreateInteractionInputSchema,
@@ -11,6 +12,33 @@ export const CrmMutation: Pick<
 > = {
 	createInteraction: async (_parent, args, ctx) => {
 		const payload = CreateInteractionInputSchema().parse(args.value);
+
+		// Validate contact exists
+		const contact = await ctx.db
+			.selectFrom("crm.contacts")
+			.select("id")
+			.where("id", "=", payload.contactId)
+			.executeTakeFirst();
+
+		if (!contact) {
+			throw new GraphQLError("Contact not found", {
+				extensions: {
+					code: "NOT_FOUND",
+				},
+			});
+		}
+
+		// Validate interaction type if provided
+		if (payload.type) {
+			const validTypes = Object.values(CrmInteractionType);
+			if (!validTypes.includes(CrmInteractionType[payload.type])) {
+				throw new GraphQLError("Invalid interaction type", {
+					extensions: {
+						code: "VALIDATION_ERROR",
+					},
+				});
+			}
+		}
 
 		const result = await ctx.db
 			.insertInto("crm.interactions")

@@ -48,6 +48,10 @@ extend type CrmQuery {
 		status: CaseStatus
 		priority: CasePriority
 		type: CaseType
+		active: Boolean
+		assignedTo: ID
+		sortBy: String
+		sortDirection: String
 	): [Cases!]!
 	case(id: ID!): Cases!
 }

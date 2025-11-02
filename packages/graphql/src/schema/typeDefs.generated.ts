@@ -11361,6 +11361,39 @@ export const typeDefs = {
 							},
 							directives: [],
 						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "active" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Boolean" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "assignedTo" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortBy" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortDirection" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
 					],
 					type: {
 						kind: "NonNullType",
@@ -11528,6 +11561,45 @@ export const typeDefs = {
 							},
 							directives: [],
 						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "companyId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "jobTitle" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "ownerId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortBy" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortDirection" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
 					],
 					type: {
 						kind: "NonNullType",
@@ -11619,6 +11691,36 @@ export const typeDefs = {
 							type: {
 								kind: "NamedType",
 								name: { kind: "Name", value: "InteractionType" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "contactId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "createdBy" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortBy" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortDirection" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
 							},
 							directives: [],
 						},
@@ -11828,6 +11930,24 @@ export const typeDefs = {
 							},
 							directives: [],
 						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortBy" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortDirection" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "SortDirection" },
+							},
+							directives: [],
+						},
 					],
 					type: {
 						kind: "NonNullType",
@@ -12013,6 +12133,72 @@ export const typeDefs = {
 							},
 							directives: [],
 						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "amountMin" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Float" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "amountMax" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Float" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "closeDateFrom" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Date" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "closeDateTo" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Date" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "companyId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "ownerId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortBy" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "sortDirection" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "String" },
+							},
+							directives: [],
+						},
 					],
 					type: {
 						kind: "NonNullType",
@@ -12051,6 +12237,19 @@ export const typeDefs = {
 						type: {
 							kind: "NamedType",
 							name: { kind: "Name", value: "Opportunities" },
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "opportunitiesAnalytics" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "NamedType",
+							name: { kind: "Name", value: "OpportunitiesAnalytics" },
 						},
 					},
 					directives: [],
@@ -15666,6 +15865,23 @@ export const typeDefs = {
 			],
 		},
 		{
+			kind: "EnumTypeDefinition",
+			name: { kind: "Name", value: "SortDirection" },
+			directives: [],
+			values: [
+				{
+					kind: "EnumValueDefinition",
+					name: { kind: "Name", value: "ASC" },
+					directives: [],
+				},
+				{
+					kind: "EnumValueDefinition",
+					name: { kind: "Name", value: "DESC" },
+					directives: [],
+				},
+			],
+		},
+		{
 			kind: "ObjectTypeDefinition",
 			name: { kind: "Name", value: "Leads" },
 			interfaces: [],
@@ -16509,6 +16725,134 @@ export const typeDefs = {
 								name: { kind: "Name", value: "SalesOrders" },
 							},
 						},
+					},
+					directives: [],
+				},
+			],
+		},
+		{
+			kind: "ObjectTypeDefinition",
+			name: { kind: "Name", value: "StageCount" },
+			interfaces: [],
+			directives: [],
+			fields: [
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "stage" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "NamedType",
+							name: { kind: "Name", value: "String" },
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "count" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+					},
+					directives: [],
+				},
+			],
+		},
+		{
+			kind: "ObjectTypeDefinition",
+			name: { kind: "Name", value: "StageRevenue" },
+			interfaces: [],
+			directives: [],
+			fields: [
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "stage" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "NamedType",
+							name: { kind: "Name", value: "String" },
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "revenue" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: { kind: "NamedType", name: { kind: "Name", value: "Float" } },
+					},
+					directives: [],
+				},
+			],
+		},
+		{
+			kind: "ObjectTypeDefinition",
+			name: { kind: "Name", value: "OpportunitiesAnalytics" },
+			interfaces: [],
+			directives: [],
+			fields: [
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "countByStage" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "ListType",
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "StageCount" },
+								},
+							},
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "totalRevenueByStage" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "ListType",
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "StageRevenue" },
+								},
+							},
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "winRate" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: { kind: "NamedType", name: { kind: "Name", value: "Float" } },
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "averageDealSize" },
+					arguments: [],
+					type: {
+						kind: "NonNullType",
+						type: { kind: "NamedType", name: { kind: "Name", value: "Float" } },
 					},
 					directives: [],
 				},

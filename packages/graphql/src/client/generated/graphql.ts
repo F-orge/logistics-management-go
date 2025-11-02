@@ -1738,6 +1738,7 @@ export type CrmQuery = {
 	notification: Notifications;
 	notifications: Array<Notifications>;
 	opportunities: Array<Opportunities>;
+	opportunitiesAnalytics: OpportunitiesAnalytics;
 	opportunity: Opportunities;
 	product: Products;
 	products: Array<Products>;
@@ -1772,11 +1773,15 @@ export type CrmQueryCaseArgs = {
 };
 
 export type CrmQueryCasesArgs = {
+	active?: InputMaybe<Scalars["Boolean"]["input"]>;
+	assignedTo?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	priority?: InputMaybe<CasePriority>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	status?: InputMaybe<CaseStatus>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 	type?: InputMaybe<CaseType>;
@@ -1799,10 +1804,15 @@ export type CrmQueryContactArgs = {
 };
 
 export type CrmQueryContactsArgs = {
+	companyId?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
+	jobTitle?: InputMaybe<Scalars["String"]["input"]>;
+	ownerId?: InputMaybe<Scalars["ID"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 };
 
@@ -1811,11 +1821,15 @@ export type CrmQueryInteractionArgs = {
 };
 
 export type CrmQueryInteractionsArgs = {
+	contactId?: InputMaybe<Scalars["ID"]["input"]>;
+	createdBy?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	interactionType?: InputMaybe<InteractionType>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 };
 
@@ -1843,6 +1857,8 @@ export type CrmQueryLeadsArgs = {
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<SortDirection>;
 	status?: InputMaybe<LeadStatus>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
 };
@@ -1860,10 +1876,18 @@ export type CrmQueryNotificationsArgs = {
 };
 
 export type CrmQueryOpportunitiesArgs = {
+	amountMax?: InputMaybe<Scalars["Float"]["input"]>;
+	amountMin?: InputMaybe<Scalars["Float"]["input"]>;
+	closeDateFrom?: InputMaybe<Scalars["Date"]["input"]>;
+	closeDateTo?: InputMaybe<Scalars["Date"]["input"]>;
+	companyId?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
+	ownerId?: InputMaybe<Scalars["ID"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
+	sortBy?: InputMaybe<Scalars["String"]["input"]>;
+	sortDirection?: InputMaybe<Scalars["String"]["input"]>;
 	source?: InputMaybe<OpportunitySource>;
 	stage?: InputMaybe<OpportunityStage>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
@@ -2739,6 +2763,14 @@ export type Opportunities = {
 	updatedAt?: Maybe<Scalars["Date"]["output"]>;
 };
 
+export type OpportunitiesAnalytics = {
+	__typename?: "OpportunitiesAnalytics";
+	averageDealSize: Scalars["Float"]["output"];
+	countByStage: Array<StageCount>;
+	totalRevenueByStage: Array<StageRevenue>;
+	winRate: Scalars["Float"]["output"];
+};
+
 export type OpportunityProducts = {
 	__typename?: "OpportunityProducts";
 	id: Scalars["ID"]["output"];
@@ -3331,6 +3363,23 @@ export type ShipmentLegs = {
 	startLocation?: Maybe<Scalars["String"]["output"]>;
 	status?: Maybe<ShipmentLegStatus>;
 	updatedAt?: Maybe<Scalars["Date"]["output"]>;
+};
+
+export enum SortDirection {
+	Asc = "ASC",
+	Desc = "DESC",
+}
+
+export type StageCount = {
+	__typename?: "StageCount";
+	count: Scalars["Int"]["output"];
+	stage: Scalars["String"]["output"];
+};
+
+export type StageRevenue = {
+	__typename?: "StageRevenue";
+	revenue: Scalars["Float"]["output"];
+	stage: Scalars["String"]["output"];
 };
 
 export enum StockTransferStatus {

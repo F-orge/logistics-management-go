@@ -17,6 +17,11 @@ extend type CrmQuery {
 		from: Date
 		to: Date
 		search: String
+		companyId: ID
+		jobTitle: String
+		ownerId: ID
+		sortBy: String
+		sortDirection: String
 	): [Contacts!]!
 	contact(id: ID!): Contacts!
 }

@@ -1,7 +1,11 @@
+import { GraphQLError } from "graphql";
 import { CrmLeadSource, CrmLeadStatus } from "../../../../db.types";
-import { CreateLeadInputSchema, type Leads } from "../../../../zod.schema";
+import {
+	CreateLeadInputSchema,
+	type Leads,
+	UpdateLeadInputSchema,
+} from "../../../../zod.schema";
 import type { CrmMutationResolvers } from "./../../../types.generated";
-
 export const CrmMutation: Pick<
 	CrmMutationResolvers,
 	"createLead" | "removeLead" | "updateLead"
@@ -30,7 +34,7 @@ export const CrmMutation: Pick<
 		return result as unknown as Leads;
 	},
 	updateLead: async (_parent, args, ctx) => {
-		const payload = CreateLeadInputSchema().parse(args.value);
+		const payload = UpdateLeadInputSchema().parse(args.value);
 
 		const trx = await ctx.db.startTransaction().execute();
 
@@ -57,7 +61,10 @@ export const CrmMutation: Pick<
 		await trx.commit().execute();
 
 		// Publish status changed event
-		if (payload.status && payload.status !== previousLead.status) {
+		if (
+			payload.status &&
+			CrmLeadStatus[payload.status] !== previousLead.status
+		) {
 			await ctx.pubsub.publish("crm.lead.statusChanged", {
 				id: result.id,
 				newStatus: result.status as CrmLeadStatus,
@@ -73,9 +80,11 @@ export const CrmMutation: Pick<
 			.where("id", "=", args.id)
 			.executeTakeFirstOrThrow();
 
+		const deletedRows = Number(result.numDeletedRows.toString());
+
 		return {
-			success: true,
-			numDeletedRows: Number(result.numDeletedRows.toString()),
+			success: deletedRows > 1,
+			numDeletedRows: deletedRows,
 		};
 	},
 };

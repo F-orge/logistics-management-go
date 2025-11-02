@@ -15,8 +15,6 @@ export const DmsQuery: Pick<
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
@@ -35,7 +33,7 @@ export const DmsQuery: Pick<
 			);
 		}
 
-		const results = await query.execute();
+		const results = await query.orderBy("routeDate", "desc").execute();
 
 		return results as unknown as DeliveryRoutes[];
 	},
@@ -44,7 +42,7 @@ export const DmsQuery: Pick<
 			.selectFrom("dms.deliveryRoutes")
 			.selectAll()
 			.where("id", "=", args.id)
-			.executeTakeFirst();
+			.executeTakeFirstOrThrow();
 
 		return result as unknown as DeliveryRoutes;
 	},

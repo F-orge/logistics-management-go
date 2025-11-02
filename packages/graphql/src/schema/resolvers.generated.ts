@@ -157,6 +157,9 @@ import { CrmMutation as opportunities_CrmMutation } from "./crm/opportunities/re
 import { CrmOpportunityStageChangedEvent } from "./crm/opportunities/resolvers/CrmOpportunityStageChangedEvent";
 import { CrmQuery as opportunities_CrmQuery } from "./crm/opportunities/resolvers/CrmQuery";
 import { Opportunities } from "./crm/opportunities/resolvers/Opportunities";
+import { OpportunitiesAnalytics } from "./crm/opportunities/resolvers/OpportunitiesAnalytics";
+import { StageCount } from "./crm/opportunities/resolvers/StageCount";
+import { StageRevenue } from "./crm/opportunities/resolvers/StageRevenue";
 import { opportunityLost as Subscription_opportunityLost } from "./crm/opportunities/resolvers/Subscription/opportunityLost";
 import { opportunityStageChanged as Subscription_opportunityStageChanged } from "./crm/opportunities/resolvers/Subscription/opportunityStageChanged";
 import { opportunityWon as Subscription_opportunityWon } from "./crm/opportunities/resolvers/Subscription/opportunityWon";
@@ -708,6 +711,7 @@ export const resolvers: Resolvers = {
 	Locations: Locations,
 	Notifications: Notifications,
 	Opportunities: Opportunities,
+	OpportunitiesAnalytics: OpportunitiesAnalytics,
 	OpportunityProducts: OpportunityProducts,
 	OutboundShipmentItems: OutboundShipmentItems,
 	OutboundShipments: OutboundShipments,
@@ -740,6 +744,8 @@ export const resolvers: Resolvers = {
 	ShipmentCreatedFromPaymentEvent: ShipmentCreatedFromPaymentEvent,
 	ShipmentLegEvents: ShipmentLegEvents,
 	ShipmentLegs: ShipmentLegs,
+	StageCount: StageCount,
+	StageRevenue: StageRevenue,
 	StockTransfers: StockTransfers,
 	Suppliers: Suppliers,
 	SurchargeDeactivatedEvent: SurchargeDeactivatedEvent,

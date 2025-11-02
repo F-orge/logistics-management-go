@@ -14,13 +14,11 @@ export const DmsQuery: Pick<
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
 
-		const results = await query.execute();
+		const results = await query.orderBy("timestamp", "desc").execute();
 
 		return results as unknown as DriverLocations[];
 	},
@@ -31,6 +29,6 @@ export const DmsQuery: Pick<
 			.where("id", "=", args.id)
 			.executeTakeFirst();
 
-		return result as unknown as DriverLocations;
+		return (result as unknown as DriverLocations) || null;
 	},
 };

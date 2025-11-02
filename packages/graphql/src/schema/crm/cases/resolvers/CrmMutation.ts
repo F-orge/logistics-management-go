@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import {
 	CrmCasePriority,
 	CrmCaseStatus,
@@ -16,6 +17,23 @@ export const CrmMutation: Pick<
 > = {
 	createCase: async (_parent, args, ctx) => {
 		const payload = CreateCaseInputSchema().parse(args.value);
+
+		// Validate contact exists if contactId is provided
+		if (payload.contactId) {
+			const contact = await ctx.db
+				.selectFrom("crm.contacts")
+				.select("id")
+				.where("id", "=", payload.contactId)
+				.executeTakeFirst();
+
+			if (!contact) {
+				throw new GraphQLError("Contact not found", {
+					extensions: {
+						code: "NOT_FOUND",
+					},
+				});
+			}
+		}
 
 		const result = await ctx.db
 			.insertInto("crm.cases")

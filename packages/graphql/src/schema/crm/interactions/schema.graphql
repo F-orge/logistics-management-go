@@ -33,6 +33,10 @@ extend type CrmQuery {
 		to: Date
 		search: String
 		interactionType: InteractionType
+		contactId: ID
+		createdBy: ID
+		sortBy: String
+		sortDirection: String
 	): [Interactions!]!
 	interaction(id: ID!): Interactions!
 }

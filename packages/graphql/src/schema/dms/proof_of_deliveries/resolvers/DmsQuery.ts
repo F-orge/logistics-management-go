@@ -15,8 +15,6 @@ export const DmsQuery: Pick<
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
@@ -36,7 +34,7 @@ export const DmsQuery: Pick<
 			query = query.where("type", "=", DmsProofOfDeliveryTypeEnum[args.type]);
 		}
 
-		const results = await query.execute();
+		const results = await query.orderBy("createdAt", "desc").execute();
 
 		return results as unknown as DmsProofOfDeliveries[];
 	},
@@ -47,6 +45,6 @@ export const DmsQuery: Pick<
 			.where("id", "=", args.id)
 			.executeTakeFirst();
 
-		return result as unknown as DmsProofOfDeliveries;
+		return (result as unknown as DmsProofOfDeliveries) || null;
 	},
 };
