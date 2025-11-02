@@ -43,19 +43,19 @@ jobs:
           - 1025:1025
           - 8025:8025
 
-      minio:
-        image: minio/minio:latest
-        env:
-          MINIO_ROOT_USER: minioadmin
-          MINIO_ROOT_PASSWORD: minioadmin
-        options: >-
-          --health-cmd "curl -f http://localhost:9000/minio/health/live"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 9000:9000
-        command: server /data
+       minio:
+         image: minio/minio:latest
+         env:
+           MINIO_ROOT_USER: minioadmin
+           MINIO_ROOT_PASSWORD: minioadmin
+         options: >-
+           --health-cmd "curl -f http://localhost:9000/minio/health/live"
+           --health-interval 10s
+           --health-timeout 5s
+           --health-retries 5
+           server /data
+         ports:
+           - 9000:9000
 
     steps:
       - name: Checkout code
