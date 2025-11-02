@@ -1,0 +1,76 @@
+enum TransactionType {
+	CREDIT
+	DEBIT
+	TOP_UP
+	REFUND
+	ADJUSTMENT
+	FEE
+}
+
+type AccountTransactions {
+	id: ID!
+	clientAccount: ClientAccounts!
+	type: TransactionType!
+	amount: Float!
+	runningBalance: Float
+	sourceRecordId: ID
+	sourceRecordType: String
+	description: String
+	referenceNumber: String
+	transactionDate: String
+	processedByUser: User
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type BillingQuery {
+	accountTransactions(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		type: TransactionType
+	): [AccountTransactions!]!
+	accountTransaction(id: ID!): AccountTransactions!
+}
+
+input CreateAccountTransactionInput {
+	clientAccountId: ID!
+	type: TransactionType!
+	amount: Float! @constraint(min: 0)
+	runningBalance: Float @constraint(min: 0)
+	sourceRecordId: ID
+	sourceRecordType: String @constraint(minLength: 1)
+	description: String @constraint(minLength: 1)
+	referenceNumber: String @constraint(minLength: 1)
+	transactionDate: String @constraint(minLength: 1)
+	processedByUserId: ID
+}
+
+extend type BillingMutation {
+	createAccountTransaction(
+		value: CreateAccountTransactionInput!
+	): AccountTransactions!
+}
+
+type TransactionDebitedEvent {
+	transactionId: ID!
+	clientId: ID!
+	amount: String!
+	invoiceId: ID!
+	runningBalance: String!
+}
+
+type TransactionCreditedEvent {
+	transactionId: ID!
+	clientId: ID!
+	amount: String!
+	paymentId: ID!
+	runningBalance: String!
+}
+
+extend type Subscription {
+	transactionDebited: TransactionDebitedEvent!
+	transactionCredited: TransactionCreditedEvent!
+}

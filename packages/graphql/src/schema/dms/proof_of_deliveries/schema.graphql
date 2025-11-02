@@ -1,0 +1,56 @@
+enum ProofOfDeliveryType {
+	SIGNATURE
+	PHOTO
+	CODE_VERIFICATION
+	CONTACTLESS_DELIVERY
+	LEFT_AT_DOOR
+}
+
+type DmsProofOfDeliveries {
+	id: ID!
+	deliveryTask: DeliveryTasks!
+	type: ProofOfDeliveryType!
+	filePath: String
+	signatureData: String
+	recipientName: String
+	verificationCode: String
+	latitude: Float
+	longitude: Float
+	timestamp: String
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type DmsQuery {
+	dmsProofOfDeliveries(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		type: ProofOfDeliveryType
+	): [DmsProofOfDeliveries!]!
+	dmsProofOfDelivery(id: ID!): DmsProofOfDeliveries!
+}
+
+input CreateDmsProofOfDeliveryInput {
+	deliveryTaskId: ID!
+	type: ProofOfDeliveryType!
+	file: File
+	signatureData: String @constraint(minLength: 1)
+	recipientName: String @constraint(minLength: 1)
+	verificationCode: String @constraint(minLength: 1)
+	latitude: Float @constraint(min: -90, max: 90)
+	longitude: Float @constraint(min: -180, max: 180)
+	timestamp: String @constraint(minLength: 1)
+}
+
+extend type DmsMutation {
+	createDmsProofOfDelivery(
+		value: CreateDmsProofOfDeliveryInput!
+	): DmsProofOfDeliveries!
+}
+
+extend type Subscription {
+	proofOfDeliveryRecorded: DmsProofOfDeliveries!
+}

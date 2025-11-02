@@ -1,0 +1,72 @@
+enum OutboundShipmentStatus {
+	PICKING
+	PACKED
+	SHIPPED
+	DELIVERED
+	CANCELLED
+}
+
+type OutboundShipments {
+	id: ID!
+	salesOrder: SalesOrders!
+	warehouseId: ID!
+	status: OutboundShipmentStatus
+	trackingNumber: String
+	carrier: String
+	createdAt: Date
+	updatedAt: Date
+	items: [OutboundShipmentItems!]
+}
+
+extend type WmsQuery {
+	outboundShipments(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: OutboundShipmentStatus
+	): [OutboundShipments!]!
+	outboundShipment(id: ID!): OutboundShipments!
+}
+
+input CreateOutboundShipmentInput {
+	salesOrderId: ID!
+	warehouseId: ID!
+	status: OutboundShipmentStatus
+	trackingNumber: String @constraint(minLength: 1)
+	carrier: String @constraint(minLength: 1)
+	items: [CreateOutboundShipmentItemInput!]!
+}
+
+input UpdateOutboundShipmentInput {
+	status: OutboundShipmentStatus
+	carrier: String @constraint(minLength: 1)
+}
+
+extend type WmsMutation {
+	createOutboundShipment(
+		value: CreateOutboundShipmentInput!
+	): OutboundShipments!
+	updateOutboundShipment(
+		id: ID!
+		value: UpdateOutboundShipmentInput
+	): OutboundShipments!
+	removeOutboundShipment(id: ID!): DeleteResult!
+}
+
+type WmsOutboundShipmentStatusChangedEvent {
+	id: ID!
+	newStatus: OutboundShipmentStatus!
+	previousStatus: OutboundShipmentStatus!
+	salesOrderId: ID!
+}
+
+extend type Subscription {
+	outboundShipmentCreated: OutboundShipments!
+	outboundShipmentStatusChanged: WmsOutboundShipmentStatusChangedEvent!
+	outboundShipmentPicking: OutboundShipments!
+	outboundShipmentPacked: OutboundShipments!
+	outboundShipmentShipped: OutboundShipments!
+	outboundShipmentDelivered: OutboundShipments!
+}

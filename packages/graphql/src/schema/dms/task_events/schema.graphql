@@ -1,0 +1,71 @@
+enum TaskEventStatus {
+	ASSIGNED
+	STARTED
+	ARRIVED
+	DELIVERED
+	FAILED
+	EXCEPTION
+	CANCELLED
+	RESCHEDULED
+}
+
+type TaskEvents {
+	id: ID!
+	deliveryTask: DeliveryTasks!
+	status: TaskEventStatus!
+	reason: String
+	notes: String
+	latitude: Float
+	longitude: Float
+	timestamp: String
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type DmsQuery {
+	taskEvents(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: TaskEventStatus
+	): [TaskEvents!]!
+	taskEvent(id: ID!): TaskEvents!
+}
+
+input CreateTaskEventInput {
+	deliveryTaskId: ID!
+	status: TaskEventStatus!
+	reason: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	latitude: Float @constraint(min: -90, max: 90)
+	longitude: Float @constraint(min: -180, max: 180)
+	timestamp: String @constraint(minLength: 1)
+}
+
+extend type DmsMutation {
+	createTaskEvent(value: CreateTaskEventInput!): TaskEvents!
+}
+
+type DmsTaskEventStatusUpdatedEvent {
+	taskEventId: ID!
+	deliveryTaskId: ID!
+	newStatus: TaskEventStatus!
+}
+
+extend type Subscription {
+	taskEventRecorded: TaskEvents!
+	taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
+}
+
+type DmsTaskEventStatusUpdatedEvent {
+	taskEventId: ID!
+	deliveryTaskId: ID!
+	newStatus: TaskEventStatus!
+}
+
+extend type Subscription {
+	taskEventRecorded: TaskEvents!
+	taskEventStatusUpdated: DmsTaskEventStatusUpdatedEvent!
+}

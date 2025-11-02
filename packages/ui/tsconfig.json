@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": ".",
+    "composite": true,
+    "emitDeclarationOnly": false,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["index.ts", "components/**/*", "hooks/**/*", "lib/**/*", "styles/**/*"],
+  "exclude": ["node_modules", "dist", ".output"]
+}

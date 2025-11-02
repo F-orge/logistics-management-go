@@ -1,0 +1,79 @@
+enum SyncStatus {
+	PENDING
+	IN_PROGRESS
+	SUCCESS
+	FAILED
+	RETRY
+}
+
+type AccountingSyncLogs {
+	id: ID!
+	recordId: ID!
+	recordType: String!
+	externalSystem: String!
+	externalId: String
+	status: SyncStatus
+	errorMessage: String
+	requestPayload: String
+	responsePayload: String
+	lastSyncAt: String
+	retryCount: Int
+	nextRetryAt: String
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type BillingQuery {
+	accountingSyncLogs(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: SyncStatus
+	): [AccountingSyncLogs!]!
+	accountingSyncLog(id: ID!): AccountingSyncLogs!
+}
+
+input CreateAccountingSyncLogInput {
+	recordId: ID!
+	recordType: String! @constraint(minLength: 1)
+	externalSystem: String! @constraint(minLength: 1)
+	externalId: String @constraint(minLength: 1)
+	status: SyncStatus
+	errorMessage: String @constraint(minLength: 1)
+	requestPayload: String @constraint(minLength: 1)
+	responsePayload: String @constraint(minLength: 1)
+	lastSyncAt: String @constraint(minLength: 1)
+	retryCount: Int @constraint(min: 0)
+	nextRetryAt: String @constraint(minLength: 1)
+}
+
+extend type BillingMutation {
+	createAccountingSyncLog(
+		value: CreateAccountingSyncLogInput!
+	): AccountingSyncLogs!
+}
+
+type AccountingSyncTriggeredEvent {
+	sourceType: String!
+	sourceId: ID!
+	syncLogId: ID!
+}
+
+type AccountingSyncSucceededEvent {
+	syncLogId: ID!
+	sourceType: String!
+}
+
+type AccountingSyncFailedEvent {
+	syncLogId: ID!
+	sourceType: String!
+	errorMessage: String
+}
+
+extend type Subscription {
+	accountingSyncTriggered: AccountingSyncTriggeredEvent!
+	accountingSyncSucceeded: AccountingSyncSucceededEvent!
+	accountingSyncFailed: AccountingSyncFailedEvent!
+}

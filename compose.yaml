@@ -1,0 +1,25 @@
+# Production Docker Compose file
+#
+# By default, this file uses a prebuilt image for the app service.
+# For development, use the override file:
+#   docker compose -f compose.yaml -f compose.dev.yaml up
+#
+# For production, build and push the image, then run:
+#   docker compose up
+#
+services:
+  postgres:
+    image: postgres:17.2-alpine3.20
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DOCKER_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DOCKER_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DOCKER_POSTGRES_DB}
+
+  app:
+    image: "${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}"
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres

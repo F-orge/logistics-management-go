@@ -1,0 +1,75 @@
+enum TripStatus {
+	PLANNED
+	IN_PROGRESS
+	COMPLETED
+	CANCELLED
+}
+
+type Trips {
+	id: ID!
+	driver: Drivers
+	vehicle: Vehicles
+	status: TripStatus
+	endLocation: String
+	endTime: String
+	startLocation: String
+	startTime: String
+	createdAt: Date
+	updatedAt: Date
+	stops: [TripStops!]
+	routes: [Routes!]
+	expenses: [Expenses!]
+	shipmentLegs: [ShipmentLegs!]
+}
+
+extend type TmsQuery {
+	trips(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: TripStatus
+	): [Trips!]!
+	trip(id: ID!): Trips!
+}
+
+input CreateTripInput {
+	driverId: ID
+	vehicleId: ID
+	status: TripStatus
+	endLocation: String @constraint(minLength: 1)
+	endTime: String
+	startLocation: String @constraint(minLength: 1)
+	startTime: String
+}
+
+input UpdateTripInput {
+	status: TripStatus
+	endLocation: String @constraint(minLength: 1)
+	endTime: String
+	startLocation: String @constraint(minLength: 1)
+	startTime: String
+}
+
+extend type TmsMutation {
+	createTrip(value: CreateTripInput!): Trips!
+	updateTrip(id: ID!, value: UpdateTripInput): Trips!
+	removeTrip(id: ID!): DeleteResult!
+}
+
+type TmsTripStatusChangedEvent {
+	id: ID!
+	newStatus: TripStatus!
+	previousStatus: TripStatus!
+	driverId: ID
+	vehicleId: ID
+}
+
+extend type Subscription {
+	tripCreated: Trips!
+	tripStarted: Trips!
+	tripCompleted: Trips!
+	tripCancelled: Trips!
+	tripStatusChanged: TmsTripStatusChangedEvent!
+}

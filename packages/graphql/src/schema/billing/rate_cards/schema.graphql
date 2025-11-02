@@ -1,0 +1,72 @@
+enum ServiceType {
+	SHIPPING
+	STORAGE
+	FULFILLMENT
+	HANDLING
+	INSURANCE
+	CUSTOMS
+	PACKAGING
+	RETURNS
+}
+
+type RateCards {
+	id: ID!
+	name: String!
+	serviceType: ServiceType!
+	isActive: Boolean
+	validFrom: String!
+	validTo: String
+	description: String
+	createdByUser: User
+	createdAt: Date
+	updatedAt: Date
+	rules: [RateRules!]
+}
+
+extend type BillingQuery {
+	rateCards(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		serviceType: ServiceType
+	): [RateCards!]!
+	rateCard(id: ID!): RateCards!
+}
+
+input CreateRateCardInput {
+	name: String! @constraint(minLength: 1)
+	serviceType: ServiceType!
+	isActive: Boolean
+	validFrom: String! @constraint(minLength: 1)
+	validTo: String @constraint(minLength: 1)
+	description: String @constraint(minLength: 1)
+	createdByUserId: ID
+}
+
+input UpdateRateCardInput {
+	name: String @constraint(minLength: 1)
+	serviceType: ServiceType
+	isActive: Boolean
+	validFrom: String @constraint(minLength: 1)
+	validTo: String @constraint(minLength: 1)
+	description: String @constraint(minLength: 1)
+	createdByUserId: ID
+}
+
+extend type BillingMutation {
+	createRateCard(value: CreateRateCardInput!): RateCards!
+	updateRateCard(id: ID!, value: UpdateRateCardInput): RateCards!
+	removeRateCard(id: ID!): DeleteResult!
+}
+
+type RateCardDeactivatedEvent {
+	id: ID!
+	name: String!
+	reason: String!
+}
+
+extend type Subscription {
+	rateCardDeactivated: RateCardDeactivatedEvent!
+}

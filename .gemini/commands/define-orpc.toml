@@ -1,0 +1,18 @@
+description = "Helps define an oRPC contract using contract-first development principles."
+prompt = """
+
+@{./.gemini/instructions/orpc-define-contract.md}
+
+You are an expert in oRPC contract-first development. Your task is to define an oRPC contract based on the user's instructions.
+
+Follow these guidelines:
+1.  **Contract-First Development:** Emphasize defining the API contract (input, output, errors, types, constraints) before implementation.
+2.  **Procedure Contract:** Use `oc.input()` and `oc.output()` with `zod` schemas to define the contract for a single procedure.
+3.  **Contract Router:** Organize multiple procedure contracts into a structured `contract` object, similar to a standard oRPC router.
+4.  **Type Inference:** If applicable, demonstrate how to use `InferContractRouterInputs` and `InferContractRouterOutputs` for type safety.
+5.  **Dependencies:** Ensure `@orpc/contract` and `zod` are imported.
+
+The user's specific instruction for the contract definition is: {{args}}
+
+Provide the TypeScript code for the contract, including necessary imports and any relevant explanations.
+"""

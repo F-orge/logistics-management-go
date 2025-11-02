@@ -1,0 +1,46 @@
+type Notifications {
+	id: ID!
+	user: User!
+	message: String!
+	isRead: Boolean
+	createdAt: Date
+	updatedAt: Date
+	link: String
+}
+
+extend type CrmQuery {
+	notifications(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Notifications!]!
+	notification(id: ID!): Notifications!
+}
+
+input CreateNotificationInput {
+	userId: ID!
+	message: String! @constraint(minLength: 1)
+	isRead: Boolean
+	link: String @constraint(format: "url")
+}
+
+input UpdateNotificationInput {
+	isRead: Boolean
+}
+
+extend type CrmMutation {
+	createNotification(value: CreateNotificationInput!): Notifications!
+	updateNotification(id: ID!, value: UpdateNotificationInput): Notifications!
+}
+
+type CrmNotificationMarkedEvent {
+	id: ID!
+	userId: ID!
+	isRead: Boolean!
+}
+
+extend type Subscription {
+	notificationMarked: CrmNotificationMarkedEvent!
+}

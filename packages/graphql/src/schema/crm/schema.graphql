@@ -1,0 +1,10 @@
+type CrmQuery
+type CrmMutation
+
+extend type Query {
+  crm: CrmQuery
+}
+
+extend type Mutation {
+  crm: CrmMutation
+}

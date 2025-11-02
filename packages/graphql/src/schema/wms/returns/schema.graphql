@@ -1,0 +1,71 @@
+enum ReturnStatus {
+	REQUESTED
+	APPROVED
+	REJECTED
+	RECEIVED
+	PROCESSED
+}
+
+type Returns {
+	id: ID!
+	returnNumber: String!
+	salesOrder: SalesOrders
+	client: Companies!
+	status: ReturnStatus
+	reason: String
+	createdAt: Date
+	updatedAt: Date
+	items: [ReturnItems!]
+}
+
+extend type WmsQuery {
+	returns(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: ReturnStatus
+	): [Returns!]!
+	return(id: ID!): Returns!
+}
+
+input CreateReturnInput {
+	returnNumber: String! @constraint(minLength: 1)
+	salesOrderId: ID
+	clientId: ID!
+	status: ReturnStatus
+	reason: String @constraint(minLength: 1)
+	items: [CreateReturnItemInput!]!
+}
+
+input UpdateReturnInput {
+	status: ReturnStatus
+	reason: String @constraint(minLength: 1)
+}
+
+extend type WmsMutation {
+	createReturn(value: CreateReturnInput!): Returns!
+	updateReturn(id: ID!, value: UpdateReturnInput): Returns!
+	removeReturn(id: ID!): DeleteResult!
+}
+
+type WmsReturnStatusChangedEvent {
+	id: ID!
+	newStatus: ReturnStatus!
+	previousStatus: ReturnStatus!
+	clientId: ID!
+}
+
+type WmsReturnRejectedEvent {
+	return: Returns!
+	rejectionReason: String
+}
+
+extend type Subscription {
+	returnReceived: Returns!
+	returnStatusChanged: WmsReturnStatusChangedEvent!
+	returnApproved: Returns!
+	returnRejected: WmsReturnRejectedEvent!
+	returnProcessed: Returns!
+}

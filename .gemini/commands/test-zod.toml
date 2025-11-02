@@ -1,0 +1,185 @@
+description = "Generates comprehensive data-driven tests for Zod schemas using bun:test"
+
+prompt = """
+# Task: Generate Comprehensive Zod Schema Tests
+
+You are an expert test engineer specializing in Zod schema validation testing. Your task is to analyze the provided Zod schemas and generate comprehensive, data-driven tests using `bun:test`.
+
+## Target Schema(s)
+Analyze the following file(s) for Zod schemas:
+
+## Target Schema(s)
+Analyze the following file(s) for Zod schemas:
+
+{{args}}
+
+## Test Pattern Reference
+Use this existing test file as a reference for structure and patterns:
+
+@{src/schemas/crm/companies.test.ts}
+
+## Testing Requirements
+
+### 1. Test Structure
+- Use `bun:test` as the testing framework
+- Follow data-driven testing patterns with test case arrays
+- Create separate test files with `.test.ts` extension
+- Group tests by schema using `describe()` blocks
+
+### 2. Test Coverage
+For each Zod schema found, generate tests that cover:
+
+**Valid Cases (Happy Path):**
+- Minimum valid data
+- Maximum valid data  
+- Typical valid data variations
+- Edge cases that should pass
+- Optional field variations (present/absent)
+
+**Invalid Cases (Error Path):**
+- Missing required fields
+- Wrong data types
+- Out-of-range values
+- Invalid formats (emails, URLs, etc.)
+- Invalid array lengths
+- Invalid enum values
+- Malformed nested objects
+
+### 3. Data-Driven Test Pattern
+Use this structure for each schema:
+
+```typescript
+import { describe, test, expect } from "bun:test";
+import { ZodError } from "zod";
+import { schemaName } from "../path/to/schema";
+
+describe("SchemaName Validation", () => {
+  describe("Valid Cases", () => {
+    const validTestCases = [
+      {
+        name: "minimum valid data",
+        input: { /* minimal valid object */ },
+      },
+      {
+        name: "complete valid data",
+        input: { /* complete valid object */ },
+      },
+      // Add more valid cases...
+    ];
+
+    test.each(validTestCases)("should validate: $name", ({ input }) => {
+      expect(() => schemaName.parse(input)).not.toThrow();
+      const result = schemaName.parse(input);
+      expect(result).toEqual(expect.objectContaining(input));
+    });
+  });
+
+  describe("Invalid Cases", () => {
+    const invalidTestCases = [
+      {
+        name: "missing required field",
+        input: { /* object missing required field */ },
+        expectedError: "Required field missing",
+      },
+      {
+        name: "wrong data type",
+        input: { /* object with wrong type */ },
+        expectedError: "Expected string, received number",
+      },
+      // Add more invalid cases...
+    ];
+
+    test.each(invalidTestCases)("should reject: $name", ({ input, expectedError }) => {
+      let error: ZodError | undefined;
+      try {
+        schemaName.parse(input);
+      } catch (e) {
+        if (e instanceof ZodError) {
+          error = e;
+        }
+      }
+      expect(error).toBeInstanceOf(ZodError);
+      expect(error?.issues[0].message).toContain(expectedError);
+    });
+  });
+
+  describe("SafeParse Tests", () => {
+    test("should return success for valid data", () => {
+      const validData = { /* valid object */ };
+      const result = schemaName.safeParse(validData);
+      
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data).toEqual(validData);
+      }
+    });
+
+    test("should return error for invalid data", () => {
+      const invalidData = { /* invalid object */ };
+      const result = schemaName.safeParse(invalidData);
+      
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error).toBeInstanceOf(ZodError);
+        expect(result.error.errors.length).toBeGreaterThan(0);
+      }
+    });
+  });
+});
+```
+
+### 4. Implementation Guidelines
+
+**File Naming:**
+- Create test files directly beside the schema files (same directory)
+- Use naming pattern: `[schema-name].test.ts` (e.g., if schema is `user-schema.ts`, test should be `user-schema.test.ts`)
+- This improves readability and makes it easy to locate related tests
+
+**Test Data Quality:**
+- Use realistic data that represents actual use cases
+- Include boundary values and edge cases
+- Test all optional vs required field combinations
+- Cover all union types and discriminated unions
+
+**Error Validation:**
+- Test specific Zod error codes and messages
+- Verify error paths and field locations
+- Test custom error messages if defined
+
+**Performance Considerations:**
+- Keep test data reasonable in size
+- Group related test cases efficiently
+- Use meaningful test descriptions
+
+### 5. Additional Test Scenarios
+
+If the schemas include:
+- **Refinements:** Test custom validation logic
+- **Transforms:** Verify data transformation correctness
+- **Preprocessing:** Test input preprocessing behavior
+- **Async validation:** Use appropriate async test patterns
+- **Recursive schemas:** Test nested structure validation
+
+## Expected Output
+
+Generate complete, runnable test files with:
+1. Proper imports and setup
+2. Comprehensive test case arrays
+3. Clear test descriptions
+4. Proper error assertions
+5. Good test coverage for all schema features
+6. Documentation comments explaining complex test scenarios
+
+## Test Execution
+
+After generating the test files, run them using:
+```bash
+AGENT=1 bun test
+```
+
+**Important:** When multiple files are provided, generate and test each file individually before moving to the next one. This ensures each test file is working correctly and allows for incremental validation.
+
+This command will execute the generated tests in the appropriate environment.
+
+Focus on creating tests that would catch real-world validation errors while being maintainable and easy to understand.
+"""

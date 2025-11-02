@@ -1,38 +1,36 @@
-FROM alpine:3.20 AS alpine_base
-FROM golang:1.24-alpine3.20 AS golang_base
+FROM oven/bun:1 AS base
 
-FROM golang_base AS golang-build
+# Set working directory
+WORKDIR /build
 
-WORKDIR /app
+# Copy package and lock files
+COPY package.json bun.lock ./
+COPY packages/db/package.json ./packages/db/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/graphql/package.json ./packages/graphql/
+COPY apps/backend/package.json ./apps/backend/
+COPY apps/frontend/package.json ./apps/frontend/
 
-COPY go.mod go.sum ./
-
-RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/server ./main.go
-
-FROM oven/bun:canary-alpine AS frontend-build
-
-WORKDIR /app
-
-COPY package*.json ./
-
+# Install dependencies
 RUN bun install --frozen-lockfile
 
+# Copy the rest of the codebase
 COPY . .
 
-RUN bun rsbuild build --mode production
+# Build the whole project
+RUN bun --filter '@packages/*' build && bun --filter '@apps/*' build
 
-FROM alpine_base AS runtime
+# --- Release image ---
+FROM oven/bun:canary-alpine AS runner
+WORKDIR /app
 
-WORKDIR /app/
+# Copy built output and server files
+COPY --from=base /build/apps/frontend/.output ./.output
+COPY --from=base /build/apps/backend/.output/server.js ./.output/server.js
+COPY --from=base /build/apps/backend/migrations ./.output/migrations
 
-COPY --from=frontend-build /app/dist ./dist
+# Expose port 3000
+EXPOSE 3000
 
-COPY --from=golang-build /app/server .
-
-EXPOSE 80
-
-ENTRYPOINT [ "/app/server","serve","--http=0.0.0.0:80" ]
+# Start the server
+CMD ["bun", ".output/server.js"]

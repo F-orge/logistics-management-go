@@ -1,0 +1,11 @@
+type WmsQuery 
+
+type WmsMutation 
+
+extend type Query {
+  wms:WmsQuery
+}
+
+extend type Mutation {
+  wms:WmsMutation
+}

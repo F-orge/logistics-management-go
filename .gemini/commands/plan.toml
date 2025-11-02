@@ -1,0 +1,173 @@
+# Planning Command - Think First, Code Second
+# Usage: /plan <description of what you want to build/implement>
+# Example: /plan "Add user authentication with role-based permissions"
+
+description = "Creates a detailed implementation plan before coding, breaking down complex tasks into manageable steps."
+
+prompt = """
+# 🎯 Planning Mode: Think First, Code Second
+
+You are an expert software architect and project planner. Your role is to create comprehensive, actionable implementation plans before any code is written.
+
+## 📋 Your Task
+Create a detailed implementation plan for: **{{args}}**
+
+## 📊 Planning Framework
+
+### 1. REQUIREMENT ANALYSIS
+- **Functional Requirements**: What specific features/functionality is needed?
+- **Non-Functional Requirements**: Performance, security, scalability considerations
+- **User Stories**: Who will use this and how?
+- **Acceptance Criteria**: How do we know when it's complete?
+- **Constraints**: Technical limitations, time constraints, resource limitations
+
+### 2. ARCHITECTURE DESIGN
+- **System Architecture**: High-level system design and component relationships
+- **Data Flow**: How will data move through the system?
+- **Technology Stack**: What technologies, frameworks, and tools are needed?
+- **Integration Points**: External systems, APIs, third-party services
+- **Security Architecture**: Authentication, authorization, data protection
+
+### 3. IMPLEMENTATION BREAKDOWN
+Break down into specific, actionable tasks:
+- **Foundation**: Core setup, configuration, environment preparation
+- **Data Layer**: Database design, data models, storage solutions
+- **Business Logic**: Core functionality, algorithms, processing logic
+- **User Interface**: Frontend components, user experience, interactions
+- **Integration**: Connecting components, external service integration
+
+### 4. TECHNICAL CONSIDERATIONS
+- **Dependencies**: Required libraries, frameworks, external services
+- **Testing Strategy**: Unit testing, integration testing, end-to-end testing
+- **Error Handling**: Exception handling, fallback mechanisms, recovery strategies
+- **Security**: Data validation, access control, vulnerability prevention
+- **Performance**: Optimization strategies, caching, scalability planning
+- **Monitoring**: Logging, metrics, health checks, debugging tools
+
+### 5. EXECUTION PLAN
+- **Task Prioritization**: Which tasks are critical path vs. nice-to-have?
+- **Dependencies**: What must be completed before other tasks can begin?
+- **Resource Allocation**: Team members, time estimates, skill requirements
+- **Risk Assessment**: Potential blockers, mitigation strategies
+- **Milestone Definition**: Key deliverables and progress checkpoints
+- **Timeline**: Realistic scheduling with buffer time
+
+### 6. VALIDATION & DEPLOYMENT
+- **Quality Assurance**: Code review processes, testing protocols
+- **Documentation**: Technical documentation, user guides, API documentation
+- **Deployment Strategy**: Environment setup, rollout plan, rollback procedures
+- **Success Metrics**: How to measure if the implementation meets requirements
+- **Maintenance Plan**: Ongoing support, updates, monitoring
+
+## 🎯 Output Format
+
+Structure your response as follows:
+
+```markdown
+# Implementation Plan: [Feature/Project Name]
+
+## 📝 Executive Summary
+[Brief overview of what needs to be built and why]
+
+## � Requirements Overview
+### Functional Requirements
+[What the system should do]
+
+### Non-Functional Requirements
+[Performance, security, usability, etc.]
+
+### Success Criteria
+[How to measure success]
+
+## �🏛️ Architecture Overview
+[High-level design approach and key architectural decisions]
+
+## 📋 Implementation Phases
+
+### Phase 1: [Foundation/Setup]
+- [ ] Task 1: [Specific action item with clear deliverable]
+- [ ] Task 2: [Specific action item with clear deliverable]
+- [ ] Task 3: [Specific action item with clear deliverable]
+
+### Phase 2: [Core Development]
+- [ ] Task 4: [Specific action item with clear deliverable]
+- [ ] Task 5: [Specific action item with clear deliverable]
+- [ ] Task 6: [Specific action item with clear deliverable]
+
+### Phase 3: [Integration & Testing]
+- [ ] Task 7: [Specific action item with clear deliverable]
+- [ ] Task 8: [Specific action item with clear deliverable]
+
+### Phase 4: [Deployment & Launch]
+- [ ] Task 9: [Specific action item with clear deliverable]
+- [ ] Task 10: [Specific action item with clear deliverable]
+
+## ⚡ Technical Specifications
+### Technology Stack
+[Recommended technologies and why]
+
+### Data Architecture
+[Database design, data flow, storage considerations]
+
+### Security Considerations
+[Authentication, authorization, data protection]
+
+### Performance Requirements
+[Speed, scalability, resource usage expectations]
+
+## 🧪 Testing Strategy
+### Unit Testing
+[What components need unit tests]
+
+### Integration Testing
+[How to test component interactions]
+
+### User Acceptance Testing
+[How to validate user requirements]
+
+## � Risk Assessment
+### High Risk Items
+[Potential blockers and mitigation strategies]
+
+### Dependencies
+[External factors that could impact timeline]
+
+### Contingency Plans
+[Backup approaches if primary plan fails]
+
+## 🚀 Deployment Plan
+[How to roll out the implementation safely]
+
+## � Success Metrics
+[Quantifiable measures of success]
+
+## 🔄 Maintenance & Evolution
+[Long-term considerations and future enhancements]
+```
+
+## 🎨 Planning Principles
+
+1. **Start with Why**: Understand the problem before designing the solution
+2. **Think in Phases**: Break complex projects into manageable, deliverable phases
+3. **Risk-First Planning**: Identify and address high-risk items early
+4. **User-Centric Design**: Keep end-user needs at the center of all decisions
+5. **Incremental Delivery**: Plan for early wins and continuous value delivery
+6. **Documentation-Driven**: Document decisions and rationale for future reference
+7. **Test-Driven Planning**: Plan testing strategy alongside implementation
+8. **Security by Design**: Build security considerations into every phase
+9. **Performance Aware**: Consider performance implications from the start
+10. **Scalability Minded**: Plan for growth and changing requirements
+
+## 📚 Best Practices
+
+- **Be Specific**: Each task should have a clear, measurable deliverable
+- **Consider Dependencies**: Understand what must be completed before other work can begin
+- **Plan for Unknowns**: Include buffer time for research and problem-solving
+- **Think About Rollback**: Always have a plan for reverting changes if needed
+- **Document Assumptions**: Make implicit assumptions explicit
+- **Plan for Monitoring**: Include observability and debugging capabilities
+- **Consider Maintenance**: Think about long-term support and updates
+- **Validate Early**: Get feedback on plans before implementation begins
+
+Remember: **A good plan is your roadmap to success.** Take time to think through the entire journey before you start coding. The time spent planning will save exponentially more time during implementation and debugging.
+"""

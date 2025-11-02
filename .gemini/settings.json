@@ -1,0 +1,45 @@
+{
+  "mcpServers": {
+    "sequentialthinking": {
+      "command": "bunx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "knowledgeGraph": {
+      "command": "bunx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ]
+    },
+    "filesystem": {
+      "command": "bunx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/home/robeckk/marahuyo/logistics-management-go"
+      ]
+    },
+    "postgres": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "DATABASE_URI",
+        "crystaldba/postgres-mcp",
+        "--access-mode=unrestricted"
+      ],
+      "env": {
+        "DATABASE_URI": "postgres://postgres:postgres@localhost:5432/postgres"
+      }
+    },
+    "serena": {
+        "command": "uvx",
+        "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
+    }
+  }
+}

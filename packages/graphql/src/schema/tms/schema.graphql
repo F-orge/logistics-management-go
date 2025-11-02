@@ -1,0 +1,11 @@
+type TmsQuery
+
+type TmsMutation
+
+extend type Query {
+  tms:TmsQuery
+}
+
+extend type Mutation {
+  tms:TmsMutation
+}

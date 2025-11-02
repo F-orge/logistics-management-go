@@ -1,0 +1,108 @@
+enum PaymentMethod {
+	CREDIT_CARD
+	DEBIT_CARD
+	WALLET
+	QR_PH
+	CLIENT_CREDIT
+	BANK_TRANSFER
+	CASH
+	CHECK
+}
+
+enum PaymentStatus {
+	PENDING
+	PROCESSING
+	SUCCESSFUL
+	FAILED
+	CANCELLED
+	REFUNDED
+}
+
+type Payments {
+	id: ID!
+	invoice: BillingInvoices!
+	amount: Float!
+	paymentMethod: PaymentMethod!
+	transactionId: String
+	gatewayReference: String
+	status: PaymentStatus
+	paymentDate: String
+	processedAt: String
+	currency: String
+	exchangeRate: Float
+	fees: Float
+	netAmount: Float
+	notes: String
+	processedByUser: User
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type BillingQuery {
+	payments(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		paymentMethod: PaymentMethod
+		status: PaymentStatus
+	): [Payments!]!
+	payment(id: ID!): Payments!
+}
+
+input CreatePaymentInput {
+	invoiceId: ID!
+	amount: Float! @constraint(min: 0)
+	paymentMethod: PaymentMethod!
+	transactionId: String @constraint(minLength: 1)
+	gatewayReference: String @constraint(minLength: 1)
+	status: PaymentStatus
+	paymentDate: String @constraint(minLength: 1)
+	processedAt: String @constraint(minLength: 1)
+	currency: String @constraint(minLength: 1)
+	exchangeRate: Float @constraint(min: 0)
+	fees: Float @constraint(min: 0)
+	notes: String @constraint(minLength: 1)
+	processedByUserId: ID
+}
+
+input UpdatePaymentInput {
+	status: PaymentStatus
+	currency: String @constraint(minLength: 1)
+	exchangeRate: Float @constraint(min: 0)
+	fees: Float @constraint(min: 0)
+	notes: String @constraint(minLength: 1)
+}
+
+extend type BillingMutation {
+	createPayment(value: CreatePaymentInput!): Payments!
+	updatePayment(id: ID!, value: UpdatePaymentInput): Payments!
+	removePayment(id: ID!): DeleteResult!
+}
+
+type PaymentStatusChangedEvent {
+	id: ID!
+	newStatus: PaymentStatus!
+	previousStatus: PaymentStatus!
+	invoiceId: ID!
+}
+
+type PaymentFailedEvent {
+	payment: Payments!
+	failureReason: String
+}
+
+type PaymentRefundedEvent {
+	payment: Payments!
+	refundAmount: String!
+}
+
+extend type Subscription {
+	paymentInitiated: Payments!
+	paymentProcessing: Payments!
+	paymentSuccessful: Payments!
+	paymentStatusChanged: PaymentStatusChangedEvent!
+	paymentFailed: PaymentFailedEvent!
+	paymentRefunded: PaymentRefundedEvent!
+}

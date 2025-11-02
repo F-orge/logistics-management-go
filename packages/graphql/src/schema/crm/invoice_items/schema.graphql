@@ -1,0 +1,29 @@
+type InvoiceItems {
+	id: ID!
+	invoice: Invoices!
+	product: Products!
+	quantity: Float!
+	price: Float!
+	createdAt: Date
+	updatedAt: Date
+}
+
+input CreateInvoiceItemInput {
+	productId: ID!
+	quantity: Float! @constraint(min: 0.01)
+}
+
+input AddInvoiceItemInput {
+	productId: ID!
+	quantity: Float! @constraint(min: 0.01)
+}
+
+input UpdateInvoiceItemInput {
+	quantity: Float! @constraint(min: 0.01)
+}
+
+extend type CrmMutation {
+	addInvoiceItem(id: ID!, value: AddInvoiceItemInput!): InvoiceItems!
+	updateInvoiceItem(id: ID!, value: UpdateInvoiceItemInput!): InvoiceItems!
+	removeInvoiceItem(id: ID!): DeleteResult!
+}

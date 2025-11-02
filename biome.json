@@ -1,39 +1,24 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
-  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "formatter": {
-    "indentStyle": "space"
-  },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single"
+      "enabled":true
     }
   },
-  "css": {
-    "parser": {
-      "cssModules": true
+  "json": {
+    "formatter": {
+      "enabled": false
     }
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true
-    },
-    "includes": [
-      "!src/lib/graphql/client/graphql.ts",
-      "!src/routeTree.gen.ts",
-      "!apps/**/graphql/resolver-types.ts"
-    ]
+    }
   }
 }

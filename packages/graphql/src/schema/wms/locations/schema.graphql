@@ -1,0 +1,98 @@
+enum LocationType {
+	RECEIVING_DOCK
+	PICK_BIN
+	PACKING_STATION
+	CROSS_DOCK_AREA
+	BULK_STORAGE
+	RESERVE_STORAGE
+	DAMAGED_GOODS
+	STAGING_AREA
+	QUALITY_CONTROL
+	RETURNS_AREA
+}
+
+type Locations {
+	id: ID!
+	warehouse: Warehouses!
+	parentLocation: Locations
+	name: String!
+	barcode: String
+	type: LocationType!
+	level: Int
+	path: String
+	maxWeight: Float
+	maxVolume: Float
+	maxPallets: Int
+	xCoordinate: Float
+	yCoordinate: Float
+	zCoordinate: Float
+	isPickable: Boolean
+	isReceivable: Boolean
+	temperatureControlled: Boolean
+	hazmatApproved: Boolean
+	isActive: Boolean
+	createdAt: Date
+	updatedAt: Date
+	inventoryStock: [InventoryStock!]
+	putawayRules: [PutawayRules!]
+	binThresholds: [BinThresholds!]
+	sourceTaskItems: [TaskItems!]
+	destinationTaskItems: [TaskItems!]
+}
+
+extend type WmsQuery {
+	locations(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		type: LocationType
+	): [Locations!]!
+	location(id: ID!): Locations!
+}
+
+input CreateLocationInput {
+	warehouseId: ID!
+	parentLocationId: ID
+	name: String! @constraint(minLength: 1)
+	barcode: String @constraint(minLength: 1)
+	type: LocationType!
+	level: Int @constraint(min: 0)
+	path: String @constraint(minLength: 1)
+	maxWeight: Float @constraint(min: 0)
+	maxVolume: Float @constraint(min: 0)
+	maxPallets: Int @constraint(min: 0)
+	xCoordinate: Float
+	yCoordinate: Float
+	zCoordinate: Float
+	isPickable: Boolean
+	isReceivable: Boolean
+	temperatureControlled: Boolean
+	hazmatApproved: Boolean
+}
+
+input UpdateLocationInput {
+	name: String @constraint(minLength: 1)
+	barcode: String @constraint(minLength: 1)
+	type: LocationType
+	level: Int @constraint(min: 0)
+	path: String @constraint(minLength: 1)
+	maxWeight: Float @constraint(min: 0)
+	maxVolume: Float @constraint(min: 0)
+	maxPallets: Int @constraint(min: 0)
+	xCoordinate: Float
+	yCoordinate: Float
+	zCoordinate: Float
+	isPickable: Boolean
+	isReceivable: Boolean
+	temperatureControlled: Boolean
+	hazmatApproved: Boolean
+	isActive: Boolean
+}
+
+extend type WmsMutation {
+	createLocation(value: CreateLocationInput!): Locations!
+	updateLocation(id: ID!, value: UpdateLocationInput): Locations!
+	removeLocation(id: ID!): DeleteResult!
+}

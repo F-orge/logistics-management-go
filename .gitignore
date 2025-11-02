@@ -19,6 +19,10 @@ dist/
 pb_data
 .tanstack
 
-# Added by cargo
+# Tanstack start
 
-/target
+.nitro
+.output
+
+# Turbo repo
+.turbo

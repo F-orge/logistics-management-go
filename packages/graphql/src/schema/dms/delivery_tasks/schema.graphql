@@ -1,0 +1,124 @@
+enum DeliveryTaskStatus {
+	PENDING
+	ASSIGNED
+	OUT_FOR_DELIVERY
+	DELIVERED
+	FAILED
+	CANCELLED
+	RESCHEDULED
+}
+
+enum DeliveryFailureReason {
+	RECIPIENT_NOT_HOME
+	ADDRESS_NOT_FOUND
+	REFUSED_DELIVERY
+	DAMAGED_PACKAGE
+	ACCESS_DENIED
+	WEATHER_CONDITIONS
+	VEHICLE_BREAKDOWN
+	OTHER
+}
+
+type DeliveryTasks {
+	id: ID!
+	package: Packages!
+	deliveryRoute: DeliveryRoutes!
+	routeSequence: Int!
+	deliveryAddress: String!
+	recipientName: String
+	recipientPhone: String
+	deliveryInstructions: String
+	estimatedArrivalTime: String
+	actualArrivalTime: String
+	deliveryTime: String
+	status: DeliveryTaskStatus
+	failureReason: DeliveryFailureReason
+	attemptCount: Int
+	createdAt: Date
+	updatedAt: Date
+	events: [TaskEvents!]
+	proofOfDeliveries: [DmsProofOfDeliveries!]
+	customerTrackingLinks: [CustomerTrackingLinks!]
+}
+
+extend type DmsQuery {
+	deliveryTasks(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: DeliveryTaskStatus
+		failureReason: DeliveryFailureReason
+	): [DeliveryTasks!]!
+	deliveryTask(id: ID!): DeliveryTasks!
+}
+
+input CreateDeliveryTaskInput {
+	packageId: ID!
+	deliveryRouteId: ID!
+	routeSequence: Int! @constraint(min: 1)
+	deliveryAddress: String! @constraint(minLength: 1)
+	recipientName: String @constraint(minLength: 1)
+	recipientPhone: String @constraint(minLength: 1)
+	deliveryInstructions: String @constraint(minLength: 1)
+	estimatedArrivalTime: String @constraint(minLength: 1)
+	actualArrivalTime: String @constraint(minLength: 1)
+	status: DeliveryTaskStatus
+}
+
+input UpdateDeliveryTaskInput {
+	deliveryAddress: String @constraint(minLength: 1)
+	recipientName: String @constraint(minLength: 1)
+	recipientPhone: String @constraint(minLength: 1)
+	deliveryInstructions: String @constraint(minLength: 1)
+	estimatedArrivalTime: String @constraint(minLength: 1)
+	actualArrivalTime: String @constraint(minLength: 1)
+	deliveryTime: String @constraint(minLength: 1)
+	status: DeliveryTaskStatus
+	failureReason: DeliveryFailureReason
+	attemptCount: Int @constraint(min: 0)
+}
+
+extend type DmsMutation {
+	createDeliveryTask(value: CreateDeliveryTaskInput!): DeliveryTasks!
+	updateDeliveryTask(id: ID!, value: UpdateDeliveryTaskInput): DeliveryTasks!
+}
+
+type DmsDeliveryTaskStatusChangedEvent {
+	id: ID!
+	newStatus: DeliveryTaskStatus!
+	previousStatus: DeliveryTaskStatus!
+	deliveryRouteId: ID!
+}
+
+type DmsDeliveryTaskFailedEvent {
+	deliveryTask: DeliveryTasks!
+	failureReason: String
+}
+
+extend type Subscription {
+	deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
+	deliveryTaskOutForDelivery: DeliveryTasks!
+	deliveryTaskDelivered: DeliveryTasks!
+	deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
+}
+
+type DmsDeliveryTaskStatusChangedEvent {
+	id: ID!
+	newStatus: DeliveryTaskStatus!
+	previousStatus: DeliveryTaskStatus!
+	deliveryRouteId: ID!
+}
+
+type DmsDeliveryTaskFailedEvent {
+	deliveryTask: DeliveryTasks!
+	failureReason: String
+}
+
+extend type Subscription {
+	deliveryTaskStatusChanged: DmsDeliveryTaskStatusChangedEvent!
+	deliveryTaskOutForDelivery: DeliveryTasks!
+	deliveryTaskDelivered: DeliveryTasks!
+	deliveryTaskFailed: DmsDeliveryTaskFailedEvent!
+}

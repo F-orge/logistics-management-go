@@ -1,0 +1,70 @@
+type CreditNotes {
+	id: ID!
+	invoice: BillingInvoices!
+	dispute: Disputes
+	creditNoteNumber: String!
+	amount: Float!
+	reason: String!
+	issueDate: String!
+	appliedAt: String
+	currency: String
+	notes: String
+	createdByUser: User
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type BillingQuery {
+	creditNotes(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [CreditNotes!]!
+	creditNote(id: ID!): CreditNotes!
+}
+
+input CreateCreditNoteInput {
+	invoiceId: ID!
+	disputeId: ID
+	creditNoteNumber: String! @constraint(minLength: 1)
+	amount: Float! @constraint(min: 0)
+	reason: String! @constraint(minLength: 1)
+	issueDate: String! @constraint(minLength: 1)
+	appliedAt: String @constraint(minLength: 1)
+	currency: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	createdByUserId: ID
+}
+
+input UpdateCreditNoteInput {
+	creditNoteNumber: String @constraint(minLength: 1)
+	amount: Float @constraint(min: 0)
+	reason: String @constraint(minLength: 1)
+	appliedAt: String @constraint(minLength: 1)
+	currency: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+}
+
+extend type BillingMutation {
+	createCreditNote(value: CreateCreditNoteInput!): CreditNotes!
+	updateCreditNote(id: ID!, value: UpdateCreditNoteInput): CreditNotes!
+	removeCreditNote(id: ID!): DeleteResult!
+}
+
+type CreditNoteAppliedEvent {
+	creditNote: CreditNotes!
+	appliedAmount: String!
+}
+
+type CreditNoteOnDisputeApprovalEvent {
+	creditNote: CreditNotes!
+	disputeId: ID!
+}
+
+extend type Subscription {
+	creditNoteIssued: CreditNotes!
+	creditNoteApplied: CreditNoteAppliedEvent!
+	creditNoteOnDisputeApproval: CreditNoteOnDisputeApprovalEvent!
+}

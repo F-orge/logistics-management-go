@@ -1,0 +1,40 @@
+description = "Creates a TanStack table component from a given Zod schema file."
+prompt = """
+You are an expert at creating Tanstack table column definitions.
+
+Your task is to create a new TanStack table `columns` definition based on the provided Zod schema file: `{{args}}`.
+
+**Instructions:**
+
+1.  **Analyze Schema:** Read the content of the file at `{{args}}` to understand the data structure. The path will be in the format `src/schemas/<subsystem>/<table>.ts`.
+
+2.  **Extract Information:**
+    *   From the file path, identify the `<subsystem>` (e.g., `crm`) and the `<table>` (e.g., `companies`).
+    *   From the Zod schema, identify the fields and their types.
+
+3.  **Generate Columns (`table.tsx`):**
+    *   Create a new file at `src/routes/dashboard/<subsystem>/<table>/-components/table.tsx`.
+    *   Define the columns using `ColumnDef<ORPCOutputs['<subsystem>']['paginate<Table>'][number]>`.
+    *   For each relevant field in the Zod schema, create a column definition with a `header` and a `cell` renderer.
+    *   Use appropriate cell components from `@/components/table/cells/*` (e.g., `StringCell`, `DateCell`, `NumberCell`) based on the data type.
+    *   **Handling Relations:** If the schema contains a foreign key (e.g., `contactId`), create a column for the related entity.
+        *   Augment the `ColumnDef` type with the related entity's type from `ORPCOutputs`, like `& { contact: ORPCOutputs['crm']['inContact'][number] | undefined; }`.
+        *   The `accessorKey` should point to the display field of the relation (e.g., `contact.name`).
+        *   The `cell` renderer should check for the existence of the related data and render a `<Link>` from `@tanstack/react-router` pointing to the entity's dashboard page. Wrap the link in a `<Button>` for styling. See the `cases` table component for an example.
+    *   Combine related fields if necessary (e.g., address components).
+
+**Reference Files:**
+
+*   **Columns (`table.tsx`):** Here is a good example of a table component.
+    @{src/routes/dashboard/crm/companies/-components/table.tsx}
+
+*   **Relations Example (`table.tsx`):** Here is a good example of a table with relations.
+    @{src/routes/dashboard/crm/cases/-components/table.tsx}
+
+Now, generate the `columns` definition for the Zod schema file `{{args}}`.
+
+Here is the content of the Zod schema file:
+```typescript
+!{cat {{args}}}
+```
+"""

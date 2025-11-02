@@ -6,6 +6,9 @@
 # Dist
 node_modules
 dist/
+.turbo
+.tanstack
+.output
 
 # Profile
 .rspack-profile-*/

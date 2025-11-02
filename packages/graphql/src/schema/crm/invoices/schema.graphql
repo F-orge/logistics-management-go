@@ -1,0 +1,80 @@
+enum InvoiceStatus {
+	DRAFT
+	SENT
+	PAID
+	OVERDUE
+	CANCELLED
+}
+
+enum CrmInvoicePaymentMethod {
+	CREDIT_CARD
+	BANK_TRANSFER
+	CASH
+	CHECK
+	PAYPAL
+	STRIPE
+	WIRE_TRANSFER
+	OTHER
+	MAYA
+}
+
+type Invoices {
+	id: ID!
+	opportunity: Opportunities!
+	status: InvoiceStatus
+	total: Float!
+	issueDate: Date!
+	dueDate: Date!
+	sentAt: Date
+	paidAt: Date
+	paymentMethod: CrmInvoicePaymentMethod
+	createdAt: Date
+	updatedAt: Date
+	items: [InvoiceItems!]
+}
+
+extend type CrmQuery {
+	invoices(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: InvoiceStatus
+		paymentMethod: CrmInvoicePaymentMethod
+	): [Invoices!]!
+	invoice(id: ID!): Invoices!
+}
+
+input CreateInvoiceInput {
+	opportunityId: ID!
+	status: InvoiceStatus
+	issueDate: Date!
+	dueDate: Date!
+	paidAt: Date
+	paymentMethod: CrmInvoicePaymentMethod
+	items: [CreateInvoiceItemInput!]! @constraint(minItems: 1)
+}
+
+input UpdateInvoiceInput {
+	status: InvoiceStatus
+	dueDate: Date
+	paidAt: Date
+	paymentMethod: CrmInvoicePaymentMethod
+}
+
+extend type CrmMutation {
+	createInvoice(value: CreateInvoiceInput!): Invoices!
+	updateInvoice(id: ID!, value: UpdateInvoiceInput): Invoices!
+}
+
+type CrmInvoiceStatusChangedEvent {
+	id: ID!
+	newStatus: InvoiceStatus!
+	previousStatus: InvoiceStatus!
+}
+
+extend type Subscription {
+	crmInvoiceStatusChanged: CrmInvoiceStatusChangedEvent!
+	crmInvoicePaid: Invoices!
+}

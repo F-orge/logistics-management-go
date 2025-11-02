@@ -1,0 +1,62 @@
+enum StockTransferStatus {
+	PENDING
+	IN_TRANSIT
+	RECEIVED
+	CANCELLED
+}
+
+type StockTransfers {
+	id: ID!
+	product: WmsProducts!
+	sourceWarehouse: Warehouses!
+	destinationWarehouse: Warehouses!
+	quantity: Int!
+	status: StockTransferStatus
+	createdAt: Date
+	updatedAt: Date
+}
+
+extend type WmsQuery {
+	stockTransfers(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		status: StockTransferStatus
+	): [StockTransfers!]!
+	stockTransfer(id: ID!): StockTransfers!
+}
+
+input CreateStockTransferInput {
+	productId: ID!
+	sourceWarehouseId: ID!
+	destinationWarehouseId: ID!
+	quantity: Int! @constraint(min: 0)
+	status: StockTransferStatus
+}
+
+input UpdateStockTransferInput {
+	destinationWarehouseId: ID
+	quantity: Int @constraint(min: 0)
+	status: StockTransferStatus
+}
+
+extend type WmsMutation {
+	createStockTransfer(value: CreateStockTransferInput!): StockTransfers!
+	updateStockTransfer(id: ID!, value: UpdateStockTransferInput): StockTransfers!
+	removeStockTransfer(id: ID!): DeleteResult!
+}
+
+type WmsStockTransferStatusChangedEvent {
+	id: ID!
+	newStatus: StockTransferStatus!
+	previousStatus: StockTransferStatus!
+	productId: ID!
+}
+
+extend type Subscription {
+	stockTransferInitiated: StockTransfers!
+	stockTransferStatusChanged: WmsStockTransferStatusChangedEvent!
+	stockTransferInTransit: StockTransfers!
+	stockTransferReceived: StockTransfers!
+}

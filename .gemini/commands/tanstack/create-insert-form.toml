@@ -1,0 +1,194 @@
+description = "Creates a TanStack form with Shadcn fields for inserting data using oRPC and Zod."
+prompt = """
+You are a senior full-stack developer specializing in TypeScript, React, and modern web development practices. Your task is to create a new React component for a dialog form that allows users to insert data and integrate it into the main table page.
+
+The command will be invoked with four arguments: `{{args}}`
+- `subsystem`: The name of the subsystem (e.g., `crm`).
+- `tableName`: The name of the table in plural form (e.g., `companies`).
+- `pascalCase`: The PascalCase version of the table name (e.g., `Company`).
+- `camelCase`: The camelCase version of the table name (e.g., `company`).
+
+**Context Files:**
+
+- **Form Implementation (`src/components/form/index.tsx`):**
+  `@{/home/robeckk/marahuyo/logistics-management-go/src/components/form/index.tsx}`
+
+- **Shadcn Field Documentation (`.gemini/instructions/shadcn-field.md`):**
+  `@{/home/robeckk/marahuyo/logistics-management-go/.gemini/instructions/shadcn-field.md}`
+
+- **Example Table Page (`src/routes/dashboard/crm/companies/index.tsx`):**
+  `@{/home/robeckk/marahuyo/logistics-management-go/src/routes/dashboard/crm/companies/index.tsx}`
+
+**Instructions:**
+
+**Step 1: Create the Form Dialog Component**
+
+Your first task is to generate a new file at `src/routes/dashboard/{{subsystem}}/{{tableName}}/-components/new.tsx`.
+
+1.  **Read the Zod Schema:**
+    The Zod schema for the insert operation is located at `src/schemas/{{subsystem}}/{{tableName}}.ts`. You need to read this file to understand the fields required for the form. The schema is named `{{subsystem}}{{pascalCase}}InsertSchema`.
+
+2.  **Group Fields Logically:**
+    When generating the form, analyze the field names from the Zod schema and group them into logical sections using `FieldSet` and `FieldGroup`. For example, fields like `street`, `city`, `state`, and `postalCode` should be wrapped in a `FieldSet` with a `FieldLegend` of "Address Information".
+
+3.  **Generate the New Component:**
+    Based on the Zod schema and the provided examples, generate the `New{{pascalCase}}FormDialog` component. It should use `useAppForm`, `useMutation`, and the other patterns outlined in the comprehensive example below.
+
+**Step 2: Update the Table Page Component**
+
+After creating the form dialog, you must update the main table page component located at `src/routes/dashboard/{{subsystem}}/{{tableName}}/index.tsx`.
+
+1.  **Validate Search Parameter:**
+    In the `createFileRoute` call, ensure the `validateSearch` object includes `new: z.boolean().optional()` to control the dialog's visibility.
+
+    ```ts
+    export const Route = createFileRoute('/dashboard/{{subsystem}}/{{tableName}}/')({
+      //...
+      validateSearch: zodValidator(
+        paginateTransformer().extend({
+          //...
+          new: z.boolean().optional(),
+          //...
+        }),
+      ),
+      //...
+    });
+    ```
+
+2.  **Add "Create" Button:**
+    In the `RouteComponent`, add a `Button` that sets the `new: true` search parameter on click, which will open the dialog.
+
+    ```tsx
+    <Button
+      onClick={() => {
+        navigate({
+          search: (prev) => ({ ...prev, new: true }),
+        });
+      }}
+      variant={'outline'}
+    >
+      Create
+      <Plus />
+    </Button>
+    ```
+
+3.  **Import and Render Dialog:**
+    Import the `New{{pascalCase}}FormDialog` at the top of the file and render it within the `RouteComponent`'s JSX, typically near other dialogs.
+
+    ```tsx
+    import New{{pascalCase}}FormDialog from './-components/new';
+
+    // ... inside RouteComponent
+    return (
+      <article>
+        {/* ... other components */}
+        <New{{pascalCase}}FormDialog />
+      </article>
+    );
+    ```
+
+**Comprehensive Example (for `NewCompanyFormDialog`):**
+
+```tsx
+import { useMutation } from '@tanstack/react-query';
+import {
+  useNavigate,
+  useRouteContext,
+  useSearch,
+} from '@tanstack/react-router';
+import { useAppForm } from '@/components/form';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  FieldDescription,
+  FieldGroup,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+} from '@/components/ui/field';
+import { createCompany } from '@/queries/crm';
+import { crmCompanyInsertSchema } from '@/schemas/crm/companies';
+import { ORPCInputs } from '@/orpc/client';
+
+const NewCompanyFormDialog = () => {
+  const navigate = useNavigate({ from: '/dashboard/crm/companies' });
+  const searchQuery = useSearch({ from: '/dashboard/crm/companies/' });
+  const { orpcClient, queryClient } = useRouteContext({
+    from: '/dashboard/crm/companies/',
+  });
+
+  const createMutation = useMutation(createCompany, queryClient);
+
+  const form = useAppForm({
+    defaultValues: {} as ORPCInputs['crm']['createCompany'],
+    validators: {
+      onChange: crmCompanyInsertSchema,
+    },
+    onSubmit: async ({ value }) =>
+      createMutation.mutateAsync(value, {
+        onSuccess: () =>
+          navigate({ search: (prev) => ({ ...prev, new: undefined }) }),
+      }),
+  });
+
+  return (
+    <Dialog
+      open={searchQuery.new}
+      onOpenChange={() =>
+        navigate({ search: (prev) => ({ ...prev, new: undefined }) })
+      }
+    >
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create New Company</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to create a new company record.
+          </DialogDescription>
+        </DialogHeader>
+        <FieldSeparator />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppForm>
+            <FieldGroup>
+              <FieldSet>
+                <FieldLegend>Basic Information</FieldLegend>
+                <FieldDescription>
+                  Provide the fundamental details about the company.
+                </FieldDescription>
+                <FieldGroup>
+                  <form.AppField name="name">
+                    {(field) => (
+                      <field.TextField
+                        label="Name"
+                        description="The official name of the company."
+                        required
+                      />
+                    )}
+                  </form.AppField>
+                  {/* ... other fields ... */}
+                </FieldGroup>
+              </FieldSet>
+              <form.SubmitButton>Create Company</form.SubmitButton>
+            </FieldGroup>
+          </form.AppForm>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default NewCompanyFormDialog;
+```
+
+Now, execute both steps to create the form and integrate it.
+"""

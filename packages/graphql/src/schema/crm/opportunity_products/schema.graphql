@@ -1,0 +1,32 @@
+type OpportunityProducts {
+	id: ID!
+	opportunity: Opportunities!
+	product: Products!
+	quantity: Float!
+}
+
+input CreateOpportunityProductInput {
+	productId: ID!
+	quantity: Float! @constraint(min: 0.01)
+}
+
+input AddOpportunityProductInput {
+	productId: ID!
+	quantity: Float! @constraint(min: 0.01)
+}
+
+input UpdateOpportunityProductInput {
+	quantity: Float! @constraint(min: 0.01)
+}
+
+extend type CrmMutation {
+	addOpportunityProduct(
+		id: ID!
+		value: CreateOpportunityProductInput!
+	): OpportunityProducts!
+	updateOpportunityProduct(
+		id: ID!
+		value: UpdateOpportunityProductInput!
+	): OpportunityProducts!
+	removeOpportunityProduct(id: ID!): DeleteResult!
+}

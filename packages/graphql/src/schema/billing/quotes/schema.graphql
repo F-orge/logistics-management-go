@@ -1,0 +1,105 @@
+enum QuoteStatus {
+	PENDING
+	ACCEPTED
+	EXPIRED
+	CANCELLED
+	CONVERTED
+}
+
+type Quotes {
+	id: ID!
+	client: Companies
+	originDetails: String!
+	destinationDetails: String!
+	weight: Float
+	length: Float
+	width: Float
+	height: Float
+	volume: Float
+	quotedPrice: Float!
+	serviceLevel: String
+	expiresAt: String
+	status: QuoteStatus
+	quoteNumber: String
+	notes: String
+	createdByUser: User
+	createdAt: Date
+	updatedAt: Date
+	billingInvoices: [BillingInvoices!]
+}
+
+extend type BillingQuery {
+	quotes(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: QuoteStatus
+	): [Quotes!]!
+	quote(id: ID!): Quotes!
+}
+
+input CreateQuoteInput {
+	clientId: ID
+	originDetails: String! @constraint(minLength: 1)
+	destinationDetails: String! @constraint(minLength: 1)
+	weight: Float @constraint(min: 0)
+	length: Float @constraint(min: 0)
+	width: Float @constraint(min: 0)
+	height: Float @constraint(min: 0)
+	quotedPrice: Float! @constraint(min: 0)
+	serviceLevel: String @constraint(minLength: 1)
+	expiresAt: String @constraint(minLength: 1)
+	status: QuoteStatus
+	quoteNumber: String @constraint(minLength: 1)
+	notes: String @constraint(minLength: 1)
+	createdByUserId: ID
+}
+
+input UpdateQuoteInput {
+	originDetails: String @constraint(minLength: 1)
+	destinationDetails: String @constraint(minLength: 1)
+	weight: Float @constraint(min: 0)
+	length: Float @constraint(min: 0)
+	width: Float @constraint(min: 0)
+	height: Float @constraint(min: 0)
+	quotedPrice: Float @constraint(min: 0)
+	serviceLevel: String @constraint(minLength: 1)
+	expiresAt: String @constraint(minLength: 1)
+	status: QuoteStatus
+	notes: String @constraint(minLength: 1)
+}
+
+extend type BillingMutation {
+	createQuote(value: CreateQuoteInput!): Quotes!
+	updateQuote(id: ID!, value: UpdateQuoteInput): Quotes!
+	removeQuote(id: ID!): DeleteResult!
+}
+
+type QuoteStatusChangedEvent {
+	id: ID!
+	newStatus: QuoteStatus!
+	previousStatus: QuoteStatus!
+	clientId: ID
+}
+
+type QuoteExpiredEvent {
+	id: ID!
+	quoteNumber: String
+	clientId: ID
+}
+
+type QuoteConvertedEvent {
+	quote: Quotes!
+	invoiceId: ID!
+}
+
+extend type Subscription {
+	quoteCreated: Quotes!
+	quoteSent: Quotes!
+	quoteStatusChanged: QuoteStatusChangedEvent!
+	quoteAccepted: Quotes!
+	quoteExpired: QuoteExpiredEvent!
+	quoteConverted: QuoteConvertedEvent!
+}
