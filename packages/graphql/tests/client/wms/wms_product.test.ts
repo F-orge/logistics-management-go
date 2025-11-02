@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsWmsProductsQuery,
+	CreateWmsProductMutation,
+	RemoveWmsProductMutation,
+	SearchWmsProductsQuery,
+	TableWmsProductQuery,
+	UpdateWmsProductMutation,
+} from "../../../src/client";
 import type {
-	CreateWmsProductMutation as CreateWmsProductMutationType,
-	CreateWmsProductMutationVariables,
-	UpdateWmsProductMutation as UpdateWmsProductMutationType,
-	UpdateWmsProductMutationVariables,
-	RemoveWmsProductMutation as RemoveWmsProductMutationType,
-	RemoveWmsProductMutationVariables,
-	TableWmsProductQuery as TableWmsProductQueryType,
-	TableWmsProductQueryVariables,
-	SearchWmsProductsQuery as SearchWmsProductsQueryType,
-	SearchWmsProductsQueryVariables,
 	AnalyticsWmsProductsQuery as AnalyticsWmsProductsQueryType,
 	AnalyticsWmsProductsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateWmsProductInput,
+	CreateWmsProductMutation as CreateWmsProductMutationType,
+	CreateWmsProductMutationVariables,
+	RemoveWmsProductMutation as RemoveWmsProductMutationType,
+	RemoveWmsProductMutationVariables,
+	SearchWmsProductsQuery as SearchWmsProductsQueryType,
+	SearchWmsProductsQueryVariables,
+	TableWmsProductQuery as TableWmsProductQueryType,
+	TableWmsProductQueryVariables,
 	UpdateWmsProductInput,
+	UpdateWmsProductMutation as UpdateWmsProductMutationType,
+	UpdateWmsProductMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateWmsProductMutation,
-	UpdateWmsProductMutation,
-	RemoveWmsProductMutation,
-	TableWmsProductQuery,
-	SearchWmsProductsQuery,
-	AnalyticsWmsProductsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateWmsProductTestCase = GraphQLTestCase<
 > & {
 	createData: CreateWmsProductInput;
 	updateData: UpdateWmsProductInput;
-	validate?: (response: UpdateWmsProductMutationType, createdWmsProduct: any) => void;
+	validate?: (
+		response: UpdateWmsProductMutationType,
+		createdWmsProduct: any,
+	) => void;
 };
 
 type RemoveWmsProductTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create WmsProduct", () => {
 	const cases: CreateWmsProductTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateWmsProductMutation, testCase.variables);
+		const response = await executor(
+			CreateWmsProductMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -282,7 +287,10 @@ describe("Graphql Analytics WmsProducts Query", () => {
 	const cases: AnalyticsWmsProductsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsWmsProductsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsWmsProductsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

@@ -1,5 +1,4 @@
 import { Faker } from "@faker-js/faker";
-import { Insertable } from "kysely";
 import {
   CrmAttachment,
   CrmCampaign,
@@ -27,6 +26,7 @@ import {
   CrmProductType,
   CrmRecordType,
 } from "@packages/graphql/db.types";
+import { Insertable } from "kysely";
 
 // Utility function to randomly select from enum values
 const randomEnumValue = <T extends Record<string, string>>(

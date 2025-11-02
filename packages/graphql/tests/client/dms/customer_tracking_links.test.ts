@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateCustomerTrackingLinkMutation as CreateCustomerTrackingLinkMutationType,
-	CreateCustomerTrackingLinkMutationVariables,
-	UpdateCustomerTrackingLinkMutation as UpdateCustomerTrackingLinkMutationType,
-	UpdateCustomerTrackingLinkMutationVariables,
-	TableCustomerTrackingLinkQuery as TableCustomerTrackingLinkQueryType,
-	TableCustomerTrackingLinkQueryVariables,
-	SearchCustomerTrackingLinksQuery as SearchCustomerTrackingLinksQueryType,
-	SearchCustomerTrackingLinksQueryVariables,
-	AnalyticsCustomerTrackingLinksQuery as AnalyticsCustomerTrackingLinksQueryType,
-	AnalyticsCustomerTrackingLinksQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateCustomerTrackingLinkInput,
-	UpdateCustomerTrackingLinkInput,
-} from "../../../src/client/generated/graphql";
 import {
+	AnalyticsCustomerTrackingLinksQuery,
 	CreateCustomerTrackingLinkMutation,
-	UpdateCustomerTrackingLinkMutation,
 	CustomerTrackingLinkQuery,
 	SearchCustomerTrackingLinksQuery,
-	AnalyticsCustomerTrackingLinksQuery,
+	UpdateCustomerTrackingLinkMutation,
 } from "../../../src/client";
+import type {
+	AnalyticsCustomerTrackingLinksQuery as AnalyticsCustomerTrackingLinksQueryType,
+	AnalyticsCustomerTrackingLinksQueryVariables,
+	CreateCustomerTrackingLinkInput,
+	CreateCustomerTrackingLinkMutation as CreateCustomerTrackingLinkMutationType,
+	CreateCustomerTrackingLinkMutationVariables,
+	SearchCustomerTrackingLinksQuery as SearchCustomerTrackingLinksQueryType,
+	SearchCustomerTrackingLinksQueryVariables,
+	TableCustomerTrackingLinkQuery as TableCustomerTrackingLinkQueryType,
+	TableCustomerTrackingLinkQueryVariables,
+	UpdateCustomerTrackingLinkInput,
+	UpdateCustomerTrackingLinkMutation as UpdateCustomerTrackingLinkMutationType,
+	UpdateCustomerTrackingLinkMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -181,7 +179,7 @@ describe("Graphql DMS Update Customer Tracking Link", () => {
 describe("Graphql DMS Table Customer Tracking Link Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdLinks: Array<{
+	const createdLinks: Array<{
 		id: string;
 		trackingToken: string;
 	}> = [];
@@ -209,7 +207,7 @@ describe("Graphql DMS Table Customer Tracking Link Query", () => {
 describe("Graphql DMS Search Customer Tracking Links Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdLinks: Array<{ id: string; trackingToken: string }> = [];
+	const createdLinks: Array<{ id: string; trackingToken: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

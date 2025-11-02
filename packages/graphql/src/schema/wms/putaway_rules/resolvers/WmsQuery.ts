@@ -1,39 +1,43 @@
 import { WmsLocationTypeEnum } from "../../../../db.types";
-import { PutawayRules } from "../../../../zod.schema";
+import type { PutawayRules } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<WmsQueryResolvers, 'putawayRule'|'putawayRules'> =
-  {
-    putawayRules: async (_parent, args, ctx) => {
-      let query = ctx.db.selectFrom("wms.putawayRules").selectAll();
+export const WmsQuery: Pick<WmsQueryResolvers, "putawayRule" | "putawayRules"> =
+	{
+		putawayRules: async (_parent, args, ctx) => {
+			let query = ctx.db.selectFrom("wms.putawayRules").selectAll();
 
-      if (args.page && args.perPage) {
-        const offset = (args.page - 1) * args.perPage;
-        query = query.offset(offset).limit(args.perPage);
-      }
+			if (args.page && args.perPage) {
+				const offset = (args.page - 1) * args.perPage;
+				query = query.offset(offset).limit(args.perPage);
+			}
 
-      if (args.from && args.to) {
-        query = query
-          .clearLimit()
-          .clearOffset()
-          .where("createdAt", ">=", args.from as Date)
-          .where("createdAt", "<=", args.to as Date);
-      }
+			if (args.from && args.to) {
+				query = query
+					.clearLimit()
+					.clearOffset()
+					.where("createdAt", ">=", args.from as Date)
+					.where("createdAt", "<=", args.to as Date);
+			}
 
-      if (args.locationType) {
-        query = query.where("locationType", "=", WmsLocationTypeEnum[args.locationType]);
-      }
+			if (args.locationType) {
+				query = query.where(
+					"locationType",
+					"=",
+					WmsLocationTypeEnum[args.locationType],
+				);
+			}
 
-      const results = await query.execute();
+			const results = await query.execute();
 
-      return results as unknown as PutawayRules[];
-    },
-    putawayRule: async (_parent, args, ctx) => {
-      const result = await ctx.db
-        .selectFrom("wms.putawayRules")
-        .selectAll()
-        .where("id", "=", args.id)
-        .executeTakeFirstOrThrow();
+			return results as unknown as PutawayRules[];
+		},
+		putawayRule: async (_parent, args, ctx) => {
+			const result = await ctx.db
+				.selectFrom("wms.putawayRules")
+				.selectAll()
+				.where("id", "=", args.id)
+				.executeTakeFirstOrThrow();
 
-      return result as unknown as PutawayRules;
-    },
-  };
+			return result as unknown as PutawayRules;
+		},
+	};

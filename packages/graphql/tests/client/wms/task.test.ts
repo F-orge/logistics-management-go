@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsTasksQuery,
+	CreateTaskMutation,
+	RemoveTaskMutation,
+	SearchTasksQuery,
+	TableTaskQuery,
+	UpdateTaskMutation,
+} from "../../../src/client";
 import type {
-	CreateTaskMutation as CreateTaskMutationType,
-	CreateTaskMutationVariables,
-	UpdateTaskMutation as UpdateTaskMutationType,
-	UpdateTaskMutationVariables,
-	RemoveTaskMutation as RemoveTaskMutationType,
-	RemoveTaskMutationVariables,
-	TableTaskQuery as TableTaskQueryType,
-	TableTaskQueryVariables,
-	SearchTasksQuery as SearchTasksQueryType,
-	SearchTasksQueryVariables,
 	AnalyticsTasksQuery as AnalyticsTasksQueryType,
 	AnalyticsTasksQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateTaskInput,
+	CreateTaskMutation as CreateTaskMutationType,
+	CreateTaskMutationVariables,
+	RemoveTaskMutation as RemoveTaskMutationType,
+	RemoveTaskMutationVariables,
+	SearchTasksQuery as SearchTasksQueryType,
+	SearchTasksQueryVariables,
+	TableTaskQuery as TableTaskQueryType,
+	TableTaskQueryVariables,
 	UpdateTaskInput,
+	UpdateTaskMutation as UpdateTaskMutationType,
+	UpdateTaskMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateTaskMutation,
-	UpdateTaskMutation,
-	RemoveTaskMutation,
-	TableTaskQuery,
-	SearchTasksQuery,
-	AnalyticsTasksQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================

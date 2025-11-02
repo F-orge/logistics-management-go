@@ -1,45 +1,54 @@
-import React from 'react'
-import { Label } from '../../label'
-import type { FieldWrapperProps } from '@autoform/react'
-import { Field, FieldContent, FieldDescription, FieldError, FieldLabel } from '../../field'
+import type { FieldWrapperProps } from "@autoform/react";
+import type React from "react";
+import {
+	Field,
+	FieldContent,
+	FieldDescription,
+	FieldError,
+	FieldLabel,
+} from "../../field";
 
-const DISABLED_LABELS = ['boolean', 'object', 'array']
+const DISABLED_LABELS = ["boolean", "object", "array"];
 
 export const FieldWrapper: React.FC<FieldWrapperProps> = ({
-  label,
-  children,
-  id,
-  field,
-  error,
+	label,
+	children,
+	id,
+	field,
+	error,
 }) => {
-  const isDisabled = DISABLED_LABELS.includes(field.type)
+	const isDisabled = DISABLED_LABELS.includes(field.type);
 
-  return (
-    <Field>
-      {field.fieldConfig?.description ? (
-        <FieldContent>
-          {!isDisabled && (
-            <FieldLabel className="w-full" aria-required={field.required} htmlFor={id}>
-              {field.required && <span className="text-destructive"> *</span>}
-              {label}
-            </FieldLabel>
-          )}
-          {children}
-          <FieldDescription>{field.fieldConfig.description}</FieldDescription>
-          {error && <FieldError>{error}</FieldError>}
-        </FieldContent>
-      ) : (
-        <>
-          {!isDisabled && (
-            <FieldLabel aria-required={field.required} htmlFor={id}>
-              {label}
-              {field.required && <span className="text-destructive"> *</span>}
-            </FieldLabel>
-          )}
-          {children}
-          {error && <FieldError>{error}</FieldError>}
-        </>
-      )}
-    </Field>
-  )
-}
+	return (
+		<Field>
+			{field.fieldConfig?.description ? (
+				<FieldContent>
+					{!isDisabled && (
+						<FieldLabel
+							className="w-full"
+							aria-required={field.required}
+							htmlFor={id}
+						>
+							{field.required && <span className="text-destructive"> *</span>}
+							{label}
+						</FieldLabel>
+					)}
+					{children}
+					<FieldDescription>{field.fieldConfig.description}</FieldDescription>
+					{error && <FieldError>{error}</FieldError>}
+				</FieldContent>
+			) : (
+				<>
+					{!isDisabled && (
+						<FieldLabel aria-required={field.required} htmlFor={id}>
+							{label}
+							{field.required && <span className="text-destructive"> *</span>}
+						</FieldLabel>
+					)}
+					{children}
+					{error && <FieldError>{error}</FieldError>}
+				</>
+			)}
+		</Field>
+	);
+};

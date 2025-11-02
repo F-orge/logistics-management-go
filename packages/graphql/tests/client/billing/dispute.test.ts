@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDisputesQuery,
+	CreateDisputeMutation,
+	SearchDisputesQuery,
+	TableDisputeQuery,
+	UpdateDisputeMutation,
+} from "../../../src/client";
 import type {
-	CreateDisputeMutation as CreateDisputeMutationType,
-	CreateDisputeMutationVariables,
-	UpdateDisputeMutation as UpdateDisputeMutationType,
-	UpdateDisputeMutationVariables,
-	TableDisputeQuery as TableDisputeQueryType,
-	TableDisputeQueryVariables,
-	SearchDisputesQuery as SearchDisputesQueryType,
-	SearchDisputesQueryVariables,
 	AnalyticsDisputesQuery as AnalyticsDisputesQueryType,
 	AnalyticsDisputesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateDisputeInput,
+	CreateDisputeMutation as CreateDisputeMutationType,
+	CreateDisputeMutationVariables,
+	SearchDisputesQuery as SearchDisputesQueryType,
+	SearchDisputesQueryVariables,
+	TableDisputeQuery as TableDisputeQueryType,
+	TableDisputeQueryVariables,
 	UpdateDisputeInput,
+	UpdateDisputeMutation as UpdateDisputeMutationType,
+	UpdateDisputeMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateDisputeMutation,
-	UpdateDisputeMutation,
-	TableDisputeQuery,
-	SearchDisputesQuery,
-	AnalyticsDisputesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================

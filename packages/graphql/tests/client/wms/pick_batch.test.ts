@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsPickBatchesQuery,
+	CreatePickBatchMutation,
+	RemovePickBatchMutation,
+	SearchPickBatchesQuery,
+	TablePickBatchQuery,
+	UpdatePickBatchMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsPickBatchesQueryVariables,
+	AnalyticsPickBatchesQuery as AnalyticsPickBatchsQueryType,
+	CreatePickBatchInput,
 	CreatePickBatchMutation as CreatePickBatchMutationType,
 	CreatePickBatchMutationVariables,
-	UpdatePickBatchMutation as UpdatePickBatchMutationType,
-	UpdatePickBatchMutationVariables,
 	RemovePickBatchMutation as RemovePickBatchMutationType,
 	RemovePickBatchMutationVariables,
+	SearchPickBatchesQueryVariables,
+	SearchPickBatchesQuery as SearchPickBatchsQueryType,
 	TablePickBatchQuery as TablePickBatchQueryType,
 	TablePickBatchQueryVariables,
-	SearchPickBatchesQuery as SearchPickBatchsQueryType,
-	SearchPickBatchesQueryVariables,
-	AnalyticsPickBatchesQuery as AnalyticsPickBatchsQueryType,
-	AnalyticsPickBatchesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreatePickBatchInput,
 	UpdatePickBatchInput,
+	UpdatePickBatchMutation as UpdatePickBatchMutationType,
+	UpdatePickBatchMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreatePickBatchMutation,
-	UpdatePickBatchMutation,
-	RemovePickBatchMutation,
-	TablePickBatchQuery,
-	SearchPickBatchesQuery,
-	AnalyticsPickBatchesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdatePickBatchTestCase = GraphQLTestCase<
 > & {
 	createData: CreatePickBatchInput;
 	updateData: UpdatePickBatchInput;
-	validate?: (response: UpdatePickBatchMutationType, createdPickBatch: any) => void;
+	validate?: (
+		response: UpdatePickBatchMutationType,
+		createdPickBatch: any,
+	) => void;
 };
 
 type RemovePickBatchTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create PickBatch", () => {
 	const cases: CreatePickBatchTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreatePickBatchMutation, testCase.variables);
+		const response = await executor(
+			CreatePickBatchMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -282,7 +287,10 @@ describe("Graphql Analytics PickBatchs Query", () => {
 	const cases: AnalyticsPickBatchsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsPickBatchesQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsPickBatchesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

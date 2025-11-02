@@ -1,45 +1,45 @@
-import { Packages } from "../../../../zod.schema";
+import type { Packages } from "../../../../zod.schema";
 import type { WmsQueryResolvers } from "./../../../types.generated";
-export const WmsQuery: Pick<WmsQueryResolvers, 'package'|'packages'> = {
-  packages: async (_parent, args, ctx) => {
-    let query = ctx.db.selectFrom("wms.packages").selectAll();
+export const WmsQuery: Pick<WmsQueryResolvers, "package" | "packages"> = {
+	packages: async (_parent, args, ctx) => {
+		let query = ctx.db.selectFrom("wms.packages").selectAll();
 
-    if (args.page && args.perPage) {
-      const offset = (args.page - 1) * args.perPage;
-      query = query.offset(offset).limit(args.perPage);
-    }
+		if (args.page && args.perPage) {
+			const offset = (args.page - 1) * args.perPage;
+			query = query.offset(offset).limit(args.perPage);
+		}
 
-    if (args.from && args.to) {
-      query = query
-        .clearLimit()
-        .clearOffset()
-        .where("createdAt", ">=", args.from as Date)
-        .where("createdAt", "<=", args.to as Date);
-    }
+		if (args.from && args.to) {
+			query = query
+				.clearLimit()
+				.clearOffset()
+				.where("createdAt", ">=", args.from as Date)
+				.where("createdAt", "<=", args.to as Date);
+		}
 
-    if (args.search) {
-      query = query.where((eb) =>
-        eb.or([
-          eb("packageNumber", "ilike", `%${args.search}%`),
-          eb("packageType", "ilike", `%${args.search}%`),
-          eb("trackingNumber", "ilike", `%${args.search}%`),
-          eb("carrier", "ilike", `%${args.search}%`),
-          eb("serviceLevel", "ilike", `%${args.search}%`),
-        ])
-      );
-    }
+		if (args.search) {
+			query = query.where((eb) =>
+				eb.or([
+					eb("packageNumber", "ilike", `%${args.search}%`),
+					eb("packageType", "ilike", `%${args.search}%`),
+					eb("trackingNumber", "ilike", `%${args.search}%`),
+					eb("carrier", "ilike", `%${args.search}%`),
+					eb("serviceLevel", "ilike", `%${args.search}%`),
+				]),
+			);
+		}
 
-    const results = await query.execute();
+		const results = await query.execute();
 
-    return results as unknown as Packages[];
-  },
-  package: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .selectFrom("wms.packages")
-      .selectAll()
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
+		return results as unknown as Packages[];
+	},
+	package: async (_parent, args, ctx) => {
+		const result = await ctx.db
+			.selectFrom("wms.packages")
+			.selectAll()
+			.where("id", "=", args.id)
+			.executeTakeFirstOrThrow();
 
-    return result as unknown as Packages;
-  },
+		return result as unknown as Packages;
+	},
 };

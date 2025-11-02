@@ -1,4 +1,4 @@
-import type   { WmsTaskAssignedEventResolvers } from './../../../types.generated';
-    export const WmsTaskAssignedEvent: WmsTaskAssignedEventResolvers = {
-    /* Implement WmsTaskAssignedEvent resolver logic here */
-  };
+import type { WmsTaskAssignedEventResolvers } from "./../../../types.generated";
+export const WmsTaskAssignedEvent: WmsTaskAssignedEventResolvers = {
+	/* Implement WmsTaskAssignedEvent resolver logic here */
+};

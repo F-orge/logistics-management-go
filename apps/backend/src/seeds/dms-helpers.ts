@@ -1,18 +1,18 @@
 import { Faker } from "@faker-js/faker";
-import type { Insertable } from "kysely";
 import {
   DmsCustomerTrackingLink,
+  DmsDeliveryFailureReasonEnum,
   DmsDeliveryRoute,
+  DmsDeliveryRouteStatusEnum,
   DmsDeliveryTask,
+  DmsDeliveryTaskStatusEnum,
   DmsDriverLocation,
   DmsProofOfDelivery,
-  DmsTaskEvent,
-  DmsDeliveryFailureReasonEnum,
-  DmsDeliveryRouteStatusEnum,
-  DmsDeliveryTaskStatusEnum,
   DmsProofOfDeliveryTypeEnum,
+  DmsTaskEvent,
   DmsTaskEventStatusEnum,
 } from "@packages/graphql/db.types";
+import type { Insertable } from "kysely";
 
 // Utility function to randomly select from enum values
 const randomEnumValue = <T extends Record<string, string>>(

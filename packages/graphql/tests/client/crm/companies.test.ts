@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsCompaniesQuery,
+	CreateCompanyMutation,
+	RemoveCompanyMutation,
+	SearchCompaniesQuery,
+	TableCompanyQuery,
+	UpdateCompanyMutation,
+} from "../../../src/client";
 import type {
-	CreateCompanyMutation as CreateCompanyMutationType,
-	CreateCompanyMutationVariables,
-	UpdateCompanyMutation as UpdateCompanyMutationType,
-	UpdateCompanyMutationVariables,
-	RemoveCompanyMutation as RemoveCompanyMutationType,
-	RemoveCompanyMutationVariables,
-	TableCompanyQueryQuery as TableCompanyQueryType,
-	TableCompanyQueryQueryVariables,
-	SearchCompaniesQuery as SearchCompaniesQueryType,
-	SearchCompaniesQueryVariables,
 	AnalyticsCompaniesQuery as AnalyticsCompaniesQueryType,
 	AnalyticsCompaniesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateCompanyInput,
+	CreateCompanyMutation as CreateCompanyMutationType,
+	CreateCompanyMutationVariables,
+	RemoveCompanyMutation as RemoveCompanyMutationType,
+	RemoveCompanyMutationVariables,
+	SearchCompaniesQuery as SearchCompaniesQueryType,
+	SearchCompaniesQueryVariables,
+	TableCompanyQueryQueryVariables,
+	TableCompanyQueryQuery as TableCompanyQueryType,
 	UpdateCompanyInput,
+	UpdateCompanyMutation as UpdateCompanyMutationType,
+	UpdateCompanyMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateCompanyMutation,
-	UpdateCompanyMutation,
-	RemoveCompanyMutation,
-	TableCompanyQuery,
-	SearchCompaniesQuery,
-	AnalyticsCompaniesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -230,7 +228,7 @@ describe("Graphql CRM Remove Company", () => {
 describe("Graphql CRM Table Company Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdCompanies: Array<{
+	const createdCompanies: Array<{
 		id: string;
 		name: string;
 	}> = [];
@@ -255,7 +253,7 @@ describe("Graphql CRM Table Company Query", () => {
 describe("Graphql CRM Search Companies Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdCompanies: Array<{ id: string; name: string }> = [];
+	const createdCompanies: Array<{ id: string; name: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

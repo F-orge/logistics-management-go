@@ -1,20 +1,18 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateGeofenceEventMutation as CreateGeofenceEventMutationType,
-	CreateGeofenceEventMutationVariables,
-	UpdateGeofenceEventMutation as UpdateGeofenceEventMutationType,
-	UpdateGeofenceEventMutationVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateGeofenceEventInput,
-	UpdateGeofenceEventInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateGeofenceEventMutation,
 	UpdateGeofenceEventMutation,
 } from "../../../src/client";
+import type {
+	CreateGeofenceEventInput,
+	CreateGeofenceEventMutation as CreateGeofenceEventMutationType,
+	CreateGeofenceEventMutationVariables,
+	UpdateGeofenceEventInput,
+	UpdateGeofenceEventMutation as UpdateGeofenceEventMutationType,
+	UpdateGeofenceEventMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

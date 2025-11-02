@@ -1,11 +1,11 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import { CreateShipmentLegEventMutation } from "../../../src/client";
 import type {
 	CreateShipmentLegEventMutation as CreateShipmentLegEventMutationType,
 	CreateShipmentLegEventMutationVariables,
 } from "../../../src/client/generated/graphql";
-import { CreateShipmentLegEventMutation } from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

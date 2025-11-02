@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDeliveryRoutesQuery,
+	CreateDeliveryRouteMutation,
+	RemoveDeliveryRouteMutation,
+	SearchDeliveryRoutesQuery,
+	TableDeliveryRoute,
+	UpdateDeliveryRouteMutation,
+} from "../../../src/client";
 import type {
-	CreateDeliveryRouteMutation as CreateDeliveryRouteMutationType,
-	CreateDeliveryRouteMutationVariables,
-	UpdateDeliveryRouteMutation as UpdateDeliveryRouteMutationType,
-	UpdateDeliveryRouteMutationVariables,
-	RemoveDeliveryRouteMutation as RemoveDeliveryRouteMutationType,
-	RemoveDeliveryRouteMutationVariables,
-	TableDeliveryQuery as TableDeliveryQueryType,
-	TableDeliveryQueryVariables,
-	SearchDeliveryRoutesQuery as SearchDeliveryRoutesQueryType,
-	SearchDeliveryRoutesQueryVariables,
 	AnalyticsDeliveryRoutesQuery as AnalyticsDeliveryRoutesQueryType,
 	AnalyticsDeliveryRoutesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateDeliveryRouteInput,
+	CreateDeliveryRouteMutation as CreateDeliveryRouteMutationType,
+	CreateDeliveryRouteMutationVariables,
+	RemoveDeliveryRouteMutation as RemoveDeliveryRouteMutationType,
+	RemoveDeliveryRouteMutationVariables,
+	SearchDeliveryRoutesQuery as SearchDeliveryRoutesQueryType,
+	SearchDeliveryRoutesQueryVariables,
+	TableDeliveryQuery as TableDeliveryQueryType,
+	TableDeliveryQueryVariables,
 	UpdateDeliveryRouteInput,
+	UpdateDeliveryRouteMutation as UpdateDeliveryRouteMutationType,
+	UpdateDeliveryRouteMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateDeliveryRouteMutation,
-	UpdateDeliveryRouteMutation,
-	RemoveDeliveryRouteMutation,
-	TableDeliveryRoute,
-	SearchDeliveryRoutesQuery,
-	AnalyticsDeliveryRoutesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -238,7 +236,7 @@ describe("Graphql DMS Remove Delivery Route", () => {
 describe("Graphql DMS Table Delivery Route Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdRoutes: Array<{
+	const createdRoutes: Array<{
 		id: string;
 	}> = [];
 
@@ -262,7 +260,7 @@ describe("Graphql DMS Table Delivery Route Query", () => {
 describe("Graphql DMS Search Delivery Routes Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdRoutes: Array<{ id: string }> = [];
+	const createdRoutes: Array<{ id: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

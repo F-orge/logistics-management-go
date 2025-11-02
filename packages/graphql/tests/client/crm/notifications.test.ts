@@ -1,26 +1,24 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateNotificationMutation as CreateNotificationMutationType,
-	CreateNotificationMutationVariables,
-	UpdateNotificationMutation as UpdateNotificationMutationType,
-	UpdateNotificationMutationVariables,
-	TableNotificationQuery as TableNotificationQueryType,
-	TableNotificationQueryVariables,
-	SearchNotificationsQuery as SearchNotificationsQueryType,
-	SearchNotificationsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateNotificationInput,
-	UpdateNotificationInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateNotificationMutation,
-	UpdateNotificationMutation,
-	TableNotificationQuery,
 	SearchNotificationsQuery,
+	TableNotificationQuery,
+	UpdateNotificationMutation,
 } from "../../../src/client";
+import type {
+	CreateNotificationInput,
+	CreateNotificationMutation as CreateNotificationMutationType,
+	CreateNotificationMutationVariables,
+	SearchNotificationsQuery as SearchNotificationsQueryType,
+	SearchNotificationsQueryVariables,
+	TableNotificationQuery as TableNotificationQueryType,
+	TableNotificationQueryVariables,
+	UpdateNotificationInput,
+	UpdateNotificationMutation as UpdateNotificationMutationType,
+	UpdateNotificationMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

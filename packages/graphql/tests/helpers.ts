@@ -1,17 +1,17 @@
-import { Pool, PoolClient } from "pg";
-import { S3Client } from "bun";
-import { Transporter } from "nodemailer";
-import { Kysely, PostgresDialect, CamelCasePlugin } from "kysely";
+import type { S3Client } from "bun";
+import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
+import type { Transporter } from "nodemailer";
+import type { Pool, PoolClient } from "pg";
+import type { GraphqlResponse } from "../src/client";
 import type { TypedDocumentString } from "../src/client/generated/graphql";
-import { createGraphQLYoga } from "../src/yoga";
 import { pubsubFactory } from "../src/events";
-import { GraphqlResponse } from "../src/client";
+import { createGraphQLYoga } from "../src/yoga";
 
 declare global {
-  var __testPool: Pool;
-  var __testClient: PoolClient;
-  var __testS3Client: S3Client;
-  var __testMailer: Transporter;
+	var __testPool: Pool;
+	var __testClient: PoolClient;
+	var __testS3Client: S3Client;
+	var __testMailer: Transporter;
 }
 
 /**
@@ -19,12 +19,12 @@ declare global {
  * @throws Error if test database not initialized
  */
 export const getTestClient = (): PoolClient => {
-  if (!globalThis.__testClient) {
-    throw new Error(
-      "Test database not initialized. Make sure setup.ts is imported before tests run."
-    );
-  }
-  return globalThis.__testClient;
+	if (!globalThis.__testClient) {
+		throw new Error(
+			"Test database not initialized. Make sure setup.ts is imported before tests run.",
+		);
+	}
+	return globalThis.__testClient;
 };
 
 /**
@@ -32,12 +32,12 @@ export const getTestClient = (): PoolClient => {
  * @throws Error if test pool not initialized
  */
 export const getTestPool = (): Pool => {
-  if (!globalThis.__testPool) {
-    throw new Error(
-      "Test pool not initialized. Make sure setup.ts is imported before tests run."
-    );
-  }
-  return globalThis.__testPool;
+	if (!globalThis.__testPool) {
+		throw new Error(
+			"Test pool not initialized. Make sure setup.ts is imported before tests run.",
+		);
+	}
+	return globalThis.__testPool;
 };
 
 /**
@@ -45,12 +45,12 @@ export const getTestPool = (): Pool => {
  * @throws Error if S3 client not initialized
  */
 export const getTestS3Client = (): S3Client => {
-  if (!globalThis.__testS3Client) {
-    throw new Error(
-      "Test S3 client not initialized. Make sure setup.ts is imported before tests run."
-    );
-  }
-  return globalThis.__testS3Client;
+	if (!globalThis.__testS3Client) {
+		throw new Error(
+			"Test S3 client not initialized. Make sure setup.ts is imported before tests run.",
+		);
+	}
+	return globalThis.__testS3Client;
 };
 
 /**
@@ -58,44 +58,44 @@ export const getTestS3Client = (): S3Client => {
  * @throws Error if mailer not initialized
  */
 export const getTestMailer = (): Transporter => {
-  if (!globalThis.__testMailer) {
-    throw new Error(
-      "Test mailer not initialized. Make sure setup.ts is imported before tests run."
-    );
-  }
-  return globalThis.__testMailer;
+	if (!globalThis.__testMailer) {
+		throw new Error(
+			"Test mailer not initialized. Make sure setup.ts is imported before tests run.",
+		);
+	}
+	return globalThis.__testMailer;
 };
 
 /**
  * Interface for MailHog message
  */
 interface MailHogMessage {
-  id: string;
-  from: {
-    relays: string[];
-    mailbox: string;
-    domain: string;
-    params: string;
-  };
-  to: Array<{
-    relays: string[];
-    mailbox: string;
-    domain: string;
-    params: string;
-  }>;
-  headers: Record<string, string | string[]>;
-  size: number;
-  created: string;
+	id: string;
+	from: {
+		relays: string[];
+		mailbox: string;
+		domain: string;
+		params: string;
+	};
+	to: Array<{
+		relays: string[];
+		mailbox: string;
+		domain: string;
+		params: string;
+	}>;
+	headers: Record<string, string | string[]>;
+	size: number;
+	created: string;
 }
 
 /**
  * Interface for MailHog messages response
  */
 interface MailHogMessagesResponse {
-  total: number;
-  start: number;
-  count: number;
-  messages: MailHogMessage[];
+	total: number;
+	start: number;
+	count: number;
+	messages: MailHogMessage[];
 }
 
 const MAILHOG_API_URL = process.env.MAILHOG_API_URL || "http://localhost:8025";
@@ -107,23 +107,23 @@ const MAILHOG_API_URL = process.env.MAILHOG_API_URL || "http://localhost:8025";
  * @throws Error if MailHog API is unavailable
  */
 export const getMailHogMessages = async (
-  start: number = 0,
-  limit: number = 50
+	start: number = 0,
+	limit: number = 50,
 ): Promise<MailHogMessage[]> => {
-  try {
-    const response = await fetch(
-      `${MAILHOG_API_URL}/api/v2/messages?start=${start}&limit=${limit}`
-    );
+	try {
+		const response = await fetch(
+			`${MAILHOG_API_URL}/api/v2/messages?start=${start}&limit=${limit}`,
+		);
 
-    if (!response.ok) {
-      throw new Error(`MailHog API returned status ${response.status}`);
-    }
+		if (!response.ok) {
+			throw new Error(`MailHog API returned status ${response.status}`);
+		}
 
-    const data = (await response.json()) as MailHogMessagesResponse;
-    return data.messages || [];
-  } catch (error) {
-    throw new Error(`Failed to fetch MailHog messages: ${error}`);
-  }
+		const data = (await response.json()) as MailHogMessagesResponse;
+		return data.messages || [];
+	} catch (error) {
+		throw new Error(`Failed to fetch MailHog messages: ${error}`);
+	}
 };
 
 /**
@@ -132,24 +132,24 @@ export const getMailHogMessages = async (
  * @throws Error if MailHog API is unavailable
  */
 export const findEmailTo = async (
-  recipient: string
+	recipient: string,
 ): Promise<MailHogMessage | null> => {
-  try {
-    const response = await fetch(
-      `${MAILHOG_API_URL}/api/v2/search?kind=to&query=${encodeURIComponent(
-        recipient
-      )}`
-    );
+	try {
+		const response = await fetch(
+			`${MAILHOG_API_URL}/api/v2/search?kind=to&query=${encodeURIComponent(
+				recipient,
+			)}`,
+		);
 
-    if (!response.ok) {
-      throw new Error(`MailHog API returned status ${response.status}`);
-    }
+		if (!response.ok) {
+			throw new Error(`MailHog API returned status ${response.status}`);
+		}
 
-    const data = (await response.json()) as MailHogMessagesResponse;
-    return data.messages && data.messages.length > 0 ? data.messages[0]! : null;
-  } catch (error) {
-    throw new Error(`Failed to search MailHog messages by recipient: ${error}`);
-  }
+		const data = (await response.json()) as MailHogMessagesResponse;
+		return data.messages && data.messages.length > 0 ? data.messages[0]! : null;
+	} catch (error) {
+		throw new Error(`Failed to search MailHog messages by recipient: ${error}`);
+	}
 };
 
 /**
@@ -158,24 +158,24 @@ export const findEmailTo = async (
  * @throws Error if MailHog API is unavailable
  */
 export const findEmailFrom = async (
-  sender: string
+	sender: string,
 ): Promise<MailHogMessage | null> => {
-  try {
-    const response = await fetch(
-      `${MAILHOG_API_URL}/api/v2/search?kind=from&query=${encodeURIComponent(
-        sender
-      )}`
-    );
+	try {
+		const response = await fetch(
+			`${MAILHOG_API_URL}/api/v2/search?kind=from&query=${encodeURIComponent(
+				sender,
+			)}`,
+		);
 
-    if (!response.ok) {
-      throw new Error(`MailHog API returned status ${response.status}`);
-    }
+		if (!response.ok) {
+			throw new Error(`MailHog API returned status ${response.status}`);
+		}
 
-    const data = (await response.json()) as MailHogMessagesResponse;
-    return data.messages && data.messages.length > 0 ? data.messages[0]! : null;
-  } catch (error) {
-    throw new Error(`Failed to search MailHog messages by sender: ${error}`);
-  }
+		const data = (await response.json()) as MailHogMessagesResponse;
+		return data.messages && data.messages.length > 0 ? data.messages[0]! : null;
+	} catch (error) {
+		throw new Error(`Failed to search MailHog messages by sender: ${error}`);
+	}
 };
 
 /**
@@ -184,24 +184,24 @@ export const findEmailFrom = async (
  * @throws Error if MailHog API is unavailable
  */
 export const findEmailContaining = async (
-  query: string
+	query: string,
 ): Promise<MailHogMessage | null> => {
-  try {
-    const response = await fetch(
-      `${MAILHOG_API_URL}/api/v2/search?kind=containing&query=${encodeURIComponent(
-        query
-      )}`
-    );
+	try {
+		const response = await fetch(
+			`${MAILHOG_API_URL}/api/v2/search?kind=containing&query=${encodeURIComponent(
+				query,
+			)}`,
+		);
 
-    if (!response.ok) {
-      throw new Error(`MailHog API returned status ${response.status}`);
-    }
+		if (!response.ok) {
+			throw new Error(`MailHog API returned status ${response.status}`);
+		}
 
-    const data = (await response.json()) as MailHogMessagesResponse;
-    return data.messages && data.messages.length > 0 ? data.messages[0]! : null;
-  } catch (error) {
-    throw new Error(`Failed to search MailHog messages by content: ${error}`);
-  }
+		const data = (await response.json()) as MailHogMessagesResponse;
+		return data.messages && data.messages.length > 0 ? data.messages[0]! : null;
+	} catch (error) {
+		throw new Error(`Failed to search MailHog messages by content: ${error}`);
+	}
 };
 
 /**
@@ -209,17 +209,17 @@ export const findEmailContaining = async (
  * @throws Error if MailHog API is unavailable
  */
 export const clearMailHog = async (): Promise<void> => {
-  try {
-    const response = await fetch(`${MAILHOG_API_URL}/api/v2/messages`, {
-      method: "DELETE",
-    });
+	try {
+		const response = await fetch(`${MAILHOG_API_URL}/api/v2/messages`, {
+			method: "DELETE",
+		});
 
-    if (!response.ok) {
-      throw new Error(`MailHog API returned status ${response.status}`);
-    }
-  } catch (error) {
-    throw new Error(`Failed to clear MailHog messages: ${error}`);
-  }
+		if (!response.ok) {
+			throw new Error(`MailHog API returned status ${response.status}`);
+		}
+	} catch (error) {
+		throw new Error(`Failed to clear MailHog messages: ${error}`);
+	}
 };
 
 // GraphQL test helpers
@@ -237,76 +237,76 @@ export const clearMailHog = async (): Promise<void> => {
  * @returns A function that takes a `Request` and returns a `Promise<Response>` from the Yoga GraphQL server.
  */
 export const graphQLQueryExecutor = ({
-  enableJWT,
+	enableJWT,
 }: {
-  enableJWT: boolean;
+	enableJWT: boolean;
 }): (<TResult, TVariables>(
-  query: TypedDocumentString<TResult, TVariables>,
-  ...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
+	query: TypedDocumentString<TResult, TVariables>,
+	...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
 ) => Promise<GraphqlResponse<TResult>>) => {
-  // Validate all required services are initialized
-  const pool = getTestPool();
-  const s3Client = getTestS3Client();
-  const mailer = getTestMailer();
+	// Validate all required services are initialized
+	const pool = getTestPool();
+	const s3Client = getTestS3Client();
+	const mailer = getTestMailer();
 
-  // Create pubsub instance for this test execution
-  const pubsub = pubsubFactory();
+	// Create pubsub instance for this test execution
+	const pubsub = pubsubFactory();
 
-  // Create Kysely instance for this test execution
-  const db = new Kysely<any>({
-    dialect: new PostgresDialect({ pool }),
-    plugins: [new CamelCasePlugin()],
-  });
+	// Create Kysely instance for this test execution
+	const db = new Kysely<any>({
+		dialect: new PostgresDialect({ pool }),
+		plugins: [new CamelCasePlugin()],
+	});
 
-  // Create Yoga instance
-  const yoga = createGraphQLYoga({
-    pool,
-    jwtSigningKey: process.env.JWT_SIGNING_KEY || "test-secret-key",
-    jwtIssuer: process.env.JWT_ISSUER || "http://localhost:3001",
-    jwtAudience: process.env.JWT_AUDIENCE || "http://localhost:3000",
-    environment: "development",
-    enableJWT: enableJWT,
-  });
+	// Create Yoga instance
+	const yoga = createGraphQLYoga({
+		pool,
+		jwtSigningKey: process.env.JWT_SIGNING_KEY || "test-secret-key",
+		jwtIssuer: process.env.JWT_ISSUER || "http://localhost:3001",
+		jwtAudience: process.env.JWT_AUDIENCE || "http://localhost:3000",
+		environment: "development",
+		enableJWT: enableJWT,
+	});
 
-  return async <TResult, TVariables>(
-    query: TypedDocumentString<TResult, TVariables>,
-    ...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
-  ): Promise<GraphqlResponse<TResult>> => {
-    const request = new Request("http://localhost:3000/api/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/graphql-response+json",
-      },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
-    });
+	return async <TResult, TVariables>(
+		query: TypedDocumentString<TResult, TVariables>,
+		...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
+	): Promise<GraphqlResponse<TResult>> => {
+		const request = new Request("http://localhost:3000/api/graphql", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/graphql-response+json",
+			},
+			body: JSON.stringify({
+				query,
+				variables,
+			}),
+		});
 
-    const response = await yoga.fetch(request, {
-      db,
-      s3Client,
-      pubsub,
-      mailer,
-    });
+		const response = await yoga.fetch(request, {
+			db,
+			s3Client,
+			pubsub,
+			mailer,
+		});
 
-    const jsonResponse = (await response.json()) as GraphqlResponse<TResult>;
+		const jsonResponse = (await response.json()) as GraphqlResponse<TResult>;
 
-    // If response has GraphQL errors (even with non-200 status), return them as-is
-    // This handles GraphQL validation errors which may return non-200 status
-    if (jsonResponse.errors && jsonResponse.errors.length > 0) {
-      return jsonResponse;
-    }
+		// If response has GraphQL errors (even with non-200 status), return them as-is
+		// This handles GraphQL validation errors which may return non-200 status
+		if (jsonResponse.errors && jsonResponse.errors.length > 0) {
+			return jsonResponse;
+		}
 
-    // Only add network error if response is not ok AND no GraphQL errors
-    if (!response.ok) {
-      return {
-        ...jsonResponse,
-        errors: [{ message: `Network error: ${response.statusText}` }],
-      } as GraphqlResponse<TResult>;
-    }
+		// Only add network error if response is not ok AND no GraphQL errors
+		if (!response.ok) {
+			return {
+				...jsonResponse,
+				errors: [{ message: `Network error: ${response.statusText}` }],
+			} as GraphqlResponse<TResult>;
+		}
 
-    return jsonResponse;
-  };
+		return jsonResponse;
+	};
 };

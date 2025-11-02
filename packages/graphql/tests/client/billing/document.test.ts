@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDocumentsQuery,
+	CreateDocumentMutation,
+	RemoveDocumentMutation,
+	SearchDocumentsQuery,
+	TableDocumentQuery,
+	UpdateDocumentMutation,
+} from "../../../src/client";
 import type {
-	CreateDocumentMutation as CreateDocumentMutationType,
-	CreateDocumentMutationVariables,
-	UpdateDocumentMutation as UpdateDocumentMutationType,
-	UpdateDocumentMutationVariables,
-	RemoveDocumentMutation as RemoveDocumentMutationType,
-	RemoveDocumentMutationVariables,
-	TableDocumentQuery as TableDocumentQueryType,
-	TableDocumentQueryVariables,
-	SearchDocumentsQuery as SearchDocumentsQueryType,
-	SearchDocumentsQueryVariables,
 	AnalyticsDocumentsQuery as AnalyticsDocumentsQueryType,
 	AnalyticsDocumentsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateDocumentInput,
+	CreateDocumentMutation as CreateDocumentMutationType,
+	CreateDocumentMutationVariables,
+	RemoveDocumentMutation as RemoveDocumentMutationType,
+	RemoveDocumentMutationVariables,
+	SearchDocumentsQuery as SearchDocumentsQueryType,
+	SearchDocumentsQueryVariables,
+	TableDocumentQuery as TableDocumentQueryType,
+	TableDocumentQueryVariables,
 	UpdateDocumentInput,
+	UpdateDocumentMutation as UpdateDocumentMutationType,
+	UpdateDocumentMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateDocumentMutation,
-	UpdateDocumentMutation,
-	RemoveDocumentMutation,
-	TableDocumentQuery,
-	SearchDocumentsQuery,
-	AnalyticsDocumentsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateDocumentTestCase = GraphQLTestCase<
 > & {
 	createData: CreateDocumentInput;
 	updateData: UpdateDocumentInput;
-	validate?: (response: UpdateDocumentMutationType, createdDocument: any) => void;
+	validate?: (
+		response: UpdateDocumentMutationType,
+		createdDocument: any,
+	) => void;
 };
 
 type RemoveDocumentTestCase = GraphQLTestCase<
@@ -206,7 +208,9 @@ describe("Graphql Remove Document", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeDocument?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removeDocument?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -282,7 +286,10 @@ describe("Graphql Analytics Documents Query", () => {
 	const cases: AnalyticsDocumentsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsDocumentsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsDocumentsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

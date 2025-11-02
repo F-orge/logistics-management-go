@@ -1,39 +1,38 @@
 enum GeofenceEventType {
-  ENTER
-  EXIT
+	ENTER
+	EXIT
 }
 
 type GeofenceEvents {
-  id: ID!
-  vehicle: Vehicles!
-  geofence: Geofences!
-  eventType: GeofenceEventType!
-  timestamp: String!
+	id: ID!
+	vehicle: Vehicles!
+	geofence: Geofences!
+	eventType: GeofenceEventType!
+	timestamp: String!
 }
 
-
 input CreateGeofenceEventInput {
-  vehicleId: ID!
-  geofenceId: ID!
-  eventType: GeofenceEventType!
-  timestamp: String!
+	vehicleId: ID!
+	geofenceId: ID!
+	eventType: GeofenceEventType!
+	timestamp: String!
 }
 
 input UpdateGeofenceEventInput {
-  eventType: GeofenceEventType
+	eventType: GeofenceEventType
 }
 
 extend type TmsMutation {
-  createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
-  updateGeofenceEvent(id: ID!, value: UpdateGeofenceEventInput): GeofenceEvents!
+	createGeofenceEvent(value: CreateGeofenceEventInput!): GeofenceEvents!
+	updateGeofenceEvent(id: ID!, value: UpdateGeofenceEventInput): GeofenceEvents!
 }
 
 type TmsGeofenceEvent {
-  geofenceEvent: GeofenceEvents!
-  geofenceName: String!
+	geofenceEvent: GeofenceEvents!
+	geofenceName: String!
 }
 
 extend type Subscription {
-  geofenceEntered: TmsGeofenceEvent!
-  geofenceExited: TmsGeofenceEvent!
+	geofenceEntered: TmsGeofenceEvent!
+	geofenceExited: TmsGeofenceEvent!
 }

@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsOutboundShipmentsQuery,
+	CreateOutboundShipmentMutation,
+	RemoveOutboundShipmentMutation,
+	SearchOutboundShipmentsQuery,
+	TableOutboundShipmentQuery,
+	UpdateOutboundShipmentMutation,
+} from "../../../src/client";
 import type {
-	CreateOutboundShipmentMutation as CreateOutboundShipmentMutationType,
-	CreateOutboundShipmentMutationVariables,
-	UpdateOutboundShipmentMutation as UpdateOutboundShipmentMutationType,
-	UpdateOutboundShipmentMutationVariables,
-	RemoveOutboundShipmentMutation as RemoveOutboundShipmentMutationType,
-	RemoveOutboundShipmentMutationVariables,
-	TableOutboundShipmentQuery as TableOutboundShipmentQueryType,
-	TableOutboundShipmentQueryVariables,
-	SearchOutboundShipmentsQuery as SearchOutboundShipmentsQueryType,
-	SearchOutboundShipmentsQueryVariables,
 	AnalyticsOutboundShipmentsQuery as AnalyticsOutboundShipmentsQueryType,
 	AnalyticsOutboundShipmentsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateOutboundShipmentInput,
+	CreateOutboundShipmentMutation as CreateOutboundShipmentMutationType,
+	CreateOutboundShipmentMutationVariables,
+	RemoveOutboundShipmentMutation as RemoveOutboundShipmentMutationType,
+	RemoveOutboundShipmentMutationVariables,
+	SearchOutboundShipmentsQuery as SearchOutboundShipmentsQueryType,
+	SearchOutboundShipmentsQueryVariables,
+	TableOutboundShipmentQuery as TableOutboundShipmentQueryType,
+	TableOutboundShipmentQueryVariables,
 	UpdateOutboundShipmentInput,
+	UpdateOutboundShipmentMutation as UpdateOutboundShipmentMutationType,
+	UpdateOutboundShipmentMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateOutboundShipmentMutation,
-	UpdateOutboundShipmentMutation,
-	RemoveOutboundShipmentMutation,
-	TableOutboundShipmentQuery,
-	SearchOutboundShipmentsQuery,
-	AnalyticsOutboundShipmentsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateOutboundShipmentTestCase = GraphQLTestCase<
 > & {
 	createData: CreateOutboundShipmentInput;
 	updateData: UpdateOutboundShipmentInput;
-	validate?: (response: UpdateOutboundShipmentMutationType, createdOutboundShipment: any) => void;
+	validate?: (
+		response: UpdateOutboundShipmentMutationType,
+		createdOutboundShipment: any,
+	) => void;
 };
 
 type RemoveOutboundShipmentTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create OutboundShipment", () => {
 	const cases: CreateOutboundShipmentTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateOutboundShipmentMutation, testCase.variables);
+		const response = await executor(
+			CreateOutboundShipmentMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -134,8 +139,10 @@ describe("Graphql Update OutboundShipment", () => {
 		});
 
 		expect(createResponse.data?.wms?.createOutboundShipment?.id).toBeDefined();
-		const outboundShipmentId = createResponse.data!.wms!.createOutboundShipment!.id!;
-		const createdOutboundShipment = createResponse.data!.wms!.createOutboundShipment!;
+		const outboundShipmentId =
+			createResponse.data!.wms!.createOutboundShipment!.id!;
+		const createdOutboundShipment =
+			createResponse.data!.wms!.createOutboundShipment!;
 
 		// Update OutboundShipment
 		const updateResponse = await executor(UpdateOutboundShipmentMutation, {
@@ -190,7 +197,8 @@ describe("Graphql Remove OutboundShipment", () => {
 					// Add minimal required fields
 				} as unknown as CreateOutboundShipmentInput,
 			});
-			outboundShipmentId = createResponse.data!.wms!.createOutboundShipment!.id!;
+			outboundShipmentId =
+				createResponse.data!.wms!.createOutboundShipment!.id!;
 		} else {
 			outboundShipmentId = "00000000-0000-0000-0000-000000000000";
 		}
@@ -206,12 +214,16 @@ describe("Graphql Remove OutboundShipment", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeOutboundShipment?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeOutboundShipment?.success).toBe(
+					false,
+				);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveOutboundShipmentMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveOutboundShipmentMutationType,
+			);
 		}
 	});
 });
@@ -230,7 +242,10 @@ describe("Graphql Table OutboundShipments Query", () => {
 	const cases: TableOutboundShipmentTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableOutboundShipmentQuery, testCase.variables);
+		const response = await executor(
+			TableOutboundShipmentQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -256,7 +271,10 @@ describe("Graphql Search OutboundShipments Query", () => {
 	const cases: SearchOutboundShipmentsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchOutboundShipmentsQuery, testCase.variables);
+		const response = await executor(
+			SearchOutboundShipmentsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -282,7 +300,10 @@ describe("Graphql Analytics OutboundShipments Query", () => {
 	const cases: AnalyticsOutboundShipmentsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsOutboundShipmentsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsOutboundShipmentsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsStockTransfersQuery,
+	CreateStockTransferMutation,
+	RemoveStockTransferMutation,
+	TableStockTransferQuery,
+	UpdateStockTransferMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsStockTransfersQuery as AnalyticsStockTransfersQueryType,
+	AnalyticsStockTransfersQueryVariables,
+	CreateStockTransferInput,
 	CreateStockTransferMutation as CreateStockTransferMutationType,
 	CreateStockTransferMutationVariables,
-	UpdateStockTransferMutation as UpdateStockTransferMutationType,
-	UpdateStockTransferMutationVariables,
 	RemoveStockTransferMutation as RemoveStockTransferMutationType,
 	RemoveStockTransferMutationVariables,
 	TableStockTransferQuery as TableStockTransferQueryType,
 	TableStockTransferQueryVariables,
-	AnalyticsStockTransfersQuery as AnalyticsStockTransfersQueryType,
-	AnalyticsStockTransfersQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateStockTransferInput,
 	UpdateStockTransferInput,
+	UpdateStockTransferMutation as UpdateStockTransferMutationType,
+	UpdateStockTransferMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateStockTransferMutation,
-	UpdateStockTransferMutation,
-	RemoveStockTransferMutation,
-	TableStockTransferQuery,
-	AnalyticsStockTransfersQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateStockTransferTestCase = GraphQLTestCase<
 > & {
 	createData: CreateStockTransferInput;
 	updateData: UpdateStockTransferInput;
-	validate?: (response: UpdateStockTransferMutationType, createdStockTransfer: any) => void;
+	validate?: (
+		response: UpdateStockTransferMutationType,
+		createdStockTransfer: any,
+	) => void;
 };
 
 type RemoveStockTransferTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create StockTransfer", () => {
 	const cases: CreateStockTransferTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateStockTransferMutation, testCase.variables);
+		const response = await executor(
+			CreateStockTransferMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -196,7 +201,9 @@ describe("Graphql Remove StockTransfer", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeStockTransfer?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeStockTransfer?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -220,7 +227,10 @@ describe("Graphql Table StockTransfers Query", () => {
 	const cases: TableStockTransferTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableStockTransferQuery, testCase.variables);
+		const response = await executor(
+			TableStockTransferQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -246,7 +256,10 @@ describe("Graphql Analytics StockTransfers Query", () => {
 	const cases: AnalyticsStockTransfersTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsStockTransfersQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsStockTransfersQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

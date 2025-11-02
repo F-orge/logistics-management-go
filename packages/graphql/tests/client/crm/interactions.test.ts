@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateInteractionMutation as CreateInteractionMutationType,
-	CreateInteractionMutationVariables,
-	UpdateInteractionMutation as UpdateInteractionMutationType,
-	UpdateInteractionMutationVariables,
-	RemoveInteractionMutation as RemoveInteractionMutationType,
-	RemoveInteractionMutationVariables,
-	TableInteractionQuery as TableInteractionQueryType,
-	TableInteractionQueryVariables,
-	SearchInteractionsQuery as SearchInteractionsQueryType,
-	SearchInteractionsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateInteractionInput,
-	UpdateInteractionInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateInteractionMutation,
-	UpdateInteractionMutation,
 	RemoveInteractionMutation,
-	TableInteractionQuery,
 	SearchInteractionsQuery,
+	TableInteractionQuery,
+	UpdateInteractionMutation,
 } from "../../../src/client";
+import type {
+	CreateInteractionInput,
+	CreateInteractionMutation as CreateInteractionMutationType,
+	CreateInteractionMutationVariables,
+	RemoveInteractionMutation as RemoveInteractionMutationType,
+	RemoveInteractionMutationVariables,
+	SearchInteractionsQuery as SearchInteractionsQueryType,
+	SearchInteractionsQueryVariables,
+	TableInteractionQuery as TableInteractionQueryType,
+	TableInteractionQueryVariables,
+	UpdateInteractionInput,
+	UpdateInteractionMutation as UpdateInteractionMutationType,
+	UpdateInteractionMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -224,7 +222,7 @@ describe("Graphql CRM Remove Interaction", () => {
 describe("Graphql CRM Table Interaction Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdInteractions: Array<{
+	const createdInteractions: Array<{
 		id: string;
 	}> = [];
 
@@ -248,7 +246,7 @@ describe("Graphql CRM Table Interaction Query", () => {
 describe("Graphql CRM Search Interactions Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdInteractions: Array<{ id: string }> = [];
+	const createdInteractions: Array<{ id: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

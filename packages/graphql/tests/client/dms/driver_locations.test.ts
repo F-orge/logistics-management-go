@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDriverLocationsQuery,
+	CreateDriverLocationMutation,
+	RemoveDriverLocationMutation,
+	TableDriverLocationQuery,
+	UpdateDriverLocationMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsDriverLocationsQuery as AnalyticsDriverLocationsQueryType,
+	AnalyticsDriverLocationsQueryVariables,
+	CreateDriverLocationInput,
 	CreateDriverLocationMutation as CreateDriverLocationMutationType,
 	CreateDriverLocationMutationVariables,
-	UpdateDriverLocationMutation as UpdateDriverLocationMutationType,
-	UpdateDriverLocationMutationVariables,
 	RemoveDriverLocationMutation as RemoveDriverLocationMutationType,
 	RemoveDriverLocationMutationVariables,
 	TableDriverLocationQuery as TableDriverLocationQueryType,
 	TableDriverLocationQueryVariables,
-	AnalyticsDriverLocationsQuery as AnalyticsDriverLocationsQueryType,
-	AnalyticsDriverLocationsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateDriverLocationInput,
 	UpdateDriverLocationInput,
+	UpdateDriverLocationMutation as UpdateDriverLocationMutationType,
+	UpdateDriverLocationMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateDriverLocationMutation,
-	UpdateDriverLocationMutation,
-	RemoveDriverLocationMutation,
-	TableDriverLocationQuery,
-	AnalyticsDriverLocationsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -230,7 +228,7 @@ describe("Graphql DMS Remove Driver Location", () => {
 describe("Graphql DMS Table Driver Location Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdLocations: Array<{
+	const createdLocations: Array<{
 		id: string;
 	}> = [];
 

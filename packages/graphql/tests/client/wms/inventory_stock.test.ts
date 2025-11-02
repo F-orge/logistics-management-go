@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsInventoryStockQuery,
+	CreateInventoryStockMutation,
+	RemoveInventoryStockMutation,
+	TableInventoryStockQuery,
+	UpdateInventoryStockMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsInventoryStockQueryVariables,
+	AnalyticsInventoryStockQuery as AnalyticsInventoryStocksQueryType,
+	CreateInventoryStockInput,
 	CreateInventoryStockMutation as CreateInventoryStockMutationType,
 	CreateInventoryStockMutationVariables,
-	UpdateInventoryStockMutation as UpdateInventoryStockMutationType,
-	UpdateInventoryStockMutationVariables,
 	RemoveInventoryStockMutation as RemoveInventoryStockMutationType,
 	RemoveInventoryStockMutationVariables,
 	TableInventoryStockQuery as TableInventoryStockQueryType,
 	TableInventoryStockQueryVariables,
-	AnalyticsInventoryStockQuery as AnalyticsInventoryStocksQueryType,
-	AnalyticsInventoryStockQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateInventoryStockInput,
 	UpdateInventoryStockInput,
+	UpdateInventoryStockMutation as UpdateInventoryStockMutationType,
+	UpdateInventoryStockMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateInventoryStockMutation,
-	UpdateInventoryStockMutation,
-	RemoveInventoryStockMutation,
-	TableInventoryStockQuery,
-	AnalyticsInventoryStockQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateInventoryStockTestCase = GraphQLTestCase<
 > & {
 	createData: CreateInventoryStockInput;
 	updateData: UpdateInventoryStockInput;
-	validate?: (response: UpdateInventoryStockMutationType, createdInventoryStock: any) => void;
+	validate?: (
+		response: UpdateInventoryStockMutationType,
+		createdInventoryStock: any,
+	) => void;
 };
 
 type RemoveInventoryStockTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create InventoryStock", () => {
 	const cases: CreateInventoryStockTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateInventoryStockMutation, testCase.variables);
+		const response = await executor(
+			CreateInventoryStockMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -124,8 +129,10 @@ describe("Graphql Update InventoryStock", () => {
 		});
 
 		expect(createResponse.data?.wms?.createInventoryStock?.id).toBeDefined();
-		const inventoryStockId = createResponse.data!.wms!.createInventoryStock!.id!;
-		const createdInventoryStock = createResponse.data!.wms!.createInventoryStock!;
+		const inventoryStockId =
+			createResponse.data!.wms!.createInventoryStock!.id!;
+		const createdInventoryStock =
+			createResponse.data!.wms!.createInventoryStock!;
 
 		// Update InventoryStock
 		const updateResponse = await executor(UpdateInventoryStockMutation, {
@@ -196,12 +203,16 @@ describe("Graphql Remove InventoryStock", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeInventoryStock?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeInventoryStock?.success).toBe(
+					false,
+				);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveInventoryStockMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveInventoryStockMutationType,
+			);
 		}
 	});
 });
@@ -220,7 +231,10 @@ describe("Graphql Table InventoryStocks Query", () => {
 	const cases: TableInventoryStockTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableInventoryStockQuery, testCase.variables);
+		const response = await executor(
+			TableInventoryStockQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -246,7 +260,10 @@ describe("Graphql Analytics InventoryStocks Query", () => {
 	const cases: AnalyticsInventoryStocksTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsInventoryStockQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsInventoryStockQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

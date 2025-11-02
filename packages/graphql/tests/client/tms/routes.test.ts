@@ -1,26 +1,24 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	CreateRouteMutation,
+	RemoveRouteMutation,
+	TableRouteQuery,
+	UpdateRouteMutation,
+} from "../../../src/client";
 import type {
+	CreateRouteInput,
 	CreateRouteMutation as CreateRouteMutationType,
 	CreateRouteMutationVariables,
-	UpdateRouteMutation as UpdateRouteMutationType,
-	UpdateRouteMutationVariables,
 	RemoveRouteMutation as RemoveRouteMutationType,
 	RemoveRouteMutationVariables,
 	TableRouteQuery as TableRouteQueryType,
 	TableRouteQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateRouteInput,
 	UpdateRouteInput,
+	UpdateRouteMutation as UpdateRouteMutationType,
+	UpdateRouteMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateRouteMutation,
-	UpdateRouteMutation,
-	RemoveRouteMutation,
-	TableRouteQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

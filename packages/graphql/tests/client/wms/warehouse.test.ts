@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateWarehouseMutation as CreateWarehouseMutationType,
-	CreateWarehouseMutationVariables,
-	UpdateWarehouseMutation as UpdateWarehouseMutationType,
-	UpdateWarehouseMutationVariables,
-	RemoveWarehouseMutation as RemoveWarehouseMutationType,
-	RemoveWarehouseMutationVariables,
-	TableWarehouseQuery as TableWarehouseQueryType,
-	TableWarehouseQueryVariables,
-	SearchWarehousesQuery as SearchWarehousesQueryType,
-	SearchWarehousesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateWarehouseInput,
-	UpdateWarehouseInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateWarehouseMutation,
-	UpdateWarehouseMutation,
 	RemoveWarehouseMutation,
-	TableWarehouseQuery,
 	SearchWarehousesQuery,
+	TableWarehouseQuery,
+	UpdateWarehouseMutation,
 } from "../../../src/client";
+import type {
+	CreateWarehouseInput,
+	CreateWarehouseMutation as CreateWarehouseMutationType,
+	CreateWarehouseMutationVariables,
+	RemoveWarehouseMutation as RemoveWarehouseMutationType,
+	RemoveWarehouseMutationVariables,
+	SearchWarehousesQuery as SearchWarehousesQueryType,
+	SearchWarehousesQueryVariables,
+	TableWarehouseQuery as TableWarehouseQueryType,
+	TableWarehouseQueryVariables,
+	UpdateWarehouseInput,
+	UpdateWarehouseMutation as UpdateWarehouseMutationType,
+	UpdateWarehouseMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateWarehouseTestCase = GraphQLTestCase<
 > & {
 	createData: CreateWarehouseInput;
 	updateData: UpdateWarehouseInput;
-	validate?: (response: UpdateWarehouseMutationType, createdWarehouse: any) => void;
+	validate?: (
+		response: UpdateWarehouseMutationType,
+		createdWarehouse: any,
+	) => void;
 };
 
 type RemoveWarehouseTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create Warehouse", () => {
 	const cases: CreateWarehouseTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateWarehouseMutation, testCase.variables);
+		const response = await executor(
+			CreateWarehouseMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");

@@ -1,23 +1,21 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateTripStopMutation as CreateTripStopMutationType,
-	CreateTripStopMutationVariables,
-	UpdateTripStopMutation as UpdateTripStopMutationType,
-	UpdateTripStopMutationVariables,
-	RemoveTripStopMutation as RemoveTripStopMutationType,
-	RemoveTripStopMutationVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateTripStopInput,
-	UpdateTripStopInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateTripStopMutation,
-	UpdateTripStopMutation,
 	RemoveTripStopMutation,
+	UpdateTripStopMutation,
 } from "../../../src/client";
+import type {
+	CreateTripStopInput,
+	CreateTripStopMutation as CreateTripStopMutationType,
+	CreateTripStopMutationVariables,
+	RemoveTripStopMutation as RemoveTripStopMutationType,
+	RemoveTripStopMutationVariables,
+	UpdateTripStopInput,
+	UpdateTripStopMutation as UpdateTripStopMutationType,
+	UpdateTripStopMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

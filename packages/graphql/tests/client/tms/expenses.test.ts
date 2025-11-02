@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsExpensesQuery,
+	CreateExpenseMutation,
+	RemoveExpenseMutation,
+	SearchExpensesQuery,
+	TableExpenseQuery,
+	UpdateExpenseMutation,
+} from "../../../src/client";
 import type {
-	CreateExpenseMutation as CreateExpenseMutationType,
-	CreateExpenseMutationVariables,
-	UpdateExpenseMutation as UpdateExpenseMutationType,
-	UpdateExpenseMutationVariables,
-	RemoveExpenseMutation as RemoveExpenseMutationType,
-	RemoveExpenseMutationVariables,
-	TableExpenseQuery as TableExpenseQueryType,
-	TableExpenseQueryVariables,
-	SearchExpensesQuery as SearchExpensesQueryType,
-	SearchExpensesQueryVariables,
 	AnalyticsExpensesQuery as AnalyticsExpensesQueryType,
 	AnalyticsExpensesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateExpenseInput,
+	CreateExpenseMutation as CreateExpenseMutationType,
+	CreateExpenseMutationVariables,
+	RemoveExpenseMutation as RemoveExpenseMutationType,
+	RemoveExpenseMutationVariables,
+	SearchExpensesQuery as SearchExpensesQueryType,
+	SearchExpensesQueryVariables,
+	TableExpenseQuery as TableExpenseQueryType,
+	TableExpenseQueryVariables,
 	UpdateExpenseInput,
+	UpdateExpenseMutation as UpdateExpenseMutationType,
+	UpdateExpenseMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateExpenseMutation,
-	UpdateExpenseMutation,
-	RemoveExpenseMutation,
-	TableExpenseQuery,
-	SearchExpensesQuery,
-	AnalyticsExpensesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

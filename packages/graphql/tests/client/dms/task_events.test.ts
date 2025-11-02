@@ -1,23 +1,23 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsTaskEventsQuery,
+	CreateTaskEventMutation,
+	SearchTaskEventsQuery,
+	TableTaskEventQuery,
+} from "../../../src/client";
 import type {
-	CreateTaskEventMutation as CreateTaskEventMutationType,
-	CreateTaskEventMutationVariables,
-	TableTaskEventQuery as TableTaskEventQueryType,
-	TableTaskEventQueryVariables,
-	SearchTaskEventsQuery as SearchTaskEventsQueryType,
-	SearchTaskEventsQueryVariables,
 	AnalyticsTaskEventsQuery as AnalyticsTaskEventsQueryType,
 	AnalyticsTaskEventsQueryVariables,
+	CreateTaskEventInput,
+	CreateTaskEventMutation as CreateTaskEventMutationType,
+	CreateTaskEventMutationVariables,
+	SearchTaskEventsQuery as SearchTaskEventsQueryType,
+	SearchTaskEventsQueryVariables,
+	TableTaskEventQuery as TableTaskEventQueryType,
+	TableTaskEventQueryVariables,
 } from "../../../src/client/generated/graphql";
-import type { CreateTaskEventInput } from "../../../src/client/generated/graphql";
-import {
-	CreateTaskEventMutation,
-	TableTaskEventQuery,
-	SearchTaskEventsQuery,
-	AnalyticsTaskEventsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -105,7 +105,7 @@ describe("Graphql DMS Create Task Event", () => {
 describe("Graphql DMS Table Task Event Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdEvents: Array<{
+	const createdEvents: Array<{
 		id: string;
 	}> = [];
 
@@ -129,7 +129,7 @@ describe("Graphql DMS Table Task Event Query", () => {
 describe("Graphql DMS Search Task Events Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdEvents: Array<{ id: string }> = [];
+	const createdEvents: Array<{ id: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

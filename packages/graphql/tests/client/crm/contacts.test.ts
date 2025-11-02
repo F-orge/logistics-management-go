@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateContactMutation as CreateContactMutationType,
-	CreateContactMutationVariables,
-	UpdateContactMutation as UpdateContactMutationType,
-	UpdateContactMutationVariables,
-	RemoveContactMutation as RemoveContactMutationType,
-	RemoveContactMutationVariables,
-	TableContactQuery as TableContactQueryType,
-	TableContactQueryVariables,
-	SearchContactsQuery as SearchContactsQueryType,
-	SearchContactsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateContactInput,
-	UpdateContactInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateContactMutation,
-	UpdateContactMutation,
 	RemoveContactMutation,
-	TableContactQuery,
 	SearchContactsQuery,
+	TableContactQuery,
+	UpdateContactMutation,
 } from "../../../src/client";
+import type {
+	CreateContactInput,
+	CreateContactMutation as CreateContactMutationType,
+	CreateContactMutationVariables,
+	RemoveContactMutation as RemoveContactMutationType,
+	RemoveContactMutationVariables,
+	SearchContactsQuery as SearchContactsQueryType,
+	SearchContactsQueryVariables,
+	TableContactQuery as TableContactQueryType,
+	TableContactQueryVariables,
+	UpdateContactInput,
+	UpdateContactMutation as UpdateContactMutationType,
+	UpdateContactMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -228,7 +226,7 @@ describe("Graphql CRM Remove Contact", () => {
 describe("Graphql CRM Table Contact Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdContacts: Array<{
+	const createdContacts: Array<{
 		id: string;
 		name: string;
 	}> = [];
@@ -279,7 +277,7 @@ describe("Graphql CRM Table Contact Query", () => {
 describe("Graphql CRM Search Contacts Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdContacts: Array<{ id: string; name: string }> = [];
+	const createdContacts: Array<{ id: string; name: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

@@ -1,26 +1,24 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	CreateVehicleMutation,
+	RemoveVehicleMutation,
+	TableVehicleQuery,
+	UpdateVehicleMutation,
+} from "../../../src/client";
 import type {
+	CreateVehicleInput,
 	CreateVehicleMutation as CreateVehicleMutationType,
 	CreateVehicleMutationVariables,
-	UpdateVehicleMutation as UpdateVehicleMutationType,
-	UpdateVehicleMutationVariables,
 	RemoveVehicleMutation as RemoveVehicleMutationType,
 	RemoveVehicleMutationVariables,
 	TableVehicleQuery as TableVehicleQueryType,
 	TableVehicleQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateVehicleInput,
 	UpdateVehicleInput,
+	UpdateVehicleMutation as UpdateVehicleMutationType,
+	UpdateVehicleMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateVehicleMutation,
-	UpdateVehicleMutation,
-	RemoveVehicleMutation,
-	TableVehicleQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

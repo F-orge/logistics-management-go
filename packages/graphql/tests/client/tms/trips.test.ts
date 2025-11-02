@@ -1,26 +1,24 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	CreateTripMutation,
+	RemoveTripMutation,
+	TableTripQuery,
+	UpdateTripMutation,
+} from "../../../src/client";
 import type {
+	CreateTripInput,
 	CreateTripMutation as CreateTripMutationType,
 	CreateTripMutationVariables,
-	UpdateTripMutation as UpdateTripMutationType,
-	UpdateTripMutationVariables,
 	RemoveTripMutation as RemoveTripMutationType,
 	RemoveTripMutationVariables,
 	TableTripQuery as TableTripQueryType,
 	TableTripQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateTripInput,
 	UpdateTripInput,
+	UpdateTripMutation as UpdateTripMutationType,
+	UpdateTripMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateTripMutation,
-	UpdateTripMutation,
-	RemoveTripMutation,
-	TableTripQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

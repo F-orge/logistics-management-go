@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsCampaignsQuery,
+	CreateCampaignMutation,
+	RemoveCampaignMutation,
+	SearchCampaignsQuery,
+	TableCampaignQuery,
+	UpdateCampaignMutation,
+} from "../../../src/client";
 import type {
-	CreateCampaignMutation as CreateCampaignMutationType,
-	CreateCampaignMutationVariables,
-	UpdateCampaignMutation as UpdateCampaignMutationType,
-	UpdateCampaignMutationVariables,
-	RemoveCampaignMutation as RemoveCampaignMutationType,
-	RemoveCampaignMutationVariables,
-	TableCampaignQuery as TableCampaignQueryType,
-	TableCampaignQueryVariables,
-	SearchCampaignsQuery as SearchCampaignsQueryType,
-	SearchCampaignsQueryVariables,
 	AnalyticsCampaignsQuery as AnalyticsCampaignsQueryType,
 	AnalyticsCampaignsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateCampaignInput,
+	CreateCampaignMutation as CreateCampaignMutationType,
+	CreateCampaignMutationVariables,
+	RemoveCampaignMutation as RemoveCampaignMutationType,
+	RemoveCampaignMutationVariables,
+	SearchCampaignsQuery as SearchCampaignsQueryType,
+	SearchCampaignsQueryVariables,
+	TableCampaignQuery as TableCampaignQueryType,
+	TableCampaignQueryVariables,
 	UpdateCampaignInput,
+	UpdateCampaignMutation as UpdateCampaignMutationType,
+	UpdateCampaignMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateCampaignMutation,
-	UpdateCampaignMutation,
-	RemoveCampaignMutation,
-	TableCampaignQuery,
-	SearchCampaignsQuery,
-	AnalyticsCampaignsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

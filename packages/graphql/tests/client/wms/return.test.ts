@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsReturnsQuery,
+	CreateReturnMutation,
+	RemoveReturnMutation,
+	SearchReturnsQuery,
+	TableReturnQuery,
+	UpdateReturnMutation,
+} from "../../../src/client";
 import type {
-	CreateReturnMutation as CreateReturnMutationType,
-	CreateReturnMutationVariables,
-	UpdateReturnMutation as UpdateReturnMutationType,
-	UpdateReturnMutationVariables,
-	RemoveReturnMutation as RemoveReturnMutationType,
-	RemoveReturnMutationVariables,
-	TableReturnQueryQuery as TableReturnQueryType,
-	TableReturnQueryQueryVariables,
-	SearchReturnsQuery as SearchReturnsQueryType,
-	SearchReturnsQueryVariables,
 	AnalyticsReturnsQuery as AnalyticsReturnsQueryType,
 	AnalyticsReturnsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateReturnInput,
+	CreateReturnMutation as CreateReturnMutationType,
+	CreateReturnMutationVariables,
+	RemoveReturnMutation as RemoveReturnMutationType,
+	RemoveReturnMutationVariables,
+	SearchReturnsQuery as SearchReturnsQueryType,
+	SearchReturnsQueryVariables,
+	TableReturnQueryQueryVariables,
+	TableReturnQueryQuery as TableReturnQueryType,
 	UpdateReturnInput,
+	UpdateReturnMutation as UpdateReturnMutationType,
+	UpdateReturnMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateReturnMutation,
-	UpdateReturnMutation,
-	RemoveReturnMutation,
-	TableReturnQuery,
-	SearchReturnsQuery,
-	AnalyticsReturnsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================

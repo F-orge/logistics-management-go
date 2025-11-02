@@ -1,26 +1,24 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateGeofenceMutation as CreateGeofenceMutationType,
-	CreateGeofenceMutationVariables,
-	UpdateGeofenceMutation as UpdateGeofenceMutationType,
-	UpdateGeofenceMutationVariables,
-	TableGeofenceQuery as TableGeofenceQueryType,
-	TableGeofenceQueryVariables,
-	SearchGeofencesQuery as SearchGeofencesQueryType,
-	SearchGeofencesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateGeofenceInput,
-	UpdateGeofenceInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateGeofenceMutation,
-	UpdateGeofenceMutation,
-	TableGeofenceQuery,
 	SearchGeofencesQuery,
+	TableGeofenceQuery,
+	UpdateGeofenceMutation,
 } from "../../../src/client";
+import type {
+	CreateGeofenceInput,
+	CreateGeofenceMutation as CreateGeofenceMutationType,
+	CreateGeofenceMutationVariables,
+	SearchGeofencesQuery as SearchGeofencesQueryType,
+	SearchGeofencesQueryVariables,
+	TableGeofenceQuery as TableGeofenceQueryType,
+	TableGeofenceQueryVariables,
+	UpdateGeofenceInput,
+	UpdateGeofenceMutation as UpdateGeofenceMutationType,
+	UpdateGeofenceMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

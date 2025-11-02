@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsCasesQuery,
+	CreateCaseMutation,
+	RemoveCaseMutation,
+	SearchCasesQuery,
+	TableCaseQuery,
+	UpdateCaseMutation,
+} from "../../../src/client";
 import type {
-	CreateCaseMutation as CreateCaseMutationType,
-	CreateCaseMutationVariables,
-	UpdateCaseMutation as UpdateCaseMutationType,
-	UpdateCaseMutationVariables,
-	RemoveCaseMutation as RemoveCaseMutationType,
-	RemoveCaseMutationVariables,
-	TableCaseQuery as TableCaseQueryType,
-	TableCaseQueryVariables,
-	SearchCasesQuery as SearchCasesQueryType,
-	SearchCasesQueryVariables,
 	AnalyticsCasesQuery as AnalyticsCasesQueryType,
 	AnalyticsCasesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateCaseInput,
+	CreateCaseMutation as CreateCaseMutationType,
+	CreateCaseMutationVariables,
+	RemoveCaseMutation as RemoveCaseMutationType,
+	RemoveCaseMutationVariables,
+	SearchCasesQuery as SearchCasesQueryType,
+	SearchCasesQueryVariables,
+	TableCaseQuery as TableCaseQueryType,
+	TableCaseQueryVariables,
 	UpdateCaseInput,
+	UpdateCaseMutation as UpdateCaseMutationType,
+	UpdateCaseMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateCaseMutation,
-	UpdateCaseMutation,
-	RemoveCaseMutation,
-	TableCaseQuery,
-	SearchCasesQuery,
-	AnalyticsCasesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

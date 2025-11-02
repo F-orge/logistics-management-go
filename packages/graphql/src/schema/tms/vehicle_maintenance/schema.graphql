@@ -1,39 +1,45 @@
 enum VehicleServiceType {
-  ROUTINE_MAINTENANCE
-  REPAIR
-  INSPECTION
-  OIL_CHANGE
-  TIRE_REPLACEMENT
-  BRAKE_SERVICE
+	ROUTINE_MAINTENANCE
+	REPAIR
+	INSPECTION
+	OIL_CHANGE
+	TIRE_REPLACEMENT
+	BRAKE_SERVICE
 }
 
 type VehicleMaintenance {
-  id: ID!
-  vehicle: Vehicles!
-  serviceDate: Date!
-  serviceType: VehicleServiceType
-  cost: Float
-  notes: String
-  createdAt: Date
-  updatedAt: Date
+	id: ID!
+	vehicle: Vehicles!
+	serviceDate: Date!
+	serviceType: VehicleServiceType
+	cost: Float
+	notes: String
+	createdAt: Date
+	updatedAt: Date
 }
 
 input CreateVehicleMaintenanceInput {
-  serviceDate: Date!
-  serviceType: VehicleServiceType
-  cost: Float
-  notes: String
+	serviceDate: Date!
+	serviceType: VehicleServiceType
+	cost: Float
+	notes: String
 }
 
 input UpdateVehicleMaintenanceInput {
-  serviceDate: Date
-  serviceType: VehicleServiceType
-  cost: Float
-  notes: String
+	serviceDate: Date
+	serviceType: VehicleServiceType
+	cost: Float
+	notes: String
 }
 
 extend type TmsMutation {
-  addVehicleMaintenance(id:ID!, value: CreateVehicleMaintenanceInput!): VehicleMaintenance!
-  updateVehicleMaintenance(id: ID!, value: UpdateVehicleMaintenanceInput): VehicleMaintenance!
-  removeVehicleMaintenance(id: ID!): DeleteResult!
+	addVehicleMaintenance(
+		id: ID!
+		value: CreateVehicleMaintenanceInput!
+	): VehicleMaintenance!
+	updateVehicleMaintenance(
+		id: ID!
+		value: UpdateVehicleMaintenanceInput
+	): VehicleMaintenance!
+	removeVehicleMaintenance(id: ID!): DeleteResult!
 }

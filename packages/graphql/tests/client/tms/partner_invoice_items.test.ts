@@ -1,17 +1,17 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	RemovePartnerInvoiceItemMutation,
+	UpdatePartnerInvoiceItemMutation,
+} from "../../../src/client";
 import type {
-	UpdatePartnerInvoiceItemMutation as UpdatePartnerInvoiceItemMutationType,
-	UpdatePartnerInvoiceItemMutationVariables,
 	RemovePartnerInvoiceItemMutation as RemovePartnerInvoiceItemMutationType,
 	RemovePartnerInvoiceItemMutationVariables,
+	UpdatePartnerInvoiceItemInput,
+	UpdatePartnerInvoiceItemMutation as UpdatePartnerInvoiceItemMutationType,
+	UpdatePartnerInvoiceItemMutationVariables,
 } from "../../../src/client/generated/graphql";
-import type { UpdatePartnerInvoiceItemInput } from "../../../src/client/generated/graphql";
-import {
-	UpdatePartnerInvoiceItemMutation,
-	RemovePartnerInvoiceItemMutation,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

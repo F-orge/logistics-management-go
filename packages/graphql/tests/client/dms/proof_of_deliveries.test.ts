@@ -1,23 +1,23 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDmsProofOfDeliveriesQuery,
+	CreateDmsProofOfDeliveryMutation,
+	SearchDmsProofOfDeliveriesQuery,
+	TableProofOfDeliveryQuery,
+} from "../../../src/client";
 import type {
-	CreateDmsProofOfDeliveryMutation as CreateDmsProofOfDeliveryMutationType,
-	CreateDmsProofOfDeliveryMutationVariables,
-	TableProofOfDeliveryQuery as TableProofOfDeliveryQueryType,
-	TableProofOfDeliveryQueryVariables,
-	SearchDmsProofOfDeliveriesQuery as SearchDmsProofOfDeliveriesQueryType,
-	SearchDmsProofOfDeliveriesQueryVariables,
 	AnalyticsProofOfDeliveriesQuery as AnalyticsProofOfDeliveriesQueryType,
 	AnalyticsProofOfDeliveriesQueryVariables,
+	CreateDmsProofOfDeliveryInput,
+	CreateDmsProofOfDeliveryMutation as CreateDmsProofOfDeliveryMutationType,
+	CreateDmsProofOfDeliveryMutationVariables,
+	SearchDmsProofOfDeliveriesQuery as SearchDmsProofOfDeliveriesQueryType,
+	SearchDmsProofOfDeliveriesQueryVariables,
+	TableProofOfDeliveryQuery as TableProofOfDeliveryQueryType,
+	TableProofOfDeliveryQueryVariables,
 } from "../../../src/client/generated/graphql";
-import type { CreateDmsProofOfDeliveryInput } from "../../../src/client/generated/graphql";
-import {
-	CreateDmsProofOfDeliveryMutation,
-	TableProofOfDeliveryQuery,
-	SearchDmsProofOfDeliveriesQuery,
-	AnalyticsDmsProofOfDeliveriesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -105,7 +105,7 @@ describe("Graphql DMS Create DMS Proof of Delivery", () => {
 describe("Graphql DMS Table Proof of Delivery Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdProofs: Array<{
+	const createdProofs: Array<{
 		id: string;
 	}> = [];
 
@@ -132,7 +132,7 @@ describe("Graphql DMS Table Proof of Delivery Query", () => {
 describe("Graphql DMS Search DMS Proof of Deliveries Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdProofs: Array<{ id: string }> = [];
+	const createdProofs: Array<{ id: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

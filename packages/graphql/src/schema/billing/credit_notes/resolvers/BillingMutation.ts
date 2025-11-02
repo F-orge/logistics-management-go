@@ -1,46 +1,49 @@
 import {
-  CreateCreditNoteInputSchema,
-  CreditNotes,
-  UpdateCreditNoteInputSchema,
+	CreateCreditNoteInputSchema,
+	type CreditNotes,
+	UpdateCreditNoteInputSchema,
 } from "../../../../zod.schema";
 import type { BillingMutationResolvers } from "./../../../types.generated";
 
-export const BillingMutation: Pick<BillingMutationResolvers, 'createCreditNote'|'removeCreditNote'|'updateCreditNote'> = {
-  createCreditNote: async (_parent, args, ctx) => {
-    const payload = CreateCreditNoteInputSchema().parse(args.value);
+export const BillingMutation: Pick<
+	BillingMutationResolvers,
+	"createCreditNote" | "removeCreditNote" | "updateCreditNote"
+> = {
+	createCreditNote: async (_parent, args, ctx) => {
+		const payload = CreateCreditNoteInputSchema().parse(args.value);
 
-    const result = await ctx.db
-      .insertInto("billing.creditNotes")
-      .values(payload)
-      .returningAll()
-      .executeTakeFirstOrThrow();
+		const result = await ctx.db
+			.insertInto("billing.creditNotes")
+			.values(payload)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-    // Publish issued event
-    await ctx.pubsub.publish("billing.creditNote.issued", result);
+		// Publish issued event
+		await ctx.pubsub.publish("billing.creditNote.issued", result);
 
-    return result as unknown as CreditNotes;
-  },
-  updateCreditNote: async (_parent, args, ctx) => {
-    const payload = UpdateCreditNoteInputSchema().parse(args.value);
+		return result as unknown as CreditNotes;
+	},
+	updateCreditNote: async (_parent, args, ctx) => {
+		const payload = UpdateCreditNoteInputSchema().parse(args.value);
 
-    const result = await ctx.db
-      .updateTable("billing.creditNotes")
-      .set(payload)
-      .where("id", "=", args.id)
-      .returningAll()
-      .executeTakeFirstOrThrow();
+		const result = await ctx.db
+			.updateTable("billing.creditNotes")
+			.set(payload)
+			.where("id", "=", args.id)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-    return result as unknown as CreditNotes;
-  },
-  removeCreditNote: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .deleteFrom("billing.creditNotes")
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
+		return result as unknown as CreditNotes;
+	},
+	removeCreditNote: async (_parent, args, ctx) => {
+		const result = await ctx.db
+			.deleteFrom("billing.creditNotes")
+			.where("id", "=", args.id)
+			.executeTakeFirstOrThrow();
 
-    return {
-      success: true,
-      numDeletedRows: Number(result.numDeletedRows.toString()),
-    };
-  },
+		return {
+			success: true,
+			numDeletedRows: Number(result.numDeletedRows.toString()),
+		};
+	},
 };

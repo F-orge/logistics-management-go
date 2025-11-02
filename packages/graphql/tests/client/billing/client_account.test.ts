@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsClientAccountsQuery,
+	CreateClientAccountMutation,
+	RemoveClientAccountMutation,
+	SearchClientAccountsQuery,
+	TableClientAccountQuery,
+	UpdateClientAccountMutation,
+} from "../../../src/client";
 import type {
-	CreateClientAccountMutation as CreateClientAccountMutationType,
-	CreateClientAccountMutationVariables,
-	UpdateClientAccountMutation as UpdateClientAccountMutationType,
-	UpdateClientAccountMutationVariables,
-	RemoveClientAccountMutation as RemoveClientAccountMutationType,
-	RemoveClientAccountMutationVariables,
-	TableClientAccountQuery as TableClientAccountQueryType,
-	TableClientAccountQueryVariables,
-	SearchClientAccountsQuery as SearchClientAccountsQueryType,
-	SearchClientAccountsQueryVariables,
 	AnalyticsClientAccountsQuery as AnalyticsClientAccountsQueryType,
 	AnalyticsClientAccountsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateClientAccountInput,
+	CreateClientAccountMutation as CreateClientAccountMutationType,
+	CreateClientAccountMutationVariables,
+	RemoveClientAccountMutation as RemoveClientAccountMutationType,
+	RemoveClientAccountMutationVariables,
+	SearchClientAccountsQuery as SearchClientAccountsQueryType,
+	SearchClientAccountsQueryVariables,
+	TableClientAccountQuery as TableClientAccountQueryType,
+	TableClientAccountQueryVariables,
 	UpdateClientAccountInput,
+	UpdateClientAccountMutation as UpdateClientAccountMutationType,
+	UpdateClientAccountMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateClientAccountMutation,
-	UpdateClientAccountMutation,
-	RemoveClientAccountMutation,
-	TableClientAccountQuery,
-	SearchClientAccountsQuery,
-	AnalyticsClientAccountsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateClientAccountTestCase = GraphQLTestCase<
 > & {
 	createData: CreateClientAccountInput;
 	updateData: UpdateClientAccountInput;
-	validate?: (response: UpdateClientAccountMutationType, createdClientAccount: any) => void;
+	validate?: (
+		response: UpdateClientAccountMutationType,
+		createdClientAccount: any,
+	) => void;
 };
 
 type RemoveClientAccountTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create ClientAccount", () => {
 	const cases: CreateClientAccountTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateClientAccountMutation, testCase.variables);
+		const response = await executor(
+			CreateClientAccountMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -134,8 +139,10 @@ describe("Graphql Update ClientAccount", () => {
 		});
 
 		expect(createResponse.data?.billing?.createClientAccount?.id).toBeDefined();
-		const clientAccountId = createResponse.data!.billing!.createClientAccount!.id!;
-		const createdClientAccount = createResponse.data!.billing!.createClientAccount!;
+		const clientAccountId =
+			createResponse.data!.billing!.createClientAccount!.id!;
+		const createdClientAccount =
+			createResponse.data!.billing!.createClientAccount!;
 
 		// Update ClientAccount
 		const updateResponse = await executor(UpdateClientAccountMutation, {
@@ -206,7 +213,9 @@ describe("Graphql Remove ClientAccount", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeClientAccount?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removeClientAccount?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -230,7 +239,10 @@ describe("Graphql Table ClientAccounts Query", () => {
 	const cases: TableClientAccountTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableClientAccountQuery, testCase.variables);
+		const response = await executor(
+			TableClientAccountQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -256,7 +268,10 @@ describe("Graphql Search ClientAccounts Query", () => {
 	const cases: SearchClientAccountsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchClientAccountsQuery, testCase.variables);
+		const response = await executor(
+			SearchClientAccountsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -282,7 +297,10 @@ describe("Graphql Analytics ClientAccounts Query", () => {
 	const cases: AnalyticsClientAccountsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsClientAccountsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsClientAccountsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

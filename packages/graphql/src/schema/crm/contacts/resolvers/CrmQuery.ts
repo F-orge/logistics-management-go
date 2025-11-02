@@ -1,40 +1,40 @@
-import { Contacts } from "../../../../zod.schema";
+import type { Contacts } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, 'contact'|'contacts'> = {
-  contacts: async (_parent, args, ctx) => {
-    let query = ctx.db.selectFrom("crm.contacts").selectAll();
+export const CrmQuery: Pick<CrmQueryResolvers, "contact" | "contacts"> = {
+	contacts: async (_parent, args, ctx) => {
+		let query = ctx.db.selectFrom("crm.contacts").selectAll();
 
-    if (args.page && args.perPage) {
-      const offset = (args.page - 1) * args.perPage;
-      query = query.offset(offset).limit(args.perPage);
-    }
+		if (args.page && args.perPage) {
+			const offset = (args.page - 1) * args.perPage;
+			query = query.offset(offset).limit(args.perPage);
+		}
 
-    if (args.from && args.to) {
-      query = query
-        .clearLimit()
-        .clearOffset()
-        .where("createdAt", ">=", args.from as Date)
-        .where("createdAt", "<=", args.to as Date);
-    }
+		if (args.from && args.to) {
+			query = query
+				.clearLimit()
+				.clearOffset()
+				.where("createdAt", ">=", args.from as Date)
+				.where("createdAt", "<=", args.to as Date);
+		}
 
-    if (args.search) {
-      query = query.where((eb) =>
-        eb.or([
-          eb("name", "ilike", `%${args.search}%`),
-          eb("email", "ilike", `%${args.search}%`),
-        ])
-      );
-    }
-    const results = await query.execute();
-    return results as unknown as Contacts[];
-  },
-  contact: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .selectFrom("crm.contacts")
-      .selectAll()
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
+		if (args.search) {
+			query = query.where((eb) =>
+				eb.or([
+					eb("name", "ilike", `%${args.search}%`),
+					eb("email", "ilike", `%${args.search}%`),
+				]),
+			);
+		}
+		const results = await query.execute();
+		return results as unknown as Contacts[];
+	},
+	contact: async (_parent, args, ctx) => {
+		const result = await ctx.db
+			.selectFrom("crm.contacts")
+			.selectAll()
+			.where("id", "=", args.id)
+			.executeTakeFirstOrThrow();
 
-    return result as unknown as Contacts;
-  },
+		return result as unknown as Contacts;
+	},
 };

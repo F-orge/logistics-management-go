@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsPutawayRulesQuery,
+	CreatePutawayRuleMutation,
+	RemovePutawayRuleMutation,
+	TablePutawayRuleQuery,
+	UpdatePutawayRuleMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsPutawayRulesQuery as AnalyticsPutawayRulesQueryType,
+	AnalyticsPutawayRulesQueryVariables,
+	CreatePutawayRuleInput,
 	CreatePutawayRuleMutation as CreatePutawayRuleMutationType,
 	CreatePutawayRuleMutationVariables,
-	UpdatePutawayRuleMutation as UpdatePutawayRuleMutationType,
-	UpdatePutawayRuleMutationVariables,
 	RemovePutawayRuleMutation as RemovePutawayRuleMutationType,
 	RemovePutawayRuleMutationVariables,
 	TablePutawayRuleQuery as TablePutawayRuleQueryType,
 	TablePutawayRuleQueryVariables,
-	AnalyticsPutawayRulesQuery as AnalyticsPutawayRulesQueryType,
-	AnalyticsPutawayRulesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreatePutawayRuleInput,
 	UpdatePutawayRuleInput,
+	UpdatePutawayRuleMutation as UpdatePutawayRuleMutationType,
+	UpdatePutawayRuleMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreatePutawayRuleMutation,
-	UpdatePutawayRuleMutation,
-	RemovePutawayRuleMutation,
-	TablePutawayRuleQuery,
-	AnalyticsPutawayRulesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdatePutawayRuleTestCase = GraphQLTestCase<
 > & {
 	createData: CreatePutawayRuleInput;
 	updateData: UpdatePutawayRuleInput;
-	validate?: (response: UpdatePutawayRuleMutationType, createdPutawayRule: any) => void;
+	validate?: (
+		response: UpdatePutawayRuleMutationType,
+		createdPutawayRule: any,
+	) => void;
 };
 
 type RemovePutawayRuleTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create PutawayRule", () => {
 	const cases: CreatePutawayRuleTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreatePutawayRuleMutation, testCase.variables);
+		const response = await executor(
+			CreatePutawayRuleMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -196,7 +201,9 @@ describe("Graphql Remove PutawayRule", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removePutawayRule?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removePutawayRule?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -246,7 +253,10 @@ describe("Graphql Analytics PutawayRules Query", () => {
 	const cases: AnalyticsPutawayRulesTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsPutawayRulesQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsPutawayRulesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

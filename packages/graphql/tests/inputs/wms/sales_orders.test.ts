@@ -1,74 +1,78 @@
 import { describe, expect, it } from "bun:test";
-import { TestCase } from "../helpers";
+import type z from "zod";
 import {
-  CreateSalesOrderInputSchema,
-  UpdateSalesOrderInputSchema,
+	CreateSalesOrderInputSchema,
+	UpdateSalesOrderInputSchema,
 } from "../../../src/zod.schema";
-import z from "zod";
+import type { TestCase } from "../helpers";
 
 type CreateSchema = z.infer<ReturnType<typeof CreateSalesOrderInputSchema>>;
 
 type UpdateSchema = z.infer<ReturnType<typeof UpdateSalesOrderInputSchema>>;
 
 describe("Sales Order Inputs", () => {
-  describe("Create Schema", () => {
-    describe("Valid Cases", () => {
-      const cases: TestCase<Partial<CreateSchema>>[] = [];
+	describe("Create Schema", () => {
+		describe("Valid Cases", () => {
+			const cases: TestCase<Partial<CreateSchema>>[] = [];
 
-      it.each(cases)("should validate: $name", (testCase) => {
-        const { success } = CreateSalesOrderInputSchema().safeParse(
-          testCase.input
-        );
+			it.each(cases)("should validate: $name", (testCase) => {
+				const { success } = CreateSalesOrderInputSchema().safeParse(
+					testCase.input,
+				);
 
-        expect(testCase.success).toBe(success);
-      });
-    });
-    describe("Invalid Cases", () => {
-      const cases: TestCase<Partial<CreateSchema>>[] = [];
+				expect(testCase.success).toBe(success);
+			});
+		});
+		describe("Invalid Cases", () => {
+			const cases: TestCase<Partial<CreateSchema>>[] = [];
 
-      it.each(cases)("should reject: $name", (testCase) => {
-        const { error } = CreateSalesOrderInputSchema().safeParse(testCase.input);
+			it.each(cases)("should reject: $name", (testCase) => {
+				const { error } = CreateSalesOrderInputSchema().safeParse(
+					testCase.input,
+				);
 
-        expect(testCase.success).toBe(false);
+				expect(testCase.success).toBe(false);
 
-        const matchingError = error?.issues.find(
-          (err) =>
-            err.path[0] === testCase.error?.path &&
-            err.message === testCase.error?.message
-        );
+				const matchingError = error?.issues.find(
+					(err) =>
+						err.path[0] === testCase.error?.path &&
+						err.message === testCase.error?.message,
+				);
 
-        expect(matchingError).toBeDefined();
-      });
-    });
-  });
-  describe("Update Schema", () => {
-    describe("Valid Cases", () => {
-      const cases: TestCase<Partial<UpdateSchema>>[] = [];
+				expect(matchingError).toBeDefined();
+			});
+		});
+	});
+	describe("Update Schema", () => {
+		describe("Valid Cases", () => {
+			const cases: TestCase<Partial<UpdateSchema>>[] = [];
 
-      it.each(cases)("should validate: $name", (testCase) => {
-        const { success } = UpdateSalesOrderInputSchema().safeParse(
-          testCase.input
-        );
+			it.each(cases)("should validate: $name", (testCase) => {
+				const { success } = UpdateSalesOrderInputSchema().safeParse(
+					testCase.input,
+				);
 
-        expect(testCase.success).toBe(success);
-      });
-    });
-    describe("Invalid Cases", () => {
-      const cases: TestCase<Partial<UpdateSchema>>[] = [];
+				expect(testCase.success).toBe(success);
+			});
+		});
+		describe("Invalid Cases", () => {
+			const cases: TestCase<Partial<UpdateSchema>>[] = [];
 
-      it.each(cases)("should reject: $name", (testCase) => {
-        const { error } = UpdateSalesOrderInputSchema().safeParse(testCase.input);
+			it.each(cases)("should reject: $name", (testCase) => {
+				const { error } = UpdateSalesOrderInputSchema().safeParse(
+					testCase.input,
+				);
 
-        expect(testCase.success).toBe(false);
+				expect(testCase.success).toBe(false);
 
-        const matchingError = error?.issues.find(
-          (err) =>
-            err.path[0] === testCase.error?.path &&
-            err.message === testCase.error?.message
-        );
+				const matchingError = error?.issues.find(
+					(err) =>
+						err.path[0] === testCase.error?.path &&
+						err.message === testCase.error?.message,
+				);
 
-        expect(matchingError).toBeDefined();
-      });
-    });
-  });
+				expect(matchingError).toBeDefined();
+			});
+		});
+	});
 });

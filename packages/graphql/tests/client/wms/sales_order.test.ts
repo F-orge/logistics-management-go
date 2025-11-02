@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsSalesOrdersQuery,
+	CreateSalesOrderMutation,
+	RemoveSalesOrderMutation,
+	SearchSalesOrdersQuery,
+	TableSalesOrderQuery,
+	UpdateSalesOrderMutation,
+} from "../../../src/client";
 import type {
-	CreateSalesOrderMutation as CreateSalesOrderMutationType,
-	CreateSalesOrderMutationVariables,
-	UpdateSalesOrderMutation as UpdateSalesOrderMutationType,
-	UpdateSalesOrderMutationVariables,
-	RemoveSalesOrderMutation as RemoveSalesOrderMutationType,
-	RemoveSalesOrderMutationVariables,
-	TableSalesOrderQuery as TableSalesOrderQueryType,
-	TableSalesOrderQueryVariables,
-	SearchSalesOrdersQuery as SearchSalesOrdersQueryType,
-	SearchSalesOrdersQueryVariables,
 	AnalyticsSalesOrdersQuery as AnalyticsSalesOrdersQueryType,
 	AnalyticsSalesOrdersQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateSalesOrderInput,
+	CreateSalesOrderMutation as CreateSalesOrderMutationType,
+	CreateSalesOrderMutationVariables,
+	RemoveSalesOrderMutation as RemoveSalesOrderMutationType,
+	RemoveSalesOrderMutationVariables,
+	SearchSalesOrdersQuery as SearchSalesOrdersQueryType,
+	SearchSalesOrdersQueryVariables,
+	TableSalesOrderQuery as TableSalesOrderQueryType,
+	TableSalesOrderQueryVariables,
 	UpdateSalesOrderInput,
+	UpdateSalesOrderMutation as UpdateSalesOrderMutationType,
+	UpdateSalesOrderMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateSalesOrderMutation,
-	UpdateSalesOrderMutation,
-	RemoveSalesOrderMutation,
-	TableSalesOrderQuery,
-	SearchSalesOrdersQuery,
-	AnalyticsSalesOrdersQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateSalesOrderTestCase = GraphQLTestCase<
 > & {
 	createData: CreateSalesOrderInput;
 	updateData: UpdateSalesOrderInput;
-	validate?: (response: UpdateSalesOrderMutationType, createdSalesOrder: any) => void;
+	validate?: (
+		response: UpdateSalesOrderMutationType,
+		createdSalesOrder: any,
+	) => void;
 };
 
 type RemoveSalesOrderTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create SalesOrder", () => {
 	const cases: CreateSalesOrderTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateSalesOrderMutation, testCase.variables);
+		const response = await executor(
+			CreateSalesOrderMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -282,7 +287,10 @@ describe("Graphql Analytics SalesOrders Query", () => {
 	const cases: AnalyticsSalesOrdersTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsSalesOrdersQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsSalesOrdersQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

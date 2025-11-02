@@ -1,25 +1,25 @@
+import { base, de, de_AT, en, Faker } from "@faker-js/faker";
 import { DB } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
-import { Faker, base, de, de_AT, en } from "@faker-js/faker";
 import {
   seedTmsCarrier,
   seedTmsCarrierRate,
   seedTmsDriver,
   seedTmsDriverSchedule,
-  seedTmsVehicle,
-  seedTmsVehicleMaintenance,
-  seedTmsTrip,
-  seedTmsTripStop,
-  seedTmsRoute,
-  seedTmsGpsPing,
-  seedTmsProofOfDelivery,
   seedTmsExpense,
   seedTmsGeofence,
   seedTmsGeofenceEvent,
-  seedTmsShipmentLeg,
-  seedTmsShipmentLegEvent,
+  seedTmsGpsPing,
   seedTmsPartnerInvoice,
   seedTmsPartnerInvoiceItem,
+  seedTmsProofOfDelivery,
+  seedTmsRoute,
+  seedTmsShipmentLeg,
+  seedTmsShipmentLegEvent,
+  seedTmsTrip,
+  seedTmsTripStop,
+  seedTmsVehicle,
+  seedTmsVehicleMaintenance,
 } from "../src/seeds/tms-helpers";
 
 export async function seed(db: Kysely<DB>): Promise<void> {

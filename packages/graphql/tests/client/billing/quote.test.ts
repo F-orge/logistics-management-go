@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsQuotesQuery,
+	CreateQuoteMutation,
+	RemoveQuoteMutation,
+	SearchQuotesQuery,
+	TableQuoteQuery,
+	UpdateQuoteMutation,
+} from "../../../src/client";
 import type {
-	CreateQuoteMutation as CreateQuoteMutationType,
-	CreateQuoteMutationVariables,
-	UpdateQuoteMutation as UpdateQuoteMutationType,
-	UpdateQuoteMutationVariables,
-	RemoveQuoteMutation as RemoveQuoteMutationType,
-	RemoveQuoteMutationVariables,
-	TableQuoteQuery as TableQuoteQueryType,
-	TableQuoteQueryVariables,
-	SearchQuotesQuery as SearchQuotesQueryType,
-	SearchQuotesQueryVariables,
 	AnalyticsQuotesQuery as AnalyticsQuotesQueryType,
 	AnalyticsQuotesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateQuoteInput,
+	CreateQuoteMutation as CreateQuoteMutationType,
+	CreateQuoteMutationVariables,
+	RemoveQuoteMutation as RemoveQuoteMutationType,
+	RemoveQuoteMutationVariables,
+	SearchQuotesQuery as SearchQuotesQueryType,
+	SearchQuotesQueryVariables,
+	TableQuoteQuery as TableQuoteQueryType,
+	TableQuoteQueryVariables,
 	UpdateQuoteInput,
+	UpdateQuoteMutation as UpdateQuoteMutationType,
+	UpdateQuoteMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateQuoteMutation,
-	UpdateQuoteMutation,
-	RemoveQuoteMutation,
-	TableQuoteQuery,
-	SearchQuotesQuery,
-	AnalyticsQuotesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================

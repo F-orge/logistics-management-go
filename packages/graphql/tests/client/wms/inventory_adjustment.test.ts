@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsInventoryAdjustmentsQuery,
+	CreateInventoryAdjustmentMutation,
+	RemoveInventoryAdjustmentMutation,
+	SearchInventoryAdjustmentsQuery,
+	TableInventoryAdjustmentQuery,
+	UpdateInventoryAdjustmentMutation,
+} from "../../../src/client";
 import type {
-	CreateInventoryAdjustmentMutation as CreateInventoryAdjustmentMutationType,
-	CreateInventoryAdjustmentMutationVariables,
-	UpdateInventoryAdjustmentMutation as UpdateInventoryAdjustmentMutationType,
-	UpdateInventoryAdjustmentMutationVariables,
-	RemoveInventoryAdjustmentMutation as RemoveInventoryAdjustmentMutationType,
-	RemoveInventoryAdjustmentMutationVariables,
-	TableInventoryAdjustmentQuery as TableInventoryAdjustmentQueryType,
-	TableInventoryAdjustmentQueryVariables,
-	SearchInventoryAdjustmentsQuery as SearchInventoryAdjustmentsQueryType,
-	SearchInventoryAdjustmentsQueryVariables,
 	AnalyticsInventoryAdjustmentsQuery as AnalyticsInventoryAdjustmentsQueryType,
 	AnalyticsInventoryAdjustmentsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateInventoryAdjustmentInput,
+	CreateInventoryAdjustmentMutation as CreateInventoryAdjustmentMutationType,
+	CreateInventoryAdjustmentMutationVariables,
+	RemoveInventoryAdjustmentMutation as RemoveInventoryAdjustmentMutationType,
+	RemoveInventoryAdjustmentMutationVariables,
+	SearchInventoryAdjustmentsQuery as SearchInventoryAdjustmentsQueryType,
+	SearchInventoryAdjustmentsQueryVariables,
+	TableInventoryAdjustmentQuery as TableInventoryAdjustmentQueryType,
+	TableInventoryAdjustmentQueryVariables,
 	UpdateInventoryAdjustmentInput,
+	UpdateInventoryAdjustmentMutation as UpdateInventoryAdjustmentMutationType,
+	UpdateInventoryAdjustmentMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateInventoryAdjustmentMutation,
-	UpdateInventoryAdjustmentMutation,
-	RemoveInventoryAdjustmentMutation,
-	TableInventoryAdjustmentQuery,
-	SearchInventoryAdjustmentsQuery,
-	AnalyticsInventoryAdjustmentsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateInventoryAdjustmentTestCase = GraphQLTestCase<
 > & {
 	createData: CreateInventoryAdjustmentInput;
 	updateData: UpdateInventoryAdjustmentInput;
-	validate?: (response: UpdateInventoryAdjustmentMutationType, createdInventoryAdjustment: any) => void;
+	validate?: (
+		response: UpdateInventoryAdjustmentMutationType,
+		createdInventoryAdjustment: any,
+	) => void;
 };
 
 type RemoveInventoryAdjustmentTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create InventoryAdjustment", () => {
 	const cases: CreateInventoryAdjustmentTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateInventoryAdjustmentMutation, testCase.variables);
+		const response = await executor(
+			CreateInventoryAdjustmentMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -133,9 +138,13 @@ describe("Graphql Update InventoryAdjustment", () => {
 			inventoryAdjustment: testCase.createData,
 		});
 
-		expect(createResponse.data?.wms?.createInventoryAdjustment?.id).toBeDefined();
-		const inventoryAdjustmentId = createResponse.data!.wms!.createInventoryAdjustment!.id!;
-		const createdInventoryAdjustment = createResponse.data!.wms!.createInventoryAdjustment!;
+		expect(
+			createResponse.data?.wms?.createInventoryAdjustment?.id,
+		).toBeDefined();
+		const inventoryAdjustmentId =
+			createResponse.data!.wms!.createInventoryAdjustment!.id!;
+		const createdInventoryAdjustment =
+			createResponse.data!.wms!.createInventoryAdjustment!;
 
 		// Update InventoryAdjustment
 		const updateResponse = await executor(UpdateInventoryAdjustmentMutation, {
@@ -190,7 +199,8 @@ describe("Graphql Remove InventoryAdjustment", () => {
 					// Add minimal required fields
 				} as unknown as CreateInventoryAdjustmentInput,
 			});
-			inventoryAdjustmentId = createResponse.data!.wms!.createInventoryAdjustment!.id!;
+			inventoryAdjustmentId =
+				createResponse.data!.wms!.createInventoryAdjustment!.id!;
 		} else {
 			inventoryAdjustmentId = "00000000-0000-0000-0000-000000000000";
 		}
@@ -206,12 +216,16 @@ describe("Graphql Remove InventoryAdjustment", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeInventoryAdjustment?.success).toBe(false);
+				expect(
+					deleteResponse.data?.wms?.removeInventoryAdjustment?.success,
+				).toBe(false);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveInventoryAdjustmentMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveInventoryAdjustmentMutationType,
+			);
 		}
 	});
 });
@@ -230,7 +244,10 @@ describe("Graphql Table InventoryAdjustments Query", () => {
 	const cases: TableInventoryAdjustmentTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableInventoryAdjustmentQuery, testCase.variables);
+		const response = await executor(
+			TableInventoryAdjustmentQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -256,7 +273,10 @@ describe("Graphql Search InventoryAdjustments Query", () => {
 	const cases: SearchInventoryAdjustmentsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchInventoryAdjustmentsQuery, testCase.variables);
+		const response = await executor(
+			SearchInventoryAdjustmentsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -282,12 +302,17 @@ describe("Graphql Analytics InventoryAdjustments Query", () => {
 	const cases: AnalyticsInventoryAdjustmentsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsInventoryAdjustmentsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsInventoryAdjustmentsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
 			expect(response.data?.wms?.inventoryAdjustments).toBeDefined();
-			testCase.validate(response.data as AnalyticsInventoryAdjustmentsQueryType);
+			testCase.validate(
+				response.data as AnalyticsInventoryAdjustmentsQueryType,
+			);
 		} else {
 			expect(response.errors).toBeDefined();
 		}

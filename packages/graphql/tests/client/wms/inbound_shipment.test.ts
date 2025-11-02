@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsInboundShipmentsQuery,
+	CreateInboundShipmentMutation,
+	RemoveInboundShipmentMutation,
+	TableInboundShipmentQuery,
+	UpdateInboundShipmentMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsInboundShipmentsQuery as AnalyticsInboundShipmentsQueryType,
+	AnalyticsInboundShipmentsQueryVariables,
+	CreateInboundShipmentInput,
 	CreateInboundShipmentMutation as CreateInboundShipmentMutationType,
 	CreateInboundShipmentMutationVariables,
-	UpdateInboundShipmentMutation as UpdateInboundShipmentMutationType,
-	UpdateInboundShipmentMutationVariables,
 	RemoveInboundShipmentMutation as RemoveInboundShipmentMutationType,
 	RemoveInboundShipmentMutationVariables,
 	TableInboundShipmentQuery as TableInboundShipmentQueryType,
 	TableInboundShipmentQueryVariables,
-	AnalyticsInboundShipmentsQuery as AnalyticsInboundShipmentsQueryType,
-	AnalyticsInboundShipmentsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateInboundShipmentInput,
 	UpdateInboundShipmentInput,
+	UpdateInboundShipmentMutation as UpdateInboundShipmentMutationType,
+	UpdateInboundShipmentMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateInboundShipmentMutation,
-	UpdateInboundShipmentMutation,
-	RemoveInboundShipmentMutation,
-	TableInboundShipmentQuery,
-	AnalyticsInboundShipmentsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateInboundShipmentTestCase = GraphQLTestCase<
 > & {
 	createData: CreateInboundShipmentInput;
 	updateData: UpdateInboundShipmentInput;
-	validate?: (response: UpdateInboundShipmentMutationType, createdInboundShipment: any) => void;
+	validate?: (
+		response: UpdateInboundShipmentMutationType,
+		createdInboundShipment: any,
+	) => void;
 };
 
 type RemoveInboundShipmentTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create InboundShipment", () => {
 	const cases: CreateInboundShipmentTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateInboundShipmentMutation, testCase.variables);
+		const response = await executor(
+			CreateInboundShipmentMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -124,8 +129,10 @@ describe("Graphql Update InboundShipment", () => {
 		});
 
 		expect(createResponse.data?.wms?.createInboundShipment?.id).toBeDefined();
-		const inboundShipmentId = createResponse.data!.wms!.createInboundShipment!.id!;
-		const createdInboundShipment = createResponse.data!.wms!.createInboundShipment!;
+		const inboundShipmentId =
+			createResponse.data!.wms!.createInboundShipment!.id!;
+		const createdInboundShipment =
+			createResponse.data!.wms!.createInboundShipment!;
 
 		// Update InboundShipment
 		const updateResponse = await executor(UpdateInboundShipmentMutation, {
@@ -196,12 +203,16 @@ describe("Graphql Remove InboundShipment", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeInboundShipment?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeInboundShipment?.success).toBe(
+					false,
+				);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveInboundShipmentMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveInboundShipmentMutationType,
+			);
 		}
 	});
 });
@@ -220,7 +231,10 @@ describe("Graphql Table InboundShipments Query", () => {
 	const cases: TableInboundShipmentTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableInboundShipmentQuery, testCase.variables);
+		const response = await executor(
+			TableInboundShipmentQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -246,7 +260,10 @@ describe("Graphql Analytics InboundShipments Query", () => {
 	const cases: AnalyticsInboundShipmentsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsInboundShipmentsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsInboundShipmentsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

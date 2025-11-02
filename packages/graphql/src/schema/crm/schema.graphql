@@ -2,9 +2,9 @@ type CrmQuery
 type CrmMutation
 
 extend type Query {
-  crm: CrmQuery
+	crm: CrmQuery
 }
 
 extend type Mutation {
-  crm: CrmMutation
+	crm: CrmMutation
 }

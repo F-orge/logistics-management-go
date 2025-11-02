@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsSurchargesQuery,
+	CreateSurchargeMutation,
+	RemoveSurchargeMutation,
+	SearchSurchargesQuery,
+	TableSurchargeQuery,
+	UpdateSurchargeMutation,
+} from "../../../src/client";
 import type {
-	CreateSurchargeMutation as CreateSurchargeMutationType,
-	CreateSurchargeMutationVariables,
-	UpdateSurchargeMutation as UpdateSurchargeMutationType,
-	UpdateSurchargeMutationVariables,
-	RemoveSurchargeMutation as RemoveSurchargeMutationType,
-	RemoveSurchargeMutationVariables,
-	TableSurchargeQuery as TableSurchargeQueryType,
-	TableSurchargeQueryVariables,
-	SearchSurchargesQuery as SearchSurchargesQueryType,
-	SearchSurchargesQueryVariables,
 	AnalyticsSurchargesQuery as AnalyticsSurchargesQueryType,
 	AnalyticsSurchargesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateSurchargeInput,
+	CreateSurchargeMutation as CreateSurchargeMutationType,
+	CreateSurchargeMutationVariables,
+	RemoveSurchargeMutation as RemoveSurchargeMutationType,
+	RemoveSurchargeMutationVariables,
+	SearchSurchargesQuery as SearchSurchargesQueryType,
+	SearchSurchargesQueryVariables,
+	TableSurchargeQuery as TableSurchargeQueryType,
+	TableSurchargeQueryVariables,
 	UpdateSurchargeInput,
+	UpdateSurchargeMutation as UpdateSurchargeMutationType,
+	UpdateSurchargeMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateSurchargeMutation,
-	UpdateSurchargeMutation,
-	RemoveSurchargeMutation,
-	TableSurchargeQuery,
-	SearchSurchargesQuery,
-	AnalyticsSurchargesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateSurchargeTestCase = GraphQLTestCase<
 > & {
 	createData: CreateSurchargeInput;
 	updateData: UpdateSurchargeInput;
-	validate?: (response: UpdateSurchargeMutationType, createdSurcharge: any) => void;
+	validate?: (
+		response: UpdateSurchargeMutationType,
+		createdSurcharge: any,
+	) => void;
 };
 
 type RemoveSurchargeTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create Surcharge", () => {
 	const cases: CreateSurchargeTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateSurchargeMutation, testCase.variables);
+		const response = await executor(
+			CreateSurchargeMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -206,7 +211,9 @@ describe("Graphql Remove Surcharge", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeSurcharge?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removeSurcharge?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -282,7 +289,10 @@ describe("Graphql Analytics Surcharges Query", () => {
 	const cases: AnalyticsSurchargesTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsSurchargesQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsSurchargesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

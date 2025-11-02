@@ -3,9 +3,9 @@ type TmsQuery
 type TmsMutation
 
 extend type Query {
-  tms:TmsQuery
+	tms: TmsQuery
 }
 
 extend type Mutation {
-  tms:TmsMutation
+	tms: TmsMutation
 }

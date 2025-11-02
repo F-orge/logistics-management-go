@@ -1,17 +1,19 @@
 type ShipmentLegEvents {
-  id: ID!
-  shipmentLeg: ShipmentLegs!
-  statusMessage: String
-  location: String
-  eventTimestamp: String!
+	id: ID!
+	shipmentLeg: ShipmentLegs!
+	statusMessage: String
+	location: String
+	eventTimestamp: String!
 }
 
 input CreateShipmentLegEventInput {
-  shipmentLegId: ID!
-  statusMessage: String
-  location: String
+	shipmentLegId: ID!
+	statusMessage: String
+	location: String
 }
 
 extend type TmsMutation {
-  createShipmentLegEvent(value: CreateShipmentLegEventInput!): ShipmentLegEvents!
+	createShipmentLegEvent(
+		value: CreateShipmentLegEventInput!
+	): ShipmentLegEvents!
 }

@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsOpportunitiesQuery,
+	CreateOpportunityMutation,
+	SearchOpportunitiesQuery,
+	TableOpportunityQuery,
+	UpdateOpportunityMutation,
+} from "../../../src/client";
 import type {
-	CreateOpportunityMutation as CreateOpportunityMutationType,
-	CreateOpportunityMutationVariables,
-	UpdateOpportunityMutation as UpdateOpportunityMutationType,
-	UpdateOpportunityMutationVariables,
-	TableOpportunityQuery as TableOpportunityQueryType,
-	TableOpportunityQueryVariables,
-	SearchOpportunitiesQuery as SearchOpportunitiesQueryType,
-	SearchOpportunitiesQueryVariables,
 	AnalyticsOpportunitiesQuery as AnalyticsOpportunitiesQueryType,
 	AnalyticsOpportunitiesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateOpportunityInput,
+	CreateOpportunityMutation as CreateOpportunityMutationType,
+	CreateOpportunityMutationVariables,
+	SearchOpportunitiesQuery as SearchOpportunitiesQueryType,
+	SearchOpportunitiesQueryVariables,
+	TableOpportunityQuery as TableOpportunityQueryType,
+	TableOpportunityQueryVariables,
 	UpdateOpportunityInput,
+	UpdateOpportunityMutation as UpdateOpportunityMutationType,
+	UpdateOpportunityMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateOpportunityMutation,
-	UpdateOpportunityMutation,
-	TableOpportunityQuery,
-	SearchOpportunitiesQuery,
-	AnalyticsOpportunitiesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

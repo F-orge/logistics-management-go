@@ -1,31 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	RemoveInvoiceLineItemMutation,
+	UpdateInvoiceLineItemMutation,
+} from "../../../src/client";
 import type {
-	UpdateInvoiceLineItemMutation as UpdateInvoiceLineItemMutationType,
-	UpdateInvoiceLineItemMutationVariables,
 	RemoveInvoiceLineItemMutation as RemoveInvoiceLineItemMutationType,
 	RemoveInvoiceLineItemMutationVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	UpdateInvoiceLineItemInput,
+	UpdateInvoiceLineItemMutation as UpdateInvoiceLineItemMutationType,
+	UpdateInvoiceLineItemMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	UpdateInvoiceLineItemMutation,
-	RemoveInvoiceLineItemMutation,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
-
 
 type UpdateInvoiceLineItemTestCase = GraphQLTestCase<
 	UpdateInvoiceLineItemMutationVariables,
 	UpdateInvoiceLineItemMutationType
 > & {
 	updateData: UpdateInvoiceLineItemInput;
-	validate?: (response: UpdateInvoiceLineItemMutationType, createdInvoiceLineItem: any) => void;
+	validate?: (
+		response: UpdateInvoiceLineItemMutationType,
+		createdInvoiceLineItem: any,
+	) => void;
 };
 
 type RemoveInvoiceLineItemTestCase = GraphQLTestCase<
@@ -101,7 +102,9 @@ describe("Graphql Remove InvoiceLineItem", () => {
 		let invoiceLineItemId: string;
 
 		if (testCase.shouldCreate) {
-			throw new Error("Cannot create InvoiceLineItem - no Create operation available");
+			throw new Error(
+				"Cannot create InvoiceLineItem - no Create operation available",
+			);
 		} else {
 			invoiceLineItemId = "00000000-0000-0000-0000-000000000000";
 		}
@@ -117,12 +120,16 @@ describe("Graphql Remove InvoiceLineItem", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeInvoiceLineItem?.success).toBe(false);
+				expect(
+					deleteResponse.data?.billing?.removeInvoiceLineItem?.success,
+				).toBe(false);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveInvoiceLineItemMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveInvoiceLineItemMutationType,
+			);
 		}
 	});
 });

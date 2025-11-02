@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDeliveryTasksQuery,
+	CreateDeliveryTaskMutation,
+	SearchDeliveryTasksQuery,
+	TableDeliveryTaskQuery,
+	UpdateDeliveryTaskMutation,
+} from "../../../src/client";
 import type {
-	CreateDeliveryTaskMutation as CreateDeliveryTaskMutationType,
-	CreateDeliveryTaskMutationVariables,
-	UpdateDeliveryTaskMutation as UpdateDeliveryTaskMutationType,
-	UpdateDeliveryTaskMutationVariables,
-	TableDeliveryTaskQuery as TableDeliveryTaskQueryType,
-	TableDeliveryTaskQueryVariables,
-	SearchDeliveryTasksQuery as SearchDeliveryTasksQueryType,
-	SearchDeliveryTasksQueryVariables,
 	AnalyticsDeliveryTasksQuery as AnalyticsDeliveryTasksQueryType,
 	AnalyticsDeliveryTasksQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateDeliveryTaskInput,
+	CreateDeliveryTaskMutation as CreateDeliveryTaskMutationType,
+	CreateDeliveryTaskMutationVariables,
+	SearchDeliveryTasksQuery as SearchDeliveryTasksQueryType,
+	SearchDeliveryTasksQueryVariables,
+	TableDeliveryTaskQuery as TableDeliveryTaskQueryType,
+	TableDeliveryTaskQueryVariables,
 	UpdateDeliveryTaskInput,
+	UpdateDeliveryTaskMutation as UpdateDeliveryTaskMutationType,
+	UpdateDeliveryTaskMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateDeliveryTaskMutation,
-	UpdateDeliveryTaskMutation,
-	TableDeliveryTaskQuery,
-	SearchDeliveryTasksQuery,
-	AnalyticsDeliveryTasksQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================
@@ -177,7 +175,7 @@ describe("Graphql DMS Update Delivery Task", () => {
 describe("Graphql DMS Table Delivery Task Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdTasks: Array<{
+	const createdTasks: Array<{
 		id: string;
 		recipientName?: string;
 	}> = [];
@@ -202,7 +200,7 @@ describe("Graphql DMS Table Delivery Task Query", () => {
 describe("Graphql DMS Search Delivery Tasks Query", () => {
 	let executor: ReturnType<typeof graphQLQueryExecutor>;
 
-	let createdTasks: Array<{ id: string; recipientName?: string }> = [];
+	const createdTasks: Array<{ id: string; recipientName?: string }> = [];
 
 	beforeAll(async () => {
 		executor = graphQLQueryExecutor({ enableJWT: false });

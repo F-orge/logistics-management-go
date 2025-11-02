@@ -1,23 +1,21 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateDriverScheduleMutation as CreateDriverScheduleMutationType,
-	CreateDriverScheduleMutationVariables,
-	UpdateDriverScheduleMutation as UpdateDriverScheduleMutationType,
-	UpdateDriverScheduleMutationVariables,
-	RemoveDriverScheduleMutation as RemoveDriverScheduleMutationType,
-	RemoveDriverScheduleMutationVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateDriverScheduleInput,
-	UpdateDriverScheduleInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateDriverScheduleMutation,
-	UpdateDriverScheduleMutation,
 	RemoveDriverScheduleMutation,
+	UpdateDriverScheduleMutation,
 } from "../../../src/client";
+import type {
+	CreateDriverScheduleInput,
+	CreateDriverScheduleMutation as CreateDriverScheduleMutationType,
+	CreateDriverScheduleMutationVariables,
+	RemoveDriverScheduleMutation as RemoveDriverScheduleMutationType,
+	RemoveDriverScheduleMutationVariables,
+	UpdateDriverScheduleInput,
+	UpdateDriverScheduleMutation as UpdateDriverScheduleMutationType,
+	UpdateDriverScheduleMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

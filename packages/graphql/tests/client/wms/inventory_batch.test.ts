@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateInventoryBatchMutation as CreateInventoryBatchMutationType,
-	CreateInventoryBatchMutationVariables,
-	UpdateInventoryBatchMutation as UpdateInventoryBatchMutationType,
-	UpdateInventoryBatchMutationVariables,
-	RemoveInventoryBatchMutation as RemoveInventoryBatchMutationType,
-	RemoveInventoryBatchMutationVariables,
-	TableInventoryBatchQuery as TableInventoryBatchQueryType,
-	TableInventoryBatchQueryVariables,
-	SearchInventoryBatchesQuery as SearchInventoryBatchsQueryType,
-	SearchInventoryBatchesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateInventoryBatchInput,
-	UpdateInventoryBatchInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateInventoryBatchMutation,
-	UpdateInventoryBatchMutation,
 	RemoveInventoryBatchMutation,
-	TableInventoryBatchQuery,
 	SearchInventoryBatchesQuery,
+	TableInventoryBatchQuery,
+	UpdateInventoryBatchMutation,
 } from "../../../src/client";
+import type {
+	CreateInventoryBatchInput,
+	CreateInventoryBatchMutation as CreateInventoryBatchMutationType,
+	CreateInventoryBatchMutationVariables,
+	RemoveInventoryBatchMutation as RemoveInventoryBatchMutationType,
+	RemoveInventoryBatchMutationVariables,
+	SearchInventoryBatchesQueryVariables,
+	SearchInventoryBatchesQuery as SearchInventoryBatchsQueryType,
+	TableInventoryBatchQuery as TableInventoryBatchQueryType,
+	TableInventoryBatchQueryVariables,
+	UpdateInventoryBatchInput,
+	UpdateInventoryBatchMutation as UpdateInventoryBatchMutationType,
+	UpdateInventoryBatchMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================

@@ -1,23 +1,21 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateGpsPingMutation as CreateGpsPingMutationType,
-	CreateGpsPingMutationVariables,
-	UpdateGpsPingMutation as UpdateGpsPingMutationType,
-	UpdateGpsPingMutationVariables,
-	TableGpsPingQuery as TableGpsPingQueryType,
-	TableGpsPingQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateGpsPingInput,
-	UpdateGpsPingInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateGpsPingMutation,
-	UpdateGpsPingMutation,
 	TableGpsPingQuery,
+	UpdateGpsPingMutation,
 } from "../../../src/client";
+import type {
+	CreateGpsPingInput,
+	CreateGpsPingMutation as CreateGpsPingMutationType,
+	CreateGpsPingMutationVariables,
+	TableGpsPingQuery as TableGpsPingQueryType,
+	TableGpsPingQueryVariables,
+	UpdateGpsPingInput,
+	UpdateGpsPingMutation as UpdateGpsPingMutationType,
+	UpdateGpsPingMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

@@ -1,20 +1,20 @@
-import { DB, CrmRecordType } from "@packages/graphql/db.types";
+import { en, Faker } from "@faker-js/faker";
+import { CrmRecordType, DB } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
-import { Faker, en } from "@faker-js/faker";
 import {
+  seedCrmAttachment,
+  seedCrmCampaign,
+  seedCrmCase,
   seedCrmCompany,
   seedCrmContact,
-  seedCrmLead,
-  seedCrmCampaign,
-  seedCrmOpportunity,
-  seedCrmProduct,
-  seedCrmCase,
   seedCrmInteraction,
   seedCrmInvoice,
   seedCrmInvoiceItem,
-  seedCrmOpportunityProduct,
+  seedCrmLead,
   seedCrmNotification,
-  seedCrmAttachment,
+  seedCrmOpportunity,
+  seedCrmOpportunityProduct,
+  seedCrmProduct,
 } from "../src/seeds/crm-helpers";
 
 export async function seed(db: Kysely<DB>): Promise<void> {

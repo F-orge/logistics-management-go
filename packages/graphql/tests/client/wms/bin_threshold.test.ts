@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsBinThresholdsQuery,
+	CreateBinThresholdMutation,
+	RemoveBinThresholdMutation,
+	TableBinThresholdQuery,
+	UpdateBinThresholdMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsBinThresholdsQuery as AnalyticsBinThresholdsQueryType,
+	AnalyticsBinThresholdsQueryVariables,
+	CreateBinThresholdInput,
 	CreateBinThresholdMutation as CreateBinThresholdMutationType,
 	CreateBinThresholdMutationVariables,
-	UpdateBinThresholdMutation as UpdateBinThresholdMutationType,
-	UpdateBinThresholdMutationVariables,
 	RemoveBinThresholdMutation as RemoveBinThresholdMutationType,
 	RemoveBinThresholdMutationVariables,
 	TableBinThresholdQuery as TableBinThresholdQueryType,
 	TableBinThresholdQueryVariables,
-	AnalyticsBinThresholdsQuery as AnalyticsBinThresholdsQueryType,
-	AnalyticsBinThresholdsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateBinThresholdInput,
 	UpdateBinThresholdInput,
+	UpdateBinThresholdMutation as UpdateBinThresholdMutationType,
+	UpdateBinThresholdMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateBinThresholdMutation,
-	UpdateBinThresholdMutation,
-	RemoveBinThresholdMutation,
-	TableBinThresholdQuery,
-	AnalyticsBinThresholdsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateBinThresholdTestCase = GraphQLTestCase<
 > & {
 	createData: CreateBinThresholdInput;
 	updateData: UpdateBinThresholdInput;
-	validate?: (response: UpdateBinThresholdMutationType, createdBinThreshold: any) => void;
+	validate?: (
+		response: UpdateBinThresholdMutationType,
+		createdBinThreshold: any,
+	) => void;
 };
 
 type RemoveBinThresholdTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create BinThreshold", () => {
 	const cases: CreateBinThresholdTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateBinThresholdMutation, testCase.variables);
+		const response = await executor(
+			CreateBinThresholdMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -196,7 +201,9 @@ describe("Graphql Remove BinThreshold", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeBinThreshold?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeBinThreshold?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -246,7 +253,10 @@ describe("Graphql Analytics BinThresholds Query", () => {
 	const cases: AnalyticsBinThresholdsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsBinThresholdsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsBinThresholdsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

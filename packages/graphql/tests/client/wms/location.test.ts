@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsLocationsQuery,
+	CreateLocationMutation,
+	RemoveLocationMutation,
+	SearchLocationsQuery,
+	TableLocationQuery,
+	UpdateLocationMutation,
+} from "../../../src/client";
 import type {
-	CreateLocationMutation as CreateLocationMutationType,
-	CreateLocationMutationVariables,
-	UpdateLocationMutation as UpdateLocationMutationType,
-	UpdateLocationMutationVariables,
-	RemoveLocationMutation as RemoveLocationMutationType,
-	RemoveLocationMutationVariables,
-	TableLocationQuery as TableLocationQueryType,
-	TableLocationQueryVariables,
-	SearchLocationsQuery as SearchLocationsQueryType,
-	SearchLocationsQueryVariables,
 	AnalyticsLocationsQuery as AnalyticsLocationsQueryType,
 	AnalyticsLocationsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateLocationInput,
+	CreateLocationMutation as CreateLocationMutationType,
+	CreateLocationMutationVariables,
+	RemoveLocationMutation as RemoveLocationMutationType,
+	RemoveLocationMutationVariables,
+	SearchLocationsQuery as SearchLocationsQueryType,
+	SearchLocationsQueryVariables,
+	TableLocationQuery as TableLocationQueryType,
+	TableLocationQueryVariables,
 	UpdateLocationInput,
+	UpdateLocationMutation as UpdateLocationMutationType,
+	UpdateLocationMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateLocationMutation,
-	UpdateLocationMutation,
-	RemoveLocationMutation,
-	TableLocationQuery,
-	SearchLocationsQuery,
-	AnalyticsLocationsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateLocationTestCase = GraphQLTestCase<
 > & {
 	createData: CreateLocationInput;
 	updateData: UpdateLocationInput;
-	validate?: (response: UpdateLocationMutationType, createdLocation: any) => void;
+	validate?: (
+		response: UpdateLocationMutationType,
+		createdLocation: any,
+	) => void;
 };
 
 type RemoveLocationTestCase = GraphQLTestCase<
@@ -282,7 +284,10 @@ describe("Graphql Analytics Locations Query", () => {
 	const cases: AnalyticsLocationsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsLocationsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsLocationsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

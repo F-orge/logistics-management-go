@@ -1,64 +1,70 @@
 type Warehouses {
-  id: ID!
-  name: String!
-  address: String
-  city: String
-  state: String
-  postalCode: String
-  country: String
-  timezone: String
-  contactPerson: String
-  contactEmail: String
-  contactPhone: String
-  isActive: Boolean
-  createdAt: Date
-  updatedAt: Date
-  inboundShipments: [InboundShipments!]
-  sourceStockTransfers: [StockTransfers!]
-  destinationStockTransfers: [StockTransfers!]
-  outboundShipments: [OutboundShipments!]
-  locations: [Locations!]
-  putawayRules: [PutawayRules!]
-  pickBatches: [PickBatches!]
-  tasks: [Tasks!]
-  packages: [Packages!]
+	id: ID!
+	name: String!
+	address: String
+	city: String
+	state: String
+	postalCode: String
+	country: String
+	timezone: String
+	contactPerson: String
+	contactEmail: String
+	contactPhone: String
+	isActive: Boolean
+	createdAt: Date
+	updatedAt: Date
+	inboundShipments: [InboundShipments!]
+	sourceStockTransfers: [StockTransfers!]
+	destinationStockTransfers: [StockTransfers!]
+	outboundShipments: [OutboundShipments!]
+	locations: [Locations!]
+	putawayRules: [PutawayRules!]
+	pickBatches: [PickBatches!]
+	tasks: [Tasks!]
+	packages: [Packages!]
 }
 
 extend type WmsQuery {
-  warehouses(page: Int, perPage: Int, from: Date, to: Date, search: String): [Warehouses!]!
-  warehouse(id: ID!): Warehouses!
+	warehouses(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+	): [Warehouses!]!
+	warehouse(id: ID!): Warehouses!
 }
 
 input CreateWarehouseInput {
-  name: String! @constraint(minLength: 1)
-  address: String @constraint(minLength: 1)
-  city: String @constraint(minLength: 1)
-  state: String @constraint(minLength: 1)
-  postalCode: String @constraint(minLength: 1)
-  country: String @constraint(minLength: 1)
-  timezone: String @constraint(minLength: 1)
-  contactPerson: String @constraint(minLength: 1)
-  contactEmail: String @constraint(format: "email")
-  contactPhone: String @constraint(minLength: 1)
-  isActive: Boolean
+	name: String! @constraint(minLength: 1)
+	address: String @constraint(minLength: 1)
+	city: String @constraint(minLength: 1)
+	state: String @constraint(minLength: 1)
+	postalCode: String @constraint(minLength: 1)
+	country: String @constraint(minLength: 1)
+	timezone: String @constraint(minLength: 1)
+	contactPerson: String @constraint(minLength: 1)
+	contactEmail: String @constraint(format: "email")
+	contactPhone: String @constraint(minLength: 1)
+	isActive: Boolean
 }
 
 input UpdateWarehouseInput {
-  name: String @constraint(minLength: 1)
-  address: String @constraint(minLength: 1)
-  city: String @constraint(minLength: 1)
-  state: String @constraint(minLength: 1)
-  postalCode: String @constraint(minLength: 1)
-  country: String @constraint(minLength: 1)
-  timezone: String @constraint(minLength: 1)
-  contactPerson: String @constraint(minLength: 1)
-  contactEmail: String @constraint(format: "email")
-  contactPhone: String @constraint(minLength: 1)
-  isActive: Boolean
+	name: String @constraint(minLength: 1)
+	address: String @constraint(minLength: 1)
+	city: String @constraint(minLength: 1)
+	state: String @constraint(minLength: 1)
+	postalCode: String @constraint(minLength: 1)
+	country: String @constraint(minLength: 1)
+	timezone: String @constraint(minLength: 1)
+	contactPerson: String @constraint(minLength: 1)
+	contactEmail: String @constraint(format: "email")
+	contactPhone: String @constraint(minLength: 1)
+	isActive: Boolean
 }
 
 extend type WmsMutation {
-  createWarehouse(value: CreateWarehouseInput!): Warehouses!
-  updateWarehouse(id: ID!, value: UpdateWarehouseInput!): Warehouses!
-  removeWarehouse(id: ID!): DeleteResult!
+	createWarehouse(value: CreateWarehouseInput!): Warehouses!
+	updateWarehouse(id: ID!, value: UpdateWarehouseInput!): Warehouses!
+	removeWarehouse(id: ID!): DeleteResult!
 }

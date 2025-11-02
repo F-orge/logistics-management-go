@@ -1,26 +1,25 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AccountingSyncLogsQuery,
+	AnalyticsAccountingSyncLogsQuery,
+	CreateAccountingSyncLogMutation,
+	SearchAccountingSyncLogsQuery,
+} from "../../../src/client";
 import type {
-	CreateAccountingSyncLogMutation as CreateAccountingSyncLogMutationType,
-	CreateAccountingSyncLogMutationVariables,
-	AccountingSyncLogsQuery as TableAccountingSyncLogQueryType,
 	AccountingSyncLogsQueryVariables,
-	SearchAccountingSyncLogsQuery as SearchAccountingSyncLogsQueryType,
-	SearchAccountingSyncLogsQueryVariables,
 	AnalyticsAccountingSyncLogsQuery as AnalyticsAccountingSyncLogsQueryType,
 	AnalyticsAccountingSyncLogsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateAccountingSyncLogInput,
+	CreateAccountingSyncLogMutation as CreateAccountingSyncLogMutationType,
+	CreateAccountingSyncLogMutationVariables,
+	SearchAccountingSyncLogsQuery as SearchAccountingSyncLogsQueryType,
+	SearchAccountingSyncLogsQueryVariables,
+	AccountingSyncLogsQuery as TableAccountingSyncLogQueryType,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateAccountingSyncLogMutation,
-	AccountingSyncLogsQuery,
-	SearchAccountingSyncLogsQuery,
-	AnalyticsAccountingSyncLogsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -64,7 +63,10 @@ describe("Graphql Create AccountingSyncLog", () => {
 	const cases: CreateAccountingSyncLogTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateAccountingSyncLogMutation, testCase.variables);
+		const response = await executor(
+			CreateAccountingSyncLogMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -103,7 +105,10 @@ describe("Graphql Table AccountingSyncLogs Query", () => {
 	const cases: TableAccountingSyncLogTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AccountingSyncLogsQuery, testCase.variables);
+		const response = await executor(
+			AccountingSyncLogsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -129,7 +134,10 @@ describe("Graphql Search AccountingSyncLogs Query", () => {
 	const cases: SearchAccountingSyncLogsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchAccountingSyncLogsQuery, testCase.variables);
+		const response = await executor(
+			SearchAccountingSyncLogsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -155,7 +163,10 @@ describe("Graphql Analytics AccountingSyncLogs Query", () => {
 	const cases: AnalyticsAccountingSyncLogsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsAccountingSyncLogsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsAccountingSyncLogsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

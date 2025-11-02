@@ -1,4 +1,7 @@
+import { createGraphQLYoga } from "@packages/graphql";
+import { pubsubFactory } from "@packages/graphql/events";
 import sgMail from "@sendgrid/mail";
+import { S3Client } from "bun";
 import { promises as fs } from "fs";
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
@@ -17,9 +20,6 @@ import nodemailer from "nodemailer";
 import * as path from "path";
 import { Pool } from "pg";
 import { authFactory } from "./auth";
-import { S3Client } from "bun";
-import { pubsubFactory } from "@packages/graphql/events";
-import { createGraphQLYoga } from "@packages/graphql";
 
 type ServerFactory = {
   pool: Pool;

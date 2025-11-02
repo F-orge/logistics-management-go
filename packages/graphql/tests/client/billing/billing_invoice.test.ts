@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsBillingInvoicesQuery,
+	CreateBillingInvoiceMutation,
+	RemoveBillingInvoiceMutation,
+	SearchBillingInvoicesQuery,
+	TableBillingInvoiceQuery,
+	UpdateBillingInvoiceMutation,
+} from "../../../src/client";
 import type {
-	CreateBillingInvoiceMutation as CreateBillingInvoiceMutationType,
-	CreateBillingInvoiceMutationVariables,
-	UpdateBillingInvoiceMutation as UpdateBillingInvoiceMutationType,
-	UpdateBillingInvoiceMutationVariables,
-	RemoveBillingInvoiceMutation as RemoveBillingInvoiceMutationType,
-	RemoveBillingInvoiceMutationVariables,
-	TableBillingInvoiceQuery as TableBillingInvoiceQueryType,
-	TableBillingInvoiceQueryVariables,
-	SearchBillingInvoicesQuery as SearchBillingInvoicesQueryType,
-	SearchBillingInvoicesQueryVariables,
 	AnalyticsBillingInvoicesQuery as AnalyticsBillingInvoicesQueryType,
 	AnalyticsBillingInvoicesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateBillingInvoiceInput,
+	CreateBillingInvoiceMutation as CreateBillingInvoiceMutationType,
+	CreateBillingInvoiceMutationVariables,
+	RemoveBillingInvoiceMutation as RemoveBillingInvoiceMutationType,
+	RemoveBillingInvoiceMutationVariables,
+	SearchBillingInvoicesQuery as SearchBillingInvoicesQueryType,
+	SearchBillingInvoicesQueryVariables,
+	TableBillingInvoiceQuery as TableBillingInvoiceQueryType,
+	TableBillingInvoiceQueryVariables,
 	UpdateBillingInvoiceInput,
+	UpdateBillingInvoiceMutation as UpdateBillingInvoiceMutationType,
+	UpdateBillingInvoiceMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateBillingInvoiceMutation,
-	UpdateBillingInvoiceMutation,
-	RemoveBillingInvoiceMutation,
-	TableBillingInvoiceQuery,
-	SearchBillingInvoicesQuery,
-	AnalyticsBillingInvoicesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateBillingInvoiceTestCase = GraphQLTestCase<
 > & {
 	createData: CreateBillingInvoiceInput;
 	updateData: UpdateBillingInvoiceInput;
-	validate?: (response: UpdateBillingInvoiceMutationType, createdBillingInvoice: any) => void;
+	validate?: (
+		response: UpdateBillingInvoiceMutationType,
+		createdBillingInvoice: any,
+	) => void;
 };
 
 type RemoveBillingInvoiceTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create BillingInvoice", () => {
 	const cases: CreateBillingInvoiceTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateBillingInvoiceMutation, testCase.variables);
+		const response = await executor(
+			CreateBillingInvoiceMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -133,9 +138,13 @@ describe("Graphql Update BillingInvoice", () => {
 			billingInvoice: testCase.createData,
 		});
 
-		expect(createResponse.data?.billing?.createBillingInvoice?.id).toBeDefined();
-		const billingInvoiceId = createResponse.data!.billing!.createBillingInvoice!.id!;
-		const createdBillingInvoice = createResponse.data!.billing!.createBillingInvoice!;
+		expect(
+			createResponse.data?.billing?.createBillingInvoice?.id,
+		).toBeDefined();
+		const billingInvoiceId =
+			createResponse.data!.billing!.createBillingInvoice!.id!;
+		const createdBillingInvoice =
+			createResponse.data!.billing!.createBillingInvoice!;
 
 		// Update BillingInvoice
 		const updateResponse = await executor(UpdateBillingInvoiceMutation, {
@@ -190,7 +199,8 @@ describe("Graphql Remove BillingInvoice", () => {
 					// Add minimal required fields
 				} as unknown as CreateBillingInvoiceInput,
 			});
-			billingInvoiceId = createResponse.data!.billing!.createBillingInvoice!.id!;
+			billingInvoiceId =
+				createResponse.data!.billing!.createBillingInvoice!.id!;
 		} else {
 			billingInvoiceId = "00000000-0000-0000-0000-000000000000";
 		}
@@ -206,12 +216,16 @@ describe("Graphql Remove BillingInvoice", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeBillingInvoice?.success).toBe(false);
+				expect(
+					deleteResponse.data?.billing?.removeBillingInvoice?.success,
+				).toBe(false);
 			}
 		}
 
 		if (testCase.validate) {
-			testCase.validate(deleteResponse.data as RemoveBillingInvoiceMutationType);
+			testCase.validate(
+				deleteResponse.data as RemoveBillingInvoiceMutationType,
+			);
 		}
 	});
 });
@@ -230,7 +244,10 @@ describe("Graphql Table BillingInvoices Query", () => {
 	const cases: TableBillingInvoiceTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(TableBillingInvoiceQuery, testCase.variables);
+		const response = await executor(
+			TableBillingInvoiceQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -256,7 +273,10 @@ describe("Graphql Search BillingInvoices Query", () => {
 	const cases: SearchBillingInvoicesTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(SearchBillingInvoicesQuery, testCase.variables);
+		const response = await executor(
+			SearchBillingInvoicesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
@@ -282,7 +302,10 @@ describe("Graphql Analytics BillingInvoices Query", () => {
 	const cases: AnalyticsBillingInvoicesTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsBillingInvoicesQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsBillingInvoicesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

@@ -1,29 +1,27 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsInvoicesQuery,
+	CreateInvoiceMutation,
+	SearchInvoicesQuery,
+	TableInvoiceQuery,
+	UpdateInvoiceMutation,
+} from "../../../src/client";
 import type {
-	CreateInvoiceMutation as CreateInvoiceMutationType,
-	CreateInvoiceMutationVariables,
-	UpdateInvoiceMutation as UpdateInvoiceMutationType,
-	UpdateInvoiceMutationVariables,
-	TableInvoiceQuery as TableInvoiceQueryType,
-	TableInvoiceQueryVariables,
-	SearchInvoicesQuery as SearchInvoicesQueryType,
-	SearchInvoicesQueryVariables,
 	AnalyticsInvoicesQuery as AnalyticsInvoicesQueryType,
 	AnalyticsInvoicesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateInvoiceInput,
+	CreateInvoiceMutation as CreateInvoiceMutationType,
+	CreateInvoiceMutationVariables,
+	SearchInvoicesQuery as SearchInvoicesQueryType,
+	SearchInvoicesQueryVariables,
+	TableInvoiceQuery as TableInvoiceQueryType,
+	TableInvoiceQueryVariables,
 	UpdateInvoiceInput,
+	UpdateInvoiceMutation as UpdateInvoiceMutationType,
+	UpdateInvoiceMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateInvoiceMutation,
-	UpdateInvoiceMutation,
-	TableInvoiceQuery,
-	SearchInvoicesQuery,
-	AnalyticsInvoicesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

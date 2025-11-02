@@ -1,11 +1,11 @@
 export type TestCase<T> = {
-  name: String;
-  input: T;
-  success: boolean;
-  error?: {
-    path: string;
-    message: string;
-  };
+	name: string;
+	input: T;
+	success: boolean;
+	error?: {
+		path: string;
+		message: string;
+	};
 };
 
 /**
@@ -29,11 +29,11 @@ export type TestCase<T> = {
  * ];
  */
 export interface GraphQLTestCase<TVariables, TData> {
-  name: string;
-  variables: TVariables;
-  success: boolean;
-  expectedData?: TData;
-  expectedError?: {
-    messagePattern: string | RegExp;
-  };
+	name: string;
+	variables: TVariables;
+	success: boolean;
+	expectedData?: TData;
+	expectedError?: {
+		messagePattern: string | RegExp;
+	};
 }

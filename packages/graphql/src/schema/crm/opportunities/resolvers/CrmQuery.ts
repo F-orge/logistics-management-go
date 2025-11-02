@@ -1,49 +1,55 @@
-import { CrmOpportunitySource, CrmOpportunityStage } from "../../../../db.types";
-import { Opportunities } from "../../../../zod.schema";
+import {
+	CrmOpportunitySource,
+	CrmOpportunityStage,
+} from "../../../../db.types";
+import type { Opportunities } from "../../../../zod.schema";
 import type { CrmQueryResolvers } from "./../../../types.generated";
-export const CrmQuery: Pick<CrmQueryResolvers, 'opportunities'|'opportunity'> = {
-  opportunities: async (_parent, args, ctx) => {
-    let query = ctx.db.selectFrom("crm.opportunities").selectAll();
+export const CrmQuery: Pick<
+	CrmQueryResolvers,
+	"opportunities" | "opportunity"
+> = {
+	opportunities: async (_parent, args, ctx) => {
+		let query = ctx.db.selectFrom("crm.opportunities").selectAll();
 
-    if (args.page && args.perPage) {
-      const offset = (args.page - 1) * args.perPage;
-      query = query.offset(offset).limit(args.perPage);
-    }
+		if (args.page && args.perPage) {
+			const offset = (args.page - 1) * args.perPage;
+			query = query.offset(offset).limit(args.perPage);
+		}
 
-    if (args.from && args.to) {
-      query = query
-        .clearLimit()
-        .clearOffset()
-        .where("createdAt", ">=", args.from as Date)
-        .where("createdAt", "<=", args.to as Date);
-    }
+		if (args.from && args.to) {
+			query = query
+				.clearLimit()
+				.clearOffset()
+				.where("createdAt", ">=", args.from as Date)
+				.where("createdAt", "<=", args.to as Date);
+		}
 
-    if (args.search) {
-      query = query.where((eb) =>
-        eb.or([
-          eb("name", "ilike", `%${args.search}%`),
-          eb("lostReason", "ilike", `%${args.search}%`),
-        ])
-      );
-    }
+		if (args.search) {
+			query = query.where((eb) =>
+				eb.or([
+					eb("name", "ilike", `%${args.search}%`),
+					eb("lostReason", "ilike", `%${args.search}%`),
+				]),
+			);
+		}
 
-    if (args.stage) {
-      query = query.where("stage", "=", CrmOpportunityStage[args.stage]);
-    }
+		if (args.stage) {
+			query = query.where("stage", "=", CrmOpportunityStage[args.stage]);
+		}
 
-    if (args.source) {
-      query = query.where("source", "=", CrmOpportunitySource[args.source]);
-    }
-    const results = await query.execute();
-    return results as unknown as Opportunities[];
-  },
-  opportunity: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .selectFrom("crm.opportunities")
-      .selectAll()
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
+		if (args.source) {
+			query = query.where("source", "=", CrmOpportunitySource[args.source]);
+		}
+		const results = await query.execute();
+		return results as unknown as Opportunities[];
+	},
+	opportunity: async (_parent, args, ctx) => {
+		const result = await ctx.db
+			.selectFrom("crm.opportunities")
+			.selectAll()
+			.where("id", "=", args.id)
+			.executeTakeFirstOrThrow();
 
-    return result as unknown as Opportunities;
-  },
+		return result as unknown as Opportunities;
+	},
 };

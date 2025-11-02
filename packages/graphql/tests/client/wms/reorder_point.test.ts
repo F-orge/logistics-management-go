@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsReorderPointsQuery,
+	CreateReorderPointMutation,
+	RemoveReorderPointMutation,
+	TableReorderPointQuery,
+	UpdateReorderPointMutation,
+} from "../../../src/client";
 import type {
+	AnalyticsReorderPointsQuery as AnalyticsReorderPointsQueryType,
+	AnalyticsReorderPointsQueryVariables,
+	CreateReorderPointInput,
 	CreateReorderPointMutation as CreateReorderPointMutationType,
 	CreateReorderPointMutationVariables,
-	UpdateReorderPointMutation as UpdateReorderPointMutationType,
-	UpdateReorderPointMutationVariables,
 	RemoveReorderPointMutation as RemoveReorderPointMutationType,
 	RemoveReorderPointMutationVariables,
 	TableReorderPointQuery as TableReorderPointQueryType,
 	TableReorderPointQueryVariables,
-	AnalyticsReorderPointsQuery as AnalyticsReorderPointsQueryType,
-	AnalyticsReorderPointsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateReorderPointInput,
 	UpdateReorderPointInput,
+	UpdateReorderPointMutation as UpdateReorderPointMutationType,
+	UpdateReorderPointMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateReorderPointMutation,
-	UpdateReorderPointMutation,
-	RemoveReorderPointMutation,
-	TableReorderPointQuery,
-	AnalyticsReorderPointsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateReorderPointTestCase = GraphQLTestCase<
 > & {
 	createData: CreateReorderPointInput;
 	updateData: UpdateReorderPointInput;
-	validate?: (response: UpdateReorderPointMutationType, createdReorderPoint: any) => void;
+	validate?: (
+		response: UpdateReorderPointMutationType,
+		createdReorderPoint: any,
+	) => void;
 };
 
 type RemoveReorderPointTestCase = GraphQLTestCase<
@@ -79,7 +81,10 @@ describe("Graphql Create ReorderPoint", () => {
 	const cases: CreateReorderPointTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateReorderPointMutation, testCase.variables);
+		const response = await executor(
+			CreateReorderPointMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -196,7 +201,9 @@ describe("Graphql Remove ReorderPoint", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.wms?.removeReorderPoint?.success).toBe(false);
+				expect(deleteResponse.data?.wms?.removeReorderPoint?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -246,7 +253,10 @@ describe("Graphql Analytics ReorderPoints Query", () => {
 	const cases: AnalyticsReorderPointsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsReorderPointsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsReorderPointsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

@@ -1,23 +1,21 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreatePartnerInvoiceMutation as CreatePartnerInvoiceMutationType,
-	CreatePartnerInvoiceMutationVariables,
-	UpdatePartnerInvoiceMutation as UpdatePartnerInvoiceMutationType,
-	UpdatePartnerInvoiceMutationVariables,
-	TablePartnerInvoiceQuery as TablePartnerInvoiceQueryType,
-	TablePartnerInvoiceQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreatePartnerInvoiceInput,
-	UpdatePartnerInvoiceInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreatePartnerInvoiceMutation,
-	UpdatePartnerInvoiceMutation,
 	TablePartnerInvoice,
+	UpdatePartnerInvoiceMutation,
 } from "../../../src/client";
+import type {
+	CreatePartnerInvoiceInput,
+	CreatePartnerInvoiceMutation as CreatePartnerInvoiceMutationType,
+	CreatePartnerInvoiceMutationVariables,
+	TablePartnerInvoiceQuery as TablePartnerInvoiceQueryType,
+	TablePartnerInvoiceQueryVariables,
+	UpdatePartnerInvoiceInput,
+	UpdatePartnerInvoiceMutation as UpdatePartnerInvoiceMutationType,
+	UpdatePartnerInvoiceMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

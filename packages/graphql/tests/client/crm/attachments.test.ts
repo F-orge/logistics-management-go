@@ -1,23 +1,23 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	CreateAttachmentMutation,
+	RemoveAttachmentMutation,
+	SearchAttachmentsQuery,
+	TableAttachmentQuery,
+} from "../../../src/client";
 import type {
+	CreateAttachmentInput,
 	CreateAttachmentMutation as CreateAttachmentMutationType,
 	CreateAttachmentMutationVariables,
 	RemoveAttachmentMutation as RemoveAttachmentMutationType,
 	RemoveAttachmentMutationVariables,
-	TableAttachmentQuery as TableAttachmentQueryType,
-	TableAttachmentQueryVariables,
 	SearchAttachmentsQuery as SearchAttachmentsQueryType,
 	SearchAttachmentsQueryVariables,
+	TableAttachmentQuery as TableAttachmentQueryType,
+	TableAttachmentQueryVariables,
 } from "../../../src/client/generated/graphql";
-import type { CreateAttachmentInput } from "../../../src/client/generated/graphql";
-import {
-	CreateAttachmentMutation,
-	RemoveAttachmentMutation,
-	TableAttachmentQuery,
-	SearchAttachmentsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsPaymentsQuery,
+	CreatePaymentMutation,
+	RemovePaymentMutation,
+	SearchPaymentsQuery,
+	TablePaymentQuery,
+	UpdatePaymentMutation,
+} from "../../../src/client";
 import type {
-	CreatePaymentMutation as CreatePaymentMutationType,
-	CreatePaymentMutationVariables,
-	UpdatePaymentMutation as UpdatePaymentMutationType,
-	UpdatePaymentMutationVariables,
-	RemovePaymentMutation as RemovePaymentMutationType,
-	RemovePaymentMutationVariables,
-	TablePaymentQuery as TablePaymentQueryType,
-	TablePaymentQueryVariables,
-	SearchPaymentsQuery as SearchPaymentsQueryType,
-	SearchPaymentsQueryVariables,
 	AnalyticsPaymentsQuery as AnalyticsPaymentsQueryType,
 	AnalyticsPaymentsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreatePaymentInput,
+	CreatePaymentMutation as CreatePaymentMutationType,
+	CreatePaymentMutationVariables,
+	RemovePaymentMutation as RemovePaymentMutationType,
+	RemovePaymentMutationVariables,
+	SearchPaymentsQuery as SearchPaymentsQueryType,
+	SearchPaymentsQueryVariables,
+	TablePaymentQuery as TablePaymentQueryType,
+	TablePaymentQueryVariables,
 	UpdatePaymentInput,
+	UpdatePaymentMutation as UpdatePaymentMutationType,
+	UpdatePaymentMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreatePaymentMutation,
-	UpdatePaymentMutation,
-	RemovePaymentMutation,
-	TablePaymentQuery,
-	SearchPaymentsQuery,
-	AnalyticsPaymentsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -206,7 +205,9 @@ describe("Graphql Remove Payment", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removePayment?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removePayment?.success).toBe(
+					false,
+				);
 			}
 		}
 

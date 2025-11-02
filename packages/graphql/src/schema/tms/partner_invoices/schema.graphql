@@ -1,41 +1,51 @@
 enum PartnerInvoiceStatus {
-  PENDING
-  PAID
-  DISPUTED
-  OVERDUE
-  CANCELLED
+	PENDING
+	PAID
+	DISPUTED
+	OVERDUE
+	CANCELLED
 }
 
 type PartnerInvoices {
-  id: ID!
-  carrier: Carriers!
-  invoiceNumber: String!
-  invoiceDate: String!
-  totalAmount: Float!
-  status: PartnerInvoiceStatus
-  createdAt: Date
-  updatedAt: Date
-  items: [PartnerInvoiceItems!]
+	id: ID!
+	carrier: Carriers!
+	invoiceNumber: String!
+	invoiceDate: String!
+	totalAmount: Float!
+	status: PartnerInvoiceStatus
+	createdAt: Date
+	updatedAt: Date
+	items: [PartnerInvoiceItems!]
 }
 
 extend type TmsQuery {
-  partnerInvoices(page: Int, perPage: Int, from: Date, to: Date, search: String, status: PartnerInvoiceStatus): [PartnerInvoices!]!
-  partnerInvoice(id: ID!): PartnerInvoices!
+	partnerInvoices(
+		page: Int
+		perPage: Int
+		from: Date
+		to: Date
+		search: String
+		status: PartnerInvoiceStatus
+	): [PartnerInvoices!]!
+	partnerInvoice(id: ID!): PartnerInvoices!
 }
 
 input CreatePartnerInvoiceInput {
-  carrierId: ID!
-  invoiceNumber: String!
-  invoiceDate: String!
-  status: PartnerInvoiceStatus
-  items: [CreatePartnerInvoiceItemInput!]!
+	carrierId: ID!
+	invoiceNumber: String!
+	invoiceDate: String!
+	status: PartnerInvoiceStatus
+	items: [CreatePartnerInvoiceItemInput!]!
 }
 
 input UpdatePartnerInvoiceInput {
-  status: PartnerInvoiceStatus
+	status: PartnerInvoiceStatus
 }
 
 extend type TmsMutation {
-  createPartnerInvoice(value: CreatePartnerInvoiceInput!): PartnerInvoices!
-  updatePartnerInvoice(id: ID!, value: UpdatePartnerInvoiceInput): PartnerInvoices!
+	createPartnerInvoice(value: CreatePartnerInvoiceInput!): PartnerInvoices!
+	updatePartnerInvoice(
+		id: ID!
+		value: UpdatePartnerInvoiceInput
+	): PartnerInvoices!
 }

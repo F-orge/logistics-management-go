@@ -3,9 +3,9 @@ type DmsQuery
 type DmsMutation
 
 extend type Query {
-  dms: DmsQuery
+	dms: DmsQuery
 }
 
 extend type Mutation {
-  dms: DmsMutation
+	dms: DmsMutation
 }

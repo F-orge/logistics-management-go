@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsPackagesQuery,
+	CreatePackageMutation,
+	RemovePackageMutation,
+	SearchPackagesQuery,
+	TablePackageQuery,
+	UpdatePackageMutation,
+} from "../../../src/client";
 import type {
-	CreatePackageMutation as CreatePackageMutationType,
-	CreatePackageMutationVariables,
-	UpdatePackageMutation as UpdatePackageMutationType,
-	UpdatePackageMutationVariables,
-	RemovePackageMutation as RemovePackageMutationType,
-	RemovePackageMutationVariables,
-	TablePackageQuery as TablePackageQueryType,
-	TablePackageQueryVariables,
-	SearchPackagesQuery as SearchPackagesQueryType,
-	SearchPackagesQueryVariables,
 	AnalyticsPackagesQuery as AnalyticsPackagesQueryType,
 	AnalyticsPackagesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreatePackageInput,
+	CreatePackageMutation as CreatePackageMutationType,
+	CreatePackageMutationVariables,
+	RemovePackageMutation as RemovePackageMutationType,
+	RemovePackageMutationVariables,
+	SearchPackagesQuery as SearchPackagesQueryType,
+	SearchPackagesQueryVariables,
+	TablePackageQuery as TablePackageQueryType,
+	TablePackageQueryVariables,
 	UpdatePackageInput,
+	UpdatePackageMutation as UpdatePackageMutationType,
+	UpdatePackageMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreatePackageMutation,
-	UpdatePackageMutation,
-	RemovePackageMutation,
-	TablePackageQuery,
-	SearchPackagesQuery,
-	AnalyticsPackagesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================

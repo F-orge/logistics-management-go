@@ -1,30 +1,29 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateSupplierMutation as CreateSupplierMutationType,
-	CreateSupplierMutationVariables,
-	UpdateSupplierMutation as UpdateSupplierMutationType,
-	UpdateSupplierMutationVariables,
-	RemoveSupplierMutation as RemoveSupplierMutationType,
-	RemoveSupplierMutationVariables,
-	TableSupplierQuery as TableSupplierQueryType,
-	TableSupplierQueryVariables,
-	SearchSuppliersQuery as SearchSuppliersQueryType,
-	SearchSuppliersQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateSupplierInput,
-	UpdateSupplierInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateSupplierMutation,
-	UpdateSupplierMutation,
 	RemoveSupplierMutation,
-	TableSupplierQuery,
 	SearchSuppliersQuery,
+	TableSupplierQuery,
+	UpdateSupplierMutation,
 } from "../../../src/client";
+import type {
+	CreateSupplierInput,
+	CreateSupplierMutation as CreateSupplierMutationType,
+	CreateSupplierMutationVariables,
+	RemoveSupplierMutation as RemoveSupplierMutationType,
+	RemoveSupplierMutationVariables,
+	SearchSuppliersQuery as SearchSuppliersQueryType,
+	SearchSuppliersQueryVariables,
+	TableSupplierQuery as TableSupplierQueryType,
+	TableSupplierQueryVariables,
+	UpdateSupplierInput,
+	UpdateSupplierMutation as UpdateSupplierMutationType,
+	UpdateSupplierMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -40,7 +39,10 @@ type UpdateSupplierTestCase = GraphQLTestCase<
 > & {
 	createData: CreateSupplierInput;
 	updateData: UpdateSupplierInput;
-	validate?: (response: UpdateSupplierMutationType, createdSupplier: any) => void;
+	validate?: (
+		response: UpdateSupplierMutationType,
+		createdSupplier: any,
+	) => void;
 };
 
 type RemoveSupplierTestCase = GraphQLTestCase<

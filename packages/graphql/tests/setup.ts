@@ -1,7 +1,7 @@
-import { beforeAll, afterAll } from "bun:test";
-import { Pool, PoolClient } from "pg";
+import { afterAll, beforeAll } from "bun:test";
 import { S3Client } from "bun";
-import nodemailer, { Transporter } from "nodemailer";
+import nodemailer, { type Transporter } from "nodemailer";
+import { Pool, type PoolClient } from "pg";
 
 const TEST_DB_NAME = `test_db_${Date.now()}`;
 const TEST_BUCKET_NAME = `test_bucket_${Date.now()}`;

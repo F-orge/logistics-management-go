@@ -1,6 +1,6 @@
+import { base, de, de_AT, en, Faker } from "@faker-js/faker";
 import { DB } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
-import { Faker, base, de, de_AT, en } from "@faker-js/faker";
 import {
   seedBillingAccountingSyncLog,
   seedBillingAccountTransaction,

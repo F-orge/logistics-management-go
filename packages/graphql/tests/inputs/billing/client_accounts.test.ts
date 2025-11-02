@@ -1,10 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { TestCase } from "../helpers";
+import type z from "zod";
 import {
 	CreateClientAccountInputSchema,
 	UpdateClientAccountInputSchema,
 } from "../../../src/zod.schema";
-import z from "zod";
+import type { TestCase } from "../helpers";
 
 type CreateSchema = z.infer<ReturnType<typeof CreateClientAccountInputSchema>>;
 

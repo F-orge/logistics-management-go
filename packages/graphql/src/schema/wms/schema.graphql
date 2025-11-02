@@ -1,11 +1,11 @@
-type WmsQuery 
+type WmsQuery
 
-type WmsMutation 
+type WmsMutation
 
 extend type Query {
-  wms:WmsQuery
+	wms: WmsQuery
 }
 
 extend type Mutation {
-  wms:WmsMutation
+	wms: WmsMutation
 }

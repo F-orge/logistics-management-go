@@ -1,5 +1,5 @@
-import type { CodegenConfig } from "@graphql-codegen/cli";
 import { defineConfig } from "@eddeee888/gcg-typescript-resolver-files";
+import type { CodegenConfig } from "@graphql-codegen/cli";
 import lodash from "lodash";
 
 const config: CodegenConfig = {

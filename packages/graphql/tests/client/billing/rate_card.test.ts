@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsRateCardsQuery,
+	CreateRateCardMutation,
+	RemoveRateCardMutation,
+	SearchRateCardsQuery,
+	TableRateCardQuery,
+	UpdateRateCardMutation,
+} from "../../../src/client";
 import type {
-	CreateRateCardMutation as CreateRateCardMutationType,
-	CreateRateCardMutationVariables,
-	UpdateRateCardMutation as UpdateRateCardMutationType,
-	UpdateRateCardMutationVariables,
-	RemoveRateCardMutation as RemoveRateCardMutationType,
-	RemoveRateCardMutationVariables,
-	TableRateCardQuery as TableRateCardQueryType,
-	TableRateCardQueryVariables,
-	SearchRateCardsQuery as SearchRateCardsQueryType,
-	SearchRateCardsQueryVariables,
 	AnalyticsRateCardsQuery as AnalyticsRateCardsQueryType,
 	AnalyticsRateCardsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateRateCardInput,
+	CreateRateCardMutation as CreateRateCardMutationType,
+	CreateRateCardMutationVariables,
+	RemoveRateCardMutation as RemoveRateCardMutationType,
+	RemoveRateCardMutationVariables,
+	SearchRateCardsQuery as SearchRateCardsQueryType,
+	SearchRateCardsQueryVariables,
+	TableRateCardQuery as TableRateCardQueryType,
+	TableRateCardQueryVariables,
 	UpdateRateCardInput,
+	UpdateRateCardMutation as UpdateRateCardMutationType,
+	UpdateRateCardMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateRateCardMutation,
-	UpdateRateCardMutation,
-	RemoveRateCardMutation,
-	TableRateCardQuery,
-	SearchRateCardsQuery,
-	AnalyticsRateCardsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateRateCardTestCase = GraphQLTestCase<
 > & {
 	createData: CreateRateCardInput;
 	updateData: UpdateRateCardInput;
-	validate?: (response: UpdateRateCardMutationType, createdRateCard: any) => void;
+	validate?: (
+		response: UpdateRateCardMutationType,
+		createdRateCard: any,
+	) => void;
 };
 
 type RemoveRateCardTestCase = GraphQLTestCase<
@@ -206,7 +208,9 @@ describe("Graphql Remove RateCard", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeRateCard?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removeRateCard?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -282,7 +286,10 @@ describe("Graphql Analytics RateCards Query", () => {
 	const cases: AnalyticsRateCardsTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsRateCardsQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsRateCardsQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

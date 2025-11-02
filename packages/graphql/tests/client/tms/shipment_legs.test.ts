@@ -1,23 +1,21 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
-import type {
-	CreateShipmentLegMutation as CreateShipmentLegMutationType,
-	CreateShipmentLegMutationVariables,
-	UpdateShipmentLegMutation as UpdateShipmentLegMutationType,
-	UpdateShipmentLegMutationVariables,
-	TableShipmentLegQueryQuery as TableShipmentLegQueryType,
-	TableShipmentLegQueryQueryVariables as TableShipmentLegQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
-	CreateShipmentLegInput,
-	UpdateShipmentLegInput,
-} from "../../../src/client/generated/graphql";
 import {
 	CreateShipmentLegMutation,
-	UpdateShipmentLegMutation,
 	TableShipmentLegQuery,
+	UpdateShipmentLegMutation,
 } from "../../../src/client";
+import type {
+	CreateShipmentLegInput,
+	CreateShipmentLegMutation as CreateShipmentLegMutationType,
+	CreateShipmentLegMutationVariables,
+	TableShipmentLegQueryQuery as TableShipmentLegQueryType,
+	TableShipmentLegQueryQueryVariables as TableShipmentLegQueryVariables,
+	UpdateShipmentLegInput,
+	UpdateShipmentLegMutation as UpdateShipmentLegMutationType,
+	UpdateShipmentLegMutationVariables,
+} from "../../../src/client/generated/graphql";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

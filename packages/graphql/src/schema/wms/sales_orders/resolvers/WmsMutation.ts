@@ -1,85 +1,88 @@
 import { WmsSalesOrderStatusEnum } from "../../../../db.types";
 import {
-  CreateSalesOrderInputSchema,
-  SalesOrders,
-  UpdateSalesOrderInputSchema,
+	CreateSalesOrderInputSchema,
+	type SalesOrders,
+	UpdateSalesOrderInputSchema,
 } from "../../../../zod.schema";
 import type { WmsMutationResolvers } from "./../../../types.generated";
 
-export const WmsMutation: Pick<WmsMutationResolvers, 'createSalesOrder'|'removeSalesOrder'|'updateSalesOrder'> = {
-  createSalesOrder: async (_parent, args, ctx) => {
-    const payload = CreateSalesOrderInputSchema().parse(args.value);
+export const WmsMutation: Pick<
+	WmsMutationResolvers,
+	"createSalesOrder" | "removeSalesOrder" | "updateSalesOrder"
+> = {
+	createSalesOrder: async (_parent, args, ctx) => {
+		const payload = CreateSalesOrderInputSchema().parse(args.value);
 
-    const result = await ctx.db
-      .insertInto("wms.salesOrders")
-      .values({
-        ...payload,
-        status: payload.status
-          ? WmsSalesOrderStatusEnum[payload.status]
-          : undefined,
-      })
-      .returningAll()
-      .executeTakeFirstOrThrow();
+		const result = await ctx.db
+			.insertInto("wms.salesOrders")
+			.values({
+				...payload,
+				status: payload.status
+					? WmsSalesOrderStatusEnum[payload.status]
+					: undefined,
+			})
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-    // Publish created event
-    await ctx.pubsub.publish("wms.salesOrder.created", result);
+		// Publish created event
+		await ctx.pubsub.publish("wms.salesOrder.created", result);
 
-    return result as unknown as SalesOrders;
-  },
-  updateSalesOrder: async (_parent, args, ctx) => {
-    const payload = UpdateSalesOrderInputSchema().parse(args.value);
+		return result as unknown as SalesOrders;
+	},
+	updateSalesOrder: async (_parent, args, ctx) => {
+		const payload = UpdateSalesOrderInputSchema().parse(args.value);
 
-    // Get the previous state to detect changes
-    const previousOrder = await ctx.db
-      .selectFrom("wms.salesOrders")
-      .selectAll()
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
+		// Get the previous state to detect changes
+		const previousOrder = await ctx.db
+			.selectFrom("wms.salesOrders")
+			.selectAll()
+			.where("id", "=", args.id)
+			.executeTakeFirstOrThrow();
 
-    const result = await ctx.db
-      .updateTable("wms.salesOrders")
-      .set({
-        ...payload,
-        status: payload.status
-          ? WmsSalesOrderStatusEnum[payload.status]
-          : undefined,
-      })
-      .where("id", "=", args.id)
-      .returningAll()
-      .executeTakeFirstOrThrow();
+		const result = await ctx.db
+			.updateTable("wms.salesOrders")
+			.set({
+				...payload,
+				status: payload.status
+					? WmsSalesOrderStatusEnum[payload.status]
+					: undefined,
+			})
+			.where("id", "=", args.id)
+			.returningAll()
+			.executeTakeFirstOrThrow();
 
-    // Publish status changed event
-    if (payload.status && payload.status !== previousOrder.status) {
-      const status = payload.status as WmsSalesOrderStatusEnum;
+		// Publish status changed event
+		if (payload.status && payload.status !== previousOrder.status) {
+			const status = payload.status as WmsSalesOrderStatusEnum;
 
-      await ctx.pubsub.publish("wms.salesOrder.statusChanged", {
-        id: result.id,
-        newStatus: status,
-        previousStatus: previousOrder.status as WmsSalesOrderStatusEnum,
-        clientId: result.clientId,
-      });
+			await ctx.pubsub.publish("wms.salesOrder.statusChanged", {
+				id: result.id,
+				newStatus: status,
+				previousStatus: previousOrder.status as WmsSalesOrderStatusEnum,
+				clientId: result.clientId,
+			});
 
-      // Publish specific status events
-      if (status === "PROCESSING") {
-        await ctx.pubsub.publish("wms.salesOrder.processing", result);
-      } else if (status === "SHIPPED") {
-        await ctx.pubsub.publish("wms.salesOrder.shipped", result);
-      } else if (status === "COMPLETED") {
-        await ctx.pubsub.publish("wms.salesOrder.completed", result);
-      }
-    }
+			// Publish specific status events
+			if (status === "PROCESSING") {
+				await ctx.pubsub.publish("wms.salesOrder.processing", result);
+			} else if (status === "SHIPPED") {
+				await ctx.pubsub.publish("wms.salesOrder.shipped", result);
+			} else if (status === "COMPLETED") {
+				await ctx.pubsub.publish("wms.salesOrder.completed", result);
+			}
+		}
 
-    return result as unknown as SalesOrders;
-  },
-  removeSalesOrder: async (_parent, args, ctx) => {
-    const result = await ctx.db
-      .deleteFrom("wms.salesOrders")
-      .where("id", "=", args.id)
-      .executeTakeFirstOrThrow();
+		return result as unknown as SalesOrders;
+	},
+	removeSalesOrder: async (_parent, args, ctx) => {
+		const result = await ctx.db
+			.deleteFrom("wms.salesOrders")
+			.where("id", "=", args.id)
+			.executeTakeFirstOrThrow();
 
-    return {
-      success: true,
-      numDeletedRows: Number(result.numDeletedRows.toString()),
-    };
-  },
+		return {
+			success: true,
+			numDeletedRows: Number(result.numDeletedRows.toString()),
+		};
+	},
 };

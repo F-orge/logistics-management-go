@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsLeadsQuery,
+	CreateLeadMutation,
+	RemoveLeadMutation,
+	SearchLeadsQuery,
+	TableLeadQuery,
+	UpdateLeadMutation,
+} from "../../../src/client";
 import type {
-	CreateLeadMutation as CreateLeadMutationType,
-	CreateLeadMutationVariables,
-	UpdateLeadMutation as UpdateLeadMutationType,
-	UpdateLeadMutationVariables,
-	RemoveLeadMutation as RemoveLeadMutationType,
-	RemoveLeadMutationVariables,
-	TableLeadQuery as TableLeadQueryType,
-	TableLeadQueryVariables,
-	SearchLeadsQuery as SearchLeadsQueryType,
-	SearchLeadsQueryVariables,
 	AnalyticsLeadsQuery as AnalyticsLeadsQueryType,
 	AnalyticsLeadsQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateLeadInput,
+	CreateLeadMutation as CreateLeadMutationType,
+	CreateLeadMutationVariables,
+	RemoveLeadMutation as RemoveLeadMutationType,
+	RemoveLeadMutationVariables,
+	SearchLeadsQuery as SearchLeadsQueryType,
+	SearchLeadsQueryVariables,
+	TableLeadQuery as TableLeadQueryType,
+	TableLeadQueryVariables,
 	UpdateLeadInput,
+	UpdateLeadMutation as UpdateLeadMutationType,
+	UpdateLeadMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateLeadMutation,
-	UpdateLeadMutation,
-	RemoveLeadMutation,
-	TableLeadQuery,
-	SearchLeadsQuery,
-	AnalyticsLeadsQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

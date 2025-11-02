@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsRateRulesQuery,
+	CreateRateRuleMutation,
+	RemoveRateRuleMutation,
+	SearchRateRulesQuery,
+	TableRateRuleQuery,
+	UpdateRateRuleMutation,
+} from "../../../src/client";
 import type {
-	CreateRateRuleMutation as CreateRateRuleMutationType,
-	CreateRateRuleMutationVariables,
-	UpdateRateRuleMutation as UpdateRateRuleMutationType,
-	UpdateRateRuleMutationVariables,
-	RemoveRateRuleMutation as RemoveRateRuleMutationType,
-	RemoveRateRuleMutationVariables,
-	TableRateRuleQuery as TableRateRuleQueryType,
-	TableRateRuleQueryVariables,
-	SearchRateRulesQuery as SearchRateRulesQueryType,
-	SearchRateRulesQueryVariables,
 	AnalyticsRateRulesQuery as AnalyticsRateRulesQueryType,
 	AnalyticsRateRulesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateRateRuleInput,
+	CreateRateRuleMutation as CreateRateRuleMutationType,
+	CreateRateRuleMutationVariables,
+	RemoveRateRuleMutation as RemoveRateRuleMutationType,
+	RemoveRateRuleMutationVariables,
+	SearchRateRulesQuery as SearchRateRulesQueryType,
+	SearchRateRulesQueryVariables,
+	TableRateRuleQuery as TableRateRuleQueryType,
+	TableRateRuleQueryVariables,
 	UpdateRateRuleInput,
+	UpdateRateRuleMutation as UpdateRateRuleMutationType,
+	UpdateRateRuleMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateRateRuleMutation,
-	UpdateRateRuleMutation,
-	RemoveRateRuleMutation,
-	TableRateRuleQuery,
-	SearchRateRulesQuery,
-	AnalyticsRateRulesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateRateRuleTestCase = GraphQLTestCase<
 > & {
 	createData: CreateRateRuleInput;
 	updateData: UpdateRateRuleInput;
-	validate?: (response: UpdateRateRuleMutationType, createdRateRule: any) => void;
+	validate?: (
+		response: UpdateRateRuleMutationType,
+		createdRateRule: any,
+	) => void;
 };
 
 type RemoveRateRuleTestCase = GraphQLTestCase<
@@ -206,7 +208,9 @@ describe("Graphql Remove RateRule", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeRateRule?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removeRateRule?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -282,7 +286,10 @@ describe("Graphql Analytics RateRules Query", () => {
 	const cases: AnalyticsRateRulesTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsRateRulesQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsRateRulesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();

@@ -1,32 +1,30 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsDriversQuery,
+	CreateDriverMutation,
+	RemoveDriverMutation,
+	SearchDriversQuery,
+	TableDriverQuery,
+	UpdateDriverMutation,
+} from "../../../src/client";
 import type {
-	CreateDriverMutation as CreateDriverMutationType,
-	CreateDriverMutationVariables,
-	UpdateDriverMutation as UpdateDriverMutationType,
-	UpdateDriverMutationVariables,
-	RemoveDriverMutation as RemoveDriverMutationType,
-	RemoveDriverMutationVariables,
-	TableDriverQuery as TableDriverQueryType,
-	TableDriverQueryVariables,
-	SearchDriversQuery as SearchDriversQueryType,
-	SearchDriversQueryVariables,
 	AnalyticsDriversQuery as AnalyticsDriversQueryType,
 	AnalyticsDriversQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateDriverInput,
+	CreateDriverMutation as CreateDriverMutationType,
+	CreateDriverMutationVariables,
+	RemoveDriverMutation as RemoveDriverMutationType,
+	RemoveDriverMutationVariables,
+	SearchDriversQuery as SearchDriversQueryType,
+	SearchDriversQueryVariables,
+	TableDriverQuery as TableDriverQueryType,
+	TableDriverQueryVariables,
 	UpdateDriverInput,
+	UpdateDriverMutation as UpdateDriverMutationType,
+	UpdateDriverMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateDriverMutation,
-	UpdateDriverMutation,
-	RemoveDriverMutation,
-	TableDriverQuery,
-	SearchDriversQuery,
-	AnalyticsDriversQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
 
 // ============================================

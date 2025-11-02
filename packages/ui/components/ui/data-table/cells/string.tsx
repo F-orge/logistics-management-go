@@ -1,9 +1,9 @@
 export interface StringCellProps {
-  value?: string;
+	value?: string;
 }
 
 const StringCell = (props: StringCellProps) => {
-  return <div>{props.value || "-"}</div>;
+	return <div>{props.value || "-"}</div>;
 };
 
 export default StringCell;

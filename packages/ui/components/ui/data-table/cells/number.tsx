@@ -1,11 +1,9 @@
-import React from "react";
-
 export interface NumberCellProps {
-  value?: number;
+	value?: number;
 }
 
 const NumberCell = (props: NumberCellProps) => {
-  return <div>{props.value || "-"}</div>;
+	return <div>{props.value || "-"}</div>;
 };
 
 export default NumberCell;

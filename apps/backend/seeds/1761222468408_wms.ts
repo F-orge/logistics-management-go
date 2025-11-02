@@ -1,32 +1,32 @@
+import { base, de, de_AT, en, Faker } from "@faker-js/faker";
 import { DB } from "@packages/graphql/db.types";
 import type { Kysely } from "kysely";
-import { Faker, base, de, de_AT, en } from "@faker-js/faker";
 import {
-  seedWmsWarehouse,
-  seedWmsLocation,
-  seedWmsProduct,
-  seedWmsSupplier,
-  seedWmsInventoryStock,
-  seedWmsInventoryBatch,
-  seedWmsInventoryAdjustment,
   seedWmsBinThreshold,
-  seedWmsReorderPoint,
   seedWmsInboundShipment,
   seedWmsInboundShipmentItem,
+  seedWmsInventoryAdjustment,
+  seedWmsInventoryBatch,
+  seedWmsInventoryStock,
+  seedWmsLocation,
   seedWmsOutboundShipment,
   seedWmsOutboundShipmentItem,
-  seedWmsSalesOrder,
-  seedWmsSalesOrderItem,
-  seedWmsReturn,
-  seedWmsReturnItem,
-  seedWmsStockTransfer,
   seedWmsPackage,
   seedWmsPackageItem,
-  seedWmsTask,
-  seedWmsTaskItem,
   seedWmsPickBatch,
   seedWmsPickBatchItem,
+  seedWmsProduct,
   seedWmsPutawayRule,
+  seedWmsReorderPoint,
+  seedWmsReturn,
+  seedWmsReturnItem,
+  seedWmsSalesOrder,
+  seedWmsSalesOrderItem,
+  seedWmsStockTransfer,
+  seedWmsSupplier,
+  seedWmsTask,
+  seedWmsTaskItem,
+  seedWmsWarehouse,
 } from "../src/seeds/wms-helpers";
 
 export async function seed(db: Kysely<DB>): Promise<void> {

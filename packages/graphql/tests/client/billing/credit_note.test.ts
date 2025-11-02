@@ -1,33 +1,32 @@
-import { describe, expect, it, beforeAll } from "bun:test";
+import { beforeAll, describe, expect, it } from "bun:test";
 import "../../setup";
-import { graphQLQueryExecutor } from "../../helpers";
+import {
+	AnalyticsCreditNotesQuery,
+	CreateCreditNoteMutation,
+	RemoveCreditNoteMutation,
+	SearchCreditNotesQuery,
+	TableCreditNoteQuery,
+	UpdateCreditNoteMutation,
+} from "../../../src/client";
 import type {
-	CreateCreditNoteMutation as CreateCreditNoteMutationType,
-	CreateCreditNoteMutationVariables,
-	UpdateCreditNoteMutation as UpdateCreditNoteMutationType,
-	UpdateCreditNoteMutationVariables,
-	RemoveCreditNoteMutation as RemoveCreditNoteMutationType,
-	RemoveCreditNoteMutationVariables,
-	TableCreditNoteQuery as TableCreditNoteQueryType,
-	TableCreditNoteQueryVariables,
-	SearchCreditNotesQuery as SearchCreditNotesQueryType,
-	SearchCreditNotesQueryVariables,
 	AnalyticsCreditNotesQuery as AnalyticsCreditNotesQueryType,
 	AnalyticsCreditNotesQueryVariables,
-} from "../../../src/client/generated/graphql";
-import type {
 	CreateCreditNoteInput,
+	CreateCreditNoteMutation as CreateCreditNoteMutationType,
+	CreateCreditNoteMutationVariables,
+	RemoveCreditNoteMutation as RemoveCreditNoteMutationType,
+	RemoveCreditNoteMutationVariables,
+	SearchCreditNotesQuery as SearchCreditNotesQueryType,
+	SearchCreditNotesQueryVariables,
+	TableCreditNoteQuery as TableCreditNoteQueryType,
+	TableCreditNoteQueryVariables,
 	UpdateCreditNoteInput,
+	UpdateCreditNoteMutation as UpdateCreditNoteMutationType,
+	UpdateCreditNoteMutationVariables,
 } from "../../../src/client/generated/graphql";
-import {
-	CreateCreditNoteMutation,
-	UpdateCreditNoteMutation,
-	RemoveCreditNoteMutation,
-	TableCreditNoteQuery,
-	SearchCreditNotesQuery,
-	AnalyticsCreditNotesQuery,
-} from "../../../src/client";
+import { graphQLQueryExecutor } from "../../helpers";
 import type { GraphQLTestCase } from "../../inputs/helpers";
+
 // ============================================
 // Type Definitions
 // ============================================
@@ -43,7 +42,10 @@ type UpdateCreditNoteTestCase = GraphQLTestCase<
 > & {
 	createData: CreateCreditNoteInput;
 	updateData: UpdateCreditNoteInput;
-	validate?: (response: UpdateCreditNoteMutationType, createdCreditNote: any) => void;
+	validate?: (
+		response: UpdateCreditNoteMutationType,
+		createdCreditNote: any,
+	) => void;
 };
 
 type RemoveCreditNoteTestCase = GraphQLTestCase<
@@ -89,7 +91,10 @@ describe("Graphql Create CreditNote", () => {
 	const cases: CreateCreditNoteTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(CreateCreditNoteMutation, testCase.variables);
+		const response = await executor(
+			CreateCreditNoteMutation,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response).toHaveProperty("data");
@@ -206,7 +211,9 @@ describe("Graphql Remove CreditNote", () => {
 			if (deleteResponse.errors) {
 				expect(Array.isArray(deleteResponse.errors)).toBe(true);
 			} else {
-				expect(deleteResponse.data?.billing?.removeCreditNote?.success).toBe(false);
+				expect(deleteResponse.data?.billing?.removeCreditNote?.success).toBe(
+					false,
+				);
 			}
 		}
 
@@ -282,7 +289,10 @@ describe("Graphql Analytics CreditNotes Query", () => {
 	const cases: AnalyticsCreditNotesTestCase[] = [];
 
 	it.each(cases)("$name", async (testCase) => {
-		const response = await executor(AnalyticsCreditNotesQuery, testCase.variables);
+		const response = await executor(
+			AnalyticsCreditNotesQuery,
+			testCase.variables,
+		);
 
 		if (testCase.success) {
 			expect(response.errors).toBeUndefined();
