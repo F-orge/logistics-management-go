@@ -8,6 +8,19 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_POSTGRES_USER: dummy
+      DOCKER_POSTGRES_PASSWORD: dummy
+      DOCKER_POSTGRES_DB: dummy
+      DATABASE_URL: postgresql://dummy:dummy@localhost:5432/dummy
+      MAIL_HOST: localhost
+      MAIL_PORT: "1025"
+      MAIL_SECURE: "false"
+      MAIL_FROM_ADDRESS: dummy@example.com
+      DOCKER_MINIO_ROOT_USER: minioadmin
+      DOCKER_MINIO_ROOT_PASSWORD: minioadmin
+      DOCKER_MINIO_BUCKET: staging-bucket
+      DOCKER_MINIO_ENDPOINT: http://localhost:9000
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
