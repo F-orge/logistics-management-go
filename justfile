@@ -17,20 +17,11 @@ dev:
   docker compose -f compose.dev.yaml up -d
   bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
 
-build-packages:
-  bun run build:packages
-
-build-frontend:
-  bun --filter @apps/frontend build
-
-build-backend:
-  bun --filter @apps/backend build
-
 introspect:
   bun kysely-codegen --out-file packages/graphql/src/db.types.ts --camel-case --runtime-enums screaming-snake-case --singularize --numeric-parser number
 
 build:
-  bun run build:packages && bun --filter @apps/* build
+  bun turbo build
 
 typecheck:
   bun run typecheck
@@ -40,9 +31,6 @@ check:
 
 start:
   bun .output/server
-
-auth-generate:
-  bunx @better-auth/cli@latest generate --output src/db/schemas/better-auth/schema.ts
 
 docker-build:
   @if docker manifest inspect ${DOCKER_REGISTRY_URL}/{{ORG_NAME}}/{{APP_NAME}}:{{APP_VERSION}} > /dev/null 2>&1; then \
