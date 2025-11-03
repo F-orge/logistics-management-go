@@ -258,16 +258,15 @@ export async function up(db: Kysely<any>): Promise<void> {
 			id uuid primary key default gen_random_uuid(),
 			trip_id uuid not null references tms.trips(id),
 			shipment_id uuid,
-			sequence integer
-				not null,
-				address varchar(500),
-				status tms.trip_stop_status_enum default 'PENDING',
-				estimated_arrival_time timestamp,
-				actual_arrival_time timestamp,
-				estimated_departure_time timestamp,
-				actual_departure_time timestamp,
-				created_at timestamp default now(),
-				updated_at timestamp default now()
+			sequence integer not null,
+			address varchar(500),
+			status tms.trip_stop_status_enum default 'PENDING',
+			estimated_arrival_time timestamp,
+			actual_arrival_time timestamp,
+			estimated_departure_time timestamp,
+			actual_departure_time timestamp,
+			created_at timestamp default now(),
+			updated_at timestamp default now()
 		);
 
 		comment on table tms.trip_stops is 'Individual stops within a trip, typically for pickups or deliveries.';
