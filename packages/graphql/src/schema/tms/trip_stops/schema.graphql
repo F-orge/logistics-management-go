@@ -41,6 +41,16 @@ input UpdateTripStopInput {
 	actualDepartureTime: String @constraint(minLength: 1)
 }
 
+extend type TmsQuery {
+	tripStops(
+		page: Int
+		perPage: Int
+		tripId: ID
+		status: TripStopStatus
+	): [TripStops!]!
+	tripStop(id: ID!): TripStops!
+}
+
 extend type TmsMutation {
 	createTripStop(value: CreateTripStopInput!): TripStops!
 	updateTripStop(id: ID!, value: UpdateTripStopInput): TripStops!

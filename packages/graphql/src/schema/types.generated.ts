@@ -3890,6 +3890,8 @@ export type TmsQuery = {
 	carrier: Carriers;
 	carriers: Array<Carriers>;
 	driver: Drivers;
+	driverSchedule: DriverSchedules;
+	driverSchedules: Array<DriverSchedules>;
 	drivers: Array<Drivers>;
 	expense: Expenses;
 	expenses: Array<Expenses>;
@@ -3906,8 +3908,12 @@ export type TmsQuery = {
 	shipmentLeg: ShipmentLegs;
 	shipmentLegs: Array<ShipmentLegs>;
 	trip: Trips;
+	tripStop: TripStops;
+	tripStops: Array<TripStops>;
 	trips: Array<Trips>;
 	vehicle: Vehicles;
+	vehicleMaintenance: VehicleMaintenance;
+	vehicleMaintenances: Array<VehicleMaintenance>;
 	vehicles: Array<Vehicles>;
 };
 
@@ -3927,6 +3933,19 @@ export type TmsQuerydriverArgs = {
 	id: Scalars["ID"]["input"];
 };
 
+export type TmsQuerydriverScheduleArgs = {
+	id: Scalars["ID"]["input"];
+};
+
+export type TmsQuerydriverSchedulesArgs = {
+	driverId?: InputMaybe<Scalars["ID"]["input"]>;
+	from?: InputMaybe<Scalars["Date"]["input"]>;
+	page?: InputMaybe<Scalars["Int"]["input"]>;
+	perPage?: InputMaybe<Scalars["Int"]["input"]>;
+	reason?: InputMaybe<DriverScheduleReason>;
+	to?: InputMaybe<Scalars["Date"]["input"]>;
+};
+
 export type TmsQuerydriversArgs = {
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
@@ -3942,6 +3961,7 @@ export type TmsQueryexpenseArgs = {
 
 export type TmsQueryexpensesArgs = {
 	currency?: InputMaybe<Currency>;
+	driverId?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
@@ -3993,6 +4013,8 @@ export type TmsQueryproofOfDeliveriesArgs = {
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
+	tripId?: InputMaybe<Scalars["ID"]["input"]>;
+	tripStopId?: InputMaybe<Scalars["ID"]["input"]>;
 	type?: InputMaybe<ProofType>;
 };
 
@@ -4029,6 +4051,17 @@ export type TmsQuerytripArgs = {
 	id: Scalars["ID"]["input"];
 };
 
+export type TmsQuerytripStopArgs = {
+	id: Scalars["ID"]["input"];
+};
+
+export type TmsQuerytripStopsArgs = {
+	page?: InputMaybe<Scalars["Int"]["input"]>;
+	perPage?: InputMaybe<Scalars["Int"]["input"]>;
+	status?: InputMaybe<TripStopStatus>;
+	tripId?: InputMaybe<Scalars["ID"]["input"]>;
+};
+
 export type TmsQuerytripsArgs = {
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
@@ -4040,6 +4073,19 @@ export type TmsQuerytripsArgs = {
 
 export type TmsQueryvehicleArgs = {
 	id: Scalars["ID"]["input"];
+};
+
+export type TmsQueryvehicleMaintenanceArgs = {
+	id: Scalars["ID"]["input"];
+};
+
+export type TmsQueryvehicleMaintenancesArgs = {
+	from?: InputMaybe<Scalars["Date"]["input"]>;
+	page?: InputMaybe<Scalars["Int"]["input"]>;
+	perPage?: InputMaybe<Scalars["Int"]["input"]>;
+	serviceType?: InputMaybe<VehicleServiceType>;
+	to?: InputMaybe<Scalars["Date"]["input"]>;
+	vehicleId?: InputMaybe<Scalars["ID"]["input"]>;
 };
 
 export type TmsQueryvehiclesArgs = {
@@ -7239,6 +7285,8 @@ export type ResolversTypes = {
 			| "carrier"
 			| "carriers"
 			| "driver"
+			| "driverSchedule"
+			| "driverSchedules"
 			| "drivers"
 			| "expense"
 			| "expenses"
@@ -7255,13 +7303,19 @@ export type ResolversTypes = {
 			| "shipmentLeg"
 			| "shipmentLegs"
 			| "trip"
+			| "tripStop"
+			| "tripStops"
 			| "trips"
 			| "vehicle"
+			| "vehicleMaintenance"
+			| "vehicleMaintenances"
 			| "vehicles"
 		> & {
 			carrier: ResolversTypes["Carriers"];
 			carriers: Array<ResolversTypes["Carriers"]>;
 			driver: ResolversTypes["Drivers"];
+			driverSchedule: ResolversTypes["DriverSchedules"];
+			driverSchedules: Array<ResolversTypes["DriverSchedules"]>;
 			drivers: Array<ResolversTypes["Drivers"]>;
 			expense: ResolversTypes["Expenses"];
 			expenses: Array<ResolversTypes["Expenses"]>;
@@ -7278,8 +7332,12 @@ export type ResolversTypes = {
 			shipmentLeg: ResolversTypes["ShipmentLegs"];
 			shipmentLegs: Array<ResolversTypes["ShipmentLegs"]>;
 			trip: ResolversTypes["Trips"];
+			tripStop: ResolversTypes["TripStops"];
+			tripStops: Array<ResolversTypes["TripStops"]>;
 			trips: Array<ResolversTypes["Trips"]>;
 			vehicle: ResolversTypes["Vehicles"];
+			vehicleMaintenance: ResolversTypes["VehicleMaintenance"];
+			vehicleMaintenances: Array<ResolversTypes["VehicleMaintenance"]>;
 			vehicles: Array<ResolversTypes["Vehicles"]>;
 		}
 	>;
@@ -8666,6 +8724,8 @@ export type ResolversParentTypes = {
 		| "carrier"
 		| "carriers"
 		| "driver"
+		| "driverSchedule"
+		| "driverSchedules"
 		| "drivers"
 		| "expense"
 		| "expenses"
@@ -8682,13 +8742,19 @@ export type ResolversParentTypes = {
 		| "shipmentLeg"
 		| "shipmentLegs"
 		| "trip"
+		| "tripStop"
+		| "tripStops"
 		| "trips"
 		| "vehicle"
+		| "vehicleMaintenance"
+		| "vehicleMaintenances"
 		| "vehicles"
 	> & {
 		carrier: ResolversParentTypes["Carriers"];
 		carriers: Array<ResolversParentTypes["Carriers"]>;
 		driver: ResolversParentTypes["Drivers"];
+		driverSchedule: ResolversParentTypes["DriverSchedules"];
+		driverSchedules: Array<ResolversParentTypes["DriverSchedules"]>;
 		drivers: Array<ResolversParentTypes["Drivers"]>;
 		expense: ResolversParentTypes["Expenses"];
 		expenses: Array<ResolversParentTypes["Expenses"]>;
@@ -8705,8 +8771,12 @@ export type ResolversParentTypes = {
 		shipmentLeg: ResolversParentTypes["ShipmentLegs"];
 		shipmentLegs: Array<ResolversParentTypes["ShipmentLegs"]>;
 		trip: ResolversParentTypes["Trips"];
+		tripStop: ResolversParentTypes["TripStops"];
+		tripStops: Array<ResolversParentTypes["TripStops"]>;
 		trips: Array<ResolversParentTypes["Trips"]>;
 		vehicle: ResolversParentTypes["Vehicles"];
+		vehicleMaintenance: ResolversParentTypes["VehicleMaintenance"];
+		vehicleMaintenances: Array<ResolversParentTypes["VehicleMaintenance"]>;
 		vehicles: Array<ResolversParentTypes["Vehicles"]>;
 	};
 	TmsTripStatusChangedEvent: TmsTripStatusChangedEvent;
@@ -14885,6 +14955,18 @@ export type TmsQueryResolvers<
 		ContextType,
 		RequireFields<TmsQuerydriverArgs, "id">
 	>;
+	driverSchedule?: Resolver<
+		ResolversTypes["DriverSchedules"],
+		ParentType,
+		ContextType,
+		RequireFields<TmsQuerydriverScheduleArgs, "id">
+	>;
+	driverSchedules?: Resolver<
+		Array<ResolversTypes["DriverSchedules"]>,
+		ParentType,
+		ContextType,
+		Partial<TmsQuerydriverSchedulesArgs>
+	>;
 	drivers?: Resolver<
 		Array<ResolversTypes["Drivers"]>,
 		ParentType,
@@ -14981,6 +15063,18 @@ export type TmsQueryResolvers<
 		ContextType,
 		RequireFields<TmsQuerytripArgs, "id">
 	>;
+	tripStop?: Resolver<
+		ResolversTypes["TripStops"],
+		ParentType,
+		ContextType,
+		RequireFields<TmsQuerytripStopArgs, "id">
+	>;
+	tripStops?: Resolver<
+		Array<ResolversTypes["TripStops"]>,
+		ParentType,
+		ContextType,
+		Partial<TmsQuerytripStopsArgs>
+	>;
 	trips?: Resolver<
 		Array<ResolversTypes["Trips"]>,
 		ParentType,
@@ -14992,6 +15086,18 @@ export type TmsQueryResolvers<
 		ParentType,
 		ContextType,
 		RequireFields<TmsQueryvehicleArgs, "id">
+	>;
+	vehicleMaintenance?: Resolver<
+		ResolversTypes["VehicleMaintenance"],
+		ParentType,
+		ContextType,
+		RequireFields<TmsQueryvehicleMaintenanceArgs, "id">
+	>;
+	vehicleMaintenances?: Resolver<
+		Array<ResolversTypes["VehicleMaintenance"]>,
+		ParentType,
+		ContextType,
+		Partial<TmsQueryvehicleMaintenancesArgs>
 	>;
 	vehicles?: Resolver<
 		Array<ResolversTypes["Vehicles"]>,

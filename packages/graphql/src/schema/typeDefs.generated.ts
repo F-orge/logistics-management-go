@@ -22813,6 +22813,97 @@ export const typeDefs = {
 				},
 				{
 					kind: "FieldDefinition",
+					name: { kind: "Name", value: "driverSchedules" },
+					arguments: [
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "page" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "perPage" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "driverId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "from" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Date" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "to" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Date" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "reason" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "DriverScheduleReason" },
+							},
+							directives: [],
+						},
+					],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "ListType",
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "DriverSchedules" },
+								},
+							},
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "driverSchedule" },
+					arguments: [
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "id" },
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "ID" },
+								},
+							},
+							directives: [],
+						},
+					],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "NamedType",
+							name: { kind: "Name", value: "DriverSchedules" },
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
 					name: { kind: "Name", value: "drivers" },
 					arguments: [
 						{
@@ -22919,6 +23010,12 @@ export const typeDefs = {
 							kind: "InputValueDefinition",
 							name: { kind: "Name", value: "perPage" },
 							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "driverId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
 							directives: [],
 						},
 						{
@@ -23290,6 +23387,18 @@ export const typeDefs = {
 						},
 						{
 							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "tripStopId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "tripId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
 							name: { kind: "Name", value: "from" },
 							type: {
 								kind: "NamedType",
@@ -23547,6 +23656,79 @@ export const typeDefs = {
 				},
 				{
 					kind: "FieldDefinition",
+					name: { kind: "Name", value: "tripStops" },
+					arguments: [
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "page" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "perPage" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "tripId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "status" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "TripStopStatus" },
+							},
+							directives: [],
+						},
+					],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "ListType",
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "TripStops" },
+								},
+							},
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "tripStop" },
+					arguments: [
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "id" },
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "ID" },
+								},
+							},
+							directives: [],
+						},
+					],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "NamedType",
+							name: { kind: "Name", value: "TripStops" },
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
 					name: { kind: "Name", value: "trips" },
 					arguments: [
 						{
@@ -23633,6 +23815,97 @@ export const typeDefs = {
 					type: {
 						kind: "NonNullType",
 						type: { kind: "NamedType", name: { kind: "Name", value: "Trips" } },
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "vehicleMaintenances" },
+					arguments: [
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "page" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "perPage" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "vehicleId" },
+							type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "from" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Date" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "to" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "Date" },
+							},
+							directives: [],
+						},
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "serviceType" },
+							type: {
+								kind: "NamedType",
+								name: { kind: "Name", value: "VehicleServiceType" },
+							},
+							directives: [],
+						},
+					],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "ListType",
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "VehicleMaintenance" },
+								},
+							},
+						},
+					},
+					directives: [],
+				},
+				{
+					kind: "FieldDefinition",
+					name: { kind: "Name", value: "vehicleMaintenance" },
+					arguments: [
+						{
+							kind: "InputValueDefinition",
+							name: { kind: "Name", value: "id" },
+							type: {
+								kind: "NonNullType",
+								type: {
+									kind: "NamedType",
+									name: { kind: "Name", value: "ID" },
+								},
+							},
+							directives: [],
+						},
+					],
+					type: {
+						kind: "NonNullType",
+						type: {
+							kind: "NamedType",
+							name: { kind: "Name", value: "VehicleMaintenance" },
+						},
 					},
 					directives: [],
 				},

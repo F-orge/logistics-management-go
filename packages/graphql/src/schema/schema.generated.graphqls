@@ -3157,6 +3157,15 @@ type TmsQuery {
 		to: Date
 	): [Carriers!]!
 	driver(id: ID!): Drivers!
+	driverSchedule(id: ID!): DriverSchedules!
+	driverSchedules(
+		driverId: ID
+		from: Date
+		page: Int
+		perPage: Int
+		reason: DriverScheduleReason
+		to: Date
+	): [DriverSchedules!]!
 	drivers(
 		from: Date
 		page: Int
@@ -3168,6 +3177,7 @@ type TmsQuery {
 	expense(id: ID!): Expenses!
 	expenses(
 		currency: Currency
+		driverId: ID
 		from: Date
 		page: Int
 		perPage: Int
@@ -3201,6 +3211,8 @@ type TmsQuery {
 		perPage: Int
 		search: String
 		to: Date
+		tripId: ID
+		tripStopId: ID
 		type: ProofType
 	): [ProofOfDeliveries!]!
 	proofOfDelivery(id: ID!): ProofOfDeliveries!
@@ -3222,6 +3234,13 @@ type TmsQuery {
 		to: Date
 	): [ShipmentLegs!]!
 	trip(id: ID!): Trips!
+	tripStop(id: ID!): TripStops!
+	tripStops(
+		page: Int
+		perPage: Int
+		status: TripStopStatus
+		tripId: ID
+	): [TripStops!]!
 	trips(
 		from: Date
 		page: Int
@@ -3231,6 +3250,15 @@ type TmsQuery {
 		to: Date
 	): [Trips!]!
 	vehicle(id: ID!): Vehicles!
+	vehicleMaintenance(id: ID!): VehicleMaintenance!
+	vehicleMaintenances(
+		from: Date
+		page: Int
+		perPage: Int
+		serviceType: VehicleServiceType
+		to: Date
+		vehicleId: ID
+	): [VehicleMaintenance!]!
 	vehicles(
 		from: Date
 		page: Int

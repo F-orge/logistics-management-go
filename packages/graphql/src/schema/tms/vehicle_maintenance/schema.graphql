@@ -32,6 +32,18 @@ input UpdateVehicleMaintenanceInput {
 	notes: String
 }
 
+extend type TmsQuery {
+	vehicleMaintenances(
+		page: Int
+		perPage: Int
+		vehicleId: ID
+		from: Date
+		to: Date
+		serviceType: VehicleServiceType
+	): [VehicleMaintenance!]!
+	vehicleMaintenance(id: ID!): VehicleMaintenance!
+}
+
 extend type TmsMutation {
 	addVehicleMaintenance(
 		id: ID!

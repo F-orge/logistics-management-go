@@ -45,6 +45,7 @@ extend type TmsQuery {
 	expenses(
 		page: Int
 		perPage: Int
+		driverId: ID
 		from: Date
 		to: Date
 		search: String

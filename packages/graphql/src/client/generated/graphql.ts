@@ -3972,6 +3972,8 @@ export type TmsQuery = {
 	carrier: Carriers;
 	carriers: Array<Carriers>;
 	driver: Drivers;
+	driverSchedule: DriverSchedules;
+	driverSchedules: Array<DriverSchedules>;
 	drivers: Array<Drivers>;
 	expense: Expenses;
 	expenses: Array<Expenses>;
@@ -3988,8 +3990,12 @@ export type TmsQuery = {
 	shipmentLeg: ShipmentLegs;
 	shipmentLegs: Array<ShipmentLegs>;
 	trip: Trips;
+	tripStop: TripStops;
+	tripStops: Array<TripStops>;
 	trips: Array<Trips>;
 	vehicle: Vehicles;
+	vehicleMaintenance: VehicleMaintenance;
+	vehicleMaintenances: Array<VehicleMaintenance>;
 	vehicles: Array<Vehicles>;
 };
 
@@ -4009,6 +4015,19 @@ export type TmsQueryDriverArgs = {
 	id: Scalars["ID"]["input"];
 };
 
+export type TmsQueryDriverScheduleArgs = {
+	id: Scalars["ID"]["input"];
+};
+
+export type TmsQueryDriverSchedulesArgs = {
+	driverId?: InputMaybe<Scalars["ID"]["input"]>;
+	from?: InputMaybe<Scalars["Date"]["input"]>;
+	page?: InputMaybe<Scalars["Int"]["input"]>;
+	perPage?: InputMaybe<Scalars["Int"]["input"]>;
+	reason?: InputMaybe<DriverScheduleReason>;
+	to?: InputMaybe<Scalars["Date"]["input"]>;
+};
+
 export type TmsQueryDriversArgs = {
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
@@ -4024,6 +4043,7 @@ export type TmsQueryExpenseArgs = {
 
 export type TmsQueryExpensesArgs = {
 	currency?: InputMaybe<Currency>;
+	driverId?: InputMaybe<Scalars["ID"]["input"]>;
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
@@ -4075,6 +4095,8 @@ export type TmsQueryProofOfDeliveriesArgs = {
 	perPage?: InputMaybe<Scalars["Int"]["input"]>;
 	search?: InputMaybe<Scalars["String"]["input"]>;
 	to?: InputMaybe<Scalars["Date"]["input"]>;
+	tripId?: InputMaybe<Scalars["ID"]["input"]>;
+	tripStopId?: InputMaybe<Scalars["ID"]["input"]>;
 	type?: InputMaybe<ProofType>;
 };
 
@@ -4111,6 +4133,17 @@ export type TmsQueryTripArgs = {
 	id: Scalars["ID"]["input"];
 };
 
+export type TmsQueryTripStopArgs = {
+	id: Scalars["ID"]["input"];
+};
+
+export type TmsQueryTripStopsArgs = {
+	page?: InputMaybe<Scalars["Int"]["input"]>;
+	perPage?: InputMaybe<Scalars["Int"]["input"]>;
+	status?: InputMaybe<TripStopStatus>;
+	tripId?: InputMaybe<Scalars["ID"]["input"]>;
+};
+
 export type TmsQueryTripsArgs = {
 	from?: InputMaybe<Scalars["Date"]["input"]>;
 	page?: InputMaybe<Scalars["Int"]["input"]>;
@@ -4122,6 +4155,19 @@ export type TmsQueryTripsArgs = {
 
 export type TmsQueryVehicleArgs = {
 	id: Scalars["ID"]["input"];
+};
+
+export type TmsQueryVehicleMaintenanceArgs = {
+	id: Scalars["ID"]["input"];
+};
+
+export type TmsQueryVehicleMaintenancesArgs = {
+	from?: InputMaybe<Scalars["Date"]["input"]>;
+	page?: InputMaybe<Scalars["Int"]["input"]>;
+	perPage?: InputMaybe<Scalars["Int"]["input"]>;
+	serviceType?: InputMaybe<VehicleServiceType>;
+	to?: InputMaybe<Scalars["Date"]["input"]>;
+	vehicleId?: InputMaybe<Scalars["ID"]["input"]>;
 };
 
 export type TmsQueryVehiclesArgs = {

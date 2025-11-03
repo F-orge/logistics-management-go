@@ -12,19 +12,19 @@ export const TmsQuery: Pick<TmsQueryResolvers, "vehicle" | "vehicles"> = {
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
 
 		if (args.search) {
+			const yearSearch = parseInt(args.search);
 			query = query.where((eb) =>
 				eb.or([
 					eb("registrationNumber", "ilike", `%${args.search}%`),
 					eb("model", "ilike", `%${args.search}%`),
 					eb("make", "ilike", `%${args.search}%`),
 					eb("vin", "ilike", `%${args.search}%`),
+					...(isNaN(yearSearch) ? [] : [eb("year", "=", yearSearch)]),
 				]),
 			);
 		}

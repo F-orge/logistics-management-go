@@ -217,6 +217,7 @@ import { TmsMutation as carriers_TmsMutation } from "./tms/carriers/resolvers/Tm
 import { TmsQuery as carriers_TmsQuery } from "./tms/carriers/resolvers/TmsQuery";
 import { DriverSchedules } from "./tms/driver_schedules/resolvers/DriverSchedules";
 import { TmsMutation as driver_schedules_TmsMutation } from "./tms/driver_schedules/resolvers/TmsMutation";
+import { TmsQuery as driver_schedules_TmsQuery } from "./tms/driver_schedules/resolvers/TmsQuery";
 import { Drivers } from "./tms/drivers/resolvers/Drivers";
 import { driverStatusChanged as Subscription_driverStatusChanged } from "./tms/drivers/resolvers/Subscription/driverStatusChanged";
 import { TmsDriverStatusChangedEvent } from "./tms/drivers/resolvers/TmsDriverStatusChangedEvent";
@@ -264,6 +265,7 @@ import { tripStopArrived as Subscription_tripStopArrived } from "./tms/trip_stop
 import { tripStopCompleted as Subscription_tripStopCompleted } from "./tms/trip_stops/resolvers/Subscription/tripStopCompleted";
 import { tripStopSkipped as Subscription_tripStopSkipped } from "./tms/trip_stops/resolvers/Subscription/tripStopSkipped";
 import { TmsMutation as trip_stops_TmsMutation } from "./tms/trip_stops/resolvers/TmsMutation";
+import { TmsQuery as trip_stops_TmsQuery } from "./tms/trip_stops/resolvers/TmsQuery";
 import { TmsTripStopSkippedEvent } from "./tms/trip_stops/resolvers/TmsTripStopSkippedEvent";
 import { TripStops } from "./tms/trip_stops/resolvers/TripStops";
 import { tripCancelled as Subscription_tripCancelled } from "./tms/trips/resolvers/Subscription/tripCancelled";
@@ -276,6 +278,7 @@ import { TmsQuery as trips_TmsQuery } from "./tms/trips/resolvers/TmsQuery";
 import { TmsTripStatusChangedEvent } from "./tms/trips/resolvers/TmsTripStatusChangedEvent";
 import { Trips } from "./tms/trips/resolvers/Trips";
 import { TmsMutation as vehicle_maintenance_TmsMutation } from "./tms/vehicle_maintenance/resolvers/TmsMutation";
+import { TmsQuery as vehicle_maintenance_TmsQuery } from "./tms/vehicle_maintenance/resolvers/TmsQuery";
 import { VehicleMaintenance } from "./tms/vehicle_maintenance/resolvers/VehicleMaintenance";
 import { vehicleMaintenanceScheduled as Subscription_vehicleMaintenanceScheduled } from "./tms/vehicles/resolvers/Subscription/vehicleMaintenanceScheduled";
 import { vehicleStatusChanged as Subscription_vehicleStatusChanged } from "./tms/vehicles/resolvers/Subscription/vehicleStatusChanged";
@@ -780,6 +783,7 @@ export const resolvers: Resolvers = {
 	TmsQuery: {
 		...carriers_TmsQuery,
 		...drivers_TmsQuery,
+		...driver_schedules_TmsQuery,
 		...expenses_TmsQuery,
 		...geofences_TmsQuery,
 		...gps_pings_TmsQuery,
@@ -788,7 +792,9 @@ export const resolvers: Resolvers = {
 		...routes_TmsQuery,
 		...shipment_legs_TmsQuery,
 		...trips_TmsQuery,
+		...trip_stops_TmsQuery,
 		...vehicles_TmsQuery,
+		...vehicle_maintenance_TmsQuery,
 	},
 	TmsTripStatusChangedEvent: TmsTripStatusChangedEvent,
 	TmsTripStopSkippedEvent: TmsTripStopSkippedEvent,

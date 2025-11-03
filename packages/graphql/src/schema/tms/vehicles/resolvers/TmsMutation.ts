@@ -1,4 +1,5 @@
-import { TmsVehicleStatusEnum } from "../../../../db.types";
+import { GraphQLError } from "graphql";
+import { TmsTripStatusEnum, TmsVehicleStatusEnum } from "../../../../db.types";
 import {
 	CreateVehicleInputSchema,
 	UpdateVehicleInputSchema,
@@ -12,6 +13,49 @@ export const TmsMutation: Pick<
 	createVehicle: async (_parent, args, ctx) => {
 		const payload = CreateVehicleInputSchema().parse(args.value);
 
+		// Check for duplicate registration number
+		const existingVehicle = await ctx.db
+			.selectFrom("tms.vehicles")
+			.select("id")
+			.where("registrationNumber", "=", payload.registrationNumber)
+			.executeTakeFirst();
+
+		if (existingVehicle) {
+			throw new GraphQLError(
+				"Vehicle with this registration number already exists",
+				{
+					extensions: {
+						code: "DUPLICATE_ERROR",
+					},
+				},
+			);
+		}
+
+		// Validate capacity is positive if provided
+		if (
+			payload.capacityWeight !== undefined &&
+			payload.capacityWeight !== null &&
+			payload.capacityWeight <= 0
+		) {
+			throw new GraphQLError("Vehicle capacity weight must be positive", {
+				extensions: {
+					code: "VALIDATION_ERROR",
+				},
+			});
+		}
+
+		if (
+			payload.capacityVolume !== undefined &&
+			payload.capacityVolume !== null &&
+			payload.capacityVolume <= 0
+		) {
+			throw new GraphQLError("Vehicle capacity volume must be positive", {
+				extensions: {
+					code: "VALIDATION_ERROR",
+				},
+			});
+		}
+
 		const result = await ctx.db
 			.insertInto("tms.vehicles")
 			.values({
@@ -21,7 +65,6 @@ export const TmsMutation: Pick<
 					: undefined,
 			})
 			.returningAll()
-
 			.executeTakeFirstOrThrow();
 
 		return result as unknown as Vehicles;
@@ -35,6 +78,54 @@ export const TmsMutation: Pick<
 			.selectAll()
 			.where("id", "=", args.id)
 			.executeTakeFirstOrThrow();
+
+		// Check for duplicate registration number if being updated
+		if (
+			payload.registrationNumber &&
+			payload.registrationNumber !== previousVehicle.registrationNumber
+		) {
+			const existingVehicle = await ctx.db
+				.selectFrom("tms.vehicles")
+				.select("id")
+				.where("registrationNumber", "=", payload.registrationNumber)
+				.executeTakeFirst();
+
+			if (existingVehicle) {
+				throw new GraphQLError(
+					"Vehicle with this registration number already exists",
+					{
+						extensions: {
+							code: "DUPLICATE_ERROR",
+						},
+					},
+				);
+			}
+		}
+
+		// Validate capacity is positive if being updated
+		if (
+			payload.capacityWeight !== undefined &&
+			payload.capacityWeight !== null &&
+			payload.capacityWeight <= 0
+		) {
+			throw new GraphQLError("Vehicle capacity weight must be positive", {
+				extensions: {
+					code: "VALIDATION_ERROR",
+				},
+			});
+		}
+
+		if (
+			payload.capacityVolume !== undefined &&
+			payload.capacityVolume !== null &&
+			payload.capacityVolume <= 0
+		) {
+			throw new GraphQLError("Vehicle capacity volume must be positive", {
+				extensions: {
+					code: "VALIDATION_ERROR",
+				},
+			});
+		}
 
 		const result = await ctx.db
 			.updateTable("tms.vehicles")
@@ -60,6 +151,25 @@ export const TmsMutation: Pick<
 		return result as unknown as Vehicles;
 	},
 	removeVehicle: async (_parent, args, ctx) => {
+		// Check if vehicle is on active trip
+		const activeTrip = await ctx.db
+			.selectFrom("tms.trips")
+			.select("id")
+			.where("vehicleId", "=", args.id)
+			.where("status", "=", TmsTripStatusEnum.IN_PROGRESS)
+			.executeTakeFirst();
+
+		if (activeTrip) {
+			throw new GraphQLError(
+				"Cannot delete vehicle on active trip. Please complete or cancel the trip first.",
+				{
+					extensions: {
+						code: "BUSINESS_LOGIC_ERROR",
+					},
+				},
+			);
+		}
+
 		const result = await ctx.db
 			.deleteFrom("tms.vehicles")
 			.where("id", "=", args.id)

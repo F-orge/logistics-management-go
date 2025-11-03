@@ -14,10 +14,12 @@ export const TmsQuery: Pick<TmsQueryResolvers, "expense" | "expenses"> = {
 			query = query.offset(offset).limit(args.perPage);
 		}
 
+		if (args.driverId) {
+			query = query.where("driverId", "=", args.driverId);
+		}
+
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}

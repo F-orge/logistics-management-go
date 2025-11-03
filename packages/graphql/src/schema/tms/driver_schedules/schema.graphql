@@ -28,6 +28,18 @@ input UpdateDriverScheduleInput {
 	reason: DriverScheduleReason
 }
 
+extend type TmsQuery {
+	driverSchedules(
+		page: Int
+		perPage: Int
+		driverId: ID
+		from: Date
+		to: Date
+		reason: DriverScheduleReason
+	): [DriverSchedules!]!
+	driverSchedule(id: ID!): DriverSchedules!
+}
+
 extend type TmsMutation {
 	createDriverSchedule(value: CreateDriverScheduleInput!): DriverSchedules!
 	updateDriverSchedule(

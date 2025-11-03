@@ -12,8 +12,6 @@ export const TmsQuery: Pick<TmsQueryResolvers, "trip" | "trips"> = {
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}

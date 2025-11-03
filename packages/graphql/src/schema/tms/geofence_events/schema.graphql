@@ -11,6 +11,19 @@ type GeofenceEvents {
 	timestamp: String!
 }
 
+extend type TmsQuery {
+	geofenceEvents(
+		page: Int
+		perPage: Int
+		geofenceId: ID
+		vehicleId: ID
+		eventType: GeofenceEventType
+		from: Date
+		to: Date
+	): [GeofenceEvents!]!
+	geofenceEvent(id: ID!): GeofenceEvents!
+}
+
 input CreateGeofenceEventInput {
 	vehicleId: ID!
 	geofenceId: ID!

@@ -8,15 +8,16 @@ export const TmsQuery: Pick<
 	proofOfDeliveries: async (_parent, args, ctx) => {
 		let query = ctx.db.selectFrom("tms.proofOfDeliveries").selectAll();
 
-		if (args.page && args.perPage) {
-			const offset = (args.page - 1) * args.perPage;
-			query = query.offset(offset).limit(args.perPage);
+		if (args.tripStopId) {
+			query = query.where("tripStopId", "=", args.tripStopId);
+		}
+
+		if (args.tripId) {
+			query = query.where("tripId", "=", args.tripId);
 		}
 
 		if (args.from && args.to) {
 			query = query
-				.clearLimit()
-				.clearOffset()
 				.where("createdAt", ">=", args.from as Date)
 				.where("createdAt", "<=", args.to as Date);
 		}
@@ -29,6 +30,11 @@ export const TmsQuery: Pick<
 
 		if (args.type) {
 			query = query.where("type", "=", TmsProofTypeEnum[args.type]);
+		}
+
+		if (args.page && args.perPage) {
+			const offset = (args.page - 1) * args.perPage;
+			query = query.offset(offset).limit(args.perPage);
 		}
 
 		const results = await query.execute();
