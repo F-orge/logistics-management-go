@@ -3,12 +3,12 @@ import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TypedPocketBase } from "@/lib/pb.types";
 
 export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-  pocketbase: TypedPocketBase;
+	queryClient: QueryClient;
+	pocketbase: TypedPocketBase;
 }>()({
-  component: RootComponent,
+	component: RootComponent,
 });
 
 function RootComponent() {
-  return <Outlet />;
+	return <Outlet />;
 }

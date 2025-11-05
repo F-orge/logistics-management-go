@@ -8,98 +8,98 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardCollectionRouteImport } from './routes/dashboard/$collection'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as DashboardCollectionRouteImport } from "./routes/dashboard/$collection";
+import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
+import { Route as IndexRouteImport } from "./routes/index";
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
+	id: "/dashboard",
+	path: "/dashboard",
+	getParentRoute: () => rootRouteImport,
+} as any);
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+	id: "/",
+	path: "/",
+	getParentRoute: () => rootRouteImport,
+} as any);
 const DashboardCollectionRoute = DashboardCollectionRouteImport.update({
-  id: '/$collection',
-  path: '/$collection',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
+	id: "/$collection",
+	path: "/$collection",
+	getParentRoute: () => DashboardRouteRoute,
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/$collection': typeof DashboardCollectionRoute
+	"/": typeof IndexRoute;
+	"/dashboard": typeof DashboardRouteRouteWithChildren;
+	"/dashboard/$collection": typeof DashboardCollectionRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/$collection': typeof DashboardCollectionRoute
+	"/": typeof IndexRoute;
+	"/dashboard": typeof DashboardRouteRouteWithChildren;
+	"/dashboard/$collection": typeof DashboardCollectionRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/$collection': typeof DashboardCollectionRoute
+	__root__: typeof rootRouteImport;
+	"/": typeof IndexRoute;
+	"/dashboard": typeof DashboardRouteRouteWithChildren;
+	"/dashboard/$collection": typeof DashboardCollectionRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/dashboard/$collection'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/dashboard/$collection'
-  id: '__root__' | '/' | '/dashboard' | '/dashboard/$collection'
-  fileRoutesById: FileRoutesById
+	fileRoutesByFullPath: FileRoutesByFullPath;
+	fullPaths: "/" | "/dashboard" | "/dashboard/$collection";
+	fileRoutesByTo: FileRoutesByTo;
+	to: "/" | "/dashboard" | "/dashboard/$collection";
+	id: "__root__" | "/" | "/dashboard" | "/dashboard/$collection";
+	fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+	IndexRoute: typeof IndexRoute;
+	DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/$collection': {
-      id: '/dashboard/$collection'
-      path: '/$collection'
-      fullPath: '/dashboard/$collection'
-      preLoaderRoute: typeof DashboardCollectionRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
-  }
+declare module "@tanstack/react-router" {
+	interface FileRoutesByPath {
+		"/dashboard": {
+			id: "/dashboard";
+			path: "/dashboard";
+			fullPath: "/dashboard";
+			preLoaderRoute: typeof DashboardRouteRouteImport;
+			parentRoute: typeof rootRouteImport;
+		};
+		"/": {
+			id: "/";
+			path: "/";
+			fullPath: "/";
+			preLoaderRoute: typeof IndexRouteImport;
+			parentRoute: typeof rootRouteImport;
+		};
+		"/dashboard/$collection": {
+			id: "/dashboard/$collection";
+			path: "/$collection";
+			fullPath: "/dashboard/$collection";
+			preLoaderRoute: typeof DashboardCollectionRouteImport;
+			parentRoute: typeof DashboardRouteRoute;
+		};
+	}
 }
 
 interface DashboardRouteRouteChildren {
-  DashboardCollectionRoute: typeof DashboardCollectionRoute
+	DashboardCollectionRoute: typeof DashboardCollectionRoute;
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardCollectionRoute: DashboardCollectionRoute,
-}
+	DashboardCollectionRoute: DashboardCollectionRoute,
+};
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
-  DashboardRouteRouteChildren,
-)
+	DashboardRouteRouteChildren,
+);
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  DashboardRouteRoute: DashboardRouteRouteWithChildren,
-}
+	IndexRoute: IndexRoute,
+	DashboardRouteRoute: DashboardRouteRouteWithChildren,
+};
 export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+	._addFileChildren(rootRouteChildren)
+	._addFileTypes<FileRouteTypes>();
