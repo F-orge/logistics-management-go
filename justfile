@@ -24,7 +24,7 @@ test:
   AGENT=1 bun test --preload ./packages/graphql/tests/setup.ts
 
 introspect:
-  bun kysely-codegen --out-file packages/graphql/src/db.types.ts --camel-case --runtime-enums screaming-snake-case --singularize --numeric-parser number
+  bunx pocketbase-typegen -d pb_data/data.db -o apps/frontend/src/lib/pb.types.ts
 
 build:
   bun turbo build && bun biome check --fix
