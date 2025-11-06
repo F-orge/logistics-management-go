@@ -1077,6 +1077,40 @@ export type TransportManagementVehiclesRecord = {
 	updated: IsoAutoDateString;
 };
 
+export enum UsersRolesOptions {
+	admin = "admin",
+	developer = "developer",
+	user = "user",
+	client = "client",
+	"client-admin" = "client-admin",
+	"end-customer" = "end-customer",
+	"inventory-manager" = "inventory-manager",
+	"warehouse-manager" = "warehouse-manager",
+	"receiving-manager" = "receiving-manager",
+	"warehouse-operator" = "warehouse-operator",
+	picker = "picker",
+	packer = "packer",
+	"returns-processor" = "returns-processor",
+	"qc-manager" = "qc-manager",
+	"logistics-coordinator" = "logistics-coordinator",
+	"logistics-manager" = "logistics-manager",
+	"logistics-planner" = "logistics-planner",
+	dispatcher = "dispatcher",
+	driver = "driver",
+	"fleet-manager" = "fleet-manager",
+	"transport-manager" = "transport-manager",
+	"account-manager" = "account-manager",
+	"pricing-analyst" = "pricing-analyst",
+	"finance-manager" = "finance-manager",
+	accountant = "accountant",
+	sdr = "sdr",
+	"sales-rep" = "sales-rep",
+	"sales-manager" = "sales-manager",
+	"marketing-manager" = "marketing-manager",
+	"customer-support-agent" = "customer-support-agent",
+	"product-manager" = "product-manager",
+	carrier = "carrier",
+}
 export type UsersRecord = {
 	avatar?: FileNameString;
 	created: IsoAutoDateString;
@@ -1085,6 +1119,7 @@ export type UsersRecord = {
 	id: string;
 	name?: string;
 	password: string;
+	roles?: UsersRolesOptions[];
 	tokenKey: string;
 	updated: IsoAutoDateString;
 	verified?: boolean;

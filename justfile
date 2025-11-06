@@ -8,23 +8,19 @@ lint:
   bun biome check --fix
 
 dev-backend:
-  bun --filter @apps/backend dev
+  go run . serve
 
 dev-frontend:
-  bun --filter @apps/frontend dev
-
-dev-packages:
-  bun run --filter '@packages/*' dev
+  bun rsbuild dev
 
 dev:
-  docker compose -f compose.dev.yaml up -d
   bun concurrently 'just dev-backend' 'just dev-frontend' -n 'backend,frontend'
 
 test:
   AGENT=1 bun test --preload ./packages/graphql/tests/setup.ts
 
 introspect:
-  bunx pocketbase-typegen -d pb_data/data.db -o apps/frontend/src/lib/pb.types.ts
+  bunx pocketbase-typegen -d pb_data/data.db -o src/lib/pb.types.ts
 
 build:
   bun turbo build && bun biome check --fix

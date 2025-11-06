@@ -162,11 +162,6 @@ const data: SidebarType = {
 							icon: MessageCircle,
 							url: "/dashboard/customer-relations/interactions",
 						},
-						{
-							title: "Notifications",
-							icon: Bell,
-							url: "/dashboard/customer-relations/notifications",
-						},
 					],
 				},
 			],

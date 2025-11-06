@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFormContext } from "..";
+import { Button } from "../../button";
 import {
 	Dialog,
 	DialogClose,
@@ -10,7 +10,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "../../dialog";
-import { Button } from "../../button";
+import { useFormContext } from "..";
 
 export type FormDialogProps = {
 	trigger?: React.ReactNode;

@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardCollectionRouteImport } from './routes/dashboard/$collection'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as DashboardSchemaCollectionRouteImport } from './routes/dashboard/$schema.$collection'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
@@ -24,42 +24,52 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardCollectionRoute = DashboardCollectionRouteImport.update({
-  id: '/$collection',
-  path: '/$collection',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardSchemaCollectionRoute =
+  DashboardSchemaCollectionRouteImport.update({
+    id: '/$schema/$collection',
+    path: '/$schema/$collection',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
-  '/dashboard/$collection': typeof DashboardCollectionRoute
+  '/dashboard/$schema/$collection': typeof DashboardSchemaCollectionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
-  '/dashboard/$collection': typeof DashboardCollectionRoute
+  '/dashboard/$schema/$collection': typeof DashboardSchemaCollectionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
-  '/dashboard/$collection': typeof DashboardCollectionRoute
+  '/dashboard/$schema/$collection': typeof DashboardSchemaCollectionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/auth/login' | '/dashboard/$collection'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/auth/login'
+    | '/dashboard/$schema/$collection'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/auth/login' | '/dashboard/$collection'
-  id: '__root__' | '/' | '/dashboard' | '/auth/login' | '/dashboard/$collection'
+  to: '/' | '/dashboard' | '/auth/login' | '/dashboard/$schema/$collection'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/auth/login'
+    | '/dashboard/$schema/$collection'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -84,13 +94,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/$collection': {
-      id: '/dashboard/$collection'
-      path: '/$collection'
-      fullPath: '/dashboard/$collection'
-      preLoaderRoute: typeof DashboardCollectionRouteImport
-      parentRoute: typeof DashboardRouteRoute
-    }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
@@ -98,15 +101,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/$schema/$collection': {
+      id: '/dashboard/$schema/$collection'
+      path: '/$schema/$collection'
+      fullPath: '/dashboard/$schema/$collection'
+      preLoaderRoute: typeof DashboardSchemaCollectionRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
   }
 }
 
 interface DashboardRouteRouteChildren {
-  DashboardCollectionRoute: typeof DashboardCollectionRoute
+  DashboardSchemaCollectionRoute: typeof DashboardSchemaCollectionRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardCollectionRoute: DashboardCollectionRoute,
+  DashboardSchemaCollectionRoute: DashboardSchemaCollectionRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

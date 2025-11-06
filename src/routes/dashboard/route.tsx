@@ -15,7 +15,7 @@ export const Route = createFileRoute("/dashboard")({
 	component: RouteComponent,
 	validateSearch: zodValidator(z.object({ settings: z.boolean().optional() })),
 	beforeLoad: async ({ context }) => {
-		if (context.pocketbase.authStore.isValid) {
+		if (!context.pocketbase.authStore.isValid) {
 			throw redirect({ to: "/" });
 		}
 	},
