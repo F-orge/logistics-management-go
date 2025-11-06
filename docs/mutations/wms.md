@@ -1788,7 +1788,613 @@ db.CreateIndex("wms_pick_batch_items", "pick_batch_id", "sales_order_id")
 
 ---
 
+## Inventory Management
+
+### Overview
+
+**Purpose**: Manages the core inventory tracking, including product master data, stock levels across locations, batch/expiry tracking, inventory adjustments, and stock transfers between warehouses.
+
+**Key Relationships**:
+- Products: Master catalog with SKU and dimensions
+- Inventory Stock: Real-time stock levels at each location by status
+- Inventory Batches: Batch/lot and expiry date tracking
+- Inventory Adjustments: History of all stock corrections
+- Reorder Points: Client-specific stock thresholds
+- Stock Transfers: Inter-warehouse inventory movements
+
+**User Roles Involved**: Inventory Manager, Warehouse Manager, Warehouse Operator, QC Manager, Account Manager
+
+### Products
+
+#### Overview
+
+**Purpose**: The master product catalog. Each product has a SKU, physical dimensions for slotting, cost tracking, and status management.
+
+**Key Relationships**:
+- Has many: `InventoryStock`, `InventoryBatches`, `InventoryAdjustments`
+
+**User Roles Involved**: Inventory Manager, Warehouse Manager
+
+#### Create Mutation
+
+##### Required Fields
+
+- **sku**
+  - Type: `string`
+  - Label: "SKU"
+  - Description: "Unique stock-keeping unit identifier"
+  - Constraints: Required, unique, max 50 chars
+
+- **name**
+  - Type: `string`
+  - Label: "Product Name"
+  - Description: "Display name of the product"
+  - Constraints: Required, max 200 chars
+
+#### Optional Fields
+
+- **description**
+  - Type: `string (HTML)`
+  - Label: "Description"
+  - Description: "Detailed product description"
+  - Constraints: Optional
+
+- **length / width / height / weight**
+  - Type: `number`
+  - Label: "Dimensions (cm) / Weight (kg)"
+  - Description: "Physical dimensions for space calculations and carrier weight"
+  - Constraints: Optional, must be > 0
+
+- **barcode**
+  - Type: `string`
+  - Label: "Barcode"
+  - Description: "UPC or other barcode for scanning"
+  - Constraints: Optional, unique
+
+- **costPrice**
+  - Type: `number`
+  - Label: "Cost Price"
+  - Description: "The cost to acquire this product"
+  - Constraints: Optional, >= 0
+
+- **supplier**
+  - Type: `relation: Suppliers`
+  - Label: "Primary Supplier"
+  - Description: "Default supplier for replenishment"
+  - Constraints: Optional
+
+- **status**
+  - Type: `enum: ['active', 'inactive', 'discontinued']`
+  - Label: "Status"
+  - Description: "Product availability status"
+  - Constraints: Optional, defaults to 'active'
+
+- **images**
+  - Type: `file[]`
+  - Label: "Product Images"
+  - Description: "Product photos for identification"
+  - Constraints: Optional
+
+#### Update Mutation
+
+- **name, description, dimensions, barcode, costPrice, supplier**: Can be updated
+- **sku**: Cannot be updated (immutable for referential integrity)
+- **status**: Can be updated to 'inactive' or 'discontinued'
+
+#### Delete Mutation
+
+- Cannot delete products with active inventory
+- Soft delete recommended: Set `status: 'discontinued'`
+
+---
+
+### Inventory Stock
+
+#### Overview
+
+**Purpose**: Real-time stock level tracking at each location by status (on-hand, allocated, reserved). This is the heart of inventory visibility.
+
+**Key Relationships**:
+- Belongs to: `Warehouses`, `Locations`, `Products`
+- Can relate to: `InventoryBatches`
+- Updated by: Receiving, Picking, Adjustments, Transfers
+
+**User Roles Involved**: System, Warehouse Operator, Warehouse Manager
+
+#### Create Mutation
+
+##### Required Fields
+
+- **warehouse**
+  - Type: `relation: Warehouses`
+  - Label: "Warehouse"
+  - Constraints: Required
+
+- **location**
+  - Type: `relation: Locations`
+  - Label: "Location"
+  - Description: "Specific bin or location where stock is stored"
+  - Constraints: Required
+
+- **product**
+  - Type: `relation: Products`
+  - Label: "Product"
+  - Constraints: Required
+
+- **status**
+  - Type: `enum: ['on-hand', 'allocated', 'reserved', 'damaged', 'lost']`
+  - Label: "Stock Status"
+  - Description: "The current status of this inventory batch"
+  - Tooltip: "on-hand = available, allocated = picked but not shipped, reserved = for pending orders"
+  - Constraints: Required, defaults to 'on-hand'
+
+#### Optional Fields
+
+- **quantity**
+  - Type: `number`
+  - Label: "Quantity"
+  - Description: "Number of units at this location"
+  - Constraints: Optional, defaults to 0
+
+- **reservedQuantity**
+  - Type: `number`
+  - Label: "Reserved Quantity"
+  - Description: "Number of units allocated to orders but not yet picked"
+  - Constraints: Optional, defaults to 0, must be <= quantity
+
+- **batch**
+  - Type: `relation: InventoryBatches`
+  - Label: "Batch/Lot Number"
+  - Description: "Links to batch tracking for expiry-sensitive items"
+  - Constraints: Optional
+
+#### Update Mutation
+
+- **quantity**: Can be updated (typically via receiving, picking, or adjustments)
+- **reservedQuantity**: Updated automatically when orders are allocated/picked
+- **status**: Can be updated (e.g., to 'damaged' when items are flagged)
+- **batch**: Can be updated if stock is consolidated
+
+#### Delete Mutation
+
+- Cannot delete stock records that have associated transactions
+- Soft delete recommended: Set `quantity: 0` instead of deleting
+
+---
+
+### Inventory Batches
+
+#### Overview
+
+**Purpose**: Tracks batch/lot numbers and expiration dates for products requiring this level of detail. Enables FEFO (First-Expired, First-Out) picking and recall tracking.
+
+**Key Relationships**:
+- Belongs to: `Products`
+- Has many: `InventoryStock`
+
+**User Roles Involved**: QC Manager, Warehouse Operator
+
+#### Create Mutation
+
+##### Required Fields
+
+- **product**
+  - Type: `relation: Products`
+  - Label: "Product"
+  - Constraints: Required
+
+- **batchNumber**
+  - Type: `string`
+  - Label: "Batch / Lot Number"
+  - Description: "Unique identifier for this batch"
+  - Constraints: Required, unique per product
+
+#### Optional Fields
+
+- **expirationDate**
+  - Type: `date`
+  - Label: "Expiration Date"
+  - Description: "When this batch expires"
+  - Constraints: Optional, but recommended for perishables
+
+#### Update Mutation
+
+- **expirationDate**: Can be updated if date is corrected
+- **batchNumber**: Cannot be updated (immutable for tracking)
+
+#### Delete Mutation
+
+- Cannot delete if stock exists for this batch
+- Soft delete: archive instead of deleting
+
+---
+
+### Inventory Adjustments
+
+#### Overview
+
+**Purpose**: Complete audit trail of all inventory corrections, whether from cycle counts, damage discovery, shrinkage, or accounting corrections.
+
+**Key Relationships**:
+- Belongs to: `Products`, `Warehouses`, `Users`
+
+**User Roles Involved**: Warehouse Operator, Inventory Manager
+
+#### Create Mutation
+
+##### Required Fields
+
+- **product**
+  - Type: `relation: Products`
+  - Label: "Product"
+  - Constraints: Required
+
+- **warehouse**
+  - Type: `relation: Warehouses`
+  - Label: "Warehouse"
+  - Constraints: Required
+
+- **quantityChange**
+  - Type: `number`
+  - Label: "Quantity Change"
+  - Description: "Positive (increase) or negative (decrease) quantity"
+  - Constraints: Required, non-zero
+
+- **reason**
+  - Type: `enum: ['cycle-count', 'damaged', 'shrinkage', 'system-correction', 'supplier-return', 'other']`
+  - Label: "Reason"
+  - Description: "Why the adjustment was made"
+  - Constraints: Required
+
+- **user**
+  - Type: `relation: Users`
+  - Label: "Recorded By"
+  - Description: "User who initiated the adjustment"
+  - Constraints: Required, auto-set to current user
+
+#### Optional Fields
+
+- **notes**
+  - Type: `string (HTML)`
+  - Label: "Notes"
+  - Description: "Additional context about the adjustment"
+  - Constraints: Optional
+
+#### Update Mutation
+
+- **All fields are immutable**. Adjustments are audit-trail records and cannot be edited.
+
+#### Delete Mutation
+
+- **Deletion is not allowed**. Adjustments must be preserved for compliance.
+
+---
+
+### Reorder Points
+
+#### Overview
+
+**Purpose**: Defines minimum stock thresholds per client/warehouse combination. When stock falls below this level, alerts are triggered to the client.
+
+**Key Relationships**:
+- Belongs to: `Products`, `Warehouses`
+
+**User Roles Involved**: Account Manager, Inventory Manager
+
+#### Create Mutation
+
+##### Required Fields
+
+- **product**
+  - Type: `relation: Products`
+  - Label: "Product"
+  - Constraints: Required
+
+- **warehouse**
+  - Type: `relation: Warehouses`
+  - Label: "Warehouse"
+  - Constraints: Required
+
+- **threshold**
+  - Type: `number`
+  - Label: "Minimum Stock Level"
+  - Description: "When inventory falls below this quantity, trigger an alert"
+  - Constraints: Required, >= 0
+
+#### Optional Fields
+
+- **alertQuantity**
+  - Type: `number`
+  - Label: "Alert Quantity"
+  - Description: "Quantity to suggest ordering (if different from threshold)"
+  - Constraints: Optional
+
+#### Update Mutation
+
+- **threshold**: Can be updated
+- **alertQuantity**: Can be updated
+- **product / warehouse**: Cannot be updated (immutable keys)
+
+#### Delete Mutation
+
+- Can be deleted freely
+- Deletion removes the reorder point threshold
+
+---
+
+### Stock Transfers
+
+#### Overview
+
+**Purpose**: Manages movement of inventory between warehouses. Creates a complete audit trail of inter-warehouse transfers.
+
+**Key Relationships**:
+- Belongs to: `Products`, source `Warehouse`, destination `Warehouse`
+
+**User Roles Involved**: Logistics Coordinator, Warehouse Manager
+
+#### Create Mutation
+
+##### Required Fields
+
+- **sourceWarehouse**
+  - Type: `relation: Warehouses`
+  - Label: "Source Warehouse"
+  - Constraints: Required
+
+- **destinationWarehouse**
+  - Type: `relation: Warehouses`
+  - Label: "Destination Warehouse"
+  - Constraints: Required, must be different from source
+
+- **product**
+  - Type: `relation: Products`
+  - Label: "Product"
+  - Constraints: Optional (null means multi-product transfer)
+
+- **quantity**
+  - Type: `number`
+  - Label: "Quantity"
+  - Description: "Number of units to transfer"
+  - Constraints: Optional, >= 0
+
+- **status**
+  - Type: `enum: ['pending', 'in-transit', 'received', 'cancelled']`
+  - Label: "Transfer Status"
+  - Description: "Current status of the transfer"
+  - Constraints: Required, defaults to 'pending'
+
+#### Optional Fields
+
+- **notes**
+  - Type: `string (HTML)`
+  - Label: "Notes"
+  - Description: "Reason or context for the transfer"
+  - Constraints: Optional
+
+#### Update Mutation
+
+- **status**: Can be updated (pending → in-transit → received)
+- **quantity**: Can be updated before the transfer is sent
+- **sourceWarehouse / destinationWarehouse / product**: Cannot be updated after creation
+
+#### Delete Mutation
+
+- Can only be deleted if `status: 'pending'`
+- Cancelled transfers should update status to 'cancelled' instead
+
+---
+
+## Complex Inventory Scenarios
+
+### Scenario 1: Receive Inbound Shipment with Batch Tracking
+
+**Trigger**: Warehouse Operator scans items from an Inbound Shipment (ASN).
+
+**Atomic Operation**:
+
+1. **Verify against ASN**:
+   - Match scanned product against ASN line items
+   - Update received quantity on the ASN item
+
+2. **Create/Locate InventoryBatch**:
+   - If batch-tracked, create `InventoryBatch` record (if new) or find existing batch
+   - Record expiration date from supplier documentation
+
+3. **Create/Update InventoryStock**:
+   - Find or create `InventoryStock` record for this product-location-batch combination
+   - Increment quantity by received count
+   - Set status to 'on-hand'
+
+4. **Create InventoryAdjustment** (if discrepancies):
+   - If received quantity differs from expected, create an adjustment record
+   - Reason: 'system-correction'
+
+5. **Update Put-Away Rules**:
+   - Trigger put-away task creation to move inventory from receiving dock to proper locations
+
+**Error Handling**:
+- If product on ASN is not found, flag for manual review
+- If quantity mismatch is > 5%, create dispute record
+
+---
+
+### Scenario 2: Automatic Low Stock Alert
+
+**Trigger**: Stock level falls below `ReorderPoint.threshold` due to picking or adjustment.
+
+**Operation**:
+
+1. **Check Threshold**:
+   - After any stock change, query `ReorderPoints` for this product-warehouse
+   - Compare current quantity against threshold
+
+2. **Trigger Alert** (if below threshold):
+   - Create notification record for the client
+   - Send email/SMS to account manager
+
+3. **Optional**: Create Replenishment Task:
+   - For replenishment-managed items, automatically create a purchase order
+
+**Error Handling**:
+- If no reorder point configured, no alert
+- Alert deduplication: don't send twice in same hour
+
+---
+
+### Scenario 3: FEFO Picking with Batch Expiry
+
+**Trigger**: Pick task is created for a product tracked by batch.
+
+**Operation**:
+
+1. **Query InventoryBatches**:
+   - Find all batches of this product with available stock
+   - Sort by `expirationDate` (ascending - soonest first)
+
+2. **Generate Picklist**:
+   - For each location containing the earliest-expiring batch, create a pick line
+   - Prioritize locations with earliest expiry dates
+
+3. **Update Stock Status**:
+   - As items are picked, update `InventoryStock.status` from 'on-hand' to 'allocated'
+   - Decrement quantity
+
+4. **Create Adjustment** (if damaged found during pick):
+   - If picker finds damaged stock, create adjustment with reason 'damaged'
+
+**Error Handling**:
+- If insufficient stock of earliest-expiring batch, cascade to next batch
+- If total available < needed, create backorder
+
+---
+
+## Validation Rules
+
+### Global Validation Rules
+
+- **Stock Calculations**: `quantity >= reservedQuantity` always
+- **Unique Constraints**: 
+  - product + warehouse + batch = unique stock record
+  - sku = globally unique
+  - barcode = globally unique
+- **Quantity**: All quantities must be >= 0
+- **Dates**: Expiration dates must be in the future
+
+### Entity-Specific Validation
+
+#### Inventory Stock
+
+- Cannot have `reservedQuantity > quantity`
+- Cannot have status 'on-hand' with `reservedQuantity > 0` (should be 'allocated')
+
+#### Inventory Adjustments
+
+- `quantityChange` cannot be 0
+- Reason must match one of predefined values
+- Cannot adjust to negative stock
+
+#### Stock Transfers
+
+- Source and destination must be different warehouses
+- Cannot transfer more than available quantity in source
+- Destination warehouse must be active
+
+#### Reorder Points
+
+- `threshold` must be >= 0
+- `alertQuantity` (if set) should be >= threshold
+
+---
+
+## Frontend Implementation Guidance
+
+### Form Generation
+
+```typescript
+// Example Zod schema for inventory adjustment
+const CreateAdjustmentSchema = z.object({
+  productId: z.string().uuid(),
+  warehouseId: z.string().uuid(),
+  quantityChange: z.number().int().refine(n => n !== 0),
+  reason: z.enum(['cycle-count', 'damaged', 'shrinkage', 'system-correction', 'supplier-return', 'other']),
+  notes: z.string().optional(),
+});
+
+// Example Zod schema for stock transfer
+const CreateTransferSchema = z.object({
+  sourceWarehouseId: z.string().uuid(),
+  destinationWarehouseId: z.string().uuid(),
+  productId: z.string().uuid().optional(),
+  quantity: z.number().min(0),
+  notes: z.string().optional(),
+});
+```
+
+---
+
+## Backend Implementation Guidance
+
+### PocketBase Hooks
+
+```go
+// Validate stock calculation on update
+router.OnRecordBeforeUpdate("wms_inventory_stock").Add(func(e *core.RecordUpdateEvent) error {
+    qty := e.Record.GetFloat("quantity")
+    reserved := e.Record.GetFloat("reserved_quantity")
+    if reserved > qty {
+        return errors.New("reserved quantity cannot exceed total quantity")
+    }
+    return nil
+})
+
+// Trigger reorder point check after any stock update
+router.OnRecordAfterUpdate("wms_inventory_stock").Add(func(e *core.RecordUpdateEvent) error {
+    productId := e.Record.GetString("product")
+    warehouseId := e.Record.GetString("warehouse")
+    // Query reorder points and check threshold
+    // Create alert if needed
+    return nil
+})
+
+// Update last_movement_at timestamp on stock changes
+router.OnRecordAfterCreate("wms_inventory_adjustments").Add(func(e *core.RecordCreateEvent) error {
+    productId := e.Record.GetString("product")
+    warehouseId := e.Record.GetString("warehouse")
+    // Update inventory_stock last_movement_at
+    return nil
+})
+```
+
+---
+
 ## Testing Strategy
+
+### Unit Tests
+
+- Reorder point calculation logic
+- FEFO batch sorting
+- Stock level calculations (available = on-hand - reserved)
+- Inventory adjustment validation
+
+### Integration Tests
+
+- Complete receive workflow with batch tracking
+- Multi-step stock transfer between warehouses
+- Low stock alert triggering
+- Pick task generation with FEFO prioritization
+
+### User Story Tests
+
+- Operator receives and puts away items with batch numbers
+- Manager views real-time stock levels across warehouses
+- Cycle count and adjustment workflow
+- Multi-warehouse stock visibility and transfers
+- Low stock alerts sent to correct clients
+
+---
+
+
 
 ### Unit Tests
 
