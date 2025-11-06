@@ -2,10 +2,13 @@ import React from "react";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 import { Input } from "../../input";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type GeoPointFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 };
 
 type GeoPoint = { lat: number; lng: number };
@@ -17,7 +20,12 @@ const GeoPointField = (props: GeoPointFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel>{props.label}</FieldLabel>
+			<TooltipFieldLabel
+				tooltip={props.tooltip}
+				tooltipSide={props.tooltipSide}
+			>
+				{props.label}
+			</TooltipFieldLabel>
 			<div className="flex gap-2">
 				<Input
 					value={field.state.value?.lat ?? ""}

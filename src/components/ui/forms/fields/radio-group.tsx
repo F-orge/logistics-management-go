@@ -2,12 +2,15 @@ import React from "react";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 import { RadioGroup, RadioGroupItem } from "../../radio-group";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 type RadioOption = { label: string; value: string };
 
 export type RadioGroupFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	options: RadioOption[];
 };
 
@@ -18,7 +21,12 @@ const RadioGroupField = (props: RadioGroupFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel>{props.label}</FieldLabel>
+			<TooltipFieldLabel
+				tooltip={props.tooltip}
+				tooltipSide={props.tooltipSide}
+			>
+				{props.label}
+			</TooltipFieldLabel>
 			<RadioGroup
 				value={field.state.value ?? ""}
 				onValueChange={field.handleChange}

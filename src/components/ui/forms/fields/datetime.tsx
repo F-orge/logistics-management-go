@@ -13,14 +13,19 @@ import {
 } from "../../input-group";
 import { Popover, PopoverContent, PopoverTrigger } from "../../popover";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type DateTimeFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	showTime?: boolean;
 	timeStep?: number;
 	inputGroupClassName?: string;
 	showCalendarIcon?: boolean;
+	placeholder?: string;
+	required?: boolean;
 };
 
 const DateTimeField = (props: DateTimeFieldProps) => {
@@ -73,7 +78,12 @@ const DateTimeField = (props: DateTimeFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel>{props.label}</FieldLabel>
+			<TooltipFieldLabel
+				tooltip={props.tooltip}
+				tooltipSide={props.tooltipSide}
+			>
+				{props.label}
+			</TooltipFieldLabel>
 			<div className="flex flex-col gap-3">
 				{/* Date Picker */}
 				<Popover open={open} onOpenChange={setOpen}>

@@ -2,10 +2,13 @@ import React from "react";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 import { Input } from "../../input";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type FileFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 };
 
 const FileField = (props: FileFieldProps) => {
@@ -15,7 +18,13 @@ const FileField = (props: FileFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel htmlFor={field.name}>{props.label}</FieldLabel>
+			<TooltipFieldLabel
+				htmlFor={field.name}
+				tooltip={props.tooltip}
+				tooltipSide={props.tooltipSide}
+			>
+				{props.label}
+			</TooltipFieldLabel>
 			<Input
 				id={field.name}
 				name={field.name}

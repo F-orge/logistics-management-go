@@ -13,10 +13,13 @@ import {
 	TextAddon,
 	ValidationAddon,
 } from "../utils/input-group-patterns";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type EmailFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	// InputGroup addon support
 	textAddonEnd?: string;
 	iconAddonEnd?: React.ReactNode;
@@ -34,6 +37,8 @@ export type EmailFieldProps = {
 		showValidationIcon: any;
 		inputGroupClassName: any;
 		addonEnd: any;
+		tooltip: any;
+		tooltipSide: any;
 	}
 >;
 
@@ -43,6 +48,8 @@ const EmailField = (props: EmailFieldProps) => {
 	const {
 		label,
 		description,
+		tooltip,
+		tooltipSide,
 		textAddonEnd,
 		iconAddonEnd,
 		showClearButton = false,
@@ -62,7 +69,13 @@ const EmailField = (props: EmailFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+			<TooltipFieldLabel
+				htmlFor={field.name}
+				tooltip={tooltip}
+				tooltipSide={tooltipSide}
+			>
+				{label}
+			</TooltipFieldLabel>
 			<InputGroup className={inputGroupClassName}>
 				{/* Input */}
 				<InputGroupInput

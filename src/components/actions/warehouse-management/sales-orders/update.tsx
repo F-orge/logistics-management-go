@@ -1,0 +1,172 @@
+import { useQuery } from "@tanstack/react-query";
+import {
+	useNavigate,
+	useParams,
+	useRouteContext,
+	useSearch,
+} from "@tanstack/react-router";
+import { ClientResponseError } from "pocketbase";
+import React from "react";
+import { toast } from "sonner";
+import {
+	FieldDescription,
+	FieldGroup,
+	FieldLegend,
+	FieldSeparator,
+	FieldSet,
+} from "@/components/ui/field";
+import { useAppForm } from "@/components/ui/forms";
+import FormDialog from "@/components/ui/forms/utils/dialog";
+import { Collections, Update } from "@/lib/pb.types";
+
+const UpdateSalesOrderFormDialog = () => {
+	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+	const searchParams = useSearch({ from: "/dashboard/$schema/$collection" });
+
+	const { pocketbase } = useRouteContext({
+		from: "/dashboard/$schema/$collection",
+	});
+
+	const { data: record } = useQuery({
+		queryKey: [Collections.WarehouseManagementSalesOrders, searchParams.id],
+		queryFn: () =>
+			pocketbase
+				.collection(Collections.WarehouseManagementSalesOrders)
+				.getOne(searchParams.id || ""),
+		enabled: !!searchParams.id,
+	});
+
+	const form = useAppForm({
+		defaultValues: (record ||
+			{}) as Update<Collections.WarehouseManagementSalesOrders>,
+		onSubmit: async ({ value }) => {
+			try {
+				await pocketbase
+					.collection(Collections.WarehouseManagementSalesOrders)
+					.update(searchParams.id || "", value);
+
+				navigate({
+					search: (prev) => ({
+						...prev,
+						action: undefined,
+						id: undefined,
+					}),
+				});
+
+				toast.success("SalesOrder updated successfully");
+			} catch (error) {
+				if (error instanceof ClientResponseError) {
+					toast.error(error.message);
+				}
+			}
+		},
+	});
+
+	return (
+		<form.AppForm>
+			<FormDialog
+				open={searchParams.action === "updateSalesOrder"}
+				onOpenChange={() =>
+					navigate({
+						search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+					})
+				}
+				title="Update SalesOrder"
+				description="Edit Salesorder information"
+			>
+				<FieldSet>
+					{/* Reference */}
+					<FieldGroup>
+						<FieldLegend>Reference</FieldLegend>
+						<FieldDescription>Manage reference information</FieldDescription>
+
+						<form.AppField name="client">
+							{(field) => (
+								<field.TextField
+									label="Client"
+									description="Enter client"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="opportunity">
+							{(field) => (
+								<field.TextField
+									label="Opportunity"
+									description="Enter opportunity"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Identification</FieldSeparator>
+
+					{/* Identification */}
+					<FieldGroup>
+						<FieldLegend>Identification</FieldLegend>
+						<FieldDescription>
+							Manage identification information
+						</FieldDescription>
+
+						<form.AppField name="orderNumber">
+							{(field) => (
+								<field.TextField
+									label="Order Number"
+									description="Enter ordernumber"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Address</FieldSeparator>
+
+					{/* Address */}
+					<FieldGroup>
+						<FieldLegend>Address</FieldLegend>
+						<FieldDescription>Manage address information</FieldDescription>
+
+						<form.AppField name="shippingAddress">
+							{(field) => (
+								<field.TextField
+									label="Shipping Address"
+									description="Enter shippingaddress"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Status</FieldSeparator>
+
+					{/* Status */}
+					<FieldGroup>
+						<FieldLegend>Status</FieldLegend>
+						<FieldDescription>Manage status information</FieldDescription>
+
+						<form.AppField name="status">
+							{(field) => (
+								<field.SelectField
+									label="Status"
+									description="Select an option"
+									options={[
+										{ label: "Pending", value: "pending" },
+										{ label: "Processing", value: "processing" },
+										{ label: "Ready", value: "ready" },
+										{ label: "Shipped", value: "shipped" },
+										{ label: "Delivered", value: "delivered" },
+										{ label: "Cancelled", value: "cancelled" },
+									]}
+									placeholder="Select..."
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+				</FieldSet>
+			</FormDialog>
+		</form.AppForm>
+	);
+};
+
+export default UpdateSalesOrderFormDialog;

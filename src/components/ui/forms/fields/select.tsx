@@ -8,12 +8,15 @@ import {
 	SelectValue,
 } from "../../select";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 type SelectOption = { label: string; value: string };
 
 export type SelectFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	options: SelectOption[];
 	placeholder?: string;
 };
@@ -26,7 +29,12 @@ const SelectField = (props: SelectFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel htmlFor={field.name}>{props.label}</FieldLabel>
+			<TooltipFieldLabel
+				tooltip={props.tooltip}
+				tooltipSide={props.tooltipSide}
+			>
+				{props.label}
+			</TooltipFieldLabel>
 			<Select
 				value={field.state.value ?? ""}
 				onValueChange={field.handleChange}

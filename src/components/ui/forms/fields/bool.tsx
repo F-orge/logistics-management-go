@@ -3,10 +3,13 @@ import { Checkbox } from "../../checkbox";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 import { Switch } from "../../switch";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type BoolFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	variant?: "checkbox" | "switch";
 };
 
@@ -27,7 +30,13 @@ const BoolField = (props: BoolFieldProps) => {
 					onBlur={field.handleBlur}
 					aria-invalid={isInvalid}
 				/>
-				<FieldLabel htmlFor={field.name}>{props.label}</FieldLabel>
+				<TooltipFieldLabel
+					htmlFor={field.name}
+					tooltip={props.tooltip}
+					tooltipSide={props.tooltipSide}
+				>
+					{props.label}
+				</TooltipFieldLabel>
 			</div>
 			<FieldDescription>{props.description}</FieldDescription>
 			{isInvalid && <FieldError errors={field.state.meta.errors} />}

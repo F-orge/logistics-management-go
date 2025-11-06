@@ -2,10 +2,13 @@ import React from "react";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../../field";
 import { Textarea as TextareaComponent } from "../../textarea";
 import { useFieldContext } from "..";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type RichEditorFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 };
 
 const RichEditorField = (props: RichEditorFieldProps) => {
@@ -15,7 +18,13 @@ const RichEditorField = (props: RichEditorFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel htmlFor={field.name}>{props.label}</FieldLabel>
+			<TooltipFieldLabel
+				htmlFor={field.name}
+				tooltip={props.tooltip}
+				tooltipSide={props.tooltipSide}
+			>
+				{props.label}
+			</TooltipFieldLabel>
 			<TextareaComponent
 				id={field.name}
 				name={field.name}

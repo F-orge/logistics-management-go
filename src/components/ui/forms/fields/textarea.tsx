@@ -9,10 +9,13 @@ import {
 } from "../../input-group";
 import { useFieldContext } from "..";
 import { CharCountAddon } from "../utils/input-group-patterns";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type TextareaFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	// InputGroup addon support
 	showCharCount?: boolean;
 	inputGroupClassName?: string;
@@ -26,6 +29,8 @@ export type TextareaFieldProps = {
 		inputGroupClassName: any;
 		addonStart: any;
 		addonEnd: any;
+		tooltip: any;
+		tooltipSide: any;
 	}
 >;
 
@@ -35,6 +40,8 @@ const TextareaField = (props: TextareaFieldProps) => {
 	const {
 		label,
 		description,
+		tooltip,
+		tooltipSide,
 		showCharCount = false,
 		inputGroupClassName,
 		addonStart,
@@ -48,7 +55,13 @@ const TextareaField = (props: TextareaFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+			<TooltipFieldLabel
+				htmlFor={field.name}
+				tooltip={tooltip}
+				tooltipSide={tooltipSide}
+			>
+				{label}
+			</TooltipFieldLabel>
 			<InputGroup className={inputGroupClassName}>
 				{/* Start addon */}
 				{addonStart && (

@@ -13,10 +13,13 @@ import {
 	TextAddon,
 	ValidationAddon,
 } from "../utils/input-group-patterns";
+import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type URLFieldProps = {
 	label?: React.ReactNode;
 	description?: React.ReactNode;
+	tooltip?: React.ReactNode;
+	tooltipSide?: "top" | "right" | "bottom" | "left";
 	// InputGroup addon support
 	textAddonStart?: string;
 	textAddonEnd?: string;
@@ -38,6 +41,8 @@ export type URLFieldProps = {
 		inputGroupClassName: any;
 		addonStart: any;
 		addonEnd: any;
+		tooltip: any;
+		tooltipSide: any;
 	}
 >;
 
@@ -47,6 +52,8 @@ const URLField = (props: URLFieldProps) => {
 	const {
 		label,
 		description,
+		tooltip,
+		tooltipSide,
 		textAddonStart = "https://",
 		textAddonEnd,
 		iconAddonEnd,
@@ -68,7 +75,13 @@ const URLField = (props: URLFieldProps) => {
 
 	return (
 		<Field data-invalid={isInvalid}>
-			<FieldLabel htmlFor={field.name}>{label}</FieldLabel>
+			<TooltipFieldLabel
+				htmlFor={field.name}
+				tooltip={tooltip}
+				tooltipSide={tooltipSide}
+			>
+				{label}
+			</TooltipFieldLabel>
 			<InputGroup className={inputGroupClassName}>
 				{/* Start addons */}
 				{addonStart && <InputGroupAddon>{addonStart}</InputGroupAddon>}

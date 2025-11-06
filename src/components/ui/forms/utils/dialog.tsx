@@ -70,7 +70,7 @@ const FormDialog = ({
 	return (
 		<Dialog open={open} onOpenChange={handleOpenChange} {...dialogProps}>
 			{trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-			<DialogContent>
+			<DialogContent className="max-h-3/4 overflow-y-auto">
 				<DialogHeader>
 					<DialogTitle>{title}</DialogTitle>
 					{description && <DialogDescription>{description}</DialogDescription>}
