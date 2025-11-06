@@ -1,6 +1,14 @@
 import { faker } from "@faker-js/faker";
 import PocketBase from "pocketbase";
 import {
+  BillingManagementDisputesStatusOptions,
+  BillingManagementInvoicesStatusOptions,
+  BillingManagementLogsStatusOptions,
+  BillingManagementPaymentsStatusOptions,
+  BillingManagementQuotesStatusOptions,
+  BillingManagementRateCardsTypeOptions,
+  BillingManagementRateRulesPricingModelOptions,
+  BillingManagementSurchargesCalculationMethodOptions,
   Collections,
   CustomerRelationsCasesPriorityOptions,
   CustomerRelationsCasesStatusOptions,
@@ -13,8 +21,16 @@ import {
   CustomerRelationsOpportunitiesSourceOptions,
   CustomerRelationsOpportunitiesStageOptions,
   CustomerRelationsProductsTypeOptions,
+  DeliveryManagementRoutesStatusOptions,
+  DeliveryManagementTaskEventsStatusOptions,
+  DeliveryManagementTasksFailureReasonOptions,
+  DeliveryManagementTasksStatusOptions,
   TransportManagementCarrierRatesUnitOptions,
   TransportManagementDriversStatusOptions,
+  TransportManagementExpensesStatusOptions,
+  TransportManagementExpensesTypeOptions,
+  TransportManagementGeofenceEventsTypeOptions,
+  TransportManagementShipmentLegsStatusOptions,
   TransportManagementTripStopsStatusOptions,
   TransportManagementTripsStatusOptions,
   TransportManagementVehiclesStatusOptions,
@@ -25,7 +41,10 @@ import {
   WarehouseManagementLocationsTypeOptions,
   WarehouseManagementOutboundShipmentsStatusOptions,
   WarehouseManagementProductsStatusOptions,
+  WarehouseManagementReturnItemsConditionOptions,
+  WarehouseManagementReturnsStatusOptions,
   WarehouseManagementSalesOrdersStatusOptions,
+  WarehouseManagementStockTransferStatusOptions,
 } from "../src/lib/pb.types";
 
 const pb = new PocketBase(process.env.POCKETBASE_URL || "http://localhost:8090");
@@ -57,6 +76,38 @@ const ids: Record<string, any> = {
   trips: {} as Record<string, string>,
   tripStops: {} as Record<string, string>,
   gpsPings: {} as Record<string, string>,
+  // Phase 10: Billing System
+  rateCards: {} as Record<string, string>,
+  rateRules: {} as Record<string, string>,
+  surcharges: {} as Record<string, string>,
+  clientAccounts: {} as Record<string, string>,
+  quotes: {} as Record<string, string>,
+  invoices: {} as Record<string, string>,
+  invoiceLineItems: {} as Record<string, string>,
+  payments: {} as Record<string, string>,
+  disputes: {} as Record<string, string>,
+  creditNotes: {} as Record<string, string>,
+  // Phase 11: Logistics Execution (TMS)
+  shipmentLegs: {} as Record<string, string>,
+  shipmentLegEvents: {} as Record<string, string>,
+  tmsProofOfDeliveries: {} as Record<string, string>,
+  // Phase 12: Delivery Management (DMS)
+  deliveryRoutes: {} as Record<string, string>,
+  deliveryTasks: {} as Record<string, string>,
+  taskEvents: {} as Record<string, string>,
+  dmsProofOfDeliveries: {} as Record<string, string>,
+  driverLocations: {} as Record<string, string>,
+  // Phase 13: Advanced & Operational
+  expenses: {} as Record<string, string>,
+  geofences: {} as Record<string, string>,
+  geofenceEvents: {} as Record<string, string>,
+  notifications: {} as Record<string, string>,
+  billingLogs: {} as Record<string, string>,
+  stockTransfers: {} as Record<string, string>,
+  packages: {} as Record<string, string>,
+  packageItems: {} as Record<string, string>,
+  returns: {} as Record<string, string>,
+  returnItems: {} as Record<string, string>,
 };
 
 // ============================================================================
@@ -970,6 +1021,764 @@ async function seedPhase9TransportOperations() {
   );
 }
 
+// ============================================================================
+// PHASE 10: BILLING SYSTEM
+// ============================================================================
+
+async function seedPhase10BillingSystem() {
+  console.log("\n📝 PHASE 10: Seeding Billing System...");
+
+  const companyIds = Object.values(ids.companies);
+  const userIds = Object.values(ids.users);
+
+  if (companyIds.length === 0 || userIds.length === 0) {
+    console.error("✗ Missing prerequisite data. Phases 1-2 must run first.");
+    return;
+  }
+
+  // 1. Seed Rate Cards
+  const rateCardTypes = Object.values(BillingManagementRateCardsTypeOptions);
+  const rateCardData = [
+    { name: "Standard Rate Card", type: rateCardTypes[0] },
+    { name: "Premium Rate Card", type: rateCardTypes[1] },
+    { name: "Express Rate Card", type: rateCardTypes[2] },
+    { name: "Bulk Rate Card", type: rateCardTypes[3] },
+  ];
+
+  console.log("  Creating rate cards...");
+  for (const cardData of rateCardData) {
+    try {
+      const rateCard = await pb.collection(Collections.BillingManagementRateCards).create({
+        name: cardData.name,
+        type: cardData.type,
+        isActive: true,
+        validFrom: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        validTo: faker.date.future({ years: 2 }).toISOString().split("T")[0],
+        description: `${cardData.name} with standard pricing model`,
+        createdBy: faker.helpers.arrayElement(userIds),
+      });
+      ids.rateCards[cardData.name] = rateCard.id;
+      console.log(`    ✓ ${cardData.name}`);
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create rate card:`, error?.response?.message || error.message);
+    }
+  }
+
+  // 2. Seed Rate Rules
+  const pricingModels = Object.values(BillingManagementRateRulesPricingModelOptions);
+  const rateCardIds = Object.values(ids.rateCards);
+
+  console.log("  Creating rate rules...");
+  for (const rateCardId of rateCardIds) {
+    for (let i = 0; i < 2; i++) {
+      try {
+        const rateRule = await pb.collection(Collections.BillingManagementRateRules).create({
+          rateCard: rateCardId,
+          condition: i === 0 ? "weight:0-5kg" : "distance:0-50km",
+          value: i === 0 ? "5" : "50",
+          price: faker.number.float({ min: 10, max: 500, multipleOf: 0.01 }),
+          pricingModel: faker.helpers.arrayElement(pricingModels),
+          minValue: i === 0 ? 0 : 0,
+          maxValue: i === 0 ? 5 : 50,
+          priority: faker.number.int({ min: 1, max: 100 }),
+          isActive: true,
+        });
+        ids.rateRules[`${rateCardId}-${i}`] = rateRule.id;
+      } catch (error: any) {
+        console.error(`      ✗ Failed to create rate rule:`, error?.response?.message || error.message);
+      }
+    }
+  }
+
+  // 3. Seed Surcharges
+  const calculationMethods = Object.values(BillingManagementSurchargesCalculationMethodOptions);
+  const surchargeTypes = ["fuel-adjustment", "hazmat-fee", "peak-season"];
+
+  console.log("  Creating surcharges...");
+  for (const surchargeType of surchargeTypes) {
+    try {
+      const surcharge = await pb.collection(Collections.BillingManagementSurcharges).create({
+        name: surchargeType.toUpperCase(),
+        type: surchargeType,
+        amount: faker.number.float({ min: 5, max: 100, multipleOf: 0.01 }),
+        calculationMethod: faker.helpers.arrayElement(calculationMethods),
+        isActive: true,
+        validFrom: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        validTo: faker.date.future({ years: 2 }).toISOString().split("T")[0],
+        description: `Additional charge for ${surchargeType}`,
+      });
+      ids.surcharges[surchargeType] = surcharge.id;
+      console.log(`    ✓ ${surchargeType}`);
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create surcharge:`, error?.response?.message || error.message);
+    }
+  }
+
+  // 4. Seed Client Accounts
+  console.log("  Creating client accounts...");
+  for (const companyId of companyIds) {
+    try {
+      const clientAccount = await pb.collection(Collections.BillingManagementClientAccounts).create({
+        client: companyId as string,
+        creditLimit: faker.number.int({ min: 5000, max: 50000 }),
+        availableCredit: faker.number.int({ min: 1000, max: 25000 }),
+        walletBalance: faker.number.int({ min: 0, max: 10000 }),
+        currency: "PHP",
+        paymentTermsDays: faker.number.int({ min: 15, max: 60 }),
+        isCreditApproved: faker.datatype.boolean(),
+        lastPaymentDate: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+      });
+      (ids.clientAccounts as Record<string, string>)[companyId as string] = clientAccount.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create client account:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.clientAccounts).length} client accounts`);
+
+  // 5. Seed Quotes
+  const quoteStatuses = Object.values(BillingManagementQuotesStatusOptions);
+
+  console.log("  Creating quotes...");
+  for (let i = 0; i < 10; i++) {
+    try {
+      const quote = await pb.collection(Collections.BillingManagementQuotes).create({
+        client: faker.helpers.arrayElement(companyIds),
+        originDetails: JSON.stringify({ city: faker.location.city(), country: "USA" }),
+        destinationDetails: JSON.stringify({ city: faker.location.city(), country: "USA" }),
+        weight: faker.number.float({ min: 1, max: 100, multipleOf: 0.1 }),
+        length: faker.number.float({ min: 10, max: 200, multipleOf: 1 }),
+        width: faker.number.float({ min: 10, max: 200, multipleOf: 1 }),
+        height: faker.number.float({ min: 10, max: 200, multipleOf: 1 }),
+        quotePrice: faker.number.float({ min: 100, max: 5000, multipleOf: 0.01 }),
+        serviceLevel: faker.helpers.arrayElement(["Standard", "Express", "Economy"]),
+        expiredAt: faker.date.future({ years: 1 }).toISOString().split("T")[0],
+        status: faker.helpers.arrayElement(quoteStatuses),
+        notes: faker.commerce.productDescription(),
+        createdBy: faker.helpers.arrayElement(userIds),
+      });
+      ids.quotes[`QUOTE-${i}`] = quote.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create quote:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.quotes).length} quotes`);
+
+  // 6. Seed Invoices
+  const invoiceStatuses = Object.values(BillingManagementInvoicesStatusOptions);
+  const quoteIds = Object.values(ids.quotes);
+
+  console.log("  Creating invoices...");
+  for (let i = 0; i < 15; i++) {
+    try {
+      const invoice = await pb.collection(Collections.BillingManagementInvoices).create({
+        quote: quoteIds.length > 0 ? faker.helpers.arrayElement(quoteIds) : undefined,
+        status: faker.helpers.arrayElement(invoiceStatuses),
+        issueDate: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        dueDate: faker.date.future({ years: 1 }).toISOString().split("T")[0],
+        totalAmount: faker.number.float({ min: 500, max: 10000, multipleOf: 0.01 }),
+        amountPaid: faker.number.float({ min: 0, max: 10000, multipleOf: 0.01 }),
+        currency: "PHP",
+        discountAmount: faker.number.float({ min: 0, max: 1000, multipleOf: 0.01 }),
+        subtotal: faker.number.float({ min: 500, max: 9000, multipleOf: 0.01 }),
+        paymentTerms: faker.helpers.arrayElement(["Net 15", "Net 30", "Net 60"]),
+        notes: faker.commerce.productDescription(),
+        sentAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString().split("T")[0] : undefined,
+        paidAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString().split("T")[0] : undefined,
+        createdBy: faker.helpers.arrayElement(userIds),
+      });
+      ids.invoices[`INV-${i}`] = invoice.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create invoice:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.invoices).length} invoices`);
+
+  // 7. Seed Invoice Line Items
+  const invoiceIds = Object.values(ids.invoices);
+
+  console.log("  Creating invoice line items...");
+  let lineItemCount = 0;
+  for (const invoiceId of invoiceIds) {
+    const numItems = faker.number.int({ min: 2, max: 3 });
+    for (let i = 0; i < numItems; i++) {
+      try {
+        const lineItem = await pb.collection(Collections.BillingManagementInvoiceLineItems).create({
+          invoice: invoiceId,
+          description: faker.commerce.productDescription(),
+          quantity: faker.number.int({ min: 1, max: 10 }),
+          unitPrice: faker.number.float({ min: 50, max: 500, multipleOf: 0.01 }),
+          taxRate: faker.helpers.arrayElement([0, 5, 12, 15]),
+          taxAmount: faker.number.float({ min: 0, max: 500, multipleOf: 0.01 }),
+          discountRate: faker.helpers.arrayElement([0, 5, 10, 15]),
+          discountAmount: faker.number.float({ min: 0, max: 200, multipleOf: 0.01 }),
+        });
+        ids.invoiceLineItems[lineItemCount.toString()] = lineItem.id;
+        lineItemCount++;
+      } catch (error: any) {
+        console.error(`      ✗ Failed to add invoice line item:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created line items for invoices`);
+
+  // 8. Seed Payments
+  const paymentStatuses = Object.values(BillingManagementPaymentsStatusOptions);
+  const paymentMethods = ["credit-card", "debit-card", "bank-transfer", "wallet"];
+
+  console.log("  Creating payments...");
+  for (let i = 0; i < 10; i++) {
+    try {
+      const payment = await pb.collection(Collections.BillingManagementPayments).create({
+        invoice: faker.helpers.arrayElement(invoiceIds),
+        amount: faker.number.float({ min: 100, max: 5000, multipleOf: 0.01 }),
+        paymentMethod: faker.helpers.arrayElement(paymentMethods),
+        status: faker.helpers.arrayElement(paymentStatuses),
+        paymentDate: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        processedAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString() : undefined,
+        currency: "PHP",
+        fees: faker.number.float({ min: 0, max: 100, multipleOf: 0.01 }),
+        netAmount: faker.number.float({ min: 100, max: 5000, multipleOf: 0.01 }),
+        notes: faker.commerce.productDescription(),
+        processedBy: faker.helpers.arrayElement(userIds),
+      });
+      ids.payments[`PAY-${i}`] = payment.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create payment:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.payments).length} payments`);
+
+  // 9. Seed Disputes
+  const disputeStatuses = Object.values(BillingManagementDisputesStatusOptions);
+  const invoiceLineItemIds = Object.values(ids.invoiceLineItems);
+
+  console.log("  Creating disputes...");
+  if (invoiceLineItemIds.length > 0) {
+    for (let i = 0; i < 3; i++) {
+      try {
+        const dispute = await pb.collection(Collections.BillingManagementDisputes).create({
+          lineItem: faker.helpers.arrayElement(invoiceLineItemIds),
+          client: faker.helpers.arrayElement(companyIds),
+          reason: faker.commerce.productDescription(),
+          status: faker.helpers.arrayElement(disputeStatuses),
+          disputeAmount: faker.number.float({ min: 50, max: 1000, multipleOf: 0.01 }),
+          resolutionNotes: faker.lorem.paragraph(),
+          submittedAt: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+          resolvedAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString().split("T")[0] : undefined,
+          resolvedBy: faker.datatype.boolean() ? faker.helpers.arrayElement(userIds) : undefined,
+        });
+        ids.disputes[`DISP-${i}`] = dispute.id;
+      } catch (error: any) {
+        console.error(`    ✗ Failed to create dispute:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.disputes).length} disputes`);
+
+  // 10. Seed Credit Notes
+  const creditNoteData: any[] = [];
+  const disputeIds = Object.values(ids.disputes);
+  if (invoiceIds.length > 0 && disputeIds.length > 0) {
+    for (let i = 0; i < 3; i++) {
+      creditNoteData.push({
+        invoice: faker.helpers.arrayElement(invoiceIds),
+        dispute: faker.helpers.arrayElement(disputeIds),
+        amount: faker.number.float({ min: 100, max: 2000, multipleOf: 0.01 }),
+        reason: faker.lorem.sentence(),
+        issueDate: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        appliedAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString().split("T")[0] : undefined,
+        currency: "PHP",
+        notes: faker.lorem.paragraph(),
+      });
+    }
+  }
+
+  console.log("  Creating credit notes...");
+  for (const noteData of creditNoteData) {
+    try {
+      const creditNote = await pb.collection(Collections.BillingManagementCreditNotes).create(noteData);
+      ids.creditNotes[`CREDIT-${creditNote.id.substring(0, 8)}`] = creditNote.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create credit note:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.creditNotes).length} credit notes`);
+
+  console.log(
+    `✓ Phase 10 Complete: Created rate cards, rules, surcharges, accounts, quotes, invoices, payments, disputes, and credit notes`
+  );
+}
+
+// ============================================================================
+// PHASE 11: LOGISTICS EXECUTION (TMS)
+// ============================================================================
+
+async function seedPhase11LogisticsExecution() {
+  console.log("\n📝 PHASE 11: Seeding Logistics Execution (TMS)...");
+
+  const carrierIds = Object.values(ids.carriers);
+  const tripIds = Object.values(ids.trips);
+  const tripStopIds = Object.values(ids.tripStops);
+
+  if (tripIds.length === 0 || tripStopIds.length === 0) {
+    console.error("✗ Missing prerequisite data. Phases 1-9 must run first.");
+    return;
+  }
+
+  const shipmentStatuses = Object.values(TransportManagementShipmentLegsStatusOptions);
+
+  // 1. Seed Shipment Legs
+  console.log("  Creating shipment legs...");
+  for (let i = 0; i < 10; i++) {
+    try {
+      const shipmentLeg = await pb.collection(Collections.TransportManagementShipmentLegs).create({
+        shipmentId: faker.string.alphanumeric(10).toUpperCase(),
+        legSequence: (i % 3) + 1,
+        startLocation: {
+          lat: faker.location.latitude(),
+          lon: faker.location.longitude(),
+        },
+        endLocation: {
+          lat: faker.location.latitude(),
+          lon: faker.location.longitude(),
+        },
+        carrier: carrierIds.length > 0 ? faker.helpers.arrayElement(carrierIds) : undefined,
+        internalTrip: faker.helpers.arrayElement(tripIds),
+        status: faker.helpers.arrayElement(shipmentStatuses),
+      });
+      ids.shipmentLegs[`LEG-${i}`] = shipmentLeg.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create shipment leg:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.shipmentLegs).length} shipment legs`);
+
+  // 2. Seed Shipment Leg Events
+  const shipmentLegIds = Object.values(ids.shipmentLegs);
+
+  console.log("  Creating shipment leg events...");
+  for (const legId of shipmentLegIds) {
+    const numEvents = faker.number.int({ min: 2, max: 4 });
+    for (let i = 0; i < numEvents; i++) {
+      try {
+        await pb.collection(Collections.TransportManagementShipmentLegEvents).create({
+          message: faker.helpers.arrayElement([
+            "Shipment picked up",
+            "In transit",
+            "Arrived at checkpoint",
+            "Delivery attempted",
+            "Delivered successfully",
+          ]),
+          shipmentLeg: legId,
+          location: {
+            lat: faker.location.latitude(),
+            lon: faker.location.longitude(),
+          },
+        });
+      } catch (error: any) {
+        console.error(`      ✗ Failed to create shipment leg event:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created shipment leg events`);
+
+  // 3. Seed TMS Proof of Deliveries
+  console.log("  Creating TMS proof of deliveries...");
+  for (const tripStopId of tripStopIds.slice(0, Math.min(5, tripStopIds.length))) {
+    try {
+      await pb.collection(Collections.TransportManagementProofOfDeliveries).create({
+        tripStop: tripStopId,
+        coordinate: {
+          lat: faker.location.latitude(),
+          lon: faker.location.longitude(),
+        },
+      });
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create TMS POD:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created TMS proof of deliveries`);
+
+  console.log(`✓ Phase 11 Complete: Created shipment legs, events, and PODs`);
+}
+
+// ============================================================================
+// PHASE 12: DELIVERY MANAGEMENT (DMS)
+// ============================================================================
+
+async function seedPhase12DeliveryManagement() {
+  console.log("\n📝 PHASE 12: Seeding Delivery Management (DMS)...");
+
+  const driverIds = Object.values(ids.drivers);
+  const productIds = Object.values(ids.products.wms);
+  const salesOrderIds = Object.values(ids.salesOrders);
+
+  if (driverIds.length === 0) {
+    console.error("✗ Missing prerequisite data. Phases 1-9 must run first.");
+    return;
+  }
+
+  const routeStatuses = Object.values(DeliveryManagementRoutesStatusOptions);
+  const taskStatuses = Object.values(DeliveryManagementTasksStatusOptions);
+  const taskEventStatuses = Object.values(DeliveryManagementTaskEventsStatusOptions);
+  const failureReasons = Object.values(DeliveryManagementTasksFailureReasonOptions);
+
+  // 1. Seed Delivery Routes
+  console.log("  Creating delivery routes...");
+  for (let i = 0; i < 5; i++) {
+    try {
+      const route = await pb.collection(Collections.DeliveryManagementRoutes).create({
+        driver: faker.helpers.arrayElement(driverIds),
+        routeDate: faker.date.future({ years: 1 }).toISOString().split("T")[0],
+        status: faker.helpers.arrayElement(routeStatuses),
+        totalDistance: faker.number.float({ min: 10, max: 100, multipleOf: 0.1 }),
+        estimatedDurationInMinutes: faker.number.int({ min: 30, max: 480 }),
+        startedAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString() : undefined,
+        completedAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString() : undefined,
+      });
+      ids.deliveryRoutes[`ROUTE-${i}`] = route.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create delivery route:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.deliveryRoutes).length} delivery routes`);
+
+  // 2. Seed Delivery Tasks
+  const deliveryRouteIds = Object.values(ids.deliveryRoutes);
+
+  console.log("  Creating delivery tasks...");
+  for (let i = 0; i < 15; i++) {
+    try {
+      const task = await pb.collection(Collections.DeliveryManagementTasks).create({
+        package: productIds.length > 0 ? faker.helpers.arrayElement(productIds) : undefined,
+        route: faker.helpers.arrayElement(deliveryRouteIds),
+        sequence: (i % 5) + 1,
+        deliveryAddress: faker.location.streetAddress(),
+        recipientName: faker.person.fullName(),
+        recipientPhone: faker.phone.number(),
+        deliveryInstructions: faker.lorem.sentence(),
+        estimatedArrivalTime: faker.date.future({ years: 1 }).toISOString(),
+        actualArrivalTime: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString() : undefined,
+        deliveryTime: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString() : undefined,
+        status: faker.helpers.arrayElement(taskStatuses),
+        attemptCount: faker.number.int({ min: 0, max: 3 }),
+        failureReason: faker.datatype.boolean() ? faker.helpers.arrayElement(failureReasons) : undefined,
+      });
+      ids.deliveryTasks[`TASK-${i}`] = task.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create delivery task:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.deliveryTasks).length} delivery tasks`);
+
+  // 3. Seed Task Events
+  const deliveryTaskIds = Object.values(ids.deliveryTasks);
+
+  console.log("  Creating task events...");
+  for (const taskId of deliveryTaskIds) {
+    const numEvents = faker.number.int({ min: 2, max: 3 });
+    for (let i = 0; i < numEvents; i++) {
+      try {
+        await pb.collection(Collections.DeliveryManagementTaskEvents).create({
+          task: taskId,
+          status: faker.helpers.arrayElement(taskEventStatuses),
+          reason: faker.lorem.sentence(),
+          notes: faker.lorem.paragraph(),
+          coordinates: {
+            lat: faker.location.latitude(),
+            lon: faker.location.longitude(),
+          },
+        });
+      } catch (error: any) {
+        console.error(`      ✗ Failed to create task event:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created task events`);
+
+  // 4. Seed DMS Proof of Deliveries
+  console.log("  Creating DMS proof of deliveries...");
+  for (const taskId of deliveryTaskIds.slice(0, Math.min(8, deliveryTaskIds.length))) {
+    try {
+      await pb.collection(Collections.DeliveryManagementProofOfDeliveries).create({
+        task: taskId,
+        signatureData: JSON.stringify({ signature: faker.string.alphanumeric(50) }),
+        recipientName: faker.person.fullName(),
+        coordinates: {
+          lat: faker.location.latitude(),
+          lon: faker.location.longitude(),
+        },
+      });
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create DMS POD:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created DMS proof of deliveries`);
+
+  // 5. Seed Driver Locations
+  console.log("  Creating driver locations...");
+  for (const driverId of driverIds) {
+    for (let i = 0; i < faker.number.int({ min: 3, max: 5 }); i++) {
+      try {
+        await pb.collection(Collections.DeliveryManagementDriverLocation).create({
+          driver: driverId,
+          coordinates: {
+            lat: faker.location.latitude(),
+            lon: faker.location.longitude(),
+          },
+          heading: {
+            lat: faker.location.latitude(),
+            lon: faker.location.longitude(),
+          },
+        });
+      } catch (error: any) {
+        console.error(`      ✗ Failed to create driver location:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created driver locations`);
+
+  console.log(`✓ Phase 12 Complete: Created delivery routes, tasks, events, PODs, and driver locations`);
+}
+
+// ============================================================================
+// PHASE 13: ADVANCED & OPERATIONAL
+// ============================================================================
+
+async function seedPhase13AdvancedOperational() {
+  console.log("\n📝 PHASE 13: Seeding Advanced & Operational Data...");
+
+  const tripIds = Object.values(ids.trips);
+  const driverIds = Object.values(ids.drivers);
+  const vehicleIds = Object.values(ids.vehicles);
+  const productIds = Object.values(ids.products.wms);
+  const salesOrderIds = Object.values(ids.salesOrders);
+  const warehouseIds = Object.values(ids.warehouses);
+  const companyIds = Object.values(ids.companies);
+  const userIds = Object.values(ids.users);
+  const inventoryBatchIds = Object.values(ids.inventoryBatches);
+
+  const expenseTypes = Object.values(TransportManagementExpensesTypeOptions);
+  const expenseStatuses = Object.values(TransportManagementExpensesStatusOptions);
+  const geofenceEventTypes = Object.values(TransportManagementGeofenceEventsTypeOptions);
+  const billingLogStatuses = Object.values(BillingManagementLogsStatusOptions);
+  const stockTransferStatuses = Object.values(WarehouseManagementStockTransferStatusOptions);
+  const returnStatuses = Object.values(WarehouseManagementReturnsStatusOptions);
+  const returnItemConditions = Object.values(WarehouseManagementReturnItemsConditionOptions);
+
+  // 1. Seed Expenses
+  console.log("  Creating expenses...");
+  for (let i = 0; i < 10; i++) {
+    try {
+      const expense = await pb.collection(Collections.TransportManagementExpenses).create({
+        trip: tripIds.length > 0 ? faker.helpers.arrayElement(tripIds) : undefined,
+        driver: faker.helpers.arrayElement(driverIds),
+        type: faker.helpers.arrayElement(expenseTypes),
+        amount: faker.number.float({ min: 50, max: 500, multipleOf: 0.01 }),
+        currency: "PHP",
+        fuelQuantity: faker.number.float({ min: 5, max: 50, multipleOf: 0.1 }),
+        odometerReading: faker.number.int({ min: 10000, max: 100000 }),
+        status: faker.helpers.arrayElement(expenseStatuses),
+      });
+      ids.expenses[`EXP-${i}`] = expense.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create expense:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.expenses).length} expenses`);
+
+  // 2. Seed Geofences
+  console.log("  Creating geofences...");
+  for (let i = 0; i < 5; i++) {
+    try {
+      const geofence = await pb.collection(Collections.TransportManagementGeofence).create({
+        name: faker.helpers.arrayElement([
+          "Main Warehouse",
+          "Customer Zone",
+          "Restricted Area",
+          "Service Area",
+          "Depot",
+        ]),
+        coordinates: {
+          lat: faker.location.latitude(),
+          lon: faker.location.longitude(),
+        },
+        radius: faker.number.int({ min: 100, max: 5000 }),
+      });
+      ids.geofences[`GEO-${i}`] = geofence.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create geofence:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.geofences).length} geofences`);
+
+  // 3. Seed Geofence Events
+  const geofenceIds = Object.values(ids.geofences);
+
+  console.log("  Creating geofence events...");
+  for (let i = 0; i < 15; i++) {
+    try {
+      await pb.collection(Collections.TransportManagementGeofenceEvents).create({
+        vehicle: faker.helpers.arrayElement(vehicleIds),
+        geofence: faker.helpers.arrayElement(geofenceIds),
+        type: faker.helpers.arrayElement(geofenceEventTypes),
+      });
+    } catch (error: any) {
+      console.error(`      ✗ Failed to create geofence event:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created geofence events`);
+
+  // 4. Seed Notifications
+  console.log("  Creating notifications...");
+  for (let i = 0; i < 15; i++) {
+    try {
+      await pb.collection(Collections.Notifications).create({
+        user: faker.helpers.arrayElement(userIds),
+        message: faker.lorem.sentence(),
+        isRead: faker.datatype.boolean(),
+        link: faker.datatype.boolean() ? faker.internet.url() : undefined,
+      });
+    } catch (error: any) {
+      console.error(`      ✗ Failed to create notification:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created notifications`);
+
+  // 5. Seed Billing Logs
+  console.log("  Creating billing logs...");
+  for (let i = 0; i < 10; i++) {
+    try {
+      await pb.collection(Collections.BillingManagementLogs).create({
+        recordId: faker.string.alphanumeric(15),
+        recordType: faker.helpers.arrayElement(["invoice", "payment", "quote"]),
+        externalSystem: faker.helpers.arrayElement(["accounting", "payment_gateway"]),
+        externalId: faker.string.alphanumeric(20),
+        status: faker.helpers.arrayElement(billingLogStatuses),
+        errorMessage: faker.datatype.boolean() ? faker.lorem.sentence() : undefined,
+        requestPayload: JSON.stringify({ request: faker.lorem.word() }),
+        responsePayload: JSON.stringify({ response: faker.lorem.word() }),
+        lastSyncAt: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        retryCount: faker.number.int({ min: 0, max: 5 }),
+      });
+    } catch (error: any) {
+      console.error(`      ✗ Failed to create billing log:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created billing logs`);
+
+  // 6. Seed Stock Transfers
+  console.log("  Creating stock transfers...");
+  for (let i = 0; i < 5; i++) {
+    try {
+      const transfer = await pb.collection(Collections.WarehouseManagementStockTransfer).create({
+        product: productIds.length > 0 ? faker.helpers.arrayElement(productIds) : undefined,
+        quantity: faker.number.int({ min: 10, max: 500 }),
+        status: faker.helpers.arrayElement(stockTransferStatuses),
+      });
+      ids.stockTransfers[`TRANSFER-${i}`] = transfer.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create stock transfer:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.stockTransfers).length} stock transfers`);
+
+  // 7. Seed Packages
+  console.log("  Creating packages...");
+  for (let i = 0; i < 12; i++) {
+    try {
+      const pkg = await pb.collection(Collections.WarehouseManagementPackages).create({
+        salesOrder: salesOrderIds.length > 0 ? faker.helpers.arrayElement(salesOrderIds) : undefined,
+        warehouse: faker.helpers.arrayElement(warehouseIds),
+        type: faker.helpers.arrayElement(["Box", "Envelope", "Bag", "Pallet"]),
+        weight: faker.number.float({ min: 0.5, max: 100, multipleOf: 0.1 }),
+        length: faker.number.float({ min: 10, max: 200, multipleOf: 1 }),
+        width: faker.number.float({ min: 10, max: 200, multipleOf: 1 }),
+        height: faker.number.float({ min: 10, max: 200, multipleOf: 1 }),
+        packedByUser: faker.helpers.arrayElement(userIds),
+        packedAt: faker.date.past({ years: 1 }).toISOString().split("T")[0],
+        shippedAt: faker.datatype.boolean() ? faker.date.past({ years: 1 }).toISOString().split("T")[0] : undefined,
+        isFragile: faker.datatype.boolean(0.3),
+        isHazmat: faker.datatype.boolean(0.1),
+        requireSignature: faker.datatype.boolean(0.4),
+        insuranceValue: faker.datatype.boolean()
+          ? faker.number.float({ min: 100, max: 5000, multipleOf: 0.01 })
+          : undefined,
+      });
+      ids.packages[`PACKAGE-${i}`] = pkg.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create package:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.packages).length} packages`);
+
+  // 8. Seed Package Items
+  const packageIds = Object.values(ids.packages);
+
+  console.log("  Creating package items...");
+  for (const packageId of packageIds) {
+    const numItems = faker.number.int({ min: 2, max: 3 });
+    for (let i = 0; i < numItems; i++) {
+      try {
+        await pb.collection(Collections.WarehouseManagementPackageItems).create({
+          package: packageId,
+          product: productIds.length > 0 ? faker.helpers.arrayElement(productIds) : undefined,
+          batch: inventoryBatchIds.length > 0 ? faker.helpers.arrayElement(inventoryBatchIds) : undefined,
+          quantity: faker.number.int({ min: 1, max: 50 }),
+          lotNumber: faker.string.alphanumeric(10).toUpperCase(),
+          expiryDate: faker.date.future({ years: 2 }).toISOString().split("T")[0],
+        });
+      } catch (error: any) {
+        console.error(`      ✗ Failed to create package item:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created package items`);
+
+  // 9. Seed Returns
+  console.log("  Creating returns...");
+  for (let i = 0; i < 5; i++) {
+    try {
+      const returnRecord = await pb.collection(Collections.WarehouseManagementReturns).create({
+        salesOrder: salesOrderIds.length > 0 ? faker.helpers.arrayElement(salesOrderIds) : undefined,
+        client: faker.helpers.arrayElement(companyIds),
+        status: faker.helpers.arrayElement(returnStatuses),
+        reason: faker.lorem.paragraph(),
+      });
+      ids.returns[`RETURN-${i}`] = returnRecord.id;
+    } catch (error: any) {
+      console.error(`    ✗ Failed to create return:`, error?.response?.message || error.message);
+    }
+  }
+  console.log(`    ✓ Created ${Object.keys(ids.returns).length} returns`);
+
+  // 10. Seed Return Items
+  const returnIds = Object.values(ids.returns);
+
+  console.log("  Creating return items...");
+  for (const returnId of returnIds) {
+    const numItems = faker.number.int({ min: 2, max: 3 });
+    for (let i = 0; i < numItems; i++) {
+      try {
+        await pb.collection(Collections.WarehouseManagementReturnItems).create({
+          return: returnId,
+          product: productIds.length > 0 ? faker.helpers.arrayElement(productIds) : undefined,
+          quantityExpected: faker.number.int({ min: 1, max: 20 }),
+          quantityReceived: faker.number.int({ min: 0, max: 20 }),
+          condition: faker.helpers.arrayElement(returnItemConditions),
+        });
+      } catch (error: any) {
+        console.error(`      ✗ Failed to create return item:`, error?.response?.message || error.message);
+      }
+    }
+  }
+  console.log(`    ✓ Created return items`);
+
+  console.log(
+    `✓ Phase 13 Complete: Created expenses, geofences, notifications, billing logs, stock transfers, packages, and returns`
+  );
+}
+
 async function main() {
   try {
     console.log("🚀 Starting PocketBase Seed Script...");
@@ -1001,6 +1810,18 @@ async function main() {
 
     // Phase 9: Transport Operations
     await seedPhase9TransportOperations();
+
+    // Phase 10: Billing System
+    await seedPhase10BillingSystem();
+
+    // Phase 11: Logistics Execution (TMS)
+    await seedPhase11LogisticsExecution();
+
+    // Phase 12: Delivery Management (DMS)
+    await seedPhase12DeliveryManagement();
+
+    // Phase 13: Advanced & Operational
+    await seedPhase13AdvancedOperational();
 
     console.log("\n✓ Seeding complete!");
     process.exit(0);
