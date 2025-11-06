@@ -13,10 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ListResult } from "pocketbase";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  data: ListResult<TData>;
 }
 
 export function DataTable<TData, TValue>({
@@ -24,7 +25,7 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data,
+    data: data.items,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
