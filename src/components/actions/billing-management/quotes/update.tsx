@@ -72,7 +72,7 @@ const UpdateQuoteFormDialog = () => {
 					})
 				}
 				title="Update Quote"
-				description="Edit Quote information"
+				description="Pricing quotes for shipments with route, dimensions, service level, and validity tracking"
 			>
 				<FieldSet>
 					{/* Identification */}
@@ -86,7 +86,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Quote Number"
-									description="Enter quotenumber"
+									description="Unique identifier for this quote"
+									tooltip="e.g., 'QUOTE-2024-001', 'QT-789456'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="The client requesting this quote"
+									tooltip="e.g., 'CLIENT-ABC', 'Enterprise Inc'"
 									placeholder=""
 								/>
 							)}
@@ -124,7 +126,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Origin Details"
-									description="Enter details"
+									description="Complete pickup location address and details"
+									tooltip="e.g., 'Manila, Philippines', '123 Main St, Makati City'"
 									placeholder=""
 								/>
 							)}
@@ -133,7 +136,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Destination Details"
-									description="Enter details"
+									description="Complete delivery destination address and details"
+									tooltip="e.g., 'Cebu, Philippines', '456 Oak Ave, Cebu City'"
 									placeholder=""
 								/>
 							)}
@@ -153,7 +157,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Weight"
-									description="Enter number"
+									description="Total weight of the shipment in kilograms"
+									tooltip="e.g., 50, 100, 250.5"
 									placeholder="0"
 									min={0}
 								/>
@@ -172,7 +177,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Length"
-									description="Enter number"
+									description="Length of package in centimeters"
+									tooltip="e.g., 30, 50, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -182,7 +188,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Width"
-									description="Enter number"
+									description="Width of package in centimeters"
+									tooltip="e.g., 20, 40, 80"
 									placeholder="0"
 									min={0}
 								/>
@@ -192,7 +199,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Height"
-									description="Enter number"
+									description="Height of package in centimeters"
+									tooltip="e.g., 15, 30, 60"
 									placeholder="0"
 									min={0}
 								/>
@@ -211,7 +219,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Service Level"
-									description="Enter servicelevel"
+									description="The type or speed of service requested"
+									tooltip="e.g., 'Standard', 'Express', 'Overnight', 'Economy'"
 									placeholder=""
 								/>
 							)}
@@ -229,7 +238,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quote Price"
-									description="Enter number"
+									description="The proposed price for this shipment"
+									tooltip="e.g., 500, 1500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -248,7 +258,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current state of this quote"
+									tooltip="e.g., pending, accepted, expired, converted"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Accepted", value: "accepted" },
@@ -275,7 +286,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Any special conditions, requirements, or notes about this quote"
+									tooltip="e.g., 'Special handling required', 'Fragile items', 'Temperature controlled'"
 									placeholder=""
 								/>
 							)}
@@ -293,7 +305,8 @@ const UpdateQuoteFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Expired At"
-									description="Select date"
+									description="The date when this quote is no longer valid"
+									tooltip="e.g., 02/15/2024, 03/31/2024"
 									placeholder=""
 								/>
 							)}

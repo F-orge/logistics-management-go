@@ -75,7 +75,7 @@ const UpdateAccountTransactionFormDialog = () => {
 					})
 				}
 				title="Update AccountTransaction"
-				description="Edit Accounttransaction information"
+				description="Logs all financial transactions (credits, debits, top-ups, refunds, adjustments) with running balance tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -87,7 +87,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client Account"
-									description="Enter clientaccount"
+									description="The client account this transaction is associated with"
+									tooltip="e.g., 'ACC-001', 'CLIENT-ABC-2024'"
 									placeholder=""
 								/>
 							)}
@@ -96,7 +97,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Reference Number"
-									description="Enter referencenumber"
+									description="External reference number for tracking (invoice, PO, or check number)"
+									tooltip="e.g., 'TXN-2024-12345', 'INV-789', 'PO-456'"
 									placeholder=""
 								/>
 							)}
@@ -114,7 +116,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Amount"
-									description="Enter number"
+									description="The transaction amount in the account currency"
+									tooltip="e.g., 100.50, 5000, 15000.75"
 									placeholder="0"
 									min={0}
 								/>
@@ -135,7 +138,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="The category of this transaction"
+									tooltip="e.g., credit, debit, top-up, refund"
 									options={[
 										{ label: "Credit", value: "credit" },
 										{ label: "Debit", value: "debit" },
@@ -161,7 +165,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Processed By"
-									description="Enter processedby"
+									description="The user or system that processed this transaction"
+									tooltip="e.g., 'John Doe', 'admin@company.com'"
 									placeholder=""
 								/>
 							)}
@@ -179,7 +184,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Transaction Date"
-									description="Select date"
+									description="The date when this transaction occurred"
+									tooltip="e.g., 01/15/2024, 12/25/2023"
 									placeholder=""
 								/>
 							)}
@@ -197,7 +203,8 @@ const UpdateAccountTransactionFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Running Balance"
-									description="Enter number"
+									description="The account balance remaining after this transaction is processed"
+									tooltip="e.g., 5000.50, 12000, 25000.00"
 									placeholder="0"
 									min={0}
 								/>

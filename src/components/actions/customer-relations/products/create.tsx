@@ -57,7 +57,7 @@ const CreateProductFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Product"
-				description="Fill out the form to create a new Product"
+				description="Catalogs products and services offered to customers with SKU, pricing, type, and descriptions"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="Product or service name"
+									tooltip="e.g., 'Premium Support', 'Software License'"
 									placeholder=""
 									required
 								/>
@@ -81,7 +82,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sku"
-									description="Enter sku"
+									description="Stock keeping unit"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -100,7 +102,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Price"
-									description="Enter number"
+									description="Product price"
+									tooltip="e.g., 100, 500.50, 5000"
 									placeholder="0"
 									min={0}
 									required
@@ -122,7 +125,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="Type of product offering"
+									tooltip="e.g., 'service', 'good', 'digital'"
 									options={[
 										{ label: "Service", value: "service" },
 										{ label: "Good", value: "good" },
@@ -147,7 +151,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Description"
-									description="Enter details"
+									description="Detailed product description"
+									tooltip="e.g., 'Includes 24/7 support and training'"
 									placeholder=""
 								/>
 							)}

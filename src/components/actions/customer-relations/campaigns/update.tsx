@@ -72,7 +72,7 @@ const UpdateCampaignFormDialog = () => {
 					})
 				}
 				title="Update Campaign"
-				description="Edit Campaign information"
+				description="Plans and tracks marketing campaigns with budget allocation and timeline management"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateCampaignFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="Campaign name or title"
+									tooltip="e.g., 'Summer Sale 2024', 'Q2 Marketing Push'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateCampaignFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Budget"
-									description="Enter number"
+									description="Total budget allocated for this campaign"
+									tooltip="e.g., 5000, 25000, 100000"
 									placeholder="0"
 									min={0}
 								/>
@@ -123,7 +125,8 @@ const UpdateCampaignFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Start Date"
-									description="Select date"
+									description="Campaign start date"
+									tooltip="e.g., 01/01/2024, 04/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -132,7 +135,8 @@ const UpdateCampaignFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="End Date"
-									description="Select date"
+									description="Campaign end date"
+									tooltip="e.g., 01/31/2024, 06/30/2024"
 									placeholder=""
 								/>
 							)}

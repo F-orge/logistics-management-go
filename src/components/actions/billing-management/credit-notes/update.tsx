@@ -72,7 +72,7 @@ const UpdateCreditNoteFormDialog = () => {
 					})
 				}
 				title="Update CreditNote"
-				description="Edit Creditnote information"
+				description="Issues credit to clients for returns, service failures, or adjustments with tracking of original invoices and disputes"
 			>
 				<FieldSet>
 					{/* Identification */}
@@ -86,7 +86,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Credit Note Number"
-									description="Enter creditnotenumber"
+									description="Unique identifier for this credit note"
+									tooltip="e.g., 'CN-2024-001', 'CR-789456'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Invoice"
-									description="Enter invoice"
+									description="Reference to the original invoice being credited"
+									tooltip="e.g., 'INV-2024-001', 'BL-789'"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Dispute"
-									description="Enter dispute"
+									description="Reference to the related dispute that triggered this credit"
+									tooltip="e.g., 'DSP-001', 'DSP-2024-456'"
 									placeholder=""
 								/>
 							)}
@@ -131,7 +134,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Reason"
-									description="Enter details"
+									description="The reason for issuing this credit note"
+									tooltip="e.g., 'Damaged shipment returned', 'Service not rendered as specified'"
 									placeholder=""
 								/>
 							)}
@@ -149,7 +153,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Amount"
-									description="Enter number"
+									description="The credit amount being issued"
+									tooltip="e.g., 100, 500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -168,7 +173,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Currency"
-									description="Enter currency"
+									description="The currency in which the credit is issued"
+									tooltip="e.g., 'PHP', 'USD', 'SGD'"
 									placeholder=""
 								/>
 							)}
@@ -186,7 +192,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Issue Date"
-									description="Select date"
+									description="The date when the credit note was issued"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -195,7 +202,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Applied At"
-									description="Select date"
+									description="The date when the credit was applied to the client account"
+									tooltip="e.g., 01/20/2024, 02/10/2024"
 									placeholder=""
 								/>
 							)}
@@ -215,7 +223,8 @@ const UpdateCreditNoteFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional notes about this credit note or resolution"
+									tooltip="e.g., 'Applied to next invoice', 'Refund processed'"
 									placeholder=""
 								/>
 							)}

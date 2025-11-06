@@ -72,7 +72,7 @@ const UpdateVehicleFormDialog = () => {
 					})
 				}
 				title="Update Vehicle"
-				description="Edit Vehicle information"
+				description="Tracks vehicle information including registration, status, specifications, and capacity limits for fleet management"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateVehicleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Registration Number"
-									description="Enter registrationnumber"
+									description="The vehicle's registration or license plate number"
+									tooltip="e.g., 'ABC-1234', 'MET-2024-001'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateVehicleFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current operational status of the vehicle"
+									tooltip="e.g., 'available', 'in-maintenance', 'on-trip'"
 									options={[
 										{ label: "Available", value: "available" },
 										{ label: "In Maintenance", value: "in-maintenance" },
@@ -130,8 +132,30 @@ const UpdateVehicleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Model"
-									description="Enter model"
+									description="The make and model of the vehicle"
+									tooltip="e.g., 'Isuzu ELF', 'Hino 500', 'Mitsubishi Canter'"
 									placeholder=""
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="fuelType">
+							{(field) => (
+								<field.TextField
+									label="Fuel Type"
+									description="The type of fuel this vehicle uses"
+									tooltip="e.g., 'Diesel', 'Gasoline', 'LPG'"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="yearManufactured">
+							{(field) => (
+								<field.NumberField
+									label="Year Manufactured"
+									description="The year the vehicle was manufactured"
+									tooltip="e.g., 2020, 2022, 2024"
+									placeholder="0"
+									min={0}
 								/>
 							)}
 						</form.AppField>
@@ -148,7 +172,8 @@ const UpdateVehicleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Capacity Weight"
-									description="Enter number"
+									description="Maximum weight capacity in kilograms"
+									tooltip="e.g., 3000, 5000, 10000"
 									placeholder="0"
 									min={0}
 								/>
@@ -158,9 +183,48 @@ const UpdateVehicleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Capacity Volume"
-									description="Enter number"
+									description="Maximum volume capacity in cubic meters"
+									tooltip="e.g., 15, 25, 50"
 									placeholder="0"
 									min={0}
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>History</FieldSeparator>
+
+					{/* History */}
+					<FieldGroup>
+						<FieldLegend>History</FieldLegend>
+						<FieldDescription>Manage history information</FieldDescription>
+
+						<form.AppField name="acquisitionDate">
+							{(field) => (
+								<field.DateTimeField
+									label="Acquisition Date"
+									description="The date when this vehicle was acquired"
+									tooltip="e.g., 01/15/2020, 06/01/2023"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Maintenance</FieldSeparator>
+
+					{/* Maintenance */}
+					<FieldGroup>
+						<FieldLegend>Maintenance</FieldLegend>
+						<FieldDescription>Manage maintenance information</FieldDescription>
+
+						<form.AppField name="nextMaintenanceDate">
+							{(field) => (
+								<field.DateTimeField
+									label="Next Maintenance Date"
+									description="Scheduled next maintenance date"
+									tooltip="e.g., 01/15/2024, 03/01/2024"
+									placeholder=""
 								/>
 							)}
 						</form.AppField>

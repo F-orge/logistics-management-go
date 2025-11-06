@@ -57,7 +57,7 @@ const CreateInventoryStockFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create InventoryStock"
-				description="Fill out the form to create a new Inventorystock"
+				description="Tracks current inventory levels by product and location with batch/lot information, reservation tracking, and movement history"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product this stock record is for"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Location"
-									description="Enter location"
+									description="The warehouse location where this stock is stored"
+									tooltip="e.g., 'LOC-001', 'Bin A5'"
 									placeholder=""
 									required
 								/>
@@ -98,7 +100,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity"
-									description="Enter number"
+									description="The current quantity on hand"
+									tooltip="e.g., 50, 100, 500"
 									placeholder="0"
 									min={0}
 									required
@@ -109,7 +112,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Reserved Quantity"
-									description="Enter number"
+									description="Quantity reserved for pending orders"
+									tooltip="e.g., 10, 25, 50"
 									placeholder="0"
 									min={0}
 								/>
@@ -130,7 +134,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Batch"
-									description="Enter batch"
+									description="Batch or lot number of the stock"
+									tooltip="e.g., 'BATCH-2024-001', 'LOT123'"
 									placeholder=""
 								/>
 							)}
@@ -148,7 +153,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The status of this inventory"
+									tooltip="e.g., 'on-hand', 'allocated', 'reserved'"
 									options={[
 										{ label: "On Hand", value: "on-hand" },
 										{ label: "Allocated", value: "allocated" },
@@ -174,7 +180,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Last Movement At"
-									description="Select date and time"
+									description="Timestamp of the last stock movement"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
 									placeholder=""
 								/>
 							)}
@@ -183,7 +190,8 @@ const CreateInventoryStockFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Last Counted At"
-									description="Select date and time"
+									description="Timestamp of the last inventory count"
+									tooltip="e.g., 01/10/2024, 01/31/2024"
 									placeholder=""
 								/>
 							)}

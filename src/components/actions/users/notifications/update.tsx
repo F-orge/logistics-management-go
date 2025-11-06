@@ -71,7 +71,7 @@ const UpdateNotificationFormDialog = () => {
 					})
 				}
 				title="Update Notification"
-				description="Edit Notification information"
+				description="System notifications sent to users with message content, action links, and read status tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -83,7 +83,8 @@ const UpdateNotificationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="User"
-									description="Enter user"
+									description="User receiving this notification"
+									tooltip="e.g., 'USR-001', 'John Doe'"
 									placeholder=""
 								/>
 							)}
@@ -101,7 +102,8 @@ const UpdateNotificationFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Message"
-									description="Enter details"
+									description="Content of the notification message"
+									tooltip="e.g., 'Order #123 has been shipped'"
 									placeholder=""
 								/>
 							)}
@@ -119,7 +121,8 @@ const UpdateNotificationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Link"
-									description="Enter link"
+									description="URL link for notification action"
+									tooltip="e.g., '/orders/123', '/dashboard'"
 									placeholder=""
 								/>
 							)}
@@ -137,7 +140,8 @@ const UpdateNotificationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Read"
-									description="Enter isread"
+									description="Whether the notification has been read"
+									tooltip="e.g., true, false"
 									placeholder=""
 								/>
 							)}

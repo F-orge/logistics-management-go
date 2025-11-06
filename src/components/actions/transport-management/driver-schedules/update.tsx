@@ -72,7 +72,7 @@ const UpdateDriverScheduleFormDialog = () => {
 					})
 				}
 				title="Update DriverSchedule"
-				description="Edit Driverschedule information"
+				description="Manages driver availability schedules including vacations, sick leave, training, and personal time off"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateDriverScheduleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Driver"
-									description="Enter driver"
+									description="The driver this schedule applies to"
+									tooltip="e.g., 'DRV-001', 'Juan Dela Cruz'"
 									placeholder=""
 								/>
 							)}
@@ -102,7 +103,8 @@ const UpdateDriverScheduleFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Start Date"
-									description="Select date"
+									description="The start date of this schedule period"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateDriverScheduleFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="End Date"
-									description="Select date"
+									description="The end date of this schedule period"
+									tooltip="e.g., 01/22/2024, 02/15/2024"
 									placeholder=""
 								/>
 							)}
@@ -129,7 +132,8 @@ const UpdateDriverScheduleFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Reason"
-									description="Select an option"
+									description="The reason for this schedule change"
+									tooltip="e.g., 'vacation', 'sick-leave', 'training'"
 									options={[
 										{ label: "Vacation", value: "vacation" },
 										{ label: "Sick Leave", value: "sick-leave" },

@@ -72,7 +72,7 @@ const UpdateRateRuleFormDialog = () => {
 					})
 				}
 				title="Update RateRule"
-				description="Edit Raterule information"
+				description="Specifies conditional pricing rules for rate cards with support for different pricing models (per-kg, per-item, flat-rate, etc.) and priority-based application"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Rate Card"
-									description="Enter ratecard"
+									description="Select the rate card this rule applies to"
+									tooltip="e.g., 'RC-2024-001', 'Shipping-Standard'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Value"
-									description="Enter value"
+									description="The value that triggers this pricing rule to be applied"
+									tooltip="e.g., '50', 'domestic', 'express'"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Condition"
-									description="Enter condition"
+									description="The condition or criteria for when this rule should apply"
+									tooltip="e.g., 'weight > 50', 'zone = domestic', 'shipment_type = express'"
 									placeholder=""
 								/>
 							)}
@@ -131,7 +134,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Price"
-									description="Enter number"
+									description="The price amount for this rule based on the pricing model"
+									tooltip="e.g., 25.50, 100, 1500"
 									placeholder="0"
 									min={0}
 								/>
@@ -141,7 +145,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Pricing Model"
-									description="Select an option"
+									description="The calculation method used to apply this price"
+									tooltip="e.g., per-kg, per-item, flat-rate, percentage"
 									options={[
 										{ label: "Per Kg", value: "per-kg" },
 										{ label: "Per Item", value: "per-item" },
@@ -168,7 +173,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Priority"
-									description="Enter number"
+									description="Priority order for rule application (lower numbers apply first)"
+									tooltip="e.g., 1, 5, 10 (1 = highest priority)"
 									placeholder="0"
 									min={0}
 								/>
@@ -187,7 +193,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Min Value"
-									description="Enter number"
+									description="Minimum threshold value for this rule to be applicable"
+									tooltip="e.g., 1, 10, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -197,7 +204,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Max Value"
-									description="Enter number"
+									description="Maximum threshold value for this rule to be applicable"
+									tooltip="e.g., 100, 1000, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -216,7 +224,8 @@ const UpdateRateRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Active"
-									description="Enter isactive"
+									description="Mark whether this rule is currently active and should be applied"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}

@@ -57,7 +57,7 @@ const CreateLeadFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Lead"
-				description="Fill out the form to create a new Lead"
+				description="Tracks sales leads including scoring, source, status, and assignment to sales representatives"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name of the sales lead"
+									tooltip="e.g., 'John Doe', 'ABC Company'"
 									placeholder=""
 								/>
 							)}
@@ -80,7 +81,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.EmailField
 									label="Email"
-									description="Enter email address"
+									description="Email address of the lead contact"
+									tooltip="e.g., 'john@company.com', 'contact@business.com'"
 									placeholder="example@email.com"
 								/>
 							)}
@@ -98,7 +100,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Score"
-									description="Enter number"
+									description="Lead scoring value between 0-100"
+									tooltip="e.g., 25, 50, 75"
 									placeholder="0"
 									min={0}
 									required
@@ -109,7 +112,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Source"
-									description="Select an option"
+									description="Where this lead originated from"
+									tooltip="e.g., 'website', 'referral', 'social-media'"
 									options={[
 										{ label: "Website", value: "website" },
 										{ label: "Referral", value: "referral" },
@@ -130,7 +134,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status in the sales pipeline"
+									tooltip="e.g., 'new', 'contacted', 'qualified'"
 									options={[
 										{ label: "New", value: "new" },
 										{ label: "Contacted", value: "contacted" },
@@ -158,7 +163,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Campaign"
-									description="Enter campaign"
+									description="Associated marketing campaign"
+									tooltip="e.g., 'CAM-2024-001', 'Summer Sale'"
 									placeholder=""
 								/>
 							)}
@@ -176,7 +182,8 @@ const CreateLeadFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Owner"
-									description="Enter owner"
+									description="Sales representative assigned to this lead"
+									tooltip="e.g., 'John Sales', 'sales-rep@company.com'"
 									placeholder=""
 									required
 								/>

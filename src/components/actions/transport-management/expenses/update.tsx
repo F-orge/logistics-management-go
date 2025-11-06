@@ -72,7 +72,7 @@ const UpdateExpenseFormDialog = () => {
 					})
 				}
 				title="Update Expense"
-				description="Edit Expense information"
+				description="Driver or trip-related expenses such as fuel, maintenance, tolls, and parking for reimbursement tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Driver"
-									description="Enter driver"
+									description="The driver who incurred this expense"
+									tooltip="e.g., 'DRV-001', 'Juan Dela Cruz'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Trip"
-									description="Enter trip"
+									description="The trip or delivery this expense relates to"
+									tooltip="e.g., 'TRIP-2024-001', 'DLV-456'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="The category of expense"
+									tooltip="e.g., 'fuel', 'maintenance', 'tolls', 'parking'"
 									options={[
 										{ label: "Fuel", value: "fuel" },
 										{ label: "Maintenance", value: "maintenance" },
@@ -136,7 +139,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Amount"
-									description="Enter number"
+									description="The amount spent"
+									tooltip="e.g., 500, 1500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -155,7 +159,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Currency"
-									description="Select an option"
+									description="The currency of the expense"
+									tooltip="e.g., 'PHP', 'USD', 'EUR'"
 									options={[
 										{ label: "PHP", value: "PHP" },
 										{ label: "USD", value: "USD" },
@@ -179,7 +184,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Odometer Reading"
-									description="Enter number"
+									description="The vehicle odometer reading at the time of expense"
+									tooltip="e.g., 12500, 45678.5, 98765"
 									placeholder="0"
 									min={0}
 								/>
@@ -198,7 +204,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Fuel Quantity"
-									description="Enter number"
+									description="Quantity of fuel purchased in liters (if fuel expense)"
+									tooltip="e.g., 10, 25.5, 50"
 									placeholder="0"
 									min={0}
 								/>
@@ -217,7 +224,8 @@ const UpdateExpenseFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The reimbursement status of this expense"
+									tooltip="e.g., 'pending', 'approved', 'reimbursed'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Approved", value: "approved" },

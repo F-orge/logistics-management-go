@@ -57,7 +57,7 @@ const CreateLocationFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Location"
-				description="Fill out the form to create a new Location"
+				description="Defines storage locations within warehouses (zones, aisles, racks, bins, etc.) with hierarchical structure, capacity limits, and operational constraints"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name or identifier for this location"
+									tooltip="e.g., 'Zone A', 'Aisle 5', 'Rack B-12'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The parent warehouse this location belongs to"
+									tooltip="e.g., 'Manila Warehouse', 'Cebu Center'"
 									placeholder=""
 									required
 								/>
@@ -111,7 +113,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="The type of location in the warehouse hierarchy"
+									tooltip="e.g., 'zone', 'aisle', 'rack', 'bin'"
 									options={[
 										{ label: "Zone", value: "zone" },
 										{ label: "Aisle", value: "aisle" },
@@ -142,7 +145,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Parent Location"
-									description="Enter parentlocation"
+									description="Parent location if this is a sub-location"
+									tooltip="e.g., 'Zone A', 'Aisle 5'"
 									placeholder=""
 								/>
 							)}
@@ -162,7 +166,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Barcode"
-									description="Enter barcode"
+									description="Barcode for this location"
+									tooltip="e.g., 'LOC-001', 'BIN-A5-12'"
 									placeholder=""
 								/>
 							)}
@@ -182,7 +187,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Level"
-									description="Enter number"
+									description="Height level (0 = ground level)"
+									tooltip="e.g., 0, 1, 2, 3"
 									placeholder="0"
 									min={0}
 								/>
@@ -201,7 +207,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Max Weight"
-									description="Enter number"
+									description="Maximum weight capacity in kilograms"
+									tooltip="e.g., 500, 1000, 2000"
 									placeholder="0"
 									min={0}
 								/>
@@ -211,7 +218,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Max Volume"
-									description="Enter number"
+									description="Maximum volume capacity in cubic meters"
+									tooltip="e.g., 5, 10, 25"
 									placeholder="0"
 									min={0}
 								/>
@@ -221,7 +229,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Max Pallets"
-									description="Enter number"
+									description="Maximum number of pallets allowed at this location"
+									tooltip="e.g., 1, 2, 4"
 									placeholder="0"
 									min={0}
 								/>
@@ -240,7 +249,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Active"
-									description="Enter isactive"
+									description="Whether this location is available for storage"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -258,7 +268,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Pickable"
-									description="Enter ispickable"
+									description="Whether items can be picked from this location"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -267,7 +278,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Receivable"
-									description="Enter isreceivable"
+									description="Whether items can be received at this location"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -285,7 +297,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Temperature Controlled"
-									description="Enter temperaturecontrolled"
+									description="Whether this location has temperature control"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -294,7 +307,8 @@ const CreateLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Hazmat Approved"
-									description="Enter hazmatapproved"
+									description="Whether this location is approved for hazardous materials"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}

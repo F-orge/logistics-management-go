@@ -72,7 +72,7 @@ const UpdateProductFormDialog = () => {
 					})
 				}
 				title="Update Product"
-				description="Edit Product information"
+				description="Catalogs products and services offered to customers with SKU, pricing, type, and descriptions"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="Product or service name"
+									tooltip="e.g., 'Premium Support', 'Software License'"
 									placeholder=""
 								/>
 							)}
@@ -95,7 +96,8 @@ const UpdateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sku"
-									description="Enter sku"
+									description="Stock keeping unit"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Price"
-									description="Enter number"
+									description="Product price"
+									tooltip="e.g., 100, 500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -134,7 +137,8 @@ const UpdateProductFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="Type of product offering"
+									tooltip="e.g., 'service', 'good', 'digital'"
 									options={[
 										{ label: "Service", value: "service" },
 										{ label: "Good", value: "good" },
@@ -158,7 +162,8 @@ const UpdateProductFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Description"
-									description="Enter details"
+									description="Detailed product description"
+									tooltip="e.g., 'Includes 24/7 support and training'"
 									placeholder=""
 								/>
 							)}

@@ -75,7 +75,7 @@ const UpdatePartnerInvoiceItemFormDialog = () => {
 					})
 				}
 				title="Update PartnerInvoiceItem"
-				description="Edit Partnerinvoiceitem information"
+				description="Individual line items on partner invoices detailing charges for specific shipment legs"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -87,7 +87,8 @@ const UpdatePartnerInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Partner Invoice"
-									description="Enter partnerinvoice"
+									description="The partner invoice this item belongs to"
+									tooltip="e.g., 'PINV-001', 'DHL-INV-2024-001'"
 									placeholder=""
 								/>
 							)}
@@ -96,7 +97,8 @@ const UpdatePartnerInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Shipment Leg"
-									description="Enter shipmentleg"
+									description="The shipment leg being charged for"
+									tooltip="e.g., 'LEG-001', 'SLP-2024-001'"
 									placeholder=""
 								/>
 							)}
@@ -114,7 +116,38 @@ const UpdatePartnerInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Amount"
-									description="Enter number"
+									description="The charge amount for this line item"
+									tooltip="e.g., 500, 1500.50, 5000"
+									placeholder="0"
+									min={0}
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Details</FieldSeparator>
+
+					{/* Details */}
+					<FieldGroup>
+						<FieldLegend>Details</FieldLegend>
+						<FieldDescription>Manage details information</FieldDescription>
+
+						<form.AppField name="description">
+							{(field) => (
+								<field.TextareaField
+									label="Description"
+									description="Description of the service or charges"
+									tooltip="e.g., 'Shipment from Manila to Cebu', 'Freight charges'"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="quantity">
+							{(field) => (
+								<field.NumberField
+									label="Quantity"
+									description="The quantity of items or units being charged"
+									tooltip="e.g., 1, 5, 10"
 									placeholder="0"
 									min={0}
 								/>

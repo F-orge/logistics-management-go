@@ -57,7 +57,7 @@ const CreateReorderPointFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create ReorderPoint"
-				description="Fill out the form to create a new Reorderpoint"
+				description="Sets minimum quantity thresholds for products in each warehouse to trigger automatic reordering"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateReorderPointFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse for this reorder point"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreateReorderPointFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product to monitor"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -98,7 +100,8 @@ const CreateReorderPointFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Threshold"
-									description="Enter number"
+									description="Minimum quantity that triggers reordering"
+									tooltip="e.g., 50, 100, 200"
 									placeholder="0"
 									min={0}
 								/>

@@ -72,7 +72,7 @@ const UpdateCarrierFormDialog = () => {
 					})
 				}
 				title="Update Carrier"
-				description="Edit Carrier information"
+				description="Third-party carriers or logistics partners providing transportation and delivery services"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateCarrierFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name of the carrier company"
+									tooltip="e.g., 'DHL Express', 'FedEx Philippines', 'Local Courier Co'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateCarrierFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Contact Details"
-									description="Enter details"
+									description="Primary contact information for the carrier"
+									tooltip="e.g., '+63 2 1234-5678', 'contact@carrier.com', 'Manila Branch'"
 									placeholder=""
 								/>
 							)}
@@ -122,8 +124,53 @@ const UpdateCarrierFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Service Offered"
-									description="Enter details"
+									description="Description of services provided by this carrier"
+									tooltip="e.g., 'Ground shipping', 'Express delivery', 'International services'"
 									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Capabilities</FieldSeparator>
+
+					{/* Capabilities */}
+					<FieldGroup>
+						<FieldLegend>Capabilities</FieldLegend>
+						<FieldDescription>Manage capabilities information</FieldDescription>
+
+						<form.AppField name="capacity">
+							{(field) => (
+								<field.TextField
+									label="Capacity"
+									description="The service tier or capacity level this carrier provides"
+									tooltip="e.g., 'Standard', 'Premium', 'Bulk'"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Status</FieldSeparator>
+
+					{/* Status */}
+					<FieldGroup>
+						<FieldLegend>Status</FieldLegend>
+						<FieldDescription>Manage status information</FieldDescription>
+
+						<form.AppField name="isActive">
+							{(field) => (
+								<field.SelectField
+									label="Is Active"
+									description="Whether this carrier is currently active and available for bookings"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
+									options={[
+										{ label: "Yes", value: "yes" },
+										{ label: "No", value: "no" },
+										{ label: "True", value: "true" },
+										{ label: "False", value: "false" },
+									]}
+									placeholder="Select..."
 								/>
 							)}
 						</form.AppField>

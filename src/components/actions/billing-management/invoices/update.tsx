@@ -72,7 +72,7 @@ const UpdateInvoiceFormDialog = () => {
 					})
 				}
 				title="Update Invoice"
-				description="Edit Invoice information"
+				description="Generates billing invoices for clients with line items, tax calculations, and payment tracking"
 			>
 				<FieldSet>
 					{/* Identification */}
@@ -86,7 +86,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Invoice Number"
-									description="Enter invoicenumber"
+									description="Unique identifier for this invoice"
+									tooltip="e.g., 'INV-2024-001', 'BL-789456'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Issue Date"
-									description="Select date"
+									description="The date when the invoice is created and sent"
+									tooltip="e.g., 01/15/2024, 12/01/2023"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Due Date"
-									description="Select date"
+									description="The deadline by which payment must be received"
+									tooltip="e.g., 02/15/2024, 01/30/2024"
 									placeholder=""
 								/>
 							)}
@@ -131,7 +134,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current state of the invoice"
+									tooltip="e.g., draft, sent, paid, past-due"
 									options={[
 										{ label: "Draft", value: "draft" },
 										{ label: "Sent", value: "sent" },
@@ -160,7 +164,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Currency"
-									description="Enter currency"
+									description="The currency code for all amounts on this invoice"
+									tooltip="e.g., 'USD', 'EUR', 'GBP', 'PHP'"
 									placeholder=""
 								/>
 							)}
@@ -169,7 +174,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Subtotal"
-									description="Enter number"
+									description="The sum of all line items before any adjustments"
+									tooltip="e.g., 1000, 5500.50, 25000.75"
 									placeholder="0"
 									min={0}
 								/>
@@ -179,7 +185,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Discount Amount"
-									description="Enter number"
+									description="Total discount applied to the invoice"
+									tooltip="e.g., 100, 250.50, 1000"
 									placeholder="0"
 									min={0}
 								/>
@@ -189,7 +196,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Amount"
-									description="Enter number"
+									description="The final amount owed including all taxes and adjustments"
+									tooltip="e.g., 1100, 6000, 28000"
 									placeholder="0"
 									min={0}
 								/>
@@ -210,7 +218,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional information or messages for the invoice recipient"
+									tooltip="e.g., 'Thank you for your business', 'Please reference invoice number in payment'"
 									placeholder=""
 								/>
 							)}
@@ -228,7 +237,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Payment Terms"
-									description="Enter details"
+									description="Payment terms and conditions specific to this invoice"
+									tooltip="e.g., 'Net 30', '50% upfront, 50% on delivery', '2/10 net 30'"
 									placeholder=""
 								/>
 							)}
@@ -246,7 +256,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Quote"
-									description="Enter quote"
+									description="Link to the original quote if this invoice is based on one"
+									tooltip="e.g., 'QUOTE-2024-001', 'QT-456'"
 									placeholder=""
 								/>
 							)}

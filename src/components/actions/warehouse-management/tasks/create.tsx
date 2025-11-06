@@ -57,7 +57,7 @@ const CreateTaskFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Task"
-				description="Fill out the form to create a new Task"
+				description="Manages warehouse tasks (picking, putaway, packing, restocking, counting) with assignment and timing"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse for this task"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 								/>
 							)}
@@ -89,7 +90,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Task Number"
-									description="Enter tasknumber"
+									description="Unique task identifier"
+									tooltip="e.g., 'TASK-2024-001', 'PK-789'"
 									placeholder=""
 									required
 								/>
@@ -108,7 +110,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="Type of warehouse task to perform"
+									tooltip="e.g., 'pick', 'putaway', 'packing', 'restock'"
 									options={[
 										{ label: "Pick", value: "pick" },
 										{ label: "Putaway", value: "putaway" },
@@ -134,7 +137,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the task"
+									tooltip="e.g., 'pending', 'in-progress', 'completed'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Assigned", value: "assigned" },
@@ -159,7 +163,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Priority"
-									description="Enter number"
+									description="Priority level for this task"
+									tooltip="e.g., 1 (highest), 2, 3"
 									placeholder="0"
 									min={0}
 									required
@@ -179,7 +184,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="User"
-									description="Enter user"
+									description="User assigned to this task"
+									tooltip="e.g., 'WRK-001', 'Juan Dela Cruz'"
 									placeholder=""
 								/>
 							)}
@@ -197,7 +203,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Start Time"
-									description="Select date and time"
+									description="When task was started"
+									tooltip="e.g., 01/15/2024 08:30 AM"
 									placeholder=""
 								/>
 							)}
@@ -206,7 +213,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="End Time"
-									description="Select date and time"
+									description="When task was completed"
+									tooltip="e.g., 01/15/2024 02:30 PM"
 									placeholder=""
 								/>
 							)}
@@ -224,7 +232,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Instructions"
-									description="Enter details"
+									description="Detailed instructions for completing the task"
+									tooltip="e.g., 'Pick items in FIFO order', 'Use zone 5 bins first'"
 									placeholder=""
 								/>
 							)}
@@ -242,7 +251,8 @@ const CreateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional notes about the task"
+									tooltip="e.g., 'Item out of stock', 'Bin damaged'"
 									placeholder=""
 								/>
 							)}

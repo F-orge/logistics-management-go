@@ -57,7 +57,7 @@ const CreatePickBatchItemFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create PickBatchItem"
-				description="Fill out the form to create a new Pickbatchitem"
+				description="Links sales orders to pick batches tracking pick priority and time performance data"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreatePickBatchItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Pick Batch"
-									description="Enter pickbatch"
+									description="The pick batch this item belongs to"
+									tooltip="e.g., 'PB-2024-001', 'PICK-789'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreatePickBatchItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sales Order"
-									description="Enter salesorder"
+									description="The sales order to pick"
+									tooltip="e.g., 'SO-2024-001', 'ORD-789'"
 									placeholder=""
 									required
 								/>
@@ -98,7 +100,8 @@ const CreatePickBatchItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Order Priority"
-									description="Enter number"
+									description="Picking priority within this batch"
+									tooltip="e.g., 1, 2, 3"
 									placeholder="0"
 									min={0}
 								/>
@@ -117,7 +120,8 @@ const CreatePickBatchItemFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Estimated Pick Time"
-									description="Select date and time"
+									description="Select a date and time for estimated pick time"
+									tooltip="Estimated pick time"
 									placeholder=""
 								/>
 							)}
@@ -126,7 +130,8 @@ const CreatePickBatchItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Actual Pick Time"
-									description="Enter number"
+									description="Enter a numeric value for actual pick time"
+									tooltip="Actual pick time in seconds"
 									placeholder="0"
 									min={0}
 								/>

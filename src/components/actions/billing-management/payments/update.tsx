@@ -72,7 +72,7 @@ const UpdatePaymentFormDialog = () => {
 					})
 				}
 				title="Update Payment"
-				description="Edit Payment information"
+				description="Logs payment transactions with method, amount, status, and gateway references for financial tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Invoice"
-									description="Enter invoice"
+									description="The invoice this payment is for"
+									tooltip="e.g., 'INV-2024-001', 'BL-789'"
 									placeholder=""
 								/>
 							)}
@@ -102,7 +103,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Amount"
-									description="Enter number"
+									description="The amount paid by the client"
+									tooltip="e.g., 500, 1500.50, 10000"
 									placeholder="0"
 									min={0}
 								/>
@@ -112,7 +114,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Net Amount"
-									description="Enter number"
+									description="The net amount received after deducting fees"
+									tooltip="e.g., 490, 1450, 9900"
 									placeholder="0"
 									min={0}
 								/>
@@ -131,7 +134,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Payment Date"
-									description="Select date"
+									description="The date when payment was received"
+									tooltip="e.g., 01/20/2024, 02/15/2024"
 									placeholder=""
 								/>
 							)}
@@ -149,7 +153,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Payment Method"
-									description="Select an option"
+									description="The method used to make this payment"
+									tooltip="e.g., credit-card, bank-transfer, wallet, cash"
 									options={[
 										{ label: "Credit Card", value: "credit-card" },
 										{ label: "Debit Card", value: "debit-card" },
@@ -177,7 +182,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current state of this payment"
+									tooltip="e.g., pending, successful, failed, refunded"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Processing", value: "processing" },
@@ -203,7 +209,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Transaction Id"
-									description="Enter transactionid"
+									description="Unique transaction identifier from payment processor"
+									tooltip="e.g., 'TXN-123456789', 'TRANS-PHP-001'"
 									placeholder=""
 								/>
 							)}
@@ -221,7 +228,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Gateway Reference Id"
-									description="Enter gatewayreferenceid"
+									description="Reference ID provided by the payment gateway"
+									tooltip="e.g., 'GWAY-456789', 'PG-REF-123'"
 									placeholder=""
 								/>
 							)}
@@ -239,7 +247,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Currency"
-									description="Enter currency"
+									description="The currency in which payment was made"
+									tooltip="e.g., 'PHP', 'USD', 'EUR'"
 									placeholder=""
 								/>
 							)}
@@ -257,7 +266,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Fees"
-									description="Enter number"
+									description="Processing or transaction fees charged for this payment"
+									tooltip="e.g., 10, 50.50, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -278,7 +288,8 @@ const UpdatePaymentFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Any additional notes or details about this payment"
+									tooltip="e.g., 'Early payment discount applied', 'Partial payment'"
 									placeholder=""
 								/>
 							)}

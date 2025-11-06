@@ -57,7 +57,7 @@ const CreateTripStopFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create TripStop"
-				description="Fill out the form to create a new Tripstop"
+				description="Defines individual stops within a trip with sequencing, location details, shipment references, and timing estimates"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Trip"
-									description="Enter trip"
+									description="The trip this stop is part of"
+									tooltip="e.g., 'TRIP-2024-001', 'DLV-456'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Shipment"
-									description="Enter shipment"
+									description="The shipment being delivered or picked up at this stop"
+									tooltip="e.g., 'SHP-2024-001', 'BL-789456'"
 									placeholder=""
 								/>
 							)}
@@ -97,7 +99,8 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Sequence"
-									description="Enter number"
+									description="The sequence number of this stop in the trip order"
+									tooltip="e.g., 1, 2, 3, 4"
 									placeholder="0"
 									min={0}
 									required
@@ -117,7 +120,8 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current status of this stop"
+									tooltip="e.g., 'pending', 'arrived', 'completed'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Arrived", value: "arrived" },
@@ -142,7 +146,8 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Address"
-									description="Enter address"
+									description="The physical address of this stop"
+									tooltip="e.g., '123 Main St, QC', 'Warehouse Building A'"
 									placeholder=""
 								/>
 							)}
@@ -160,7 +165,8 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Estimated Arrival Time"
-									description="Select date and time"
+									description="The estimated time of arrival at this stop"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
 									placeholder=""
 								/>
 							)}
@@ -169,7 +175,27 @@ const CreateTripStopFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Estimated Departure Time"
-									description="Select date and time"
+									description="The estimated time of departure from this stop"
+									tooltip="e.g., 01/15/2024 11:00 AM, 02/01/2024 15:15"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Notes</FieldSeparator>
+
+					{/* Notes */}
+					<FieldGroup>
+						<FieldLegend>Notes</FieldLegend>
+						<FieldDescription>Manage notes information</FieldDescription>
+
+						<form.AppField name="notes">
+							{(field) => (
+								<field.TextareaField
+									label="Notes"
+									description="Special instructions or notes for this stop"
+									tooltip="e.g., 'Ring bell twice', 'Signature required'"
 									placeholder=""
 								/>
 							)}

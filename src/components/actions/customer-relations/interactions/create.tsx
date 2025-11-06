@@ -57,7 +57,7 @@ const CreateInteractionFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Interaction"
-				description="Fill out the form to create a new Interaction"
+				description="Logs customer interactions (calls, meetings, emails, texts) with notes, outcomes, and assignments"
 			>
 				<FieldSet>
 					{/* Contact Information */}
@@ -71,7 +71,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Contact"
-									description="Enter contact"
+									description="The contact involved in this interaction"
+									tooltip="e.g., 'John Doe', 'Jane Smith'"
 									placeholder=""
 									required
 								/>
@@ -92,7 +93,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="Type of customer interaction"
+									tooltip="e.g., 'call', 'meeting', 'email'"
 									options={[
 										{ label: "Call", value: "call" },
 										{ label: "Meeting", value: "meeting" },
@@ -108,7 +110,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Interaction Date"
-									description="Select date and time"
+									description="Date and time when the interaction took place"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
 									placeholder=""
 									required
 								/>
@@ -118,7 +121,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Notes or summary of the interaction"
+									tooltip="e.g., 'Discussed pricing', 'Client interested in Q2 rollout'"
 									placeholder=""
 								/>
 							)}
@@ -127,7 +131,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Outcome"
-									description="Enter outcome"
+									description="Outcome or result of the interaction"
+									tooltip="e.g., 'Follow-up needed', 'Deal moved forward'"
 									placeholder=""
 								/>
 							)}
@@ -147,7 +152,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Case"
-									description="Enter case"
+									description="Related support case if applicable"
+									tooltip="e.g., 'CASE-001', 'Support-123'"
 									placeholder=""
 								/>
 							)}
@@ -165,7 +171,8 @@ const CreateInteractionFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="User"
-									description="Enter user"
+									description="User who conducted this interaction"
+									tooltip="e.g., 'John Interaction', 'user@company.com'"
 									placeholder=""
 									required
 								/>

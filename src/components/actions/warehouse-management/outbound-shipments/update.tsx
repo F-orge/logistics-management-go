@@ -75,7 +75,7 @@ const UpdateOutboundShipmentFormDialog = () => {
 					})
 				}
 				title="Update OutboundShipment"
-				description="Edit Outboundshipment information"
+				description="Records outbound shipments to customers linked to sales orders with carrier tracking information"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -87,7 +87,8 @@ const UpdateOutboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sales Order"
-									description="Enter salesorder"
+									description="The sales order this shipment fulfills"
+									tooltip="e.g., 'SO-2024-001', 'ORD-789'"
 									placeholder=""
 								/>
 							)}
@@ -96,7 +97,8 @@ const UpdateOutboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse shipping this order"
+									tooltip="e.g., 'Manila Warehouse', 'Cebu Center'"
 									placeholder=""
 								/>
 							)}
@@ -105,7 +107,8 @@ const UpdateOutboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Carrier"
-									description="Enter carrier"
+									description="The carrier handling this shipment"
+									tooltip="e.g., 'DHL', 'FedEx'"
 									placeholder=""
 								/>
 							)}
@@ -123,7 +126,8 @@ const UpdateOutboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Tracking Number"
-									description="Enter trackingnumber"
+									description="Carrier's tracking number"
+									tooltip="e.g., '1234567890AB', 'TRK-2024-123'"
 									placeholder=""
 								/>
 							)}
@@ -141,7 +145,8 @@ const UpdateOutboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the outbound shipment"
+									tooltip="e.g., 'pending', 'packing', 'shipped'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Packing", value: "packing" },

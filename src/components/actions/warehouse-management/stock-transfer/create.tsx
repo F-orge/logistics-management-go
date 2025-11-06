@@ -57,7 +57,7 @@ const CreateStockTransferFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create StockTransfer"
-				description="Fill out the form to create a new Stocktransfer"
+				description="Manages inter-warehouse inventory transfers with product, quantity, and status tracking"
 			>
 				<FieldSet>
 					{/* Source */}
@@ -69,7 +69,8 @@ const CreateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Source Warehouse"
-									description="Enter sourcewarehouse"
+									description="Warehouse sending the stock"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 									required
 								/>
@@ -88,7 +89,8 @@ const CreateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Destination Warehouse"
-									description="Enter destinationwarehouse"
+									description="Warehouse receiving the stock"
+									tooltip="e.g., 'WH-002', 'Cebu Distribution Center'"
 									placeholder=""
 									required
 								/>
@@ -107,7 +109,8 @@ const CreateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="Product being transferred"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -125,7 +128,8 @@ const CreateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity"
-									description="Enter number"
+									description="Quantity to transfer"
+									tooltip="e.g., 10, 50, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -144,7 +148,8 @@ const CreateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the transfer"
+									tooltip="e.g., 'pending', 'in-transit', 'received'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "In Transit", value: "in-transit" },

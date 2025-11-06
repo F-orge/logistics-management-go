@@ -57,7 +57,7 @@ const CreateTaskItemFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create TaskItem"
-				description="Fill out the form to create a new Taskitem"
+				description="Individual items within warehouse tasks tracking product, locations, quantities, and completion status"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Task"
-									description="Enter task"
+									description="The parent task for this item"
+									tooltip="e.g., 'TASK-2024-001', 'PK-789'"
 									placeholder=""
 								/>
 							)}
@@ -78,7 +79,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product in this task item"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -96,7 +98,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Source Location"
-									description="Enter sourcelocation"
+									description="Where to pick the item from"
+									tooltip="e.g., 'LOC-A-01-01', 'BIN-005'"
 									placeholder=""
 								/>
 							)}
@@ -105,7 +108,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Destination Location"
-									description="Enter destinationlocation"
+									description="Where to move the item to"
+									tooltip="e.g., 'LOC-B-02-03', 'STAGE-01'"
 									placeholder=""
 								/>
 							)}
@@ -123,7 +127,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Batch"
-									description="Enter batch"
+									description="Batch or lot number of the item"
+									tooltip="e.g., 'BATCH-2024-001', 'LOT123'"
 									placeholder=""
 								/>
 							)}
@@ -141,7 +146,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity Required"
-									description="Enter number"
+									description="Quantity needed for this item"
+									tooltip="e.g., 5, 10, 25"
 									placeholder="0"
 									min={0}
 								/>
@@ -151,7 +157,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity Completed"
-									description="Enter number"
+									description="Quantity actually completed"
+									tooltip="e.g., 5, 8, 10"
 									placeholder="0"
 									min={0}
 								/>
@@ -170,7 +177,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Choose a status value from the available options"
+									tooltip="Task item status"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "In Progress", value: "in-progress" },
@@ -194,7 +202,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Completed At"
-									description="Select date and time"
+									description="Select a date and time for completed at"
+									tooltip="When this item was completed"
 									placeholder=""
 								/>
 							)}
@@ -212,7 +221,8 @@ const CreateTaskItemFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Enter detailed information about notes"
+									tooltip="Notes on this task item"
 									placeholder=""
 								/>
 							)}

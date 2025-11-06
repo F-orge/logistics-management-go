@@ -57,7 +57,7 @@ const CreateRouteFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Route"
-				description="Fill out the form to create a new Route"
+				description="Predefined delivery or transit routes with distance and duration information"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name or identifier of this route"
+									tooltip="e.g., 'Route A - Metro Manila', 'Daily Circuit North'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Distance"
-									description="Enter number"
+									description="Total route distance in kilometers"
+									tooltip="e.g., 50, 125.5, 250"
 									placeholder="0"
 									min={0}
 									required
@@ -101,7 +103,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Duration"
-									description="Enter number"
+									description="Total estimated duration in minutes"
+									tooltip="e.g., 180, 300, 480"
 									placeholder="0"
 									min={0}
 									required

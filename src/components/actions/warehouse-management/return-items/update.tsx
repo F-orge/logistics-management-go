@@ -72,7 +72,7 @@ const UpdateReturnItemFormDialog = () => {
 					})
 				}
 				title="Update ReturnItem"
-				description="Edit Returnitem information"
+				description="Line items for returns tracking product, quantities, and condition assessment data"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateReturnItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Return"
-									description="Enter return"
+									description="The return this item belongs to"
+									tooltip="e.g., 'RET-2024-001', 'RTN-789'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateReturnItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product being returned"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateReturnItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity Expected"
-									description="Enter number"
+									description="Expected quantity of returned items"
+									tooltip="e.g., 5, 10, 50"
 									placeholder="0"
 									min={0}
 								/>
@@ -121,7 +124,8 @@ const UpdateReturnItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity Recevied"
-									description="Enter number"
+									description="Actual quantity received"
+									tooltip="e.g., 5, 8, 10"
 									placeholder="0"
 									min={0}
 								/>
@@ -140,7 +144,8 @@ const UpdateReturnItemFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Condition"
-									description="Select an option"
+									description="Condition of the returned item"
+									tooltip="e.g., 'new', 'used', 'damaged'"
 									options={[
 										{ label: "New", value: "new" },
 										{ label: "Used", value: "used" },

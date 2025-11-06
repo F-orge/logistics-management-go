@@ -57,7 +57,7 @@ const CreateInvoiceItemFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create InvoiceItem"
-				description="Fill out the form to create a new Invoiceitem"
+				description="Line items for invoices tracking service/product description, quantity, pricing, discounts, and taxes"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Invoice"
-									description="Enter invoice"
+									description="The invoice this line item belongs to"
+									tooltip="e.g., 'INV-2024-001', 'BL-789'"
 									placeholder=""
 									required
 								/>
@@ -88,7 +89,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Description"
-									description="Enter details"
+									description="Description of the service or product"
+									tooltip="e.g., 'Professional Services - 40 hours', 'Software License - Annual'"
 									placeholder=""
 									required
 								/>
@@ -98,7 +100,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity"
-									description="Enter number"
+									description="Quantity of the item or service units"
+									tooltip="e.g., 1, 5, 10, 40"
 									placeholder="0"
 									min={0}
 									required
@@ -118,7 +121,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Unit Price"
-									description="Enter number"
+									description="Price per unit"
+									tooltip="e.g., 25.50, 100, 1500"
 									placeholder="0"
 									min={0}
 									required
@@ -140,7 +144,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Discount Rate"
-									description="Enter number"
+									description="Discount percentage applied to this line"
+									tooltip="e.g., 5, 10, 15"
 									placeholder="0"
 									min={0}
 								/>
@@ -150,7 +155,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Discount Amount"
-									description="Enter number"
+									description="Discount amount deducted from this line"
+									tooltip="e.g., 25, 100, 500"
 									placeholder="0"
 									min={0}
 								/>
@@ -160,7 +166,8 @@ const CreateInvoiceItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Tax Rate"
-									description="Enter number"
+									description="Tax percentage applied to this line"
+									tooltip="e.g., 5, 10, 12"
 									placeholder="0"
 									min={0}
 								/>

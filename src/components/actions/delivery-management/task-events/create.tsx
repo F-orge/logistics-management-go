@@ -57,7 +57,7 @@ const CreateTaskEventFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create TaskEvent"
-				description="Fill out the form to create a new Taskevent"
+				description="Records task status changes, timestamps, GPS coordinates, and notes for delivery event tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateTaskEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Task"
-									description="Enter task"
+									description="The delivery task this event belongs to"
+									tooltip="e.g., 'TASK-2024-001', 'DEL-789'"
 									placeholder=""
 									required
 								/>
@@ -88,7 +89,8 @@ const CreateTaskEventFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="New task status for this event"
+									tooltip="e.g., 'out-for-delivery', 'delivered', 'failed'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Assigned", value: "assigned" },
@@ -115,7 +117,8 @@ const CreateTaskEventFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Timestamp"
-									description="Select date and time"
+									description="When the event occurred"
+									tooltip="e.g., 01/15/2024 02:30 PM"
 									placeholder=""
 									required
 								/>
@@ -134,7 +137,8 @@ const CreateTaskEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Coordinates"
-									description="Enter coordinates"
+									description="GPS coordinates where event occurred"
+									tooltip="e.g., '14.5995, 120.9842'"
 									placeholder=""
 								/>
 							)}
@@ -152,7 +156,8 @@ const CreateTaskEventFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional event details or notes"
+									tooltip="e.g., 'Customer not home', 'Door locked'"
 									placeholder=""
 								/>
 							)}
@@ -170,7 +175,8 @@ const CreateTaskEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Reason"
-									description="Enter reason"
+									description="Reason for status change (if applicable)"
+									tooltip="e.g., 'Customer request', 'Address incorrect'"
 									placeholder=""
 								/>
 							)}

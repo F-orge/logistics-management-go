@@ -57,7 +57,7 @@ const CreateShipmentLegFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create ShipmentLeg"
-				description="Fill out the form to create a new Shipmentleg"
+				description="Individual segments or hops of a shipment through different carriers or transportation modes"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Shipment"
-									description="Enter shipment"
+									description="The shipment this leg is part of"
+									tooltip="e.g., 'SHP-2024-001', 'BL-789456'"
 									placeholder=""
 								/>
 							)}
@@ -78,7 +79,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Carrier"
-									description="Enter carrier"
+									description="The carrier handling this leg of the shipment"
+									tooltip="e.g., 'DHL', 'FedEx', 'Local Courier'"
 									placeholder=""
 								/>
 							)}
@@ -87,7 +89,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Internal Trip"
-									description="Enter internaltrip"
+									description="Reference to internal trip if applicable"
+									tooltip="e.g., 'TRIP-2024-001', 'DLV-456'"
 									placeholder=""
 								/>
 							)}
@@ -105,7 +108,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Leg Sequence"
-									description="Enter number"
+									description="The sequence number of this leg in the shipment route"
+									tooltip="e.g., 1, 2, 3"
 									placeholder="0"
 									min={0}
 									required
@@ -125,7 +129,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Start Location"
-									description="Enter startlocation"
+									description="The starting location for this leg"
+									tooltip="e.g., 'Warehouse A - Manila', 'Regional Hub - Cebu'"
 									placeholder=""
 									required
 								/>
@@ -135,7 +140,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="End Location"
-									description="Enter endlocation"
+									description="The ending location for this leg"
+									tooltip="e.g., 'Customer Site - QC', 'Port of Manila'"
 									placeholder=""
 									required
 								/>
@@ -154,7 +160,8 @@ const CreateShipmentLegFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current status of this shipment leg"
+									tooltip="e.g., 'pending', 'in-transit', 'completed'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "In Transit", value: "in-transit" },

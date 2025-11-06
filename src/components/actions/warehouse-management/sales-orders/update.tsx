@@ -72,7 +72,7 @@ const UpdateSalesOrderFormDialog = () => {
 					})
 				}
 				title="Update SalesOrder"
-				description="Edit Salesorder information"
+				description="Records customer sales orders with status tracking from pending through delivery"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateSalesOrderFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="The customer placing the order"
+									tooltip="e.g., 'CLI-001', 'ABC Company'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateSalesOrderFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Opportunity"
-									description="Enter opportunity"
+									description="Related sales opportunity"
+									tooltip="e.g., 'OPP-001', 'Deal-123'"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateSalesOrderFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Order Number"
-									description="Enter ordernumber"
+									description="Unique sales order number"
+									tooltip="e.g., 'SO-2024-001', 'ORD-789'"
 									placeholder=""
 								/>
 							)}
@@ -131,7 +134,8 @@ const UpdateSalesOrderFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Shipping Address"
-									description="Enter shippingaddress"
+									description="Delivery address for this order"
+									tooltip="e.g., '123 Main St, Manila, PH'"
 									placeholder=""
 								/>
 							)}
@@ -149,7 +153,8 @@ const UpdateSalesOrderFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the order"
+									tooltip="e.g., 'pending', 'processing', 'shipped'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Processing", value: "processing" },

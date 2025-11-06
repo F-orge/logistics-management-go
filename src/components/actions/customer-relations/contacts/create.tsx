@@ -57,7 +57,7 @@ const CreateContactFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Contact"
-				description="Fill out the form to create a new Contact"
+				description="Stores customer contact information including name, email, phone, job title, and company association"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateContactFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="Full name of the contact"
+									tooltip="e.g., 'John Doe', 'Jane Smith'"
 									placeholder=""
 									required
 								/>
@@ -81,7 +82,8 @@ const CreateContactFormDialog = () => {
 							{(field) => (
 								<field.EmailField
 									label="Email"
-									description="Enter email address"
+									description="Email address"
+									tooltip="e.g., 'john@company.com', 'jane@business.com'"
 									placeholder="example@email.com"
 									required
 								/>
@@ -91,7 +93,8 @@ const CreateContactFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Job Title"
-									description="Enter jobtitle"
+									description="Job title or position"
+									tooltip="e.g., 'Sales Manager', 'Operations Director'"
 									placeholder=""
 								/>
 							)}
@@ -100,7 +103,8 @@ const CreateContactFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Phone Number"
-									description="Enter phonenumber"
+									description="Contact phone number"
+									tooltip="e.g., '+63 9123456789', '02-1234-5678'"
 									placeholder=""
 								/>
 							)}
@@ -120,7 +124,8 @@ const CreateContactFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Company"
-									description="Enter company"
+									description="Associated company or organization"
+									tooltip="e.g., 'ABC Company', 'XYZ Corporation'"
 									placeholder=""
 								/>
 							)}
@@ -138,7 +143,8 @@ const CreateContactFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Owner"
-									description="Enter owner"
+									description="Account manager assigned to this contact"
+									tooltip="e.g., 'John Account', 'account-mgr@company.com'"
 									placeholder=""
 									required
 								/>

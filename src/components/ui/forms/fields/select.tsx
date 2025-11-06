@@ -19,6 +19,7 @@ export type SelectFieldProps = {
 	tooltipSide?: "top" | "right" | "bottom" | "left";
 	options: SelectOption[];
 	placeholder?: string;
+	required?: boolean;
 };
 
 const SelectField = (props: SelectFieldProps) => {

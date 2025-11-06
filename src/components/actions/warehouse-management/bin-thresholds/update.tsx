@@ -72,7 +72,7 @@ const UpdateBinThresholdFormDialog = () => {
 					})
 				}
 				title="Update BinThreshold"
-				description="Edit Binthreshold information"
+				description="Sets minimum/maximum quantity thresholds and reorder points for products in specific locations to maintain optimal stock levels"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateBinThresholdFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Location"
-									description="Enter location"
+									description="The bin or location this threshold applies to"
+									tooltip="e.g., 'LOC-001', 'Bin A5'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateBinThresholdFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product this threshold is for"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateBinThresholdFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Min Quantity"
-									description="Enter number"
+									description="Minimum quantity before alert"
+									tooltip="e.g., 10, 25, 50"
 									placeholder="0"
 									min={0}
 								/>
@@ -121,7 +124,8 @@ const UpdateBinThresholdFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Max Quantity"
-									description="Enter number"
+									description="Maximum quantity allowed in this bin"
+									tooltip="e.g., 100, 250, 500"
 									placeholder="0"
 									min={0}
 								/>
@@ -142,46 +146,10 @@ const UpdateBinThresholdFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Reorder Quantity"
-									description="Enter number"
+									description="Quantity to reorder when stock falls below minimum"
+									tooltip="e.g., 50, 100, 200"
 									placeholder="0"
 									min={0}
-								/>
-							)}
-						</form.AppField>
-					</FieldGroup>
-
-					<FieldSeparator>Alerts</FieldSeparator>
-
-					{/* Alerts */}
-					<FieldGroup>
-						<FieldLegend>Alerts</FieldLegend>
-						<FieldDescription>Manage alerts information</FieldDescription>
-
-						<form.AppField name="alertThreshold">
-							{(field) => (
-								<field.NumberField
-									label="Alert Threshold"
-									description="Enter number"
-									placeholder="0"
-									min={0}
-								/>
-							)}
-						</form.AppField>
-					</FieldGroup>
-
-					<FieldSeparator>Status</FieldSeparator>
-
-					{/* Status */}
-					<FieldGroup>
-						<FieldLegend>Status</FieldLegend>
-						<FieldDescription>Manage status information</FieldDescription>
-
-						<form.AppField name="isActive">
-							{(field) => (
-								<field.TextField
-									label="Is Active"
-									description="Enter isactive"
-									placeholder=""
 								/>
 							)}
 						</form.AppField>

@@ -72,7 +72,7 @@ const UpdateStockTransferFormDialog = () => {
 					})
 				}
 				title="Update StockTransfer"
-				description="Edit Stocktransfer information"
+				description="Manages inter-warehouse inventory transfers with product, quantity, and status tracking"
 			>
 				<FieldSet>
 					{/* Source */}
@@ -84,7 +84,8 @@ const UpdateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Source Warehouse"
-									description="Enter sourcewarehouse"
+									description="Warehouse sending the stock"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 								/>
 							)}
@@ -102,7 +103,8 @@ const UpdateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Destination Warehouse"
-									description="Enter destinationwarehouse"
+									description="Warehouse receiving the stock"
+									tooltip="e.g., 'WH-002', 'Cebu Distribution Center'"
 									placeholder=""
 								/>
 							)}
@@ -120,7 +122,8 @@ const UpdateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="Product being transferred"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -138,7 +141,8 @@ const UpdateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity"
-									description="Enter number"
+									description="Quantity to transfer"
+									tooltip="e.g., 10, 50, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -157,7 +161,8 @@ const UpdateStockTransferFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the transfer"
+									tooltip="e.g., 'pending', 'in-transit', 'received'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "In Transit", value: "in-transit" },

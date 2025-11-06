@@ -57,7 +57,7 @@ const CreateReturnFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Return"
-				description="Fill out the form to create a new Return"
+				description="Tracks product returns from customers with reason, status, and approval workflow"
 			>
 				<FieldSet>
 					{/* Identification */}
@@ -71,7 +71,8 @@ const CreateReturnFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Return Number"
-									description="Enter returnnumber"
+									description="Unique return number"
+									tooltip="e.g., 'RET-2024-001', 'RTN-789'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreateReturnFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sales Order"
-									description="Enter salesorder"
+									description="Original sales order being returned"
+									tooltip="e.g., 'SO-2024-001', 'ORD-789'"
 									placeholder=""
 								/>
 							)}
@@ -99,7 +101,8 @@ const CreateReturnFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="Customer initiating the return"
+									tooltip="e.g., 'CLI-001', 'ABC Company'"
 									placeholder=""
 								/>
 							)}
@@ -117,7 +120,8 @@ const CreateReturnFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Reason"
-									description="Enter details"
+									description="Reason for the return"
+									tooltip="e.g., 'Defective', 'Wrong item sent', 'Not as described'"
 									placeholder=""
 								/>
 							)}
@@ -135,7 +139,8 @@ const CreateReturnFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the return"
+									tooltip="e.g., 'initiated', 'received', 'approved'"
 									options={[
 										{ label: "Initiated", value: "initiated" },
 										{ label: "Received", value: "received" },

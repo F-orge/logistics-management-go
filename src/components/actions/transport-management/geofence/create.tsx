@@ -57,7 +57,7 @@ const CreateGeofenceFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Geofence"
-				description="Fill out the form to create a new Geofence"
+				description="Geographic areas defined by coordinates and radius for vehicle tracking and alerts"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateGeofenceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name of this geofenced area"
+									tooltip="e.g., 'Metro Manila Zone', 'Warehouse Area', 'Delivery Zone A'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreateGeofenceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Coordinates"
-									description="Enter coordinates"
+									description="Center coordinates in latitude,longitude format"
+									tooltip="e.g., '14.5995,120.9842', '14.6091,121.0175'"
 									placeholder=""
 									required
 								/>
@@ -109,10 +111,74 @@ const CreateGeofenceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Radius"
-									description="Enter number"
+									description="Radius of the geofenced area in meters"
+									tooltip="e.g., 500, 1000, 5000"
 									placeholder="0"
 									min={0}
 									required
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Details</FieldSeparator>
+
+					{/* Details */}
+					<FieldGroup>
+						<FieldLegend>Details</FieldLegend>
+						<FieldDescription>Manage details information</FieldDescription>
+
+						<form.AppField name="purpose">
+							{(field) => (
+								<field.TextField
+									label="Purpose"
+									description="The purpose or use of this geofence"
+									tooltip="e.g., 'Delivery zone', 'Warehouse boundary', 'Restricted area'"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Status</FieldSeparator>
+
+					{/* Status */}
+					<FieldGroup>
+						<FieldLegend>Status</FieldLegend>
+						<FieldDescription>Manage status information</FieldDescription>
+
+						<form.AppField name="isActive">
+							{(field) => (
+								<field.SelectField
+									label="Is Active"
+									description="Whether this geofence is currently active"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
+									options={[
+										{ label: "Yes", value: "yes" },
+										{ label: "No", value: "no" },
+										{ label: "True", value: "true" },
+										{ label: "False", value: "false" },
+									]}
+									placeholder="Select..."
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Alerts</FieldSeparator>
+
+					{/* Alerts */}
+					<FieldGroup>
+						<FieldLegend>Alerts</FieldLegend>
+						<FieldDescription>Manage alerts information</FieldDescription>
+
+						<form.AppField name="alertType">
+							{(field) => (
+								<field.TextField
+									label="Alert Type"
+									description="The type of alert to trigger (entry, exit, or both)"
+									tooltip="e.g., 'entry-only', 'exit-only', 'both'"
+									placeholder=""
 								/>
 							)}
 						</form.AppField>

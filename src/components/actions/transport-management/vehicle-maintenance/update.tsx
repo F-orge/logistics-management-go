@@ -75,7 +75,7 @@ const UpdateVehicleMaintenanceFormDialog = () => {
 					})
 				}
 				title="Update VehicleMaintenance"
-				description="Edit Vehiclemaintenance information"
+				description="Logs vehicle maintenance records including service dates, types, and costs for preventive maintenance tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -87,7 +87,8 @@ const UpdateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Vehicle"
-									description="Enter vehicle"
+									description="The vehicle being maintained"
+									tooltip="e.g., 'VEH-001', 'ABC-1234'"
 									placeholder=""
 								/>
 							)}
@@ -107,7 +108,8 @@ const UpdateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Service Date"
-									description="Select date"
+									description="The date when the service was performed"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -116,7 +118,8 @@ const UpdateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Service Type"
-									description="Enter servicetype"
+									description="The type of service performed"
+									tooltip="e.g., 'Oil change', 'Tire rotation', 'Brake inspection'"
 									placeholder=""
 								/>
 							)}
@@ -134,7 +137,8 @@ const UpdateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Cost"
-									description="Enter number"
+									description="The cost of this maintenance service"
+									tooltip="e.g., 500, 1500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -155,7 +159,8 @@ const UpdateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional notes about the service performed"
+									tooltip="e.g., 'Replaced brake pads', 'Engine oil filter changed'"
 									placeholder=""
 								/>
 							)}

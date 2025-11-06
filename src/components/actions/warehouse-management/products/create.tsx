@@ -57,7 +57,7 @@ const CreateProductFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Product"
-				description="Fill out the form to create a new Product"
+				description="Catalogs products available in the warehouse with SKU, name, category, unit cost, and reorder information"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name of the product"
+									tooltip="e.g., 'Office Chair', 'Desk Lamp'"
 									placeholder=""
 									required
 								/>
@@ -92,7 +93,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sku"
-									description="Enter sku"
+									description="Stock keeping unit for inventory tracking"
+									tooltip="e.g., 'SKU123456', 'PROD-001'"
 									placeholder=""
 									required
 								/>
@@ -102,7 +104,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Barcode"
-									description="Enter barcode"
+									description="Product barcode for scanning"
+									tooltip="e.g., '5901234123457', 'BC-789123'"
 									placeholder=""
 								/>
 							)}
@@ -120,7 +123,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Description"
-									description="Enter details"
+									description="Detailed product description"
+									tooltip="e.g., 'Ergonomic office chair with adjustable height'"
 									placeholder=""
 								/>
 							)}
@@ -138,7 +142,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Cost Price"
-									description="Enter number"
+									description="Cost per unit"
+									tooltip="e.g., 500, 1500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -157,7 +162,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Weight"
-									description="Enter number"
+									description="Weight in kilograms"
+									tooltip="e.g., 5, 10.5, 25"
 									placeholder="0"
 									min={0}
 								/>
@@ -167,7 +173,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Length"
-									description="Enter number"
+									description="Length in centimeters"
+									tooltip="e.g., 50, 100, 200"
 									placeholder="0"
 									min={0}
 								/>
@@ -177,7 +184,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Width"
-									description="Enter number"
+									description="Width in centimeters"
+									tooltip="e.g., 40, 80, 150"
 									placeholder="0"
 									min={0}
 								/>
@@ -187,7 +195,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Height"
-									description="Enter number"
+									description="Height in centimeters"
+									tooltip="e.g., 30, 60, 120"
 									placeholder="0"
 									min={0}
 								/>
@@ -206,7 +215,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Supplier"
-									description="Enter supplier"
+									description="The supplier of this product"
+									tooltip="e.g., 'Supplier Inc', 'Wholesale Distributor'"
 									placeholder=""
 								/>
 							)}
@@ -215,7 +225,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="The client this product belongs to or is for"
+									tooltip="e.g., 'Client ABC', 'Customer XYZ'"
 									placeholder=""
 								/>
 							)}
@@ -233,7 +244,8 @@ const CreateProductFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the product"
+									tooltip="e.g., 'active', 'inactive', 'discontinued'"
 									options={[
 										{ label: "Active", value: "active" },
 										{ label: "Inactive", value: "inactive" },

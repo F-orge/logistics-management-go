@@ -72,7 +72,7 @@ const UpdateInvoiceFormDialog = () => {
 					})
 				}
 				title="Update Invoice"
-				description="Edit Invoice information"
+				description="Records customer invoices with status tracking, payment terms, discounts, taxes, and notes"
 			>
 				<FieldSet>
 					{/* Relationships */}
@@ -86,7 +86,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Opportunity"
-									description="Enter opportunity"
+									description="Related sales opportunity"
+									tooltip="e.g., 'OPP-001', 'Enterprise Deal'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Issue Date"
-									description="Select date"
+									description="Date when invoice was issued"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Due Date"
-									description="Select date"
+									description="Payment due date"
+									tooltip="e.g., 02/15/2024, 03/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -131,7 +134,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the invoice"
+									tooltip="e.g., 'draft', 'sent', 'paid'"
 									options={[
 										{ label: "Draft", value: "draft" },
 										{ label: "Sent", value: "sent" },
@@ -160,7 +164,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Currency"
-									description="Enter currency"
+									description="Currency code for the invoice"
+									tooltip="e.g., 'USD', 'EUR', 'PHP'"
 									placeholder=""
 								/>
 							)}
@@ -169,7 +174,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Subtotal"
-									description="Enter number"
+									description="Subtotal before tax or discount"
+									tooltip="e.g., 1000, 5500.50, 25000"
 									placeholder="0"
 									min={0}
 								/>
@@ -179,7 +185,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Discount Amount"
-									description="Enter number"
+									description="Total discount amount"
+									tooltip="e.g., 100, 500, 2500"
 									placeholder="0"
 									min={0}
 								/>
@@ -189,7 +196,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Amount"
-									description="Enter number"
+									description="Total amount due"
+									tooltip="e.g., 1100, 6000, 28000"
 									placeholder="0"
 									min={0}
 								/>
@@ -210,7 +218,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional invoice notes or messages"
+									tooltip="e.g., 'Thank you for your business'"
 									placeholder=""
 								/>
 							)}
@@ -219,7 +228,8 @@ const UpdateInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Payment Terms"
-									description="Enter details"
+									description="Payment terms and conditions"
+									tooltip="e.g., 'Net 30', '50% upfront, 50% on delivery'"
 									placeholder=""
 								/>
 							)}

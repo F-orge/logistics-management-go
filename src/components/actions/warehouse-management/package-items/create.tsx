@@ -57,7 +57,7 @@ const CreatePackageItemFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create PackageItem"
-				description="Fill out the form to create a new Packageitem"
+				description="Individual items within packages tracking product, batch, quantity, and expiry dates"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreatePackageItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Package"
-									description="Enter package"
+									description="The package this item is in"
+									tooltip="e.g., 'PKG-001', 'PACK-789'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreatePackageItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product in this package item"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -98,7 +100,8 @@ const CreatePackageItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Batch"
-									description="Enter batch"
+									description="Batch or lot number"
+									tooltip="e.g., 'BATCH-2024-001', 'LOT123'"
 									placeholder=""
 								/>
 							)}
@@ -116,7 +119,8 @@ const CreatePackageItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity"
-									description="Enter number"
+									description="Quantity of this product in the package"
+									tooltip="e.g., 1, 5, 10"
 									placeholder="0"
 									min={0}
 									required
@@ -138,7 +142,8 @@ const CreatePackageItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Lot Number"
-									description="Enter lotnumber"
+									description="Lot number of the product"
+									tooltip="e.g., 'LOT-2024-001', 'BATCH-789'"
 									placeholder=""
 								/>
 							)}
@@ -156,7 +161,8 @@ const CreatePackageItemFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Expiry Date"
-									description="Select date"
+									description="Expiration date of the product"
+									tooltip="e.g., 12/31/2024, 06/30/2025"
 									placeholder=""
 								/>
 							)}

@@ -57,7 +57,7 @@ const CreatePackageFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Package"
-				description="Fill out the form to create a new Package"
+				description="Represents physical packages prepared for shipment with dimensions, weight, handling requirements, and insurance"
 			>
 				<FieldSet>
 					{/* Identification */}
@@ -71,7 +71,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Package Number"
-									description="Enter packagenumber"
+									description="Unique package identifier"
+									tooltip="e.g., 'PKG-2024-001', 'PACK-789'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sales Order"
-									description="Enter salesorder"
+									description="The sales order this package fulfills"
+									tooltip="e.g., 'SO-2024-001', 'ORD-789'"
 									placeholder=""
 									required
 								/>
@@ -100,7 +102,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse preparing this package"
+									tooltip="e.g., 'Manila Warehouse', 'Cebu Center'"
 									placeholder=""
 									required
 								/>
@@ -121,7 +124,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Type"
-									description="Enter type"
+									description="The type of packaging used"
+									tooltip="e.g., 'Box', 'Envelope', 'Pallet'"
 									placeholder=""
 								/>
 							)}
@@ -139,7 +143,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Weight"
-									description="Enter number"
+									description="Package weight in kilograms"
+									tooltip="e.g., 2.5, 5, 10"
 									placeholder="0"
 									min={0}
 								/>
@@ -149,7 +154,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Length"
-									description="Enter number"
+									description="Package length in centimeters"
+									tooltip="e.g., 30, 60, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -159,7 +165,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Width"
-									description="Enter number"
+									description="Package width in centimeters"
+									tooltip="e.g., 20, 40, 80"
 									placeholder="0"
 									min={0}
 								/>
@@ -169,7 +176,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Height"
-									description="Enter number"
+									description="Package height in centimeters"
+									tooltip="e.g., 15, 30, 60"
 									placeholder="0"
 									min={0}
 								/>
@@ -188,7 +196,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Fragile"
-									description="Enter isfragile"
+									description="Whether package contains fragile items"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -197,7 +206,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Hazmat"
-									description="Enter ishazmat"
+									description="Whether package contains hazardous materials"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -215,7 +225,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Require Signature"
-									description="Enter requiresignature"
+									description="Whether signature is required upon delivery"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -233,7 +244,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Insurance Value"
-									description="Enter number"
+									description="Insurance value of the package"
+									tooltip="e.g., 1000, 5000, 10000"
 									placeholder="0"
 									min={0}
 								/>
@@ -252,7 +264,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Packed At"
-									description="Select date"
+									description="Date when package was packed"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -261,7 +274,8 @@ const CreatePackageFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Shipped At"
-									description="Select date"
+									description="Date when package was shipped"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}

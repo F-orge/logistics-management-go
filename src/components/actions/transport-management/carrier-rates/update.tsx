@@ -72,7 +72,7 @@ const UpdateCarrierRateFormDialog = () => {
 					})
 				}
 				title="Update CarrierRate"
-				description="Edit Carrierrate information"
+				description="Pricing rates set by carriers for specific routes, services, and units"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateCarrierRateFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Carrier"
-									description="Enter carrier"
+									description="The carrier this rate applies to"
+									tooltip="e.g., 'DHL', 'FedEx', 'Local Courier'"
 									placeholder=""
 								/>
 							)}
@@ -102,7 +103,8 @@ const UpdateCarrierRateFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Origin"
-									description="Enter origin"
+									description="The origin location or zone code"
+									tooltip="e.g., 'Metro Manila', 'Zone 1', 'NCR'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateCarrierRateFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Destination"
-									description="Enter destination"
+									description="The destination location or zone code"
+									tooltip="e.g., 'Cebu City', 'Zone 5', 'Visayas'"
 									placeholder=""
 								/>
 							)}
@@ -129,7 +132,8 @@ const UpdateCarrierRateFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Rate"
-									description="Enter number"
+									description="The shipping rate for this route"
+									tooltip="e.g., 150, 250.50, 500"
 									placeholder="0"
 									min={0}
 								/>
@@ -148,7 +152,8 @@ const UpdateCarrierRateFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Unit"
-									description="Select an option"
+									description="The unit of measurement for this rate"
+									tooltip="e.g., 'per-kg', 'per-item', 'flat-rate'"
 									options={[
 										{ label: "Per Kg", value: "per-kg" },
 										{ label: "Per Item", value: "per-item" },
@@ -173,7 +178,8 @@ const UpdateCarrierRateFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Service Type"
-									description="Enter servicetype"
+									description="The type of service (standard, express, etc.)"
+									tooltip="e.g., 'Standard', 'Express', 'Overnight'"
 									placeholder=""
 								/>
 							)}

@@ -57,7 +57,7 @@ const CreatePutawayRuleFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create PutawayRule"
-				description="Fill out the form to create a new Putawayrule"
+				description="Defines location strategies for putaway operations based on product, client, and threshold requirements"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse this rule applies to"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="Product for which this rule applies"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -89,7 +91,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="Specific client this rule applies to (optional)"
+									tooltip="e.g., 'CLI-001', 'ABC Company'"
 									placeholder=""
 								/>
 							)}
@@ -109,7 +112,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Location Type"
-									description="Select an option"
+									description="Type of location to use for putaway"
+									tooltip="e.g., 'zone', 'aisle', 'rack', 'bin'"
 									options={[
 										{ label: "Zone", value: "zone" },
 										{ label: "Aisle", value: "aisle" },
@@ -136,7 +140,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Preferred Location"
-									description="Enter preferredlocation"
+									description="Preferred location code for putaway"
+									tooltip="e.g., 'LOC-A-01-01', 'BIN-005'"
 									placeholder=""
 								/>
 							)}
@@ -154,7 +159,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Priority"
-									description="Enter number"
+									description="Priority level for this rule"
+									tooltip="e.g., 1 (highest), 2, 3"
 									placeholder="0"
 									min={0}
 									required
@@ -174,7 +180,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Min Quantity"
-									description="Enter number"
+									description="Minimum quantity threshold for this rule"
+									tooltip="e.g., 10, 50, 100"
 									placeholder="0"
 									min={0}
 								/>
@@ -184,7 +191,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Max Quantity"
-									description="Enter number"
+									description="Enter a numeric value for max quantity"
+									tooltip="Maximum quantity for this rule"
 									placeholder="0"
 									min={0}
 								/>
@@ -203,7 +211,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Weight Threshold"
-									description="Enter number"
+									description="Enter a numeric value for weight threshold"
+									tooltip="Weight threshold in kg"
 									placeholder="0"
 									min={0}
 								/>
@@ -213,7 +222,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Volume Threshold"
-									description="Enter number"
+									description="Enter a numeric value for volume threshold"
+									tooltip="Volume threshold in cubic meters"
 									placeholder="0"
 									min={0}
 								/>
@@ -232,7 +242,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Require Temperature Control"
-									description="Enter requiretemperaturecontrol"
+									description="Enter the require temperature control"
+									tooltip="Whether temperature control is required"
 									placeholder=""
 								/>
 							)}
@@ -241,7 +252,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Require Hazmat Approval"
-									description="Enter requirehazmatapproval"
+									description="Enter the require hazmat approval"
+									tooltip="Whether hazmat approval is required"
 									placeholder=""
 								/>
 							)}
@@ -259,7 +271,8 @@ const CreatePutawayRuleFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Active"
-									description="Enter isactive"
+									description="Enter the is active"
+									tooltip="Whether this rule is active"
 									placeholder=""
 								/>
 							)}

@@ -58,7 +58,7 @@ const CreateShipmentLegEventFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create ShipmentLegEvent"
-				description="Fill out the form to create a new Shipmentlegevent"
+				description="Status events and tracking milestones for each shipment leg"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -70,7 +70,8 @@ const CreateShipmentLegEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Shipment Leg Id"
-									description="Enter shipmentlegid"
+									description="Reference to the shipment leg this event is for"
+									tooltip="e.g., 'LEG-001', 'SLP-2024-001'"
 									placeholder=""
 									required
 								/>
@@ -89,7 +90,8 @@ const CreateShipmentLegEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Location"
-									description="Enter location"
+									description="The location where this event occurred"
+									tooltip="e.g., 'Manila Hub', 'Cebu Port', 'Regional Warehouse'"
 									placeholder=""
 									required
 								/>
@@ -108,7 +110,8 @@ const CreateShipmentLegEventFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Timestamp"
-									description="Select date and time"
+									description="The date and time when this event occurred"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
 									placeholder=""
 									required
 								/>
@@ -127,7 +130,8 @@ const CreateShipmentLegEventFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Message"
-									description="Enter details"
+									description="Event description or tracking message"
+									tooltip="e.g., 'Package picked up', 'In transit to destination', 'Arrived at sorting center'"
 									placeholder=""
 									required
 								/>

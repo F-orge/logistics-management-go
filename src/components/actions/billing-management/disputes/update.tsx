@@ -72,7 +72,7 @@ const UpdateDisputeFormDialog = () => {
 					})
 				}
 				title="Update Dispute"
-				description="Edit Dispute information"
+				description="Tracks invoice disputes with reason, status, and resolution tracking for dispute management workflow"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="The client who filed this dispute"
+									tooltip="e.g., 'CLIENT-ABC', 'Enterprise Inc'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Line Item"
-									description="Enter lineitem"
+									description="The specific invoice line item being disputed"
+									tooltip="e.g., 'ITEM-123', 'INV-001-LI-1'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Reason"
-									description="Enter details"
+									description="The reason why the client is disputing this charge"
+									tooltip="e.g., 'Service not rendered as agreed', 'Incorrect quantity charged'"
 									placeholder=""
 								/>
 							)}
@@ -129,7 +132,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Dispute Amount"
-									description="Enter number"
+									description="The amount being disputed"
+									tooltip="e.g., 100, 500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -148,7 +152,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current status of the dispute resolution process"
+									tooltip="e.g., open, under-review, approved, denied"
 									options={[
 										{ label: "Open", value: "open" },
 										{ label: "Under Review", value: "under-review" },
@@ -174,7 +179,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Submitted At"
-									description="Select date"
+									description="The date when the dispute was filed"
+									tooltip="e.g., 01/10/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -183,7 +189,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Resolved At"
-									description="Select date"
+									description="The date when the dispute was resolved"
+									tooltip="e.g., 01/25/2024, 02/15/2024"
 									placeholder=""
 								/>
 							)}
@@ -201,7 +208,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Resolved By"
-									description="Enter resolvedby"
+									description="The person who resolved this dispute"
+									tooltip="e.g., 'John Doe', 'support@company.com'"
 									placeholder=""
 								/>
 							)}
@@ -210,7 +218,8 @@ const UpdateDisputeFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Resolution Notes"
-									description="Enter details"
+									description="Details about how the dispute was resolved and any actions taken"
+									tooltip="e.g., 'Credit issued for 50% of disputed amount', 'Service will be provided by date X'"
 									placeholder=""
 								/>
 							)}

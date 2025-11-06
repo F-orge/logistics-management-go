@@ -57,7 +57,7 @@ const CreateRouteFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Route"
-				description="Fill out the form to create a new Route"
+				description="Plans delivery routes with driver and vehicle assignments, tracking status, distance, and estimated duration"
 			>
 				<FieldSet>
 					{/* Assignment */}
@@ -69,7 +69,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Driver"
-									description="Enter driver"
+									description="The driver assigned to this delivery route"
+									tooltip="e.g., 'DRV-001', 'Juan Dela Cruz'"
 									placeholder=""
 									required
 								/>
@@ -79,7 +80,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Vehicle"
-									description="Enter vehicle"
+									description="The vehicle assigned to this delivery route"
+									tooltip="e.g., 'VEH-001', 'ABC-1234'"
 									placeholder=""
 									required
 								/>
@@ -98,7 +100,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Route Date"
-									description="Select date"
+									description="The date for this delivery route"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 									required
 								/>
@@ -117,7 +120,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current status of the delivery route"
+									tooltip="e.g., 'planned', 'in-progress', 'completed'"
 									options={[
 										{ label: "Planned", value: "planned" },
 										{ label: "In Progress", value: "in-progress" },
@@ -142,7 +146,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Distance"
-									description="Enter number"
+									description="Total distance to cover in kilometers"
+									tooltip="e.g., 50, 125.5, 250"
 									placeholder="0"
 									min={0}
 								/>
@@ -152,7 +157,8 @@ const CreateRouteFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Estimated Duration In Minutes"
-									description="Enter number"
+									description="Estimated total duration of the route in minutes"
+									tooltip="e.g., 180, 300, 480"
 									placeholder="0"
 									min={0}
 								/>

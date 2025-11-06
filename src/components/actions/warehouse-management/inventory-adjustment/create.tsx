@@ -58,7 +58,7 @@ const CreateInventoryAdjustmentFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create InventoryAdjustment"
-				description="Fill out the form to create a new Inventoryadjustment"
+				description="Logs inventory adjustments (damage, loss, count discrepancies, returns, transfers) with reasons and notes"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -70,7 +70,8 @@ const CreateInventoryAdjustmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse where adjustment occurred"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 									required
 								/>
@@ -80,7 +81,8 @@ const CreateInventoryAdjustmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product being adjusted"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -88,20 +90,20 @@ const CreateInventoryAdjustmentFormDialog = () => {
 						</form.AppField>
 					</FieldGroup>
 
-					<FieldSeparator>User</FieldSeparator>
+					<FieldSeparator>Batch</FieldSeparator>
 
-					{/* User */}
+					{/* Batch */}
 					<FieldGroup>
-						<FieldLegend>User</FieldLegend>
-						<FieldDescription>Manage user information</FieldDescription>
+						<FieldLegend>Batch</FieldLegend>
+						<FieldDescription>Manage batch information</FieldDescription>
 
-						<form.AppField name="user">
+						<form.AppField name="batch">
 							{(field) => (
 								<field.TextField
-									label="User"
-									description="Enter user"
+									label="Batch"
+									description="Batch or lot number affected"
+									tooltip="e.g., 'BATCH-2024-001', 'LOT123'"
 									placeholder=""
-									required
 								/>
 							)}
 						</form.AppField>
@@ -114,57 +116,84 @@ const CreateInventoryAdjustmentFormDialog = () => {
 						<FieldLegend>Adjustment</FieldLegend>
 						<FieldDescription>Manage adjustment information</FieldDescription>
 
-						<form.AppField name="quantityChange">
+						<form.AppField name="quantity">
 							{(field) => (
 								<field.NumberField
-									label="Quantity Change"
-									description="Enter number"
+									label="Quantity"
+									description="Quantity adjusted (positive or negative)"
+									tooltip="e.g., -5 (loss), 10 (gain), 2 (correction)"
 									placeholder="0"
 									min={0}
 									required
 								/>
 							)}
 						</form.AppField>
-					</FieldGroup>
-
-					<FieldSeparator>Reason</FieldSeparator>
-
-					{/* Reason */}
-					<FieldGroup>
-						<FieldLegend>Reason</FieldLegend>
-						<FieldDescription>Manage reason information</FieldDescription>
-
 						<form.AppField name="reason">
 							{(field) => (
 								<field.SelectField
 									label="Reason"
-									description="Select an option"
-									options={[
-										{ label: "Damage", value: "damage" },
-										{ label: "Loss", value: "loss" },
-										{ label: "Count Discrepancy", value: "count-discrepancy" },
-										{ label: "Return", value: "return" },
-										{ label: "Transfer", value: "transfer" },
-										{ label: "Other", value: "other" },
-									]}
+									description="Reason for the adjustment"
+									tooltip="e.g., 'damage', 'loss', 'count-discrepancy', 'return'"
+									options={[]}
 									placeholder="Select..."
+									required
 								/>
 							)}
 						</form.AppField>
 					</FieldGroup>
 
-					<FieldSeparator>Notes</FieldSeparator>
+					<FieldSeparator>Dates</FieldSeparator>
 
-					{/* Notes */}
+					{/* Dates */}
 					<FieldGroup>
-						<FieldLegend>Notes</FieldLegend>
-						<FieldDescription>Manage notes information</FieldDescription>
+						<FieldLegend>Dates</FieldLegend>
+						<FieldDescription>Manage dates information</FieldDescription>
+
+						<form.AppField name="adjustmentDate">
+							{(field) => (
+								<field.DateTimeField
+									label="Adjustment Date"
+									description="Date of the adjustment"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
+									placeholder=""
+									required
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Audit</FieldSeparator>
+
+					{/* Audit */}
+					<FieldGroup>
+						<FieldLegend>Audit</FieldLegend>
+						<FieldDescription>Manage audit information</FieldDescription>
+
+						<form.AppField name="adjustedBy">
+							{(field) => (
+								<field.TextField
+									label="Adjusted By"
+									description="User who made the adjustment"
+									tooltip="e.g., 'USR-001', 'John Doe'"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Details</FieldSeparator>
+
+					{/* Details */}
+					<FieldGroup>
+						<FieldLegend>Details</FieldLegend>
+						<FieldDescription>Manage details information</FieldDescription>
 
 						<form.AppField name="notes">
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional notes about the adjustment"
+									tooltip="e.g., 'Water damage during storage', 'Found during cycle count'"
 									placeholder=""
 								/>
 							)}

@@ -58,7 +58,7 @@ const CreateInboundShipmentFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create InboundShipment"
-				description="Fill out the form to create a new Inboundshipment"
+				description="Records inbound shipments from suppliers with tracking numbers, expected dates, and receipt status"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -70,7 +70,8 @@ const CreateInboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="The supplier or source of this inbound shipment"
+									tooltip="e.g., 'Supplier Inc', 'Wholesale Distributor'"
 									placeholder=""
 									required
 								/>
@@ -80,7 +81,8 @@ const CreateInboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse receiving this shipment"
+									tooltip="e.g., 'Manila Warehouse', 'Cebu Center'"
 									placeholder=""
 									required
 								/>
@@ -99,7 +101,8 @@ const CreateInboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Expected Arrival Date"
-									description="Select date"
+									description="Expected arrival date"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -108,7 +111,8 @@ const CreateInboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Actual Arrival Date"
-									description="Select date"
+									description="Actual arrival date when shipment was received"
+									tooltip="e.g., 01/14/2024, 02/02/2024"
 									placeholder=""
 								/>
 							)}
@@ -126,7 +130,8 @@ const CreateInboundShipmentFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the inbound shipment"
+									tooltip="e.g., 'pending', 'in-transit', 'received'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "In Transit", value: "in-transit" },

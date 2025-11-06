@@ -72,7 +72,7 @@ const UpdatePartnerInvoiceFormDialog = () => {
 					})
 				}
 				title="Update PartnerInvoice"
-				description="Edit Partnerinvoice information"
+				description="Invoices from third-party carriers or logistics partners for their services"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdatePartnerInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Carrier"
-									description="Enter carrier"
+									description="The carrier or partner this invoice is from"
+									tooltip="e.g., 'DHL', 'FedEx', 'Local Courier'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdatePartnerInvoiceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Invoice Number"
-									description="Enter invoicenumber"
+									description="The partner's invoice number"
+									tooltip="e.g., 'DHL-INV-2024-001', 'FEDEX-789456'"
 									placeholder=""
 								/>
 							)}
@@ -122,7 +124,8 @@ const UpdatePartnerInvoiceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Invoice Date"
-									description="Select date"
+									description="The date on the partner invoice"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 								/>
 							)}
@@ -140,7 +143,8 @@ const UpdatePartnerInvoiceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Amount"
-									description="Enter number"
+									description="The total amount of the invoice"
+									tooltip="e.g., 5000, 12500.50, 100000"
 									placeholder="0"
 									min={0}
 								/>
@@ -159,7 +163,8 @@ const UpdatePartnerInvoiceFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The invoice processing status"
+									tooltip="e.g., 'draft', 'submitted', 'approved', 'paid'"
 									options={[
 										{ label: "Draft", value: "draft" },
 										{ label: "Submitted", value: "submitted" },

@@ -72,7 +72,7 @@ const UpdateTripFormDialog = () => {
 					})
 				}
 				title="Update Trip"
-				description="Edit Trip information"
+				description="Records trips combining driver and vehicle assignments with status tracking through the journey lifecycle"
 			>
 				<FieldSet>
 					{/* Assignment */}
@@ -84,7 +84,8 @@ const UpdateTripFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Driver"
-									description="Enter driver"
+									description="The driver assigned to this trip"
+									tooltip="e.g., 'DRV-001', 'Juan Dela Cruz'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateTripFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Vehicle"
-									description="Enter vehicle"
+									description="The vehicle assigned to this trip"
+									tooltip="e.g., 'VEH-001', 'ABC-1234'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateTripFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current status of the trip"
+									tooltip="e.g., 'planned', 'in-progress', 'completed'"
 									options={[
 										{ label: "Planned", value: "planned" },
 										{ label: "In Progress", value: "in-progress" },
@@ -119,6 +122,73 @@ const UpdateTripFormDialog = () => {
 										{ label: "Cancelled", value: "cancelled" },
 									]}
 									placeholder="Select..."
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Timing</FieldSeparator>
+
+					{/* Timing */}
+					<FieldGroup>
+						<FieldLegend>Timing</FieldLegend>
+						<FieldDescription>Manage timing information</FieldDescription>
+
+						<form.AppField name="startTime">
+							{(field) => (
+								<field.DateTimeField
+									label="Start Time"
+									description="When the trip started or is scheduled to start"
+									tooltip="e.g., 01/15/2024 08:00 AM, 02/01/2024 06:30"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="endTime">
+							{(field) => (
+								<field.DateTimeField
+									label="End Time"
+									description="When the trip ended or is scheduled to end"
+									tooltip="e.g., 01/15/2024 06:00 PM, 02/01/2024 18:30"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Route</FieldSeparator>
+
+					{/* Route */}
+					<FieldGroup>
+						<FieldLegend>Route</FieldLegend>
+						<FieldDescription>Manage route information</FieldDescription>
+
+						<form.AppField name="route">
+							{(field) => (
+								<field.TextField
+									label="Route"
+									description="The predefined route for this trip"
+									tooltip="e.g., 'Route A', 'Daily Circuit North'"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Notes</FieldSeparator>
+
+					{/* Notes */}
+					<FieldGroup>
+						<FieldLegend>Notes</FieldLegend>
+						<FieldDescription>Manage notes information</FieldDescription>
+
+						<form.AppField name="notes">
+							{(field) => (
+								<field.TextareaField
+									label="Notes"
+									description="Additional notes or special instructions for this trip"
+									tooltip="e.g., 'Priority shipments', 'Special handling required'"
+									placeholder=""
 								/>
 							)}
 						</form.AppField>

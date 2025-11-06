@@ -72,7 +72,7 @@ const UpdateDriverFormDialog = () => {
 					})
 				}
 				title="Update Driver"
-				description="Edit Driver information"
+				description="Records driver information including license details, operational status, and expiry dates for fleet management"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateDriverFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="User"
-									description="Enter user"
+									description="The user account associated with this driver"
+									tooltip="e.g., 'DRV-001', 'juan.cruz@company.com'"
 									placeholder=""
 								/>
 							)}
@@ -106,7 +107,8 @@ const UpdateDriverFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="License Number"
-									description="Enter licensenumber"
+									description="The driver's official license number"
+									tooltip="e.g., 'N01-12-345678', 'DL123456789'"
 									placeholder=""
 								/>
 							)}
@@ -115,7 +117,8 @@ const UpdateDriverFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="License Expiry Date"
-									description="Select date"
+									description="The date when the driver's license expires"
+									tooltip="e.g., 01/15/2025, 12/31/2026"
 									placeholder=""
 								/>
 							)}
@@ -133,7 +136,8 @@ const UpdateDriverFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current operational status of the driver"
+									tooltip="e.g., 'active', 'inactive', 'on-leave'"
 									options={[
 										{ label: "Active", value: "active" },
 										{ label: "Inactive", value: "inactive" },

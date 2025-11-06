@@ -58,7 +58,7 @@ const CreateOutboundShipmentItemFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create OutboundShipmentItem"
-				description="Fill out the form to create a new Outboundshipmentitem"
+				description="Line items for outbound shipments tracking product, batch, and shipped quantities"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -70,7 +70,8 @@ const CreateOutboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Outbound Shipment"
-									description="Enter outboundshipment"
+									description="The outbound shipment this item is part of"
+									tooltip="e.g., 'OBS-2024-001', 'SHIP-123'"
 									placeholder=""
 									required
 								/>
@@ -80,7 +81,8 @@ const CreateOutboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sales Order Item"
-									description="Enter salesorderitem"
+									description="The sales order line item being shipped"
+									tooltip="e.g., 'SOI-001', 'LI-789'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +92,8 @@ const CreateOutboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product being shipped"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 									required
 								/>
@@ -109,7 +112,8 @@ const CreateOutboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Batch"
-									description="Enter batch"
+									description="Batch or lot number"
+									tooltip="e.g., 'BATCH-2024-001', 'LOT123'"
 									placeholder=""
 								/>
 							)}
@@ -127,7 +131,8 @@ const CreateOutboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity Shipped"
-									description="Enter number"
+									description="Quantity shipped on this line"
+									tooltip="e.g., 50, 100, 500"
 									placeholder="0"
 									min={0}
 									required

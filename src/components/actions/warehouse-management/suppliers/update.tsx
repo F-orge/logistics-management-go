@@ -72,7 +72,7 @@ const UpdateSupplierFormDialog = () => {
 					})
 				}
 				title="Update Supplier"
-				description="Edit Supplier information"
+				description="Records supplier information including contact details and optional client associations for procurement"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateSupplierFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="Supplier company name"
+									tooltip="e.g., 'ABC Supplier Corp', 'XYZ Trading'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateSupplierFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Contact Person"
-									description="Enter contactperson"
+									description="Name of main contact person"
+									tooltip="e.g., 'John Smith', 'Maria Garcia'"
 									placeholder=""
 								/>
 							)}
@@ -113,7 +115,8 @@ const UpdateSupplierFormDialog = () => {
 							{(field) => (
 								<field.EmailField
 									label="Email"
-									description="Enter email address"
+									description="Email address for communication"
+									tooltip="e.g., 'contact@supplier.com'"
 									placeholder="example@email.com"
 								/>
 							)}
@@ -122,7 +125,8 @@ const UpdateSupplierFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Phone Number"
-									description="Enter phonenumber"
+									description="Phone number for contact"
+									tooltip="e.g., '+63 2 1234 5678'"
 									placeholder=""
 								/>
 							)}
@@ -140,7 +144,8 @@ const UpdateSupplierFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="Associated client (optional)"
+									tooltip="e.g., 'CLI-001', 'ABC Company'"
 									placeholder=""
 								/>
 							)}

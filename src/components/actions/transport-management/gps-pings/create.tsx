@@ -57,7 +57,7 @@ const CreateGpsPingFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create GpsPing"
-				description="Fill out the form to create a new Gpsping"
+				description="GPS location data points recorded for vehicle tracking and route analysis"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateGpsPingFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Vehicle"
-									description="Enter vehicle"
+									description="The vehicle being tracked"
+									tooltip="e.g., 'VEH-001', 'TRUCK-A', 'License ABC123'"
 									placeholder=""
 									required
 								/>
@@ -88,7 +89,8 @@ const CreateGpsPingFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Coordinates"
-									description="Enter coordinates"
+									description="GPS coordinates in latitude,longitude format"
+									tooltip="e.g., '14.5995,120.9842', '14.6091,121.0175'"
 									placeholder=""
 									required
 								/>
@@ -107,9 +109,41 @@ const CreateGpsPingFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Timestamp"
-									description="Select date and time"
+									description="The date and time of this GPS reading"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
 									placeholder=""
 									required
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Details</FieldSeparator>
+
+					{/* Details */}
+					<FieldGroup>
+						<FieldLegend>Details</FieldLegend>
+						<FieldDescription>Manage details information</FieldDescription>
+
+						<form.AppField name="accuracy">
+							{(field) => (
+								<field.NumberField
+									label="Accuracy"
+									description="GPS accuracy in meters"
+									tooltip="e.g., 5, 10, 50"
+									placeholder="0"
+									min={0}
+								/>
+							)}
+						</form.AppField>
+						<form.AppField name="speed">
+							{(field) => (
+								<field.NumberField
+									label="Speed"
+									description="Vehicle speed in km/h at this reading"
+									tooltip="e.g., 0, 25, 60"
+									placeholder="0"
+									min={0}
 								/>
 							)}
 						</form.AppField>

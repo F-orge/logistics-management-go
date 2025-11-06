@@ -72,7 +72,7 @@ const UpdateClientAccountFormDialog = () => {
 					})
 				}
 				title="Update ClientAccount"
-				description="Edit Clientaccount information"
+				description="Manages client financial accounts, wallet balances, credit limits, and payment terms for each client in the system"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateClientAccountFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Client"
-									description="Enter client"
+									description="Select the client associated with this account"
+									tooltip="e.g., 'Client ABC Inc', 'Enterprise Solutions Ltd'"
 									placeholder=""
 								/>
 							)}
@@ -104,7 +105,8 @@ const UpdateClientAccountFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Wallet Balance"
-									description="Enter number"
+									description="The current balance available in this client's wallet account"
+									tooltip="e.g., 1000.50, 5000, 10000"
 									placeholder="0"
 									min={0}
 								/>
@@ -125,7 +127,8 @@ const UpdateClientAccountFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Credit Limit"
-									description="Enter number"
+									description="The maximum amount of credit this client is allowed to use"
+									tooltip="e.g., 50000, 100000, 500000"
 									placeholder="0"
 									min={0}
 								/>
@@ -135,7 +138,8 @@ const UpdateClientAccountFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Credit Approved"
-									description="Enter iscreditapproved"
+									description="Indicates whether credit facilities have been approved for this client"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
@@ -155,7 +159,8 @@ const UpdateClientAccountFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Payment Terms Days"
-									description="Enter number"
+									description="Number of days from invoice date that payment is due"
+									tooltip="e.g., 30, 60, 90"
 									placeholder="0"
 									min={0}
 								/>

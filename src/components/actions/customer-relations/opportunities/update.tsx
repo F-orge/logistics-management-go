@@ -72,7 +72,7 @@ const UpdateOpportunityFormDialog = () => {
 					})
 				}
 				title="Update Opportunity"
-				description="Edit Opportunity information"
+				description="Tracks sales opportunities through deal pipeline stages with value, probability, and close date estimates"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -86,7 +86,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="Opportunity or deal name"
+									tooltip="e.g., 'Enterprise License Deal', 'Integration Project'"
 									placeholder=""
 								/>
 							)}
@@ -95,7 +96,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Company"
-									description="Enter company"
+									description="Company associated with this opportunity"
+									tooltip="e.g., 'ABC Company', 'XYZ Corporation'"
 									placeholder=""
 								/>
 							)}
@@ -115,7 +117,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Contact"
-									description="Enter contact"
+									description="Primary contact for this opportunity"
+									tooltip="e.g., 'John Doe', 'Jane Smith'"
 									placeholder=""
 								/>
 							)}
@@ -124,7 +127,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Campaign"
-									description="Enter campaign"
+									description="Related marketing campaign if applicable"
+									tooltip="e.g., 'CAM-2024-001', 'Summer Campaign'"
 									placeholder=""
 								/>
 							)}
@@ -142,7 +146,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Deal Value"
-									description="Enter number"
+									description="Expected deal value or revenue"
+									tooltip="e.g., 50000, 250000, 1000000"
 									placeholder="0"
 									min={0}
 								/>
@@ -152,7 +157,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Stage"
-									description="Select an option"
+									description="Current stage in the sales pipeline"
+									tooltip="e.g., 'prospecting', 'qualification', 'proposal'"
 									options={[
 										{ label: "Prospecting", value: "prospecting" },
 										{ label: "Qualification", value: "qualification" },
@@ -171,7 +177,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Probability"
-									description="Enter number"
+									description="Probability of closing between 0-100%"
+									tooltip="e.g., 25, 50, 75"
 									placeholder="0"
 									min={0}
 								/>
@@ -181,7 +188,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Source"
-									description="Select an option"
+									description="Source of this sales opportunity"
+									tooltip="e.g., 'referral', 'existing-customer', 'event'"
 									options={[
 										{ label: "Website", value: "website" },
 										{ label: "Referral", value: "referral" },
@@ -211,7 +219,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Expected Close Date"
-									description="Select date"
+									description="Expected close date for this deal"
+									tooltip="e.g., 02/28/2024, 03/31/2024"
 									placeholder=""
 								/>
 							)}
@@ -229,7 +238,8 @@ const UpdateOpportunityFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Owner"
-									description="Enter owner"
+									description="Account executive managing this opportunity"
+									tooltip="e.g., 'John Sales Exec', 'sales-exec@company.com'"
 									placeholder=""
 								/>
 							)}

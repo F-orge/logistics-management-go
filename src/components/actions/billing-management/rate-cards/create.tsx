@@ -57,7 +57,7 @@ const CreateRateCardFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create RateCard"
-				description="Fill out the form to create a new Ratecard"
+				description="Defines pricing rate cards for various services (shipping, storage, fulfillment, etc.) with validity periods and active status"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateRateCardFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="A unique name identifying this rate card"
+									tooltip="e.g., 'Standard Shipping 2024', 'Express Fulfillment'"
 									placeholder=""
 									required
 								/>
@@ -92,7 +93,8 @@ const CreateRateCardFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="The service category this rate card applies to"
+									tooltip="e.g., shipping, storage, fulfillment, handling"
 									options={[
 										{ label: "Shipping", value: "shipping" },
 										{ label: "Storage", value: "storage" },
@@ -121,7 +123,8 @@ const CreateRateCardFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Active"
-									description="Enter isactive"
+									description="Mark whether this rate card is currently in use for billing"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 									required
 								/>
@@ -140,7 +143,8 @@ const CreateRateCardFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Description"
-									description="Enter details"
+									description="Additional information about the purpose and terms of this rate card"
+									tooltip="e.g., 'Applies to domestic shipments under 50kg', 'Q1 2024 promotional rates'"
 									placeholder=""
 								/>
 							)}
@@ -158,7 +162,8 @@ const CreateRateCardFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Valid From"
-									description="Select date"
+									description="The date when this rate card becomes effective"
+									tooltip="e.g., 01/01/2024, 01/04/2024"
 									placeholder=""
 								/>
 							)}
@@ -167,7 +172,8 @@ const CreateRateCardFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Valid To"
-									description="Select date"
+									description="The date when this rate card expires or becomes inactive"
+									tooltip="e.g., 12/31/2024, 06/30/2024"
 									placeholder=""
 								/>
 							)}

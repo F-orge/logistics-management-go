@@ -72,7 +72,7 @@ const UpdateGeofenceEventFormDialog = () => {
 					})
 				}
 				title="Update GeofenceEvent"
-				description="Edit Geofenceevent information"
+				description="Records of vehicles entering or exiting geofenced areas for location tracking and alerts"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateGeofenceEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Geofence"
-									description="Enter geofence"
+									description="The geofence this event is associated with"
+									tooltip="e.g., 'GEO-001', 'Zone A', 'Warehouse boundary'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateGeofenceEventFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Vehicle"
-									description="Enter vehicle"
+									description="The vehicle that triggered this event"
+									tooltip="e.g., 'VEH-001', 'TRUCK-A', 'License ABC123'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateGeofenceEventFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Type"
-									description="Select an option"
+									description="Whether the vehicle entered or exited the geofence"
+									tooltip="e.g., 'entry', 'exit'"
 									options={[
 										{ label: "Entry", value: "entry" },
 										{ label: "Exit", value: "exit" },
@@ -133,7 +136,47 @@ const UpdateGeofenceEventFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Timestamp"
-									description="Select date and time"
+									description="The date and time when this geofence event occurred"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Details</FieldSeparator>
+
+					{/* Details */}
+					<FieldGroup>
+						<FieldLegend>Details</FieldLegend>
+						<FieldDescription>Manage details information</FieldDescription>
+
+						<form.AppField name="duration">
+							{(field) => (
+								<field.NumberField
+									label="Duration"
+									description="Duration spent inside geofence in minutes (for exit events)"
+									tooltip="e.g., 30, 120, 300"
+									placeholder="0"
+									min={0}
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Notes</FieldSeparator>
+
+					{/* Notes */}
+					<FieldGroup>
+						<FieldLegend>Notes</FieldLegend>
+						<FieldDescription>Manage notes information</FieldDescription>
+
+						<form.AppField name="notes">
+							{(field) => (
+								<field.TextareaField
+									label="Notes"
+									description="Additional notes about this geofence event"
+									tooltip="e.g., 'Early arrival', 'Extended stay', 'Unexpected entry'"
 									placeholder=""
 								/>
 							)}

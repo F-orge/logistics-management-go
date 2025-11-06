@@ -57,7 +57,7 @@ const CreateSurchargeFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Surcharge"
-				description="Fill out the form to create a new Surcharge"
+				description="Defines additional charges that can be applied to services such as fuel surcharges, handling fees, or seasonal premiums with calculation methods and validity dates"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="A descriptive name for this surcharge"
+									tooltip="e.g., 'Fuel Surcharge 2024', 'Holiday Premium', 'Hazmat Fee'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Calculation Method"
-									description="Select an option"
+									description="The method used to calculate the surcharge amount"
+									tooltip="e.g., percentage, fixed, per-unit, sliding-scale"
 									options={[
 										{ label: "Percentage", value: "percentage" },
 										{ label: "Fixed", value: "fixed" },
@@ -115,7 +117,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Active"
-									description="Enter isactive"
+									description="Mark whether this surcharge is currently being applied"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 									required
 								/>
@@ -134,7 +137,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Amount"
-									description="Enter number"
+									description="The fixed surcharge amount (for fixed calculation method)"
+									tooltip="e.g., 5.5, 10, 25.75"
 									placeholder="0"
 									min={0}
 								/>
@@ -155,7 +159,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Type"
-									description="Enter type"
+									description="Category or type of surcharge for reporting purposes"
+									tooltip="e.g., 'fuel', 'handling', 'seasonal', 'hazmat'"
 									placeholder=""
 								/>
 							)}
@@ -173,7 +178,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Description"
-									description="Enter details"
+									description="Detailed explanation of when and why this surcharge is applied"
+									tooltip="e.g., 'Applied when fuel prices exceed $3 per liter', 'Holiday period premium'"
 									placeholder=""
 								/>
 							)}
@@ -191,7 +197,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Valid From"
-									description="Select date"
+									description="The start date when this surcharge becomes effective"
+									tooltip="e.g., 01/01/2024, 01/04/2024"
 									placeholder=""
 								/>
 							)}
@@ -200,7 +207,8 @@ const CreateSurchargeFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Valid To"
-									description="Select date"
+									description="The end date when this surcharge expires or becomes inactive"
+									tooltip="e.g., 12/31/2024, 03/31/2024"
 									placeholder=""
 								/>
 							)}

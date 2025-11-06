@@ -57,7 +57,7 @@ const CreateSalesOrderItemFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create SalesOrderItem"
-				description="Fill out the form to create a new Salesorderitem"
+				description="Line items for sales orders tracking product, quantity, and fulfillment details"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreateSalesOrderItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Sales Order"
-									description="Enter salesorder"
+									description="The sales order this item belongs to"
+									tooltip="e.g., 'SO-2024-001', 'ORD-789'"
 									placeholder=""
 								/>
 							)}
@@ -78,7 +79,8 @@ const CreateSalesOrderItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product ordered"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -96,7 +98,8 @@ const CreateSalesOrderItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Quantity Ordered"
-									description="Enter number"
+									description="Quantity of this product ordered"
+									tooltip="e.g., 5, 10, 100"
 									placeholder="0"
 									min={0}
 									required

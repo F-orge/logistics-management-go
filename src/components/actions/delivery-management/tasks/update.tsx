@@ -72,7 +72,7 @@ const UpdateTaskFormDialog = () => {
 					})
 				}
 				title="Update Task"
-				description="Edit Task information"
+				description="Represents individual delivery tasks with recipient details, delivery address, timing, and failure tracking for multi-attempt deliveries"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Route"
-									description="Enter route"
+									description="The delivery route this task is part of"
+									tooltip="e.g., 'ROUTE-001', 'DLV-456'"
 									placeholder=""
 								/>
 							)}
@@ -93,7 +94,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Package"
-									description="Enter package"
+									description="The package to be delivered"
+									tooltip="e.g., 'PKG-001', 'PACK-789'"
 									placeholder=""
 								/>
 							)}
@@ -111,7 +113,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Delivery Address"
-									description="Enter deliveryaddress"
+									description="The complete delivery address"
+									tooltip="e.g., '123 Main St, QC', 'Warehouse Building A'"
 									placeholder=""
 								/>
 							)}
@@ -129,7 +132,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Sequence"
-									description="Enter number"
+									description="The sequence number of this task in the route"
+									tooltip="e.g., 1, 2, 3, 4"
 									placeholder="0"
 									min={0}
 								/>
@@ -148,7 +152,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="The current delivery status of this task"
+									tooltip="e.g., 'pending', 'assigned', 'delivered'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Assigned", value: "assigned" },
@@ -175,7 +180,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Recipient Name"
-									description="Enter recipientname"
+									description="Name of the package recipient"
+									tooltip="e.g., 'John Doe', 'ABC Corporation'"
 									placeholder=""
 								/>
 							)}
@@ -184,7 +190,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Recipient Phone"
-									description="Enter recipientphone"
+									description="Contact phone number of the recipient"
+									tooltip="e.g., '+63 9123456789', '02-1234-5678'"
 									placeholder=""
 								/>
 							)}
@@ -202,7 +209,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Delivery Instructions"
-									description="Enter details"
+									description="Special delivery instructions or handling requirements"
+									tooltip="e.g., 'Ring bell twice', 'Leave at gate'"
 									placeholder=""
 								/>
 							)}
@@ -220,7 +228,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Estimated Arrival Time"
-									description="Select date and time"
+									description="Estimated time of arrival at delivery location"
+									tooltip="e.g., 01/15/2024 10:30 AM, 02/01/2024 14:45"
 									placeholder=""
 								/>
 							)}
@@ -229,7 +238,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Actual Arrival Time"
-									description="Select date and time"
+									description="Actual arrival time at delivery location"
+									tooltip="e.g., 01/15/2024 10:25 AM, 02/01/2024 14:50"
 									placeholder=""
 								/>
 							)}
@@ -238,7 +248,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Delivery Time"
-									description="Select date and time"
+									description="Time when the delivery was completed"
+									tooltip="e.g., 01/15/2024 10:35 AM, 02/01/2024 15:00"
 									placeholder=""
 								/>
 							)}
@@ -258,7 +269,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Failure Reason"
-									description="Select an option"
+									description="Reason if delivery failed or did not complete"
+									tooltip="e.g., 'recipient-not-home', 'address-not-found'"
 									options={[
 										{
 											label: "Recipient Not Home",
@@ -292,7 +304,8 @@ const UpdateTaskFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Attempt Count"
-									description="Enter number"
+									description="Number of delivery attempts made for this task"
+									tooltip="e.g., 1, 2, 3"
 									placeholder="0"
 									min={0}
 								/>

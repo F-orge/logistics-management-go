@@ -75,7 +75,7 @@ const UpdateInboundShipmentItemFormDialog = () => {
 					})
 				}
 				title="Update InboundShipmentItem"
-				description="Edit Inboundshipmentitem information"
+				description="Line items for inbound shipments tracking expected quantities, received quantities, and discrepancies"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -87,7 +87,8 @@ const UpdateInboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Inbound Shipment"
-									description="Enter inboundshipment"
+									description="The inbound shipment this item belongs to"
+									tooltip="e.g., 'IBS-2024-001', 'RECV-123'"
 									placeholder=""
 								/>
 							)}
@@ -96,7 +97,8 @@ const UpdateInboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product on this line"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -114,7 +116,8 @@ const UpdateInboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Expected Quantity"
-									description="Enter number"
+									description="Expected quantity to receive"
+									tooltip="e.g., 50, 100, 500"
 									placeholder="0"
 									min={0}
 								/>
@@ -124,7 +127,8 @@ const UpdateInboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Received Quantity"
-									description="Enter number"
+									description="Actual quantity received"
+									tooltip="e.g., 48, 100, 495"
 									placeholder="0"
 									min={0}
 								/>
@@ -143,7 +147,8 @@ const UpdateInboundShipmentItemFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Discrepancy Notes"
-									description="Enter details"
+									description="Notes on any quantity discrepancies or damage"
+									tooltip="e.g., '2 units damaged', '5 units missing'"
 									placeholder=""
 								/>
 							)}

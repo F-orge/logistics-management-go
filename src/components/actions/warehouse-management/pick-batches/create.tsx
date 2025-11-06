@@ -57,7 +57,7 @@ const CreatePickBatchFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create PickBatch"
-				description="Fill out the form to create a new Pickbatch"
+				description="Groups orders into picking batches with strategy (zone, batch, wave, cluster) and performance metrics"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -69,7 +69,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Warehouse"
-									description="Enter warehouse"
+									description="The warehouse where this batch will be picked"
+									tooltip="e.g., 'WH-001', 'Manila Warehouse'"
 									placeholder=""
 								/>
 							)}
@@ -89,7 +90,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Batch Number"
-									description="Enter batchnumber"
+									description="Unique identifier for this pick batch"
+									tooltip="e.g., 'PB-2024-001', 'PICK-789'"
 									placeholder=""
 								/>
 							)}
@@ -107,7 +109,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Priority"
-									description="Enter number"
+									description="Priority level for processing"
+									tooltip="e.g., 1 (highest), 2, 3"
 									placeholder="0"
 									min={0}
 									required
@@ -127,7 +130,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Status"
-									description="Select an option"
+									description="Current status of the batch"
+									tooltip="e.g., 'pending', 'in-progress', 'completed'"
 									options={[
 										{ label: "Pending", value: "pending" },
 										{ label: "Assigned", value: "assigned" },
@@ -152,7 +156,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.SelectField
 									label="Strategy"
-									description="Select an option"
+									description="Picking strategy used for this batch"
+									tooltip="e.g., 'zone', 'batch', 'wave', 'cluster'"
 									options={[
 										{ label: "Zone", value: "zone" },
 										{ label: "Batch", value: "batch" },
@@ -176,7 +181,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Assigned User"
-									description="Enter assigneduser"
+									description="Worker assigned to pick this batch"
+									tooltip="e.g., 'WRK-001', 'Juan Dela Cruz'"
 									placeholder=""
 								/>
 							)}
@@ -194,7 +200,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Total Items"
-									description="Enter number"
+									description="Total line items to pick"
+									tooltip="e.g., 10, 25, 50"
 									placeholder="0"
 									min={0}
 								/>
@@ -204,7 +211,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Completed Items"
-									description="Enter number"
+									description="Number of items already picked"
+									tooltip="e.g., 5, 25, 50"
 									placeholder="0"
 									min={0}
 								/>
@@ -223,7 +231,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Estimated Duration"
-									description="Enter number"
+									description="Estimated picking time in minutes"
+									tooltip="e.g., 15, 30, 60"
 									placeholder="0"
 									min={0}
 								/>
@@ -233,7 +242,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Actual Duration"
-									description="Enter number"
+									description="Actual time taken in minutes"
+									tooltip="e.g., 20, 45, 75"
 									placeholder="0"
 									min={0}
 								/>
@@ -252,7 +262,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Started At"
-									description="Select date and time"
+									description="When picking started"
+									tooltip="e.g., 01/15/2024 08:30 AM"
 									placeholder=""
 								/>
 							)}
@@ -261,7 +272,8 @@ const CreatePickBatchFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Completed At"
-									description="Select date and time"
+									description="When picking was completed"
+									tooltip="e.g., 01/15/2024 09:30 AM"
 									placeholder=""
 								/>
 							)}

@@ -72,7 +72,7 @@ const UpdateDriverLocationFormDialog = () => {
 					})
 				}
 				title="Update DriverLocation"
-				description="Edit Driverlocation information"
+				description="Tracks real-time GPS coordinates of drivers including heading, speed, accuracy, and timestamp"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -84,7 +84,8 @@ const UpdateDriverLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Driver"
-									description="Enter driver"
+									description="The driver being tracked"
+									tooltip="e.g., 'DRV-001', 'Juan Dela Cruz'"
 									placeholder=""
 								/>
 							)}
@@ -102,7 +103,8 @@ const UpdateDriverLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Coordinates"
-									description="Enter coordinates"
+									description="Current GPS coordinates (latitude, longitude)"
+									tooltip="e.g., '14.5995, 120.9842'"
 									placeholder=""
 								/>
 							)}
@@ -120,7 +122,8 @@ const UpdateDriverLocationFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Heading"
-									description="Enter heading"
+									description="Direction of driver movement"
+									tooltip="e.g., '120' (degrees), 'NE'"
 									placeholder=""
 								/>
 							)}
@@ -129,7 +132,8 @@ const UpdateDriverLocationFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Speed"
-									description="Enter number"
+									description="Current speed in km/h"
+									tooltip="e.g., 30, 60, 80"
 									placeholder="0"
 									min={0}
 								/>
@@ -148,7 +152,8 @@ const UpdateDriverLocationFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Accuracy"
-									description="Enter number"
+									description="GPS accuracy in meters"
+									tooltip="e.g., 5, 10, 20"
 									placeholder="0"
 									min={0}
 								/>
@@ -167,7 +172,8 @@ const UpdateDriverLocationFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Timestamp"
-									description="Select date and time"
+									description="Time when location was recorded"
+									tooltip="e.g., 01/15/2024 08:30 AM"
 									placeholder=""
 								/>
 							)}

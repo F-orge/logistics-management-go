@@ -58,7 +58,7 @@ const CreateVehicleMaintenanceFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create VehicleMaintenance"
-				description="Fill out the form to create a new Vehiclemaintenance"
+				description="Logs vehicle maintenance records including service dates, types, and costs for preventive maintenance tracking"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -70,7 +70,8 @@ const CreateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Vehicle"
-									description="Enter vehicle"
+									description="The vehicle being maintained"
+									tooltip="e.g., 'VEH-001', 'ABC-1234'"
 									placeholder=""
 									required
 								/>
@@ -91,7 +92,8 @@ const CreateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Service Date"
-									description="Select date"
+									description="The date when the service was performed"
+									tooltip="e.g., 01/15/2024, 02/01/2024"
 									placeholder=""
 									required
 								/>
@@ -101,7 +103,8 @@ const CreateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Service Type"
-									description="Enter servicetype"
+									description="The type of service performed"
+									tooltip="e.g., 'Oil change', 'Tire rotation', 'Brake inspection'"
 									placeholder=""
 									required
 								/>
@@ -120,7 +123,8 @@ const CreateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.NumberField
 									label="Cost"
-									description="Enter number"
+									description="The cost of this maintenance service"
+									tooltip="e.g., 500, 1500.50, 5000"
 									placeholder="0"
 									min={0}
 								/>
@@ -141,7 +145,8 @@ const CreateVehicleMaintenanceFormDialog = () => {
 							{(field) => (
 								<field.TextareaField
 									label="Notes"
-									description="Enter details"
+									description="Additional notes about the service performed"
+									tooltip="e.g., 'Replaced brake pads', 'Engine oil filter changed'"
 									placeholder=""
 								/>
 							)}

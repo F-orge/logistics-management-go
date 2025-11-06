@@ -75,7 +75,7 @@ const UpdateInventoryBatchFormDialog = () => {
 					})
 				}
 				title="Update InventoryBatch"
-				description="Edit Inventorybatch information"
+				description="Tracks product batches with batch numbers and expiration dates for FIFO inventory management"
 			>
 				<FieldSet>
 					{/* Reference */}
@@ -87,7 +87,8 @@ const UpdateInventoryBatchFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Product"
-									description="Enter product"
+									description="The product this batch belongs to"
+									tooltip="e.g., 'PROD-001', 'SKU123456'"
 									placeholder=""
 								/>
 							)}
@@ -107,7 +108,8 @@ const UpdateInventoryBatchFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Batch Number"
-									description="Enter batchnumber"
+									description="Unique batch identifier for this product lot"
+									tooltip="e.g., 'BATCH-2024-001', 'LOT-789'"
 									placeholder=""
 								/>
 							)}
@@ -125,7 +127,47 @@ const UpdateInventoryBatchFormDialog = () => {
 							{(field) => (
 								<field.DateTimeField
 									label="Expiration Date"
-									description="Select date"
+									description="Expiration date of this batch"
+									tooltip="e.g., 12/31/2024, 06/30/2025"
+									placeholder=""
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Quantity</FieldSeparator>
+
+					{/* Quantity */}
+					<FieldGroup>
+						<FieldLegend>Quantity</FieldLegend>
+						<FieldDescription>Manage quantity information</FieldDescription>
+
+						<form.AppField name="quantity">
+							{(field) => (
+								<field.NumberField
+									label="Quantity"
+									description="Total quantity in this batch"
+									tooltip="e.g., 100, 500, 1000"
+									placeholder="0"
+									min={0}
+								/>
+							)}
+						</form.AppField>
+					</FieldGroup>
+
+					<FieldSeparator>Details</FieldSeparator>
+
+					{/* Details */}
+					<FieldGroup>
+						<FieldLegend>Details</FieldLegend>
+						<FieldDescription>Manage details information</FieldDescription>
+
+						<form.AppField name="notes">
+							{(field) => (
+								<field.TextareaField
+									label="Notes"
+									description="Additional notes about the batch"
+									tooltip="e.g., 'Defect from supplier', 'Quality issue noted'"
 									placeholder=""
 								/>
 							)}

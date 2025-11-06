@@ -57,7 +57,7 @@ const CreateWarehouseFormDialog = () => {
 					navigate({ search: (prev) => ({ ...prev, action: undefined }) })
 				}
 				title="Create Warehouse"
-				description="Fill out the form to create a new Warehouse"
+				description="Stores warehouse facility information including addresses, contact details, timezone, and operational status"
 			>
 				<FieldSet>
 					{/* Basic Information */}
@@ -71,7 +71,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Name"
-									description="Enter name"
+									description="The name of the warehouse facility"
+									tooltip="e.g., 'Manila Warehouse', 'Cebu Distribution Center'"
 									placeholder=""
 									required
 								/>
@@ -90,7 +91,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Address"
-									description="Enter address"
+									description="The street address of the warehouse"
+									tooltip="e.g., '123 Main Street', 'Block A Building 1'"
 									placeholder=""
 									required
 								/>
@@ -100,7 +102,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="City"
-									description="Enter city"
+									description="The city where the warehouse is located"
+									tooltip="e.g., 'Manila', 'Cebu City', 'Davao'"
 									placeholder=""
 									required
 								/>
@@ -110,7 +113,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="State"
-									description="Enter state"
+									description="The state or province where the warehouse is located"
+									tooltip="e.g., 'Metro Manila', 'Cebu', 'Davao del Sur'"
 									placeholder=""
 									required
 								/>
@@ -120,7 +124,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Country"
-									description="Enter country"
+									description="The country where the warehouse is located"
+									tooltip="e.g., 'Philippines', 'Vietnam', 'Thailand'"
 									placeholder=""
 									required
 								/>
@@ -130,7 +135,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Postal Code"
-									description="Enter postalcode"
+									description="The postal code of the warehouse location"
+									tooltip="e.g., '1200', '6000', '8000'"
 									placeholder=""
 									required
 								/>
@@ -151,7 +157,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Contact Person"
-									description="Enter contactperson"
+									description="Name of the main contact person for this warehouse"
+									tooltip="e.g., 'John Doe', 'Maria Garcia'"
 									placeholder=""
 								/>
 							)}
@@ -160,7 +167,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Contact Phone"
-									description="Enter contactphone"
+									description="Phone number for warehouse contact"
+									tooltip="e.g., '+63 2 1234-5678', '09123456789'"
 									placeholder=""
 								/>
 							)}
@@ -169,7 +177,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.EmailField
 									label="Contact Email"
-									description="Enter email address"
+									description="Email address for warehouse contact"
+									tooltip="e.g., 'manager@warehouse.com', 'contact@logistics.com'"
 									placeholder="example@email.com"
 								/>
 							)}
@@ -189,7 +198,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Timezone"
-									description="Enter timezone"
+									description="The timezone for warehouse operations"
+									tooltip="e.g., 'UTC+8', 'Asia/Manila'"
 									placeholder=""
 								/>
 							)}
@@ -207,7 +217,8 @@ const CreateWarehouseFormDialog = () => {
 							{(field) => (
 								<field.TextField
 									label="Is Active"
-									description="Enter isactive"
+									description="Whether this warehouse is currently active and operational"
+									tooltip="e.g., 'yes', 'no', 'true', 'false'"
 									placeholder=""
 								/>
 							)}
