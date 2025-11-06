@@ -59,7 +59,12 @@ export default [
     cell: ({ row }) => {
       const url = row.getValue("website") as string | undefined;
       return url ? (
-        <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 hover:underline"
+        >
           {url}
         </a>
       ) : (

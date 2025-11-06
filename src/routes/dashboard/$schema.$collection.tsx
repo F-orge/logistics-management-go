@@ -12,7 +12,6 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
       perPage: z.number().min(10).nonnegative().max(100).catch(10),
       filter: z.string().optional(),
       sort: z.string().optional(),
-      expand: z.string().optional(),
     })
   ),
   beforeLoad: ({ search }) => ({ search }),
@@ -21,8 +20,6 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
       const { default: columns } = await import(
         `../../components/tables/${params.schema}/${params.collection}.tsx`
       );
-
-      console.log(columns);
 
       const collection = `${params.schema}-${params.collection}`.replaceAll(
         "-",
@@ -33,7 +30,6 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
         .collection(collection)
         .getList(context.search.page, context.search.perPage, {
           filter: context.search.filter,
-          expand: context.search.expand,
           sort: context.search.sort,
         });
 
@@ -53,8 +49,13 @@ function RouteComponent() {
   const { data, columns } = Route.useLoaderData();
 
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
-    </div>
+    <article className="grid grid-cols-12">
+      <section>{/* analytics section */}</section>
+      <section>{/* controls section */}</section>
+      <section className="col-span-full">
+        <DataTable columns={columns} data={data} />
+      </section>
+      <section>{/* actions section */}</section>
+    </article>
   );
 }
