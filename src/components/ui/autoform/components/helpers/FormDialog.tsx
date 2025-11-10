@@ -14,10 +14,12 @@ export type FormDialogProps<T extends z.ZodObject> = {
   title?: React.ReactNode;
   description?: React.ReactNode;
   schema: T;
-  onSubmit: (data: z.infer<T>) => void;
+  onSubmit: (data: z.infer<T>) => Promise<void> | void;
+  defaultValues?: Partial<z.infer<T>>;
 } & React.ComponentProps<typeof Dialog>;
 
 const FormDialog = <T extends z.ZodObject>({
+  defaultValues,
   title,
   description,
   schema,
@@ -32,6 +34,7 @@ const FormDialog = <T extends z.ZodObject>({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <AutoForm
+          defaultValues={defaultValues}
           schema={new ZodProvider(schema)}
           onSubmit={onSubmit}
           withSubmit
