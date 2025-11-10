@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
-import React from "react";
+import { Button } from "@/components/ui/button";
 
 const CompanyControls = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
