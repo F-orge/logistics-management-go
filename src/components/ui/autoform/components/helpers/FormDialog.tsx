@@ -28,7 +28,7 @@ const FormDialog = <T extends z.ZodObject>({
 }: FormDialogProps<T>) => {
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
+      <DialogContent className="max-h-3/4 overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
