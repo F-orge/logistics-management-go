@@ -9,7 +9,7 @@ const DriverControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({ search: (prev) => ({ ...prev, action: "createDriver" }) })
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

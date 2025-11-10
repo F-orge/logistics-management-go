@@ -8,1065 +8,1217 @@ import { z } from "zod";
 import * as PB from "../lib/pb.types";
 
 export const AuthoriginsSchema = z.object({
-  collectionRef: z.string(),
-  created: z.iso.date(),
-  fingerprint: z.string(),
-  id: z.string(),
-  recordRef: z.string(),
-  updated: z.iso.date(),
+	collectionRef: z.string(),
+	created: z.iso.date(),
+	fingerprint: z.string(),
+	id: z.string(),
+	recordRef: z.string(),
+	updated: z.iso.date(),
 });
 
 export type Authorigins = z.infer<typeof AuthoriginsSchema>;
 export const ExternalauthsSchema = z.object({
-  collectionRef: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  provider: z.string(),
-  providerId: z.string(),
-  recordRef: z.string(),
-  updated: z.iso.date(),
+	collectionRef: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	provider: z.string(),
+	providerId: z.string(),
+	recordRef: z.string(),
+	updated: z.iso.date(),
 });
 
 export type Externalauths = z.infer<typeof ExternalauthsSchema>;
 export const MfasSchema = z.object({
-  collectionRef: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  method: z.string(),
-  recordRef: z.string(),
-  updated: z.iso.date(),
+	collectionRef: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	method: z.string(),
+	recordRef: z.string(),
+	updated: z.iso.date(),
 });
 
 export type Mfas = z.infer<typeof MfasSchema>;
 export const OtpsSchema = z.object({
-  collectionRef: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  password: z.string(),
-  recordRef: z.string(),
-  sentTo: z.string().optional(),
-  updated: z.iso.date(),
+	collectionRef: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	password: z.string(),
+	recordRef: z.string(),
+	sentTo: z.string().optional(),
+	updated: z.iso.date(),
 });
 
 export type Otps = z.infer<typeof OtpsSchema>;
 export const SuperusersSchema = z.object({
-  created: z.iso.date(),
-  email: z.string(),
-  emailVisibility: z.boolean().optional(),
-  id: z.string(),
-  password: z.string(),
-  tokenKey: z.string(),
-  updated: z.iso.date(),
-  verified: z.boolean().optional(),
+	created: z.iso.date(),
+	email: z.string(),
+	emailVisibility: z.boolean().optional(),
+	id: z.string(),
+	password: z.string(),
+	tokenKey: z.string(),
+	updated: z.iso.date(),
+	verified: z.boolean().optional(),
 });
 
 export type Superusers = z.infer<typeof SuperusersSchema>;
 export const BillingManagementAccountTransactionsSchema = z.object({
-  amount: z.number(),
-  clientAccount: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  processedBy: z.string().optional(),
-  referenceNumber: z.string().optional(),
-  runningBalance: z.number().optional(),
-  transactionDate: z.iso.date().optional(),
-  type: z.enum(PB.BillingManagementAccountTransactionsTypeOptions),
-  updated: z.iso.date(),
+	amount: z.number(),
+	clientAccount: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	processedBy: z.string().optional(),
+	referenceNumber: z.string().optional(),
+	runningBalance: z.number().optional(),
+	transactionDate: z.iso.date().optional(),
+	type: z.enum(PB.BillingManagementAccountTransactionsTypeOptions),
+	updated: z.iso.date(),
 });
 
-export type BillingManagementAccountTransactions = z.infer<typeof BillingManagementAccountTransactionsSchema>;
+export type BillingManagementAccountTransactions = z.infer<
+	typeof BillingManagementAccountTransactionsSchema
+>;
 export const BillingManagementClientAccountsSchema = z.object({
-  availableCredit: z.number().optional(),
-  client: z.string().optional(),
-  created: z.iso.date(),
-  creditLimit: z.number().optional(),
-  currency: z.string().optional(),
-  id: z.string(),
-  isCreditApproved: z.boolean().optional(),
-  lastPaymentDate: z.iso.date().optional(),
-  paymentTermsDays: z.number().optional(),
-  updated: z.iso.date(),
-  walletBalance: z.number().optional(),
+	availableCredit: z.number().optional(),
+	client: z.string().optional(),
+	created: z.iso.date(),
+	creditLimit: z.number().optional(),
+	currency: z.string().optional(),
+	id: z.string(),
+	isCreditApproved: z.boolean().optional(),
+	lastPaymentDate: z.iso.date().optional(),
+	paymentTermsDays: z.number().optional(),
+	updated: z.iso.date(),
+	walletBalance: z.number().optional(),
 });
 
-export type BillingManagementClientAccounts = z.infer<typeof BillingManagementClientAccountsSchema>;
+export type BillingManagementClientAccounts = z.infer<
+	typeof BillingManagementClientAccountsSchema
+>;
 export const BillingManagementCreditNotesSchema = z.object({
-  amount: z.number().optional(),
-  appliedAt: z.iso.date().optional(),
-  created: z.iso.date(),
-  creditNoteNumber: z.string(),
-  currency: z.string(),
-  dispute: z.string(),
-  id: z.string(),
-  invoice: z.string(),
-  issueDate: z.iso.date(),
-  notes: z.string().optional(),
-  reason: z.string(),
-  updated: z.iso.date(),
+	amount: z.number().optional(),
+	appliedAt: z.iso.date().optional(),
+	created: z.iso.date(),
+	creditNoteNumber: z.string(),
+	currency: z.string(),
+	dispute: z.string(),
+	id: z.string(),
+	invoice: z.string(),
+	issueDate: z.iso.date(),
+	notes: z.string().optional(),
+	reason: z.string(),
+	updated: z.iso.date(),
 });
 
-export type BillingManagementCreditNotes = z.infer<typeof BillingManagementCreditNotesSchema>;
+export type BillingManagementCreditNotes = z.infer<
+	typeof BillingManagementCreditNotesSchema
+>;
 export const BillingManagementDisputesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  client: z.string(),
-  created: z.iso.date(),
-  disputeAmount: z.number().optional(),
-  id: z.string(),
-  lineItem: z.string(),
-  reason: z.string(),
-  resolutionNotes: z.string().optional(),
-  resolvedAt: z.iso.date().optional(),
-  resolvedBy: z.string().optional(),
-  status: z.enum(PB.BillingManagementDisputesStatusOptions),
-  submittedAt: z.iso.date().optional(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	client: z.string(),
+	created: z.iso.date(),
+	disputeAmount: z.number().optional(),
+	id: z.string(),
+	lineItem: z.string(),
+	reason: z.string(),
+	resolutionNotes: z.string().optional(),
+	resolvedAt: z.iso.date().optional(),
+	resolvedBy: z.string().optional(),
+	status: z.enum(PB.BillingManagementDisputesStatusOptions),
+	submittedAt: z.iso.date().optional(),
+	updated: z.iso.date(),
 });
 
-export type BillingManagementDisputes = z.infer<typeof BillingManagementDisputesSchema>;
+export type BillingManagementDisputes = z.infer<
+	typeof BillingManagementDisputesSchema
+>;
 export const BillingManagementInvoiceLineItemsSchema = z.object({
-  created: z.iso.date(),
-  description: z.string().optional(),
-  discountAmount: z.number().optional(),
-  discountRate: z.number().optional(),
-  id: z.string(),
-  invoice: z.string().optional(),
-  quantity: z.number().optional(),
-  taxAmount: z.number().optional(),
-  taxRate: z.number().optional(),
-  unitPrice: z.number().optional(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	description: z.string().optional(),
+	discountAmount: z.number().optional(),
+	discountRate: z.number().optional(),
+	id: z.string(),
+	invoice: z.string().optional(),
+	quantity: z.number().optional(),
+	taxAmount: z.number().optional(),
+	taxRate: z.number().optional(),
+	unitPrice: z.number().optional(),
+	updated: z.iso.date(),
 });
 
-export type BillingManagementInvoiceLineItems = z.infer<typeof BillingManagementInvoiceLineItemsSchema>;
+export type BillingManagementInvoiceLineItems = z.infer<
+	typeof BillingManagementInvoiceLineItemsSchema
+>;
 export const BillingManagementInvoicesSchema = z.object({
-  amountPaid: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  createdBy: z.string().optional(),
-  currency: z.string().optional(),
-  discountAmount: z.number().optional(),
-  dueDate: z.iso.date().optional(),
-  id: z.string(),
-  invoiceNumber: z.string().optional(),
-  issueDate: z.iso.date().optional(),
-  notes: z.string().optional(),
-  paidAt: z.iso.date().optional(),
-  paymentTerms: z.string().optional(),
-  quote: z.string().optional(),
-  sentAt: z.iso.date().optional(),
-  status: z.enum(PB.BillingManagementInvoicesStatusOptions).optional(),
-  subtotal: z.number().optional(),
-  totalAmount: z.number().optional(),
-  updated: z.iso.date(),
+	amountPaid: z.number().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.date(),
+	createdBy: z.string().optional(),
+	currency: z.string().optional(),
+	discountAmount: z.number().optional(),
+	dueDate: z.iso.date().optional(),
+	id: z.string(),
+	invoiceNumber: z.string().optional(),
+	issueDate: z.iso.date().optional(),
+	notes: z.string().optional(),
+	paidAt: z.iso.date().optional(),
+	paymentTerms: z.string().optional(),
+	quote: z.string().optional(),
+	sentAt: z.iso.date().optional(),
+	status: z.enum(PB.BillingManagementInvoicesStatusOptions).optional(),
+	subtotal: z.number().optional(),
+	totalAmount: z.number().optional(),
+	updated: z.iso.date(),
 });
 
-export type BillingManagementInvoices = z.infer<typeof BillingManagementInvoicesSchema>;
+export type BillingManagementInvoices = z.infer<
+	typeof BillingManagementInvoicesSchema
+>;
 export const BillingManagementPaymentsSchema = z.object({
-  amount: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  currency: z.string().optional(),
-  fees: z.number().optional(),
-  gatewayReferenceId: z.string().optional(),
-  id: z.string(),
-  invoice: z.string().optional(),
-  netAmount: z.number().optional(),
-  notes: z.string().optional(),
-  paymentDate: z.iso.date().optional(),
-  paymentMethod: z.enum(PB.BillingManagementPaymentsPaymentMethodOptions).optional(),
-  processedAt: z.iso.date().optional(),
-  processedBy: z.string().optional(),
-  status: z.enum(PB.BillingManagementPaymentsStatusOptions).optional(),
-  transactionId: z.string().optional(),
-  updated: z.iso.date(),
+	amount: z.number().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.date(),
+	currency: z.string().optional(),
+	fees: z.number().optional(),
+	gatewayReferenceId: z.string().optional(),
+	id: z.string(),
+	invoice: z.string().optional(),
+	netAmount: z.number().optional(),
+	notes: z.string().optional(),
+	paymentDate: z.iso.date().optional(),
+	paymentMethod: z
+		.enum(PB.BillingManagementPaymentsPaymentMethodOptions)
+		.optional(),
+	processedAt: z.iso.date().optional(),
+	processedBy: z.string().optional(),
+	status: z.enum(PB.BillingManagementPaymentsStatusOptions).optional(),
+	transactionId: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type BillingManagementPayments = z.infer<typeof BillingManagementPaymentsSchema>;
+export type BillingManagementPayments = z.infer<
+	typeof BillingManagementPaymentsSchema
+>;
 export const BillingManagementQuotesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  client: z.string().optional(),
-  created: z.iso.date(),
-  createdBy: z.string().optional(),
-  destinationDetails: z.string().optional(),
-  expiredAt: z.iso.date().optional(),
-  height: z.number().optional(),
-  id: z.string(),
-  length: z.number().optional(),
-  notes: z.string().optional(),
-  originDetails: z.string().optional(),
-  quoteNumber: z.string().optional(),
-  quotePrice: z.number().optional(),
-  serviceLevel: z.string().optional(),
-  status: z.enum(PB.BillingManagementQuotesStatusOptions).optional(),
-  updated: z.iso.date(),
-  weight: z.number().optional(),
-  width: z.number().optional(),
+	attachments: z.array(z.string()).optional(),
+	client: z.string().optional(),
+	created: z.iso.date(),
+	createdBy: z.string().optional(),
+	destinationDetails: z.string().optional(),
+	expiredAt: z.iso.date().optional(),
+	height: z.number().optional(),
+	id: z.string(),
+	length: z.number().optional(),
+	notes: z.string().optional(),
+	originDetails: z.string().optional(),
+	quoteNumber: z.string().optional(),
+	quotePrice: z.number().optional(),
+	serviceLevel: z.string().optional(),
+	status: z.enum(PB.BillingManagementQuotesStatusOptions).optional(),
+	updated: z.iso.date(),
+	weight: z.number().optional(),
+	width: z.number().optional(),
 });
 
-export type BillingManagementQuotes = z.infer<typeof BillingManagementQuotesSchema>;
+export type BillingManagementQuotes = z.infer<
+	typeof BillingManagementQuotesSchema
+>;
 export const BillingManagementRateCardsSchema = z.object({
-  created: z.iso.date(),
-  createdBy: z.string().optional(),
-  description: z.string().optional(),
-  id: z.string(),
-  isActive: z.boolean().optional(),
-  name: z.string(),
-  type: z.enum(PB.BillingManagementRateCardsTypeOptions),
-  updated: z.iso.date(),
-  validFrom: z.iso.date().optional(),
-  validTo: z.iso.date().optional(),
+	created: z.iso.date(),
+	createdBy: z.string().optional(),
+	description: z.string().optional(),
+	id: z.string(),
+	isActive: z.boolean().optional(),
+	name: z.string(),
+	type: z.enum(PB.BillingManagementRateCardsTypeOptions),
+	updated: z.iso.date(),
+	validFrom: z.iso.date().optional(),
+	validTo: z.iso.date().optional(),
 });
 
-export type BillingManagementRateCards = z.infer<typeof BillingManagementRateCardsSchema>;
+export type BillingManagementRateCards = z.infer<
+	typeof BillingManagementRateCardsSchema
+>;
 export const BillingManagementRateRulesSchema = z.object({
-  condition: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  isActive: z.boolean().optional(),
-  maxValue: z.number().optional(),
-  minValue: z.number().optional(),
-  price: z.number(),
-  pricingModel: z.enum(PB.BillingManagementRateRulesPricingModelOptions),
-  priority: z.number(),
-  rateCard: z.string().optional(),
-  updated: z.iso.date(),
-  value: z.string(),
+	condition: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	isActive: z.boolean().optional(),
+	maxValue: z.number().optional(),
+	minValue: z.number().optional(),
+	price: z.number(),
+	pricingModel: z.enum(PB.BillingManagementRateRulesPricingModelOptions),
+	priority: z.number(),
+	rateCard: z.string().optional(),
+	updated: z.iso.date(),
+	value: z.string(),
 });
 
-export type BillingManagementRateRules = z.infer<typeof BillingManagementRateRulesSchema>;
+export type BillingManagementRateRules = z.infer<
+	typeof BillingManagementRateRulesSchema
+>;
 export const BillingManagementSurchargesSchema = z.object({
-  amount: z.number().optional(),
-  calculationMethod: z.enum(PB.BillingManagementSurchargesCalculationMethodOptions).optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
-  id: z.string(),
-  isActive: z.boolean().optional(),
-  name: z.string().optional(),
-  type: z.string().optional(),
-  updated: z.iso.date(),
-  validFrom: z.iso.date().optional(),
-  validTo: z.iso.date().optional(),
+	amount: z.number().optional(),
+	calculationMethod: z
+		.enum(PB.BillingManagementSurchargesCalculationMethodOptions)
+		.optional(),
+	created: z.iso.date(),
+	description: z.string().optional(),
+	id: z.string(),
+	isActive: z.boolean().optional(),
+	name: z.string().optional(),
+	type: z.string().optional(),
+	updated: z.iso.date(),
+	validFrom: z.iso.date().optional(),
+	validTo: z.iso.date().optional(),
 });
 
-export type BillingManagementSurcharges = z.infer<typeof BillingManagementSurchargesSchema>;
+export type BillingManagementSurcharges = z.infer<
+	typeof BillingManagementSurchargesSchema
+>;
 export const CustomerRelationsCampaignsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  budget: z.number(),
-  created: z.iso.date(),
-  endDate: z.iso.date().optional(),
-  id: z.string(),
-  name: z.string(),
-  startDate: z.iso.date().optional(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	budget: z.number(),
+	created: z.iso.date(),
+	endDate: z.iso.date().optional(),
+	id: z.string(),
+	name: z.string(),
+	startDate: z.iso.date().optional(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsCampaigns = z.infer<typeof CustomerRelationsCampaignsSchema>;
+export type CustomerRelationsCampaigns = z.infer<
+	typeof CustomerRelationsCampaignsSchema
+>;
 export const CustomerRelationsCasesSchema = z.object({
-  caseNumber: z.string(),
-  contact: z.string().optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
-  id: z.string(),
-  owner: z.string(),
-  priority: z.enum(PB.CustomerRelationsCasesPriorityOptions),
-  status: z.enum(PB.CustomerRelationsCasesStatusOptions),
-  type: z.enum(PB.CustomerRelationsCasesTypeOptions),
-  updated: z.iso.date(),
+	caseNumber: z.string(),
+	contact: z.string().optional(),
+	created: z.iso.date(),
+	description: z.string().optional(),
+	id: z.string(),
+	owner: z.string(),
+	priority: z.enum(PB.CustomerRelationsCasesPriorityOptions),
+	status: z.enum(PB.CustomerRelationsCasesStatusOptions),
+	type: z.enum(PB.CustomerRelationsCasesTypeOptions),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsCases = z.infer<typeof CustomerRelationsCasesSchema>;
+export type CustomerRelationsCases = z.infer<
+	typeof CustomerRelationsCasesSchema
+>;
 export const CustomerRelationsCompaniesSchema = z.object({
-  annualRevenue: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
-  city: z.string().optional(),
-  country: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  industry: z.string().optional(),
-  name: z.string(),
-  owner: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  postalCode: z.string().optional(),
-  state: z.string().optional(),
-  street: z.string().optional(),
-  updated: z.iso.date(),
-  website: z.string().optional(),
+	annualRevenue: z.number().optional(),
+	attachments: z.array(z.string()).optional(),
+	city: z.string().optional(),
+	country: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	industry: z.string().optional(),
+	name: z.string(),
+	owner: z.string().optional(),
+	phoneNumber: z.string().optional(),
+	postalCode: z.string().optional(),
+	state: z.string().optional(),
+	street: z.string().optional(),
+	updated: z.iso.date(),
+	website: z.string().optional(),
 });
 
-export type CustomerRelationsCompanies = z.infer<typeof CustomerRelationsCompaniesSchema>;
+export type CustomerRelationsCompanies = z.infer<
+	typeof CustomerRelationsCompaniesSchema
+>;
 export const CustomerRelationsContactsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  company: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string(),
-  id: z.string(),
-  jobTitle: z.string().optional(),
-  name: z.string(),
-  owner: z.string(),
-  phoneNumber: z.string().optional(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	company: z.string().optional(),
+	created: z.iso.date(),
+	email: z.string(),
+	id: z.string(),
+	jobTitle: z.string().optional(),
+	name: z.string(),
+	owner: z.string(),
+	phoneNumber: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsContacts = z.infer<typeof CustomerRelationsContactsSchema>;
+export type CustomerRelationsContacts = z.infer<
+	typeof CustomerRelationsContactsSchema
+>;
 export const CustomerRelationsInteractionsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  case: z.string().optional(),
-  contact: z.string(),
-  id: z.string(),
-  interactionDate: z.iso.date(),
-  notes: z.string().optional(),
-  outcome: z.string().optional(),
-  type: z.enum(PB.CustomerRelationsInteractionsTypeOptions).optional(),
-  user: z.string(),
+	attachments: z.array(z.string()).optional(),
+	case: z.string().optional(),
+	contact: z.string(),
+	id: z.string(),
+	interactionDate: z.iso.date(),
+	notes: z.string().optional(),
+	outcome: z.string().optional(),
+	type: z.enum(PB.CustomerRelationsInteractionsTypeOptions).optional(),
+	user: z.string(),
 });
 
-export type CustomerRelationsInteractions = z.infer<typeof CustomerRelationsInteractionsSchema>;
+export type CustomerRelationsInteractions = z.infer<
+	typeof CustomerRelationsInteractionsSchema
+>;
 export const CustomerRelationsInvoiceItemsSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  invoice: z.string(),
-  price: z.number(),
-  product: z.string(),
-  quantity: z.number(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	id: z.string(),
+	invoice: z.string(),
+	price: z.number(),
+	product: z.string(),
+	quantity: z.number(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsInvoiceItems = z.infer<typeof CustomerRelationsInvoiceItemsSchema>;
+export type CustomerRelationsInvoiceItems = z.infer<
+	typeof CustomerRelationsInvoiceItemsSchema
+>;
 export const CustomerRelationsInvoicesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  dueDate: z.iso.date().optional(),
-  id: z.string(),
-  invoiceNumber: z.string(),
-  issueDate: z.iso.date().optional(),
-  items: z.array(z.string()).optional(),
-  opportunity: z.string().optional(),
-  paidAt: z.iso.date().optional(),
-  paymentMethod: z.enum(PB.CustomerRelationsInvoicesPaymentMethodOptions).optional(),
-  sentAt: z.iso.date().optional(),
-  status: z.enum(PB.CustomerRelationsInvoicesStatusOptions).optional(),
-  total: z.number().optional(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.date(),
+	dueDate: z.iso.date().optional(),
+	id: z.string(),
+	invoiceNumber: z.string(),
+	issueDate: z.iso.date().optional(),
+	items: z.array(z.string()).optional(),
+	opportunity: z.string().optional(),
+	paidAt: z.iso.date().optional(),
+	paymentMethod: z
+		.enum(PB.CustomerRelationsInvoicesPaymentMethodOptions)
+		.optional(),
+	sentAt: z.iso.date().optional(),
+	status: z.enum(PB.CustomerRelationsInvoicesStatusOptions).optional(),
+	total: z.number().optional(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsInvoices = z.infer<typeof CustomerRelationsInvoicesSchema>;
+export type CustomerRelationsInvoices = z.infer<
+	typeof CustomerRelationsInvoicesSchema
+>;
 export const CustomerRelationsLeadsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  campaign: z.string().optional(),
-  convertedAt: z.iso.date().optional(),
-  convertedCompany: z.string().optional(),
-  convertedContact: z.string().optional(),
-  convertedOpportunity: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string().optional(),
-  id: z.string(),
-  name: z.string().optional(),
-  owner: z.string(),
-  score: z.number(),
-  source: z.enum(PB.CustomerRelationsLeadsSourceOptions).optional(),
-  status: z.enum(PB.CustomerRelationsLeadsStatusOptions).optional(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	campaign: z.string().optional(),
+	convertedAt: z.iso.date().optional(),
+	convertedCompany: z.string().optional(),
+	convertedContact: z.string().optional(),
+	convertedOpportunity: z.string().optional(),
+	created: z.iso.date(),
+	email: z.string().optional(),
+	id: z.string(),
+	name: z.string().optional(),
+	owner: z.string(),
+	score: z.number(),
+	source: z.enum(PB.CustomerRelationsLeadsSourceOptions).optional(),
+	status: z.enum(PB.CustomerRelationsLeadsStatusOptions).optional(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsLeads = z.infer<typeof CustomerRelationsLeadsSchema>;
+export type CustomerRelationsLeads = z.infer<
+	typeof CustomerRelationsLeadsSchema
+>;
 export const CustomerRelationsOpportunitiesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  campaign: z.string().optional(),
-  company: z.string().optional(),
-  contact: z.string().optional(),
-  created: z.iso.date(),
-  dealValue: z.number().optional(),
-  expectedCloseDate: z.iso.date().optional(),
-  id: z.string(),
-  lostReason: z.string().optional(),
-  name: z.string(),
-  owner: z.string(),
-  probability: z.number().optional(),
-  products: z.array(z.string()).optional(),
-  source: z.enum(PB.CustomerRelationsOpportunitiesSourceOptions),
-  stage: z.enum(PB.CustomerRelationsOpportunitiesStageOptions).optional(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	campaign: z.string().optional(),
+	company: z.string().optional(),
+	contact: z.string().optional(),
+	created: z.iso.date(),
+	dealValue: z.number().optional(),
+	expectedCloseDate: z.iso.date().optional(),
+	id: z.string(),
+	lostReason: z.string().optional(),
+	name: z.string(),
+	owner: z.string(),
+	probability: z.number().optional(),
+	products: z.array(z.string()).optional(),
+	source: z.enum(PB.CustomerRelationsOpportunitiesSourceOptions),
+	stage: z.enum(PB.CustomerRelationsOpportunitiesStageOptions).optional(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsOpportunities = z.infer<typeof CustomerRelationsOpportunitiesSchema>;
+export type CustomerRelationsOpportunities = z.infer<
+	typeof CustomerRelationsOpportunitiesSchema
+>;
 export const CustomerRelationsOpportunityProductsSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  opportunity: z.string().optional(),
-  product: z.string().optional(),
-  quantity: z.number(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	id: z.string(),
+	opportunity: z.string().optional(),
+	product: z.string().optional(),
+	quantity: z.number(),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsOpportunityProducts = z.infer<typeof CustomerRelationsOpportunityProductsSchema>;
+export type CustomerRelationsOpportunityProducts = z.infer<
+	typeof CustomerRelationsOpportunityProductsSchema
+>;
 export const CustomerRelationsProductsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
-  id: z.string(),
-  name: z.string(),
-  price: z.number(),
-  sku: z.string(),
-  type: z.enum(PB.CustomerRelationsProductsTypeOptions),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.date(),
+	description: z.string().optional(),
+	id: z.string(),
+	name: z.string(),
+	price: z.number(),
+	sku: z.string(),
+	type: z.enum(PB.CustomerRelationsProductsTypeOptions),
+	updated: z.iso.date(),
 });
 
-export type CustomerRelationsProducts = z.infer<typeof CustomerRelationsProductsSchema>;
+export type CustomerRelationsProducts = z.infer<
+	typeof CustomerRelationsProductsSchema
+>;
 export const DeliveryManagementDriverLocationSchema = z.object({
-  coordinates: z.string(),
-  driver: z.string(),
-  heading: z.string(),
-  id: z.string(),
-  timestamp: z.iso.date(),
+	coordinates: z.string(),
+	driver: z.string(),
+	heading: z.string(),
+	id: z.string(),
+	timestamp: z.iso.date(),
 });
 
-export type DeliveryManagementDriverLocation = z.infer<typeof DeliveryManagementDriverLocationSchema>;
+export type DeliveryManagementDriverLocation = z.infer<
+	typeof DeliveryManagementDriverLocationSchema
+>;
 export const DeliveryManagementRoutesSchema = z.object({
-  completedAt: z.iso.date().optional(),
-  created: z.iso.date(),
-  driver: z.string().optional(),
-  estimatedDurationInMinutes: z.number().optional(),
-  id: z.string(),
-  routeDate: z.iso.date().optional(),
-  startedAt: z.iso.date().optional(),
-  status: z.enum(PB.DeliveryManagementRoutesStatusOptions).optional(),
-  totalDistance: z.number().optional(),
-  updated: z.iso.date(),
+	completedAt: z.iso.date().optional(),
+	created: z.iso.date(),
+	driver: z.string().optional(),
+	estimatedDurationInMinutes: z.number().optional(),
+	id: z.string(),
+	routeDate: z.iso.date().optional(),
+	startedAt: z.iso.date().optional(),
+	status: z.enum(PB.DeliveryManagementRoutesStatusOptions).optional(),
+	totalDistance: z.number().optional(),
+	updated: z.iso.date(),
 });
 
-export type DeliveryManagementRoutes = z.infer<typeof DeliveryManagementRoutesSchema>;
+export type DeliveryManagementRoutes = z.infer<
+	typeof DeliveryManagementRoutesSchema
+>;
 export const DeliveryManagementTaskEventsSchema = z.object({
-  coordinates: z.string().optional(),
-  id: z.string(),
-  notes: z.string().optional(),
-  reason: z.string().optional(),
-  status: z.enum(PB.DeliveryManagementTaskEventsStatusOptions),
-  task: z.string(),
-  timestamp: z.iso.date(),
+	coordinates: z.string().optional(),
+	id: z.string(),
+	notes: z.string().optional(),
+	reason: z.string().optional(),
+	status: z.enum(PB.DeliveryManagementTaskEventsStatusOptions),
+	task: z.string(),
+	timestamp: z.iso.date(),
 });
 
-export type DeliveryManagementTaskEvents = z.infer<typeof DeliveryManagementTaskEventsSchema>;
+export type DeliveryManagementTaskEvents = z.infer<
+	typeof DeliveryManagementTaskEventsSchema
+>;
 export const DeliveryManagementTasksSchema = z.object({
-  actualArrivalTime: z.iso.date().optional(),
-  attachments: z.array(z.string()).optional(),
-  attempCount: z.number().optional(),
-  created: z.iso.date(),
-  deliveryAddress: z.string(),
-  deliveryInstructions: z.string().optional(),
-  deliveryTime: z.iso.date().optional(),
-  estimatedArrivalTime: z.iso.date().optional(),
-  failureReason: z.enum(PB.DeliveryManagementTasksFailureReasonOptions).optional(),
-  id: z.string(),
-  package: z.string(),
-  recipientName: z.string().optional(),
-  recipientPhone: z.string().optional(),
-  route: z.string(),
-  sequence: z.number(),
-  status: z.enum(PB.DeliveryManagementTasksStatusOptions),
-  updated: z.iso.date(),
+	actualArrivalTime: z.iso.date().optional(),
+	attachments: z.array(z.string()).optional(),
+	attempCount: z.number().optional(),
+	created: z.iso.date(),
+	deliveryAddress: z.string(),
+	deliveryInstructions: z.string().optional(),
+	deliveryTime: z.iso.date().optional(),
+	estimatedArrivalTime: z.iso.date().optional(),
+	failureReason: z
+		.enum(PB.DeliveryManagementTasksFailureReasonOptions)
+		.optional(),
+	id: z.string(),
+	package: z.string(),
+	recipientName: z.string().optional(),
+	recipientPhone: z.string().optional(),
+	route: z.string(),
+	sequence: z.number(),
+	status: z.enum(PB.DeliveryManagementTasksStatusOptions),
+	updated: z.iso.date(),
 });
 
-export type DeliveryManagementTasks = z.infer<typeof DeliveryManagementTasksSchema>;
+export type DeliveryManagementTasks = z.infer<
+	typeof DeliveryManagementTasksSchema
+>;
 export const NotificationsSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  isRead: z.boolean().optional(),
-  link: z.string().optional(),
-  message: z.string(),
-  updated: z.iso.date(),
-  user: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	isRead: z.boolean().optional(),
+	link: z.string().optional(),
+	message: z.string(),
+	updated: z.iso.date(),
+	user: z.string(),
 });
 
 export type Notifications = z.infer<typeof NotificationsSchema>;
 export const TransportManagementCarrierRatesSchema = z.object({
-  carrier: z.string().optional(),
-  created: z.iso.date(),
-  destination: z.string(),
-  id: z.string(),
-  origin: z.string(),
-  rate: z.number(),
-  serviceType: z.string().optional(),
-  unit: z.enum(PB.TransportManagementCarrierRatesUnitOptions).optional(),
-  updated: z.iso.date(),
+	carrier: z.string().optional(),
+	created: z.iso.date(),
+	destination: z.string(),
+	id: z.string(),
+	origin: z.string(),
+	rate: z.number(),
+	serviceType: z.string().optional(),
+	unit: z.enum(PB.TransportManagementCarrierRatesUnitOptions).optional(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementCarrierRates = z.infer<typeof TransportManagementCarrierRatesSchema>;
+export type TransportManagementCarrierRates = z.infer<
+	typeof TransportManagementCarrierRatesSchema
+>;
 export const TransportManagementCarriersSchema = z.object({
-  contactDetails: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  image: z.string().optional(),
-  name: z.string(),
-  serviceOffered: z.string().optional(),
-  updated: z.iso.date(),
+	contactDetails: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	image: z.string().optional(),
+	name: z.string(),
+	serviceOffered: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementCarriers = z.infer<typeof TransportManagementCarriersSchema>;
+export type TransportManagementCarriers = z.infer<
+	typeof TransportManagementCarriersSchema
+>;
 export const TransportManagementDriverSchedulesSchema = z.object({
-  created: z.iso.date(),
-  driver: z.string(),
-  endDate: z.iso.date(),
-  id: z.string(),
-  reason: z.enum(PB.TransportManagementDriverSchedulesReasonOptions).optional(),
-  startDate: z.iso.date(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	driver: z.string(),
+	endDate: z.iso.date(),
+	id: z.string(),
+	reason: z.enum(PB.TransportManagementDriverSchedulesReasonOptions).optional(),
+	startDate: z.iso.date(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementDriverSchedules = z.infer<typeof TransportManagementDriverSchedulesSchema>;
+export type TransportManagementDriverSchedules = z.infer<
+	typeof TransportManagementDriverSchedulesSchema
+>;
 export const TransportManagementDriversSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  licenseExpiryDate: z.iso.date().optional(),
-  licenseNumber: z.string(),
-  schedules: z.array(z.string()).optional(),
-  status: z.enum(PB.TransportManagementDriversStatusOptions),
-  updated: z.iso.date(),
-  user: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	licenseExpiryDate: z.iso.date().optional(),
+	licenseNumber: z.string(),
+	schedules: z.array(z.string()).optional(),
+	status: z.enum(PB.TransportManagementDriversStatusOptions),
+	updated: z.iso.date(),
+	user: z.string().optional(),
 });
 
-export type TransportManagementDrivers = z.infer<typeof TransportManagementDriversSchema>;
+export type TransportManagementDrivers = z.infer<
+	typeof TransportManagementDriversSchema
+>;
 export const TransportManagementExpensesSchema = z.object({
-  amount: z.number(),
-  created: z.iso.date(),
-  currency: z.enum(PB.TransportManagementExpensesCurrencyOptions),
-  driver: z.string().optional(),
-  fuelQuantity: z.number().optional(),
-  id: z.string(),
-  odometerReading: z.number(),
-  receipts: z.array(z.string()),
-  status: z.enum(PB.TransportManagementExpensesStatusOptions),
-  trip: z.string().optional(),
-  type: z.enum(PB.TransportManagementExpensesTypeOptions),
-  updated: z.iso.date(),
+	amount: z.number(),
+	created: z.iso.date(),
+	currency: z.enum(PB.TransportManagementExpensesCurrencyOptions),
+	driver: z.string().optional(),
+	fuelQuantity: z.number().optional(),
+	id: z.string(),
+	odometerReading: z.number(),
+	receipts: z.array(z.string()),
+	status: z.enum(PB.TransportManagementExpensesStatusOptions),
+	trip: z.string().optional(),
+	type: z.enum(PB.TransportManagementExpensesTypeOptions),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementExpenses = z.infer<typeof TransportManagementExpensesSchema>;
+export type TransportManagementExpenses = z.infer<
+	typeof TransportManagementExpensesSchema
+>;
 export const TransportManagementGeofenceSchema = z.object({
-  coordinates: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  name: z.string(),
-  radius: z.number(),
-  updated: z.iso.date(),
+	coordinates: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	name: z.string(),
+	radius: z.number(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementGeofence = z.infer<typeof TransportManagementGeofenceSchema>;
+export type TransportManagementGeofence = z.infer<
+	typeof TransportManagementGeofenceSchema
+>;
 export const TransportManagementGeofenceEventsSchema = z.object({
-  geofence: z.string(),
-  id: z.string(),
-  timestamp: z.iso.date(),
-  type: z.enum(PB.TransportManagementGeofenceEventsTypeOptions),
-  vehicle: z.string(),
+	geofence: z.string(),
+	id: z.string(),
+	timestamp: z.iso.date(),
+	type: z.enum(PB.TransportManagementGeofenceEventsTypeOptions),
+	vehicle: z.string(),
 });
 
-export type TransportManagementGeofenceEvents = z.infer<typeof TransportManagementGeofenceEventsSchema>;
+export type TransportManagementGeofenceEvents = z.infer<
+	typeof TransportManagementGeofenceEventsSchema
+>;
 export const TransportManagementGpsPingsSchema = z.object({
-  coordinates: z.string(),
-  id: z.string(),
-  timestamp: z.iso.date(),
-  vehicle: z.string(),
+	coordinates: z.string(),
+	id: z.string(),
+	timestamp: z.iso.date(),
+	vehicle: z.string(),
 });
 
-export type TransportManagementGpsPings = z.infer<typeof TransportManagementGpsPingsSchema>;
+export type TransportManagementGpsPings = z.infer<
+	typeof TransportManagementGpsPingsSchema
+>;
 export const TransportManagementPartnerInvoiceSchema = z.object({
-  carrier: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  invoiceDate: z.iso.date(),
-  invoiceNumber: z.string(),
-  items: z.string().optional(),
-  status: z.enum(PB.TransportManagementPartnerInvoiceStatusOptions).optional(),
-  totalAmount: z.number(),
-  updated: z.iso.date(),
+	carrier: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	invoiceDate: z.iso.date(),
+	invoiceNumber: z.string(),
+	items: z.string().optional(),
+	status: z.enum(PB.TransportManagementPartnerInvoiceStatusOptions).optional(),
+	totalAmount: z.number(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementPartnerInvoice = z.infer<typeof TransportManagementPartnerInvoiceSchema>;
+export type TransportManagementPartnerInvoice = z.infer<
+	typeof TransportManagementPartnerInvoiceSchema
+>;
 export const TransportManagementPartnerInvoiceItemsSchema = z.object({
-  amount: z.number(),
-  created: z.iso.date(),
-  id: z.string(),
-  partnerInvoice: z.string(),
-  shipmentLeg: z.string(),
-  updated: z.iso.date(),
+	amount: z.number(),
+	created: z.iso.date(),
+	id: z.string(),
+	partnerInvoice: z.string(),
+	shipmentLeg: z.string(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementPartnerInvoiceItems = z.infer<typeof TransportManagementPartnerInvoiceItemsSchema>;
+export type TransportManagementPartnerInvoiceItems = z.infer<
+	typeof TransportManagementPartnerInvoiceItemsSchema
+>;
 export const TransportManagementProofOfDeliveriesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  coordinate: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  tripStop: z.string(),
-  updated: z.iso.date(),
+	attachments: z.array(z.string()).optional(),
+	coordinate: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	tripStop: z.string(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementProofOfDeliveries = z.infer<typeof TransportManagementProofOfDeliveriesSchema>;
+export type TransportManagementProofOfDeliveries = z.infer<
+	typeof TransportManagementProofOfDeliveriesSchema
+>;
 export const TransportManagementRoutesSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  name: z.string(),
-  totalDistance: z.number(),
-  totalDuration: z.number(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	id: z.string(),
+	name: z.string(),
+	totalDistance: z.number(),
+	totalDuration: z.number(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementRoutes = z.infer<typeof TransportManagementRoutesSchema>;
+export type TransportManagementRoutes = z.infer<
+	typeof TransportManagementRoutesSchema
+>;
 export const TransportManagementShipmentLegEventsSchema = z.object({
-  id: z.string(),
-  location: z.string(),
-  message: z.string(),
-  shipmentLegId: z.string(),
-  timestamp: z.iso.date(),
+	id: z.string(),
+	location: z.string(),
+	message: z.string(),
+	shipmentLegId: z.string(),
+	timestamp: z.iso.date(),
 });
 
-export type TransportManagementShipmentLegEvents = z.infer<typeof TransportManagementShipmentLegEventsSchema>;
+export type TransportManagementShipmentLegEvents = z.infer<
+	typeof TransportManagementShipmentLegEventsSchema
+>;
 export const TransportManagementShipmentLegsSchema = z.object({
-  carrier: z.string().optional(),
-  created: z.iso.date(),
-  endLocation: z.string(),
-  id: z.string(),
-  interalTrip: z.string().optional(),
-  legSequence: z.number(),
-  shipment: z.string().optional(),
-  startLocation: z.string(),
-  status: z.enum(PB.TransportManagementShipmentLegsStatusOptions),
-  updated: z.iso.date(),
+	carrier: z.string().optional(),
+	created: z.iso.date(),
+	endLocation: z.string(),
+	id: z.string(),
+	interalTrip: z.string().optional(),
+	legSequence: z.number(),
+	shipment: z.string().optional(),
+	startLocation: z.string(),
+	status: z.enum(PB.TransportManagementShipmentLegsStatusOptions),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementShipmentLegs = z.infer<typeof TransportManagementShipmentLegsSchema>;
+export type TransportManagementShipmentLegs = z.infer<
+	typeof TransportManagementShipmentLegsSchema
+>;
 export const TransportManagementTripStopsSchema = z.object({
-  actualArrivalTime: z.iso.date().optional(),
-  actualDepartureTime: z.iso.date().optional(),
-  address: z.string().optional(),
-  created: z.iso.date(),
-  estimatedArrivalTime: z.iso.date().optional(),
-  estimatedDepartureTime: z.iso.date().optional(),
-  id: z.string(),
-  sequence: z.number(),
-  shipment: z.string().optional(),
-  status: z.enum(PB.TransportManagementTripStopsStatusOptions),
-  trip: z.string(),
-  updated: z.iso.date(),
+	actualArrivalTime: z.iso.date().optional(),
+	actualDepartureTime: z.iso.date().optional(),
+	address: z.string().optional(),
+	created: z.iso.date(),
+	estimatedArrivalTime: z.iso.date().optional(),
+	estimatedDepartureTime: z.iso.date().optional(),
+	id: z.string(),
+	sequence: z.number(),
+	shipment: z.string().optional(),
+	status: z.enum(PB.TransportManagementTripStopsStatusOptions),
+	trip: z.string(),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementTripStops = z.infer<typeof TransportManagementTripStopsSchema>;
+export type TransportManagementTripStops = z.infer<
+	typeof TransportManagementTripStopsSchema
+>;
 export const TransportManagementTripsSchema = z.object({
-  created: z.iso.date(),
-  driver: z.string(),
-  id: z.string(),
-  status: z.enum(PB.TransportManagementTripsStatusOptions),
-  updated: z.iso.date(),
-  vehicle: z.string(),
+	created: z.iso.date(),
+	driver: z.string(),
+	id: z.string(),
+	status: z.enum(PB.TransportManagementTripsStatusOptions),
+	updated: z.iso.date(),
+	vehicle: z.string(),
 });
 
-export type TransportManagementTrips = z.infer<typeof TransportManagementTripsSchema>;
+export type TransportManagementTrips = z.infer<
+	typeof TransportManagementTripsSchema
+>;
 export const TransportManagementVehicleMaintenanceSchema = z.object({
-  cost: z.number().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  notes: z.string().optional(),
-  serviceDate: z.iso.date(),
-  serviceType: z.iso.date(),
-  updated: z.iso.date(),
-  vehicle: z.string(),
+	cost: z.number().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	notes: z.string().optional(),
+	serviceDate: z.iso.date(),
+	serviceType: z.iso.date(),
+	updated: z.iso.date(),
+	vehicle: z.string(),
 });
 
-export type TransportManagementVehicleMaintenance = z.infer<typeof TransportManagementVehicleMaintenanceSchema>;
+export type TransportManagementVehicleMaintenance = z.infer<
+	typeof TransportManagementVehicleMaintenanceSchema
+>;
 export const TransportManagementVehiclesSchema = z.object({
-  capacityVolume: z.number().optional(),
-  capacityWeight: z.number().optional(),
-  created: z.iso.date(),
-  gps_pings: z.array(z.string()).optional(),
-  id: z.string(),
-  maintenances: z.array(z.string()).optional(),
-  model: z.string().optional(),
-  registrationNumber: z.string(),
-  status: z.enum(PB.TransportManagementVehiclesStatusOptions),
-  updated: z.iso.date(),
+	capacityVolume: z.number().optional(),
+	capacityWeight: z.number().optional(),
+	created: z.iso.date(),
+	gps_pings: z.array(z.string()).optional(),
+	id: z.string(),
+	maintenances: z.array(z.string()).optional(),
+	model: z.string().optional(),
+	registrationNumber: z.string(),
+	status: z.enum(PB.TransportManagementVehiclesStatusOptions),
+	updated: z.iso.date(),
 });
 
-export type TransportManagementVehicles = z.infer<typeof TransportManagementVehiclesSchema>;
+export type TransportManagementVehicles = z.infer<
+	typeof TransportManagementVehiclesSchema
+>;
 export const UsersSchema = z.object({
-  avatar: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string(),
-  emailVisibility: z.boolean().optional(),
-  id: z.string(),
-  name: z.string().optional(),
-  password: z.string(),
-  roles: z.array(z.enum(PB.UsersRolesOptions)).optional(),
-  tokenKey: z.string(),
-  updated: z.iso.date(),
-  verified: z.boolean().optional(),
+	avatar: z.string().optional(),
+	created: z.iso.date(),
+	email: z.string(),
+	emailVisibility: z.boolean().optional(),
+	id: z.string(),
+	name: z.string().optional(),
+	password: z.string(),
+	roles: z.array(z.enum(PB.UsersRolesOptions)).optional(),
+	tokenKey: z.string(),
+	updated: z.iso.date(),
+	verified: z.boolean().optional(),
 });
 
 export type Users = z.infer<typeof UsersSchema>;
 export const WarehouseManagementBinThresholdSchema = z.object({
-  alertThreshold: z.number().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  isActive: z.boolean().optional(),
-  location: z.string(),
-  maxQuantity: z.number().optional(),
-  minQuantity: z.number().optional(),
-  product: z.string(),
-  reorderQuantity: z.number().optional(),
-  updated: z.iso.date(),
+	alertThreshold: z.number().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	isActive: z.boolean().optional(),
+	location: z.string(),
+	maxQuantity: z.number().optional(),
+	minQuantity: z.number().optional(),
+	product: z.string(),
+	reorderQuantity: z.number().optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementBinThreshold = z.infer<typeof WarehouseManagementBinThresholdSchema>;
+export type WarehouseManagementBinThreshold = z.infer<
+	typeof WarehouseManagementBinThresholdSchema
+>;
 export const WarehouseManagementInboundShipmentItemsSchema = z.object({
-  created: z.iso.date(),
-  discrepancyNotes: z.string().optional(),
-  expectedQuantity: z.number(),
-  id: z.string(),
-  inboundShipment: z.string().optional(),
-  product: z.string().optional(),
-  receivedQuantity: z.number().optional(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	discrepancyNotes: z.string().optional(),
+	expectedQuantity: z.number(),
+	id: z.string(),
+	inboundShipment: z.string().optional(),
+	product: z.string().optional(),
+	receivedQuantity: z.number().optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementInboundShipmentItems = z.infer<typeof WarehouseManagementInboundShipmentItemsSchema>;
+export type WarehouseManagementInboundShipmentItems = z.infer<
+	typeof WarehouseManagementInboundShipmentItemsSchema
+>;
 export const WarehouseManagementInboundShipmentsSchema = z.object({
-  actualArrivalDate: z.iso.date().optional(),
-  client: z.string(),
-  created: z.iso.date(),
-  expectedArrivalDate: z.iso.date().optional(),
-  id: z.string(),
-  status: z.enum(PB.WarehouseManagementInboundShipmentsStatusOptions).optional(),
-  updated: z.iso.date(),
-  warehouse: z.string(),
+	actualArrivalDate: z.iso.date().optional(),
+	client: z.string(),
+	created: z.iso.date(),
+	expectedArrivalDate: z.iso.date().optional(),
+	id: z.string(),
+	status: z
+		.enum(PB.WarehouseManagementInboundShipmentsStatusOptions)
+		.optional(),
+	updated: z.iso.date(),
+	warehouse: z.string(),
 });
 
-export type WarehouseManagementInboundShipments = z.infer<typeof WarehouseManagementInboundShipmentsSchema>;
+export type WarehouseManagementInboundShipments = z.infer<
+	typeof WarehouseManagementInboundShipmentsSchema
+>;
 export const WarehouseManagementInventoryAdjustmentSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  notes: z.string().optional(),
-  product: z.string(),
-  quantityChange: z.number(),
-  reason: z.enum(PB.WarehouseManagementInventoryAdjustmentReasonOptions),
-  updated: z.iso.date(),
-  user: z.string(),
-  warehouse: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	notes: z.string().optional(),
+	product: z.string(),
+	quantityChange: z.number(),
+	reason: z.enum(PB.WarehouseManagementInventoryAdjustmentReasonOptions),
+	updated: z.iso.date(),
+	user: z.string(),
+	warehouse: z.string(),
 });
 
-export type WarehouseManagementInventoryAdjustment = z.infer<typeof WarehouseManagementInventoryAdjustmentSchema>;
+export type WarehouseManagementInventoryAdjustment = z.infer<
+	typeof WarehouseManagementInventoryAdjustmentSchema
+>;
 export const WarehouseManagementInventoryBatchesSchema = z.object({
-  batchNumber: z.string(),
-  created: z.iso.date(),
-  expirationDate: z.iso.date().optional(),
-  id: z.string(),
-  product: z.string(),
-  updated: z.iso.date(),
+	batchNumber: z.string(),
+	created: z.iso.date(),
+	expirationDate: z.iso.date().optional(),
+	id: z.string(),
+	product: z.string(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementInventoryBatches = z.infer<typeof WarehouseManagementInventoryBatchesSchema>;
+export type WarehouseManagementInventoryBatches = z.infer<
+	typeof WarehouseManagementInventoryBatchesSchema
+>;
 export const WarehouseManagementInventoryStockSchema = z.object({
-  batch: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  lastCountedAt: z.iso.date().optional(),
-  lastMovementAt: z.iso.date().optional(),
-  location: z.string(),
-  product: z.string(),
-  quantity: z.number().optional(),
-  reservedQuantity: z.number().optional(),
-  status: z.enum(PB.WarehouseManagementInventoryStockStatusOptions),
-  updated: z.iso.date(),
+	batch: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	lastCountedAt: z.iso.date().optional(),
+	lastMovementAt: z.iso.date().optional(),
+	location: z.string(),
+	product: z.string(),
+	quantity: z.number().optional(),
+	reservedQuantity: z.number().optional(),
+	status: z.enum(PB.WarehouseManagementInventoryStockStatusOptions),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementInventoryStock = z.infer<typeof WarehouseManagementInventoryStockSchema>;
+export type WarehouseManagementInventoryStock = z.infer<
+	typeof WarehouseManagementInventoryStockSchema
+>;
 export const WarehouseManagementLocationsSchema = z.object({
-  barcode: z.string().optional(),
-  created: z.iso.date(),
-  hazmatApproved: z.boolean().optional(),
-  id: z.string(),
-  isActive: z.boolean().optional(),
-  isPickable: z.boolean().optional(),
-  isReceivable: z.boolean().optional(),
-  level: z.number().optional(),
-  maxPallets: z.number().optional(),
-  maxVolume: z.number().optional(),
-  maxWeight: z.number().optional(),
-  name: z.string(),
-  parentLocation: z.string().optional(),
-  temperatureControlled: z.boolean().optional(),
-  type: z.enum(PB.WarehouseManagementLocationsTypeOptions).optional(),
-  updated: z.iso.date(),
-  warehouse: z.string().optional(),
+	barcode: z.string().optional(),
+	created: z.iso.date(),
+	hazmatApproved: z.boolean().optional(),
+	id: z.string(),
+	isActive: z.boolean().optional(),
+	isPickable: z.boolean().optional(),
+	isReceivable: z.boolean().optional(),
+	level: z.number().optional(),
+	maxPallets: z.number().optional(),
+	maxVolume: z.number().optional(),
+	maxWeight: z.number().optional(),
+	name: z.string(),
+	parentLocation: z.string().optional(),
+	temperatureControlled: z.boolean().optional(),
+	type: z.enum(PB.WarehouseManagementLocationsTypeOptions).optional(),
+	updated: z.iso.date(),
+	warehouse: z.string().optional(),
 });
 
-export type WarehouseManagementLocations = z.infer<typeof WarehouseManagementLocationsSchema>;
+export type WarehouseManagementLocations = z.infer<
+	typeof WarehouseManagementLocationsSchema
+>;
 export const WarehouseManagementOutboundShipmentItemsSchema = z.object({
-  batch: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  outboundShipment: z.string(),
-  product: z.string(),
-  quantityShipped: z.number(),
-  salesOrderItem: z.string(),
-  updated: z.iso.date(),
+	batch: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	outboundShipment: z.string(),
+	product: z.string(),
+	quantityShipped: z.number(),
+	salesOrderItem: z.string(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementOutboundShipmentItems = z.infer<typeof WarehouseManagementOutboundShipmentItemsSchema>;
+export type WarehouseManagementOutboundShipmentItems = z.infer<
+	typeof WarehouseManagementOutboundShipmentItemsSchema
+>;
 export const WarehouseManagementOutboundShipmentsSchema = z.object({
-  carrier: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  items: z.array(z.string()).optional(),
-  salesOrder: z.string(),
-  status: z.enum(PB.WarehouseManagementOutboundShipmentsStatusOptions).optional(),
-  trackingNumber: z.string(),
-  updated: z.iso.date(),
-  warehouse: z.string(),
+	carrier: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	items: z.array(z.string()).optional(),
+	salesOrder: z.string(),
+	status: z
+		.enum(PB.WarehouseManagementOutboundShipmentsStatusOptions)
+		.optional(),
+	trackingNumber: z.string(),
+	updated: z.iso.date(),
+	warehouse: z.string(),
 });
 
-export type WarehouseManagementOutboundShipments = z.infer<typeof WarehouseManagementOutboundShipmentsSchema>;
+export type WarehouseManagementOutboundShipments = z.infer<
+	typeof WarehouseManagementOutboundShipmentsSchema
+>;
 export const WarehouseManagementPackageItemsSchema = z.object({
-  batch: z.string().optional(),
-  created: z.iso.date(),
-  expiryDate: z.iso.date().optional(),
-  id: z.string(),
-  lotNumber: z.string().optional(),
-  package: z.string(),
-  product: z.string(),
-  quantity: z.number(),
-  updated: z.iso.date(),
+	batch: z.string().optional(),
+	created: z.iso.date(),
+	expiryDate: z.iso.date().optional(),
+	id: z.string(),
+	lotNumber: z.string().optional(),
+	package: z.string(),
+	product: z.string(),
+	quantity: z.number(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementPackageItems = z.infer<typeof WarehouseManagementPackageItemsSchema>;
+export type WarehouseManagementPackageItems = z.infer<
+	typeof WarehouseManagementPackageItemsSchema
+>;
 export const WarehouseManagementPackagesSchema = z.object({
-  created: z.iso.date(),
-  height: z.number().optional(),
-  id: z.string(),
-  images: z.array(z.string()).optional(),
-  insuranceValue: z.number().optional(),
-  isFragile: z.boolean().optional(),
-  isHazmat: z.boolean().optional(),
-  length: z.number().optional(),
-  packageNumber: z.string(),
-  packedAt: z.iso.date().optional(),
-  packedByUser: z.string().optional(),
-  requireSignature: z.boolean().optional(),
-  salesOrder: z.string(),
-  shippedAt: z.iso.date().optional(),
-  type: z.string().optional(),
-  updated: z.iso.date(),
-  warehouse: z.string(),
-  weight: z.number().optional(),
-  width: z.number().optional(),
+	created: z.iso.date(),
+	height: z.number().optional(),
+	id: z.string(),
+	images: z.array(z.string()).optional(),
+	insuranceValue: z.number().optional(),
+	isFragile: z.boolean().optional(),
+	isHazmat: z.boolean().optional(),
+	length: z.number().optional(),
+	packageNumber: z.string(),
+	packedAt: z.iso.date().optional(),
+	packedByUser: z.string().optional(),
+	requireSignature: z.boolean().optional(),
+	salesOrder: z.string(),
+	shippedAt: z.iso.date().optional(),
+	type: z.string().optional(),
+	updated: z.iso.date(),
+	warehouse: z.string(),
+	weight: z.number().optional(),
+	width: z.number().optional(),
 });
 
-export type WarehouseManagementPackages = z.infer<typeof WarehouseManagementPackagesSchema>;
+export type WarehouseManagementPackages = z.infer<
+	typeof WarehouseManagementPackagesSchema
+>;
 export const WarehouseManagementPickBatchItemsSchema = z.object({
-  actualPickTime: z.number().optional(),
-  created: z.iso.date(),
-  estimatedPickTime: z.iso.date().optional(),
-  id: z.string(),
-  orderPriority: z.number().optional(),
-  pickBatch: z.string(),
-  salesOrder: z.string(),
-  updated: z.iso.date(),
+	actualPickTime: z.number().optional(),
+	created: z.iso.date(),
+	estimatedPickTime: z.iso.date().optional(),
+	id: z.string(),
+	orderPriority: z.number().optional(),
+	pickBatch: z.string(),
+	salesOrder: z.string(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementPickBatchItems = z.infer<typeof WarehouseManagementPickBatchItemsSchema>;
+export type WarehouseManagementPickBatchItems = z.infer<
+	typeof WarehouseManagementPickBatchItemsSchema
+>;
 export const WarehouseManagementPickBatchesSchema = z.object({
-  actualDuration: z.number().optional(),
-  assignedUser: z.string().optional(),
-  batchNumber: z.string().optional(),
-  completedAt: z.iso.date().optional(),
-  completedItems: z.number().optional(),
-  created: z.iso.date(),
-  estimatedDuration: z.number().optional(),
-  id: z.string(),
-  items: z.array(z.string()).optional(),
-  priority: z.number(),
-  startedAt: z.iso.date().optional(),
-  status: z.enum(PB.WarehouseManagementPickBatchesStatusOptions).optional(),
-  strategy: z.enum(PB.WarehouseManagementPickBatchesStrategyOptions).optional(),
-  totalItems: z.number().optional(),
-  updated: z.iso.date(),
-  warehouse: z.string().optional(),
+	actualDuration: z.number().optional(),
+	assignedUser: z.string().optional(),
+	batchNumber: z.string().optional(),
+	completedAt: z.iso.date().optional(),
+	completedItems: z.number().optional(),
+	created: z.iso.date(),
+	estimatedDuration: z.number().optional(),
+	id: z.string(),
+	items: z.array(z.string()).optional(),
+	priority: z.number(),
+	startedAt: z.iso.date().optional(),
+	status: z.enum(PB.WarehouseManagementPickBatchesStatusOptions).optional(),
+	strategy: z.enum(PB.WarehouseManagementPickBatchesStrategyOptions).optional(),
+	totalItems: z.number().optional(),
+	updated: z.iso.date(),
+	warehouse: z.string().optional(),
 });
 
-export type WarehouseManagementPickBatches = z.infer<typeof WarehouseManagementPickBatchesSchema>;
+export type WarehouseManagementPickBatches = z.infer<
+	typeof WarehouseManagementPickBatchesSchema
+>;
 export const WarehouseManagementProductsSchema = z.object({
-  barcode: z.string().optional(),
-  client: z.string().optional(),
-  costPrice: z.number().optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
-  height: z.number().optional(),
-  id: z.string(),
-  images: z.array(z.string()).optional(),
-  length: z.number().optional(),
-  name: z.string(),
-  sku: z.string(),
-  status: z.enum(PB.WarehouseManagementProductsStatusOptions).optional(),
-  supplier: z.string().optional(),
-  updated: z.iso.date(),
-  weight: z.number().optional(),
-  width: z.number().optional(),
+	barcode: z.string().optional(),
+	client: z.string().optional(),
+	costPrice: z.number().optional(),
+	created: z.iso.date(),
+	description: z.string().optional(),
+	height: z.number().optional(),
+	id: z.string(),
+	images: z.array(z.string()).optional(),
+	length: z.number().optional(),
+	name: z.string(),
+	sku: z.string(),
+	status: z.enum(PB.WarehouseManagementProductsStatusOptions).optional(),
+	supplier: z.string().optional(),
+	updated: z.iso.date(),
+	weight: z.number().optional(),
+	width: z.number().optional(),
 });
 
-export type WarehouseManagementProducts = z.infer<typeof WarehouseManagementProductsSchema>;
+export type WarehouseManagementProducts = z.infer<
+	typeof WarehouseManagementProductsSchema
+>;
 export const WarehouseManagementPutawayRulesSchema = z.object({
-  client: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  isActive: z.boolean().optional(),
-  locationType: z.enum(PB.WarehouseManagementPutawayRulesLocationTypeOptions),
-  maxQuantity: z.number().optional(),
-  minQuantity: z.number().optional(),
-  preferredLocation: z.string().optional(),
-  priority: z.number(),
-  product: z.string(),
-  requireHazmatApproval: z.boolean().optional(),
-  requireTemperatureControl: z.boolean().optional(),
-  updated: z.iso.date(),
-  volumeThreshold: z.number().optional(),
-  warehouse: z.string(),
-  weightThreshold: z.number().optional(),
+	client: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	isActive: z.boolean().optional(),
+	locationType: z.enum(PB.WarehouseManagementPutawayRulesLocationTypeOptions),
+	maxQuantity: z.number().optional(),
+	minQuantity: z.number().optional(),
+	preferredLocation: z.string().optional(),
+	priority: z.number(),
+	product: z.string(),
+	requireHazmatApproval: z.boolean().optional(),
+	requireTemperatureControl: z.boolean().optional(),
+	updated: z.iso.date(),
+	volumeThreshold: z.number().optional(),
+	warehouse: z.string(),
+	weightThreshold: z.number().optional(),
 });
 
-export type WarehouseManagementPutawayRules = z.infer<typeof WarehouseManagementPutawayRulesSchema>;
+export type WarehouseManagementPutawayRules = z.infer<
+	typeof WarehouseManagementPutawayRulesSchema
+>;
 export const WarehouseManagementReorderPointsSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  product: z.string(),
-  threshold: z.number().optional(),
-  updated: z.iso.date(),
-  warehouse: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	product: z.string(),
+	threshold: z.number().optional(),
+	updated: z.iso.date(),
+	warehouse: z.string(),
 });
 
-export type WarehouseManagementReorderPoints = z.infer<typeof WarehouseManagementReorderPointsSchema>;
+export type WarehouseManagementReorderPoints = z.infer<
+	typeof WarehouseManagementReorderPointsSchema
+>;
 export const WarehouseManagementReturnItemsSchema = z.object({
-  condition: z.enum(PB.WarehouseManagementReturnItemsConditionOptions).optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  product: z.string(),
-  quantityExpected: z.number().optional(),
-  quantityRecevied: z.number().optional(),
-  return: z.string(),
-  updated: z.iso.date(),
+	condition: z
+		.enum(PB.WarehouseManagementReturnItemsConditionOptions)
+		.optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	product: z.string(),
+	quantityExpected: z.number().optional(),
+	quantityRecevied: z.number().optional(),
+	return: z.string(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementReturnItems = z.infer<typeof WarehouseManagementReturnItemsSchema>;
+export type WarehouseManagementReturnItems = z.infer<
+	typeof WarehouseManagementReturnItemsSchema
+>;
 export const WarehouseManagementReturnsSchema = z.object({
-  client: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  reason: z.string().optional(),
-  returnNumber: z.string(),
-  salesOrder: z.string().optional(),
-  status: z.enum(PB.WarehouseManagementReturnsStatusOptions),
-  updated: z.iso.date(),
+	client: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	reason: z.string().optional(),
+	returnNumber: z.string(),
+	salesOrder: z.string().optional(),
+	status: z.enum(PB.WarehouseManagementReturnsStatusOptions),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementReturns = z.infer<typeof WarehouseManagementReturnsSchema>;
+export type WarehouseManagementReturns = z.infer<
+	typeof WarehouseManagementReturnsSchema
+>;
 export const WarehouseManagementSalesOrderItemsSchema = z.object({
-  created: z.iso.date(),
-  id: z.string(),
-  product: z.string().optional(),
-  quantityOrdered: z.number(),
-  salesOrder: z.string().optional(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	id: z.string(),
+	product: z.string().optional(),
+	quantityOrdered: z.number(),
+	salesOrder: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementSalesOrderItems = z.infer<typeof WarehouseManagementSalesOrderItemsSchema>;
+export type WarehouseManagementSalesOrderItems = z.infer<
+	typeof WarehouseManagementSalesOrderItemsSchema
+>;
 export const WarehouseManagementSalesOrdersSchema = z.object({
-  client: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  opportunity: z.string().optional(),
-  orderNumber: z.string(),
-  shippingAddress: z.number().optional(),
-  status: z.enum(PB.WarehouseManagementSalesOrdersStatusOptions),
-  updated: z.iso.date(),
+	client: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	opportunity: z.string().optional(),
+	orderNumber: z.string(),
+	shippingAddress: z.number().optional(),
+	status: z.enum(PB.WarehouseManagementSalesOrdersStatusOptions),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementSalesOrders = z.infer<typeof WarehouseManagementSalesOrdersSchema>;
+export type WarehouseManagementSalesOrders = z.infer<
+	typeof WarehouseManagementSalesOrdersSchema
+>;
 export const WarehouseManagementStockTransferSchema = z.object({
-  created: z.iso.date(),
-  destinationWarehouse: z.string(),
-  id: z.string(),
-  product: z.string().optional(),
-  quantity: z.number().optional(),
-  sourceWarehouse: z.string(),
-  status: z.enum(PB.WarehouseManagementStockTransferStatusOptions).optional(),
-  updated: z.iso.date(),
+	created: z.iso.date(),
+	destinationWarehouse: z.string(),
+	id: z.string(),
+	product: z.string().optional(),
+	quantity: z.number().optional(),
+	sourceWarehouse: z.string(),
+	status: z.enum(PB.WarehouseManagementStockTransferStatusOptions).optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementStockTransfer = z.infer<typeof WarehouseManagementStockTransferSchema>;
+export type WarehouseManagementStockTransfer = z.infer<
+	typeof WarehouseManagementStockTransferSchema
+>;
 export const WarehouseManagementSuppliersSchema = z.object({
-  client: z.string().optional(),
-  contactPerson: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string().optional(),
-  id: z.string(),
-  name: z.string(),
-  phoneNumber: z.string().optional(),
-  updated: z.iso.date(),
+	client: z.string().optional(),
+	contactPerson: z.string().optional(),
+	created: z.iso.date(),
+	email: z.string().optional(),
+	id: z.string(),
+	name: z.string(),
+	phoneNumber: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementSuppliers = z.infer<typeof WarehouseManagementSuppliersSchema>;
+export type WarehouseManagementSuppliers = z.infer<
+	typeof WarehouseManagementSuppliersSchema
+>;
 export const WarehouseManagementTaskItemsSchema = z.object({
-  batch: z.string().optional(),
-  completedAt: z.iso.date().optional(),
-  created: z.iso.date(),
-  destinationLocation: z.string().optional(),
-  expiryDate: z.iso.date().optional(),
-  id: z.string(),
-  lotNumber: z.number().optional(),
-  notes: z.string().optional(),
-  product: z.string().optional(),
-  proofs: z.array(z.string()).optional(),
-  quantityCompleted: z.number().optional(),
-  quantityRequired: z.number().optional(),
-  sourceLocation: z.string().optional(),
-  status: z.enum(PB.WarehouseManagementTaskItemsStatusOptions).optional(),
-  task: z.string().optional(),
-  updated: z.iso.date(),
+	batch: z.string().optional(),
+	completedAt: z.iso.date().optional(),
+	created: z.iso.date(),
+	destinationLocation: z.string().optional(),
+	expiryDate: z.iso.date().optional(),
+	id: z.string(),
+	lotNumber: z.number().optional(),
+	notes: z.string().optional(),
+	product: z.string().optional(),
+	proofs: z.array(z.string()).optional(),
+	quantityCompleted: z.number().optional(),
+	quantityRequired: z.number().optional(),
+	sourceLocation: z.string().optional(),
+	status: z.enum(PB.WarehouseManagementTaskItemsStatusOptions).optional(),
+	task: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementTaskItems = z.infer<typeof WarehouseManagementTaskItemsSchema>;
+export type WarehouseManagementTaskItems = z.infer<
+	typeof WarehouseManagementTaskItemsSchema
+>;
 export const WarehouseManagementTasksSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  endTime: z.iso.date().optional(),
-  id: z.string(),
-  instructions: z.string().optional(),
-  notes: z.string().optional(),
-  pickBatchId: z.string().optional(),
-  priority: z.number(),
-  startTime: z.iso.date().optional(),
-  status: z.enum(PB.WarehouseManagementTasksStatusOptions).optional(),
-  taskNumber: z.string(),
-  type: z.enum(PB.WarehouseManagementTasksTypeOptions).optional(),
-  updated: z.iso.date(),
-  user: z.string().optional(),
-  warehouse: z.string().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.date(),
+	endTime: z.iso.date().optional(),
+	id: z.string(),
+	instructions: z.string().optional(),
+	notes: z.string().optional(),
+	pickBatchId: z.string().optional(),
+	priority: z.number(),
+	startTime: z.iso.date().optional(),
+	status: z.enum(PB.WarehouseManagementTasksStatusOptions).optional(),
+	taskNumber: z.string(),
+	type: z.enum(PB.WarehouseManagementTasksTypeOptions).optional(),
+	updated: z.iso.date(),
+	user: z.string().optional(),
+	warehouse: z.string().optional(),
 });
 
-export type WarehouseManagementTasks = z.infer<typeof WarehouseManagementTasksSchema>;
+export type WarehouseManagementTasks = z.infer<
+	typeof WarehouseManagementTasksSchema
+>;
 export const WarehouseManagementWarehousesSchema = z.object({
-  address: z.string().optional(),
-  city: z.string().optional(),
-  contactEmail: z.string().optional(),
-  contactPerson: z.string().optional(),
-  contactPhone: z.string().optional(),
-  country: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  images: z.array(z.string()).optional(),
-  isActive: z.boolean().optional(),
-  location: z.string().optional(),
-  name: z.string(),
-  postalCode: z.string().optional(),
-  state: z.string().optional(),
-  timezone: z.string().optional(),
-  updated: z.iso.date(),
+	address: z.string().optional(),
+	city: z.string().optional(),
+	contactEmail: z.string().optional(),
+	contactPerson: z.string().optional(),
+	contactPhone: z.string().optional(),
+	country: z.string().optional(),
+	created: z.iso.date(),
+	id: z.string(),
+	images: z.array(z.string()).optional(),
+	isActive: z.boolean().optional(),
+	location: z.string().optional(),
+	name: z.string(),
+	postalCode: z.string().optional(),
+	state: z.string().optional(),
+	timezone: z.string().optional(),
+	updated: z.iso.date(),
 });
 
-export type WarehouseManagementWarehouses = z.infer<typeof WarehouseManagementWarehousesSchema>;
+export type WarehouseManagementWarehouses = z.infer<
+	typeof WarehouseManagementWarehousesSchema
+>;

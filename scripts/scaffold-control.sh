@@ -86,7 +86,7 @@ const ${COMPONENT_NAME}Controls = () => {
     <section className="col-span-full flex justify-end">
       <Button
         onClick={() =>
-          navigate({ search: (prev) => ({ ...prev, action: "create${COMPONENT_NAME}" }) })
+          navigate({ search: (prev) => ({ ...prev, action: "create" }) })
         }
       >
         Create

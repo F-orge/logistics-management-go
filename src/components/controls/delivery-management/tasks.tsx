@@ -9,7 +9,7 @@ const TaskControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({ search: (prev) => ({ ...prev, action: "createTask" }) })
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

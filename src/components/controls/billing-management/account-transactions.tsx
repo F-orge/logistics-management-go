@@ -9,9 +9,7 @@ const AccountTransactionControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({
-						search: (prev) => ({ ...prev, action: "createAccountTransaction" }),
-					})
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

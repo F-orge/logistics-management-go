@@ -9,9 +9,7 @@ const CarrierRateControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({
-						search: (prev) => ({ ...prev, action: "createCarrierRate" }),
-					})
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

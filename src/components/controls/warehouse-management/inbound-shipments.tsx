@@ -9,9 +9,7 @@ const InboundShipmentControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({
-						search: (prev) => ({ ...prev, action: "createInboundShipment" }),
-					})
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

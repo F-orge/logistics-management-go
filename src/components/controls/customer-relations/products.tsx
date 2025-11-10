@@ -9,7 +9,7 @@ const ProductControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({ search: (prev) => ({ ...prev, action: "createProduct" }) })
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

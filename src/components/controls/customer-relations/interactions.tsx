@@ -9,9 +9,7 @@ const InteractionControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({
-						search: (prev) => ({ ...prev, action: "createInteraction" }),
-					})
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

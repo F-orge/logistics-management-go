@@ -9,7 +9,7 @@ const ExpensControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({ search: (prev) => ({ ...prev, action: "createExpens" }) })
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create

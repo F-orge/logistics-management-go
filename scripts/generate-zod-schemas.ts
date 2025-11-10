@@ -91,10 +91,7 @@ function mapTypeToZod(baseType: string, isEnum: boolean = false): string {
 }
 
 function parseRecordType(content: string, typeName: string): RecordTypeInfo {
-  const recordRegex = new RegExp(
-    `export type ${typeName}Record(?:<.*?>)? = \\{([^}]+)\\};`,
-    "s"
-  );
+  const recordRegex = new RegExp(`export type ${typeName}Record(?:<.*?>)? = \\{([^}]+)\\};`, "s");
   const match = content.match(recordRegex);
 
   if (!match) {
@@ -105,17 +102,9 @@ function parseRecordType(content: string, typeName: string): RecordTypeInfo {
   const fields: FieldInfo[] = [];
   const fieldPattern = /(\w+)(\?)?:\s*([^;]+);/g;
 
-  for (
-    let fieldMatch = fieldPattern.exec(fieldsStr);
-    fieldMatch !== null;
-    fieldMatch = fieldPattern.exec(fieldsStr)
-  ) {
+  for (let fieldMatch = fieldPattern.exec(fieldsStr); fieldMatch !== null; fieldMatch = fieldPattern.exec(fieldsStr)) {
     const [, fieldName, optional, typeStr] = fieldMatch;
-    const {
-      baseType,
-      isOptional: typeOptional,
-      isArray,
-    } = parseTypeString(typeStr);
+    const { baseType, isOptional: typeOptional, isArray } = parseTypeString(typeStr);
 
     fields.push({
       name: fieldName,
@@ -171,11 +160,7 @@ function main() {
     const recordTypeRegex = /export type (\w+Record)(?:<.*?>)? = \{/g;
     const recordTypes: RecordTypeInfo[] = [];
 
-    for (
-      let match = recordTypeRegex.exec(pbContent);
-      match !== null;
-      match = recordTypeRegex.exec(pbContent)
-    ) {
+    for (let match = recordTypeRegex.exec(pbContent); match !== null; match = recordTypeRegex.exec(pbContent)) {
       const typeName = match[1].replace("Record", "");
       const recordInfo = parseRecordType(pbContent, typeName);
       recordTypes.push(recordInfo);

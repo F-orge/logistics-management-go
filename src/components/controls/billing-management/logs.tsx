@@ -9,7 +9,7 @@ const LogControls = () => {
 		<section className="col-span-full flex justify-end">
 			<Button
 				onClick={() =>
-					navigate({ search: (prev) => ({ ...prev, action: "createLog" }) })
+					navigate({ search: (prev) => ({ ...prev, action: "create" }) })
 				}
 			>
 				Create
