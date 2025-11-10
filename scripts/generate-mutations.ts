@@ -1,5 +1,5 @@
-import { readdir, readFile, writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { mkdir, readdir, writeFile } from "node:fs/promises";
+import path from "node:path";
 
 interface SchemaConfig {
   name: string;
@@ -258,7 +258,7 @@ async function generateMutations() {
       // Create output directory if it doesn't exist
       try {
         await mkdir(config.outputDir, { recursive: true });
-      } catch (err) {
+      } catch (_err) {
         // Directory might already exist
       }
 

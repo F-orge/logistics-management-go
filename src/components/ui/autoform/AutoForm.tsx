@@ -9,6 +9,10 @@ import { Form } from "./components/Form";
 import { BooleanField } from "./components/fields/BooleanField";
 import { DateField } from "./components/fields/DateField";
 import { NumberField } from "./components/fields/NumberField";
+import {
+  default as RelationField,
+  RelationFieldProps,
+} from "./components/fields/RelationField";
 import { SelectField } from "./components/fields/SelectField";
 import { StringField } from "./components/fields/StringField";
 import { ArrayElementWrapper } from "./components/helpers/ArrayElementWrapper";
@@ -35,6 +39,7 @@ export const ShadcnAutoFormFieldComponents = {
   boolean: BooleanField,
   date: DateField,
   select: SelectField,
+  relation: RelationField,
 } as const;
 
 export type FieldTypes = keyof typeof ShadcnAutoFormFieldComponents;
@@ -45,6 +50,7 @@ export type CustomData<Type extends FieldTypes = FieldTypes> = {
   boolean: { checked: boolean };
   date: Record<string, unknown>;
   select: { options: Array<{ label: string; value: string }> };
+  relation: RelationFieldProps;
 }[Type];
 
 export const fieldConfigFactory = <Type extends FieldTypes = "string">() =>

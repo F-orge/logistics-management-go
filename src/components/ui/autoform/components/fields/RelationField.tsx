@@ -1,8 +1,8 @@
+import { AutoFormFieldProps } from "@autoform/react";
+import { useRouteContext } from "@tanstack/react-router";
 import type { RecordListOptions } from "pocketbase";
-import type React from "react";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import type { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { usePocketBaseClient } from "@/pocketbase";
 import { AsyncSelect } from "../../../async-select";
 
 export interface RelationItem {
@@ -21,68 +21,74 @@ export type RelationFieldProps<Records extends RelationItem = RelationItem> = {
   required?: boolean;
 };
 
-const RelationField = <Records extends RelationItem = RelationItem>(
-  props: RelationFieldProps<Records>
-) => {
-  const pocketbase = usePocketBaseClient();
-  const {
-    collectionName,
-    displayField = "name",
-    placeholder = "Search...",
-    value = "",
-  } = props;
+const RelationField: React.FC<AutoFormFieldProps> = (props) => {
+  const { pocketbase } = useRouteContext({
+    from: "/dashboard/$schema/$collection",
+  });
+
+  const { value, field, inputProps } = props;
+
+  const [selectedValue, setSelectedValue] = React.useState<string | null>(
+    inputProps.value || null
+  );
+
+  const config = field.fieldConfig?.customData as RelationFieldProps;
 
   // Fetcher function to query related records
   const fetcher = useCallback(
-    async (query?: string): Promise<Records[]> => {
+    async (query?: string): Promise<any[]> => {
       try {
         let filter = "";
         if (query) {
-          filter = `${displayField} ~ "${query}"`;
+          filter = `${config.displayField} ~ "${query}"`;
         }
 
         const records = await (pocketbase as TypedPocketBase)
-          .collection(collectionName)
+          .collection(config.collectionName)
           .getList(1, 50, {
             ...{
               filter: filter || undefined,
               sort: `-updated`,
             },
-            ...props.recordListOption,
+            ...config.recordListOption,
           });
-
-        return records.items as unknown as Records[];
+        return records.items as unknown as any[];
       } catch (error) {
         console.error("Failed to fetch relation records:", error);
         return [];
       }
     },
-    [pocketbase, collectionName, displayField, props.recordListOption]
+    [pocketbase, field]
   );
 
   return (
-    <AsyncSelect<Records>
-      fetcher={fetcher}
-      renderOption={(item) =>
-        props.renderOption
-          ? props.renderOption(item)
-          : String(item[displayField])
-      }
-      getOptionValue={(item) => item.id}
-      getDisplayValue={(item) =>
-        props.renderOption
-          ? props.renderOption(item)
-          : String(item[displayField])
-      }
-      label={collectionName}
-      placeholder={placeholder}
-      value={value}
-      onChange={(val) => props.onChange?.(val)}
-      notFound={
-        <div className="py-6 text-center text-sm">No records found</div>
-      }
-      clearable={true}
-    />
+    <>
+      {selectedValue && (
+        <input {...inputProps} type="hidden" value={selectedValue || ""} />
+      )}
+      <AsyncSelect<any>
+        fetcher={fetcher}
+        renderOption={(item) =>
+          config.renderOption
+            ? config.renderOption(item)
+            : String(item[config.displayField || "id"])
+        }
+        getOptionValue={(item) => item.id}
+        getDisplayValue={(item) =>
+          config.renderOption
+            ? config.renderOption(item)
+            : String(item[config.displayField || "id"])
+        }
+        label={field.fieldConfig?.customData?.collectionName || "Select"}
+        placeholder={config.placeholder || "Search..."}
+        value={selectedValue || ""}
+        onChange={(val) => setSelectedValue(val)}
+        notFound={
+          <div className="py-6 text-center text-sm">No records found</div>
+        }
+        clearable={true}
+      />
+    </>
   );
 };
 

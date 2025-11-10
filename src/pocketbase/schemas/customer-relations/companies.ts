@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform";
+import { Collections } from "@/lib/pb.types";
 
 export const CompaniesSchema = z.object({
   id: z.string(),
@@ -18,7 +20,18 @@ export const CompaniesSchema = z.object({
   industry: z.string().optional(),
   website: z.url().optional(),
   annualRevenue: z.number().optional(),
-  owner: z.string().optional(),
+  owner: z
+    .string()
+    .optional()
+    .check(
+      fieldConfigFactory<"relation">()({
+        fieldType: "relation",
+        customData: {
+          collectionName: Collections.Users,
+          displayField: "name",
+        },
+      })
+    ),
   attachments: z.array(z.string()).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

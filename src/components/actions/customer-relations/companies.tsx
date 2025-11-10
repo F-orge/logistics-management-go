@@ -35,7 +35,7 @@ export const CreateCompanies = () => {
       onOpenChange={() =>
         navigate({ search: (prev) => ({ ...prev, action: undefined }) })
       }
-      schema={CompaniesSchema}
+      schema={CompaniesSchema.omit({ id: true, created: true, updated: true })}
       onSubmit={async (data) => {
         try {
           await pocketbase
@@ -81,7 +81,11 @@ export const UpdateCompanies = () => {
       onOpenChange={() =>
         navigate({ search: (prev) => ({ ...prev, action: undefined }) })
       }
-      schema={CompaniesSchema.partial()}
+      schema={CompaniesSchema.omit({
+        id: true,
+        created: true,
+        updated: true,
+      }).partial()}
       onSubmit={async (data) => {
         try {
           await pocketbase
