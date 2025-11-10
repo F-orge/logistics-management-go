@@ -18,9 +18,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
 import { Collections } from "@/lib/pb.types";
-import { CompaniesSchema } from "@/pocketbase/schemas/customer-relations/companies";
+import { PackageItemsSchema } from "@/pocketbase/schemas/warehouse-management/package-items";
 
-export const CreateCompanies = () => {
+export const CreatePackageItems = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -29,23 +29,23 @@ export const CreateCompanies = () => {
 
   return (
     <FormDialog
-      title="Create Companies"
-      description="Fill in the details to create a new companies."
+      title="Create PackageItems"
+      description="Fill in the details to create a new package-items."
       open={searchQuery.action === "create"}
       onOpenChange={() =>
         navigate({ search: (prev) => ({ ...prev, action: undefined }) })
       }
-      schema={CompaniesSchema}
+      schema={PackageItemsSchema}
       onSubmit={async (data) => {
         try {
           await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
+            .collection(Collections.WarehouseManagementPackageItems)
             .create(data);
-          toast.success("Companies created successfully!");
+          toast.success("PackageItems created successfully!");
         } catch (error) {
           if (error instanceof ClientResponseError) {
             toast.error(
-              `Failed to create companies: ${error.message} (${error.status})`
+              `Failed to create package-items: ${error.message} (${error.status})`
             );
           }
         } finally {
@@ -56,7 +56,7 @@ export const CreateCompanies = () => {
   );
 };
 
-export const UpdateCompanies = () => {
+export const UpdatePackageItems = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -64,34 +64,34 @@ export const UpdateCompanies = () => {
   });
 
   const { data: record } = useQuery({
-    queryKey: [Collections.CustomerRelationsCompanies, searchQuery.id],
+    queryKey: [Collections.WarehouseManagementPackageItems, searchQuery.id],
     queryFn: async () =>
       pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
+        .collection(Collections.WarehouseManagementPackageItems)
         .getOne(searchQuery.id!),
     enabled: searchQuery.action === "update" && !!searchQuery.id,
   });
 
   return (
     <FormDialog
-      title="Update Companies"
-      description="Modify the details of the companies."
+      title="Update PackageItems"
+      description="Modify the details of the package-items."
       defaultValues={record || undefined}
       open={searchQuery.action === "update" && !!searchQuery.id}
       onOpenChange={() =>
         navigate({ search: (prev) => ({ ...prev, action: undefined }) })
       }
-      schema={CompaniesSchema.partial()}
+      schema={PackageItemsSchema.partial()}
       onSubmit={async (data) => {
         try {
           await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
+            .collection(Collections.WarehouseManagementPackageItems)
             .update(searchQuery.id!, data);
-          toast.success("Companies updated successfully!");
+          toast.success("PackageItems updated successfully!");
         } catch (error) {
           if (error instanceof ClientResponseError) {
             toast.error(
-              `Failed to update companies: ${error.message} (${error.status})`
+              `Failed to update package-items: ${error.message} (${error.status})`
             );
           }
         } finally {
@@ -102,7 +102,7 @@ export const UpdateCompanies = () => {
   );
 };
 
-export const DeleteCompanies = () => {
+export const DeletePackageItems = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -110,10 +110,10 @@ export const DeleteCompanies = () => {
   });
 
   const { data: record } = useQuery({
-    queryKey: [Collections.CustomerRelationsCompanies, searchQuery.id],
+    queryKey: [Collections.WarehouseManagementPackageItems, searchQuery.id],
     queryFn: async () =>
       pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
+        .collection(Collections.WarehouseManagementPackageItems)
         .getOne(searchQuery.id!),
     enabled: searchQuery.action === "delete" && !!searchQuery.id,
   });
@@ -121,13 +121,13 @@ export const DeleteCompanies = () => {
   const handleDelete = async () => {
     try {
       await pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
+        .collection(Collections.WarehouseManagementPackageItems)
         .delete(searchQuery.id!);
-      toast.success("Companies deleted successfully!");
+      toast.success("PackageItems deleted successfully!");
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.error(
-          `Failed to delete companies: ${error.message} (${error.status})`
+          `Failed to delete package-items: ${error.message} (${error.status})`
         );
       }
     } finally {
@@ -142,7 +142,7 @@ export const DeleteCompanies = () => {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
-            companies and remove all associated data.
+            package-items and remove all associated data.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -161,7 +161,7 @@ export const DeleteCompanies = () => {
 };
 
 export default [
-  <CreateCompanies key={"action-create"} />,
-  <UpdateCompanies key={"action-update"} />,
-  <DeleteCompanies key={"action-delete"} />,
+  <CreatePackageItems key={"action-create"} />,
+  <UpdatePackageItems key={"action-update"} />,
+  <DeletePackageItems key={"action-delete"} />,
 ];

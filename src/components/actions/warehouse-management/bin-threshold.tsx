@@ -18,9 +18,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
 import { Collections } from "@/lib/pb.types";
-import { CompaniesSchema } from "@/pocketbase/schemas/customer-relations/companies";
+import { BinThresholdSchema } from "@/pocketbase/schemas/warehouse-management/bin-threshold";
 
-export const CreateCompanies = () => {
+export const CreateBinThreshold = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -29,23 +29,23 @@ export const CreateCompanies = () => {
 
   return (
     <FormDialog
-      title="Create Companies"
-      description="Fill in the details to create a new companies."
+      title="Create BinThreshold"
+      description="Fill in the details to create a new bin-threshold."
       open={searchQuery.action === "create"}
       onOpenChange={() =>
         navigate({ search: (prev) => ({ ...prev, action: undefined }) })
       }
-      schema={CompaniesSchema}
+      schema={BinThresholdSchema}
       onSubmit={async (data) => {
         try {
           await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
+            .collection(Collections.WarehouseManagementBinThreshold)
             .create(data);
-          toast.success("Companies created successfully!");
+          toast.success("BinThreshold created successfully!");
         } catch (error) {
           if (error instanceof ClientResponseError) {
             toast.error(
-              `Failed to create companies: ${error.message} (${error.status})`
+              `Failed to create bin-threshold: ${error.message} (${error.status})`
             );
           }
         } finally {
@@ -56,7 +56,7 @@ export const CreateCompanies = () => {
   );
 };
 
-export const UpdateCompanies = () => {
+export const UpdateBinThreshold = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -64,34 +64,34 @@ export const UpdateCompanies = () => {
   });
 
   const { data: record } = useQuery({
-    queryKey: [Collections.CustomerRelationsCompanies, searchQuery.id],
+    queryKey: [Collections.WarehouseManagementBinThreshold, searchQuery.id],
     queryFn: async () =>
       pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
+        .collection(Collections.WarehouseManagementBinThreshold)
         .getOne(searchQuery.id!),
     enabled: searchQuery.action === "update" && !!searchQuery.id,
   });
 
   return (
     <FormDialog
-      title="Update Companies"
-      description="Modify the details of the companies."
+      title="Update BinThreshold"
+      description="Modify the details of the bin-threshold."
       defaultValues={record || undefined}
       open={searchQuery.action === "update" && !!searchQuery.id}
       onOpenChange={() =>
         navigate({ search: (prev) => ({ ...prev, action: undefined }) })
       }
-      schema={CompaniesSchema.partial()}
+      schema={BinThresholdSchema.partial()}
       onSubmit={async (data) => {
         try {
           await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
+            .collection(Collections.WarehouseManagementBinThreshold)
             .update(searchQuery.id!, data);
-          toast.success("Companies updated successfully!");
+          toast.success("BinThreshold updated successfully!");
         } catch (error) {
           if (error instanceof ClientResponseError) {
             toast.error(
-              `Failed to update companies: ${error.message} (${error.status})`
+              `Failed to update bin-threshold: ${error.message} (${error.status})`
             );
           }
         } finally {
@@ -102,7 +102,7 @@ export const UpdateCompanies = () => {
   );
 };
 
-export const DeleteCompanies = () => {
+export const DeleteBinThreshold = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -110,10 +110,10 @@ export const DeleteCompanies = () => {
   });
 
   const { data: record } = useQuery({
-    queryKey: [Collections.CustomerRelationsCompanies, searchQuery.id],
+    queryKey: [Collections.WarehouseManagementBinThreshold, searchQuery.id],
     queryFn: async () =>
       pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
+        .collection(Collections.WarehouseManagementBinThreshold)
         .getOne(searchQuery.id!),
     enabled: searchQuery.action === "delete" && !!searchQuery.id,
   });
@@ -121,13 +121,13 @@ export const DeleteCompanies = () => {
   const handleDelete = async () => {
     try {
       await pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
+        .collection(Collections.WarehouseManagementBinThreshold)
         .delete(searchQuery.id!);
-      toast.success("Companies deleted successfully!");
+      toast.success("BinThreshold deleted successfully!");
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.error(
-          `Failed to delete companies: ${error.message} (${error.status})`
+          `Failed to delete bin-threshold: ${error.message} (${error.status})`
         );
       }
     } finally {
@@ -142,7 +142,7 @@ export const DeleteCompanies = () => {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete the
-            companies and remove all associated data.
+            bin-threshold and remove all associated data.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -161,7 +161,7 @@ export const DeleteCompanies = () => {
 };
 
 export default [
-  <CreateCompanies key={"action-create"} />,
-  <UpdateCompanies key={"action-update"} />,
-  <DeleteCompanies key={"action-delete"} />,
+  <CreateBinThreshold key={"action-create"} />,
+  <UpdateBinThreshold key={"action-update"} />,
+  <DeleteBinThreshold key={"action-delete"} />,
 ];
