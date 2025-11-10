@@ -24,7 +24,15 @@ const projectRoot = path.resolve(__dirname, "..");
 
 interface FieldConfig {
   name: string;
-  type: "text" | "email" | "number" | "date" | "datetime" | "textarea" | "select" | "relation";
+  type:
+    | "text"
+    | "email"
+    | "number"
+    | "date"
+    | "datetime"
+    | "textarea"
+    | "select"
+    | "relation";
   required: boolean;
   group: string;
   tooltip: string;
@@ -64,12 +72,13 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Lead",
     enum: "CustomerRelationsLeads",
-    description: "Manages sales leads with contact information, scoring, and source tracking for customer acquisition",
+    description:
+      "Manages sales leads with contact information, scoring, and source tracking for customer acquisition",
     fields: [
       {
         name: "name",
         type: "text",
-        required: true,
+        required: false,
         group: "Basic Information",
         tooltip: "e.g., 'John Doe', 'ABC Corp'",
         fieldDescription: "The name of the lead",
@@ -77,18 +86,10 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "email",
         type: "email",
-        required: true,
+        required: false,
         group: "Contact Information",
         tooltip: "e.g., 'john@example.com'",
         fieldDescription: "Primary email address for contact",
-      },
-      {
-        name: "phoneNumber",
-        type: "text",
-        required: false,
-        group: "Contact Information",
-        tooltip: "e.g., '+1234567890'",
-        fieldDescription: "Primary phone number",
       },
       {
         name: "score",
@@ -101,7 +102,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "source",
         type: "select",
-        required: true,
+        required: false,
         group: "Lead Source",
         tooltip: "Where the lead came from",
         fieldDescription: "Source channel for this lead",
@@ -112,7 +113,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
           "email-campaign",
           "cold-call",
           "event",
-          "advertisement",
+          "advertisment",
           "partner",
           "other",
         ],
@@ -120,7 +121,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "status",
         type: "select",
-        required: true,
+        required: false,
         group: "Lead Status",
         tooltip: "Current state of the lead",
         fieldDescription: "Current status in the sales pipeline",
@@ -148,6 +149,55 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         displayField: "name",
         recordType: "UsersResponse",
       },
+      {
+        name: "convertedAt",
+        type: "date",
+        required: false,
+        group: "Conversion",
+        tooltip: "e.g., '2024-01-15'",
+        fieldDescription: "Date when lead was converted",
+      },
+      {
+        name: "convertedCompany",
+        type: "relation",
+        required: false,
+        group: "Conversion",
+        tooltip: "e.g., 'Company ID'",
+        fieldDescription: "Company created from this lead",
+        collectionName: "Collections.CustomerRelationsCompanies",
+        displayField: "name",
+        recordType: "CustomerRelationsCompaniesResponse",
+      },
+      {
+        name: "convertedContact",
+        type: "relation",
+        required: false,
+        group: "Conversion",
+        tooltip: "e.g., 'Contact ID'",
+        fieldDescription: "Contact created from this lead",
+        collectionName: "Collections.CustomerRelationsContacts",
+        displayField: "name",
+        recordType: "CustomerRelationsContactsResponse",
+      },
+      {
+        name: "convertedOpportunity",
+        type: "relation",
+        required: false,
+        group: "Conversion",
+        tooltip: "e.g., 'Opportunity ID'",
+        fieldDescription: "Opportunity created from this lead",
+        collectionName: "Collections.CustomerRelationsOpportunities",
+        displayField: "name",
+        recordType: "CustomerRelationsOpportunitiesResponse",
+      },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription: "Lead attachments (documents, images, etc.)",
+      },
     ],
   },
 
@@ -155,7 +205,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Contact",
     enum: "CustomerRelationsContacts",
-    description: "Stores contact details and professional information for individuals within customer organizations",
+    description:
+      "Stores contact details and professional information for individuals within customer organizations",
     fields: [
       {
         name: "name",
@@ -211,6 +262,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         displayField: "name",
         recordType: "UsersResponse",
       },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription: "Contact attachments (documents, photos, etc.)",
+      },
     ],
   },
 
@@ -235,7 +294,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "type",
         type: "select",
-        required: true,
+        required: false,
         group: "Interaction Type",
         tooltip: "Type of interaction",
         fieldDescription: "How the interaction occurred",
@@ -276,6 +335,26 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         displayField: "name",
         recordType: "UsersResponse",
       },
+      {
+        name: "case",
+        type: "relation",
+        required: false,
+        group: "Association",
+        tooltip: "e.g., 'Case ID'",
+        fieldDescription: "Associated case if applicable",
+        collectionName: "Collections.CustomerRelationsCases",
+        displayField: "caseNumber",
+        recordType: "CustomerRelationsCasesResponse",
+      },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription:
+          "Interaction attachments (recordings, transcripts, etc.)",
+      },
     ],
   },
 
@@ -283,7 +362,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Product",
     enum: "CustomerRelationsProducts",
-    description: "Defines products and services offered to customers with pricing and classification",
+    description:
+      "Defines products and services offered to customers with pricing and classification",
     fields: [
       {
         name: "name",
@@ -326,6 +406,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         tooltip: "e.g., 'High-performance logistics service...'",
         fieldDescription: "Detailed description of the product",
       },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription: "Product attachments (images, specs, etc.)",
+      },
     ],
   },
 
@@ -333,7 +421,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Campaign",
     enum: "CustomerRelationsCampaigns",
-    description: "Manages marketing and sales campaigns with budget allocation and time tracking",
+    description:
+      "Manages marketing and sales campaigns with budget allocation and time tracking",
     fields: [
       {
         name: "name",
@@ -354,7 +443,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "startDate",
         type: "date",
-        required: true,
+        required: false,
         group: "Timeline",
         tooltip: "e.g., '2024-01-01'",
         fieldDescription: "Campaign start date",
@@ -367,6 +456,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         tooltip: "e.g., '2024-03-31'",
         fieldDescription: "Campaign end date",
       },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription: "Campaign attachments (documents, materials, etc.)",
+      },
     ],
   },
 
@@ -374,7 +471,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Opportunity",
     enum: "CustomerRelationsOpportunities",
-    description: "Tracks sales opportunities with deal values, stages, and forecasting information",
+    description:
+      "Tracks sales opportunities with deal values, stages, and forecasting information",
     fields: [
       {
         name: "name",
@@ -387,7 +485,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "company",
         type: "relation",
-        required: true,
+        required: false,
         group: "Related Records",
         tooltip: "e.g., 'Company ID'",
         fieldDescription: "Company associated with this opportunity",
@@ -409,7 +507,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "dealValue",
         type: "number",
-        required: true,
+        required: false,
         group: "Financials",
         tooltip: "e.g., '50000', '250000'",
         fieldDescription: "Estimated deal value",
@@ -417,7 +515,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "stage",
         type: "select",
-        required: true,
+        required: false,
         group: "Pipeline",
         tooltip: "Current sales stage",
         fieldDescription: "Where in the sales pipeline this opportunity is",
@@ -454,7 +552,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
           "email-campaign",
           "cold-call",
           "event",
-          "advertisement",
+          "advertisment",
           "partner",
           "existing-customer",
           "other",
@@ -479,6 +577,42 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         displayField: "name",
         recordType: "UsersResponse",
       },
+      {
+        name: "lostReason",
+        type: "textarea",
+        required: false,
+        group: "Pipeline",
+        tooltip: "e.g., 'Price too high', 'Competitor won'",
+        fieldDescription: "Reason for losing the opportunity",
+      },
+      {
+        name: "products",
+        type: "text",
+        required: false,
+        group: "Products",
+        tooltip: "Product IDs separated by comma",
+        fieldDescription: "Products associated with this opportunity",
+      },
+      {
+        name: "campaign",
+        type: "relation",
+        required: false,
+        group: "Campaign",
+        tooltip: "e.g., 'Campaign ID'",
+        fieldDescription: "Associated campaign if applicable",
+        collectionName: "Collections.CustomerRelationsCampaigns",
+        displayField: "name",
+        recordType: "CustomerRelationsCampaignsResponse",
+      },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription:
+          "Opportunity attachments (proposals, contracts, etc.)",
+      },
     ],
   },
 
@@ -486,7 +620,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Invoice",
     enum: "CustomerRelationsInvoices",
-    description: "Manages invoicing with payment tracking, discounts, and financial reconciliation",
+    description:
+      "Manages invoicing with payment tracking, discounts, and financial reconciliation",
     fields: [
       {
         name: "invoiceNumber",
@@ -510,7 +645,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "issueDate",
         type: "date",
-        required: true,
+        required: false,
         group: "Dates",
         tooltip: "e.g., '2024-01-15'",
         fieldDescription: "Invoice issuance date",
@@ -526,19 +661,19 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
       {
         name: "status",
         type: "select",
-        required: true,
+        required: false,
         group: "Status",
         tooltip: "Current invoice status",
         fieldDescription: "Payment status",
-        options: ["draft", "sent", "viewed", "paid", "partial-paid", "past-due", "disputed", "cancelled", "void"],
+        options: ["draft", "sent", "paid", "overdue", "cancelled"],
       },
       {
-        name: "subtotal",
+        name: "total",
         type: "number",
         required: false,
         group: "Amounts",
-        tooltip: "e.g., '1000.00'",
-        fieldDescription: "Subtotal before discounts and taxes",
+        tooltip: "e.g., '1100.00'",
+        fieldDescription: "Total invoice amount",
       },
       {
         name: "discountAmount",
@@ -549,31 +684,56 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         fieldDescription: "Total discount amount",
       },
       {
-        name: "totalAmount",
-        type: "number",
+        name: "paymentMethod",
+        type: "select",
         required: false,
-        group: "Amounts",
-        tooltip: "e.g., '1100.00'",
-        fieldDescription: "Total invoice amount",
+        group: "Payment",
+        tooltip: "Payment method used",
+        fieldDescription: "Payment method for this invoice",
+        options: [
+          "credit-card",
+          "bank-transfer",
+          "cash",
+          "check",
+          "paypal",
+          "stripe",
+          "wire-transfer",
+          "other",
+          "maya",
+          "gcash",
+        ],
       },
       {
-        name: "notes",
-        type: "textarea",
+        name: "sentAt",
+        type: "date",
         required: false,
-        group: "Details",
-        tooltip: "e.g., 'Thank you for your business...'",
-        fieldDescription: "Additional notes or terms",
+        group: "Dates",
+        tooltip: "e.g., '2024-01-15'",
+        fieldDescription: "Date invoice was sent",
       },
       {
-        name: "createdBy",
-        type: "relation",
-        required: true,
-        group: "Ownership",
-        tooltip: "e.g., 'User ID'",
-        fieldDescription: "User who created this invoice",
-        collectionName: "Collections.Users",
-        displayField: "name",
-        recordType: "UsersResponse",
+        name: "paidAt",
+        type: "date",
+        required: false,
+        group: "Dates",
+        tooltip: "e.g., '2024-01-28'",
+        fieldDescription: "Date payment was received",
+      },
+      {
+        name: "items",
+        type: "text",
+        required: false,
+        group: "Items",
+        tooltip: "Line item IDs separated by comma",
+        fieldDescription: "Invoice line items",
+      },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription: "Invoice attachments (PDFs, receipts, etc.)",
       },
     ],
   },
@@ -601,7 +761,16 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Classification",
         tooltip: "e.g., shipping, storage, fulfillment, handling",
         fieldDescription: "The service category this rate card applies to",
-        options: ["shipping", "storage", "fulfillment", "handling", "insurance", "customs", "packaging", "returns"],
+        options: [
+          "shipping",
+          "storage",
+          "fulfillment",
+          "handling",
+          "insurance",
+          "customs",
+          "packaging",
+          "returns",
+        ],
       },
       {
         name: "isActive",
@@ -609,7 +778,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Status",
         tooltip: "e.g., 'yes', 'no', 'true', 'false'",
-        fieldDescription: "Mark whether this rate card is currently in use for billing",
+        fieldDescription:
+          "Mark whether this rate card is currently in use for billing",
       },
       {
         name: "description",
@@ -617,7 +787,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Details",
         tooltip: "e.g., 'Applies to domestic shipments under 50kg'",
-        fieldDescription: "Additional information about the purpose and terms of this rate card",
+        fieldDescription:
+          "Additional information about the purpose and terms of this rate card",
       },
       {
         name: "validFrom",
@@ -633,7 +804,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Validity",
         tooltip: "e.g., '2024-12-31'",
-        fieldDescription: "The date when this rate card expires or becomes inactive",
+        fieldDescription:
+          "The date when this rate card expires or becomes inactive",
       },
     ],
   },
@@ -668,7 +840,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Amount",
         tooltip: "e.g., 5.5, 10, 25.75",
-        fieldDescription: "The fixed surcharge amount (for fixed calculation method)",
+        fieldDescription:
+          "The fixed surcharge amount (for fixed calculation method)",
       },
       {
         name: "isActive",
@@ -676,7 +849,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Status",
         tooltip: "e.g., 'yes', 'no', 'true', 'false'",
-        fieldDescription: "Mark whether this surcharge is currently being applied",
+        fieldDescription:
+          "Mark whether this surcharge is currently being applied",
       },
       {
         name: "description",
@@ -684,7 +858,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Details",
         tooltip: "e.g., 'Applied when fuel prices exceed $3 per liter'",
-        fieldDescription: "Detailed explanation of when and why this surcharge is applied",
+        fieldDescription:
+          "Detailed explanation of when and why this surcharge is applied",
       },
       {
         name: "validFrom",
@@ -692,7 +867,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Validity",
         tooltip: "e.g., '2024-01-01'",
-        fieldDescription: "The start date when this surcharge becomes effective",
+        fieldDescription:
+          "The start date when this surcharge becomes effective",
       },
       {
         name: "validTo",
@@ -700,7 +876,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Validity",
         tooltip: "e.g., '2024-12-31'",
-        fieldDescription: "The end date when this surcharge expires or becomes inactive",
+        fieldDescription:
+          "The end date when this surcharge expires or becomes inactive",
       },
     ],
   },
@@ -756,7 +933,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "Vehicle",
     enum: "TransportManagementVehicles",
-    description: "Manages fleet vehicles with registration, capacity, and operational status tracking",
+    description:
+      "Manages fleet vehicles with registration, capacity, and operational status tracking",
     fields: [
       {
         name: "registrationNumber",
@@ -806,7 +984,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "Trip",
     enum: "TransportManagementTrips",
-    description: "Tracks delivery trips with driver and vehicle assignments, route progress, and status updates",
+    description:
+      "Tracks delivery trips with driver and vehicle assignments, route progress, and status updates",
     fields: [
       {
         name: "driver",
@@ -968,7 +1147,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "Warehouse",
     enum: "WarehouseManagementWarehouses",
-    description: "Manages warehouse locations with address, contact details, and operational information",
+    description:
+      "Manages warehouse locations with address, contact details, and operational information",
     fields: [
       {
         name: "name",
@@ -1177,7 +1357,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         required: false,
         group: "Environmental",
         tooltip: "e.g., 'yes', 'no', 'true', 'false'",
-        fieldDescription: "Whether this location is approved for hazardous materials",
+        fieldDescription:
+          "Whether this location is approved for hazardous materials",
       },
       {
         name: "isActive",
@@ -1222,7 +1403,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "ClientAccount",
     enum: "BillingManagementClientAccounts",
-    description: "Tracks credit accounts for clients with credit limits, available credit, and payment history",
+    description:
+      "Tracks credit accounts for clients with credit limits, available credit, and payment history",
     fields: [
       {
         name: "client",
@@ -1298,7 +1480,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "CreditNote",
     enum: "BillingManagementCreditNotes",
-    description: "Issues credit notes for refunds and adjustments to disputes with tracking of applications",
+    description:
+      "Issues credit notes for refunds and adjustments to disputes with tracking of applications",
     fields: [
       {
         name: "creditNoteNumber",
@@ -1385,7 +1568,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "Dispute",
     enum: "BillingManagementDisputes",
-    description: "Manages billing disputes with status tracking, resolution notes, and attachments",
+    description:
+      "Manages billing disputes with status tracking, resolution notes, and attachments",
     fields: [
       {
         name: "client",
@@ -1416,7 +1600,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select dispute status",
         fieldDescription: "Current status of dispute",
-        options: ["open", "under-review", "approved", "denied", "escalated", "closed"],
+        options: [
+          "open",
+          "under-review",
+          "approved",
+          "denied",
+          "escalated",
+          "closed",
+        ],
       },
       {
         name: "reason",
@@ -1484,7 +1675,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "Payment",
     enum: "BillingManagementPayments",
-    description: "Records payment transactions with method, status, and gateway reference tracking",
+    description:
+      "Records payment transactions with method, status, and gateway reference tracking",
     fields: [
       {
         name: "invoice",
@@ -1520,7 +1712,16 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Method",
         tooltip: "Select payment method",
         fieldDescription: "How payment was made",
-        options: ["credit-card", "debit-card", "wallet", "qr-ph", "client-credit", "bank-transfer", "cash", "check"],
+        options: [
+          "credit-card",
+          "debit-card",
+          "wallet",
+          "qr-ph",
+          "client-credit",
+          "bank-transfer",
+          "cash",
+          "check",
+        ],
       },
       {
         name: "status",
@@ -1529,7 +1730,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select payment status",
         fieldDescription: "Current payment status",
-        options: ["pending", "processing", "successful", "failed", "cancelled", "refunded"],
+        options: [
+          "pending",
+          "processing",
+          "successful",
+          "failed",
+          "cancelled",
+          "refunded",
+        ],
       },
       {
         name: "paymentDate",
@@ -1613,7 +1821,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "RateRule",
     enum: "BillingManagementRateRules",
-    description: "Defines pricing rules with conditions, value ranges, and different calculation models for rate cards",
+    description:
+      "Defines pricing rules with conditions, value ranges, and different calculation models for rate cards",
     fields: [
       {
         name: "rateCard",
@@ -1673,7 +1882,15 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Pricing",
         tooltip: "Select pricing model",
         fieldDescription: "How price is calculated",
-        options: ["per-kg", "per-item", "flat-rate", "per-cubic-meter", "per-zone", "percentage", "tiered"],
+        options: [
+          "per-kg",
+          "per-item",
+          "flat-rate",
+          "per-cubic-meter",
+          "per-zone",
+          "percentage",
+          "tiered",
+        ],
       },
       {
         name: "price",
@@ -1699,7 +1916,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Case",
     enum: "CustomerRelationsCases",
-    description: "Tracks customer support cases with status, priority, type classification, and resolution tracking",
+    description:
+      "Tracks customer support cases with status, priority, type classification, and resolution tracking",
     fields: [
       {
         name: "caseNumber",
@@ -1716,7 +1934,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Contact",
         tooltip: "Select contact",
         fieldDescription: "Associated contact",
-        collectionName: "customer_relations_contacts",
+        collectionName: "Collections.CustomerRelationsContacts",
         displayField: "name",
         recordType: "CustomerRelationsContactsResponse",
       },
@@ -1727,8 +1945,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Assignment",
         tooltip: "Select owner",
         fieldDescription: "Case owner/assignee",
-        collectionName: "users",
-        displayField: "username",
+        collectionName: "Collections.Users",
+        displayField: "name",
         recordType: "UsersResponse",
       },
       {
@@ -1756,7 +1974,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Classification",
         tooltip: "Select case type",
         fieldDescription: "Type of case",
-        options: ["question", "problem", "complaint", "feature-request", "bug-report", "technical-support"],
+        options: [
+          "question",
+          "problem",
+          "complaint",
+          "feature-request",
+          "bug-report",
+          "technical-support",
+        ],
       },
       {
         name: "priority",
@@ -1782,7 +2007,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "Company",
     enum: "CustomerRelationsCompanies",
-    description: "Manages company information with contact details, registration info, and business classification",
+    description:
+      "Manages company information with contact details, registration info, and business classification",
     fields: [
       {
         name: "name",
@@ -1793,50 +2019,26 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         fieldDescription: "Company name",
       },
       {
-        name: "email",
-        type: "email",
-        required: false,
-        group: "Contact",
-        tooltip: "e.g., 'info@acme.com'",
-        fieldDescription: "Company email",
-      },
-      {
-        name: "phone",
+        name: "phoneNumber",
         type: "text",
         required: false,
-        group: "Contact",
+        group: "Contact Information",
         tooltip: "e.g., '+63 2 1234 5678'",
-        fieldDescription: "Company phone",
+        fieldDescription: "Company phone number",
       },
       {
         name: "website",
         type: "text",
         required: false,
-        group: "Contact",
+        group: "Contact Information",
         tooltip: "e.g., 'www.acme.com'",
         fieldDescription: "Company website",
       },
       {
-        name: "registrationNumber",
+        name: "street",
         type: "text",
         required: false,
-        group: "Registration",
-        tooltip: "e.g., 'BRN-12345'",
-        fieldDescription: "Business registration number",
-      },
-      {
-        name: "taxId",
-        type: "text",
-        required: false,
-        group: "Registration",
-        tooltip: "e.g., 'TIN-123456789'",
-        fieldDescription: "Tax identification number",
-      },
-      {
-        name: "address",
-        type: "text",
-        required: false,
-        group: "Location",
+        group: "Address",
         tooltip: "e.g., '123 Business Ave'",
         fieldDescription: "Street address",
       },
@@ -1844,7 +2046,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         name: "city",
         type: "text",
         required: false,
-        group: "Location",
+        group: "Address",
         tooltip: "e.g., 'Manila'",
         fieldDescription: "City",
       },
@@ -1852,15 +2054,23 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         name: "state",
         type: "text",
         required: false,
-        group: "Location",
+        group: "Address",
         tooltip: "e.g., 'NCR'",
         fieldDescription: "State/Province",
+      },
+      {
+        name: "postalCode",
+        type: "text",
+        required: false,
+        group: "Address",
+        tooltip: "e.g., '1234'",
+        fieldDescription: "Postal code",
       },
       {
         name: "country",
         type: "text",
         required: false,
-        group: "Location",
+        group: "Address",
         tooltip: "e.g., 'Philippines'",
         fieldDescription: "Country",
       },
@@ -1868,25 +2078,36 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         name: "industry",
         type: "text",
         required: false,
-        group: "Business",
+        group: "Business Information",
         tooltip: "e.g., 'Technology'",
         fieldDescription: "Industry sector",
-      },
-      {
-        name: "employees",
-        type: "number",
-        required: false,
-        group: "Business",
-        tooltip: "e.g., '100', '500'",
-        fieldDescription: "Number of employees",
       },
       {
         name: "annualRevenue",
         type: "number",
         required: false,
-        group: "Business",
+        group: "Business Information",
         tooltip: "e.g., '1000000'",
         fieldDescription: "Annual revenue",
+      },
+      {
+        name: "owner",
+        type: "relation",
+        required: false,
+        group: "Ownership",
+        tooltip: "e.g., 'User ID'",
+        fieldDescription: "Account owner or account manager",
+        collectionName: "Collections.Users",
+        displayField: "name",
+        recordType: "UsersResponse",
+      },
+      {
+        name: "attachments",
+        type: "text",
+        required: false,
+        group: "Media",
+        tooltip: "File names separated by comma",
+        fieldDescription: "Company attachments (logos, documents, etc.)",
       },
     ],
   },
@@ -1895,74 +2116,46 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "InvoiceItem",
     enum: "CustomerRelationsInvoiceItems",
-    description: "Line items for customer relation invoices with pricing, quantities, and tax details",
+    description:
+      "Line items for customer relation invoices with pricing and quantity details",
     fields: [
       {
         name: "invoice",
         type: "relation",
-        required: false,
+        required: true,
         group: "Reference",
         tooltip: "Select invoice",
         fieldDescription: "Parent invoice",
-        collectionName: "customer_relations_invoices",
-        displayField: "id",
+        collectionName: "Collections.CustomerRelationsInvoices",
+        displayField: "invoiceNumber",
         recordType: "CustomerRelationsInvoicesResponse",
       },
       {
-        name: "description",
-        type: "textarea",
-        required: false,
-        group: "Item Details",
-        tooltip: "e.g., 'Consulting Services'",
-        fieldDescription: "Item description",
+        name: "product",
+        type: "relation",
+        required: true,
+        group: "Product",
+        tooltip: "Select product",
+        fieldDescription: "Product or service",
+        collectionName: "Collections.CustomerRelationsProducts",
+        displayField: "name",
+        recordType: "CustomerRelationsProductsResponse",
       },
       {
         name: "quantity",
         type: "number",
-        required: false,
-        group: "Quantity",
+        required: true,
+        group: "Details",
         tooltip: "e.g., '5', '10.5'",
         fieldDescription: "Quantity of item",
       },
       {
-        name: "unitPrice",
+        name: "price",
         type: "number",
-        required: false,
+        required: true,
         group: "Pricing",
         tooltip: "e.g., '1000', '500.50'",
         fieldDescription: "Price per unit",
-      },
-      {
-        name: "discountRate",
-        type: "number",
-        required: false,
-        group: "Discount",
-        tooltip: "e.g., '10', '5.5'",
-        fieldDescription: "Discount percentage",
-      },
-      {
-        name: "discountAmount",
-        type: "number",
-        required: false,
-        group: "Discount",
-        tooltip: "e.g., '500'",
-        fieldDescription: "Discount amount",
-      },
-      {
-        name: "taxRate",
-        type: "number",
-        required: false,
-        group: "Tax",
-        tooltip: "e.g., '12', '8.5'",
-        fieldDescription: "Tax percentage",
-      },
-      {
-        name: "taxAmount",
-        type: "number",
-        required: false,
-        group: "Tax",
-        tooltip: "e.g., '1200'",
-        fieldDescription: "Tax amount",
       },
     ],
   },
@@ -1971,7 +2164,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "customer-relations",
     entity: "OpportunityProduct",
     enum: "CustomerRelationsOpportunityProducts",
-    description: "Links products to sales opportunities for tracking product involvement in deals",
+    description:
+      "Links products to sales opportunities for tracking product involvement in deals",
     fields: [
       {
         name: "opportunity",
@@ -1980,7 +2174,7 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Reference",
         tooltip: "Select opportunity",
         fieldDescription: "Associated opportunity",
-        collectionName: "customer_relations_opportunities",
+        collectionName: "Collections.CustomerRelationsOpportunities",
         displayField: "name",
         recordType: "CustomerRelationsOpportunitiesResponse",
       },
@@ -1991,33 +2185,17 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Reference",
         tooltip: "Select product",
         fieldDescription: "Associated product",
-        collectionName: "customer_relations_products",
+        collectionName: "Collections.CustomerRelationsProducts",
         displayField: "name",
         recordType: "CustomerRelationsProductsResponse",
       },
       {
         name: "quantity",
         type: "number",
-        required: false,
+        required: true,
         group: "Details",
         tooltip: "e.g., '5', '10.5'",
         fieldDescription: "Quantity",
-      },
-      {
-        name: "unitPrice",
-        type: "number",
-        required: false,
-        group: "Details",
-        tooltip: "e.g., '1000'",
-        fieldDescription: "Unit price",
-      },
-      {
-        name: "total",
-        type: "number",
-        required: false,
-        group: "Totals",
-        tooltip: "e.g., '5000'",
-        fieldDescription: "Total amount",
       },
     ],
   },
@@ -2027,7 +2205,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "delivery-management",
     entity: "Task",
     enum: "DeliveryManagementTasks",
-    description: "Manages delivery tasks with status tracking, assignment, and proof of delivery",
+    description:
+      "Manages delivery tasks with status tracking, assignment, and proof of delivery",
     fields: [
       {
         name: "deliveryAddress",
@@ -2074,7 +2253,15 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select task status",
         fieldDescription: "Current task status",
-        options: ["pending", "assigned", "out-for-delivery", "delivered", "failed", "cancelled", "rescheduled"],
+        options: [
+          "pending",
+          "assigned",
+          "out-for-delivery",
+          "delivered",
+          "failed",
+          "cancelled",
+          "rescheduled",
+        ],
       },
       {
         name: "recipientName",
@@ -2165,7 +2352,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "delivery-management",
     entity: "Route",
     enum: "DeliveryManagementRoutes",
-    description: "Defines delivery routes with waypoints, distance, and optimization details for efficient deliveries",
+    description:
+      "Defines delivery routes with waypoints, distance, and optimization details for efficient deliveries",
     fields: [
       {
         name: "name",
@@ -2182,7 +2370,13 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select route status",
         fieldDescription: "Current route status",
-        options: ["active", "planning", "in-progress", "completed", "cancelled"],
+        options: [
+          "active",
+          "planning",
+          "in-progress",
+          "completed",
+          "cancelled",
+        ],
       },
       {
         name: "routeDate",
@@ -2243,7 +2437,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "VehicleMaintenance",
     enum: "TransportManagementVehicleMaintenance",
-    description: "Tracks vehicle maintenance schedules, service records, and maintenance history for fleet management",
+    description:
+      "Tracks vehicle maintenance schedules, service records, and maintenance history for fleet management",
     fields: [
       {
         name: "vehicle",
@@ -2295,7 +2490,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "TripStop",
     enum: "TransportManagementTripStops",
-    description: "Represents individual stops within a trip with location, status, and time tracking",
+    description:
+      "Represents individual stops within a trip with location, status, and time tracking",
     fields: [
       {
         name: "trip",
@@ -2373,7 +2569,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "InventoryStock",
     enum: "WarehouseManagementInventoryStock",
-    description: "Tracks inventory stock levels at specific locations with quantity on hand and reserved quantities",
+    description:
+      "Tracks inventory stock levels at specific locations with quantity on hand and reserved quantities",
     fields: [
       {
         name: "product",
@@ -2431,7 +2628,13 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select stock status",
         fieldDescription: "Stock status",
-        options: ["in-stock", "low-stock", "out-of-stock", "discontinued", "obsolete"],
+        options: [
+          "in-stock",
+          "low-stock",
+          "out-of-stock",
+          "discontinued",
+          "obsolete",
+        ],
       },
       {
         name: "lastCountedAt",
@@ -2456,7 +2659,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "InventoryBatch",
     enum: "WarehouseManagementInventoryBatches",
-    description: "Groups inventory into batches with lot numbers and expiration tracking for batch traceability",
+    description:
+      "Groups inventory into batches with lot numbers and expiration tracking for batch traceability",
     fields: [
       {
         name: "batchNumber",
@@ -2492,7 +2696,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "SalesOrder",
     enum: "WarehouseManagementSalesOrders",
-    description: "Records sales orders for warehouse fulfillment with customer and order details",
+    description:
+      "Records sales orders for warehouse fulfillment with customer and order details",
     fields: [
       {
         name: "orderNumber",
@@ -2531,7 +2736,15 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select order status",
         fieldDescription: "Order status",
-        options: ["pending", "confirmed", "picking", "packed", "shipped", "delivered", "cancelled"],
+        options: [
+          "pending",
+          "confirmed",
+          "picking",
+          "packed",
+          "shipped",
+          "delivered",
+          "cancelled",
+        ],
       },
       {
         name: "shippingAddress",
@@ -2549,7 +2762,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "AccountTransaction",
     enum: "BillingManagementAccountTransactions",
-    description: "Records financial transactions for client accounts including credits, debits, and adjustments",
+    description:
+      "Records financial transactions for client accounts including credits, debits, and adjustments",
     fields: [
       {
         name: "clientAccount",
@@ -2621,7 +2835,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "Invoice",
     enum: "BillingManagementInvoices",
-    description: "Manages billing invoices with items, taxes, discounts, and payment tracking",
+    description:
+      "Manages billing invoices with items, taxes, discounts, and payment tracking",
     fields: [
       {
         name: "invoiceNumber",
@@ -2654,7 +2869,17 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select invoice status",
         fieldDescription: "Current invoice status",
-        options: ["draft", "sent", "viewed", "paid", "partial-paid", "past-due", "disputed", "cancelled", "void"],
+        options: [
+          "draft",
+          "sent",
+          "viewed",
+          "paid",
+          "partial-paid",
+          "past-due",
+          "disputed",
+          "cancelled",
+          "void",
+        ],
       },
       {
         name: "subtotal",
@@ -2765,7 +2990,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "InvoiceLineItem",
     enum: "BillingManagementInvoiceLineItems",
-    description: "Line items for billing invoices with pricing, taxes, and discount details",
+    description:
+      "Line items for billing invoices with pricing, taxes, and discount details",
     fields: [
       {
         name: "invoice",
@@ -2841,7 +3067,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "Quote",
     enum: "BillingManagementQuotes",
-    description: "Manages pricing quotes for services with validity periods and conversion to invoices",
+    description:
+      "Manages pricing quotes for services with validity periods and conversion to invoices",
     fields: [
       {
         name: "quoteNumber",
@@ -2977,7 +3204,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "billing-management",
     entity: "Log",
     enum: "BillingManagementLogs",
-    description: "Tracks system logs for billing transactions with external integrations and retry history",
+    description:
+      "Tracks system logs for billing transactions with external integrations and retry history",
     fields: [
       {
         name: "externalSystem",
@@ -3076,7 +3304,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "delivery-management",
     entity: "DriverLocation",
     enum: "DeliveryManagementDriverLocation",
-    description: "Tracks real-time driver locations with GPS coordinates for fleet monitoring and route optimization",
+    description:
+      "Tracks real-time driver locations with GPS coordinates for fleet monitoring and route optimization",
     fields: [
       {
         name: "driver",
@@ -3120,7 +3349,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "delivery-management",
     entity: "ProofOfDelivery",
     enum: "DeliveryManagementProofOfDeliveries",
-    description: "Records proof of delivery with signatures, photos, and timestamp for delivery verification",
+    description:
+      "Records proof of delivery with signatures, photos, and timestamp for delivery verification",
     fields: [
       {
         name: "task",
@@ -3172,7 +3402,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "delivery-management",
     entity: "TaskEvent",
     enum: "DeliveryManagementTaskEvents",
-    description: "Tracks status change events for delivery tasks with timestamps and detailed notes",
+    description:
+      "Tracks status change events for delivery tasks with timestamps and detailed notes",
     fields: [
       {
         name: "task",
@@ -3192,7 +3423,16 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select event status",
         fieldDescription: "Task status at this event",
-        options: ["assigned", "started", "arrived", "delivered", "failed", "exception", "cancelled", "rescheduled"],
+        options: [
+          "assigned",
+          "started",
+          "arrived",
+          "delivered",
+          "failed",
+          "exception",
+          "cancelled",
+          "rescheduled",
+        ],
       },
       {
         name: "timestamp",
@@ -3234,7 +3474,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "CarrierRate",
     enum: "TransportManagementCarrierRates",
-    description: "Defines shipping rates from external carriers with origin/destination and unit-based pricing",
+    description:
+      "Defines shipping rates from external carriers with origin/destination and unit-based pricing",
     fields: [
       {
         name: "carrier",
@@ -3295,7 +3536,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "Carrier",
     enum: "TransportManagementCarriers",
-    description: "Manages third-party carriers with contact information and service offerings",
+    description:
+      "Manages third-party carriers with contact information and service offerings",
     fields: [
       {
         name: "name",
@@ -3336,7 +3578,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "DriverSchedule",
     enum: "TransportManagementDriverSchedules",
-    description: "Manages driver availability with time-off schedules for vacation, leave, and training",
+    description:
+      "Manages driver availability with time-off schedules for vacation, leave, and training",
     fields: [
       {
         name: "driver",
@@ -3381,7 +3624,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "Expense",
     enum: "TransportManagementExpenses",
-    description: "Tracks driver and trip expenses with receipts, reimbursement status, and categorization",
+    description:
+      "Tracks driver and trip expenses with receipts, reimbursement status, and categorization",
     fields: [
       {
         name: "driver",
@@ -3412,7 +3656,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Category",
         tooltip: "Select expense type",
         fieldDescription: "Type of expense",
-        options: ["fuel", "tolls", "maintenance", "parking", "meals", "accomodation"],
+        options: [
+          "fuel",
+          "tolls",
+          "maintenance",
+          "parking",
+          "meals",
+          "accomodation",
+        ],
       },
       {
         name: "amount",
@@ -3505,7 +3756,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "GeofenceEvent",
     enum: "TransportManagementGeofenceEvents",
-    description: "Records geofence entry/exit events for vehicles with timestamp and event type",
+    description:
+      "Records geofence entry/exit events for vehicles with timestamp and event type",
     fields: [
       {
         name: "geofence",
@@ -3553,7 +3805,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "GpsPing",
     enum: "TransportManagementGpsPings",
-    description: "Records GPS tracking data for vehicles with coordinates and timestamps for route history",
+    description:
+      "Records GPS tracking data for vehicles with coordinates and timestamps for route history",
     fields: [
       {
         name: "vehicle",
@@ -3589,7 +3842,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "PartnerInvoice",
     enum: "TransportManagementPartnerInvoice",
-    description: "Tracks invoices from carrier partners with status and line item details for vendor management",
+    description:
+      "Tracks invoices from carrier partners with status and line item details for vendor management",
     fields: [
       {
         name: "carrier",
@@ -3653,7 +3907,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "PartnerInvoiceItem",
     enum: "TransportManagementPartnerInvoiceItems",
-    description: "Line items for partner invoices linking to shipment legs for detailed billing",
+    description:
+      "Line items for partner invoices linking to shipment legs for detailed billing",
     fields: [
       {
         name: "partnerInvoice",
@@ -3692,7 +3947,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "ProofOfDelivery",
     enum: "TransportManagementProofOfDeliveries",
-    description: "Records proof of delivery for transport shipments with signatures and photos",
+    description:
+      "Records proof of delivery for transport shipments with signatures and photos",
     fields: [
       {
         name: "tripStop",
@@ -3728,7 +3984,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "Route",
     enum: "TransportManagementRoutes",
-    description: "Defines transport routes with waypoints, distance, and duration for trip planning",
+    description:
+      "Defines transport routes with waypoints, distance, and duration for trip planning",
     fields: [
       {
         name: "name",
@@ -3761,7 +4018,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "ShipmentLegEvent",
     enum: "TransportManagementShipmentLegEvents",
-    description: "Tracks status events for shipment legs with location and message for shipment tracking",
+    description:
+      "Tracks status events for shipment legs with location and message for shipment tracking",
     fields: [
       {
         name: "shipmentLegId",
@@ -3805,7 +4063,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "transport-management",
     entity: "ShipmentLeg",
     enum: "TransportManagementShipmentLegs",
-    description: "Represents individual legs of a multi-leg shipment with carrier and route information",
+    description:
+      "Represents individual legs of a multi-leg shipment with carrier and route information",
     fields: [
       {
         name: "shipment",
@@ -3881,7 +4140,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "BinThreshold",
     enum: "WarehouseManagementBinThreshold",
-    description: "Defines alert thresholds for bin stock levels with min/max quantities for automated replenishment",
+    description:
+      "Defines alert thresholds for bin stock levels with min/max quantities for automated replenishment",
     fields: [
       {
         name: "product",
@@ -3952,7 +4212,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "InboundShipment",
     enum: "WarehouseManagementInboundShipments",
-    description: "Tracks incoming shipments from suppliers with expected/actual dates and status",
+    description:
+      "Tracks incoming shipments from suppliers with expected/actual dates and status",
     fields: [
       {
         name: "client",
@@ -4008,7 +4269,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "InboundShipmentItem",
     enum: "WarehouseManagementInboundShipmentItems",
-    description: "Line items for inbound shipments with quantity tracking and discrepancy notes",
+    description:
+      "Line items for inbound shipments with quantity tracking and discrepancy notes",
     fields: [
       {
         name: "inboundShipment",
@@ -4063,7 +4325,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "OutboundShipment",
     enum: "WarehouseManagementOutboundShipments",
-    description: "Tracks outbound shipments to customers with carrier and tracking information",
+    description:
+      "Tracks outbound shipments to customers with carrier and tracking information",
     fields: [
       {
         name: "salesOrder",
@@ -4133,7 +4396,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "OutboundShipmentItem",
     enum: "WarehouseManagementOutboundShipmentItems",
-    description: "Line items for outbound shipments linking to sales order items with batch tracking",
+    description:
+      "Line items for outbound shipments linking to sales order items with batch tracking",
     fields: [
       {
         name: "outboundShipment",
@@ -4194,7 +4458,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "Package",
     enum: "WarehouseManagementPackages",
-    description: "Represents physical packages with dimensions, weight, fragility flags, and packing details",
+    description:
+      "Represents physical packages with dimensions, weight, fragility flags, and packing details",
     fields: [
       {
         name: "packageNumber",
@@ -4340,7 +4605,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "PackageItem",
     enum: "WarehouseManagementPackageItems",
-    description: "Line items for packages with product and batch tracking for packed shipments",
+    description:
+      "Line items for packages with product and batch tracking for packed shipments",
     fields: [
       {
         name: "package",
@@ -4406,7 +4672,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "PickBatch",
     enum: "WarehouseManagementPickBatches",
-    description: "Groups picking tasks into batches with optimization strategy and status tracking for fulfillment",
+    description:
+      "Groups picking tasks into batches with optimization strategy and status tracking for fulfillment",
     fields: [
       {
         name: "warehouse",
@@ -4442,7 +4709,13 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Strategy",
         tooltip: "Select picking strategy",
         fieldDescription: "Picking strategy used",
-        options: ["batch-picking", "zone-picking", "wave-picking", "single-order-picking", "cluster-picking"],
+        options: [
+          "batch-picking",
+          "zone-picking",
+          "wave-picking",
+          "single-order-picking",
+          "cluster-picking",
+        ],
       },
       {
         name: "status",
@@ -4530,7 +4803,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "PickBatchItem",
     enum: "WarehouseManagementPickBatchItems",
-    description: "Individual items in pick batches with priority and time tracking for picking operations",
+    description:
+      "Individual items in pick batches with priority and time tracking for picking operations",
     fields: [
       {
         name: "pickBatch",
@@ -4585,7 +4859,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "PutawayRule",
     enum: "WarehouseManagementPutawayRules",
-    description: "Defines rules for automatic putaway assignment with location preferences and constraints",
+    description:
+      "Defines rules for automatic putaway assignment with location preferences and constraints",
     fields: [
       {
         name: "warehouse",
@@ -4722,7 +4997,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "ReorderPoint",
     enum: "WarehouseManagementReorderPoints",
-    description: "Defines stock reorder thresholds for automatic purchase order generation",
+    description:
+      "Defines stock reorder thresholds for automatic purchase order generation",
     fields: [
       {
         name: "warehouse",
@@ -4761,7 +5037,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "Return",
     enum: "WarehouseManagementReturns",
-    description: "Manages product returns from customers with status tracking and reason tracking",
+    description:
+      "Manages product returns from customers with status tracking and reason tracking",
     fields: [
       {
         name: "returnNumber",
@@ -4800,7 +5077,13 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select return status",
         fieldDescription: "Current return status",
-        options: ["requested", "approved", "rejeceted", "received", "processed"],
+        options: [
+          "requested",
+          "approved",
+          "rejeceted",
+          "received",
+          "processed",
+        ],
       },
       {
         name: "reason",
@@ -4817,7 +5100,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "ReturnItem",
     enum: "WarehouseManagementReturnItems",
-    description: "Line items for product returns with condition assessment and quantity tracking",
+    description:
+      "Line items for product returns with condition assessment and quantity tracking",
     fields: [
       {
         name: "return",
@@ -4873,7 +5157,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "SalesOrderItem",
     enum: "WarehouseManagementSalesOrderItems",
-    description: "Line items for sales orders with product and quantity details for fulfillment",
+    description:
+      "Line items for sales orders with product and quantity details for fulfillment",
     fields: [
       {
         name: "salesOrder",
@@ -4912,7 +5197,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "StockTransfer",
     enum: "WarehouseManagementStockTransfer",
-    description: "Tracks inter-warehouse stock transfers with status and quantity tracking",
+    description:
+      "Tracks inter-warehouse stock transfers with status and quantity tracking",
     fields: [
       {
         name: "sourceWarehouse",
@@ -4971,7 +5257,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "Supplier",
     enum: "WarehouseManagementSuppliers",
-    description: "Manages supplier information with contact details and client associations",
+    description:
+      "Manages supplier information with contact details and client associations",
     fields: [
       {
         name: "name",
@@ -5023,7 +5310,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "TaskItem",
     enum: "WarehouseManagementTaskItems",
-    description: "Line items for warehouse tasks with source/destination locations and batch tracking",
+    description:
+      "Line items for warehouse tasks with source/destination locations and batch tracking",
     fields: [
       {
         name: "task",
@@ -5103,7 +5391,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select item status",
         fieldDescription: "Item status",
-        options: ["pending", "in-progress", "completed", "short-picked", "damaged", "not-found"],
+        options: [
+          "pending",
+          "in-progress",
+          "completed",
+          "short-picked",
+          "damaged",
+          "not-found",
+        ],
       },
       {
         name: "lotNumber",
@@ -5152,7 +5447,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "Task",
     enum: "WarehouseManagementTasks",
-    description: "Manages warehouse tasks (putaway, pick, pack, count) with assignment and status tracking",
+    description:
+      "Manages warehouse tasks (putaway, pick, pack, count) with assignment and status tracking",
     fields: [
       {
         name: "taskNumber",
@@ -5207,7 +5503,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Status",
         tooltip: "Select task status",
         fieldDescription: "Current status",
-        options: ["pending", "assigned", "in-progress", "completed", "cancelled", "error"],
+        options: [
+          "pending",
+          "assigned",
+          "in-progress",
+          "completed",
+          "cancelled",
+          "error",
+        ],
       },
       {
         name: "user",
@@ -5278,7 +5581,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "warehouse-management",
     entity: "InventoryAdjustment",
     enum: "WarehouseManagementInventoryAdjustment",
-    description: "Records inventory quantity adjustments for cycle counts, damage, theft, or corrections",
+    description:
+      "Records inventory quantity adjustments for cycle counts, damage, theft, or corrections",
     fields: [
       {
         name: "warehouse",
@@ -5317,7 +5621,14 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
         group: "Reason",
         tooltip: "Select adjustment reason",
         fieldDescription: "Reason for adjustment",
-        options: ["cycle-count", "damaged-goods", "theft", "expired", "return-to-vendor", "manual-correction"],
+        options: [
+          "cycle-count",
+          "damaged-goods",
+          "theft",
+          "expired",
+          "return-to-vendor",
+          "manual-correction",
+        ],
       },
       {
         name: "user",
@@ -5346,7 +5657,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "notifications",
     entity: "Notification",
     enum: "Notifications",
-    description: "Manages system notifications for users with read status and optional links",
+    description:
+      "Manages system notifications for users with read status and optional links",
     fields: [
       {
         name: "user",
@@ -5390,7 +5702,8 @@ const ENTITY_CONFIGS: Record<string, EntityConfig> = {
     schema: "users",
     entity: "User",
     enum: "Users",
-    description: "Manages system users with authentication, profile, and role information",
+    description:
+      "Manages system users with authentication, profile, and role information",
     fields: [
       {
         name: "email",
@@ -5492,9 +5805,11 @@ function getEnumFromCollection(collectionName: string): string {
     customer_relations_invoice_items: "CustomerRelationsInvoiceItems",
     customer_relations_leads: "CustomerRelationsLeads",
     customer_relations_opportunities: "CustomerRelationsOpportunities",
-    customer_relations_opportunity_products: "CustomerRelationsOpportunityProducts",
+    customer_relations_opportunity_products:
+      "CustomerRelationsOpportunityProducts",
     customer_relations_products: "CustomerRelationsProducts",
-    billing_management_account_transactions: "BillingManagementAccountTransactions",
+    billing_management_account_transactions:
+      "BillingManagementAccountTransactions",
     billing_management_disputes: "BillingManagementDisputes",
     billing_management_invoice_line_items: "BillingManagementInvoiceLineItems",
     billing_management_invoices: "BillingManagementInvoices",
@@ -5502,7 +5817,8 @@ function getEnumFromCollection(collectionName: string): string {
     billing_management_quotes: "BillingManagementQuotes",
     billing_management_rate_cards: "BillingManagementRateCards",
     delivery_management_driver_location: "DeliveryManagementDriverLocation",
-    delivery_management_proof_of_deliveries: "DeliveryManagementProofOfDeliveries",
+    delivery_management_proof_of_deliveries:
+      "DeliveryManagementProofOfDeliveries",
     delivery_management_task_events: "DeliveryManagementTaskEvents",
     delivery_management_routes: "DeliveryManagementRoutes",
     delivery_management_tasks: "DeliveryManagementTasks",
@@ -5515,23 +5831,32 @@ function getEnumFromCollection(collectionName: string): string {
     transport_management_geofence_events: "TransportManagementGeofenceEvents",
     transport_management_gps_pings: "TransportManagementGpsPings",
     transport_management_partner_invoice: "TransportManagementPartnerInvoice",
-    transport_management_partner_invoice_items: "TransportManagementPartnerInvoiceItems",
-    transport_management_proof_of_deliveries: "TransportManagementProofOfDeliveries",
+    transport_management_partner_invoice_items:
+      "TransportManagementPartnerInvoiceItems",
+    transport_management_proof_of_deliveries:
+      "TransportManagementProofOfDeliveries",
     transport_management_routes: "TransportManagementRoutes",
-    transport_management_shipment_leg_events: "TransportManagementShipmentLegEvents",
+    transport_management_shipment_leg_events:
+      "TransportManagementShipmentLegEvents",
     transport_management_shipment_legs: "TransportManagementShipmentLegs",
     transport_management_trips: "TransportManagementTrips",
     transport_management_trip_stops: "TransportManagementTripStops",
     transport_management_vehicles: "TransportManagementVehicles",
     warehouse_management_bin_threshold: "WarehouseManagementBinThreshold",
-    warehouse_management_inbound_shipment_items: "WarehouseManagementInboundShipmentItems",
-    warehouse_management_inbound_shipments: "WarehouseManagementInboundShipments",
-    warehouse_management_inventory_adjustment: "WarehouseManagementInventoryAdjustment",
-    warehouse_management_inventory_batches: "WarehouseManagementInventoryBatches",
+    warehouse_management_inbound_shipment_items:
+      "WarehouseManagementInboundShipmentItems",
+    warehouse_management_inbound_shipments:
+      "WarehouseManagementInboundShipments",
+    warehouse_management_inventory_adjustment:
+      "WarehouseManagementInventoryAdjustment",
+    warehouse_management_inventory_batches:
+      "WarehouseManagementInventoryBatches",
     warehouse_management_inventory_stock: "WarehouseManagementInventoryStock",
     warehouse_management_locations: "WarehouseManagementLocations",
-    warehouse_management_outbound_shipment_items: "WarehouseManagementOutboundShipmentItems",
-    warehouse_management_outbound_shipments: "WarehouseManagementOutboundShipments",
+    warehouse_management_outbound_shipment_items:
+      "WarehouseManagementOutboundShipmentItems",
+    warehouse_management_outbound_shipments:
+      "WarehouseManagementOutboundShipments",
     warehouse_management_package_items: "WarehouseManagementPackageItems",
     warehouse_management_packages: "WarehouseManagementPackages",
     warehouse_management_pick_batch_items: "WarehouseManagementPickBatchItems",
@@ -5541,7 +5866,8 @@ function getEnumFromCollection(collectionName: string): string {
     warehouse_management_reorder_points: "WarehouseManagementReorderPoints",
     warehouse_management_return_items: "WarehouseManagementReturnItems",
     warehouse_management_returns: "WarehouseManagementReturns",
-    warehouse_management_sales_order_items: "WarehouseManagementSalesOrderItems",
+    warehouse_management_sales_order_items:
+      "WarehouseManagementSalesOrderItems",
     warehouse_management_sales_orders: "WarehouseManagementSalesOrders",
     warehouse_management_stock_transfer: "WarehouseManagementStockTransfer",
     warehouse_management_suppliers: "WarehouseManagementSuppliers",
@@ -5550,15 +5876,21 @@ function getEnumFromCollection(collectionName: string): string {
     warehouse_management_warehouses: "WarehouseManagementWarehouses",
   };
 
-  return mapping[collectionName] || toPascalCase(collectionName.replace(/_/g, "-"));
+  return (
+    mapping[collectionName] || toPascalCase(collectionName.replace(/_/g, "-"))
+  );
 }
 
 /**
  * Generate field code for form render
  */
-function generateFieldCode(field: FieldConfig, isCreate: boolean = true): string {
+function generateFieldCode(
+  field: FieldConfig,
+  isCreate: boolean = true
+): string {
   const label = toTitleCase(field.name);
-  const required = field.required && isCreate ? `\n                  required` : "";
+  const required =
+    field.required && isCreate ? `\n                  required` : "";
 
   switch (field.type) {
     case "text":
@@ -5693,7 +6025,10 @@ function groupFields(fields: FieldConfig[]): Record<string, FieldConfig[]> {
 /**
  * Generate form fields JSX
  */
-function generateFormFields(fields: FieldConfig[], isCreate: boolean = true): string {
+function generateFormFields(
+  fields: FieldConfig[],
+  isCreate: boolean = true
+): string {
   const grouped = groupFields(fields);
   const groups = Object.entries(grouped);
 
@@ -5744,7 +6079,8 @@ function generateFormFile(options: FormTemplateOptions): string {
   });
 
   const recordTypeImports = Array.from(recordTypes).join(",\n  ");
-  const recordTypeImportSection = recordTypes.size > 0 ? `  ${recordTypeImports},\n` : "";
+  const recordTypeImportSection =
+    recordTypes.size > 0 ? `  ${recordTypeImports},\n` : "";
 
   // Add pocketbase extraction from route context only if there are relation fields
   const pocketbaseExtraction = hasRelationFields
@@ -5785,7 +6121,7 @@ export const MutationSchema = ${schemaImport}Schema.omit({
   id: true,
   created: true,
   updated: true,
-}).extend({ attachments: z.file().array() });
+});
 
 export const CreateFormOptionFactory = (pocketbase: TypedPocketBase) =>
   formOptions({
@@ -5966,7 +6302,12 @@ async function main(): Promise<void> {
       });
 
       const formFileName = `${entityPath.split("-").join("-")}.tsx`;
-      const formPath = path.join(projectRoot, "src/pocketbase/forms", schemaPath, formFileName);
+      const formPath = path.join(
+        projectRoot,
+        "src/pocketbase/forms",
+        schemaPath,
+        formFileName
+      );
 
       // Create directory if it doesn't exist
       const formDir = path.dirname(formPath);
@@ -5980,7 +6321,8 @@ async function main(): Promise<void> {
       console.log(`    ✅ Generated: ${formFileName}`);
       successCount++;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
       console.error(`    ❌ Error: ${errorMessage}`);
       errorCount++;
     }

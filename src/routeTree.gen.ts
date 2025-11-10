@@ -8,126 +8,126 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as AuthLoginRouteImport } from "./routes/auth.login";
-import { Route as DashboardSchemaCollectionRouteImport } from "./routes/dashboard/$schema.$collection";
-import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
-import { Route as IndexRouteImport } from "./routes/index";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as DashboardSchemaCollectionRouteImport } from './routes/dashboard/$schema.$collection'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
-	id: "/dashboard",
-	path: "/dashboard",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
-	id: "/auth/login",
-	path: "/auth/login",
-	getParentRoute: () => rootRouteImport,
-} as any);
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardSchemaCollectionRoute =
-	DashboardSchemaCollectionRouteImport.update({
-		id: "/$schema/$collection",
-		path: "/$schema/$collection",
-		getParentRoute: () => DashboardRouteRoute,
-	} as any);
+  DashboardSchemaCollectionRouteImport.update({
+    id: '/$schema/$collection',
+    path: '/$schema/$collection',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-	"/": typeof IndexRoute;
-	"/dashboard": typeof DashboardRouteRouteWithChildren;
-	"/auth/login": typeof AuthLoginRoute;
-	"/dashboard/$schema/$collection": typeof DashboardSchemaCollectionRoute;
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
+  '/dashboard/$schema/$collection': typeof DashboardSchemaCollectionRoute
 }
 export interface FileRoutesByTo {
-	"/": typeof IndexRoute;
-	"/dashboard": typeof DashboardRouteRouteWithChildren;
-	"/auth/login": typeof AuthLoginRoute;
-	"/dashboard/$schema/$collection": typeof DashboardSchemaCollectionRoute;
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
+  '/dashboard/$schema/$collection': typeof DashboardSchemaCollectionRoute
 }
 export interface FileRoutesById {
-	__root__: typeof rootRouteImport;
-	"/": typeof IndexRoute;
-	"/dashboard": typeof DashboardRouteRouteWithChildren;
-	"/auth/login": typeof AuthLoginRoute;
-	"/dashboard/$schema/$collection": typeof DashboardSchemaCollectionRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
+  '/dashboard/$schema/$collection': typeof DashboardSchemaCollectionRoute
 }
 export interface FileRouteTypes {
-	fileRoutesByFullPath: FileRoutesByFullPath;
-	fullPaths:
-		| "/"
-		| "/dashboard"
-		| "/auth/login"
-		| "/dashboard/$schema/$collection";
-	fileRoutesByTo: FileRoutesByTo;
-	to: "/" | "/dashboard" | "/auth/login" | "/dashboard/$schema/$collection";
-	id:
-		| "__root__"
-		| "/"
-		| "/dashboard"
-		| "/auth/login"
-		| "/dashboard/$schema/$collection";
-	fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/auth/login'
+    | '/dashboard/$schema/$collection'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/' | '/dashboard' | '/auth/login' | '/dashboard/$schema/$collection'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/auth/login'
+    | '/dashboard/$schema/$collection'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-	IndexRoute: typeof IndexRoute;
-	DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
-	AuthLoginRoute: typeof AuthLoginRoute;
+  IndexRoute: typeof IndexRoute
+  DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  AuthLoginRoute: typeof AuthLoginRoute
 }
 
-declare module "@tanstack/react-router" {
-	interface FileRoutesByPath {
-		"/dashboard": {
-			id: "/dashboard";
-			path: "/dashboard";
-			fullPath: "/dashboard";
-			preLoaderRoute: typeof DashboardRouteRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/": {
-			id: "/";
-			path: "/";
-			fullPath: "/";
-			preLoaderRoute: typeof IndexRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/auth/login": {
-			id: "/auth/login";
-			path: "/auth/login";
-			fullPath: "/auth/login";
-			preLoaderRoute: typeof AuthLoginRouteImport;
-			parentRoute: typeof rootRouteImport;
-		};
-		"/dashboard/$schema/$collection": {
-			id: "/dashboard/$schema/$collection";
-			path: "/$schema/$collection";
-			fullPath: "/dashboard/$schema/$collection";
-			preLoaderRoute: typeof DashboardSchemaCollectionRouteImport;
-			parentRoute: typeof DashboardRouteRoute;
-		};
-	}
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/$schema/$collection': {
+      id: '/dashboard/$schema/$collection'
+      path: '/$schema/$collection'
+      fullPath: '/dashboard/$schema/$collection'
+      preLoaderRoute: typeof DashboardSchemaCollectionRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+  }
 }
 
 interface DashboardRouteRouteChildren {
-	DashboardSchemaCollectionRoute: typeof DashboardSchemaCollectionRoute;
+  DashboardSchemaCollectionRoute: typeof DashboardSchemaCollectionRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-	DashboardSchemaCollectionRoute: DashboardSchemaCollectionRoute,
-};
+  DashboardSchemaCollectionRoute: DashboardSchemaCollectionRoute,
+}
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
-	DashboardRouteRouteChildren,
-);
+  DashboardRouteRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
-	IndexRoute: IndexRoute,
-	DashboardRouteRoute: DashboardRouteRouteWithChildren,
-	AuthLoginRoute: AuthLoginRoute,
-};
+  IndexRoute: IndexRoute,
+  DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  AuthLoginRoute: AuthLoginRoute,
+}
 export const routeTree = rootRouteImport
-	._addFileChildren(rootRouteChildren)
-	._addFileTypes<FileRouteTypes>();
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
