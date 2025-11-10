@@ -8,37 +8,40 @@ import { routeTree } from "./routeTree.gen";
 import "@/styles/globals.css";
 import PocketBase from "pocketbase";
 import { TypedPocketBase } from "@/lib/pb.types";
+import { PocketBaseProvider } from "./pocketbase";
 
 // tanstack query integration
 const queryClient = new QueryClient();
 const pocketbase = new PocketBase() as TypedPocketBase;
 
 const router = createRouter({
-	routeTree,
-	context: { queryClient, pocketbase },
+  routeTree,
+  context: { queryClient, pocketbase },
 });
 
 declare module "@tanstack/react-router" {
-	interface Register {
-		router: typeof router;
-	}
+  interface Register {
+    router: typeof router;
+  }
 }
 
 const rootEl = document.getElementById("root");
 
 if (rootEl) {
-	const root = ReactDOM.createRoot(rootEl);
-	root.render(
-		<React.StrictMode>
-			<QueryClientProvider client={queryClient}>
-				<ThemeProvider
-					defaultTheme="dark"
-					storageKey="pocketbase-template-theme"
-				>
-					<RouterProvider router={router} />
-					<Toaster />
-				</ThemeProvider>
-			</QueryClientProvider>
-		</React.StrictMode>,
-	);
+  const root = ReactDOM.createRoot(rootEl);
+  root.render(
+    <React.StrictMode>
+      <PocketBaseProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider
+            defaultTheme="dark"
+            storageKey="pocketbase-template-theme"
+          >
+            <RouterProvider router={router} />
+            <Toaster />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </PocketBaseProvider>
+    </React.StrictMode>
+  );
 }
