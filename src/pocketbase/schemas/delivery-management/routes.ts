@@ -5,19 +5,18 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const RoutesSchema = z.object({
-  completedAt: z.iso.date().optional(),
-  created: z.iso.date(),
-  driver: z.string().optional(),
-  estimatedDurationInMinutes: z.number().optional(),
   id: z.string(),
+  driver: z.string().optional(),
   routeDate: z.iso.date().optional(),
-  startedAt: z.iso.date().optional(),
-  status: z.enum(PB.DeliveryManagementRoutesStatusOptions).optional(),
+  status: z.enum(["planned", "in-progress", "completed", "cancelled", "paused"]).optional(),
   totalDistance: z.number().optional(),
-  updated: z.iso.date(),
+  estimatedDurationInMinutes: z.number().optional(),
+  startedAt: z.iso.date().optional(),
+  completedAt: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Routes = z.infer<typeof RoutesSchema>;

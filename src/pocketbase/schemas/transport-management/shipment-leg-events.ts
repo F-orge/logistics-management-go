@@ -5,14 +5,13 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ShipmentLegEventsSchema = z.object({
   id: z.string(),
-  location: z.string(),
   message: z.string(),
   shipmentLegId: z.string(),
-  timestamp: z.iso.date(),
+  location: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
 });
 
 export type ShipmentLegEvents = z.infer<typeof ShipmentLegEventsSchema>;

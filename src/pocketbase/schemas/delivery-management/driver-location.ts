@@ -5,14 +5,13 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const DriverLocationSchema = z.object({
-  coordinates: z.string(),
-  driver: z.string(),
-  heading: z.string(),
   id: z.string(),
-  timestamp: z.iso.date(),
+  driver: z.string(),
+  coordinates: z.unknown(),
+  heading: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
 });
 
 export type DriverLocation = z.infer<typeof DriverLocationSchema>;

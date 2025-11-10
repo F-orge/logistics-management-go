@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PickBatchItemsSchema = z.object({
-  actualPickTime: z.number().optional(),
-  created: z.iso.date(),
-  estimatedPickTime: z.iso.date().optional(),
   id: z.string(),
-  orderPriority: z.number().optional(),
   pickBatch: z.string(),
   salesOrder: z.string(),
-  updated: z.iso.date(),
+  orderPriority: z.number().optional(),
+  estimatedPickTime: z.iso.date().optional(),
+  actualPickTime: z.number().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type PickBatchItems = z.infer<typeof PickBatchItemsSchema>;

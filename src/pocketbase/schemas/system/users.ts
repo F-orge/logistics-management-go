@@ -5,20 +5,19 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const UsersSchema = z.object({
-  avatar: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string(),
-  emailVisibility: z.boolean().optional(),
   id: z.string(),
-  name: z.string().optional(),
-  password: z.string(),
-  roles: z.array(z.enum(PB.UsersRolesOptions)).optional(),
+  password: z.unknown(),
   tokenKey: z.string(),
-  updated: z.iso.date(),
-  verified: z.boolean().optional(),
+  email: z.email(),
+  emailVisibility: z.unknown().optional(),
+  verified: z.unknown().optional(),
+  name: z.string().optional(),
+  avatar: z.string().optional(),
+  roles: z.array(z.enum(["admin", "developer", "user", "client", "client-admin", "end-customer", "inventory-manager", "warehouse-manager", "receiving-manager", "warehouse-operator", "picker", "packer", "returns-processor", "qc-manager", "logistics-coordinator", "logistics-manager", "logistics-planner", "dispatcher", "driver", "fleet-manager", "transport-manager", "account-manager", "pricing-analyst", "finance-manager", "accountant", "sdr", "sales-rep", "sales-manager", "marketing-manager", "customer-support-agent", "product-manager", "carrier"])).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Users = z.infer<typeof UsersSchema>;

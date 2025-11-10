@@ -5,20 +5,19 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ClientAccountsSchema = z.object({
-  availableCredit: z.number().optional(),
-  client: z.string().optional(),
-  created: z.iso.date(),
-  creditLimit: z.number().optional(),
-  currency: z.string().optional(),
   id: z.string(),
-  isCreditApproved: z.boolean().optional(),
-  lastPaymentDate: z.iso.date().optional(),
-  paymentTermsDays: z.number().optional(),
-  updated: z.iso.date(),
+  client: z.string().optional(),
+  creditLimit: z.number().optional(),
+  availableCredit: z.number().optional(),
   walletBalance: z.number().optional(),
+  currency: z.string().optional(),
+  paymentTermsDays: z.number().optional(),
+  isCreditApproved: z.unknown().optional(),
+  lastPaymentDate: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type ClientAccounts = z.infer<typeof ClientAccountsSchema>;

@@ -5,16 +5,15 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const NotificationsSchema = z.object({
-  created: z.iso.date(),
   id: z.string(),
-  isRead: z.boolean().optional(),
-  link: z.string().optional(),
-  message: z.string(),
-  updated: z.iso.date(),
   user: z.string(),
+  message: z.unknown(),
+  isRead: z.unknown().optional(),
+  link: z.url().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Notifications = z.infer<typeof NotificationsSchema>;

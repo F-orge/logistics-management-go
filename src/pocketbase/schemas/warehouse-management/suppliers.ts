@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const SuppliersSchema = z.object({
-  client: z.string().optional(),
-  contactPerson: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string().optional(),
   id: z.string(),
   name: z.string(),
+  contactPerson: z.string().optional(),
+  email: z.email().optional(),
   phoneNumber: z.string().optional(),
-  updated: z.iso.date(),
+  client: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Suppliers = z.infer<typeof SuppliersSchema>;

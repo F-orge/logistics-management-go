@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InboundShipmentsSchema = z.object({
-  actualArrivalDate: z.iso.date().optional(),
-  client: z.string(),
-  created: z.iso.date(),
-  expectedArrivalDate: z.iso.date().optional(),
   id: z.string(),
-  status: z.enum(PB.WarehouseManagementInboundShipmentsStatusOptions).optional(),
-  updated: z.iso.date(),
+  client: z.string(),
+  status: z.enum(["pending", "arrived", "processing", "completed", "cancelled"]).optional(),
+  expectedArrivalDate: z.iso.date().optional(),
+  actualArrivalDate: z.iso.date().optional(),
   warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InboundShipments = z.infer<typeof InboundShipmentsSchema>;

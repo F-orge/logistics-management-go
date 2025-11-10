@@ -5,19 +5,18 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ShipmentLegsSchema = z.object({
-  carrier: z.string().optional(),
-  created: z.iso.date(),
-  endLocation: z.string(),
   id: z.string(),
-  interalTrip: z.string().optional(),
   legSequence: z.number(),
+  startLocation: z.unknown(),
+  endLocation: z.unknown(),
+  carrier: z.string().optional(),
+  interalTrip: z.string().optional(),
+  status: z.enum(["pending", "in-transit", "delivered", "cancelled", "failed"]),
   shipment: z.string().optional(),
-  startLocation: z.string(),
-  status: z.enum(PB.TransportManagementShipmentLegsStatusOptions),
-  updated: z.iso.date(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type ShipmentLegs = z.infer<typeof ShipmentLegsSchema>;

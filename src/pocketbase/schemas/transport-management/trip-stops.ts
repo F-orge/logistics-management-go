@@ -5,21 +5,20 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const TripStopsSchema = z.object({
-  actualArrivalTime: z.iso.date().optional(),
-  actualDepartureTime: z.iso.date().optional(),
-  address: z.string().optional(),
-  created: z.iso.date(),
-  estimatedArrivalTime: z.iso.date().optional(),
-  estimatedDepartureTime: z.iso.date().optional(),
   id: z.string(),
-  sequence: z.number(),
-  shipment: z.string().optional(),
-  status: z.enum(PB.TransportManagementTripStopsStatusOptions),
   trip: z.string(),
-  updated: z.iso.date(),
+  sequence: z.number(),
+  address: z.string().optional(),
+  status: z.enum(["pending", "arrived", "completed", "skipped"]),
+  estimatedArrivalTime: z.iso.date().optional(),
+  actualArrivalTime: z.iso.date().optional(),
+  estimatedDepartureTime: z.iso.date().optional(),
+  actualDepartureTime: z.iso.date().optional(),
+  shipment: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type TripStops = z.infer<typeof TripStopsSchema>;

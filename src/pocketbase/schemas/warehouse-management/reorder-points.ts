@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ReorderPointsSchema = z.object({
-  created: z.iso.date(),
   id: z.string(),
   product: z.string(),
   threshold: z.number().optional(),
-  updated: z.iso.date(),
   warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type ReorderPoints = z.infer<typeof ReorderPointsSchema>;

@@ -5,28 +5,27 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InvoicesSchema = z.object({
+  id: z.string(),
+  quote: z.string().optional(),
+  invoiceNumber: z.string().optional(),
+  status: z.enum(["draft", "sent", "viewed", "paid", "partial-paid", "past-due", "disputed", "cancelled", "void"]).optional(),
+  issueDate: z.iso.date().optional(),
+  dueDate: z.iso.date().optional(),
+  totalAmount: z.number().optional(),
   amountPaid: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  createdBy: z.string().optional(),
   currency: z.string().optional(),
   discountAmount: z.number().optional(),
-  dueDate: z.iso.date().optional(),
-  id: z.string(),
-  invoiceNumber: z.string().optional(),
-  issueDate: z.iso.date().optional(),
-  notes: z.string().optional(),
-  paidAt: z.iso.date().optional(),
-  paymentTerms: z.string().optional(),
-  quote: z.string().optional(),
-  sentAt: z.iso.date().optional(),
-  status: z.enum(PB.BillingManagementInvoicesStatusOptions).optional(),
   subtotal: z.number().optional(),
-  totalAmount: z.number().optional(),
-  updated: z.iso.date(),
+  paymentTerms: z.unknown().optional(),
+  notes: z.unknown().optional(),
+  sentAt: z.iso.date().optional(),
+  paidAt: z.iso.date().optional(),
+  createdBy: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

@@ -5,16 +5,15 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const CarriersSchema = z.object({
-  contactDetails: z.string().optional(),
-  created: z.iso.date(),
   id: z.string(),
-  image: z.string().optional(),
   name: z.string(),
-  serviceOffered: z.string().optional(),
-  updated: z.iso.date(),
+  contactDetails: z.unknown().optional(),
+  serviceOffered: z.unknown().optional(),
+  image: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Carriers = z.infer<typeof CarriersSchema>;

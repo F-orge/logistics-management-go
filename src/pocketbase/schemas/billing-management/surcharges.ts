@@ -5,20 +5,19 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const SurchargesSchema = z.object({
-  amount: z.number().optional(),
-  calculationMethod: z.enum(PB.BillingManagementSurchargesCalculationMethodOptions).optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
   id: z.string(),
-  isActive: z.boolean().optional(),
   name: z.string().optional(),
   type: z.string().optional(),
-  updated: z.iso.date(),
+  amount: z.number().optional(),
+  calculationMethod: z.enum(["percentage", "fixed", "per-unit", "sliding-scale"]).optional(),
+  isActive: z.unknown().optional(),
   validFrom: z.iso.date().optional(),
   validTo: z.iso.date().optional(),
+  description: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Surcharges = z.infer<typeof SurchargesSchema>;

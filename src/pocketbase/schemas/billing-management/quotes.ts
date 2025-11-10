@@ -5,27 +5,26 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const QuotesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  client: z.string().optional(),
-  created: z.iso.date(),
-  createdBy: z.string().optional(),
-  destinationDetails: z.string().optional(),
-  expiredAt: z.iso.date().optional(),
-  height: z.number().optional(),
   id: z.string(),
+  client: z.string().optional(),
+  originDetails: z.unknown().optional(),
+  destinationDetails: z.unknown().optional(),
+  weight: z.number().optional(),
   length: z.number().optional(),
-  notes: z.string().optional(),
-  originDetails: z.string().optional(),
-  quoteNumber: z.string().optional(),
+  width: z.number().optional(),
+  height: z.number().optional(),
   quotePrice: z.number().optional(),
   serviceLevel: z.string().optional(),
-  status: z.enum(PB.BillingManagementQuotesStatusOptions).optional(),
-  updated: z.iso.date(),
-  weight: z.number().optional(),
-  width: z.number().optional(),
+  expiredAt: z.iso.date().optional(),
+  status: z.enum(["pending", "accepted", "expired", "cancelled", "converted"]).optional(),
+  quoteNumber: z.string().optional(),
+  notes: z.unknown().optional(),
+  createdBy: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Quotes = z.infer<typeof QuotesSchema>;

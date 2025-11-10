@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ProofOfDeliveriesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  coordinate: z.string(),
-  created: z.iso.date(),
   id: z.string(),
   tripStop: z.string(),
-  updated: z.iso.date(),
+  coordinate: z.unknown(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

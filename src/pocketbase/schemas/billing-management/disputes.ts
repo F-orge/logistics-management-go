@@ -5,22 +5,21 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const DisputesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  client: z.string(),
-  created: z.iso.date(),
-  disputeAmount: z.number().optional(),
   id: z.string(),
   lineItem: z.string(),
-  reason: z.string(),
-  resolutionNotes: z.string().optional(),
+  client: z.string(),
+  reason: z.unknown(),
+  status: z.enum(["open", "under-review", "approved", "denied", "escalated", "closed"]),
+  disputeAmount: z.number().optional(),
+  resolutionNotes: z.unknown().optional(),
+  submittedAt: z.iso.date().optional(),
   resolvedAt: z.iso.date().optional(),
   resolvedBy: z.string().optional(),
-  status: z.enum(PB.BillingManagementDisputesStatusOptions),
-  submittedAt: z.iso.date().optional(),
-  updated: z.iso.date(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Disputes = z.infer<typeof DisputesSchema>;

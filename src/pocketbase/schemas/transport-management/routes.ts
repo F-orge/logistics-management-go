@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const RoutesSchema = z.object({
-  created: z.iso.date(),
   id: z.string(),
   name: z.string(),
   totalDistance: z.number(),
   totalDuration: z.number(),
-  updated: z.iso.date(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Routes = z.infer<typeof RoutesSchema>;

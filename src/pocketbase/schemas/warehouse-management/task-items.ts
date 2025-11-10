@@ -5,25 +5,24 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const TaskItemsSchema = z.object({
-  batch: z.string().optional(),
-  completedAt: z.iso.date().optional(),
-  created: z.iso.date(),
-  destinationLocation: z.string().optional(),
-  expiryDate: z.iso.date().optional(),
   id: z.string(),
-  lotNumber: z.number().optional(),
-  notes: z.string().optional(),
-  product: z.string().optional(),
-  proofs: z.array(z.string()).optional(),
-  quantityCompleted: z.number().optional(),
-  quantityRequired: z.number().optional(),
-  sourceLocation: z.string().optional(),
-  status: z.enum(PB.WarehouseManagementTaskItemsStatusOptions).optional(),
   task: z.string().optional(),
-  updated: z.iso.date(),
+  product: z.string().optional(),
+  batch: z.string().optional(),
+  sourceLocation: z.string().optional(),
+  destinationLocation: z.string().optional(),
+  quantityRequired: z.number().optional(),
+  quantityCompleted: z.number().optional(),
+  status: z.enum(["pending", "in-progress", "completed", "short-picked", "damaged", "not-found"]).optional(),
+  lotNumber: z.number().optional(),
+  expiryDate: z.iso.date().optional(),
+  notes: z.unknown().optional(),
+  completedAt: z.iso.date().optional(),
+  proofs: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type TaskItems = z.infer<typeof TaskItemsSchema>;

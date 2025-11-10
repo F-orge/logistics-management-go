@@ -5,24 +5,23 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const CompaniesSchema = z.object({
-  annualRevenue: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
-  city: z.string().optional(),
-  country: z.string().optional(),
-  created: z.iso.date(),
   id: z.string(),
-  industry: z.string().optional(),
   name: z.string(),
-  owner: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  postalCode: z.string().optional(),
-  state: z.string().optional(),
   street: z.string().optional(),
-  updated: z.iso.date(),
-  website: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
+  phoneNumber: z.string().optional(),
+  industry: z.string().optional(),
+  website: z.url().optional(),
+  annualRevenue: z.number().optional(),
+  owner: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Companies = z.infer<typeof CompaniesSchema>;

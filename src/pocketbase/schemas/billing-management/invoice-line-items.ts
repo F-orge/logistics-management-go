@@ -5,20 +5,19 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InvoiceLineItemsSchema = z.object({
-  created: z.iso.date(),
-  description: z.string().optional(),
-  discountAmount: z.number().optional(),
-  discountRate: z.number().optional(),
   id: z.string(),
   invoice: z.string().optional(),
+  description: z.unknown().optional(),
   quantity: z.number().optional(),
-  taxAmount: z.number().optional(),
-  taxRate: z.number().optional(),
   unitPrice: z.number().optional(),
-  updated: z.iso.date(),
+  taxRate: z.number().optional(),
+  taxAmount: z.number().optional(),
+  discountRate: z.number().optional(),
+  discountAmount: z.number().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InvoiceLineItems = z.infer<typeof InvoiceLineItemsSchema>;

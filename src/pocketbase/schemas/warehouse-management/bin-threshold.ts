@@ -5,19 +5,18 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const BinThresholdSchema = z.object({
-  alertThreshold: z.number().optional(),
-  created: z.iso.date(),
   id: z.string(),
-  isActive: z.boolean().optional(),
   location: z.string(),
-  maxQuantity: z.number().optional(),
-  minQuantity: z.number().optional(),
   product: z.string(),
+  minQuantity: z.number().optional(),
+  maxQuantity: z.number().optional(),
   reorderQuantity: z.number().optional(),
-  updated: z.iso.date(),
+  alertThreshold: z.number().optional(),
+  isActive: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type BinThreshold = z.infer<typeof BinThresholdSchema>;

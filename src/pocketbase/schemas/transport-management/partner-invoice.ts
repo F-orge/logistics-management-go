@@ -5,18 +5,17 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PartnerInvoiceSchema = z.object({
-  carrier: z.string(),
-  created: z.iso.date(),
   id: z.string(),
-  invoiceDate: z.iso.date(),
+  carrier: z.string(),
   invoiceNumber: z.string(),
-  items: z.string().optional(),
-  status: z.enum(PB.TransportManagementPartnerInvoiceStatusOptions).optional(),
+  invoiceDate: z.iso.date(),
   totalAmount: z.number(),
-  updated: z.iso.date(),
+  status: z.enum(["pending", "paid", "disputed", "overdue", "cancelled"]).optional(),
+  items: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type PartnerInvoice = z.infer<typeof PartnerInvoiceSchema>;

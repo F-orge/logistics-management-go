@@ -5,28 +5,27 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PackagesSchema = z.object({
-  created: z.iso.date(),
-  height: z.number().optional(),
   id: z.string(),
-  images: z.array(z.string()).optional(),
-  insuranceValue: z.number().optional(),
-  isFragile: z.boolean().optional(),
-  isHazmat: z.boolean().optional(),
-  length: z.number().optional(),
-  packageNumber: z.string(),
-  packedAt: z.iso.date().optional(),
-  packedByUser: z.string().optional(),
-  requireSignature: z.boolean().optional(),
   salesOrder: z.string(),
-  shippedAt: z.iso.date().optional(),
-  type: z.string().optional(),
-  updated: z.iso.date(),
+  packageNumber: z.string(),
   warehouse: z.string(),
+  type: z.string().optional(),
   weight: z.number().optional(),
+  length: z.number().optional(),
   width: z.number().optional(),
+  height: z.number().optional(),
+  packedByUser: z.string().optional(),
+  packedAt: z.iso.date().optional(),
+  shippedAt: z.iso.date().optional(),
+  isFragile: z.unknown().optional(),
+  isHazmat: z.unknown().optional(),
+  requireSignature: z.unknown().optional(),
+  insuranceValue: z.number().optional(),
+  images: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Packages = z.infer<typeof PackagesSchema>;

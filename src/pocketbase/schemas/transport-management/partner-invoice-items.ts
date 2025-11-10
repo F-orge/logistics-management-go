@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PartnerInvoiceItemsSchema = z.object({
-  amount: z.number(),
-  created: z.iso.date(),
   id: z.string(),
   partnerInvoice: z.string(),
   shipmentLeg: z.string(),
-  updated: z.iso.date(),
+  amount: z.number(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type PartnerInvoiceItems = z.infer<typeof PartnerInvoiceItemsSchema>;

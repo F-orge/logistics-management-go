@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const VehicleMaintenanceSchema = z.object({
-  cost: z.number().optional(),
-  created: z.iso.date(),
   id: z.string(),
-  notes: z.string().optional(),
+  vehicle: z.string(),
   serviceDate: z.iso.date(),
   serviceType: z.iso.date(),
-  updated: z.iso.date(),
-  vehicle: z.string(),
+  cost: z.number().optional(),
+  notes: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type VehicleMaintenance = z.infer<typeof VehicleMaintenanceSchema>;

@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InventoryBatchesSchema = z.object({
-  batchNumber: z.string(),
-  created: z.iso.date(),
-  expirationDate: z.iso.date().optional(),
   id: z.string(),
   product: z.string(),
-  updated: z.iso.date(),
+  batchNumber: z.string(),
+  expirationDate: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InventoryBatches = z.infer<typeof InventoryBatchesSchema>;

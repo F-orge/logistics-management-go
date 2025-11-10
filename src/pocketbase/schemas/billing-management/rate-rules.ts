@@ -5,21 +5,20 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const RateRulesSchema = z.object({
-  condition: z.string(),
-  created: z.iso.date(),
   id: z.string(),
-  isActive: z.boolean().optional(),
-  maxValue: z.number().optional(),
-  minValue: z.number().optional(),
-  price: z.number(),
-  pricingModel: z.enum(PB.BillingManagementRateRulesPricingModelOptions),
-  priority: z.number(),
   rateCard: z.string().optional(),
-  updated: z.iso.date(),
+  condition: z.string(),
   value: z.string(),
+  price: z.number(),
+  pricingModel: z.enum(["per-kg", "per-item", "flat-rate", "per-cubic-meter", "per-zone", "percentage", "tiered"]),
+  minValue: z.number().optional(),
+  maxValue: z.number().optional(),
+  priority: z.number(),
+  isActive: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type RateRules = z.infer<typeof RateRulesSchema>;

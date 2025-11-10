@@ -5,23 +5,22 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InvoicesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  dueDate: z.iso.date().optional(),
   id: z.string(),
   invoiceNumber: z.string(),
-  issueDate: z.iso.date().optional(),
-  items: z.array(z.string()).optional(),
   opportunity: z.string().optional(),
-  paidAt: z.iso.date().optional(),
-  paymentMethod: z.enum(PB.CustomerRelationsInvoicesPaymentMethodOptions).optional(),
-  sentAt: z.iso.date().optional(),
-  status: z.enum(PB.CustomerRelationsInvoicesStatusOptions).optional(),
+  status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
   total: z.number().optional(),
-  updated: z.iso.date(),
+  issueDate: z.iso.date().optional(),
+  dueDate: z.iso.date().optional(),
+  sentAt: z.iso.date().optional(),
+  paidAt: z.iso.date().optional(),
+  paymentMethod: z.enum(["credit-card", "bank-transfer", "cash", "check", "paypal", "stripe", "wire-transfer", "other", "maya", "gcash"]).optional(),
+  attachments: z.array(z.string()).optional(),
+  items: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

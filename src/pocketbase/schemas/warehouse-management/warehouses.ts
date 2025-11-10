@@ -5,25 +5,24 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const WarehousesSchema = z.object({
+  id: z.string(),
+  name: z.string(),
   address: z.string().optional(),
   city: z.string().optional(),
-  contactEmail: z.string().optional(),
-  contactPerson: z.string().optional(),
-  contactPhone: z.string().optional(),
-  country: z.string().optional(),
-  created: z.iso.date(),
-  id: z.string(),
-  images: z.array(z.string()).optional(),
-  isActive: z.boolean().optional(),
-  location: z.string().optional(),
-  name: z.string(),
-  postalCode: z.string().optional(),
   state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
   timezone: z.string().optional(),
-  updated: z.iso.date(),
+  contactPerson: z.string().optional(),
+  contactEmail: z.email().optional(),
+  contactPhone: z.string().optional(),
+  isActive: z.unknown().optional(),
+  images: z.array(z.string()).optional(),
+  location: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Warehouses = z.infer<typeof WarehousesSchema>;

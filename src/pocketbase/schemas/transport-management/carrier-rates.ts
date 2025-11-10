@@ -5,18 +5,17 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const CarrierRatesSchema = z.object({
-  carrier: z.string().optional(),
-  created: z.iso.date(),
-  destination: z.string(),
   id: z.string(),
-  origin: z.string(),
-  rate: z.number(),
+  carrier: z.string().optional(),
   serviceType: z.string().optional(),
-  unit: z.enum(PB.TransportManagementCarrierRatesUnitOptions).optional(),
-  updated: z.iso.date(),
+  origin: z.string(),
+  destination: z.string(),
+  rate: z.number(),
+  unit: z.enum(["per-kg", "per-container", "per-mile", "per-km", "flat-rate"]).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type CarrierRates = z.infer<typeof CarrierRatesSchema>;

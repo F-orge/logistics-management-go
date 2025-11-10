@@ -5,25 +5,24 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ProductsSchema = z.object({
-  barcode: z.string().optional(),
-  client: z.string().optional(),
-  costPrice: z.number().optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
-  height: z.number().optional(),
   id: z.string(),
-  images: z.array(z.string()).optional(),
-  length: z.number().optional(),
   name: z.string(),
   sku: z.string(),
-  status: z.enum(PB.WarehouseManagementProductsStatusOptions).optional(),
-  supplier: z.string().optional(),
-  updated: z.iso.date(),
-  weight: z.number().optional(),
+  barcode: z.string().optional(),
+  description: z.unknown().optional(),
+  costPrice: z.number().optional(),
+  length: z.number().optional(),
   width: z.number().optional(),
+  height: z.number().optional(),
+  weight: z.number().optional(),
+  status: z.enum(["active", "discontinued", "obsolete", "inactive"]).optional(),
+  supplier: z.string().optional(),
+  client: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Products = z.infer<typeof ProductsSchema>;

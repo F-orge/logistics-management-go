@@ -5,19 +5,18 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const VehiclesSchema = z.object({
+  id: z.string(),
+  registrationNumber: z.string(),
+  model: z.string().optional(),
   capacityVolume: z.number().optional(),
   capacityWeight: z.number().optional(),
-  created: z.iso.date(),
-  gps_pings: z.array(z.string()).optional(),
-  id: z.string(),
+  status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
   maintenances: z.array(z.string()).optional(),
-  model: z.string().optional(),
-  registrationNumber: z.string(),
-  status: z.enum(PB.TransportManagementVehiclesStatusOptions),
-  updated: z.iso.date(),
+  gps_pings: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Vehicles = z.infer<typeof VehiclesSchema>;

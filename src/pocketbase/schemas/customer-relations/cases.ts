@@ -5,19 +5,18 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const CasesSchema = z.object({
-  caseNumber: z.string(),
-  contact: z.string().optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
   id: z.string(),
+  caseNumber: z.string(),
+  status: z.enum(["new", "in-progress", "waiting-for-customer", "waiting-for-internal", "escalated", "resolved", "closed", "cancelled"]),
+  priority: z.enum(["critical", "high", "medium", "low"]),
+  type: z.enum(["question", "problem", "complaint", "feature-request", "bug-report", "technical-support"]),
   owner: z.string(),
-  priority: z.enum(PB.CustomerRelationsCasesPriorityOptions),
-  status: z.enum(PB.CustomerRelationsCasesStatusOptions),
-  type: z.enum(PB.CustomerRelationsCasesTypeOptions),
-  updated: z.iso.date(),
+  contact: z.string().optional(),
+  description: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Cases = z.infer<typeof CasesSchema>;

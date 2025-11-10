@@ -5,24 +5,23 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const LeadsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  campaign: z.string().optional(),
-  convertedAt: z.iso.date().optional(),
-  convertedCompany: z.string().optional(),
-  convertedContact: z.string().optional(),
-  convertedOpportunity: z.string().optional(),
-  created: z.iso.date(),
-  email: z.string().optional(),
   id: z.string(),
   name: z.string().optional(),
-  owner: z.string(),
+  email: z.email().optional(),
+  source: z.enum(["website", "referral", "social-media", "email-campaign", "cold-call", "event", "advertisment", "partner", "other"]).optional(),
+  status: z.enum(["new", "contacted", "qualified", "unqualified", "converted"]).optional(),
   score: z.number(),
-  source: z.enum(PB.CustomerRelationsLeadsSourceOptions).optional(),
-  status: z.enum(PB.CustomerRelationsLeadsStatusOptions).optional(),
-  updated: z.iso.date(),
+  owner: z.string(),
+  campaign: z.string().optional(),
+  convertedAt: z.iso.date().optional(),
+  convertedContact: z.string().optional(),
+  convertedCompany: z.string().optional(),
+  convertedOpportunity: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Leads = z.infer<typeof LeadsSchema>;

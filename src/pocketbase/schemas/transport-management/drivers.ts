@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const DriversSchema = z.object({
-  created: z.iso.date(),
   id: z.string(),
-  licenseExpiryDate: z.iso.date().optional(),
-  licenseNumber: z.string(),
-  schedules: z.array(z.string()).optional(),
-  status: z.enum(PB.TransportManagementDriversStatusOptions),
-  updated: z.iso.date(),
   user: z.string().optional(),
+  licenseNumber: z.string(),
+  licenseExpiryDate: z.iso.date().optional(),
+  status: z.enum(["active", "inactive", "on-leave"]),
+  schedules: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Drivers = z.infer<typeof DriversSchema>;

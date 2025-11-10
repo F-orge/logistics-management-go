@@ -5,18 +5,17 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InventoryAdjustmentSchema = z.object({
-  created: z.iso.date(),
   id: z.string(),
-  notes: z.string().optional(),
   product: z.string(),
-  quantityChange: z.number(),
-  reason: z.enum(PB.WarehouseManagementInventoryAdjustmentReasonOptions),
-  updated: z.iso.date(),
   user: z.string(),
+  quantityChange: z.number(),
+  reason: z.enum(["cycle-count", "damaged-goods", "theft", "expired", "return-to-vendor", "manual-correction"]),
+  notes: z.unknown().optional(),
   warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InventoryAdjustment = z.infer<typeof InventoryAdjustmentSchema>;

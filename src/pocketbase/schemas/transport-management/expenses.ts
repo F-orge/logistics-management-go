@@ -5,21 +5,20 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ExpensesSchema = z.object({
-  amount: z.number(),
-  created: z.iso.date(),
-  currency: z.enum(PB.TransportManagementExpensesCurrencyOptions),
-  driver: z.string().optional(),
-  fuelQuantity: z.number().optional(),
   id: z.string(),
-  odometerReading: z.number(),
-  receipts: z.array(z.string()),
-  status: z.enum(PB.TransportManagementExpensesStatusOptions),
   trip: z.string().optional(),
-  type: z.enum(PB.TransportManagementExpensesTypeOptions),
-  updated: z.iso.date(),
+  driver: z.string().optional(),
+  type: z.enum(["fuel", "tolls", "maintenance", "parking", "meals", "accomodation"]),
+  amount: z.number(),
+  currency: z.enum(["PHP", "USD", "EUR"]),
+  receipts: z.array(z.string()),
+  fuelQuantity: z.number().optional(),
+  odometerReading: z.number(),
+  status: z.enum(["pending", "approved", "rejected", "reimbursed"]),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Expenses = z.infer<typeof ExpensesSchema>;

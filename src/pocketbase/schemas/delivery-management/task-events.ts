@@ -5,16 +5,15 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const TaskEventsSchema = z.object({
-  coordinates: z.string().optional(),
   id: z.string(),
-  notes: z.string().optional(),
-  reason: z.string().optional(),
-  status: z.enum(PB.DeliveryManagementTaskEventsStatusOptions),
   task: z.string(),
-  timestamp: z.iso.date(),
+  status: z.enum(["assigned", "started", "arrived", "delivered", "failed", "exception", "cancelled", "rescheduled"]),
+  reason: z.unknown().optional(),
+  notes: z.unknown().optional(),
+  coordinates: z.unknown().optional(),
+  timestamp: z.iso.datetime().optional(),
 });
 
 export type TaskEvents = z.infer<typeof TaskEventsSchema>;

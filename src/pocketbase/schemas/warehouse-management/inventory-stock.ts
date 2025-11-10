@@ -5,20 +5,19 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InventoryStockSchema = z.object({
-  batch: z.string().optional(),
-  created: z.iso.date(),
   id: z.string(),
-  lastCountedAt: z.iso.date().optional(),
-  lastMovementAt: z.iso.date().optional(),
   location: z.string(),
   product: z.string(),
+  batch: z.string().optional(),
   quantity: z.number().optional(),
   reservedQuantity: z.number().optional(),
-  status: z.enum(PB.WarehouseManagementInventoryStockStatusOptions),
-  updated: z.iso.date(),
+  status: z.enum(["available", "allocated", "damaged", "quarantine", "hold", "shipped", "expired"]),
+  lastCountedAt: z.iso.date().optional(),
+  lastMovementAt: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InventoryStock = z.infer<typeof InventoryStockSchema>;

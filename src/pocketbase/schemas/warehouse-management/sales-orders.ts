@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const SalesOrdersSchema = z.object({
-  client: z.string(),
-  created: z.iso.date(),
   id: z.string(),
-  opportunity: z.string().optional(),
-  orderNumber: z.string(),
   shippingAddress: z.number().optional(),
-  status: z.enum(PB.WarehouseManagementSalesOrdersStatusOptions),
-  updated: z.iso.date(),
+  client: z.string(),
+  opportunity: z.string().optional(),
+  status: z.enum(["pending", "processing", "shipped", "completed", "cancelled"]),
+  orderNumber: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type SalesOrders = z.infer<typeof SalesOrdersSchema>;

@@ -5,18 +5,17 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PackageItemsSchema = z.object({
-  batch: z.string().optional(),
-  created: z.iso.date(),
-  expiryDate: z.iso.date().optional(),
   id: z.string(),
-  lotNumber: z.string().optional(),
   package: z.string(),
   product: z.string(),
+  batch: z.string().optional(),
   quantity: z.number(),
-  updated: z.iso.date(),
+  lotNumber: z.string().optional(),
+  expiryDate: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type PackageItems = z.infer<typeof PackageItemsSchema>;

@@ -5,21 +5,20 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const CreditNotesSchema = z.object({
-  amount: z.number().optional(),
-  appliedAt: z.iso.date().optional(),
-  created: z.iso.date(),
-  creditNoteNumber: z.string(),
-  currency: z.string(),
-  dispute: z.string(),
   id: z.string(),
   invoice: z.string(),
+  dispute: z.string(),
+  creditNoteNumber: z.string(),
+  amount: z.number().optional(),
+  reason: z.unknown(),
   issueDate: z.iso.date(),
-  notes: z.string().optional(),
-  reason: z.string(),
-  updated: z.iso.date(),
+  appliedAt: z.iso.date().optional(),
+  currency: z.string(),
+  notes: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type CreditNotes = z.infer<typeof CreditNotesSchema>;

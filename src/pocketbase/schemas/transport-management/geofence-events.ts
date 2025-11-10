@@ -5,14 +5,13 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const GeofenceEventsSchema = z.object({
-  geofence: z.string(),
   id: z.string(),
-  timestamp: z.iso.date(),
-  type: z.enum(PB.TransportManagementGeofenceEventsTypeOptions),
   vehicle: z.string(),
+  geofence: z.string(),
+  type: z.enum(["enter", "exit"]),
+  timestamp: z.iso.datetime().optional(),
 });
 
 export type GeofenceEvents = z.infer<typeof GeofenceEventsSchema>;

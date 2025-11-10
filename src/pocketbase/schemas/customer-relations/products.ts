@@ -5,18 +5,17 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const ProductsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  description: z.string().optional(),
   id: z.string(),
   name: z.string(),
-  price: z.number(),
   sku: z.string(),
-  type: z.enum(PB.CustomerRelationsProductsTypeOptions),
-  updated: z.iso.date(),
+  price: z.number(),
+  type: z.enum(["service", "good", "digital", "subscription"]),
+  description: z.unknown().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Products = z.infer<typeof ProductsSchema>;

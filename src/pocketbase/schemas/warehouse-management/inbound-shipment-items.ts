@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InboundShipmentItemsSchema = z.object({
-  created: z.iso.date(),
-  discrepancyNotes: z.string().optional(),
-  expectedQuantity: z.number(),
   id: z.string(),
   inboundShipment: z.string().optional(),
   product: z.string().optional(),
+  expectedQuantity: z.number(),
   receivedQuantity: z.number().optional(),
-  updated: z.iso.date(),
+  discrepancyNotes: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InboundShipmentItems = z.infer<typeof InboundShipmentItemsSchema>;

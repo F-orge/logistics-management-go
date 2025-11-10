@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const GeofenceSchema = z.object({
-  coordinates: z.string(),
-  created: z.iso.date(),
   id: z.string(),
   name: z.string(),
+  coordinates: z.unknown(),
   radius: z.number(),
-  updated: z.iso.date(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Geofence = z.infer<typeof GeofenceSchema>;

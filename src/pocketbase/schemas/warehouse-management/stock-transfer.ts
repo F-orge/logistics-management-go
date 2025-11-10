@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const StockTransferSchema = z.object({
-  created: z.iso.date(),
-  destinationWarehouse: z.string(),
   id: z.string(),
   product: z.string().optional(),
   quantity: z.number().optional(),
+  status: z.enum(["pending", "in-transit", "received", "cancelled"]).optional(),
   sourceWarehouse: z.string(),
-  status: z.enum(PB.WarehouseManagementStockTransferStatusOptions).optional(),
-  updated: z.iso.date(),
+  destinationWarehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type StockTransfer = z.infer<typeof StockTransferSchema>;

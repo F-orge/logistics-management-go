@@ -5,19 +5,18 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const AccountTransactionsSchema = z.object({
-  amount: z.number(),
-  clientAccount: z.string(),
-  created: z.iso.date(),
   id: z.string(),
-  processedBy: z.string().optional(),
-  referenceNumber: z.string().optional(),
+  clientAccount: z.string(),
+  type: z.enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"]),
+  amount: z.number(),
   runningBalance: z.number().optional(),
   transactionDate: z.iso.date().optional(),
-  type: z.enum(PB.BillingManagementAccountTransactionsTypeOptions),
-  updated: z.iso.date(),
+  processedBy: z.string().optional(),
+  referenceNumber: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type AccountTransactions = z.infer<typeof AccountTransactionsSchema>;

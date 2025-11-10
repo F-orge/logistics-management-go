@@ -5,25 +5,24 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const OpportunitiesSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  campaign: z.string().optional(),
-  company: z.string().optional(),
-  contact: z.string().optional(),
-  created: z.iso.date(),
-  dealValue: z.number().optional(),
-  expectedCloseDate: z.iso.date().optional(),
   id: z.string(),
-  lostReason: z.string().optional(),
   name: z.string(),
-  owner: z.string(),
+  stage: z.enum(["prospecting", "qualification", "need-analysis", "demo", "proposal", "negotiation", "closed-won", "closed-lost"]).optional(),
+  dealValue: z.number().optional(),
   probability: z.number().optional(),
+  expectedCloseDate: z.iso.date().optional(),
+  lostReason: z.unknown().optional(),
+  source: z.enum(["website", "referral", "social-media", "email-campaign", "cold-call", "event", "advertisment", "partner", "existing-customer", "other"]),
+  owner: z.string(),
+  contact: z.string().optional(),
+  company: z.string().optional(),
+  campaign: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
   products: z.array(z.string()).optional(),
-  source: z.enum(PB.CustomerRelationsOpportunitiesSourceOptions),
-  stage: z.enum(PB.CustomerRelationsOpportunitiesStageOptions).optional(),
-  updated: z.iso.date(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Opportunities = z.infer<typeof OpportunitiesSchema>;

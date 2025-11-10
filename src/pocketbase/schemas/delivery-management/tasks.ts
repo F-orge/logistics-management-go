@@ -5,26 +5,25 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const TasksSchema = z.object({
-  actualArrivalTime: z.iso.date().optional(),
-  attachments: z.array(z.string()).optional(),
-  attempCount: z.number().optional(),
-  created: z.iso.date(),
-  deliveryAddress: z.string(),
-  deliveryInstructions: z.string().optional(),
-  deliveryTime: z.iso.date().optional(),
-  estimatedArrivalTime: z.iso.date().optional(),
-  failureReason: z.enum(PB.DeliveryManagementTasksFailureReasonOptions).optional(),
   id: z.string(),
   package: z.string(),
-  recipientName: z.string().optional(),
-  recipientPhone: z.string().optional(),
   route: z.string(),
   sequence: z.number(),
-  status: z.enum(PB.DeliveryManagementTasksStatusOptions),
-  updated: z.iso.date(),
+  deliveryAddress: z.string(),
+  recipientName: z.string().optional(),
+  recipientPhone: z.string().optional(),
+  deliveryInstructions: z.unknown().optional(),
+  estimatedArrivalTime: z.iso.date().optional(),
+  actualArrivalTime: z.iso.date().optional(),
+  deliveryTime: z.iso.date().optional(),
+  status: z.enum(["pending", "assigned", "out-for-delivery", "delivered", "failed", "cancelled", "rescheduled"]),
+  attempCount: z.number().optional(),
+  attachments: z.array(z.string()).optional(),
+  failureReason: z.enum(["reecipient-not-home", "address-not-found", "refused-delivery", "damaged-package", "access-denied", "weather-conditions", "vehicle-breakdown", "other"]).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Tasks = z.infer<typeof TasksSchema>;

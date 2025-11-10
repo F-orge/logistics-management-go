@@ -5,15 +5,14 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const TripsSchema = z.object({
-  created: z.iso.date(),
-  driver: z.string(),
   id: z.string(),
-  status: z.enum(PB.TransportManagementTripsStatusOptions),
-  updated: z.iso.date(),
+  driver: z.string(),
   vehicle: z.string(),
+  status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Trips = z.infer<typeof TripsSchema>;

@@ -5,17 +5,16 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const CampaignsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  budget: z.number(),
-  created: z.iso.date(),
-  endDate: z.iso.date().optional(),
   id: z.string(),
   name: z.string(),
+  budget: z.number(),
   startDate: z.iso.date().optional(),
-  updated: z.iso.date(),
+  endDate: z.iso.date().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

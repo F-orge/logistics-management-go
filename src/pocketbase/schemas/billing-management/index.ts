@@ -10,6 +10,7 @@ export * from "./credit-notes";
 export * from "./disputes";
 export * from "./invoice-line-items";
 export * from "./invoices";
+export * from "./logs";
 export * from "./payments";
 export * from "./quotes";
 export * from "./rate-cards";

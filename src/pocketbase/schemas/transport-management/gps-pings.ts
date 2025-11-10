@@ -5,13 +5,12 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const GpsPingsSchema = z.object({
-  coordinates: z.string(),
   id: z.string(),
-  timestamp: z.iso.date(),
   vehicle: z.string(),
+  coordinates: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
 });
 
 export type GpsPings = z.infer<typeof GpsPingsSchema>;

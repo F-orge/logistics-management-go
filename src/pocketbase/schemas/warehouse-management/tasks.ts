@@ -5,24 +5,23 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const TasksSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  endTime: z.iso.date().optional(),
   id: z.string(),
-  instructions: z.string().optional(),
-  notes: z.string().optional(),
-  pickBatchId: z.string().optional(),
-  priority: z.number(),
-  startTime: z.iso.date().optional(),
-  status: z.enum(PB.WarehouseManagementTasksStatusOptions).optional(),
   taskNumber: z.string(),
-  type: z.enum(PB.WarehouseManagementTasksTypeOptions).optional(),
-  updated: z.iso.date(),
-  user: z.string().optional(),
   warehouse: z.string().optional(),
+  user: z.string().optional(),
+  type: z.enum(["putaway", "pick", "pack", "replenishment", "cycle-count", "cross-dock", "returns-processing", "damage-inspection", "quality-check"]).optional(),
+  status: z.enum(["pending", "assigned", "in-progress", "completed", "cancelled", "error"]).optional(),
+  priority: z.number(),
+  pickBatchId: z.string().optional(),
+  instructions: z.unknown().optional(),
+  notes: z.unknown().optional(),
+  startTime: z.iso.date().optional(),
+  endTime: z.iso.date().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Tasks = z.infer<typeof TasksSchema>;

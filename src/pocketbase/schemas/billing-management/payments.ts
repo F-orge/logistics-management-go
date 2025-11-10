@@ -5,26 +5,25 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PaymentsSchema = z.object({
-  amount: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.date(),
-  currency: z.string().optional(),
-  fees: z.number().optional(),
-  gatewayReferenceId: z.string().optional(),
   id: z.string(),
   invoice: z.string().optional(),
-  netAmount: z.number().optional(),
-  notes: z.string().optional(),
-  paymentDate: z.iso.date().optional(),
-  paymentMethod: z.enum(PB.BillingManagementPaymentsPaymentMethodOptions).optional(),
-  processedAt: z.iso.date().optional(),
-  processedBy: z.string().optional(),
-  status: z.enum(PB.BillingManagementPaymentsStatusOptions).optional(),
+  amount: z.number().optional(),
+  paymentMethod: z.enum(["credit-card", "debit-card", "wallet", "qr-ph", "client-credit", "bank-transfer", "cash", "check"]).optional(),
   transactionId: z.string().optional(),
-  updated: z.iso.date(),
+  gatewayReferenceId: z.string().optional(),
+  status: z.enum(["pending", "processing", "successful", "failed", "cancelled", "refunded"]).optional(),
+  paymentDate: z.iso.date().optional(),
+  processedAt: z.iso.date().optional(),
+  currency: z.string().optional(),
+  fees: z.number().optional(),
+  netAmount: z.number().optional(),
+  notes: z.unknown().optional(),
+  processedBy: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Payments = z.infer<typeof PaymentsSchema>;

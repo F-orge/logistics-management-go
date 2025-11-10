@@ -5,25 +5,24 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const PutawayRulesSchema = z.object({
-  client: z.string().optional(),
-  created: z.iso.date(),
   id: z.string(),
-  isActive: z.boolean().optional(),
-  locationType: z.enum(PB.WarehouseManagementPutawayRulesLocationTypeOptions),
-  maxQuantity: z.number().optional(),
-  minQuantity: z.number().optional(),
-  preferredLocation: z.string().optional(),
-  priority: z.number(),
   product: z.string(),
-  requireHazmatApproval: z.boolean().optional(),
-  requireTemperatureControl: z.boolean().optional(),
-  updated: z.iso.date(),
-  volumeThreshold: z.number().optional(),
+  client: z.string().optional(),
   warehouse: z.string(),
+  preferredLocation: z.string().optional(),
+  locationType: z.enum(["receiving-dock", "pick-bin", "packing-station", "cross-dock-area", "bulk-storage", "reserve-storage", "damaged-goods", "staging-area", "quality-control", "returns-area"]),
+  priority: z.number(),
+  minQuantity: z.number().optional(),
+  maxQuantity: z.number().optional(),
   weightThreshold: z.number().optional(),
+  volumeThreshold: z.number().optional(),
+  requireTemperatureControl: z.unknown().optional(),
+  requireHazmatApproval: z.unknown().optional(),
+  isActive: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type PutawayRules = z.infer<typeof PutawayRulesSchema>;

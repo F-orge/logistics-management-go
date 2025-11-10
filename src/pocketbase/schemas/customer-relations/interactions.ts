@@ -5,18 +5,17 @@
  */
 
 import { z } from "zod";
-import * as PB from "../../../lib/pb.types";
 
 export const InteractionsSchema = z.object({
-  attachments: z.array(z.string()).optional(),
-  case: z.string().optional(),
-  contact: z.string(),
   id: z.string(),
-  interactionDate: z.iso.date(),
-  notes: z.string().optional(),
-  outcome: z.string().optional(),
-  type: z.enum(PB.CustomerRelationsInteractionsTypeOptions).optional(),
+  contact: z.string(),
   user: z.string(),
+  case: z.string().optional(),
+  type: z.enum(["call", "meeting", "text", "email"]).optional(),
+  outcome: z.string().optional(),
+  notes: z.unknown().optional(),
+  attachments: z.array(z.string()).optional(),
+  interactionDate: z.iso.datetime().optional(),
 });
 
 export type Interactions = z.infer<typeof InteractionsSchema>;
