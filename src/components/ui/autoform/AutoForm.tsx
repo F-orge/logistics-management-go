@@ -1,7 +1,10 @@
 import {
   AutoFormUIComponents,
   AutoForm as BaseAutoForm,
+  FieldConfig as FieldConfigBase,
 } from "@autoform/react";
+import { fieldConfig as baseFieldConfig } from "@autoform/zod";
+import React from "react";
 import { Form } from "./components/Form";
 import { BooleanField } from "./components/fields/BooleanField";
 import { DateField } from "./components/fields/DateField";
@@ -33,7 +36,24 @@ export const ShadcnAutoFormFieldComponents = {
   date: DateField,
   select: SelectField,
 } as const;
+
 export type FieldTypes = keyof typeof ShadcnAutoFormFieldComponents;
+
+export type CustomData<Type extends FieldTypes = FieldTypes> = {
+  string: { name: string };
+  number: Record<string, unknown>;
+  boolean: { checked: boolean };
+  date: Record<string, unknown>;
+  select: { options: Array<{ label: string; value: string }> };
+}[Type];
+
+export const fieldConfigFactory = <Type extends FieldTypes = "string">() =>
+  baseFieldConfig as typeof baseFieldConfig<
+    React.ReactNode,
+    FieldTypes,
+    any,
+    CustomData<Type>
+  >;
 
 export function AutoForm<T extends Record<string, any>>({
   uiComponents,
