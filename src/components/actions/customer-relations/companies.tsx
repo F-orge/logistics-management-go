@@ -75,8 +75,21 @@ export const CreateCompanies = () => {
         onOpenChange={() =>
           navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-        onSubmit={(data) => {
-          console.log(data);
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.CustomerRelationsCompanies)
+              .create(data);
+            toast.success("Companies created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create companies: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
         }}
         schema={CompanyFormSchema}
         form={{

@@ -4,7 +4,23 @@ import React from "react";
 import { Button } from "../button";
 import { Field, FieldDescription, FieldError, FieldLabel } from "../field";
 import { withForm } from "../forms";
-import { SelectFieldProps } from "../forms/fields";
+import {
+  BoolFieldProps,
+  CheckboxGroupFieldProps,
+  DateTimeFieldProps,
+  EmailFieldProps,
+  FileFieldProps,
+  GeoPointFieldProps,
+  JSONFieldProps,
+  NumberFieldProps,
+  RadioGroupFieldProps,
+  RelationFieldProps,
+  RichEditorFieldProps,
+  SelectFieldProps,
+  TextareaFieldProps,
+  TextFieldProps,
+  URLFieldProps,
+} from "../forms/fields";
 import { Item, ItemGroup, ItemSeparator } from "../item";
 import { Group } from "./types";
 
@@ -39,7 +55,45 @@ const AutoField = withForm({
                             {(f) => (
                               <Field data-invalid={f.state.meta.errors?.length}>
                                 <FieldLabel>{subField.label}</FieldLabel>
-                                <f.TextField {...subField.props} />
+                                <f.TextField
+                                  {...(subField.props as TextFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "email":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.EmailField
+                                  {...(subField.props as EmailFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "url":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.URLField
+                                  {...(subField.props as URLFieldProps)}
+                                />
                                 <FieldDescription>
                                   {subField.description}
                                 </FieldDescription>
@@ -55,7 +109,9 @@ const AutoField = withForm({
                             {(f) => (
                               <Field data-invalid={f.state.meta.errors?.length}>
                                 <FieldLabel>{subField.label}</FieldLabel>
-                                <f.NumberField {...subField.props} />
+                                <f.NumberField
+                                  {...(subField.props as NumberFieldProps)}
+                                />
                                 <FieldDescription>
                                   {subField.description}
                                 </FieldDescription>
@@ -71,7 +127,9 @@ const AutoField = withForm({
                             {(f) => (
                               <Field data-invalid={f.state.meta.errors?.length}>
                                 <FieldLabel>{subField.label}</FieldLabel>
-                                <f.DateTimeField {...subField.props} />
+                                <f.DateTimeField
+                                  {...(subField.props as DateTimeFieldProps)}
+                                />
                                 <FieldDescription>
                                   {subField.description}
                                 </FieldDescription>
@@ -89,6 +147,168 @@ const AutoField = withForm({
                                 <FieldLabel>{subField.label}</FieldLabel>
                                 <f.SelectField
                                   {...(subField.props as SelectFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "bool":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.BoolField
+                                  {...(subField.props as BoolFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "checkboxGroup":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.CheckboxGroupField
+                                  {...(subField.props as CheckboxGroupFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "radioGroup":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.RadioGroupField
+                                  {...(subField.props as RadioGroupFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "textarea":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.TextareaField
+                                  {...(subField.props as TextareaFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "file":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.FileField
+                                  {...(subField.props as FileFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "json":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.JSONField
+                                  {...(subField.props as JSONFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "geoPoint":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.GeoPointField
+                                  {...(subField.props as GeoPointFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "richEditor":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.RichEditorField
+                                  {...(subField.props as RichEditorFieldProps)}
+                                />
+                                <FieldDescription>
+                                  {subField.description}
+                                </FieldDescription>
+                                <FieldError errors={f.state.meta.errors} />
+                              </Field>
+                            )}
+                          </form.AppField>
+                        );
+                        break;
+                      case "relation":
+                        component = (
+                          <form.AppField key={fieldName} name={fieldName}>
+                            {(f) => (
+                              <Field data-invalid={f.state.meta.errors?.length}>
+                                <FieldLabel>{subField.label}</FieldLabel>
+                                <f.RelationField
+                                  {...(subField.props as RelationFieldProps<any>)}
                                 />
                                 <FieldDescription>
                                   {subField.description}
@@ -159,7 +379,67 @@ const AutoField = withForm({
                               {fieldConfig.label} #{index + 1}
                             </FieldLabel>
                             <div className="flex flex-row items-center gap-2.5">
-                              <f.TextField {...fieldConfig.props} />
+                              <f.TextField
+                                {...(fieldConfig.props as TextFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "email":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.EmailField
+                                {...(fieldConfig.props as EmailFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "url":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.URLField
+                                {...(fieldConfig.props as URLFieldProps)}
+                              />
                               <Button
                                 variant="destructive"
                                 size="icon-sm"
@@ -185,18 +465,22 @@ const AutoField = withForm({
                             <FieldLabel>
                               {fieldConfig.label} #{index + 1}
                             </FieldLabel>
-                            <f.NumberField {...fieldConfig.props} />
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.NumberField
+                                {...(fieldConfig.props as NumberFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
                             <FieldDescription>
                               {fieldConfig.description}
                             </FieldDescription>
                             <FieldError errors={f.state.meta.errors} />
-                            <Button
-                              variant="destructive"
-                              size="icon-sm"
-                              onClick={() => field.removeValue(index)}
-                            >
-                              <Trash />
-                            </Button>
                           </Field>
                         )}
                       </form.AppField>
@@ -210,18 +494,22 @@ const AutoField = withForm({
                             <FieldLabel>
                               {fieldConfig.label} #{index + 1}
                             </FieldLabel>
-                            <f.DateTimeField {...fieldConfig.props} />
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.DateTimeField
+                                {...(fieldConfig.props as DateTimeFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
                             <FieldDescription>
                               {fieldConfig.description}
                             </FieldDescription>
                             <FieldError errors={f.state.meta.errors} />
-                            <Button
-                              variant="destructive"
-                              size="icon-sm"
-                              onClick={() => field.removeValue(index)}
-                            >
-                              <Trash />
-                            </Button>
                           </Field>
                         )}
                       </form.AppField>
@@ -235,20 +523,283 @@ const AutoField = withForm({
                             <FieldLabel>
                               {fieldConfig.label} #{index + 1}
                             </FieldLabel>
-                            <f.SelectField
-                              {...(fieldConfig.props as SelectFieldProps)}
-                            />
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.SelectField
+                                {...(fieldConfig.props as SelectFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
                             <FieldDescription>
                               {fieldConfig.description}
                             </FieldDescription>
                             <FieldError errors={f.state.meta.errors} />
-                            <Button
-                              variant="destructive"
-                              size="icon-sm"
-                              onClick={() => field.removeValue(index)}
-                            >
-                              <Trash />
-                            </Button>
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "bool":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.BoolField
+                                {...(fieldConfig.props as BoolFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "checkboxGroup":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.CheckboxGroupField
+                                {...(fieldConfig.props as CheckboxGroupFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "radioGroup":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.RadioGroupField
+                                {...(fieldConfig.props as RadioGroupFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "textarea":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.TextareaField
+                                {...(fieldConfig.props as TextareaFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "file":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.FileField
+                                {...(fieldConfig.props as FileFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "json":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.JSONField
+                                {...(fieldConfig.props as JSONFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "geoPoint":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.GeoPointField
+                                {...(fieldConfig.props as GeoPointFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "richEditor":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.RichEditorField
+                                {...(fieldConfig.props as RichEditorFieldProps)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
+                          </Field>
+                        )}
+                      </form.AppField>
+                    );
+                    break;
+                  case "relation":
+                    component = (
+                      <form.AppField key={fieldName} name={fieldName}>
+                        {(f) => (
+                          <Field data-invalid={f.state.meta.errors?.length}>
+                            <FieldLabel>
+                              {fieldConfig.label} #{index + 1}
+                            </FieldLabel>
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.RelationField
+                                {...(fieldConfig.props as RelationFieldProps<any>)}
+                              />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
+                            <FieldDescription>
+                              {fieldConfig.description}
+                            </FieldDescription>
+                            <FieldError errors={f.state.meta.errors} />
                           </Field>
                         )}
                       </form.AppField>
@@ -262,18 +813,20 @@ const AutoField = withForm({
                             <FieldLabel>
                               {fieldConfig.label} #{index + 1}
                             </FieldLabel>
-                            <f.TextField />
+                            <div className="flex flex-row items-center gap-2.5">
+                              <f.TextField />
+                              <Button
+                                variant="destructive"
+                                size="icon-sm"
+                                onClick={() => field.removeValue(index)}
+                              >
+                                <Trash />
+                              </Button>
+                            </div>
                             <FieldDescription>
                               {fieldConfig.description}
                             </FieldDescription>
                             <FieldError errors={f.state.meta.errors} />
-                            <Button
-                              variant="destructive"
-                              size="icon-sm"
-                              onClick={() => field.removeValue(index)}
-                            >
-                              <Trash />
-                            </Button>
                           </Field>
                         )}
                       </form.AppField>
@@ -321,18 +874,95 @@ const AutoField = withForm({
 
           switch (fieldConfig.inputType) {
             case "text":
-              Component = <field.TextField {...fieldConfig.props} />;
+              Component = (
+                <field.TextField {...(fieldConfig.props as TextFieldProps)} />
+              );
+              break;
+            case "email":
+              Component = (
+                <field.EmailField {...(fieldConfig.props as EmailFieldProps)} />
+              );
+              break;
+            case "url":
+              Component = (
+                <field.URLField {...(fieldConfig.props as URLFieldProps)} />
+              );
               break;
             case "number":
-              Component = <field.NumberField {...fieldConfig.props} />;
+              Component = (
+                <field.NumberField
+                  {...(fieldConfig.props as NumberFieldProps)}
+                />
+              );
               break;
             case "date":
-              Component = <field.DateTimeField {...fieldConfig.props} />;
+              Component = (
+                <field.DateTimeField
+                  {...(fieldConfig.props as DateTimeFieldProps)}
+                />
+              );
               break;
             case "select":
               Component = (
                 <field.SelectField
                   {...(fieldConfig.props as SelectFieldProps)}
+                />
+              );
+              break;
+            case "bool":
+              Component = (
+                <field.BoolField {...(fieldConfig.props as BoolFieldProps)} />
+              );
+              break;
+            case "checkboxGroup":
+              Component = (
+                <field.CheckboxGroupField
+                  {...(fieldConfig.props as CheckboxGroupFieldProps)}
+                />
+              );
+              break;
+            case "radioGroup":
+              Component = (
+                <field.RadioGroupField
+                  {...(fieldConfig.props as RadioGroupFieldProps)}
+                />
+              );
+              break;
+            case "textarea":
+              Component = (
+                <field.TextareaField
+                  {...(fieldConfig.props as TextareaFieldProps)}
+                />
+              );
+              break;
+            case "file":
+              Component = (
+                <field.FileField {...(fieldConfig.props as FileFieldProps)} />
+              );
+              break;
+            case "json":
+              Component = (
+                <field.JSONField {...(fieldConfig.props as JSONFieldProps)} />
+              );
+              break;
+            case "geoPoint":
+              Component = (
+                <field.GeoPointField
+                  {...(fieldConfig.props as GeoPointFieldProps)}
+                />
+              );
+              break;
+            case "richEditor":
+              Component = (
+                <field.RichEditorField
+                  {...(fieldConfig.props as RichEditorFieldProps)}
+                />
+              );
+              break;
+            case "relation":
+              Component = (
+                <field.RelationField
+                  {...(fieldConfig.props as RelationFieldProps<any>)}
                 />
               );
               break;

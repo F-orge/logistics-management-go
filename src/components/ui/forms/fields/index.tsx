@@ -8,18 +8,21 @@ export type { DateTimeFieldProps } from "./datetime";
 export { default as DateTimeField } from "./datetime";
 export type { EmailFieldProps } from "./email";
 export { default as EmailField } from "./email";
+export type { FileFieldProps } from "./file";
 export { default as FileField } from "./file";
+export type { GeoPointFieldProps } from "./geo-point";
 export { default as GeoPointField } from "./geo-point";
+export type { JSONFieldProps } from "./json";
 export { default as JSONField } from "./json";
 export type { NumberFieldProps } from "./number";
 export { default as NumberField } from "./number";
 export type { RadioGroupFieldProps } from "./radio-group";
 export { default as RadioGroupField } from "./radio-group";
-// Phase 3: Complex Components (placeholders)
+export type { RelationFieldProps } from "./relation";
 export { default as RelationField } from "./relation";
+export type { RichEditorFieldProps } from "./rich-editor";
 export { default as RichEditorField } from "./rich-editor";
 export type { SelectFieldProps } from "./select";
-// Phase 2: Selection Components
 export { default as SelectField } from "./select";
 export type { TextFieldProps } from "./text";
 export { default as TextField } from "./text";

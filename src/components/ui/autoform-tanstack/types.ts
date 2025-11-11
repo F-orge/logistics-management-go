@@ -7,11 +7,21 @@
 import React from "react";
 import { type ZodType, z } from "zod";
 import {
+  BoolFieldProps,
   CheckboxGroupFieldProps,
   DateTimeFieldProps,
+  EmailFieldProps,
+  FileFieldProps,
+  GeoPointFieldProps,
+  JSONFieldProps,
   NumberFieldProps,
+  RadioGroupFieldProps,
+  RelationFieldProps,
+  RichEditorFieldProps,
   SelectFieldProps,
+  TextareaFieldProps,
   TextFieldProps,
+  URLFieldProps,
 } from "../forms/fields";
 
 export const fieldRegistry = z.registry<Group>();
@@ -28,6 +38,17 @@ export type InputType = {
   boolean: CheckboxGroupFieldProps;
   date: DateTimeFieldProps;
   select: SelectFieldProps;
+  email: EmailFieldProps;
+  url: URLFieldProps;
+  textarea: TextareaFieldProps;
+  bool: BoolFieldProps;
+  checkboxGroup: CheckboxGroupFieldProps;
+  radioGroup: RadioGroupFieldProps;
+  file: FileFieldProps;
+  json: JSONFieldProps;
+  geoPoint: GeoPointFieldProps;
+  richEditor: RichEditorFieldProps;
+  relation: RelationFieldProps<any>;
 };
 
 /**
@@ -352,20 +373,36 @@ export type RequiredFormData<T extends Record<string, unknown>> = Required<T>;
  * Helper function to detect Zod primitive type and return appropriate input type
  */
 const getInputTypeFromZodType = (zodDef: z.ZodUnknown): keyof InputType => {
-  if (zodDef instanceof z.ZodString) {
-    return "text";
+  if (zodDef instanceof z.ZodEmail) {
+    return "email";
   }
+
+  if (zodDef instanceof z.ZodURL) {
+    return "url";
+  }
+
   if (zodDef instanceof z.ZodNumber) {
-    return "number"; // number type
+    return "number";
   }
+
   if (zodDef instanceof z.ZodBoolean) {
-    return "boolean"; // boolean type
+    return "bool";
   }
+
   if (zodDef instanceof z.ZodDate) {
-    return "date"; // date type
+    return "date";
   }
+
   if (zodDef instanceof z.ZodEnum) {
-    return "select"; // enum/select type
+    return "select";
+  }
+
+  if (zodDef instanceof z.ZodRecord) {
+    return "json";
+  }
+
+  if (zodDef instanceof z.ZodFile) {
+    return "file";
   }
 
   // Default fallback
