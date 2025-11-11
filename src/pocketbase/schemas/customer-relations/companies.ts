@@ -10,6 +10,9 @@ import {
   fieldRegistry,
   fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { Collections } from "@/lib/pb.types";
+import { pocketbase } from "@/pocketbase";
 
 export const CompaniesSchema = z
   .object({
@@ -21,6 +24,8 @@ export const CompaniesSchema = z
         id: "name",
         type: "field",
         inputType: "text",
+        label: "Company Name",
+        description: "Name of the company",
         props: {
           placeholder: "Company",
         },
@@ -34,7 +39,20 @@ export const CompaniesSchema = z
     industry: z.string().optional(),
     website: z.url().optional(),
     annualRevenue: z.number().optional(),
-    owner: z.string().optional(),
+    owner: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "owner",
+        inputType: "relation",
+        props: {
+          pocketbase: pocketbase,
+          collectionName: Collections.Users,
+          relationshipName: "owner",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
     attachments: z.file().array(),
     created: z.iso.datetime().optional(),
     updated: z.iso.datetime().optional(),
