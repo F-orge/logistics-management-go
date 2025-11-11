@@ -6,38 +6,42 @@
 
 import { z } from "zod";
 import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
-import { Collections } from "@/lib/pb.types";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 
-export const CompaniesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  street: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  industry: z.string().optional(),
-  website: z.url().optional(),
-  annualRevenue: z.number().optional(),
-  owner: z
-    .string()
-    .optional()
-    .check(
-      fieldConfigFactory<"relation">()({
-        fieldType: "relation",
-        customData: {
-          collectionName: Collections.Users,
-          displayField: "id",
+export const CompaniesSchema = z
+  .object({
+    id: z.string(),
+    name: z
+      .string()
+      .nonempty()
+      .register(fieldRegistry, {
+        id: "name",
+        type: "field",
+        inputType: "text",
+        props: {
+          placeholder: "Company",
         },
-      })
-    ),
-  attachments: z
-    .any()
-    .check(fieldConfigFactory<"file">()({ fieldType: "file" }))
-    .optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+      }),
+    street: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    postalCode: z.string().optional(),
+    country: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    industry: z.string().optional(),
+    website: z.url().optional(),
+    annualRevenue: z.number().optional(),
+    owner: z.string().optional(),
+    attachments: z
+      .any()
+      .check(fieldConfigFactory<"file">()({ fieldType: "file" }))
+      .optional(),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Companies = z.infer<typeof CompaniesSchema>;

@@ -6,13 +6,28 @@
 
 import React from "react";
 import { type ZodType, z } from "zod";
-import { TextFieldProps } from "../forms/fields";
+import {
+  CheckboxGroupFieldProps,
+  DateTimeFieldProps,
+  NumberFieldProps,
+  SelectFieldProps,
+  TextFieldProps,
+} from "../forms/fields";
+
+export const fieldRegistry = z.registry<Group>();
+
+export const fieldSetRegistry =
+  z.registry<Omit<FieldSet<z.ZodObject>, "groups">>();
 
 /**
  * Input field types supported by the form
  */
 export type InputType = {
   text: TextFieldProps;
+  number: NumberFieldProps;
+  boolean: CheckboxGroupFieldProps;
+  date: DateTimeFieldProps;
+  select: SelectFieldProps;
 };
 
 /**
@@ -229,9 +244,7 @@ export type Group = FieldGroup | FieldsetGroup;
  * Generic FieldSet represents a semantic grouping of related fields
  * TValues: Record of field names to their value types
  */
-export interface FieldSet<
-  TValues extends Record<string, unknown> = Record<string, unknown>,
-> {
+export interface FieldSet<TValues extends z.ZodObject> {
   /**
    * Semantic title for the fieldset
    */
@@ -272,7 +285,7 @@ export interface FormConfig<
   /**
    * Array of FieldSet components
    */
-  fieldsets: FieldSet<z.infer<TFormSchema>>[];
+  fieldsets: FieldSet<TFormSchema>[];
 }
 
 /**
@@ -285,7 +298,7 @@ export interface FormSchema<
   TFormProps = React.ComponentProps<"form">,
 > {
   schema: TSchema;
-  form: FormConfig<TSchema, TFormProps>;
+  form?: FormConfig<TSchema, TFormProps>;
 }
 
 /**
@@ -335,39 +348,143 @@ export type PartialFormData<T extends Record<string, unknown>> = Partial<T>;
  */
 export type RequiredFormData<T extends Record<string, unknown>> = Required<T>;
 
-const test = z.object({ test: z.string() });
-
 /**
- * Example form schema for testing
+ * Helper function to detect Zod primitive type and return appropriate input type
  */
-const exampleForm: FormSchema<typeof test> = {
-  schema: test,
-  form: {
-    props: {},
-    fieldsets: [
-      {
-        legend: "User Info",
-        groups: [
-          {
-            type: "field",
-            id: "name",
-            label: "Name",
-            name: "",
-            inputType: "text",
-          },
-          {
-            id: "payment",
-            type: "fieldset",
-            groups: [
-              {
-                id: "amount",
-                type: "field",
-                name: "amount",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+const getInputTypeFromZodType = (zodDef: z.ZodUnknown): keyof InputType => {
+  if (zodDef instanceof z.ZodString) {
+    return "text";
+  }
+  if (zodDef instanceof z.ZodNumber) {
+    return "number"; // number type
+  }
+  if (zodDef instanceof z.ZodBoolean) {
+    return "boolean"; // boolean type
+  }
+  if (zodDef instanceof z.ZodDate) {
+    return "date"; // date type
+  }
+  if (zodDef instanceof z.ZodEnum) {
+    return "select"; // enum/select type
+  }
+
+  // Default fallback
+  return "text";
+};
+
+export const toAutoFormFieldSet = <T extends z.ZodObject>(
+  schema: T
+): FieldSet<T> => {
+  const fieldSetMetadata = fieldSetRegistry.get(schema);
+
+  const groups: Group[] = [];
+
+  for (const [name, def] of Object.entries(schema.shape)) {
+    // Strip away ZodOptional wrapper to get the inner type
+    let innerDef = def;
+    if (def instanceof z.ZodOptional) {
+      innerDef = (def as z.ZodOptional<any>).unwrap();
+    }
+
+    const fieldMetadata = fieldRegistry.get(def);
+
+    if (fieldMetadata?.type === "fieldset") {
+      const fieldsetMeta = fieldMetadata as FieldsetGroup;
+      groups.push({
+        id: name,
+        type: "fieldset",
+        label: fieldsetMeta.label,
+        description: fieldsetMeta.description,
+        required: fieldsetMeta.required,
+        isArray: fieldsetMeta.isArray,
+        error: fieldsetMeta.error,
+        separator: fieldsetMeta.separator,
+        arrayConfig: fieldsetMeta.arrayConfig,
+        defaultValue: fieldsetMeta.defaultValue,
+        maxDepth: fieldsetMeta.maxDepth,
+        groups: toAutoFormFieldSet(innerDef as z.ZodObject).groups,
+      });
+    } else if (fieldMetadata?.type === "field") {
+      const fieldMeta = fieldMetadata;
+      groups.push({
+        id: name,
+        type: "field" as const,
+        name,
+        inputType: fieldMeta.inputType,
+        label: fieldMeta.label || name,
+        description: fieldMeta.description,
+        required: fieldMeta.required,
+        isArray: fieldMeta.isArray,
+        error: fieldMeta.error,
+        separator: fieldMeta.separator,
+        orientation: fieldMeta.orientation,
+        arrayConfig: fieldMeta.arrayConfig,
+        defaultValue: fieldMeta.defaultValue,
+        props: fieldMeta.props,
+      } as FieldGroup);
+    } else if (innerDef instanceof z.ZodObject) {
+      // Handle unregistered fieldset (ZodObject)
+      groups.push({
+        id: name,
+        name,
+        type: "fieldset",
+        label: undefined,
+        description: undefined,
+        required: false,
+        isArray: false,
+        groups: toAutoFormFieldSet(innerDef).groups,
+        separator: true,
+      });
+    } else {
+      // Handle unregistered field - detect Zod type and create appropriate field
+      const inputType = getInputTypeFromZodType(innerDef);
+
+      if (inputType === "select") {
+        // get the enum variants
+        const variants = Object.entries((innerDef as z.ZodEnum).enum).map(
+          ([key, val]) => ({ label: key, value: val.toString() })
+        );
+
+        groups.push({
+          id: name,
+          type: "field" as const,
+          name,
+          inputType: "select",
+          label: name
+            .toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" "),
+          description: undefined,
+          required: false,
+          isArray: false,
+          props: { options: variants },
+        });
+
+        continue;
+      }
+
+      groups.push({
+        id: name,
+        type: "field" as const,
+        name,
+        inputType,
+        label: name
+          .toLowerCase()
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+        description: undefined,
+        required: def instanceof z.ZodOptional,
+        isArray: false,
+      } as FieldGroup);
+    }
+  }
+
+  return {
+    legend: fieldSetMetadata?.legend,
+    description: fieldSetMetadata?.description,
+    separator: fieldSetMetadata?.separator,
+    groups,
+  };
 };

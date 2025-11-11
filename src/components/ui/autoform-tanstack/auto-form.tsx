@@ -18,7 +18,7 @@ import {
 import { useAppForm } from "../forms";
 import AutoField from "./auto-field";
 import AutoFieldSet from "./auto-fieldset";
-import { FormSchema } from "./types";
+import { FormSchema, toAutoFormFieldSet } from "./types";
 
 export type AutoFormProps<Schema extends z.ZodObject> = React.ComponentProps<
   typeof Dialog
@@ -49,14 +49,14 @@ const AutoForm = <Schema extends z.ZodObject>(props: AutoFormProps<Schema>) => {
 
   return (
     <Dialog {...dialogProps}>
-      <DialogContent>
+      <DialogContent className="max-h-3/4 overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <FieldSeparator />
         <form
-          {...formOptions.props}
+          {...formOptions?.props}
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -64,14 +64,20 @@ const AutoForm = <Schema extends z.ZodObject>(props: AutoFormProps<Schema>) => {
           }}
         >
           <form.AppForm>
-            {formOptions.fieldsets.map((fieldset, index) => (
+            {
+              <AutoFieldSet
+                form={form as any}
+                {...toAutoFormFieldSet(schema)}
+              />
+            }
+            {/* {formOptions?.fieldsets.map((fieldset, index) => (
               <AutoFieldSet
                 // todo: fix any
                 form={form as any}
                 key={index}
                 {...fieldset}
               />
-            ))}
+            ))} */}
           </form.AppForm>
           <DialogFooter>
             <Button type="submit">Submit</Button>

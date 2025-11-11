@@ -1,15 +1,23 @@
-import { FieldDescription, FieldLegend, FieldSet } from "../field";
+import z from "zod";
+import {
+  FieldDescription,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+} from "../field";
 import { withForm } from "../forms";
 import AutoField from "./auto-field";
 import { FieldSet as FieldSetType } from "./types";
 
 const AutoFieldSet = withForm({
-  props: {} as FieldSetType,
+  props: {} as FieldSetType<z.ZodObject>,
   render: ({ form, ...props }) => {
     return (
       <FieldSet>
-        <FieldLegend>{props.legend}</FieldLegend>
-        <FieldDescription>{props.description}</FieldDescription>
+        {props.legend && <FieldLegend>{props.legend}</FieldLegend>}
+        {props.description && (
+          <FieldDescription>{props.description}</FieldDescription>
+        )}
         {props.groups.map((field) => {
           if (field.type === "field") {
             return (
@@ -22,12 +30,19 @@ const AutoFieldSet = withForm({
             );
           } else if (field.type === "fieldset") {
             return (
-              <AutoFieldSet
-                key={field.name}
-                // todo: fix any
-                form={form as any}
-                {...field}
-              />
+              <>
+                {field.separator && typeof field.separator === "string" ? (
+                  <FieldSeparator>{field.separator}</FieldSeparator>
+                ) : (
+                  <FieldSeparator />
+                )}
+                <AutoFieldSet
+                  key={field.name}
+                  // todo: fix any
+                  form={form as any}
+                  {...field}
+                />
+              </>
             );
           }
           return null;
