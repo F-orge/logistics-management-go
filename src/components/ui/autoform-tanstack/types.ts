@@ -435,6 +435,60 @@ export const toAutoFormFieldSet = <T extends z.ZodObject>(
         groups: toAutoFormFieldSet(innerDef).groups,
         separator: true,
       });
+    } else if (innerDef instanceof z.ZodArray) {
+      // Handle array types - get the element type
+      const arrayElementDef = (innerDef as z.ZodArray<any>).element;
+      let elementInnerDef = arrayElementDef;
+
+      // Strip away ZodOptional from array element if present
+      if (elementInnerDef instanceof z.ZodOptional) {
+        elementInnerDef = (elementInnerDef as z.ZodOptional<any>).unwrap();
+      }
+
+      if (elementInnerDef instanceof z.ZodObject) {
+        // Array of objects (fieldset array)
+        groups.push({
+          id: name,
+          name,
+          type: "fieldset",
+          label: undefined,
+          description: undefined,
+          required: false,
+          isArray: true,
+          groups: toAutoFormFieldSet(elementInnerDef).groups,
+          arrayConfig: {
+            minItems: 0,
+            maxItems: null,
+            addLabel: "Add item",
+            removeLabel: "Remove",
+          },
+          separator: true,
+        });
+      } else {
+        // Array of primitives (field array)
+        const inputType = getInputTypeFromZodType(elementInnerDef);
+
+        groups.push({
+          id: name,
+          type: "field" as const,
+          name,
+          inputType,
+          label: name
+            .toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" "),
+          description: undefined,
+          required: false,
+          isArray: true,
+          arrayConfig: {
+            minItems: 0,
+            maxItems: null,
+            addLabel: "Add item",
+            removeLabel: "Remove",
+          },
+        } as FieldGroup);
+      }
     } else {
       // Handle unregistered field - detect Zod type and create appropriate field
       const inputType = getInputTypeFromZodType(innerDef);

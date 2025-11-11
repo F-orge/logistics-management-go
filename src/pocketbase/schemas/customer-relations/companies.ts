@@ -35,10 +35,7 @@ export const CompaniesSchema = z
     website: z.url().optional(),
     annualRevenue: z.number().optional(),
     owner: z.string().optional(),
-    attachments: z
-      .any()
-      .check(fieldConfigFactory<"file">()({ fieldType: "file" }))
-      .optional(),
+    attachments: z.file().array(),
     created: z.iso.datetime().optional(),
     updated: z.iso.datetime().optional(),
   })
