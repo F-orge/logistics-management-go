@@ -17,8 +17,16 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
+import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Collections } from "@/lib/pb.types";
 import { CompaniesSchema } from "@/pocketbase/schemas/customer-relations/companies";
+
+const CompanyFormSchema = CompaniesSchema.omit({
+  id: true,
+  created: true,
+  updated: true,
+});
 
 export const CreateCompanies = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -28,31 +36,95 @@ export const CreateCompanies = () => {
   });
 
   return (
-    <FormDialog
-      title="Create Companies"
-      description="Fill in the details to create a new companies."
-      open={searchQuery.action === "create"}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={CompaniesSchema.omit({ id: true, created: true, updated: true })}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
-            .create(data);
-          toast.success("Companies created successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to create companies: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+    <>
+      {/* <FormDialog
+        title="Create Companies"
+        description="Fill in the details to create a new companies."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-      }}
-    />
+        schema={CompaniesSchema.omit({
+          id: true,
+          created: true,
+          updated: true,
+        })}
+        onSubmit={async (data) => {
+          try {
+            const { attachments, ...rest } = data;
+            console.log(attachments.item(0));
+            await pocketbase
+              .collection(Collections.CustomerRelationsCompanies)
+              .create(data);
+            toast.success("Companies created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create companies: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+      /> */}
+      <AutoForm<typeof CompanyFormSchema>
+        title="Create Companies"
+        description="Fill in the details to create a new companies."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
+        }
+        onSubmit={(data) => {
+          console.log(data);
+        }}
+        schema={CompanyFormSchema}
+        form={{
+          fieldsets: [
+            {
+              groups: [
+                {
+                  id: "name",
+                  type: "field",
+                  name: "name",
+                  label: "Name",
+                  description: "The name of the company.",
+                  required: true,
+                  inputType: "text",
+                  props: {
+                    placeholder: "Enter company name",
+                  },
+                },
+                {
+                  id: "street",
+                  type: "field",
+                  name: "street",
+                  label: "Street",
+                  description: "The street address of the company.",
+                  required: true,
+                  inputType: "text",
+                  props: {
+                    placeholder: "Enter company street address",
+                  },
+                },
+                {
+                  id: "city",
+                  type: "field",
+                  name: "city",
+                  label: "City",
+                  description: "The city of the company.",
+                  required: true,
+                  inputType: "text",
+                  props: {
+                    placeholder: "Enter company city",
+                  },
+                },
+              ],
+            },
+          ],
+        }}
+      />
+    </>
   );
 };
 

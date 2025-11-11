@@ -5,14 +5,40 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const StockTransferSchema = z.object({
   id: z.string(),
-  product: z.string().optional(),
+  product: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
   quantity: z.number().optional(),
   status: z.enum(["pending", "in-transit", "received", "cancelled"]).optional(),
-  sourceWarehouse: z.string(),
-  destinationWarehouse: z.string(),
+  sourceWarehouse: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        displayField: "id",
+      },
+    })
+  ),
+  destinationWarehouse: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

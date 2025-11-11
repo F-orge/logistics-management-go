@@ -5,12 +5,38 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const InventoryStockSchema = z.object({
   id: z.string(),
-  location: z.string(),
-  product: z.string(),
-  batch: z.string().optional(),
+  location: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
+  product: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
+  batch: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementInventoryBatches,
+        displayField: "id",
+      },
+    })
+  ),
   quantity: z.number().optional(),
   reservedQuantity: z.number().optional(),
   status: z.enum(["available", "allocated", "damaged", "quarantine", "hold", "shipped", "expired"]),

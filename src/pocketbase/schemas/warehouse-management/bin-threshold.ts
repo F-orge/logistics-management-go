@@ -5,11 +5,29 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const BinThresholdSchema = z.object({
   id: z.string(),
-  location: z.string(),
-  product: z.string(),
+  location: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
+  product: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
   minQuantity: z.number().optional(),
   maxQuantity: z.number().optional(),
   reorderQuantity: z.number().optional(),

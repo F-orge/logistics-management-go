@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ProofOfDeliveriesSchema = z.object({
   id: z.string(),
-  task: z.string().optional(),
+  task: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.DeliveryManagementTasks,
+        displayField: "id",
+      },
+    })
+  ),
   signatureData: z.unknown().optional(),
   recipientName: z.string().optional(),
   coordinates: z.unknown().optional(),

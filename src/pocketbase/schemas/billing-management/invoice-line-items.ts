@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const InvoiceLineItemsSchema = z.object({
   id: z.string(),
-  invoice: z.string().optional(),
+  invoice: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.BillingManagementInvoices,
+        displayField: "id",
+      },
+    })
+  ),
   description: z.unknown().optional(),
   quantity: z.number().optional(),
   unitPrice: z.number().optional(),

@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const CarrierRatesSchema = z.object({
   id: z.string(),
-  carrier: z.string().optional(),
+  carrier: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementCarriers,
+        displayField: "id",
+      },
+    })
+  ),
   serviceType: z.string().optional(),
   origin: z.string(),
   destination: z.string(),

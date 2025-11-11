@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const VehiclesSchema = z.object({
   id: z.string(),
@@ -13,8 +15,24 @@ export const VehiclesSchema = z.object({
   capacityVolume: z.number().optional(),
   capacityWeight: z.number().optional(),
   status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
-  maintenances: z.array(z.string()).optional(),
-  gps_pings: z.array(z.string()).optional(),
+  maintenances: z.array(z.string()).optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementVehicleMaintenance,
+        displayField: "id",
+      },
+    })
+  ),
+  gps_pings: z.array(z.string()).optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementGpsPings,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

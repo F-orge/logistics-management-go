@@ -5,15 +5,33 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ExpensesSchema = z.object({
   id: z.string(),
-  trip: z.string().optional(),
-  driver: z.string().optional(),
+  trip: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementTrips,
+        displayField: "id",
+      },
+    })
+  ),
+  driver: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementDrivers,
+        displayField: "id",
+      },
+    })
+  ),
   type: z.enum(["fuel", "tolls", "maintenance", "parking", "meals", "accomodation"]),
   amount: z.number(),
   currency: z.enum(["PHP", "USD", "EUR"]),
-  receipts: z.array(z.string()),
+  receipts: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))),
   fuelQuantity: z.number().optional(),
   odometerReading: z.number(),
   status: z.enum(["pending", "approved", "rejected", "reimbursed"]),

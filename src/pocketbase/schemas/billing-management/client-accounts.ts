@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ClientAccountsSchema = z.object({
   id: z.string(),
-  client: z.string().optional(),
+  client: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsCompanies,
+        displayField: "id",
+      },
+    })
+  ),
   creditLimit: z.number().optional(),
   availableCredit: z.number().optional(),
   walletBalance: z.number().optional(),

@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const DriverLocationSchema = z.object({
   id: z.string(),
-  driver: z.string(),
+  driver: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementDrivers,
+        displayField: "id",
+      },
+    })
+  ),
   coordinates: z.unknown(),
   heading: z.unknown(),
   timestamp: z.iso.datetime().optional(),

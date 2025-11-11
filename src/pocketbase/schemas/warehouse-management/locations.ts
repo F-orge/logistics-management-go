@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const LocationsSchema = z.object({
   id: z.string(),
-  warehouse: z.string().optional(),
+  warehouse: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        displayField: "id",
+      },
+    })
+  ),
   name: z.string(),
   barcode: z.string().optional(),
   type: z.enum(["receiving-dock", "pick-bin", "packing-station", "cross-dock-area", "bulk-storage", "reserve-storage", "damaged-goods", "staging-area", "quality-control", "returns-area"]).optional(),
@@ -21,7 +31,15 @@ export const LocationsSchema = z.object({
   temperatureControlled: z.unknown().optional(),
   hazmatApproved: z.unknown().optional(),
   isActive: z.unknown().optional(),
-  parentLocation: z.string().optional(),
+  parentLocation: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

@@ -5,12 +5,22 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ProofOfDeliveriesSchema = z.object({
   id: z.string(),
-  tripStop: z.string(),
+  tripStop: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementTripStops,
+        displayField: "id",
+      },
+    })
+  ),
   coordinate: z.unknown(),
-  attachments: z.array(z.string()).optional(),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

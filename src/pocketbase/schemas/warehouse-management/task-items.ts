@@ -5,14 +5,56 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const TaskItemsSchema = z.object({
   id: z.string(),
-  task: z.string().optional(),
-  product: z.string().optional(),
-  batch: z.string().optional(),
-  sourceLocation: z.string().optional(),
-  destinationLocation: z.string().optional(),
+  task: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementTasks,
+        displayField: "id",
+      },
+    })
+  ),
+  product: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
+  batch: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementInventoryBatches,
+        displayField: "id",
+      },
+    })
+  ),
+  sourceLocation: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
+  destinationLocation: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
   quantityRequired: z.number().optional(),
   quantityCompleted: z.number().optional(),
   status: z.enum(["pending", "in-progress", "completed", "short-picked", "damaged", "not-found"]).optional(),
@@ -20,7 +62,7 @@ export const TaskItemsSchema = z.object({
   expiryDate: z.iso.date().optional(),
   notes: z.unknown().optional(),
   completedAt: z.iso.date().optional(),
-  proofs: z.array(z.string()).optional(),
+  proofs: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

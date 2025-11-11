@@ -25,6 +25,11 @@ interface FieldInfo {
   isOptional: boolean;
   isArray: boolean;
   isEnum?: boolean;
+  // For relation fields
+  relationCollectionId?: string;
+  relationCollectionName?: string;
+  // For file fields
+  isFile?: boolean;
 }
 
 interface RecordTypeInfo {
@@ -65,7 +70,6 @@ const POCKETBASE_URL = process.env.POCKETBASE_URL || "http://localhost:8090";
 const ADMIN_EMAIL = process.env.POCKETBASE_ADMIN || "admin@example.com";
 const ADMIN_PASSWORD = process.env.POCKETBASE_PASSWORD || "admin@123";
 
-const pbTypesPath = path.join(process.cwd(), "src/lib/pb.types.ts");
 const outputBaseDir = path.join(process.cwd(), "src/pocketbase/schemas");
 
 // Ensure output base directory exists
@@ -113,7 +117,6 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
   isArray: boolean;
 } {
   const baseType = field.type;
-  const options = field.options || {};
 
   // Most fields are optional unless required is explicitly true
   const isRequired = field.required === true;
@@ -148,8 +151,9 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
       break;
     case "select": {
       // For select fields, we can use an enum if values are provided
-      const selectValues = (field as any).values;
-      const maxSelect = (field as any).maxSelect;
+      const selectValues = (field as unknown as Record<string, unknown>).values;
+      const maxSelect = (field as unknown as Record<string, unknown>)
+        .maxSelect as number | undefined;
 
       if (Array.isArray(selectValues) && selectValues.length > 0) {
         const values = (selectValues as string[])
@@ -173,9 +177,9 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
       }
       break;
     }
-    case "multiselect":
+    case "multiselect": {
       // Multi-select returns array of strings
-      const multiValues = (field as any).values;
+      const multiValues = (field as unknown as Record<string, unknown>).values;
       if (Array.isArray(multiValues) && multiValues.length > 0) {
         const values = (multiValues as string[])
           .map((v) => `"${v}"`)
@@ -185,26 +189,29 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
         zodType = "z.array(z.string())";
       }
       return { zodType, isArray: true };
+    }
     case "json":
       zodType = "z.unknown()";
       break;
     case "file": {
       // File fields - check maxSelect to determine if array
-      const fileMaxSelect = (field as any).maxSelect;
+      const fileMaxSelect = (field as unknown as Record<string, unknown>)
+        .maxSelect as number | undefined;
       if (fileMaxSelect && fileMaxSelect > 1) {
-        zodType = "z.array(z.string())";
+        zodType = `z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))`;
         // Add optional if not required, then return
         if (!isRequired) {
           return { zodType: `${zodType}.optional()`, isArray: true };
         }
         return { zodType, isArray: true };
       }
-      zodType = "z.string()";
+      zodType = `z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))`;
       break;
     }
     case "relation": {
       // Relation fields - check maxSelect to determine if array
-      const relationMaxSelect = (field as any).maxSelect;
+      const relationMaxSelect = (field as unknown as Record<string, unknown>)
+        .maxSelect as number | undefined;
       if (relationMaxSelect && relationMaxSelect > 1) {
         zodType = "z.array(z.string())";
         // Add optional if not required, then return
@@ -233,7 +240,8 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
 
 // Convert PocketBase collection to RecordTypeInfo
 function convertCollectionToRecordType(
-  collection: PocketBaseCollection
+  collection: PocketBaseCollection,
+  collectionIdMap?: Map<string, string>
 ): RecordTypeInfo {
   const typeName = collectionNameToTypeName(collection.name);
   const schemaPrefix = extractSchemaPrefix(collection.name);
@@ -246,12 +254,28 @@ function convertCollectionToRecordType(
   if (collection.fields && Array.isArray(collection.fields)) {
     for (const field of collection.fields) {
       const { zodType, isArray } = mapPocketBaseFieldToZod(field);
-      fields.push({
+      const fieldInfo: FieldInfo = {
         name: field.name,
         type: zodType, // Store the Zod type directly
         isOptional: false, // Already handled in mapPocketBaseFieldToZod
         isArray,
-      });
+      };
+
+      // Add relation metadata if this is a relation field
+      if (field.type === "relation" && collectionIdMap) {
+        const pbField = field as unknown as Record<string, unknown>;
+        fieldInfo.relationCollectionId = pbField.collectionId as string;
+        fieldInfo.relationCollectionName = collectionIdMap.get(
+          pbField.collectionId as string
+        );
+      }
+
+      // Mark file fields
+      if (field.type === "file") {
+        fieldInfo.isFile = true;
+      }
+
+      fields.push(fieldInfo);
     }
   } else {
     // Fallback: add standard fields if fields array is missing
@@ -304,7 +328,19 @@ function generateZodSchema(record: RecordTypeInfo): string {
   }
 
   const schemaName = `${tableName}Schema`;
-  let schema = `export const ${schemaName} = z.object({\n`;
+
+  // Start with auto-generated comment and imports
+  let schema = `/**
+ * Auto-generated Zod schema for ${record.name}
+ * Generated by: scripts/generate-zod-schemas.ts
+ * DO NOT EDIT MANUALLY
+ */
+
+import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
+
+export const ${schemaName} = z.object({\n`;
 
   for (const field of record.fields) {
     const fieldName = field.name;
@@ -315,7 +351,27 @@ function generateZodSchema(record: RecordTypeInfo): string {
       zodType = `z.array(${zodType})`;
     }
 
-    schema += `  ${fieldName}: ${zodType},\n`;
+    // Add relation metadata if this is a relation field
+    if (field.relationCollectionName) {
+      // Get the collection name in PascalCase for the Collections enum
+      const collectionEnum = field.relationCollectionName
+        .split("_")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("");
+
+      // For now, assume displayField is "name" (could be enhanced to detect this)
+      schema += `  ${fieldName}: ${zodType}.check(\n`;
+      schema += `    fieldConfigFactory<"relation">()({\n`;
+      schema += `      fieldType: "relation",\n`;
+      schema += `      customData: {\n`;
+      schema += `        collectionName: Collections.${collectionEnum},\n`;
+      schema += `        displayField: "id",\n`;
+      schema += `      },\n`;
+      schema += `    })\n`;
+      schema += `  ),\n`;
+    } else {
+      schema += `  ${fieldName}: ${zodType},\n`;
+    }
   }
 
   schema += `});\n\n`;
@@ -359,16 +415,22 @@ async function main() {
           collectionName
         )) as PocketBaseCollection;
         userCollections.push(fullCollection);
-      } catch (error) {
+      } catch {
         console.warn(`⚠️  Failed to fetch details for ${collectionName}`);
       }
     }
 
     console.log(`✅ Fetched ${userCollections.length} collection details`);
 
+    // Build a map of collectionId to collectionName for relation fields
+    const collectionIdMap = new Map<string, string>();
+    for (const col of collectionList) {
+      collectionIdMap.set(col.id, col.name);
+    }
+
     console.log("🔍 Converting collections to record types...");
     const recordTypes: RecordTypeInfo[] = userCollections.map((col) => {
-      const record = convertCollectionToRecordType(col);
+      const record = convertCollectionToRecordType(col, collectionIdMap);
       return record;
     });
 
@@ -426,17 +488,8 @@ async function main() {
         const filePath = path.join(schemaDir, `${fileName}.ts`);
 
         const schemaContent = generateZodSchema(record);
-        const content = `/**
- * Auto-generated Zod schema for ${record.name}
- * Generated by: scripts/generate-zod-schemas.ts
- * DO NOT EDIT MANUALLY
- */
 
-import { z } from "zod";
-
-${schemaContent}`;
-
-        fs.writeFileSync(filePath, content);
+        fs.writeFileSync(filePath, schemaContent);
         console.log(`  ✅ Generated ${schemaPrefix}/${fileName}.ts`);
         totalFilesGenerated++;
       }

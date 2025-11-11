@@ -1,13 +1,13 @@
 import {
   AutoFormUIComponents,
   AutoForm as BaseAutoForm,
-  FieldConfig as FieldConfigBase,
 } from "@autoform/react";
 import { fieldConfig as baseFieldConfig } from "@autoform/zod";
 import React from "react";
 import { Form } from "./components/Form";
 import { BooleanField } from "./components/fields/BooleanField";
 import { DateField } from "./components/fields/DateField";
+import FileField from "./components/fields/FileField";
 import { NumberField } from "./components/fields/NumberField";
 import {
   default as RelationField,
@@ -15,6 +15,7 @@ import {
 } from "./components/fields/RelationField";
 import { SelectField } from "./components/fields/SelectField";
 import { StringField } from "./components/fields/StringField";
+import { FileFieldProps } from "./components/fields/types";
 import { ArrayElementWrapper } from "./components/helpers/ArrayElementWrapper";
 import { ArrayWrapper } from "./components/helpers/ArrayWrapper";
 import { ErrorMessage } from "./components/helpers/ErrorMessage";
@@ -40,6 +41,7 @@ export const ShadcnAutoFormFieldComponents = {
   date: DateField,
   select: SelectField,
   relation: RelationField,
+  file: FileField,
 } as const;
 
 export type FieldTypes = keyof typeof ShadcnAutoFormFieldComponents;
@@ -51,6 +53,7 @@ export type CustomData<Type extends FieldTypes = FieldTypes> = {
   date: Record<string, unknown>;
   select: { options: Array<{ label: string; value: string }> };
   relation: RelationFieldProps;
+  file: FileFieldProps;
 }[Type];
 
 export const fieldConfigFactory = <Type extends FieldTypes = "string">() =>

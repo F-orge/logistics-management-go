@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const InventoryBatchesSchema = z.object({
   id: z.string(),
-  product: z.string(),
+  product: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
   batchNumber: z.string(),
   expirationDate: z.iso.date().optional(),
   created: z.iso.datetime().optional(),

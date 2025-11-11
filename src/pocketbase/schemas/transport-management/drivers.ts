@@ -5,14 +5,32 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const DriversSchema = z.object({
   id: z.string(),
-  user: z.string().optional(),
+  user: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
   licenseNumber: z.string(),
   licenseExpiryDate: z.iso.date().optional(),
   status: z.enum(["active", "inactive", "on-leave"]),
-  schedules: z.array(z.string()).optional(),
+  schedules: z.array(z.string()).optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementDriverSchedules,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

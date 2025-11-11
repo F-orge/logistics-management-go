@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const RoutesSchema = z.object({
   id: z.string(),
-  driver: z.string().optional(),
+  driver: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementDrivers,
+        displayField: "id",
+      },
+    })
+  ),
   routeDate: z.iso.date().optional(),
   status: z.enum(["planned", "in-progress", "completed", "cancelled", "paused"]).optional(),
   totalDistance: z.number().optional(),

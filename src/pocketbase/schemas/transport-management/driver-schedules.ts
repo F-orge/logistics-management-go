@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const DriverSchedulesSchema = z.object({
   id: z.string(),
-  driver: z.string(),
+  driver: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementDrivers,
+        displayField: "id",
+      },
+    })
+  ),
   startDate: z.iso.date(),
   endDate: z.iso.date(),
   reason: z.enum(["vacation", "sick-leave", "training", "personal-leave"]).optional(),

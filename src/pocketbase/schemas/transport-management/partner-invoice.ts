@@ -5,15 +5,33 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const PartnerInvoiceSchema = z.object({
   id: z.string(),
-  carrier: z.string(),
+  carrier: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementCarriers,
+        displayField: "id",
+      },
+    })
+  ),
   invoiceNumber: z.string(),
   invoiceDate: z.iso.date(),
   totalAmount: z.number(),
   status: z.enum(["pending", "paid", "disputed", "overdue", "cancelled"]).optional(),
-  items: z.string().optional(),
+  items: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementPartnerInvoiceItems,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

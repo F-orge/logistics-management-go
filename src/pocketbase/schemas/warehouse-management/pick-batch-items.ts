@@ -5,11 +5,29 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const PickBatchItemsSchema = z.object({
   id: z.string(),
-  pickBatch: z.string(),
-  salesOrder: z.string(),
+  pickBatch: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementPickBatches,
+        displayField: "id",
+      },
+    })
+  ),
+  salesOrder: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementSalesOrders,
+        displayField: "id",
+      },
+    })
+  ),
   orderPriority: z.number().optional(),
   estimatedPickTime: z.iso.date().optional(),
   actualPickTime: z.number().optional(),

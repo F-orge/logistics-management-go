@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const RateCardsSchema = z.object({
   id: z.string(),
@@ -14,7 +16,15 @@ export const RateCardsSchema = z.object({
   validFrom: z.iso.date().optional(),
   validTo: z.iso.date().optional(),
   description: z.unknown().optional(),
-  createdBy: z.string().optional(),
+  createdBy: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

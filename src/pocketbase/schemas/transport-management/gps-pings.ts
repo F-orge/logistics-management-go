@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const GpsPingsSchema = z.object({
   id: z.string(),
-  vehicle: z.string(),
+  vehicle: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementVehicles,
+        displayField: "id",
+      },
+    })
+  ),
   coordinates: z.unknown(),
   timestamp: z.iso.datetime().optional(),
 });

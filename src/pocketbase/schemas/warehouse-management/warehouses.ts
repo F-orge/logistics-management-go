@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const WarehousesSchema = z.object({
   id: z.string(),
@@ -19,7 +21,7 @@ export const WarehousesSchema = z.object({
   contactEmail: z.email().optional(),
   contactPhone: z.string().optional(),
   isActive: z.unknown().optional(),
-  images: z.array(z.string()).optional(),
+  images: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   location: z.unknown().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

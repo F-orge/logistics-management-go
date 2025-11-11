@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const QuotesSchema = z.object({
   id: z.string(),
-  client: z.string().optional(),
+  client: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsCompanies,
+        displayField: "id",
+      },
+    })
+  ),
   originDetails: z.unknown().optional(),
   destinationDetails: z.unknown().optional(),
   weight: z.number().optional(),
@@ -21,8 +31,16 @@ export const QuotesSchema = z.object({
   status: z.enum(["pending", "accepted", "expired", "cancelled", "converted"]).optional(),
   quoteNumber: z.string().optional(),
   notes: z.unknown().optional(),
-  createdBy: z.string().optional(),
-  attachments: z.array(z.string()).optional(),
+  createdBy: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

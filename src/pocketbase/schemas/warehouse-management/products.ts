@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ProductsSchema = z.object({
   id: z.string(),
@@ -18,9 +20,25 @@ export const ProductsSchema = z.object({
   height: z.number().optional(),
   weight: z.number().optional(),
   status: z.enum(["active", "discontinued", "obsolete", "inactive"]).optional(),
-  supplier: z.string().optional(),
-  client: z.string().optional(),
-  images: z.array(z.string()).optional(),
+  supplier: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementSuppliers,
+        displayField: "id",
+      },
+    })
+  ),
+  client: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementSuppliers,
+        displayField: "id",
+      },
+    })
+  ),
+  images: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const NotificationsSchema = z.object({
   id: z.string(),
-  user: z.string(),
+  user: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
   message: z.unknown(),
   isRead: z.unknown().optional(),
   link: z.url().optional(),

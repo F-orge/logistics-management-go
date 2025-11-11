@@ -5,11 +5,29 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const TasksSchema = z.object({
   id: z.string(),
-  package: z.string(),
-  route: z.string(),
+  package: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementPackages,
+        displayField: "id",
+      },
+    })
+  ),
+  route: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.DeliveryManagementRoutes,
+        displayField: "id",
+      },
+    })
+  ),
   sequence: z.number(),
   deliveryAddress: z.string(),
   recipientName: z.string().optional(),
@@ -20,7 +38,7 @@ export const TasksSchema = z.object({
   deliveryTime: z.iso.date().optional(),
   status: z.enum(["pending", "assigned", "out-for-delivery", "delivered", "failed", "cancelled", "rescheduled"]),
   attempCount: z.number().optional(),
-  attachments: z.array(z.string()).optional(),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   failureReason: z.enum(["reecipient-not-home", "address-not-found", "refused-delivery", "damaged-package", "access-denied", "weather-conditions", "vehicle-breakdown", "other"]).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

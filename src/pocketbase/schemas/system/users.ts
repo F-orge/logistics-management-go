@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const UsersSchema = z.object({
   id: z.string(),
@@ -14,7 +16,7 @@ export const UsersSchema = z.object({
   emailVisibility: z.unknown().optional(),
   verified: z.unknown().optional(),
   name: z.string().optional(),
-  avatar: z.string().optional(),
+  avatar: z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })).optional(),
   roles: z.array(z.enum(["admin", "developer", "user", "client", "client-admin", "end-customer", "inventory-manager", "warehouse-manager", "receiving-manager", "warehouse-operator", "picker", "packer", "returns-processor", "qc-manager", "logistics-coordinator", "logistics-manager", "logistics-planner", "dispatcher", "driver", "fleet-manager", "transport-manager", "account-manager", "pricing-analyst", "finance-manager", "accountant", "sdr", "sales-rep", "sales-manager", "marketing-manager", "customer-support-agent", "product-manager", "carrier"])).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

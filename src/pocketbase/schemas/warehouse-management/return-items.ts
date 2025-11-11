@@ -5,11 +5,29 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ReturnItemsSchema = z.object({
   id: z.string(),
-  return: z.string(),
-  product: z.string(),
+  return: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementReturns,
+        displayField: "id",
+      },
+    })
+  ),
+  product: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
   quantityExpected: z.number().optional(),
   quantityRecevied: z.number().optional(),
   condition: z.enum(["sellable", "damaged", "defective", "expired", "unsellable"]).optional(),

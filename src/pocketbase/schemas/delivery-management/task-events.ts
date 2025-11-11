@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const TaskEventsSchema = z.object({
   id: z.string(),
-  task: z.string(),
+  task: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.DeliveryManagementTasks,
+        displayField: "id",
+      },
+    })
+  ),
   status: z.enum(["assigned", "started", "arrived", "delivered", "failed", "exception", "cancelled", "rescheduled"]),
   reason: z.unknown().optional(),
   notes: z.unknown().optional(),

@@ -5,13 +5,15 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const CarriersSchema = z.object({
   id: z.string(),
   name: z.string(),
   contactDetails: z.unknown().optional(),
   serviceOffered: z.unknown().optional(),
-  image: z.string().optional(),
+  image: z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

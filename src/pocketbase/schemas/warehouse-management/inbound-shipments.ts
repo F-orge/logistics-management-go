@@ -5,14 +5,32 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const InboundShipmentsSchema = z.object({
   id: z.string(),
-  client: z.string(),
+  client: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsCompanies,
+        displayField: "id",
+      },
+    })
+  ),
   status: z.enum(["pending", "arrived", "processing", "completed", "cancelled"]).optional(),
   expectedArrivalDate: z.iso.date().optional(),
   actualArrivalDate: z.iso.date().optional(),
-  warehouse: z.string(),
+  warehouse: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

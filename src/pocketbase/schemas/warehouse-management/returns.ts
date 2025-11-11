@@ -5,12 +5,30 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ReturnsSchema = z.object({
   id: z.string(),
   returnNumber: z.string(),
-  salesOrder: z.string().optional(),
-  client: z.string().optional(),
+  salesOrder: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementSalesOrders,
+        displayField: "id",
+      },
+    })
+  ),
+  client: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsCompanies,
+        displayField: "id",
+      },
+    })
+  ),
   status: z.enum(["requested", "approved", "rejeceted", "received", "processed"]),
   reason: z.unknown().optional(),
   created: z.iso.datetime().optional(),

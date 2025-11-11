@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const PaymentsSchema = z.object({
   id: z.string(),
-  invoice: z.string().optional(),
+  invoice: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.BillingManagementInvoices,
+        displayField: "id",
+      },
+    })
+  ),
   amount: z.number().optional(),
   paymentMethod: z.enum(["credit-card", "debit-card", "wallet", "qr-ph", "client-credit", "bank-transfer", "cash", "check"]).optional(),
   transactionId: z.string().optional(),
@@ -20,8 +30,16 @@ export const PaymentsSchema = z.object({
   fees: z.number().optional(),
   netAmount: z.number().optional(),
   notes: z.unknown().optional(),
-  processedBy: z.string().optional(),
-  attachments: z.array(z.string()).optional(),
+  processedBy: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

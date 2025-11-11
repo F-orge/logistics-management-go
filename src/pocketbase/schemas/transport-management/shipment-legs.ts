@@ -5,16 +5,42 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ShipmentLegsSchema = z.object({
   id: z.string(),
   legSequence: z.number(),
   startLocation: z.unknown(),
   endLocation: z.unknown(),
-  carrier: z.string().optional(),
-  interalTrip: z.string().optional(),
+  carrier: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementCarriers,
+        displayField: "id",
+      },
+    })
+  ),
+  interalTrip: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementTrips,
+        displayField: "id",
+      },
+    })
+  ),
   status: z.enum(["pending", "in-transit", "delivered", "cancelled", "failed"]),
-  shipment: z.string().optional(),
+  shipment: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementOutboundShipments,
+        displayField: "id",
+      },
+    })
+  ),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const CampaignsSchema = z.object({
   id: z.string(),
@@ -12,7 +14,7 @@ export const CampaignsSchema = z.object({
   budget: z.number(),
   startDate: z.iso.date().optional(),
   endDate: z.iso.date().optional(),
-  attachments: z.array(z.string()).optional(),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const ProductsSchema = z.object({
   id: z.string(),
@@ -13,7 +15,7 @@ export const ProductsSchema = z.object({
   price: z.number(),
   type: z.enum(["service", "good", "digital", "subscription"]),
   description: z.unknown().optional(),
-  attachments: z.array(z.string()).optional(),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

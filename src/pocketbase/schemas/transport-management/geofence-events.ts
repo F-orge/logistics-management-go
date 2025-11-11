@@ -5,11 +5,29 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const GeofenceEventsSchema = z.object({
   id: z.string(),
-  vehicle: z.string(),
-  geofence: z.string(),
+  vehicle: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementVehicles,
+        displayField: "id",
+      },
+    })
+  ),
+  geofence: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementGeofence,
+        displayField: "id",
+      },
+    })
+  ),
   type: z.enum(["enter", "exit"]),
   timestamp: z.iso.datetime().optional(),
 });

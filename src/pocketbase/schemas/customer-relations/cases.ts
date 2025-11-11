@@ -5,6 +5,8 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const CasesSchema = z.object({
   id: z.string(),
@@ -12,8 +14,24 @@ export const CasesSchema = z.object({
   status: z.enum(["new", "in-progress", "waiting-for-customer", "waiting-for-internal", "escalated", "resolved", "closed", "cancelled"]),
   priority: z.enum(["critical", "high", "medium", "low"]),
   type: z.enum(["question", "problem", "complaint", "feature-request", "bug-report", "technical-support"]),
-  owner: z.string(),
-  contact: z.string().optional(),
+  owner: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
+  contact: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsContacts,
+        displayField: "id",
+      },
+    })
+  ),
   description: z.unknown().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

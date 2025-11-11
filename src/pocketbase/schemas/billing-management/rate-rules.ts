@@ -5,10 +5,20 @@
  */
 
 import { z } from "zod";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import { Collections } from "@/lib/pb.types";
 
 export const RateRulesSchema = z.object({
   id: z.string(),
-  rateCard: z.string().optional(),
+  rateCard: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.BillingManagementRateCards,
+        displayField: "id",
+      },
+    })
+  ),
   condition: z.string(),
   value: z.string(),
   price: z.number(),
