@@ -5,28 +5,135 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const RateCardsSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  type: z.enum(["shipping", "storage", "fulfillment", "handling", "insurance", "customs", "packaging", "returns"]),
-  isActive: z.unknown().optional(),
-  validFrom: z.iso.date().optional(),
-  validTo: z.iso.date().optional(),
-  description: z.unknown().optional(),
-  createdBy: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
+export const RateCardsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Rate Card ID",
+      description: "Unique identifier for the rate card",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "name",
+      type: "field",
+      inputType: "text",
+      label: "Name",
+      description: "Rate card name",
+      props: {
+        placeholder: "e.g., Standard Shipping Rates",
+      },
+    }),
+    type: z
+      .enum([
+        "shipping",
+        "storage",
+        "fulfillment",
+        "handling",
+        "insurance",
+        "customs",
+        "packaging",
+        "returns",
+      ])
+      .register(fieldRegistry, {
+        id: "type",
+        type: "field",
+        inputType: "select",
+        label: "Type",
+        description: "Rate card type",
+        props: {
+          options: [
+            { label: "Shipping", value: "shipping" },
+            { label: "Storage", value: "storage" },
+            { label: "Fulfillment", value: "fulfillment" },
+            { label: "Handling", value: "handling" },
+            { label: "Insurance", value: "insurance" },
+            { label: "Customs", value: "customs" },
+            { label: "Packaging", value: "packaging" },
+            { label: "Returns", value: "returns" },
+          ],
+        },
+      }),
+    isActive: z.boolean().optional().register(fieldRegistry, {
+      id: "isActive",
+      type: "field",
+      inputType: "bool",
+      label: "Active",
+      description: "Whether this rate card is active",
+    }),
+    validFrom: z.iso.date().optional().register(fieldRegistry, {
+      id: "validFrom",
+      type: "field",
+      inputType: "date",
+      label: "Valid From",
+      description: "Start date for rate validity",
+    }),
+    validTo: z.iso.date().optional().register(fieldRegistry, {
+      id: "validTo",
+      type: "field",
+      inputType: "date",
+      label: "Valid To",
+      description: "End date for rate validity",
+    }),
+    description: z.string().optional().register(fieldRegistry, {
+      id: "description",
+      type: "field",
+      inputType: "textarea",
+      label: "Description",
+      description: "Rate card description",
+    }),
+    createdBy: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "createdBy",
+        inputType: "relation",
+        label: "Created By",
+        description: "User who created the rate card",
+        props: {
+          collectionName: Collections.Users,
+          relationshipName: "createdBy",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type RateCards = z.infer<typeof RateCardsSchema>;

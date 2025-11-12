@@ -5,44 +5,238 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const QuotesSchema = z.object({
-  id: z.string(),
-  client: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
+export const QuotesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Quote ID",
+      description: "Unique identifier for the quote",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  originDetails: z.unknown().optional(),
-  destinationDetails: z.unknown().optional(),
-  weight: z.number().optional(),
-  length: z.number().optional(),
-  width: z.number().optional(),
-  height: z.number().optional(),
-  quotePrice: z.number().optional(),
-  serviceLevel: z.string().optional(),
-  expiredAt: z.iso.date().optional(),
-  status: z.enum(["pending", "accepted", "expired", "cancelled", "converted"]).optional(),
-  quoteNumber: z.string().optional(),
-  notes: z.unknown().optional(),
-  createdBy: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    client: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "client",
+        inputType: "relation",
+        label: "Client",
+        description: "Client requesting the quote",
+        props: {
+          collectionName: Collections.CustomerRelationsCompanies,
+          relationshipName: "client",
+          displayField: "companyName",
+        } as RelationFieldProps<any>,
+      }),
+    originDetails: z.string().optional().register(fieldRegistry, {
+      id: "originDetails",
+      type: "field",
+      inputType: "textarea",
+      label: "Origin Details",
+      description: "Pickup location details",
+    }),
+    destinationDetails: z.string().optional().register(fieldRegistry, {
+      id: "destinationDetails",
+      type: "field",
+      inputType: "textarea",
+      label: "Destination Details",
+      description: "Delivery location details",
+    }),
+    weight: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "weight",
+        type: "field",
+        inputType: "number",
+        label: "Weight (kg)",
+        description: "Total shipment weight",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    length: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "length",
+        type: "field",
+        inputType: "number",
+        label: "Length (cm)",
+        description: "Shipment length",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    width: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "width",
+        type: "field",
+        inputType: "number",
+        label: "Width (cm)",
+        description: "Shipment width",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    height: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "height",
+        type: "field",
+        inputType: "number",
+        label: "Height (cm)",
+        description: "Shipment height",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    quotePrice: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "quotePrice",
+        type: "field",
+        inputType: "number",
+        label: "Quote Price",
+        description: "Quoted price",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    serviceLevel: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "serviceLevel",
+        type: "field",
+        inputType: "text",
+        label: "Service Level",
+        description: "Type of service (e.g., Standard, Express)",
+        props: {
+          placeholder: "Standard",
+        },
+      }),
+    expiredAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "expiredAt",
+      type: "field",
+      inputType: "date",
+      label: "Expiration Date",
+      description: "Date when quote expires",
+    }),
+    status: z
+      .enum(["pending", "accepted", "expired", "cancelled", "converted"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current quote status",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "Accepted", value: "accepted" },
+            { label: "Expired", value: "expired" },
+            { label: "Cancelled", value: "cancelled" },
+            { label: "Converted", value: "converted" },
+          ],
+        },
+      }),
+    quoteNumber: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "quoteNumber",
+        type: "field",
+        inputType: "text",
+        label: "Quote Number",
+        description: "Unique quote number",
+        props: {
+          placeholder: "QT-001",
+        },
+      }),
+    notes: z.string().optional().register(fieldRegistry, {
+      id: "notes",
+      type: "field",
+      inputType: "textarea",
+      label: "Notes",
+      description: "Additional notes",
+    }),
+    createdBy: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "createdBy",
+        inputType: "relation",
+        label: "Created By",
+        description: "User who created the quote",
+        props: {
+          collectionName: Collections.Users,
+          relationshipName: "createdBy",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    attachments: z
+      .array(z.string())
+      .optional()
+      .register(fieldRegistry, {
+        id: "attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Supporting documents",
+        props: {
+          multiple: true,
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Quotes = z.infer<typeof QuotesSchema>;

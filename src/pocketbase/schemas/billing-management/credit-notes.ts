@@ -5,38 +5,149 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const CreditNotesSchema = z.object({
-  id: z.string(),
-  invoice: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+export const CreditNotesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Credit Note ID",
+      description: "Unique identifier for the credit note",
+      props: {
+        disabled: true,
+      },
+    }),
+    invoice: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "invoice",
+      inputType: "relation",
+      label: "Invoice",
+      description: "Related invoice for this credit note",
+      props: {
         collectionName: Collections.BillingManagementInvoices,
-        displayField: "id",
-      },
-    })
-  ),
-  dispute: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+        relationshipName: "invoice",
+        displayField: "invoiceNumber",
+      } as RelationFieldProps<any>,
+    }),
+    dispute: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "dispute",
+      inputType: "relation",
+      label: "Dispute",
+      description: "Related dispute for this credit note",
+      props: {
         collectionName: Collections.BillingManagementDisputes,
-        displayField: "id",
+        relationshipName: "dispute",
+        displayField: "disputeNumber",
+      } as RelationFieldProps<any>,
+    }),
+    creditNoteNumber: z.string().register(fieldRegistry, {
+      id: "creditNoteNumber",
+      type: "field",
+      inputType: "text",
+      label: "Credit Note Number",
+      description: "Unique credit note number",
+      props: {
+        placeholder: "CN-001",
       },
-    })
-  ),
-  creditNoteNumber: z.string(),
-  amount: z.number().optional(),
-  reason: z.unknown(),
-  issueDate: z.iso.date(),
-  appliedAt: z.iso.date().optional(),
-  currency: z.string(),
-  notes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    amount: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "amount",
+        type: "field",
+        inputType: "number",
+        label: "Amount",
+        description: "Credit note amount",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    reason: z
+      .enum(["return", "discount", "correction", "goodwill", "other"])
+      .register(fieldRegistry, {
+        id: "reason",
+        type: "field",
+        inputType: "select",
+        label: "Reason",
+        description: "Reason for credit note issuance",
+        props: {
+          options: [
+            { label: "Return", value: "return" },
+            { label: "Discount", value: "discount" },
+            { label: "Correction", value: "correction" },
+            { label: "Goodwill", value: "goodwill" },
+            { label: "Other", value: "other" },
+          ],
+        },
+      }),
+    issueDate: z.iso.date().register(fieldRegistry, {
+      id: "issueDate",
+      type: "field",
+      inputType: "date",
+      label: "Issue Date",
+      description: "Date when credit note was issued",
+    }),
+    appliedAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "appliedAt",
+      type: "field",
+      inputType: "date",
+      label: "Applied Date",
+      description: "Date when credit note was applied",
+    }),
+    currency: z.string().register(fieldRegistry, {
+      id: "currency",
+      type: "field",
+      inputType: "text",
+      label: "Currency",
+      description: "Currency code (e.g., USD, EUR)",
+      props: {
+        placeholder: "USD",
+      },
+    }),
+    notes: z.string().optional().register(fieldRegistry, {
+      id: "notes",
+      type: "field",
+      inputType: "textarea",
+      label: "Notes",
+      description: "Additional notes",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type CreditNotes = z.infer<typeof CreditNotesSchema>;
