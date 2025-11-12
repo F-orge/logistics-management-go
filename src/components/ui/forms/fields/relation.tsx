@@ -1,11 +1,10 @@
-import type { RecordListOptions } from "pocketbase";
+import { useRouteContext } from "@tanstack/react-router";
+import { ClientResponseError, type RecordListOptions } from "pocketbase";
 import type React from "react";
 import { useCallback } from "react";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import { Collections } from "@/lib/pb.types";
 import { AsyncSelect } from "../../async-select";
-import { Field, FieldDescription, FieldError } from "../../field";
 import { useFieldContext } from "..";
-import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export interface RelationItem {
   id: string;
@@ -13,16 +12,11 @@ export interface RelationItem {
 }
 
 export type RelationFieldProps<Records extends RelationItem> = {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
-  tooltip?: React.ReactNode;
-  tooltipSide?: "top" | "right" | "bottom" | "left";
   relationshipName: string;
   collectionName: Collections;
   displayField?: string;
   preload?: boolean;
   placeholder?: string;
-  pocketbase: TypedPocketBase;
   renderOption?: (item: Records) => React.ReactNode;
   recordListOption?: RecordListOptions;
   required?: boolean;
@@ -40,18 +34,20 @@ const RelationField = <Records extends RelationItem>(
     placeholder = "Search...",
   } = props;
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+  const { pocketbase } = useRouteContext({
+    from: "/dashboard/$schema/$collection",
+  });
 
   // Fetcher function to query related records
   const fetcher = useCallback(
     async (query?: string): Promise<Records[]> => {
       try {
         let filter = "";
-        if (query) {
+        if (query && displayField) {
           filter = `${displayField} ~ "${query}"`;
         }
 
-        const records = await props.pocketbase
+        const records = await pocketbase
           .collection(collectionName)
           .getList(1, 50, {
             ...{
@@ -62,48 +58,41 @@ const RelationField = <Records extends RelationItem>(
           });
         return records.items as unknown as Records[];
       } catch (error) {
-        console.error("Failed to fetch relation records:", error);
+        if (error instanceof ClientResponseError) {
+          if (!error.message.includes("The request was autocancelled.")) {
+            console.error("PocketBase ClientResponseError:", error.message);
+          }
+        }
         return [];
       }
     },
-    [props.pocketbase, collectionName, displayField, props.recordListOption]
+    [pocketbase, collectionName, displayField, props.recordListOption]
   );
 
   return (
-    <Field data-invalid={isInvalid}>
-      <TooltipFieldLabel
-        htmlFor={field.name}
-        tooltip={props.tooltip}
-        tooltipSide={props.tooltipSide}
-      >
-        {props.label}
-      </TooltipFieldLabel>
-      <AsyncSelect<Records>
-        fetcher={fetcher}
-        preload={preload}
-        renderOption={(item) =>
-          props.renderOption
-            ? props.renderOption(item)
-            : String(item[displayField])
-        }
-        getOptionValue={(item) => item.id}
-        getDisplayValue={(item) =>
-          props.renderOption
-            ? props.renderOption(item)
-            : String(item[displayField])
-        }
-        label={String(props.label || relationshipName)}
-        placeholder={placeholder}
-        value={field.state.value ?? ""}
-        onChange={field.handleChange}
-        notFound={
-          <div className="py-6 text-center text-sm">No records found</div>
-        }
-        clearable={true}
-      />
-      <FieldDescription>{props.description}</FieldDescription>
-      {isInvalid && <FieldError errors={field.state.meta.errors} />}
-    </Field>
+    <AsyncSelect<Records>
+      fetcher={fetcher}
+      preload={preload}
+      renderOption={(item) =>
+        props.renderOption
+          ? props.renderOption(item)
+          : String(item[displayField])
+      }
+      getOptionValue={(item) => item.id}
+      getDisplayValue={(item) =>
+        props.renderOption
+          ? props.renderOption(item)
+          : String(item[displayField])
+      }
+      label={relationshipName}
+      placeholder={placeholder}
+      value={field.state.value ?? ""}
+      onChange={field.handleChange}
+      notFound={
+        <div className="py-6 text-center text-sm">No records found</div>
+      }
+      clearable={true}
+    />
   );
 };
 

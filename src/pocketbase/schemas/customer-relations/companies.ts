@@ -5,18 +5,25 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import {
   fieldRegistry,
   fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
-import { pocketbase } from "@/pocketbase";
 
 export const CompaniesSchema = z
   .object({
-    id: z.string(),
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Company ID",
+      description: "Unique identifier for the company",
+      props: {
+        disabled: true,
+      },
+    }),
     name: z
       .string()
       .nonempty()
@@ -27,18 +34,128 @@ export const CompaniesSchema = z
         label: "Company Name",
         description: "Name of the company",
         props: {
-          placeholder: "Company",
+          placeholder: "Enter company name",
         },
       }),
-    street: z.string().optional(),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    postalCode: z.string().optional(),
-    country: z.string().optional(),
-    phoneNumber: z.string().optional(),
-    industry: z.string().optional(),
-    website: z.url().optional(),
-    annualRevenue: z.number().optional(),
+    street: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "street",
+        type: "field",
+        inputType: "text",
+        label: "Street Address",
+        description: "Street address",
+        props: {
+          placeholder: "Street address",
+        },
+      }),
+    city: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "city",
+        type: "field",
+        inputType: "text",
+        label: "City",
+        description: "City location",
+        props: {
+          placeholder: "City",
+        },
+      }),
+    state: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "state",
+        type: "field",
+        inputType: "text",
+        label: "State/Province",
+        description: "State or province",
+        props: {
+          placeholder: "State or Province",
+        },
+      }),
+    postalCode: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "postalCode",
+        type: "field",
+        inputType: "text",
+        label: "Postal Code",
+        description: "Postal or ZIP code",
+        props: {
+          placeholder: "Postal code",
+        },
+      }),
+    country: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "country",
+        type: "field",
+        inputType: "text",
+        label: "Country",
+        description: "Country of operation",
+        props: {
+          placeholder: "Country",
+        },
+      }),
+    phoneNumber: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "phoneNumber",
+        type: "field",
+        inputType: "text",
+        label: "Phone Number",
+        description: "Company contact number",
+        props: {
+          placeholder: "+1 (555) 123-4567",
+        },
+      }),
+    industry: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "industry",
+        type: "field",
+        inputType: "text",
+        label: "Industry",
+        description: "Sector or industry type",
+        props: {
+          placeholder: "e.g., Technology, Finance",
+        },
+      }),
+    website: z
+      .string()
+      .url()
+      .optional()
+      .register(fieldRegistry, {
+        id: "website",
+        type: "field",
+        inputType: "url",
+        label: "Website",
+        description: "Company website URL",
+        props: {
+          placeholder: "https://example.com",
+        },
+      }),
+    annualRevenue: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "annualRevenue",
+        type: "field",
+        inputType: "number",
+        label: "Annual Revenue",
+        description: "Yearly revenue figure",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
     owner: z
       .string()
       .optional()
@@ -46,16 +163,56 @@ export const CompaniesSchema = z
         type: "field",
         id: "owner",
         inputType: "relation",
+        label: "Owner",
+        description: "User who owns the company record",
         props: {
-          pocketbase: pocketbase,
           collectionName: Collections.Users,
           relationshipName: "owner",
           displayField: "name",
         } as RelationFieldProps<any>,
       }),
-    attachments: z.file().array(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
+    attachments: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Company documents and files",
+        isArray: true,
+        props: {
+          multiple: true,
+          accept: "*/*",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the company was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the company was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
   })
   .register(fieldSetRegistry, { separator: true });
 

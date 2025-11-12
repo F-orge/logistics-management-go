@@ -5,40 +5,203 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InvoicesSchema = z.object({
-  id: z.string(),
-  invoiceNumber: z.string(),
-  opportunity: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsOpportunities,
-        displayField: "id",
+export const InvoicesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Invoice ID",
+      description: "Unique identifier for the invoice",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
-  total: z.number().optional(),
-  issueDate: z.iso.date().optional(),
-  dueDate: z.iso.date().optional(),
-  sentAt: z.iso.date().optional(),
-  paidAt: z.iso.date().optional(),
-  paymentMethod: z.enum(["credit-card", "bank-transfer", "cash", "check", "paypal", "stripe", "wire-transfer", "other", "maya", "gcash"]).optional(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  items: z.array(z.string()).optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsInvoiceItems,
-        displayField: "id",
+    }),
+    invoiceNumber: z.string().register(fieldRegistry, {
+      id: "invoiceNumber",
+      type: "field",
+      inputType: "text",
+      label: "Invoice Number",
+      description: "Invoice reference number",
+      props: {
+        placeholder: "INV-001",
       },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    opportunity: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "opportunity",
+        inputType: "relation",
+        label: "Opportunity",
+        description: "Sales opportunity associated with this invoice",
+        props: {
+          collectionName: Collections.CustomerRelationsOpportunities,
+          relationshipName: "opportunity",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    status: z
+      .enum(["draft", "sent", "paid", "overdue", "cancelled"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Invoice status",
+        props: {
+          options: [
+            { label: "Draft", value: "draft" },
+            { label: "Sent", value: "sent" },
+            { label: "Paid", value: "paid" },
+            { label: "Overdue", value: "overdue" },
+            { label: "Cancelled", value: "cancelled" },
+          ],
+        },
+      }),
+    total: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "total",
+        type: "field",
+        inputType: "number",
+        label: "Total",
+        description: "Total invoice amount",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    issueDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "issueDate",
+      type: "field",
+      inputType: "date",
+      label: "Issue Date",
+      description: "Date the invoice was issued",
+    }),
+    dueDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "dueDate",
+      type: "field",
+      inputType: "date",
+      label: "Due Date",
+      description: "Payment due date",
+    }),
+    sentAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "sentAt",
+      type: "field",
+      inputType: "date",
+      label: "Sent At",
+      description: "Date the invoice was sent",
+    }),
+    paidAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "paidAt",
+      type: "field",
+      inputType: "date",
+      label: "Paid At",
+      description: "Date the invoice was paid",
+    }),
+    paymentMethod: z
+      .enum([
+        "credit-card",
+        "bank-transfer",
+        "cash",
+        "check",
+        "paypal",
+        "stripe",
+        "wire-transfer",
+        "other",
+        "maya",
+        "gcash",
+      ])
+      .optional()
+      .register(fieldRegistry, {
+        id: "paymentMethod",
+        type: "field",
+        inputType: "select",
+        label: "Payment Method",
+        description: "Payment method used",
+        props: {
+          options: [
+            { label: "Credit Card", value: "credit-card" },
+            { label: "Bank Transfer", value: "bank-transfer" },
+            { label: "Cash", value: "cash" },
+            { label: "Check", value: "check" },
+            { label: "PayPal", value: "paypal" },
+            { label: "Stripe", value: "stripe" },
+            { label: "Wire Transfer", value: "wire-transfer" },
+            { label: "Other", value: "other" },
+            { label: "Maya", value: "maya" },
+            { label: "GCash", value: "gcash" },
+          ],
+        },
+      }),
+    attachments: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Invoice documents and files",
+        props: {
+          multiple: true,
+          accept: "*/*",
+        },
+      }),
+    items: z
+      .array(z.string())
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "items",
+        inputType: "relation",
+        label: "Items",
+        description: "Line items included in this invoice",
+        props: {
+          collectionName: Collections.CustomerRelationsInvoiceItems,
+          relationshipName: "items",
+          displayField: "description",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the invoice was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the invoice was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

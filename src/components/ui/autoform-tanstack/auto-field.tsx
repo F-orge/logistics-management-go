@@ -351,6 +351,7 @@ const AutoField = withForm({
                       className="gap-2 justify-end"
                     >
                       <Button
+                        type="button"
                         variant="destructive"
                         size="icon-sm"
                         onClick={() => field.removeValue(index)}
@@ -364,7 +365,7 @@ const AutoField = withForm({
             }
 
             if (fieldConfig.type === "field") {
-              values.forEach((itemValue, index) => {
+              values.forEach((_, index) => {
                 const fieldName = `${fieldConfig.name}[${index}]`;
 
                 let component: React.ReactNode;
@@ -383,6 +384,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as TextFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -412,6 +414,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as EmailFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -441,6 +444,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as URLFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -470,6 +474,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as NumberFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -499,6 +504,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as DateTimeFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -528,6 +534,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as SelectFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -557,6 +564,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as BoolFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -586,6 +594,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as CheckboxGroupFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -615,6 +624,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as RadioGroupFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -644,6 +654,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as TextareaFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -673,6 +684,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as FileFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -702,6 +714,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as JSONFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -731,6 +744,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as GeoPointFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -760,6 +774,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as RichEditorFieldProps)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -789,6 +804,7 @@ const AutoField = withForm({
                                 {...(fieldConfig.props as RelationFieldProps<any>)}
                               />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -816,6 +832,7 @@ const AutoField = withForm({
                             <div className="flex flex-row items-center gap-2.5">
                               <f.TextField />
                               <Button
+                                type="button"
                                 variant="destructive"
                                 size="icon-sm"
                                 onClick={() => field.removeValue(index)}
@@ -847,6 +864,7 @@ const AutoField = withForm({
                 <FieldLabel>{fieldConfig.label}</FieldLabel>
                 <ItemGroup>{components}</ItemGroup>
                 <Button
+                  type="button"
                   className="mb-4"
                   onClick={() => {
                     field.pushValue(

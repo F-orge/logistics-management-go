@@ -14,13 +14,8 @@ import {
   TextAddon,
   ValidationAddon,
 } from "../utils/input-group-patterns";
-import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type TextFieldProps = {
-  label?: React.ReactNode;
-  description?: React.ReactNode;
-  tooltip?: React.ReactNode;
-  tooltipSide?: "top" | "right" | "bottom" | "left";
   // InputGroup addon support
   textAddonStart?: string;
   textAddonEnd?: string;
@@ -59,10 +54,6 @@ const TextField = (props: TextFieldProps) => {
   const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   const {
-    label,
-    description,
-    tooltip,
-    tooltipSide,
     textAddonStart,
     textAddonEnd,
     iconAddonStart,
