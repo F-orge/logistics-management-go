@@ -152,13 +152,10 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
     case "select": {
       // For select fields, we can use an enum if values are provided
       const selectValues = (field as unknown as Record<string, unknown>).values;
-      const maxSelect = (field as unknown as Record<string, unknown>)
-        .maxSelect as number | undefined;
+      const maxSelect = (field as unknown as Record<string, unknown>).maxSelect as number | undefined;
 
       if (Array.isArray(selectValues) && selectValues.length > 0) {
-        const values = (selectValues as string[])
-          .map((v) => `"${v}"`)
-          .join(", ");
+        const values = (selectValues as string[]).map((v) => `"${v}"`).join(", ");
 
         // Check if this is a multi-select (maxSelect > 1)
         if (maxSelect && maxSelect > 1) {
@@ -181,9 +178,7 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
       // Multi-select returns array of strings
       const multiValues = (field as unknown as Record<string, unknown>).values;
       if (Array.isArray(multiValues) && multiValues.length > 0) {
-        const values = (multiValues as string[])
-          .map((v) => `"${v}"`)
-          .join(", ");
+        const values = (multiValues as string[]).map((v) => `"${v}"`).join(", ");
         zodType = `z.array(z.enum([${values}]))`;
       } else {
         zodType = "z.array(z.string())";
@@ -195,8 +190,7 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
       break;
     case "file": {
       // File fields - check maxSelect to determine if array
-      const fileMaxSelect = (field as unknown as Record<string, unknown>)
-        .maxSelect as number | undefined;
+      const fileMaxSelect = (field as unknown as Record<string, unknown>).maxSelect as number | undefined;
       if (fileMaxSelect && fileMaxSelect > 1) {
         zodType = `z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))`;
         // Add optional if not required, then return
@@ -210,8 +204,7 @@ function mapPocketBaseFieldToZod(field: PocketBaseField): {
     }
     case "relation": {
       // Relation fields - check maxSelect to determine if array
-      const relationMaxSelect = (field as unknown as Record<string, unknown>)
-        .maxSelect as number | undefined;
+      const relationMaxSelect = (field as unknown as Record<string, unknown>).maxSelect as number | undefined;
       if (relationMaxSelect && relationMaxSelect > 1) {
         zodType = "z.array(z.string())";
         // Add optional if not required, then return
@@ -265,9 +258,7 @@ function convertCollectionToRecordType(
       if (field.type === "relation" && collectionIdMap) {
         const pbField = field as unknown as Record<string, unknown>;
         fieldInfo.relationCollectionId = pbField.collectionId as string;
-        fieldInfo.relationCollectionName = collectionIdMap.get(
-          pbField.collectionId as string
-        );
+        fieldInfo.relationCollectionName = collectionIdMap.get(pbField.collectionId as string);
       }
 
       // Mark file fields
@@ -394,15 +385,12 @@ async function main() {
     // Get all collections from PocketBase API
     // First, get the list of collections
     // Reference: https://pocketbase.io/docs/api-collections/#list-collections
-    const collectionList =
-      (await pb.collections.getFullList()) as PocketBaseCollection[];
+    const collectionList = (await pb.collections.getFullList()) as PocketBaseCollection[];
 
     console.log(`✅ Found ${collectionList.length} collections`);
 
     // Filter out system collections (those starting with _)
-    const userCollectionNames = collectionList
-      .filter((col) => !col.name.startsWith("_"))
-      .map((col) => col.name);
+    const userCollectionNames = collectionList.filter((col) => !col.name.startsWith("_")).map((col) => col.name);
 
     console.log(`📦 Processing ${userCollectionNames.length} user collections`);
 
@@ -411,9 +399,7 @@ async function main() {
     const userCollections: PocketBaseCollection[] = [];
     for (const collectionName of userCollectionNames) {
       try {
-        const fullCollection = (await pb.collections.getOne(
-          collectionName
-        )) as PocketBaseCollection;
+        const fullCollection = (await pb.collections.getOne(collectionName)) as PocketBaseCollection;
         userCollections.push(fullCollection);
       } catch {
         console.warn(`⚠️  Failed to fetch details for ${collectionName}`);
@@ -527,9 +513,7 @@ ${exports}
     }
 
     console.log("\n✨ Schema generation complete!");
-    console.log(
-      `📦 Generated ${totalFilesGenerated} schema files across ${recordsBySchema.size} schema directories`
-    );
+    console.log(`📦 Generated ${totalFilesGenerated} schema files across ${recordsBySchema.size} schema directories`);
   } catch (error) {
     console.error("❌ Error generating schemas:", error);
     process.exit(1);

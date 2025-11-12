@@ -9,46 +9,63 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const PickBatchesSchema = z.object({
-  id: z.string(),
-  batchNumber: z.string().optional(),
-  warehouse: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  status: z.enum(["open", "in-progress", "completed", "cancelled"]).optional(),
-  strategy: z.enum(["batch-picking", "zone-picking", "wave-picking", "single-order-picking", "cluster-picking"]).optional(),
-  priority: z.number(),
-  assignedUser: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  estimatedDuration: z.number().optional(),
-  actualDuration: z.number().optional(),
-  totalItems: z.number().optional(),
-  completedItems: z.number().optional(),
-  startedAt: z.iso.date().optional(),
-  completedAt: z.iso.date().optional(),
-  items: z.array(z.string()).optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementPickBatchItems,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	batchNumber: z.string().optional(),
+	warehouse: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementWarehouses,
+					displayField: "id",
+				},
+			}),
+		),
+	status: z.enum(["open", "in-progress", "completed", "cancelled"]).optional(),
+	strategy: z
+		.enum([
+			"batch-picking",
+			"zone-picking",
+			"wave-picking",
+			"single-order-picking",
+			"cluster-picking",
+		])
+		.optional(),
+	priority: z.number(),
+	assignedUser: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.Users,
+					displayField: "id",
+				},
+			}),
+		),
+	estimatedDuration: z.number().optional(),
+	actualDuration: z.number().optional(),
+	totalItems: z.number().optional(),
+	completedItems: z.number().optional(),
+	startedAt: z.iso.date().optional(),
+	completedAt: z.iso.date().optional(),
+	items: z
+		.array(z.string())
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementPickBatchItems,
+					displayField: "id",
+				},
+			}),
+		),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PickBatches = z.infer<typeof PickBatchesSchema>;

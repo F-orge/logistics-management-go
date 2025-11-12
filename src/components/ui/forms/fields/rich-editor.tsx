@@ -7,22 +7,22 @@ import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 export type RichEditorFieldProps = {};
 
 const RichEditorField = (props: RichEditorFieldProps) => {
-  const field = useFieldContext<string>();
+	const field = useFieldContext<string>();
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
-  return (
-    <TextareaComponent
-      id={field.name}
-      name={field.name}
-      value={field.state.value}
-      onBlur={field.handleBlur}
-      onChange={(e) => field.handleChange(e.target.value)}
-      aria-invalid={isInvalid}
-      placeholder="Rich editor field (TODO: implement)"
-      disabled
-    />
-  );
+	return (
+		<TextareaComponent
+			id={field.name}
+			name={field.name}
+			value={field.state.value}
+			onBlur={field.handleBlur}
+			onChange={(e) => field.handleChange(e.target.value)}
+			aria-invalid={isInvalid}
+			placeholder="Rich editor field (TODO: implement)"
+			disabled
+		/>
+	);
 };
 
 export default RichEditorField;

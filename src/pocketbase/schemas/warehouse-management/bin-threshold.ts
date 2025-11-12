@@ -9,32 +9,32 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const BinThresholdSchema = z.object({
-  id: z.string(),
-  location: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementLocations,
-        displayField: "id",
-      },
-    })
-  ),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  minQuantity: z.number().optional(),
-  maxQuantity: z.number().optional(),
-  reorderQuantity: z.number().optional(),
-  alertThreshold: z.number().optional(),
-  isActive: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	location: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementLocations,
+				displayField: "id",
+			},
+		}),
+	),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	minQuantity: z.number().optional(),
+	maxQuantity: z.number().optional(),
+	reorderQuantity: z.number().optional(),
+	alertThreshold: z.number().optional(),
+	isActive: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type BinThreshold = z.infer<typeof BinThresholdSchema>;

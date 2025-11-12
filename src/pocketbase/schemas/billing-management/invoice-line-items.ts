@@ -9,25 +9,28 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const InvoiceLineItemsSchema = z.object({
-  id: z.string(),
-  invoice: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.BillingManagementInvoices,
-        displayField: "id",
-      },
-    })
-  ),
-  description: z.unknown().optional(),
-  quantity: z.number().optional(),
-  unitPrice: z.number().optional(),
-  taxRate: z.number().optional(),
-  taxAmount: z.number().optional(),
-  discountRate: z.number().optional(),
-  discountAmount: z.number().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.BillingManagementInvoices,
+					displayField: "id",
+				},
+			}),
+		),
+	description: z.unknown().optional(),
+	quantity: z.number().optional(),
+	unitPrice: z.number().optional(),
+	taxRate: z.number().optional(),
+	taxAmount: z.number().optional(),
+	discountRate: z.number().optional(),
+	discountAmount: z.number().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InvoiceLineItems = z.infer<typeof InvoiceLineItemsSchema>;

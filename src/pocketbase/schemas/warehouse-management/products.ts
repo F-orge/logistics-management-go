@@ -9,38 +9,46 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const ProductsSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  sku: z.string(),
-  barcode: z.string().optional(),
-  description: z.unknown().optional(),
-  costPrice: z.number().optional(),
-  length: z.number().optional(),
-  width: z.number().optional(),
-  height: z.number().optional(),
-  weight: z.number().optional(),
-  status: z.enum(["active", "discontinued", "obsolete", "inactive"]).optional(),
-  supplier: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementSuppliers,
-        displayField: "id",
-      },
-    })
-  ),
-  client: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementSuppliers,
-        displayField: "id",
-      },
-    })
-  ),
-  images: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	sku: z.string(),
+	barcode: z.string().optional(),
+	description: z.unknown().optional(),
+	costPrice: z.number().optional(),
+	length: z.number().optional(),
+	width: z.number().optional(),
+	height: z.number().optional(),
+	weight: z.number().optional(),
+	status: z.enum(["active", "discontinued", "obsolete", "inactive"]).optional(),
+	supplier: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementSuppliers,
+					displayField: "id",
+				},
+			}),
+		),
+	client: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementSuppliers,
+					displayField: "id",
+				},
+			}),
+		),
+	images: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Products = z.infer<typeof ProductsSchema>;

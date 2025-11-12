@@ -9,17 +9,19 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const SurchargesSchema = z.object({
-  id: z.string(),
-  name: z.string().optional(),
-  type: z.string().optional(),
-  amount: z.number().optional(),
-  calculationMethod: z.enum(["percentage", "fixed", "per-unit", "sliding-scale"]).optional(),
-  isActive: z.unknown().optional(),
-  validFrom: z.iso.date().optional(),
-  validTo: z.iso.date().optional(),
-  description: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().optional(),
+	type: z.string().optional(),
+	amount: z.number().optional(),
+	calculationMethod: z
+		.enum(["percentage", "fixed", "per-unit", "sliding-scale"])
+		.optional(),
+	isActive: z.unknown().optional(),
+	validFrom: z.iso.date().optional(),
+	validTo: z.iso.date().optional(),
+	description: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Surcharges = z.infer<typeof SurchargesSchema>;

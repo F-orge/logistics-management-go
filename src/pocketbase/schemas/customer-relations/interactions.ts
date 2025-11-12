@@ -9,39 +9,44 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const InteractionsSchema = z.object({
-  id: z.string(),
-  contact: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsContacts,
-        displayField: "id",
-      },
-    })
-  ),
-  user: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  case: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCases,
-        displayField: "id",
-      },
-    })
-  ),
-  type: z.enum(["call", "meeting", "text", "email"]).optional(),
-  outcome: z.string().optional(),
-  notes: z.unknown().optional(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  interactionDate: z.iso.datetime().optional(),
+	id: z.string(),
+	contact: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.CustomerRelationsContacts,
+				displayField: "id",
+			},
+		}),
+	),
+	user: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.Users,
+				displayField: "id",
+			},
+		}),
+	),
+	case: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsCases,
+					displayField: "id",
+				},
+			}),
+		),
+	type: z.enum(["call", "meeting", "text", "email"]).optional(),
+	outcome: z.string().optional(),
+	notes: z.unknown().optional(),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	interactionDate: z.iso.datetime().optional(),
 });
 
 export type Interactions = z.infer<typeof InteractionsSchema>;

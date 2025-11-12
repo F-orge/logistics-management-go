@@ -3,11 +3,11 @@ import React from "react";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 
 export const DateField: React.FC<AutoFormFieldProps> = ({ inputProps, id }) => {
-  const { key, ...props } = inputProps;
+	const { key, ...props } = inputProps;
 
-  return (
-    <InputGroup>
-      <InputGroupInput id={id} type="date" {...props} />
-    </InputGroup>
-  );
+	return (
+		<InputGroup>
+			<InputGroupInput id={id} type="date" {...props} />
+		</InputGroup>
+	);
 };

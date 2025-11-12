@@ -48,6 +48,12 @@ interface SearchableField {
   type: string;
 }
 
+interface FilterableEnumField {
+  name: string;
+  type: string;
+  enumValues: string[];
+}
+
 // Color codes for output
 const colors = {
   red: "\x1b[0;31m",
@@ -133,25 +139,79 @@ function getSearchableFields(
   return searchableFields;
 }
 
+// Get filterable enum fields from collection
+// Enum fields are select and multiselect types with predefined options
+function getFilterableEnumFields(
+  collection: PocketBaseCollection
+): FilterableEnumField[] {
+  const enumFields: FilterableEnumField[] = [];
+
+  if (!collection.fields) {
+    return enumFields;
+  }
+
+  for (const field of collection.fields) {
+    // Skip system fields
+    if (field.system) {
+      continue;
+    }
+
+    // Check for select and multiselect fields
+    if (field.type === "select" || field.type === "multiselect") {
+      const pbField = field as unknown as Record<string, unknown>;
+      const values = pbField.values;
+
+      if (Array.isArray(values) && values.length > 0) {
+        enumFields.push({
+          name: field.name,
+          type: field.type,
+          enumValues: values as string[],
+        });
+      }
+    }
+  }
+
+  return enumFields;
+}
+
 // Get searchable fields from collection
 function generateControlComponent(
   componentName: string,
-  searchableFields: SearchableField[]
+  searchableFields: SearchableField[],
+  enumFields: FilterableEnumField[] = []
 ): string {
   const hasSearch = searchableFields.length > 0;
+  const hasEnumFilters = enumFields.length > 0;
 
-  const importsUI = hasSearch
-    ? `import { Button } from "@/components/ui/button";
+  const importsUI = (() => {
+    let imports = `import { Button } from "@/components/ui/button";`;
+
+    if (hasSearch) {
+      imports += `
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { SearchIcon } from "lucide-react";`
-    : `import { Button } from "@/components/ui/button";`;
+import { SearchIcon } from "lucide-react";`;
+    }
 
-  if (!hasSearch) {
+    if (hasEnumFilters) {
+      imports += `
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";`;
+    }
+
+    return imports;
+  })();
+
+  if (!hasSearch && !hasEnumFilters) {
     return `import { useNavigate } from "@tanstack/react-router";
 import React from "react";
 ${importsUI}
@@ -176,6 +236,229 @@ export default ${componentName}Controls;
 `;
   }
 
+  // Handle enum-only case
+  if (!hasSearch && hasEnumFilters) {
+    const enumStates = enumFields
+      .map(
+        (field) =>
+          `  const [${field.name}Filter, set${toPascalCase(field.name)}Filter] = React.useState("");`
+      )
+      .join("\n");
+
+    const enumSelectsMarkup = enumFields
+      .map(
+        (field) =>
+          `      <Select value={${field.name}Filter} onValueChange={set${toPascalCase(field.name)}Filter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All ${field.name}" />
+        </SelectTrigger>
+        <SelectContent>
+          ${field.enumValues.map((val) => `<SelectItem value="${val}">${val}</SelectItem>`).join("\n          ")}
+        </SelectContent>
+      </Select>`
+      )
+      .join("\n");
+
+    return `import { useNavigate } from "@tanstack/react-router";
+import React from "react";
+${importsUI}
+
+const ${componentName}Controls = () => {
+  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+${enumStates}
+
+  const handleFilterChange = () => {
+    const filters = [];
+    ${enumFields.map((field) => `if (${field.name}Filter) filters.push(\`${field.name} = '\${${field.name}Filter}'\`);`).join("\n    ")}
+
+    const filterQuery = filters.length > 0 ? filters.join(" && ") : "";
+
+    if (!filterQuery) {
+      navigate({
+        search: (prev) => {
+          const { filter, ...rest } = prev;
+          return rest;
+        },
+      });
+      return;
+    }
+
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        filter: filterQuery,
+      }),
+    });
+  };
+
+  React.useEffect(() => {
+    handleFilterChange();
+  }, [${enumFields.map((field) => field.name + "Filter").join(", ")}]);
+
+  return (
+    <section className="col-span-full flex justify-between gap-4">
+      <div className="flex gap-2">
+${enumSelectsMarkup}
+      </div>
+      <Button
+        onClick={() =>
+          navigate({ search: (prev) => ({ ...prev, action: "create" }) })
+        }
+      >
+        Create
+      </Button>
+    </section>
+  );
+};
+
+export default ${componentName}Controls;
+`;
+  }
+
+  // Handle search + enum case
+  if (hasSearch && hasEnumFilters) {
+    const enumStates = enumFields
+      .map(
+        (field) =>
+          `  const [${field.name}Filter, set${toPascalCase(field.name)}Filter] = React.useState("");`
+      )
+      .join("\n");
+
+    const enumSelectsMarkup = enumFields
+      .map(
+        (field) =>
+          `      <Select value={${field.name}Filter} onValueChange={set${toPascalCase(field.name)}Filter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All ${field.name}" />
+        </SelectTrigger>
+        <SelectContent>
+          ${field.enumValues.map((val) => `<SelectItem value="${val}">${val}</SelectItem>`).join("\n          ")}
+        </SelectContent>
+      </Select>`
+      )
+      .join("\n");
+
+    const searchFieldsComment = searchableFields
+      .map((field) => `   * - ${field.name}`)
+      .join("\n");
+
+    const filterConditions = searchableFields
+      .map((field) => `${field.name} ~ '\${searchTerm}'`)
+      .join(" || ");
+
+    const filterExpression =
+      searchableFields.length === 1
+        ? `${searchableFields[0].name} ~ '\${searchTerm}'`
+        : `(${filterConditions})`;
+
+    return `import { useNavigate } from "@tanstack/react-router";
+import { SearchIcon } from "lucide-react";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+/**
+ * ${componentName}Controls
+ * Searchable fields:
+${searchFieldsComment}
+ */
+const ${componentName}Controls = () => {
+  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+  const [searchTerm, setSearchTerm] = React.useState("");
+${enumStates}
+
+  const handleSearch = () => {
+    const filters = [];
+
+    if (searchTerm.trim()) {
+      filters.push(\`(${filterExpression})\`);
+    }
+
+    ${enumFields.map((field) => `if (${field.name}Filter) filters.push(\`${field.name} = '\${${field.name}Filter}'\`);`).join("\n    ")}
+
+    const filterQuery = filters.length > 0 ? filters.join(" && ") : "";
+
+    if (!filterQuery) {
+      navigate({
+        search: (prev) => {
+          const { filter, ...rest } = prev;
+          return rest;
+        },
+      });
+      return;
+    }
+
+    navigate({
+      search: (prev) => ({
+        ...prev,
+        filter: filterQuery,
+      }),
+    });
+  };
+
+  React.useEffect(() => {
+    handleSearch();
+  }, [${enumFields.map((field) => field.name + "Filter").join(", ")}]);
+
+  return (
+    <section className="col-span-full space-y-4">
+      <div className="flex justify-between gap-4">
+        <InputGroup className="w-full max-w-sm">
+          <InputGroupInput
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
+          />
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              onClick={handleSearch}
+              variant="secondary"
+              className="rounded-md"
+            >
+              Search
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, action: "create" }) })
+          }
+        >
+          Create
+        </Button>
+      </div>
+      <div className="flex gap-2">
+${enumSelectsMarkup}
+      </div>
+    </section>
+  );
+};
+
+export default ${componentName}Controls;
+`;
+  }
+
+  // Handle search-only case (original logic)
   const searchFieldsComment = searchableFields
     .map((field) => `   * - ${field.name}`)
     .join("\n");
@@ -320,6 +603,7 @@ async function scaffoldSingleControl(
     }
 
     const searchableFields = getSearchableFields(collection);
+    const enumFields = getFilterableEnumFields(collection);
 
     // Create directory if it doesn't exist
     if (!fs.existsSync(controlDir)) {
@@ -329,17 +613,18 @@ async function scaffoldSingleControl(
     // Generate and write the component
     const componentContent = generateControlComponent(
       componentName,
-      searchableFields
+      searchableFields,
+      enumFields
     );
     fs.writeFileSync(filePath, componentContent);
 
     const searchInfo =
-      searchableFields.length > 0
-        ? ` (${searchableFields.length} searchable field(s))`
-        : "";
+      searchableFields.length > 0 ? ` (${searchableFields.length} search)` : "";
+    const filterInfo =
+      enumFields.length > 0 ? ` + ${enumFields.length} filter(s)` : "";
     return {
       success: true,
-      message: `✓ ${filePath}${searchInfo}`,
+      message: `✓ ${filePath}${searchInfo}${filterInfo}`,
     };
   } catch (error) {
     return {

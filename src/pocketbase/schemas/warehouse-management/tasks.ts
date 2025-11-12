@@ -9,45 +9,77 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const TasksSchema = z.object({
-  id: z.string(),
-  taskNumber: z.string(),
-  warehouse: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  user: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  type: z.enum(["putaway", "pick", "pack", "replenishment", "cycle-count", "cross-dock", "returns-processing", "damage-inspection", "quality-check"]).optional(),
-  status: z.enum(["pending", "assigned", "in-progress", "completed", "cancelled", "error"]).optional(),
-  priority: z.number(),
-  pickBatchId: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementPickBatches,
-        displayField: "id",
-      },
-    })
-  ),
-  instructions: z.unknown().optional(),
-  notes: z.unknown().optional(),
-  startTime: z.iso.date().optional(),
-  endTime: z.iso.date().optional(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	taskNumber: z.string(),
+	warehouse: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementWarehouses,
+					displayField: "id",
+				},
+			}),
+		),
+	user: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.Users,
+					displayField: "id",
+				},
+			}),
+		),
+	type: z
+		.enum([
+			"putaway",
+			"pick",
+			"pack",
+			"replenishment",
+			"cycle-count",
+			"cross-dock",
+			"returns-processing",
+			"damage-inspection",
+			"quality-check",
+		])
+		.optional(),
+	status: z
+		.enum([
+			"pending",
+			"assigned",
+			"in-progress",
+			"completed",
+			"cancelled",
+			"error",
+		])
+		.optional(),
+	priority: z.number(),
+	pickBatchId: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementPickBatches,
+					displayField: "id",
+				},
+			}),
+		),
+	instructions: z.unknown().optional(),
+	notes: z.unknown().optional(),
+	startTime: z.iso.date().optional(),
+	endTime: z.iso.date().optional(),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Tasks = z.infer<typeof TasksSchema>;

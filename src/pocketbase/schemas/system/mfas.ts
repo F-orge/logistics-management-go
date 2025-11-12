@@ -8,12 +8,12 @@ import { z } from "zod";
 import * as PB from "../../../lib/pb.types";
 
 export const MfasSchema = z.object({
-  collectionRef: z.string(),
-  created: z.iso.date(),
-  id: z.string(),
-  method: z.string(),
-  recordRef: z.string(),
-  updated: z.iso.date(),
+	collectionRef: z.string(),
+	created: z.iso.date(),
+	id: z.string(),
+	method: z.string(),
+	recordRef: z.string(),
+	updated: z.iso.date(),
 });
 
 export type Mfas = z.infer<typeof MfasSchema>;

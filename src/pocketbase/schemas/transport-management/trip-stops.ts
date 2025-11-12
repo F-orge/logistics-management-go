@@ -9,34 +9,37 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const TripStopsSchema = z.object({
-  id: z.string(),
-  trip: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementTrips,
-        displayField: "id",
-      },
-    })
-  ),
-  sequence: z.number(),
-  address: z.string().optional(),
-  status: z.enum(["pending", "arrived", "completed", "skipped"]),
-  estimatedArrivalTime: z.iso.date().optional(),
-  actualArrivalTime: z.iso.date().optional(),
-  estimatedDepartureTime: z.iso.date().optional(),
-  actualDepartureTime: z.iso.date().optional(),
-  shipment: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementOutboundShipments,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	trip: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.TransportManagementTrips,
+				displayField: "id",
+			},
+		}),
+	),
+	sequence: z.number(),
+	address: z.string().optional(),
+	status: z.enum(["pending", "arrived", "completed", "skipped"]),
+	estimatedArrivalTime: z.iso.date().optional(),
+	actualArrivalTime: z.iso.date().optional(),
+	estimatedDepartureTime: z.iso.date().optional(),
+	actualDepartureTime: z.iso.date().optional(),
+	shipment: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementOutboundShipments,
+					displayField: "id",
+				},
+			}),
+		),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type TripStops = z.infer<typeof TripStopsSchema>;

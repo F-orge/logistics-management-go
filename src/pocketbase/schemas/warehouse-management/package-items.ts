@@ -9,39 +9,42 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const PackageItemsSchema = z.object({
-  id: z.string(),
-  package: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementPackages,
-        displayField: "id",
-      },
-    })
-  ),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  batch: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementInventoryBatches,
-        displayField: "id",
-      },
-    })
-  ),
-  quantity: z.number(),
-  lotNumber: z.string().optional(),
-  expiryDate: z.iso.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	package: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementPackages,
+				displayField: "id",
+			},
+		}),
+	),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	batch: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementInventoryBatches,
+					displayField: "id",
+				},
+			}),
+		),
+	quantity: z.number(),
+	lotNumber: z.string().optional(),
+	expiryDate: z.iso.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PackageItems = z.infer<typeof PackageItemsSchema>;

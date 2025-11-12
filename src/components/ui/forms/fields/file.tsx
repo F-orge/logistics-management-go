@@ -7,25 +7,25 @@ import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 export type FileFieldProps = {};
 
 const FileField = (props: FileFieldProps) => {
-  const field = useFieldContext<File>();
+	const field = useFieldContext<File>();
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
-  return (
-    <Input
-      id={field.name}
-      name={field.name}
-      type="file"
-      onBlur={field.handleBlur}
-      onChange={(e) => {
-        const files = e.target.files;
-        if (files && files.length > 0) {
-          field.setValue(files[0]);
-        }
-      }}
-      aria-invalid={isInvalid}
-    />
-  );
+	return (
+		<Input
+			id={field.name}
+			name={field.name}
+			type="file"
+			onBlur={field.handleBlur}
+			onChange={(e) => {
+				const files = e.target.files;
+				if (files && files.length > 0) {
+					field.setValue(files[0]);
+				}
+			}}
+			aria-invalid={isInvalid}
+		/>
+	);
 };
 
 export default FileField;

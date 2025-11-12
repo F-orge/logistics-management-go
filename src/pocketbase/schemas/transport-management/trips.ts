@@ -9,28 +9,28 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const TripsSchema = z.object({
-  id: z.string(),
-  driver: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementDrivers,
-        displayField: "id",
-      },
-    })
-  ),
-  vehicle: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementVehicles,
-        displayField: "id",
-      },
-    })
-  ),
-  status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	driver: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.TransportManagementDrivers,
+				displayField: "id",
+			},
+		}),
+	),
+	vehicle: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.TransportManagementVehicles,
+				displayField: "id",
+			},
+		}),
+	),
+	status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Trips = z.infer<typeof TripsSchema>;

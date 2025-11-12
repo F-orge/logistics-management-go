@@ -8,6 +8,13 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 /**
  * LeadControls
@@ -18,9 +25,22 @@ import {
 const LeadControls = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [sourceFilter, setSourceFilter] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState("");
 
   const handleSearch = () => {
-    if (!searchTerm.trim()) {
+    const filters = [];
+
+    if (searchTerm.trim()) {
+      filters.push(`((name ~ '${searchTerm}' || email ~ '${searchTerm}'))`);
+    }
+
+    if (sourceFilter) filters.push(`source = '${sourceFilter}'`);
+    if (statusFilter) filters.push(`status = '${statusFilter}'`);
+
+    const filterQuery = filters.length > 0 ? filters.join(" && ") : "";
+
+    if (!filterQuery) {
       navigate({
         search: (prev) => {
           const { filter, ...rest } = prev;
@@ -30,10 +50,6 @@ const LeadControls = () => {
       return;
     }
 
-    // PocketBase filter syntax: field ~ 'value' for contains (regex)
-    // Multiple fields: (field1 ~ 'term' || field2 ~ 'term')
-    const filterQuery = `(name ~ '${searchTerm}' || email ~ '${searchTerm}')`;
-
     navigate({
       search: (prev) => ({
         ...prev,
@@ -42,39 +58,75 @@ const LeadControls = () => {
     });
   };
 
+  React.useEffect(() => {
+    handleSearch();
+  }, [sourceFilter, statusFilter]);
+
   return (
-    <section className="col-span-full flex justify-between">
-      <InputGroup className="w-full max-w-sm">
-        <InputGroupInput
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-        />
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton
-            onClick={handleSearch}
-            variant="secondary"
-            className="rounded-md"
-          >
-            Search
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-      <Button
-        onClick={() =>
-          navigate({ search: (prev) => ({ ...prev, action: "create" }) })
-        }
-      >
-        Create
-      </Button>
+    <section className="col-span-full space-y-4">
+      <div className="flex justify-between gap-4">
+        <InputGroup className="w-full max-w-sm">
+          <InputGroupInput
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
+          />
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              onClick={handleSearch}
+              variant="secondary"
+              className="rounded-md"
+            >
+              Search
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, action: "create" }) })
+          }
+        >
+          Create
+        </Button>
+      </div>
+      <div className="flex gap-2">
+      <Select value={sourceFilter} onValueChange={setSourceFilter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All source" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="website">website</SelectItem>
+          <SelectItem value="referral">referral</SelectItem>
+          <SelectItem value="social-media">social-media</SelectItem>
+          <SelectItem value="email-campaign">email-campaign</SelectItem>
+          <SelectItem value="cold-call">cold-call</SelectItem>
+          <SelectItem value="event">event</SelectItem>
+          <SelectItem value="advertisment">advertisment</SelectItem>
+          <SelectItem value="partner">partner</SelectItem>
+          <SelectItem value="other">other</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select value={statusFilter} onValueChange={setStatusFilter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="new">new</SelectItem>
+          <SelectItem value="contacted">contacted</SelectItem>
+          <SelectItem value="qualified">qualified</SelectItem>
+          <SelectItem value="unqualified">unqualified</SelectItem>
+          <SelectItem value="converted">converted</SelectItem>
+        </SelectContent>
+      </Select>
+      </div>
     </section>
   );
 };

@@ -9,32 +9,35 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const AccountTransactionsSchema = z.object({
-  id: z.string(),
-  clientAccount: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.BillingManagementClientAccounts,
-        displayField: "id",
-      },
-    })
-  ),
-  type: z.enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"]),
-  amount: z.number(),
-  runningBalance: z.number().optional(),
-  transactionDate: z.iso.date().optional(),
-  processedBy: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  referenceNumber: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	clientAccount: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.BillingManagementClientAccounts,
+				displayField: "id",
+			},
+		}),
+	),
+	type: z.enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"]),
+	amount: z.number(),
+	runningBalance: z.number().optional(),
+	transactionDate: z.iso.date().optional(),
+	processedBy: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.Users,
+					displayField: "id",
+				},
+			}),
+		),
+	referenceNumber: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type AccountTransactions = z.infer<typeof AccountTransactionsSchema>;

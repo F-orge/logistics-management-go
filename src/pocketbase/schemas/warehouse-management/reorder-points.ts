@@ -9,28 +9,28 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const ReorderPointsSchema = z.object({
-  id: z.string(),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  threshold: z.number().optional(),
-  warehouse: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	threshold: z.number().optional(),
+	warehouse: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "id",
+			},
+		}),
+	),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type ReorderPoints = z.infer<typeof ReorderPointsSchema>;

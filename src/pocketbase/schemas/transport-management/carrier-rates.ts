@@ -9,23 +9,28 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const CarrierRatesSchema = z.object({
-  id: z.string(),
-  carrier: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementCarriers,
-        displayField: "id",
-      },
-    })
-  ),
-  serviceType: z.string().optional(),
-  origin: z.string(),
-  destination: z.string(),
-  rate: z.number(),
-  unit: z.enum(["per-kg", "per-container", "per-mile", "per-km", "flat-rate"]).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	carrier: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.TransportManagementCarriers,
+					displayField: "id",
+				},
+			}),
+		),
+	serviceType: z.string().optional(),
+	origin: z.string(),
+	destination: z.string(),
+	rate: z.number(),
+	unit: z
+		.enum(["per-kg", "per-container", "per-mile", "per-km", "flat-rate"])
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type CarrierRates = z.infer<typeof CarrierRatesSchema>;

@@ -9,22 +9,22 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const VehicleMaintenanceSchema = z.object({
-  id: z.string(),
-  vehicle: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementVehicles,
-        displayField: "id",
-      },
-    })
-  ),
-  serviceDate: z.iso.date(),
-  serviceType: z.iso.date(),
-  cost: z.number().optional(),
-  notes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	vehicle: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.TransportManagementVehicles,
+				displayField: "id",
+			},
+		}),
+	),
+	serviceDate: z.iso.date(),
+	serviceType: z.iso.date(),
+	cost: z.number().optional(),
+	notes: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type VehicleMaintenance = z.infer<typeof VehicleMaintenanceSchema>;

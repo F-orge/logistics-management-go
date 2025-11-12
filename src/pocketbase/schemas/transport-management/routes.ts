@@ -9,12 +9,12 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const RoutesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  totalDistance: z.number(),
-  totalDuration: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	totalDistance: z.number(),
+	totalDuration: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Routes = z.infer<typeof RoutesSchema>;

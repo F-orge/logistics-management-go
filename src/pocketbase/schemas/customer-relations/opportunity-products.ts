@@ -9,28 +9,34 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const OpportunityProductsSchema = z.object({
-  id: z.string(),
-  opportunity: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsOpportunities,
-        displayField: "id",
-      },
-    })
-  ),
-  product: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  quantity: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	opportunity: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsOpportunities,
+					displayField: "id",
+				},
+			}),
+		),
+	product: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsProducts,
+					displayField: "id",
+				},
+			}),
+		),
+	quantity: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type OpportunityProducts = z.infer<typeof OpportunityProductsSchema>;

@@ -9,19 +9,19 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const ShipmentLegEventsSchema = z.object({
-  id: z.string(),
-  message: z.string(),
-  shipmentLegId: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementShipmentLegs,
-        displayField: "id",
-      },
-    })
-  ),
-  location: z.unknown(),
-  timestamp: z.iso.datetime().optional(),
+	id: z.string(),
+	message: z.string(),
+	shipmentLegId: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.TransportManagementShipmentLegs,
+				displayField: "id",
+			},
+		}),
+	),
+	location: z.unknown(),
+	timestamp: z.iso.datetime().optional(),
 });
 
 export type ShipmentLegEvents = z.infer<typeof ShipmentLegEventsSchema>;

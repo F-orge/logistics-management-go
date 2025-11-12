@@ -9,30 +9,30 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const PickBatchItemsSchema = z.object({
-  id: z.string(),
-  pickBatch: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementPickBatches,
-        displayField: "id",
-      },
-    })
-  ),
-  salesOrder: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementSalesOrders,
-        displayField: "id",
-      },
-    })
-  ),
-  orderPriority: z.number().optional(),
-  estimatedPickTime: z.iso.date().optional(),
-  actualPickTime: z.number().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	pickBatch: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementPickBatches,
+				displayField: "id",
+			},
+		}),
+	),
+	salesOrder: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementSalesOrders,
+				displayField: "id",
+			},
+		}),
+	),
+	orderPriority: z.number().optional(),
+	estimatedPickTime: z.iso.date().optional(),
+	actualPickTime: z.number().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PickBatchItems = z.infer<typeof PickBatchItemsSchema>;

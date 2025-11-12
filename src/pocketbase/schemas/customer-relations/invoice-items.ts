@@ -9,29 +9,29 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const InvoiceItemsSchema = z.object({
-  id: z.string(),
-  invoice: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsInvoices,
-        displayField: "id",
-      },
-    })
-  ),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  quantity: z.number(),
-  price: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.CustomerRelationsInvoices,
+				displayField: "id",
+			},
+		}),
+	),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.CustomerRelationsProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	quantity: z.number(),
+	price: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InvoiceItems = z.infer<typeof InvoiceItemsSchema>;

@@ -9,47 +9,55 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const OutboundShipmentsSchema = z.object({
-  id: z.string(),
-  salesOrder: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementSalesOrders,
-        displayField: "id",
-      },
-    })
-  ),
-  status: z.enum(["picking", "packed", "shipped", "delivered", "cancelled"]).optional(),
-  trackingNumber: z.string(),
-  carrier: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementCarriers,
-        displayField: "id",
-      },
-    })
-  ),
-  items: z.array(z.string()).optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementOutboundShipmentItems,
-        displayField: "id",
-      },
-    })
-  ),
-  warehouse: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	salesOrder: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementSalesOrders,
+				displayField: "id",
+			},
+		}),
+	),
+	status: z
+		.enum(["picking", "packed", "shipped", "delivered", "cancelled"])
+		.optional(),
+	trackingNumber: z.string(),
+	carrier: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.TransportManagementCarriers,
+					displayField: "id",
+				},
+			}),
+		),
+	items: z
+		.array(z.string())
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementOutboundShipmentItems,
+					displayField: "id",
+				},
+			}),
+		),
+	warehouse: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "id",
+			},
+		}),
+	),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type OutboundShipments = z.infer<typeof OutboundShipmentsSchema>;

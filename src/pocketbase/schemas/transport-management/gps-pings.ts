@@ -9,18 +9,18 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const GpsPingsSchema = z.object({
-  id: z.string(),
-  vehicle: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementVehicles,
-        displayField: "id",
-      },
-    })
-  ),
-  coordinates: z.unknown(),
-  timestamp: z.iso.datetime().optional(),
+	id: z.string(),
+	vehicle: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.TransportManagementVehicles,
+				displayField: "id",
+			},
+		}),
+	),
+	coordinates: z.unknown(),
+	timestamp: z.iso.datetime().optional(),
 });
 
 export type GpsPings = z.infer<typeof GpsPingsSchema>;

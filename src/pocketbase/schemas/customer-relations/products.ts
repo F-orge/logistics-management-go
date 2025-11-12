@@ -9,15 +9,17 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const ProductsSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  sku: z.string(),
-  price: z.number(),
-  type: z.enum(["service", "good", "digital", "subscription"]),
-  description: z.unknown().optional(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	sku: z.string(),
+	price: z.number(),
+	type: z.enum(["service", "good", "digital", "subscription"]),
+	description: z.unknown().optional(),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Products = z.infer<typeof ProductsSchema>;

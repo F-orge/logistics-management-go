@@ -9,43 +9,55 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const DisputesSchema = z.object({
-  id: z.string(),
-  lineItem: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.BillingManagementInvoiceLineItems,
-        displayField: "id",
-      },
-    })
-  ),
-  client: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
-      },
-    })
-  ),
-  reason: z.unknown(),
-  status: z.enum(["open", "under-review", "approved", "denied", "escalated", "closed"]),
-  disputeAmount: z.number().optional(),
-  resolutionNotes: z.unknown().optional(),
-  submittedAt: z.iso.date().optional(),
-  resolvedAt: z.iso.date().optional(),
-  resolvedBy: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	lineItem: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.BillingManagementInvoiceLineItems,
+				displayField: "id",
+			},
+		}),
+	),
+	client: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.CustomerRelationsCompanies,
+				displayField: "id",
+			},
+		}),
+	),
+	reason: z.unknown(),
+	status: z.enum([
+		"open",
+		"under-review",
+		"approved",
+		"denied",
+		"escalated",
+		"closed",
+	]),
+	disputeAmount: z.number().optional(),
+	resolutionNotes: z.unknown().optional(),
+	submittedAt: z.iso.date().optional(),
+	resolvedAt: z.iso.date().optional(),
+	resolvedBy: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.Users,
+					displayField: "id",
+				},
+			}),
+		),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Disputes = z.infer<typeof DisputesSchema>;

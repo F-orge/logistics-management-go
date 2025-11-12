@@ -9,39 +9,46 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const InventoryAdjustmentSchema = z.object({
-  id: z.string(),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  user: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  quantityChange: z.number(),
-  reason: z.enum(["cycle-count", "damaged-goods", "theft", "expired", "return-to-vendor", "manual-correction"]),
-  notes: z.unknown().optional(),
-  warehouse: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	user: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.Users,
+				displayField: "id",
+			},
+		}),
+	),
+	quantityChange: z.number(),
+	reason: z.enum([
+		"cycle-count",
+		"damaged-goods",
+		"theft",
+		"expired",
+		"return-to-vendor",
+		"manual-correction",
+	]),
+	notes: z.unknown().optional(),
+	warehouse: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "id",
+			},
+		}),
+	),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InventoryAdjustment = z.infer<typeof InventoryAdjustmentSchema>;

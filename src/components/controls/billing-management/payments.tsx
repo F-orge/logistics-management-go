@@ -8,6 +8,13 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 /**
  * PaymentControls
@@ -19,9 +26,22 @@ import {
 const PaymentControls = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [paymentMethodFilter, setPaymentMethodFilter] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState("");
 
   const handleSearch = () => {
-    if (!searchTerm.trim()) {
+    const filters = [];
+
+    if (searchTerm.trim()) {
+      filters.push(`((transactionId ~ '${searchTerm}' || gatewayReferenceId ~ '${searchTerm}' || currency ~ '${searchTerm}'))`);
+    }
+
+    if (paymentMethodFilter) filters.push(`paymentMethod = '${paymentMethodFilter}'`);
+    if (statusFilter) filters.push(`status = '${statusFilter}'`);
+
+    const filterQuery = filters.length > 0 ? filters.join(" && ") : "";
+
+    if (!filterQuery) {
       navigate({
         search: (prev) => {
           const { filter, ...rest } = prev;
@@ -31,10 +51,6 @@ const PaymentControls = () => {
       return;
     }
 
-    // PocketBase filter syntax: field ~ 'value' for contains (regex)
-    // Multiple fields: (field1 ~ 'term' || field2 ~ 'term')
-    const filterQuery = `(transactionId ~ '${searchTerm}' || gatewayReferenceId ~ '${searchTerm}' || currency ~ '${searchTerm}')`;
-
     navigate({
       search: (prev) => ({
         ...prev,
@@ -43,39 +59,75 @@ const PaymentControls = () => {
     });
   };
 
+  React.useEffect(() => {
+    handleSearch();
+  }, [paymentMethodFilter, statusFilter]);
+
   return (
-    <section className="col-span-full flex justify-between">
-      <InputGroup className="w-full max-w-sm">
-        <InputGroupInput
-          placeholder="Search..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSearch();
-            }
-          }}
-        />
-        <InputGroupAddon>
-          <SearchIcon />
-        </InputGroupAddon>
-        <InputGroupAddon align="inline-end">
-          <InputGroupButton
-            onClick={handleSearch}
-            variant="secondary"
-            className="rounded-md"
-          >
-            Search
-          </InputGroupButton>
-        </InputGroupAddon>
-      </InputGroup>
-      <Button
-        onClick={() =>
-          navigate({ search: (prev) => ({ ...prev, action: "create" }) })
-        }
-      >
-        Create
-      </Button>
+    <section className="col-span-full space-y-4">
+      <div className="flex justify-between gap-4">
+        <InputGroup className="w-full max-w-sm">
+          <InputGroupInput
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
+          />
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton
+              onClick={handleSearch}
+              variant="secondary"
+              className="rounded-md"
+            >
+              Search
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, action: "create" }) })
+          }
+        >
+          Create
+        </Button>
+      </div>
+      <div className="flex gap-2">
+      <Select value={paymentMethodFilter} onValueChange={setPaymentMethodFilter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All paymentMethod" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="credit-card">credit-card</SelectItem>
+          <SelectItem value="debit-card">debit-card</SelectItem>
+          <SelectItem value="wallet">wallet</SelectItem>
+          <SelectItem value="qr-ph">qr-ph</SelectItem>
+          <SelectItem value="client-credit">client-credit</SelectItem>
+          <SelectItem value="bank-transfer">bank-transfer</SelectItem>
+          <SelectItem value="cash">cash</SelectItem>
+          <SelectItem value="check">check</SelectItem>
+        </SelectContent>
+      </Select>
+      <Select value={statusFilter} onValueChange={setStatusFilter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="pending">pending</SelectItem>
+          <SelectItem value="processing">processing</SelectItem>
+          <SelectItem value="successful">successful</SelectItem>
+          <SelectItem value="failed">failed</SelectItem>
+          <SelectItem value="cancelled">cancelled</SelectItem>
+          <SelectItem value="refunded">refunded</SelectItem>
+        </SelectContent>
+      </Select>
+      </div>
     </section>
   );
 };

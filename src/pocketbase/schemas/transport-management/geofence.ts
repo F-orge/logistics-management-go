@@ -9,12 +9,12 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const GeofenceSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  coordinates: z.unknown(),
-  radius: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	coordinates: z.unknown(),
+	radius: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Geofence = z.infer<typeof GeofenceSchema>;

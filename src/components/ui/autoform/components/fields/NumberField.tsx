@@ -3,14 +3,14 @@ import React from "react";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 
 export const NumberField: React.FC<AutoFormFieldProps> = ({
-  inputProps,
-  id,
+	inputProps,
+	id,
 }) => {
-  const { key, ...props } = inputProps;
+	const { key, ...props } = inputProps;
 
-  return (
-    <InputGroup>
-      <InputGroupInput id={id} type="number" {...props} />
-    </InputGroup>
-  );
+	return (
+		<InputGroup>
+			<InputGroupInput id={id} type="number" {...props} />
+		</InputGroup>
+	);
 };

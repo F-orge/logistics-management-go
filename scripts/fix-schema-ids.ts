@@ -28,9 +28,7 @@ async function fixSchemaIds() {
         // Extract the schema name (e.g., AccountTransactionsSchema -> AccountTransactions)
         const schemaMatch = content.match(/export const (\w+)Schema = /);
         if (!schemaMatch) {
-          console.log(
-            `⚠️  Skipping ${filePath} - could not find schema export`
-          );
+          console.log(`⚠️  Skipping ${filePath} - could not find schema export`);
           continue;
         }
 

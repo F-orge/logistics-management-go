@@ -9,61 +9,89 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const LeadsSchema = z.object({
-  id: z.string(),
-  name: z.string().optional(),
-  email: z.email().optional(),
-  source: z.enum(["website", "referral", "social-media", "email-campaign", "cold-call", "event", "advertisment", "partner", "other"]).optional(),
-  status: z.enum(["new", "contacted", "qualified", "unqualified", "converted"]).optional(),
-  score: z.number(),
-  owner: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  campaign: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCampaigns,
-        displayField: "id",
-      },
-    })
-  ),
-  convertedAt: z.iso.date().optional(),
-  convertedContact: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsContacts,
-        displayField: "id",
-      },
-    })
-  ),
-  convertedCompany: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
-      },
-    })
-  ),
-  convertedOpportunity: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsOpportunities,
-        displayField: "id",
-      },
-    })
-  ),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().optional(),
+	email: z.email().optional(),
+	source: z
+		.enum([
+			"website",
+			"referral",
+			"social-media",
+			"email-campaign",
+			"cold-call",
+			"event",
+			"advertisment",
+			"partner",
+			"other",
+		])
+		.optional(),
+	status: z
+		.enum(["new", "contacted", "qualified", "unqualified", "converted"])
+		.optional(),
+	score: z.number(),
+	owner: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.Users,
+				displayField: "id",
+			},
+		}),
+	),
+	campaign: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsCampaigns,
+					displayField: "id",
+				},
+			}),
+		),
+	convertedAt: z.iso.date().optional(),
+	convertedContact: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsContacts,
+					displayField: "id",
+				},
+			}),
+		),
+	convertedCompany: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsCompanies,
+					displayField: "id",
+				},
+			}),
+		),
+	convertedOpportunity: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsOpportunities,
+					displayField: "id",
+				},
+			}),
+		),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Leads = z.infer<typeof LeadsSchema>;

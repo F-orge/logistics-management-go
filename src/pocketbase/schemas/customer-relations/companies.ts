@@ -9,29 +9,34 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const CompaniesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  street: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  industry: z.string().optional(),
-  website: z.url().optional(),
-  annualRevenue: z.number().optional(),
-  owner: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	street: z.string().optional(),
+	city: z.string().optional(),
+	state: z.string().optional(),
+	postalCode: z.string().optional(),
+	country: z.string().optional(),
+	phoneNumber: z.string().optional(),
+	industry: z.string().optional(),
+	website: z.url().optional(),
+	annualRevenue: z.number().optional(),
+	owner: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.Users,
+					displayField: "id",
+				},
+			}),
+		),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Companies = z.infer<typeof CompaniesSchema>;

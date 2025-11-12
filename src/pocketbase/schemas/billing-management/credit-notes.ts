@@ -9,34 +9,34 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const CreditNotesSchema = z.object({
-  id: z.string(),
-  invoice: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.BillingManagementInvoices,
-        displayField: "id",
-      },
-    })
-  ),
-  dispute: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.BillingManagementDisputes,
-        displayField: "id",
-      },
-    })
-  ),
-  creditNoteNumber: z.string(),
-  amount: z.number().optional(),
-  reason: z.unknown(),
-  issueDate: z.iso.date(),
-  appliedAt: z.iso.date().optional(),
-  currency: z.string(),
-  notes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.BillingManagementInvoices,
+				displayField: "id",
+			},
+		}),
+	),
+	dispute: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.BillingManagementDisputes,
+				displayField: "id",
+			},
+		}),
+	),
+	creditNoteNumber: z.string(),
+	amount: z.number().optional(),
+	reason: z.unknown(),
+	issueDate: z.iso.date(),
+	appliedAt: z.iso.date().optional(),
+	currency: z.string(),
+	notes: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type CreditNotes = z.infer<typeof CreditNotesSchema>;

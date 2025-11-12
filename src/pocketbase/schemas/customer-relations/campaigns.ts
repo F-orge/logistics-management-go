@@ -9,14 +9,16 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const CampaignsSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  budget: z.number(),
-  startDate: z.iso.date().optional(),
-  endDate: z.iso.date().optional(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	budget: z.number(),
+	startDate: z.iso.date().optional(),
+	endDate: z.iso.date().optional(),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

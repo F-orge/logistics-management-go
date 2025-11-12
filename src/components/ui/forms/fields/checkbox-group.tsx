@@ -7,46 +7,46 @@ import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 type CheckboxOption = { label: string; value: string };
 
 export type CheckboxGroupFieldProps = {
-  options: CheckboxOption[];
+	options: CheckboxOption[];
 };
 
 const CheckboxGroupField = (props: CheckboxGroupFieldProps) => {
-  const field = useFieldContext<string[]>();
+	const field = useFieldContext<string[]>();
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
-  const handleToggle = (optionValue: string) => {
-    const currentValue = field.state.value ?? [];
-    const isChecked = currentValue.includes(optionValue);
+	const handleToggle = (optionValue: string) => {
+		const currentValue = field.state.value ?? [];
+		const isChecked = currentValue.includes(optionValue);
 
-    if (isChecked) {
-      const index = currentValue.indexOf(optionValue);
-      field.removeValue(index);
-    } else {
-      field.pushValue(optionValue);
-    }
-  };
+		if (isChecked) {
+			const index = currentValue.indexOf(optionValue);
+			field.removeValue(index);
+		} else {
+			field.pushValue(optionValue);
+		}
+	};
 
-  return (
-    <div className="space-y-2">
-      {props.options.map((option) => (
-        <div key={option.value} className="flex items-center gap-2">
-          <Checkbox
-            id={`${field.name}-${option.value}`}
-            checked={(field.state.value ?? []).includes(option.value)}
-            onCheckedChange={() => handleToggle(option.value)}
-            aria-invalid={isInvalid}
-          />
-          <label
-            htmlFor={`${field.name}-${option.value}`}
-            className="cursor-pointer text-sm"
-          >
-            {option.label}
-          </label>
-        </div>
-      ))}
-    </div>
-  );
+	return (
+		<div className="space-y-2">
+			{props.options.map((option) => (
+				<div key={option.value} className="flex items-center gap-2">
+					<Checkbox
+						id={`${field.name}-${option.value}`}
+						checked={(field.state.value ?? []).includes(option.value)}
+						onCheckedChange={() => handleToggle(option.value)}
+						aria-invalid={isInvalid}
+					/>
+					<label
+						htmlFor={`${field.name}-${option.value}`}
+						className="cursor-pointer text-sm"
+					>
+						{option.label}
+					</label>
+				</div>
+			))}
+		</div>
+	);
 };
 
 export default CheckboxGroupField;

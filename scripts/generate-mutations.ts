@@ -261,10 +261,7 @@ async function generateMutations() {
         // Directory might already exist
       }
 
-      const outputFile = path.join(
-        config.outputDir,
-        `${config.schemaName}.tsx`
-      );
+      const outputFile = path.join(config.outputDir, `${config.schemaName}.tsx`);
       const code = generateMutationCode(config);
       const relativePath = path.relative(".", outputFile);
 

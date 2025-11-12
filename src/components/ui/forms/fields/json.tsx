@@ -7,33 +7,33 @@ import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 export type JSONFieldProps = {};
 
 const JSONField = (props: JSONFieldProps) => {
-  const field = useFieldContext<Record<string, unknown>>();
+	const field = useFieldContext<Record<string, unknown>>();
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
-  const stringValue = field.state.value
-    ? JSON.stringify(field.state.value, null, 2)
-    : "";
+	const stringValue = field.state.value
+		? JSON.stringify(field.state.value, null, 2)
+		: "";
 
-  return (
-    <TextareaComponent
-      id={field.name}
-      name={field.name}
-      value={stringValue}
-      onBlur={field.handleBlur}
-      onChange={(e) => {
-        try {
-          const parsed = JSON.parse(e.target.value);
-          field.handleChange(parsed);
-        } catch {
-          // Keep raw value until valid JSON
-        }
-      }}
-      aria-invalid={isInvalid}
-      placeholder="JSON field (TODO: implement)"
-      disabled
-    />
-  );
+	return (
+		<TextareaComponent
+			id={field.name}
+			name={field.name}
+			value={stringValue}
+			onBlur={field.handleBlur}
+			onChange={(e) => {
+				try {
+					const parsed = JSON.parse(e.target.value);
+					field.handleChange(parsed);
+				} catch {
+					// Keep raw value until valid JSON
+				}
+			}}
+			aria-invalid={isInvalid}
+			placeholder="JSON field (TODO: implement)"
+			disabled
+		/>
+	);
 };
 
 export default JSONField;

@@ -9,41 +9,52 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const InventoryStockSchema = z.object({
-  id: z.string(),
-  location: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementLocations,
-        displayField: "id",
-      },
-    })
-  ),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  batch: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementInventoryBatches,
-        displayField: "id",
-      },
-    })
-  ),
-  quantity: z.number().optional(),
-  reservedQuantity: z.number().optional(),
-  status: z.enum(["available", "allocated", "damaged", "quarantine", "hold", "shipped", "expired"]),
-  lastCountedAt: z.iso.date().optional(),
-  lastMovementAt: z.iso.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	location: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementLocations,
+				displayField: "id",
+			},
+		}),
+	),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	batch: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementInventoryBatches,
+					displayField: "id",
+				},
+			}),
+		),
+	quantity: z.number().optional(),
+	reservedQuantity: z.number().optional(),
+	status: z.enum([
+		"available",
+		"allocated",
+		"damaged",
+		"quarantine",
+		"hold",
+		"shipped",
+		"expired",
+	]),
+	lastCountedAt: z.iso.date().optional(),
+	lastMovementAt: z.iso.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InventoryStock = z.infer<typeof InventoryStockSchema>;

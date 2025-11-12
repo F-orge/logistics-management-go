@@ -35,11 +35,7 @@ async function fixArrayFields() {
           const line = lines[i];
 
           // Look for .array() or z.array( patterns
-          if (
-            line.includes(".array(") ||
-            line.includes("z.array(") ||
-            line.includes("z.file(")
-          ) {
+          if (line.includes(".array(") || line.includes("z.array(") || line.includes("z.file(")) {
             // Look forward to find the .register call
             let registerIndex = -1;
             for (let j = i; j < Math.min(i + 20, lines.length); j++) {
@@ -54,19 +50,12 @@ async function fixArrayFields() {
               let hasIsArray = false;
               let inputTypeLineIndex = -1;
 
-              for (
-                let j = registerIndex;
-                j < Math.min(registerIndex + 15, lines.length);
-                j++
-              ) {
+              for (let j = registerIndex; j < Math.min(registerIndex + 15, lines.length); j++) {
                 if (lines[j].includes("isArray")) {
                   hasIsArray = true;
                   break;
                 }
-                if (
-                  lines[j].includes("inputType:") &&
-                  !lines[j].includes("//")
-                ) {
+                if (lines[j].includes("inputType:") && !lines[j].includes("//")) {
                   inputTypeLineIndex = j;
                 }
                 if (lines[j].includes("});") || lines[j].includes("},")) {
@@ -79,22 +68,13 @@ async function fixArrayFields() {
                 const inputLine = lines[inputTypeLineIndex];
                 if (inputLine.includes(",")) {
                   // Already has trailing comma, good
-                  lines[inputTypeLineIndex] = inputLine.replace(
-                    /inputType:\s*"[^"]*",/,
-                    `$&\n        isArray: true,`
-                  );
+                  lines[inputTypeLineIndex] = inputLine.replace(/inputType:\s*"[^"]*",/, `$&\n        isArray: true,`);
                 } else if (inputLine.includes("}")) {
                   // No comma, add it
-                  lines[inputTypeLineIndex] = inputLine.replace(
-                    /inputType:\s*"[^"]*"/,
-                    `$&,\n        isArray: true`
-                  );
+                  lines[inputTypeLineIndex] = inputLine.replace(/inputType:\s*"[^"]*"/, `$&,\n        isArray: true`);
                 } else {
                   // Safe to add
-                  lines[inputTypeLineIndex] = inputLine.replace(
-                    /inputType:\s*"[^"]*"/,
-                    `$&,\n        isArray: true`
-                  );
+                  lines[inputTypeLineIndex] = inputLine.replace(/inputType:\s*"[^"]*"/, `$&,\n        isArray: true`);
                 }
                 fixedCount++;
                 i = registerIndex + 5; // Skip ahead to avoid reprocessing
@@ -107,9 +87,7 @@ async function fixArrayFields() {
 
         if (content !== originalContent) {
           await writeFile(filePath, content, "utf-8");
-          console.log(
-            `✅ Fixed: ${path.relative(".", filePath)} (${fixedCount} field(s))`
-          );
+          console.log(`✅ Fixed: ${path.relative(".", filePath)} (${fixedCount} field(s))`);
           totalFixed += fixedCount;
         }
       }

@@ -9,20 +9,22 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const LogsSchema = z.object({
-  id: z.string(),
-  recordId: z.string(),
-  recordType: z.string(),
-  externalSystem: z.string(),
-  externalId: z.string().optional(),
-  status: z.enum(["pending", "in-progress", "success", "failed", "retry"]).optional(),
-  errorMessage: z.string().optional(),
-  requestPayload: z.unknown().optional(),
-  responsePayload: z.unknown().optional(),
-  lastSyncAt: z.iso.date().optional(),
-  retryCount: z.number().optional(),
-  nextRetryAt: z.iso.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	recordId: z.string(),
+	recordType: z.string(),
+	externalSystem: z.string(),
+	externalId: z.string().optional(),
+	status: z
+		.enum(["pending", "in-progress", "success", "failed", "retry"])
+		.optional(),
+	errorMessage: z.string().optional(),
+	requestPayload: z.unknown().optional(),
+	responsePayload: z.unknown().optional(),
+	lastSyncAt: z.iso.date().optional(),
+	retryCount: z.number().optional(),
+	nextRetryAt: z.iso.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Logs = z.infer<typeof LogsSchema>;

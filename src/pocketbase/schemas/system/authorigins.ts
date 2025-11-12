@@ -8,12 +8,12 @@ import { z } from "zod";
 import * as PB from "../../../lib/pb.types";
 
 export const AuthoriginsSchema = z.object({
-  collectionRef: z.string(),
-  created: z.iso.date(),
-  fingerprint: z.string(),
-  id: z.string(),
-  recordRef: z.string(),
-  updated: z.iso.date(),
+	collectionRef: z.string(),
+	created: z.iso.date(),
+	fingerprint: z.string(),
+	id: z.string(),
+	recordRef: z.string(),
+	updated: z.iso.date(),
 });
 
 export type Authorigins = z.infer<typeof AuthoriginsSchema>;

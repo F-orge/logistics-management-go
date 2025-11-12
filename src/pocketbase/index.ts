@@ -5,18 +5,18 @@ export const pocketbase = new PocketBase() as TypedPocketBase;
 
 export type { PocketBaseContextType } from "./context";
 export {
-  PocketBaseProvider,
-  useAuth,
-  usePocketBase,
-  usePocketBaseClient,
+	PocketBaseProvider,
+	useAuth,
+	usePocketBase,
+	usePocketBaseClient,
 } from "./context";
 
 export {
-  useCreateRecord,
-  useDeleteRecord,
-  useFetchRecord,
-  useFetchRecords,
-  useSubscribeCollection,
-  useSubscribeRecord,
-  useUpdateRecord,
+	useCreateRecord,
+	useDeleteRecord,
+	useFetchRecord,
+	useFetchRecords,
+	useSubscribeCollection,
+	useSubscribeRecord,
+	useUpdateRecord,
 } from "./hooks";

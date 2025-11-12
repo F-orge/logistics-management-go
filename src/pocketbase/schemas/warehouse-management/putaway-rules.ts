@@ -9,54 +9,71 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const PutawayRulesSchema = z.object({
-  id: z.string(),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  client: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
-      },
-    })
-  ),
-  warehouse: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  preferredLocation: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementLocations,
-        displayField: "id",
-      },
-    })
-  ),
-  locationType: z.enum(["receiving-dock", "pick-bin", "packing-station", "cross-dock-area", "bulk-storage", "reserve-storage", "damaged-goods", "staging-area", "quality-control", "returns-area"]),
-  priority: z.number(),
-  minQuantity: z.number().optional(),
-  maxQuantity: z.number().optional(),
-  weightThreshold: z.number().optional(),
-  volumeThreshold: z.number().optional(),
-  requireTemperatureControl: z.unknown().optional(),
-  requireHazmatApproval: z.unknown().optional(),
-  isActive: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "id",
+			},
+		}),
+	),
+	client: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsCompanies,
+					displayField: "id",
+				},
+			}),
+		),
+	warehouse: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "id",
+			},
+		}),
+	),
+	preferredLocation: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.WarehouseManagementLocations,
+					displayField: "id",
+				},
+			}),
+		),
+	locationType: z.enum([
+		"receiving-dock",
+		"pick-bin",
+		"packing-station",
+		"cross-dock-area",
+		"bulk-storage",
+		"reserve-storage",
+		"damaged-goods",
+		"staging-area",
+		"quality-control",
+		"returns-area",
+	]),
+	priority: z.number(),
+	minQuantity: z.number().optional(),
+	maxQuantity: z.number().optional(),
+	weightThreshold: z.number().optional(),
+	volumeThreshold: z.number().optional(),
+	requireTemperatureControl: z.unknown().optional(),
+	requireHazmatApproval: z.unknown().optional(),
+	isActive: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PutawayRules = z.infer<typeof PutawayRulesSchema>;

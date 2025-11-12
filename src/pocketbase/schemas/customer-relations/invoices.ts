@@ -9,36 +9,57 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const InvoicesSchema = z.object({
-  id: z.string(),
-  invoiceNumber: z.string(),
-  opportunity: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsOpportunities,
-        displayField: "id",
-      },
-    })
-  ),
-  status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
-  total: z.number().optional(),
-  issueDate: z.iso.date().optional(),
-  dueDate: z.iso.date().optional(),
-  sentAt: z.iso.date().optional(),
-  paidAt: z.iso.date().optional(),
-  paymentMethod: z.enum(["credit-card", "bank-transfer", "cash", "check", "paypal", "stripe", "wire-transfer", "other", "maya", "gcash"]).optional(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  items: z.array(z.string()).optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsInvoiceItems,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoiceNumber: z.string(),
+	opportunity: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsOpportunities,
+					displayField: "id",
+				},
+			}),
+		),
+	status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
+	total: z.number().optional(),
+	issueDate: z.iso.date().optional(),
+	dueDate: z.iso.date().optional(),
+	sentAt: z.iso.date().optional(),
+	paidAt: z.iso.date().optional(),
+	paymentMethod: z
+		.enum([
+			"credit-card",
+			"bank-transfer",
+			"cash",
+			"check",
+			"paypal",
+			"stripe",
+			"wire-transfer",
+			"other",
+			"maya",
+			"gcash",
+		])
+		.optional(),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	items: z
+		.array(z.string())
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsInvoiceItems,
+					displayField: "id",
+				},
+			}),
+		),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

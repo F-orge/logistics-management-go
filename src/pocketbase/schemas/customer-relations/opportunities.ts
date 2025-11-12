@@ -9,62 +9,98 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const OpportunitiesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  stage: z.enum(["prospecting", "qualification", "need-analysis", "demo", "proposal", "negotiation", "closed-won", "closed-lost"]).optional(),
-  dealValue: z.number().optional(),
-  probability: z.number().optional(),
-  expectedCloseDate: z.iso.date().optional(),
-  lostReason: z.unknown().optional(),
-  source: z.enum(["website", "referral", "social-media", "email-campaign", "cold-call", "event", "advertisment", "partner", "existing-customer", "other"]),
-  owner: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  contact: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsContacts,
-        displayField: "id",
-      },
-    })
-  ),
-  company: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
-      },
-    })
-  ),
-  campaign: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCampaigns,
-        displayField: "id",
-      },
-    })
-  ),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  products: z.array(z.string()).optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsOpportunityProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	stage: z
+		.enum([
+			"prospecting",
+			"qualification",
+			"need-analysis",
+			"demo",
+			"proposal",
+			"negotiation",
+			"closed-won",
+			"closed-lost",
+		])
+		.optional(),
+	dealValue: z.number().optional(),
+	probability: z.number().optional(),
+	expectedCloseDate: z.iso.date().optional(),
+	lostReason: z.unknown().optional(),
+	source: z.enum([
+		"website",
+		"referral",
+		"social-media",
+		"email-campaign",
+		"cold-call",
+		"event",
+		"advertisment",
+		"partner",
+		"existing-customer",
+		"other",
+	]),
+	owner: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.Users,
+				displayField: "id",
+			},
+		}),
+	),
+	contact: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsContacts,
+					displayField: "id",
+				},
+			}),
+		),
+	company: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsCompanies,
+					displayField: "id",
+				},
+			}),
+		),
+	campaign: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsCampaigns,
+					displayField: "id",
+				},
+			}),
+		),
+	attachments: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	products: z
+		.array(z.string())
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.CustomerRelationsOpportunityProducts,
+					displayField: "id",
+				},
+			}),
+		),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Opportunities = z.infer<typeof OpportunitiesSchema>;

@@ -9,49 +9,54 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
 export const PackagesSchema = z.object({
-  id: z.string(),
-  salesOrder: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementSalesOrders,
-        displayField: "id",
-      },
-    })
-  ),
-  packageNumber: z.string(),
-  warehouse: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  type: z.string().optional(),
-  weight: z.number().optional(),
-  length: z.number().optional(),
-  width: z.number().optional(),
-  height: z.number().optional(),
-  packedByUser: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.Users,
-        displayField: "id",
-      },
-    })
-  ),
-  packedAt: z.iso.date().optional(),
-  shippedAt: z.iso.date().optional(),
-  isFragile: z.unknown().optional(),
-  isHazmat: z.unknown().optional(),
-  requireSignature: z.unknown().optional(),
-  insuranceValue: z.number().optional(),
-  images: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	salesOrder: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementSalesOrders,
+				displayField: "id",
+			},
+		}),
+	),
+	packageNumber: z.string(),
+	warehouse: z.string().check(
+		fieldConfigFactory<"relation">()({
+			fieldType: "relation",
+			customData: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "id",
+			},
+		}),
+	),
+	type: z.string().optional(),
+	weight: z.number().optional(),
+	length: z.number().optional(),
+	width: z.number().optional(),
+	height: z.number().optional(),
+	packedByUser: z
+		.string()
+		.optional()
+		.check(
+			fieldConfigFactory<"relation">()({
+				fieldType: "relation",
+				customData: {
+					collectionName: Collections.Users,
+					displayField: "id",
+				},
+			}),
+		),
+	packedAt: z.iso.date().optional(),
+	shippedAt: z.iso.date().optional(),
+	isFragile: z.unknown().optional(),
+	isHazmat: z.unknown().optional(),
+	requireSignature: z.unknown().optional(),
+	insuranceValue: z.number().optional(),
+	images: z
+		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Packages = z.infer<typeof PackagesSchema>;

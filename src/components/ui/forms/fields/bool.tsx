@@ -6,25 +6,25 @@ import { useFieldContext } from "..";
 import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
 export type BoolFieldProps = {
-  variant?: "checkbox" | "switch";
+	variant?: "checkbox" | "switch";
 };
 
 const BoolField = (props: BoolFieldProps) => {
-  const { variant = "checkbox" } = props;
-  const field = useFieldContext<boolean>();
+	const { variant = "checkbox" } = props;
+	const field = useFieldContext<boolean>();
 
-  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-  const Component = variant === "switch" ? Switch : Checkbox;
+	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const Component = variant === "switch" ? Switch : Checkbox;
 
-  return (
-    <Component
-      id={field.name}
-      checked={field.state.value ?? false}
-      onCheckedChange={(checked) => field.handleChange(checked === true)}
-      onBlur={field.handleBlur}
-      aria-invalid={isInvalid}
-    />
-  );
+	return (
+		<Component
+			id={field.name}
+			checked={field.state.value ?? false}
+			onCheckedChange={(checked) => field.handleChange(checked === true)}
+			onBlur={field.handleBlur}
+			aria-invalid={isInvalid}
+		/>
+	);
 };
 
 export default BoolField;
