@@ -5,105 +5,26 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const VehicleMaintenanceSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "VehicleMaintenance-id",
-      type: "field",
-      inputType: "text",
-      label: "Maintenance ID",
-      description: "Unique identifier for the maintenance record",
-      props: {
-        disabled: true,
-      },
-    }),
-    vehicle: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "VehicleMaintenance-vehicle",
-      inputType: "relation",
-      label: "Vehicle",
-      description: "Vehicle being maintained",
-      props: {
+export const VehicleMaintenanceSchema = z.object({
+  id: z.string(),
+  vehicle: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.TransportManagementVehicles,
-        relationshipName: "vehicle",
-        displayField: "registrationNumber",
-      } as RelationFieldProps<any>,
-    }),
-    serviceDate: z.iso.date().register(fieldRegistry, {
-      id: "VehicleMaintenance-serviceDate",
-      type: "field",
-      inputType: "date",
-      label: "Service Date",
-      description: "Date of service",
-    }),
-    serviceType: z.iso.date().register(fieldRegistry, {
-      id: "VehicleMaintenance-serviceType",
-      type: "field",
-      inputType: "date",
-      label: "Service Type",
-      description: "Type of service performed",
-    }),
-    cost: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "VehicleMaintenance-cost",
-        type: "field",
-        inputType: "number",
-        label: "Cost",
-        description: "Service cost",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    notes: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "VehicleMaintenance-notes",
-        type: "field",
-        inputType: "textarea",
-        label: "Notes",
-        description: "Additional notes about the service",
-        props: {
-          placeholder: "Service details",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "VehicleMaintenance-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "VehicleMaintenance-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  serviceDate: z.iso.date(),
+  serviceType: z.iso.date(),
+  cost: z.number().optional(),
+  notes: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type VehicleMaintenance = z.infer<typeof VehicleMaintenanceSchema>;

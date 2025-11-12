@@ -5,237 +5,66 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const TaskItemsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "TaskItems-id",
-      type: "field",
-      inputType: "text",
-      label: "Task Item ID",
-      description: "Unique identifier for the task item",
-      props: {
-        disabled: true,
+export const TaskItemsSchema = z.object({
+  id: z.string(),
+  task: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementTasks,
+        displayField: "id",
       },
-    }),
-    task: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "TaskItems-task",
-        inputType: "relation",
-        label: "Task",
-        description: "Task this item belongs to",
-        props: {
-          collectionName: Collections.WarehouseManagementTasks,
-          relationshipName: "task",
-          displayField: "taskNumber",
-        } as RelationFieldProps<any>,
-      }),
-    product: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "TaskItems-product",
-        inputType: "relation",
-        label: "Product",
-        description: "Product for this task item",
-        props: {
-          collectionName: Collections.WarehouseManagementProducts,
-          relationshipName: "product",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    batch: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "TaskItems-batch",
-        inputType: "relation",
-        label: "Batch",
-        description: "Inventory batch for this item",
-        props: {
-          collectionName: Collections.WarehouseManagementInventoryBatches,
-          relationshipName: "batch",
-          displayField: "batchNumber",
-        } as RelationFieldProps<any>,
-      }),
-    sourceLocation: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "TaskItems-sourceLocation",
-        inputType: "relation",
-        label: "Source Location",
-        description: "Location the item is picked from",
-        props: {
-          collectionName: Collections.WarehouseManagementLocations,
-          relationshipName: "sourceLocation",
-          displayField: "code",
-        } as RelationFieldProps<any>,
-      }),
-    destinationLocation: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "TaskItems-destinationLocation",
-        inputType: "relation",
-        label: "Destination Location",
-        description: "Location the item is placed to",
-        props: {
-          collectionName: Collections.WarehouseManagementLocations,
-          relationshipName: "destinationLocation",
-          displayField: "code",
-        } as RelationFieldProps<any>,
-      }),
-    quantityRequired: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-quantityRequired",
-        type: "field",
-        inputType: "number",
-        label: "Quantity Required",
-        description: "Quantity required for this item",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    quantityCompleted: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-quantityCompleted",
-        type: "field",
-        inputType: "number",
-        label: "Quantity Completed",
-        description: "Quantity completed",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    status: z
-      .enum([
-        "pending",
-        "in-progress",
-        "completed",
-        "short-picked",
-        "damaged",
-        "not-found",
-      ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the task item",
-        props: {
-          options: [
-            { label: "Pending", value: "pending" },
-            { label: "In Progress", value: "in-progress" },
-            { label: "Completed", value: "completed" },
-            { label: "Short Picked", value: "short-picked" },
-            { label: "Damaged", value: "damaged" },
-            { label: "Not Found", value: "not-found" },
-          ],
-        },
-      }),
-    lotNumber: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-lotNumber",
-        type: "field",
-        inputType: "number",
-        label: "Lot Number",
-        description: "Lot number for tracking",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    expiryDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "TaskItems-expiryDate",
-      type: "field",
-      inputType: "date",
-      label: "Expiry Date",
-      description: "Expiry date of the product",
-    }),
-    notes: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-notes",
-        type: "field",
-        inputType: "textarea",
-        label: "Notes",
-        description: "Additional notes",
-        props: {
-          placeholder: "Add any notes here",
-        },
-      }),
-    completedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "TaskItems-completedAt",
-      type: "field",
-      inputType: "date",
-      label: "Completed At",
-      description: "When the item was completed",
-    }),
-    proofs: z
-      .array(z.file())
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-proofs",
-        type: "field",
-        inputType: "file",
-        label: "Proofs",
-        description: "Proof files for completion",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskItems-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  product: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "id",
+      },
+    })
+  ),
+  batch: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementInventoryBatches,
+        displayField: "id",
+      },
+    })
+  ),
+  sourceLocation: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
+  destinationLocation: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
+      },
+    })
+  ),
+  quantityRequired: z.number().optional(),
+  quantityCompleted: z.number().optional(),
+  status: z.enum(["pending", "in-progress", "completed", "short-picked", "damaged", "not-found"]).optional(),
+  lotNumber: z.number().optional(),
+  expiryDate: z.iso.date().optional(),
+  notes: z.unknown().optional(),
+  completedAt: z.iso.date().optional(),
+  proofs: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type TaskItems = z.infer<typeof TaskItemsSchema>;

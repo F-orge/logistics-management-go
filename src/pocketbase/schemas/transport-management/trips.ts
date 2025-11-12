@@ -5,93 +5,32 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const TripsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Trips-id",
-      type: "field",
-      inputType: "text",
-      label: "Trip ID",
-      description: "Unique identifier for the trip",
-      props: {
-        disabled: true,
-      },
-    }),
-    driver: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Trips-driver",
-      inputType: "relation",
-      label: "Driver",
-      description: "Driver assigned to this trip",
-      props: {
+export const TripsSchema = z.object({
+  id: z.string(),
+  driver: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.TransportManagementDrivers,
-        relationshipName: "driver",
-        displayField: "licenseNumber",
-      } as RelationFieldProps<any>,
-    }),
-    vehicle: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Trips-vehicle",
-      inputType: "relation",
-      label: "Vehicle",
-      description: "Vehicle used for this trip",
-      props: {
+        displayField: "id",
+      },
+    })
+  ),
+  vehicle: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.TransportManagementVehicles,
-        relationshipName: "vehicle",
-        displayField: "registrationNumber",
-      } as RelationFieldProps<any>,
-    }),
-    status: z
-      .enum(["planned", "in-progress", "completed", "cancelled"])
-      .register(fieldRegistry, {
-        id: "Trips-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the trip",
-        props: {
-          options: [
-            { label: "Planned", value: "planned" },
-            { label: "In Progress", value: "in-progress" },
-            { label: "Completed", value: "completed" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Trips-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Trips-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Trips = z.infer<typeof TripsSchema>;

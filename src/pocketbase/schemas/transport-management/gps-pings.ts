@@ -5,52 +5,22 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const GpsPingsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "GpsPings-id",
-      type: "field",
-      inputType: "text",
-      label: "Ping ID",
-      description: "Unique identifier for the GPS ping",
-      props: {
-        disabled: true,
-      },
-    }),
-    vehicle: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "GpsPings-vehicle",
-      inputType: "relation",
-      label: "Vehicle",
-      description: "Vehicle sending the GPS ping",
-      props: {
+export const GpsPingsSchema = z.object({
+  id: z.string(),
+  vehicle: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.TransportManagementVehicles,
-        relationshipName: "vehicle",
-        displayField: "registrationNumber",
-      } as RelationFieldProps<any>,
-    }),
-    coordinates: z.unknown().register(fieldRegistry, {
-      id: "GpsPings-coordinates",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Coordinates",
-      description: "GPS coordinates of the vehicle",
-    }),
-    timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "GpsPings-timestamp",
-      type: "field",
-      inputType: "date",
-      label: "Timestamp",
-      description: "When the ping was recorded",
-    }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  coordinates: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
+});
 
 export type GpsPings = z.infer<typeof GpsPingsSchema>;

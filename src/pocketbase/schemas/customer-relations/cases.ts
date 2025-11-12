@@ -5,175 +5,36 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const CasesSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Cases-id",
-      type: "field",
-      inputType: "text",
-      label: "Case ID",
-      description: "Unique identifier for the case",
-      props: {
-        disabled: true,
-      },
-    }),
-    caseNumber: z.string().register(fieldRegistry, {
-      id: "Cases-caseNumber",
-      type: "field",
-      inputType: "text",
-      label: "Case Number",
-      description: "Case reference number",
-      props: {
-        placeholder: "Case number",
-      },
-    }),
-    status: z
-      .enum([
-        "new",
-        "in-progress",
-        "waiting-for-customer",
-        "waiting-for-internal",
-        "escalated",
-        "resolved",
-        "closed",
-        "cancelled",
-      ])
-      .register(fieldRegistry, {
-        id: "Cases-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current case status",
-        props: {
-          options: [
-            { label: "New", value: "new" },
-            { label: "In Progress", value: "in-progress" },
-            { label: "Waiting for Customer", value: "waiting-for-customer" },
-            { label: "Waiting for Internal", value: "waiting-for-internal" },
-            { label: "Escalated", value: "escalated" },
-            { label: "Resolved", value: "resolved" },
-            { label: "Closed", value: "closed" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
-    priority: z
-      .enum(["critical", "high", "medium", "low"])
-      .register(fieldRegistry, {
-        id: "Cases-priority",
-        type: "field",
-        inputType: "select",
-        label: "Priority",
-        description: "Case priority level",
-        props: {
-          options: [
-            { label: "Critical", value: "critical" },
-            { label: "High", value: "high" },
-            { label: "Medium", value: "medium" },
-            { label: "Low", value: "low" },
-          ],
-        },
-      }),
-    type: z
-      .enum([
-        "question",
-        "problem",
-        "complaint",
-        "feature-request",
-        "bug-report",
-        "technical-support",
-      ])
-      .register(fieldRegistry, {
-        id: "Cases-type",
-        type: "field",
-        inputType: "select",
-        label: "Type",
-        description: "Type of case",
-        props: {
-          options: [
-            { label: "Question", value: "question" },
-            { label: "Problem", value: "problem" },
-            { label: "Complaint", value: "complaint" },
-            { label: "Feature Request", value: "feature-request" },
-            { label: "Bug Report", value: "bug-report" },
-            { label: "Technical Support", value: "technical-support" },
-          ],
-        },
-      }),
-    owner: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Cases-owner",
-      inputType: "relation",
-      label: "Owner",
-      description: "User assigned to this case",
-      props: {
+export const CasesSchema = z.object({
+  id: z.string(),
+  caseNumber: z.string(),
+  status: z.enum(["new", "in-progress", "waiting-for-customer", "waiting-for-internal", "escalated", "resolved", "closed", "cancelled"]),
+  priority: z.enum(["critical", "high", "medium", "low"]),
+  type: z.enum(["question", "problem", "complaint", "feature-request", "bug-report", "technical-support"]),
+  owner: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.Users,
-        relationshipName: "owner",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    contact: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Cases-contact",
-        inputType: "relation",
-        label: "Contact",
-        description: "Contact associated with this case",
-        props: {
-          collectionName: Collections.CustomerRelationsContacts,
-          relationshipName: "contact",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    description: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Cases-description",
-        type: "field",
-        inputType: "textarea",
-        label: "Description",
-        description: "Case description",
-        props: {
-          placeholder: "Enter case description",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Cases-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the case was created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Cases-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the case was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  contact: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsContacts,
+        displayField: "id",
+      },
+    })
+  ),
+  description: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Cases = z.infer<typeof CasesSchema>;

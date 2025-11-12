@@ -5,69 +5,23 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const DriverLocationSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "DriverLocation-id",
-      type: "field",
-      inputType: "text",
-      label: "Location ID",
-      description: "Unique identifier for the driver location",
-      props: {
-        disabled: true,
-      },
-    }),
-    driver: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "DriverLocation-driver",
-      inputType: "relation",
-      label: "Driver",
-      description: "Driver associated with this location",
-      props: {
+export const DriverLocationSchema = z.object({
+  id: z.string(),
+  driver: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.TransportManagementDrivers,
-        relationshipName: "driver",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    coordinates: z.unknown().register(fieldRegistry, {
-      id: "DriverLocation-coordinates",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Coordinates",
-      description: "GPS coordinates of the driver",
-    }),
-    heading: z.unknown().register(fieldRegistry, {
-      id: "DriverLocation-heading",
-      type: "field",
-      inputType: "number",
-      label: "Heading",
-      description: "Direction the driver is heading (0-360 degrees)",
-      props: {
-        min: 0,
-        max: 360,
+        displayField: "id",
       },
-    }),
-    timestamp: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "DriverLocation-timestamp",
-        type: "field",
-        inputType: "date",
-        label: "Timestamp",
-        description: "When the location was recorded",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  coordinates: z.unknown(),
+  heading: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
+});
 
 export type DriverLocation = z.infer<typeof DriverLocationSchema>;

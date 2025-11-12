@@ -5,90 +5,32 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const ReorderPointsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "ReorderPoints-id",
-      type: "field",
-      inputType: "text",
-      label: "Reorder Point ID",
-      description: "Unique identifier for the reorder point",
-      props: {
-        disabled: true,
-      },
-    }),
-    product: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "ReorderPoints-product",
-      inputType: "relation",
-      label: "Product",
-      description: "Product for this reorder point",
-      props: {
+export const ReorderPointsSchema = z.object({
+  id: z.string(),
+  product: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.WarehouseManagementProducts,
-        relationshipName: "product",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    threshold: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ReorderPoints-threshold",
-        type: "field",
-        inputType: "number",
-        label: "Threshold",
-        description: "Reorder threshold quantity",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    warehouse: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "ReorderPoints-warehouse",
-      inputType: "relation",
-      label: "Warehouse",
-      description: "Warehouse for this reorder point",
-      props: {
+        displayField: "id",
+      },
+    })
+  ),
+  threshold: z.number().optional(),
+  warehouse: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.WarehouseManagementWarehouses,
-        relationshipName: "warehouse",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ReorderPoints-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ReorderPoints-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type ReorderPoints = z.infer<typeof ReorderPointsSchema>;

@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
+import { EditIcon } from "lucide-react";
 import { ClientResponseError } from "pocketbase";
 import React from "react";
 import z from "zod";
@@ -58,13 +59,20 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
 
 function RouteComponent() {
   const { data, columns, Actions, ControlSection } = Route.useLoaderData();
+  const navigate = Route.useNavigate();
 
   return (
     <article className="grid grid-cols-12 gap-5">
       <section>{/* analytics section */}</section>
       {ControlSection && <ControlSection />}
       <section className="col-span-full">
-        <DataTable columns={columns} data={data} />
+        <DataTable
+          columns={columns}
+          data={data}
+          onPageChange={(page) =>
+            navigate({ search: { page, perPage: data.perPage } })
+          }
+        />
       </section>
       <section>
         <Actions />

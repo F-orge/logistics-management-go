@@ -5,136 +5,51 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const OutboundShipmentsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "OutboundShipments-id",
-      type: "field",
-      inputType: "text",
-      label: "Shipment ID",
-      description: "Unique identifier for the outbound shipment",
-      props: {
-        disabled: true,
-      },
-    }),
-    salesOrder: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "OutboundShipments-salesOrder",
-      inputType: "relation",
-      label: "Sales Order",
-      description: "Sales order for this shipment",
-      props: {
+export const OutboundShipmentsSchema = z.object({
+  id: z.string(),
+  salesOrder: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.WarehouseManagementSalesOrders,
-        relationshipName: "salesOrder",
-        displayField: "orderNumber",
-      } as RelationFieldProps<any>,
-    }),
-    status: z
-      .enum(["picking", "packed", "shipped", "delivered", "cancelled"])
-      .optional()
-      .register(fieldRegistry, {
-        id: "OutboundShipments-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the shipment",
-        props: {
-          options: [
-            { label: "Picking", value: "picking" },
-            { label: "Packed", value: "packed" },
-            { label: "Shipped", value: "shipped" },
-            { label: "Delivered", value: "delivered" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
-    trackingNumber: z.string().register(fieldRegistry, {
-      id: "OutboundShipments-trackingNumber",
-      type: "field",
-      inputType: "text",
-      label: "Tracking Number",
-      description: "Shipment tracking number",
-      props: {
-        placeholder: "TRACK-001",
+        displayField: "id",
       },
-    }),
-    carrier: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "OutboundShipments-carrier",
-        inputType: "relation",
-        label: "Carrier",
-        description: "Shipping carrier",
-        props: {
-          collectionName: Collections.TransportManagementCarriers,
-          relationshipName: "carrier",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    items: z
-      .array(z.string())
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "OutboundShipments-items",
-        inputType: "relation",
-        isArray: true,
-        label: "Items",
-        description: "Items in this shipment",
-        props: {
-          collectionName: Collections.WarehouseManagementOutboundShipmentItems,
-          relationshipName: "items",
-          displayField: "id",
-        } as RelationFieldProps<any>,
-      }),
-    warehouse: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "OutboundShipments-warehouse",
-      inputType: "relation",
-      label: "Warehouse",
-      description: "Warehouse shipping from",
-      props: {
+    })
+  ),
+  status: z.enum(["picking", "packed", "shipped", "delivered", "cancelled"]).optional(),
+  trackingNumber: z.string(),
+  carrier: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementCarriers,
+        displayField: "id",
+      },
+    })
+  ),
+  items: z.array(z.string()).optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementOutboundShipmentItems,
+        displayField: "id",
+      },
+    })
+  ),
+  warehouse: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.WarehouseManagementWarehouses,
-        relationshipName: "warehouse",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "OutboundShipments-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "OutboundShipments-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type OutboundShipments = z.infer<typeof OutboundShipmentsSchema>;

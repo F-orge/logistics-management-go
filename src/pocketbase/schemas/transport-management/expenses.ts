@@ -5,186 +5,38 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const ExpensesSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Expenses-id",
-      type: "field",
-      inputType: "text",
-      label: "Expense ID",
-      description: "Unique identifier for the expense",
-      props: {
-        disabled: true,
+export const ExpensesSchema = z.object({
+  id: z.string(),
+  trip: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementTrips,
+        displayField: "id",
       },
-    }),
-    trip: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Expenses-trip",
-        inputType: "relation",
-        label: "Trip",
-        description: "Associated trip",
-        props: {
-          collectionName: Collections.TransportManagementTrips,
-          relationshipName: "trip",
-          displayField: "id",
-        } as RelationFieldProps<any>,
-      }),
-    driver: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Expenses-driver",
-        inputType: "relation",
-        label: "Driver",
-        description: "Driver who incurred the expense",
-        props: {
-          collectionName: Collections.TransportManagementDrivers,
-          relationshipName: "driver",
-          displayField: "licenseNumber",
-        } as RelationFieldProps<any>,
-      }),
-    type: z
-      .enum([
-        "fuel",
-        "tolls",
-        "maintenance",
-        "parking",
-        "meals",
-        "accomodation",
-      ])
-      .register(fieldRegistry, {
-        id: "Expenses-type",
-        type: "field",
-        inputType: "select",
-        label: "Type",
-        description: "Type of expense",
-        props: {
-          options: [
-            { label: "Fuel", value: "fuel" },
-            { label: "Tolls", value: "tolls" },
-            { label: "Maintenance", value: "maintenance" },
-            { label: "Parking", value: "parking" },
-            { label: "Meals", value: "meals" },
-            { label: "Accommodation", value: "accomodation" },
-          ],
-        },
-      }),
-    amount: z.number().register(fieldRegistry, {
-      id: "Expenses-amount",
-      type: "field",
-      inputType: "number",
-      label: "Amount",
-      description: "Expense amount",
-      props: {
-        placeholder: "0.00",
-        min: 0,
+    })
+  ),
+  driver: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementDrivers,
+        displayField: "id",
       },
-    }),
-    currency: z.enum(["PHP", "USD", "EUR"]).register(fieldRegistry, {
-      id: "Expenses-currency",
-      type: "field",
-      inputType: "select",
-      label: "Currency",
-      description: "Currency of the amount",
-      props: {
-        options: [
-          { label: "PHP", value: "PHP" },
-          { label: "USD", value: "USD" },
-          { label: "EUR", value: "EUR" },
-        ],
-      },
-    }),
-    receipts: z.array(z.file()).register(fieldRegistry, {
-      id: "Expenses-receipts",
-      type: "field",
-      inputType: "file",
-      label: "Receipts",
-      description: "Receipt files for this expense",
-      isArray: true,
-      props: {
-        accept: "*/*",
-      },
-    }),
-    fuelQuantity: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Expenses-fuelQuantity",
-        type: "field",
-        inputType: "number",
-        label: "Fuel Quantity",
-        description: "Amount of fuel in liters",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    odometerReading: z.number().register(fieldRegistry, {
-      id: "Expenses-odometerReading",
-      type: "field",
-      inputType: "number",
-      label: "Odometer Reading",
-      description: "Vehicle odometer reading in km",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
-    status: z
-      .enum(["pending", "approved", "rejected", "reimbursed"])
-      .register(fieldRegistry, {
-        id: "Expenses-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the expense",
-        props: {
-          options: [
-            { label: "Pending", value: "pending" },
-            { label: "Approved", value: "approved" },
-            { label: "Rejected", value: "rejected" },
-            { label: "Reimbursed", value: "reimbursed" },
-          ],
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Expenses-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Expenses-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  type: z.enum(["fuel", "tolls", "maintenance", "parking", "meals", "accomodation"]),
+  amount: z.number(),
+  currency: z.enum(["PHP", "USD", "EUR"]),
+  receipts: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))),
+  fuelQuantity: z.number().optional(),
+  odometerReading: z.number(),
+  status: z.enum(["pending", "approved", "rejected", "reimbursed"]),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Expenses = z.infer<typeof ExpensesSchema>;

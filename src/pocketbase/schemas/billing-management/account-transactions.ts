@@ -5,142 +5,36 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const AccountTransactionsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "AccountTransactions-id",
-      type: "field",
-      inputType: "text",
-      label: "Transaction ID",
-      description: "Unique identifier for the transaction",
-      props: {
-        disabled: true,
-      },
-    }),
-    clientAccount: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "AccountTransactions-clientAccount",
-      inputType: "relation",
-      label: "Client Account",
-      description: "Client account for this transaction",
-      props: {
+export const AccountTransactionsSchema = z.object({
+  id: z.string(),
+  clientAccount: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.BillingManagementClientAccounts,
-        relationshipName: "clientAccount",
         displayField: "id",
-      } as RelationFieldProps<any>,
-    }),
-    type: z
-      .enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"])
-      .register(fieldRegistry, {
-        id: "AccountTransactions-type",
-        type: "field",
-        inputType: "select",
-        label: "Type",
-        description: "Type of transaction",
-        props: {
-          options: [
-            { label: "Credit", value: "credit" },
-            { label: "Debit", value: "debit" },
-            { label: "Top-up", value: "top-up" },
-            { label: "Refund", value: "refund" },
-            { label: "Adjustment", value: "adjustment" },
-            { label: "Fee", value: "fee" },
-          ],
-        },
-      }),
-    amount: z.number().register(fieldRegistry, {
-      id: "AccountTransactions-amount",
-      type: "field",
-      inputType: "number",
-      label: "Amount",
-      description: "Transaction amount",
-      props: {
-        placeholder: "0.00",
-        min: 0,
       },
-    }),
-    runningBalance: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "AccountTransactions-runningBalance",
-        type: "field",
-        inputType: "number",
-        label: "Running Balance",
-        description: "Account balance after transaction",
-        props: {
-          placeholder: "0.00",
-        },
-      }),
-    transactionDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "AccountTransactions-transactionDate",
-      type: "field",
-      inputType: "date",
-      label: "Transaction Date",
-      description: "Date of the transaction",
-    }),
-    processedBy: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "AccountTransactions-processedBy",
-        inputType: "relation",
-        label: "Processed By",
-        description: "User who processed the transaction",
-        props: {
-          collectionName: Collections.Users,
-          relationshipName: "processedBy",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    referenceNumber: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "AccountTransactions-referenceNumber",
-        type: "field",
-        inputType: "text",
-        label: "Reference Number",
-        description: "Transaction reference number",
-        props: {
-          placeholder: "REF-001",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "AccountTransactions-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "AccountTransactions-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  type: z.enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"]),
+  amount: z.number(),
+  runningBalance: z.number().optional(),
+  transactionDate: z.iso.date().optional(),
+  processedBy: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.Users,
+        displayField: "id",
+      },
+    })
+  ),
+  referenceNumber: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type AccountTransactions = z.infer<typeof AccountTransactionsSchema>;

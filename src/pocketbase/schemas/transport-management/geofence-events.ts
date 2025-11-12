@@ -5,70 +5,31 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const GeofenceEventsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "GeofenceEvents-id",
-      type: "field",
-      inputType: "text",
-      label: "Event ID",
-      description: "Unique identifier for the geofence event",
-      props: {
-        disabled: true,
-      },
-    }),
-    vehicle: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "GeofenceEvents-vehicle",
-      inputType: "relation",
-      label: "Vehicle",
-      description: "Vehicle involved in this event",
-      props: {
+export const GeofenceEventsSchema = z.object({
+  id: z.string(),
+  vehicle: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.TransportManagementVehicles,
-        relationshipName: "vehicle",
-        displayField: "registrationNumber",
-      } as RelationFieldProps<any>,
-    }),
-    geofence: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "GeofenceEvents-geofence",
-      inputType: "relation",
-      label: "Geofence",
-      description: "Geofence that triggered the event",
-      props: {
-        collectionName: Collections.TransportManagementGeofence,
-        relationshipName: "geofence",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    type: z.enum(["enter", "exit"]).register(fieldRegistry, {
-      id: "GeofenceEvents-type",
-      type: "field",
-      inputType: "select",
-      label: "Type",
-      description: "Type of geofence event",
-      props: {
-        options: [
-          { label: "Enter", value: "enter" },
-          { label: "Exit", value: "exit" },
-        ],
+        displayField: "id",
       },
-    }),
-    timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "GeofenceEvents-timestamp",
-      type: "field",
-      inputType: "date",
-      label: "Timestamp",
-      description: "When the event occurred",
-    }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  geofence: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.TransportManagementGeofence,
+        displayField: "id",
+      },
+    })
+  ),
+  type: z.enum(["enter", "exit"]),
+  timestamp: z.iso.datetime().optional(),
+});
 
 export type GeofenceEvents = z.infer<typeof GeofenceEventsSchema>;

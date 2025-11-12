@@ -5,131 +5,43 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const InteractionsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Interactions-id",
-      type: "field",
-      inputType: "text",
-      label: "Interaction ID",
-      description: "Unique identifier for the interaction",
-      props: {
-        disabled: true,
-      },
-    }),
-    contact: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Interactions-contact",
-      inputType: "relation",
-      label: "Contact",
-      description: "Contact involved in this interaction",
-      props: {
+export const InteractionsSchema = z.object({
+  id: z.string(),
+  contact: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.CustomerRelationsContacts,
-        relationshipName: "contact",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    user: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Interactions-user",
-      inputType: "relation",
-      label: "User",
-      description: "User who conducted this interaction",
-      props: {
+        displayField: "id",
+      },
+    })
+  ),
+  user: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.Users,
-        relationshipName: "user",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    case: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Interactions-case",
-        inputType: "relation",
-        label: "Case",
-        description: "Case associated with this interaction",
-        props: {
-          collectionName: Collections.CustomerRelationsCases,
-          relationshipName: "case",
-          displayField: "caseNumber",
-        } as RelationFieldProps<any>,
-      }),
-    type: z
-      .enum(["call", "meeting", "text", "email"])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-type",
-        type: "field",
-        inputType: "select",
-        label: "Type",
-        description: "Type of interaction",
-        props: {
-          options: [
-            { label: "Call", value: "call" },
-            { label: "Meeting", value: "meeting" },
-            { label: "Text", value: "text" },
-            { label: "Email", value: "email" },
-          ],
-        },
-      }),
-    outcome: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-outcome",
-        type: "field",
-        inputType: "text",
-        label: "Outcome",
-        description: "Outcome of the interaction",
-        props: {
-          placeholder: "Enter outcome",
-        },
-      }),
-    notes: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-notes",
-        type: "field",
-        inputType: "textarea",
-        label: "Notes",
-        description: "Additional notes about the interaction",
-        props: {
-          placeholder: "Enter notes",
-        },
-      }),
-    attachments: z
-      .file()
-      .array()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Interaction documents and files",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    interactionDate: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "Interactions-interactionDate",
-      type: "field",
-      inputType: "date",
-      label: "Interaction Date",
-      description: "When the interaction occurred",
-    }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+        displayField: "id",
+      },
+    })
+  ),
+  case: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsCases,
+        displayField: "id",
+      },
+    })
+  ),
+  type: z.enum(["call", "meeting", "text", "email"]).optional(),
+  outcome: z.string().optional(),
+  notes: z.unknown().optional(),
+  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
+  interactionDate: z.iso.datetime().optional(),
+});
 
 export type Interactions = z.infer<typeof InteractionsSchema>;

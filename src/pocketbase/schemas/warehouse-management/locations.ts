@@ -5,231 +5,43 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const LocationsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Locations-id",
-      type: "field",
-      inputType: "text",
-      label: "Location ID",
-      description: "Unique identifier for the location",
-      props: {
-        disabled: true,
+export const LocationsSchema = z.object({
+  id: z.string(),
+  warehouse: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        displayField: "id",
       },
-    }),
-    warehouse: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Locations-warehouse",
-        inputType: "relation",
-        label: "Warehouse",
-        description: "Warehouse this location belongs to",
-        props: {
-          collectionName: Collections.WarehouseManagementWarehouses,
-          relationshipName: "warehouse",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    name: z.string().register(fieldRegistry, {
-      id: "Locations-name",
-      type: "field",
-      inputType: "text",
-      label: "Location Name",
-      description: "Name of the warehouse location",
-      props: {
-        placeholder: "e.g., A-01-01",
+    })
+  ),
+  name: z.string(),
+  barcode: z.string().optional(),
+  type: z.enum(["receiving-dock", "pick-bin", "packing-station", "cross-dock-area", "bulk-storage", "reserve-storage", "damaged-goods", "staging-area", "quality-control", "returns-area"]).optional(),
+  level: z.number().optional(),
+  maxWeight: z.number().optional(),
+  maxVolume: z.number().optional(),
+  maxPallets: z.number().optional(),
+  isPickable: z.unknown().optional(),
+  isReceivable: z.unknown().optional(),
+  temperatureControlled: z.unknown().optional(),
+  hazmatApproved: z.unknown().optional(),
+  isActive: z.unknown().optional(),
+  parentLocation: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.WarehouseManagementLocations,
+        displayField: "id",
       },
-    }),
-    barcode: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-barcode",
-        type: "field",
-        inputType: "text",
-        label: "Barcode",
-        description: "Barcode for the location",
-        props: {
-          placeholder: "Enter barcode",
-        },
-      }),
-    type: z
-      .enum([
-        "receiving-dock",
-        "pick-bin",
-        "packing-station",
-        "cross-dock-area",
-        "bulk-storage",
-        "reserve-storage",
-        "damaged-goods",
-        "staging-area",
-        "quality-control",
-        "returns-area",
-      ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-type",
-        type: "field",
-        inputType: "select",
-        label: "Type",
-        description: "Type of location",
-        props: {
-          options: [
-            { label: "Receiving Dock", value: "receiving-dock" },
-            { label: "Pick Bin", value: "pick-bin" },
-            { label: "Packing Station", value: "packing-station" },
-            { label: "Cross Dock Area", value: "cross-dock-area" },
-            { label: "Bulk Storage", value: "bulk-storage" },
-            { label: "Reserve Storage", value: "reserve-storage" },
-            { label: "Damaged Goods", value: "damaged-goods" },
-            { label: "Staging Area", value: "staging-area" },
-            { label: "Quality Control", value: "quality-control" },
-            { label: "Returns Area", value: "returns-area" },
-          ],
-        },
-      }),
-    level: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-level",
-        type: "field",
-        inputType: "number",
-        label: "Level",
-        description: "Warehouse level/floor number",
-        props: {
-          placeholder: "1",
-          min: 0,
-        },
-      }),
-    maxWeight: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-maxWeight",
-        type: "field",
-        inputType: "number",
-        label: "Max Weight",
-        description: "Maximum weight capacity (kg)",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    maxVolume: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-maxVolume",
-        type: "field",
-        inputType: "number",
-        label: "Max Volume",
-        description: "Maximum volume capacity (m³)",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    maxPallets: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-maxPallets",
-        type: "field",
-        inputType: "number",
-        label: "Max Pallets",
-        description: "Maximum number of pallets",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    isPickable: z.unknown().optional().register(fieldRegistry, {
-      id: "Locations-isPickable",
-      type: "field",
-      inputType: "bool",
-      label: "Pickable",
-      description: "Whether this location can be picked from",
-    }),
-    isReceivable: z.unknown().optional().register(fieldRegistry, {
-      id: "Locations-isReceivable",
-      type: "field",
-      inputType: "bool",
-      label: "Receivable",
-      description: "Whether items can be received at this location",
-    }),
-    temperatureControlled: z.unknown().optional().register(fieldRegistry, {
-      id: "Locations-temperatureControlled",
-      type: "field",
-      inputType: "bool",
-      label: "Temperature Controlled",
-      description: "Whether the location has temperature control",
-    }),
-    hazmatApproved: z.unknown().optional().register(fieldRegistry, {
-      id: "Locations-hazmatApproved",
-      type: "field",
-      inputType: "bool",
-      label: "Hazmat Approved",
-      description: "Whether hazardous materials can be stored here",
-    }),
-    isActive: z.unknown().optional().register(fieldRegistry, {
-      id: "Locations-isActive",
-      type: "field",
-      inputType: "bool",
-      label: "Active",
-      description: "Whether the location is currently active",
-    }),
-    parentLocation: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Locations-parentLocation",
-        inputType: "relation",
-        label: "Parent Location",
-        description: "Parent location if this is a sub-location",
-        props: {
-          collectionName: Collections.WarehouseManagementLocations,
-          relationshipName: "parentLocation",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Locations-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Locations = z.infer<typeof LocationsSchema>;

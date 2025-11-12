@@ -5,120 +5,34 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
+import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { Collections } from "@/lib/pb.types";
 
-export const SalesOrdersSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "SalesOrders-id",
-      type: "field",
-      inputType: "text",
-      label: "Sales Order ID",
-      description: "Unique identifier for the sales order",
-      props: {
-        disabled: true,
-      },
-    }),
-    shippingAddress: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "SalesOrders-shippingAddress",
-        type: "field",
-        inputType: "number",
-        label: "Shipping Address",
-        description: "Shipping address reference",
-        props: {
-          placeholder: "0",
-        },
-      }),
-    client: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "SalesOrders-client",
-      inputType: "relation",
-      label: "Client",
-      description: "Client for this sales order",
-      props: {
+export const SalesOrdersSchema = z.object({
+  id: z.string(),
+  shippingAddress: z.number().optional(),
+  client: z.string().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
         collectionName: Collections.CustomerRelationsCompanies,
-        relationshipName: "client",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    opportunity: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "SalesOrders-opportunity",
-        inputType: "relation",
-        label: "Opportunity",
-        description: "Related sales opportunity",
-        props: {
-          collectionName: Collections.CustomerRelationsOpportunities,
-          relationshipName: "opportunity",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    status: z
-      .enum(["pending", "processing", "shipped", "completed", "cancelled"])
-      .register(fieldRegistry, {
-        id: "SalesOrders-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the order",
-        props: {
-          options: [
-            { label: "Pending", value: "pending" },
-            { label: "Processing", value: "processing" },
-            { label: "Shipped", value: "shipped" },
-            { label: "Completed", value: "completed" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
-    orderNumber: z.string().register(fieldRegistry, {
-      id: "SalesOrders-orderNumber",
-      type: "field",
-      inputType: "text",
-      label: "Order Number",
-      description: "Sales order number",
-      props: {
-        placeholder: "ORD-001",
+        displayField: "id",
       },
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "SalesOrders-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "SalesOrders-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+    })
+  ),
+  opportunity: z.string().optional().check(
+    fieldConfigFactory<"relation">()({
+      fieldType: "relation",
+      customData: {
+        collectionName: Collections.CustomerRelationsOpportunities,
+        displayField: "id",
+      },
+    })
+  ),
+  status: z.enum(["pending", "processing", "shipped", "completed", "cancelled"]),
+  orderNumber: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type SalesOrders = z.infer<typeof SalesOrdersSchema>;
