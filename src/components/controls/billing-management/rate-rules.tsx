@@ -63,39 +63,32 @@ const RateRuleControls = () => {
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
-        <InputGroup className="w-full max-w-sm">
-          <InputGroupInput
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleSearch();
-              }
-            }}
-          />
-          <InputGroupAddon>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupAddon align="inline-end">
-            <InputGroupButton
-              onClick={handleSearch}
-              variant="secondary"
-              className="rounded-md"
-            >
-              Search
-            </InputGroupButton>
-          </InputGroupAddon>
-        </InputGroup>
-        <Button
-          onClick={() =>
-            navigate({ search: (prev) => ({ ...prev, action: "create" }) })
-          }
-        >
-          Create
-        </Button>
-      </div>
-      <div className="flex gap-2">
+        <div className="flex gap-2.5">
+          <InputGroup className="w-full max-w-sm">
+            <InputGroupInput
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+            />
+            <InputGroupAddon>
+              <SearchIcon />
+            </InputGroupAddon>
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton
+                onClick={handleSearch}
+                variant="secondary"
+                className="rounded-md"
+              >
+                Search
+              </InputGroupButton>
+            </InputGroupAddon>
+          </InputGroup>
+          <div className="flex gap-2">
       <Select value={pricingModelFilter} onValueChange={setPricingModelFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All pricingModel" />
@@ -110,6 +103,15 @@ const RateRuleControls = () => {
           <SelectItem value="tiered">tiered</SelectItem>
         </SelectContent>
       </Select>
+          </div>
+        </div>
+        <Button
+          onClick={() =>
+            navigate({ search: (prev) => ({ ...prev, action: "create" }) })
+          }
+        >
+          Create
+        </Button>
       </div>
     </section>
   );
