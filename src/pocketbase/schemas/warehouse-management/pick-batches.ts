@@ -198,6 +198,7 @@ export const PickBatchesSchema = z
         type: "field",
         id: "PickBatches-items",
         inputType: "relation",
+        isArray: true,
         label: "Items",
         description: "Items in this batch",
         props: {

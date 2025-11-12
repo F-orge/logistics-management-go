@@ -218,6 +218,7 @@ export const InvoicesSchema = z
         id: "Invoices-attachments",
         type: "field",
         inputType: "file",
+        isArray: true,
         label: "Attachments",
         description: "Supporting documents",
         props: {

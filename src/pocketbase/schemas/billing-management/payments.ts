@@ -221,6 +221,7 @@ export const PaymentsSchema = z
         id: "Payments-attachments",
         type: "field",
         inputType: "file",
+        isArray: true,
         label: "Attachments",
         description: "Payment receipts and documents",
         props: {

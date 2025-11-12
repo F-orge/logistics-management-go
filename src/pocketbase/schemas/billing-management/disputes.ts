@@ -157,6 +157,7 @@ export const DisputesSchema = z
         id: "Disputes-attachments",
         type: "field",
         inputType: "file",
+        isArray: true,
         label: "Attachments",
         description: "Supporting documents for the dispute",
         props: {

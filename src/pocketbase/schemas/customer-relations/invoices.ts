@@ -167,6 +167,7 @@ export const InvoicesSchema = z
         type: "field",
         id: "Invoices-items",
         inputType: "relation",
+        isArray: true,
         label: "Items",
         description: "Line items included in this invoice",
         props: {

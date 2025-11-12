@@ -162,6 +162,7 @@ export const ProductsSchema = z
         id: "Products-images",
         type: "field",
         inputType: "file",
+        isArray: true,
         label: "Images",
         description: "Product images",
         props: {

@@ -99,6 +99,7 @@ export const VehiclesSchema = z
         type: "field",
         id: "Vehicles-maintenances",
         inputType: "relation",
+        isArray: true,
         label: "Maintenances",
         description: "Vehicle maintenance records",
         props: {
@@ -114,6 +115,7 @@ export const VehiclesSchema = z
         type: "field",
         id: "Vehicles-gps_pings",
         inputType: "relation",
+        isArray: true,
         label: "GPS Pings",
         description: "GPS tracking pings",
         props: {

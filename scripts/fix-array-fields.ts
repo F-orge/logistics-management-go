@@ -54,7 +54,11 @@ async function fixArrayFields() {
               let hasIsArray = false;
               let inputTypeLineIndex = -1;
 
-              for (let j = registerIndex; j < Math.min(registerIndex + 15, lines.length); j++) {
+              for (
+                let j = registerIndex;
+                j < Math.min(registerIndex + 15, lines.length);
+                j++
+              ) {
                 if (lines[j].includes("isArray")) {
                   hasIsArray = true;
                   break;

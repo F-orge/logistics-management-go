@@ -204,6 +204,7 @@ export const QuotesSchema = z
         id: "Quotes-attachments",
         type: "field",
         inputType: "file",
+        isArray: true,
         label: "Attachments",
         description: "Supporting documents",
         props: {

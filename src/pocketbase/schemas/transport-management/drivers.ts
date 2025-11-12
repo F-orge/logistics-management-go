@@ -77,6 +77,7 @@ export const DriversSchema = z
         type: "field",
         id: "Drivers-schedules",
         inputType: "relation",
+        isArray: true,
         label: "Schedules",
         description: "Driver schedules",
         props: {

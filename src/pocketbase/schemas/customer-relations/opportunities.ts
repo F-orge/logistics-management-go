@@ -227,6 +227,7 @@ export const OpportunitiesSchema = z
         type: "field",
         id: "Opportunities-products",
         inputType: "relation",
+        isArray: true,
         label: "Products",
         description: "Products included in this opportunity",
         props: {

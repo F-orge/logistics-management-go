@@ -87,6 +87,7 @@ export const OutboundShipmentsSchema = z
         type: "field",
         id: "OutboundShipments-items",
         inputType: "relation",
+        isArray: true,
         label: "Items",
         description: "Items in this shipment",
         props: {
