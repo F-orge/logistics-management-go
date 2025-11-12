@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const RateCardsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "RateCards-id",
       type: "field",
       inputType: "text",
       label: "Rate Card ID",
@@ -25,7 +25,7 @@ export const RateCardsSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "RateCards-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -46,7 +46,7 @@ export const RateCardsSchema = z
         "returns",
       ])
       .register(fieldRegistry, {
-        id: "type",
+        id: "RateCards-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -65,28 +65,28 @@ export const RateCardsSchema = z
         },
       }),
     isActive: z.boolean().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "RateCards-isActive",
       type: "field",
       inputType: "bool",
       label: "Active",
       description: "Whether this rate card is active",
     }),
     validFrom: z.iso.date().optional().register(fieldRegistry, {
-      id: "validFrom",
+      id: "RateCards-validFrom",
       type: "field",
       inputType: "date",
       label: "Valid From",
       description: "Start date for rate validity",
     }),
     validTo: z.iso.date().optional().register(fieldRegistry, {
-      id: "validTo",
+      id: "RateCards-validTo",
       type: "field",
       inputType: "date",
       label: "Valid To",
       description: "End date for rate validity",
     }),
     description: z.string().optional().register(fieldRegistry, {
-      id: "description",
+      id: "RateCards-description",
       type: "field",
       inputType: "textarea",
       label: "Description",
@@ -97,7 +97,7 @@ export const RateCardsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "createdBy",
+        id: "RateCards-createdBy",
         inputType: "relation",
         label: "Created By",
         description: "User who created the rate card",
@@ -111,7 +111,7 @@ export const RateCardsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "RateCards-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -124,7 +124,7 @@ export const RateCardsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "RateCards-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

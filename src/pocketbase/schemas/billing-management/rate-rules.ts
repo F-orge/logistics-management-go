@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const RateRulesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "RateRules-id",
       type: "field",
       inputType: "text",
       label: "Rate Rule ID",
@@ -29,7 +29,7 @@ export const RateRulesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "rateCard",
+        id: "RateRules-rateCard",
         inputType: "relation",
         label: "Rate Card",
         description: "Associated rate card",
@@ -40,7 +40,7 @@ export const RateRulesSchema = z
         } as RelationFieldProps<any>,
       }),
     condition: z.string().register(fieldRegistry, {
-      id: "condition",
+      id: "RateRules-condition",
       type: "field",
       inputType: "text",
       label: "Condition",
@@ -50,7 +50,7 @@ export const RateRulesSchema = z
       },
     }),
     value: z.string().register(fieldRegistry, {
-      id: "value",
+      id: "RateRules-value",
       type: "field",
       inputType: "text",
       label: "Value",
@@ -60,7 +60,7 @@ export const RateRulesSchema = z
       },
     }),
     price: z.number().register(fieldRegistry, {
-      id: "price",
+      id: "RateRules-price",
       type: "field",
       inputType: "number",
       label: "Price",
@@ -81,7 +81,7 @@ export const RateRulesSchema = z
         "tiered",
       ])
       .register(fieldRegistry, {
-        id: "pricingModel",
+        id: "RateRules-pricingModel",
         type: "field",
         inputType: "select",
         label: "Pricing Model",
@@ -102,7 +102,7 @@ export const RateRulesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "minValue",
+        id: "RateRules-minValue",
         type: "field",
         inputType: "number",
         label: "Minimum Value",
@@ -116,7 +116,7 @@ export const RateRulesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "maxValue",
+        id: "RateRules-maxValue",
         type: "field",
         inputType: "number",
         label: "Maximum Value",
@@ -127,7 +127,7 @@ export const RateRulesSchema = z
         },
       }),
     priority: z.number().register(fieldRegistry, {
-      id: "priority",
+      id: "RateRules-priority",
       type: "field",
       inputType: "number",
       label: "Priority",
@@ -138,7 +138,7 @@ export const RateRulesSchema = z
       },
     }),
     isActive: z.boolean().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "RateRules-isActive",
       type: "field",
       inputType: "bool",
       label: "Active",
@@ -148,7 +148,7 @@ export const RateRulesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "RateRules-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -161,7 +161,7 @@ export const RateRulesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "RateRules-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

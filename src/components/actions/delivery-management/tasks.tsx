@@ -16,152 +16,150 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
+import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
 import { Collections } from "@/lib/pb.types";
 import { TasksSchema } from "@/pocketbase/schemas/delivery-management/tasks";
 
-export const CreateTasks = () => {
+const TasksFormSchema = TasksSchema.omit({
+  id: true,
+  created: true,
+  updated: true,
+});
+
+export const TasksActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
     from: "/dashboard/$schema/$collection",
   });
 
-  return (
-    <FormDialog
-      title="Create Tasks"
-      description="Fill in the details to create a new tasks."
-      open={searchQuery.action === "create"}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={TasksSchema}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.DeliveryManagementTasks)
-            .create(data);
-          toast.success("Tasks created successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to create tasks: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+  const { data } = useQuery({
+    queryKey: ["taskss", searchQuery.id],
+    enabled:
+      !!searchQuery.id &&
+      (searchQuery.action === "update" || searchQuery.action === "delete"),
+    queryFn: async () => {
+      const record = await pocketbase
+        .collection(Collections.DeliveryManagementTasks)
+        .getOne(searchQuery.id!);
+      return record;
+    },
+  });
+
+  if (searchQuery.action === "create") {
+    return (
+      <AutoForm<typeof TasksFormSchema>
+        title="Create Tasks"
+        description="Fill in the details to create a new tasks."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-      }}
-    />
-  );
-};
-
-export const UpdateTasks = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.DeliveryManagementTasks, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.DeliveryManagementTasks)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "update" && !!searchQuery.id,
-  });
-
-  return (
-    <FormDialog
-      title="Update Tasks"
-      description="Modify the details of the tasks."
-      defaultValues={record || undefined}
-      open={searchQuery.action === "update" && !!searchQuery.id}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={TasksSchema.partial()}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.DeliveryManagementTasks)
-            .update(searchQuery.id!, data);
-          toast.success("Tasks updated successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to update tasks: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-        }
-      }}
-    />
-  );
-};
-
-export const DeleteTasks = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.DeliveryManagementTasks, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.DeliveryManagementTasks)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "delete" && !!searchQuery.id,
-  });
-
-  const handleDelete = async () => {
-    try {
-      await pocketbase
-        .collection(Collections.DeliveryManagementTasks)
-        .delete(searchQuery.id!);
-      toast.success("Tasks deleted successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to delete tasks: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  };
-
-  return (
-    <AlertDialog open={searchQuery.action === "delete" && !!searchQuery.id}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            tasks and remove all associated data.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel
-            onClick={() =>
-              navigate({ search: (prev) => ({ ...prev, action: undefined }) })
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.DeliveryManagementTasks)
+              .create(data);
+            toast.success("Tasks created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create tasks: ${error.message} (${error.status})`
+              );
             }
-          >
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={TasksFormSchema}
+      />
+    );
+  }
+
+  if (searchQuery.action === "update" && data) {
+    return (
+      <AutoForm<typeof TasksFormSchema>
+        title="Update Tasks"
+        description="Update the tasks details."
+        open={searchQuery.action === "update"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.DeliveryManagementTasks)
+              .update(searchQuery.id!, data);
+            toast.success("Tasks updated successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to update tasks: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={TasksFormSchema}
+        defaultValues={data as any}
+      />
+    );
+  }
+
+  if (searchQuery.action === "delete" && data) {
+    return (
+      <AlertDialog
+        open={searchQuery.action === "delete"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Tasks</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this tasks? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                try {
+                  await pocketbase
+                    .collection(Collections.DeliveryManagementTasks)
+                    .delete(searchQuery.id!);
+                  toast.success("Tasks deleted successfully!");
+                } catch (error) {
+                  if (error instanceof ClientResponseError) {
+                    toast.error(
+                      `Failed to delete tasks: ${error.message} (${error.status})`
+                    );
+                  }
+                } finally {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      action: undefined,
+                      id: undefined,
+                    }),
+                  });
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
 };
 
-export default [
-  <CreateTasks key={"action-create"} />,
-  <UpdateTasks key={"action-update"} />,
-  <DeleteTasks key={"action-delete"} />,
-];
+export default TasksActions;

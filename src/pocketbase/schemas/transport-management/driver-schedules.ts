@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const DriverSchedulesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "DriverSchedules-id",
       type: "field",
       inputType: "text",
       label: "Schedule ID",
@@ -26,7 +26,7 @@ export const DriverSchedulesSchema = z
     }),
     driver: z.string().register(fieldRegistry, {
       type: "field",
-      id: "driver",
+      id: "DriverSchedules-driver",
       inputType: "relation",
       label: "Driver",
       description: "Driver for this schedule",
@@ -37,14 +37,14 @@ export const DriverSchedulesSchema = z
       } as RelationFieldProps<any>,
     }),
     startDate: z.iso.date().register(fieldRegistry, {
-      id: "startDate",
+      id: "DriverSchedules-startDate",
       type: "field",
       inputType: "date",
       label: "Start Date",
       description: "Schedule start date",
     }),
     endDate: z.iso.date().register(fieldRegistry, {
-      id: "endDate",
+      id: "DriverSchedules-endDate",
       type: "field",
       inputType: "date",
       label: "End Date",
@@ -54,7 +54,7 @@ export const DriverSchedulesSchema = z
       .enum(["vacation", "sick-leave", "training", "personal-leave"])
       .optional()
       .register(fieldRegistry, {
-        id: "reason",
+        id: "DriverSchedules-reason",
         type: "field",
         inputType: "select",
         label: "Reason",
@@ -72,7 +72,7 @@ export const DriverSchedulesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "DriverSchedules-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -85,7 +85,7 @@ export const DriverSchedulesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "DriverSchedules-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

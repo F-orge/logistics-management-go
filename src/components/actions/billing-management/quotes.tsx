@@ -16,152 +16,150 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
+import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
 import { Collections } from "@/lib/pb.types";
 import { QuotesSchema } from "@/pocketbase/schemas/billing-management/quotes";
 
-export const CreateQuotes = () => {
+const QuotesFormSchema = QuotesSchema.omit({
+  id: true,
+  created: true,
+  updated: true,
+});
+
+export const QuotesActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
     from: "/dashboard/$schema/$collection",
   });
 
-  return (
-    <FormDialog
-      title="Create Quotes"
-      description="Fill in the details to create a new quotes."
-      open={searchQuery.action === "create"}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={QuotesSchema}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.BillingManagementQuotes)
-            .create(data);
-          toast.success("Quotes created successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to create quotes: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+  const { data } = useQuery({
+    queryKey: ["quotess", searchQuery.id],
+    enabled:
+      !!searchQuery.id &&
+      (searchQuery.action === "update" || searchQuery.action === "delete"),
+    queryFn: async () => {
+      const record = await pocketbase
+        .collection(Collections.BillingManagementQuotes)
+        .getOne(searchQuery.id!);
+      return record;
+    },
+  });
+
+  if (searchQuery.action === "create") {
+    return (
+      <AutoForm<typeof QuotesFormSchema>
+        title="Create Quotes"
+        description="Fill in the details to create a new quotes."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-      }}
-    />
-  );
-};
-
-export const UpdateQuotes = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.BillingManagementQuotes, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.BillingManagementQuotes)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "update" && !!searchQuery.id,
-  });
-
-  return (
-    <FormDialog
-      title="Update Quotes"
-      description="Modify the details of the quotes."
-      defaultValues={record || undefined}
-      open={searchQuery.action === "update" && !!searchQuery.id}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={QuotesSchema.partial()}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.BillingManagementQuotes)
-            .update(searchQuery.id!, data);
-          toast.success("Quotes updated successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to update quotes: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-        }
-      }}
-    />
-  );
-};
-
-export const DeleteQuotes = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.BillingManagementQuotes, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.BillingManagementQuotes)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "delete" && !!searchQuery.id,
-  });
-
-  const handleDelete = async () => {
-    try {
-      await pocketbase
-        .collection(Collections.BillingManagementQuotes)
-        .delete(searchQuery.id!);
-      toast.success("Quotes deleted successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to delete quotes: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  };
-
-  return (
-    <AlertDialog open={searchQuery.action === "delete" && !!searchQuery.id}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            quotes and remove all associated data.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel
-            onClick={() =>
-              navigate({ search: (prev) => ({ ...prev, action: undefined }) })
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.BillingManagementQuotes)
+              .create(data);
+            toast.success("Quotes created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create quotes: ${error.message} (${error.status})`
+              );
             }
-          >
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={QuotesFormSchema}
+      />
+    );
+  }
+
+  if (searchQuery.action === "update" && data) {
+    return (
+      <AutoForm<typeof QuotesFormSchema>
+        title="Update Quotes"
+        description="Update the quotes details."
+        open={searchQuery.action === "update"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.BillingManagementQuotes)
+              .update(searchQuery.id!, data);
+            toast.success("Quotes updated successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to update quotes: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={QuotesFormSchema}
+        defaultValues={data as any}
+      />
+    );
+  }
+
+  if (searchQuery.action === "delete" && data) {
+    return (
+      <AlertDialog
+        open={searchQuery.action === "delete"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Quotes</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this quotes? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                try {
+                  await pocketbase
+                    .collection(Collections.BillingManagementQuotes)
+                    .delete(searchQuery.id!);
+                  toast.success("Quotes deleted successfully!");
+                } catch (error) {
+                  if (error instanceof ClientResponseError) {
+                    toast.error(
+                      `Failed to delete quotes: ${error.message} (${error.status})`
+                    );
+                  }
+                } finally {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      action: undefined,
+                      id: undefined,
+                    }),
+                  });
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
 };
 
-export default [
-  <CreateQuotes key={"action-create"} />,
-  <UpdateQuotes key={"action-update"} />,
-  <DeleteQuotes key={"action-delete"} />,
-];
+export default QuotesActions;

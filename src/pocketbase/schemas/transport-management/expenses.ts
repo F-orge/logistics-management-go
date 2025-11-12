@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ExpensesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Expenses-id",
       type: "field",
       inputType: "text",
       label: "Expense ID",
@@ -29,7 +29,7 @@ export const ExpensesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "trip",
+        id: "Expenses-trip",
         inputType: "relation",
         label: "Trip",
         description: "Associated trip",
@@ -44,7 +44,7 @@ export const ExpensesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "driver",
+        id: "Expenses-driver",
         inputType: "relation",
         label: "Driver",
         description: "Driver who incurred the expense",
@@ -64,7 +64,7 @@ export const ExpensesSchema = z
         "accomodation",
       ])
       .register(fieldRegistry, {
-        id: "type",
+        id: "Expenses-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -81,7 +81,7 @@ export const ExpensesSchema = z
         },
       }),
     amount: z.number().register(fieldRegistry, {
-      id: "amount",
+      id: "Expenses-amount",
       type: "field",
       inputType: "number",
       label: "Amount",
@@ -92,7 +92,7 @@ export const ExpensesSchema = z
       },
     }),
     currency: z.enum(["PHP", "USD", "EUR"]).register(fieldRegistry, {
-      id: "currency",
+      id: "Expenses-currency",
       type: "field",
       inputType: "select",
       label: "Currency",
@@ -106,7 +106,7 @@ export const ExpensesSchema = z
       },
     }),
     receipts: z.array(z.file()).register(fieldRegistry, {
-      id: "receipts",
+      id: "Expenses-receipts",
       type: "field",
       inputType: "file",
       label: "Receipts",
@@ -120,7 +120,7 @@ export const ExpensesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "fuelQuantity",
+        id: "Expenses-fuelQuantity",
         type: "field",
         inputType: "number",
         label: "Fuel Quantity",
@@ -131,7 +131,7 @@ export const ExpensesSchema = z
         },
       }),
     odometerReading: z.number().register(fieldRegistry, {
-      id: "odometerReading",
+      id: "Expenses-odometerReading",
       type: "field",
       inputType: "number",
       label: "Odometer Reading",
@@ -144,7 +144,7 @@ export const ExpensesSchema = z
     status: z
       .enum(["pending", "approved", "rejected", "reimbursed"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Expenses-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -162,7 +162,7 @@ export const ExpensesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Expenses-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -175,7 +175,7 @@ export const ExpensesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Expenses-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

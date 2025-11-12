@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const TaskItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "TaskItems-id",
       type: "field",
       inputType: "text",
       label: "Task Item ID",
@@ -29,7 +29,7 @@ export const TaskItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "task",
+        id: "TaskItems-task",
         inputType: "relation",
         label: "Task",
         description: "Task this item belongs to",
@@ -44,7 +44,7 @@ export const TaskItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "product",
+        id: "TaskItems-product",
         inputType: "relation",
         label: "Product",
         description: "Product for this task item",
@@ -59,7 +59,7 @@ export const TaskItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "batch",
+        id: "TaskItems-batch",
         inputType: "relation",
         label: "Batch",
         description: "Inventory batch for this item",
@@ -74,7 +74,7 @@ export const TaskItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "sourceLocation",
+        id: "TaskItems-sourceLocation",
         inputType: "relation",
         label: "Source Location",
         description: "Location the item is picked from",
@@ -89,7 +89,7 @@ export const TaskItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "destinationLocation",
+        id: "TaskItems-destinationLocation",
         inputType: "relation",
         label: "Destination Location",
         description: "Location the item is placed to",
@@ -103,7 +103,7 @@ export const TaskItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantityRequired",
+        id: "TaskItems-quantityRequired",
         type: "field",
         inputType: "number",
         label: "Quantity Required",
@@ -117,7 +117,7 @@ export const TaskItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantityCompleted",
+        id: "TaskItems-quantityCompleted",
         type: "field",
         inputType: "number",
         label: "Quantity Completed",
@@ -138,7 +138,7 @@ export const TaskItemsSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "TaskItems-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -158,7 +158,7 @@ export const TaskItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "lotNumber",
+        id: "TaskItems-lotNumber",
         type: "field",
         inputType: "number",
         label: "Lot Number",
@@ -169,7 +169,7 @@ export const TaskItemsSchema = z
         },
       }),
     expiryDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "expiryDate",
+      id: "TaskItems-expiryDate",
       type: "field",
       inputType: "date",
       label: "Expiry Date",
@@ -179,7 +179,7 @@ export const TaskItemsSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "notes",
+        id: "TaskItems-notes",
         type: "field",
         inputType: "textarea",
         label: "Notes",
@@ -189,7 +189,7 @@ export const TaskItemsSchema = z
         },
       }),
     completedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "completedAt",
+      id: "TaskItems-completedAt",
       type: "field",
       inputType: "date",
       label: "Completed At",
@@ -199,7 +199,7 @@ export const TaskItemsSchema = z
       .array(z.file())
       .optional()
       .register(fieldRegistry, {
-        id: "proofs",
+        id: "TaskItems-proofs",
         type: "field",
         inputType: "file",
         label: "Proofs",
@@ -213,7 +213,7 @@ export const TaskItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "TaskItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -226,7 +226,7 @@ export const TaskItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "TaskItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

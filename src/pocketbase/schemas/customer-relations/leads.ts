@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const LeadsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Leads-id",
       type: "field",
       inputType: "text",
       label: "Lead ID",
@@ -28,7 +28,7 @@ export const LeadsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "name",
+        id: "Leads-name",
         type: "field",
         inputType: "text",
         label: "Name",
@@ -42,7 +42,7 @@ export const LeadsSchema = z
       .email()
       .optional()
       .register(fieldRegistry, {
-        id: "email",
+        id: "Leads-email",
         type: "field",
         inputType: "email",
         label: "Email",
@@ -65,7 +65,7 @@ export const LeadsSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "source",
+        id: "Leads-source",
         type: "field",
         inputType: "select",
         label: "Source",
@@ -88,7 +88,7 @@ export const LeadsSchema = z
       .enum(["new", "contacted", "qualified", "unqualified", "converted"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Leads-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -104,7 +104,7 @@ export const LeadsSchema = z
         },
       }),
     score: z.number().register(fieldRegistry, {
-      id: "score",
+      id: "Leads-score",
       type: "field",
       inputType: "number",
       label: "Score",
@@ -116,7 +116,7 @@ export const LeadsSchema = z
     }),
     owner: z.string().register(fieldRegistry, {
       type: "field",
-      id: "owner",
+      id: "Leads-owner",
       inputType: "relation",
       label: "Owner",
       description: "User assigned to this lead",
@@ -131,7 +131,7 @@ export const LeadsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "campaign",
+        id: "Leads-campaign",
         inputType: "relation",
         label: "Campaign",
         description: "Campaign associated with this lead",
@@ -142,7 +142,7 @@ export const LeadsSchema = z
         } as RelationFieldProps<any>,
       }),
     convertedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "convertedAt",
+      id: "Leads-convertedAt",
       type: "field",
       inputType: "date",
       label: "Converted At",
@@ -153,7 +153,7 @@ export const LeadsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "convertedContact",
+        id: "Leads-convertedContact",
         inputType: "relation",
         label: "Converted Contact",
         description: "Contact this lead was converted to",
@@ -168,7 +168,7 @@ export const LeadsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "convertedCompany",
+        id: "Leads-convertedCompany",
         inputType: "relation",
         label: "Converted Company",
         description: "Company this lead was converted to",
@@ -183,7 +183,7 @@ export const LeadsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "convertedOpportunity",
+        id: "Leads-convertedOpportunity",
         inputType: "relation",
         label: "Converted Opportunity",
         description: "Opportunity this lead was converted to",
@@ -198,7 +198,7 @@ export const LeadsSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Leads-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -212,7 +212,7 @@ export const LeadsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Leads-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -225,7 +225,7 @@ export const LeadsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Leads-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

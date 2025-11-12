@@ -13,7 +13,7 @@ import {
 export const LogsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Logs-id",
       type: "field",
       inputType: "text",
       label: "Log ID",
@@ -23,7 +23,7 @@ export const LogsSchema = z
       },
     }),
     recordId: z.string().register(fieldRegistry, {
-      id: "recordId",
+      id: "Logs-recordId",
       type: "field",
       inputType: "text",
       label: "Record ID",
@@ -33,7 +33,7 @@ export const LogsSchema = z
       },
     }),
     recordType: z.string().register(fieldRegistry, {
-      id: "recordType",
+      id: "Logs-recordType",
       type: "field",
       inputType: "text",
       label: "Record Type",
@@ -43,7 +43,7 @@ export const LogsSchema = z
       },
     }),
     externalSystem: z.string().register(fieldRegistry, {
-      id: "externalSystem",
+      id: "Logs-externalSystem",
       type: "field",
       inputType: "text",
       label: "External System",
@@ -53,7 +53,7 @@ export const LogsSchema = z
       },
     }),
     externalId: z.string().optional().register(fieldRegistry, {
-      id: "externalId",
+      id: "Logs-externalId",
       type: "field",
       inputType: "text",
       label: "External ID",
@@ -63,7 +63,7 @@ export const LogsSchema = z
       .enum(["pending", "in-progress", "success", "failed", "retry"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Logs-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -79,28 +79,28 @@ export const LogsSchema = z
         },
       }),
     errorMessage: z.string().optional().register(fieldRegistry, {
-      id: "errorMessage",
+      id: "Logs-errorMessage",
       type: "field",
       inputType: "textarea",
       label: "Error Message",
       description: "Error message if sync failed",
     }),
     requestPayload: z.string().optional().register(fieldRegistry, {
-      id: "requestPayload",
+      id: "Logs-requestPayload",
       type: "field",
       inputType: "textarea",
       label: "Request Payload",
       description: "JSON payload sent to external system",
     }),
     responsePayload: z.string().optional().register(fieldRegistry, {
-      id: "responsePayload",
+      id: "Logs-responsePayload",
       type: "field",
       inputType: "textarea",
       label: "Response Payload",
       description: "JSON response from external system",
     }),
     lastSyncAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "lastSyncAt",
+      id: "Logs-lastSyncAt",
       type: "field",
       inputType: "date",
       label: "Last Sync Date",
@@ -110,7 +110,7 @@ export const LogsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "retryCount",
+        id: "Logs-retryCount",
         type: "field",
         inputType: "number",
         label: "Retry Count",
@@ -121,7 +121,7 @@ export const LogsSchema = z
         },
       }),
     nextRetryAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "nextRetryAt",
+      id: "Logs-nextRetryAt",
       type: "field",
       inputType: "date",
       label: "Next Retry Date",
@@ -131,7 +131,7 @@ export const LogsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Logs-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -144,7 +144,7 @@ export const LogsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Logs-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

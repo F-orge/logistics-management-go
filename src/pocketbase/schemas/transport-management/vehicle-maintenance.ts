@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const VehicleMaintenanceSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "VehicleMaintenance-id",
       type: "field",
       inputType: "text",
       label: "Maintenance ID",
@@ -26,7 +26,7 @@ export const VehicleMaintenanceSchema = z
     }),
     vehicle: z.string().register(fieldRegistry, {
       type: "field",
-      id: "vehicle",
+      id: "VehicleMaintenance-vehicle",
       inputType: "relation",
       label: "Vehicle",
       description: "Vehicle being maintained",
@@ -37,14 +37,14 @@ export const VehicleMaintenanceSchema = z
       } as RelationFieldProps<any>,
     }),
     serviceDate: z.iso.date().register(fieldRegistry, {
-      id: "serviceDate",
+      id: "VehicleMaintenance-serviceDate",
       type: "field",
       inputType: "date",
       label: "Service Date",
       description: "Date of service",
     }),
     serviceType: z.iso.date().register(fieldRegistry, {
-      id: "serviceType",
+      id: "VehicleMaintenance-serviceType",
       type: "field",
       inputType: "date",
       label: "Service Type",
@@ -54,7 +54,7 @@ export const VehicleMaintenanceSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "cost",
+        id: "VehicleMaintenance-cost",
         type: "field",
         inputType: "number",
         label: "Cost",
@@ -68,7 +68,7 @@ export const VehicleMaintenanceSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "notes",
+        id: "VehicleMaintenance-notes",
         type: "field",
         inputType: "textarea",
         label: "Notes",
@@ -81,7 +81,7 @@ export const VehicleMaintenanceSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "VehicleMaintenance-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -94,7 +94,7 @@ export const VehicleMaintenanceSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "VehicleMaintenance-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

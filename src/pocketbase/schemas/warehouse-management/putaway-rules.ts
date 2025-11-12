@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PutawayRulesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "PutawayRules-id",
       type: "field",
       inputType: "text",
       label: "Rule ID",
@@ -26,7 +26,7 @@ export const PutawayRulesSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "PutawayRules-product",
       inputType: "relation",
       label: "Product",
       description: "Product this rule applies to",
@@ -41,7 +41,7 @@ export const PutawayRulesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "client",
+        id: "PutawayRules-client",
         inputType: "relation",
         label: "Client",
         description: "Associated client",
@@ -53,7 +53,7 @@ export const PutawayRulesSchema = z
       }),
     warehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "warehouse",
+      id: "PutawayRules-warehouse",
       inputType: "relation",
       label: "Warehouse",
       description: "Warehouse this rule applies to",
@@ -68,7 +68,7 @@ export const PutawayRulesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "preferredLocation",
+        id: "PutawayRules-preferredLocation",
         inputType: "relation",
         label: "Preferred Location",
         description: "Preferred location for putaway",
@@ -92,7 +92,7 @@ export const PutawayRulesSchema = z
         "returns-area",
       ])
       .register(fieldRegistry, {
-        id: "locationType",
+        id: "PutawayRules-locationType",
         type: "field",
         inputType: "select",
         label: "Location Type",
@@ -113,7 +113,7 @@ export const PutawayRulesSchema = z
         },
       }),
     priority: z.number().register(fieldRegistry, {
-      id: "priority",
+      id: "PutawayRules-priority",
       type: "field",
       inputType: "number",
       label: "Priority",
@@ -127,7 +127,7 @@ export const PutawayRulesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "minQuantity",
+        id: "PutawayRules-minQuantity",
         type: "field",
         inputType: "number",
         label: "Minimum Quantity",
@@ -141,7 +141,7 @@ export const PutawayRulesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "maxQuantity",
+        id: "PutawayRules-maxQuantity",
         type: "field",
         inputType: "number",
         label: "Maximum Quantity",
@@ -155,7 +155,7 @@ export const PutawayRulesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "weightThreshold",
+        id: "PutawayRules-weightThreshold",
         type: "field",
         inputType: "number",
         label: "Weight Threshold",
@@ -169,7 +169,7 @@ export const PutawayRulesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "volumeThreshold",
+        id: "PutawayRules-volumeThreshold",
         type: "field",
         inputType: "number",
         label: "Volume Threshold",
@@ -180,21 +180,21 @@ export const PutawayRulesSchema = z
         },
       }),
     requireTemperatureControl: z.unknown().optional().register(fieldRegistry, {
-      id: "requireTemperatureControl",
+      id: "PutawayRules-requireTemperatureControl",
       type: "field",
       inputType: "bool",
       label: "Require Temperature Control",
       description: "Whether temperature control is required",
     }),
     requireHazmatApproval: z.unknown().optional().register(fieldRegistry, {
-      id: "requireHazmatApproval",
+      id: "PutawayRules-requireHazmatApproval",
       type: "field",
       inputType: "bool",
       label: "Require Hazmat Approval",
       description: "Whether hazmat approval is required",
     }),
     isActive: z.unknown().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "PutawayRules-isActive",
       type: "field",
       inputType: "bool",
       label: "Is Active",
@@ -204,7 +204,7 @@ export const PutawayRulesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "PutawayRules-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -217,7 +217,7 @@ export const PutawayRulesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "PutawayRules-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

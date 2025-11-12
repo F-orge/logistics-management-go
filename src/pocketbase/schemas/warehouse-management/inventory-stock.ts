@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InventoryStockSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "InventoryStock-id",
       type: "field",
       inputType: "text",
       label: "Stock ID",
@@ -26,7 +26,7 @@ export const InventoryStockSchema = z
     }),
     location: z.string().register(fieldRegistry, {
       type: "field",
-      id: "location",
+      id: "InventoryStock-location",
       inputType: "relation",
       label: "Location",
       description: "Warehouse location",
@@ -38,7 +38,7 @@ export const InventoryStockSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "InventoryStock-product",
       inputType: "relation",
       label: "Product",
       description: "Product in stock",
@@ -53,7 +53,7 @@ export const InventoryStockSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "batch",
+        id: "InventoryStock-batch",
         inputType: "relation",
         label: "Batch",
         description: "Inventory batch",
@@ -67,7 +67,7 @@ export const InventoryStockSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantity",
+        id: "InventoryStock-quantity",
         type: "field",
         inputType: "number",
         label: "Quantity",
@@ -81,7 +81,7 @@ export const InventoryStockSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "reservedQuantity",
+        id: "InventoryStock-reservedQuantity",
         type: "field",
         inputType: "number",
         label: "Reserved Quantity",
@@ -102,7 +102,7 @@ export const InventoryStockSchema = z
         "expired",
       ])
       .register(fieldRegistry, {
-        id: "status",
+        id: "InventoryStock-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -120,14 +120,14 @@ export const InventoryStockSchema = z
         },
       }),
     lastCountedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "lastCountedAt",
+      id: "InventoryStock-lastCountedAt",
       type: "field",
       inputType: "date",
       label: "Last Counted At",
       description: "Date of last inventory count",
     }),
     lastMovementAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "lastMovementAt",
+      id: "InventoryStock-lastMovementAt",
       type: "field",
       inputType: "date",
       label: "Last Movement At",
@@ -137,7 +137,7 @@ export const InventoryStockSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "InventoryStock-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -150,7 +150,7 @@ export const InventoryStockSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "InventoryStock-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

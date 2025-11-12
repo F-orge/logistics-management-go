@@ -14,7 +14,7 @@ import { Collections } from "@/lib/pb.types";
 export const WarehousesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Warehouses-id",
       type: "field",
       inputType: "text",
       label: "Warehouse ID",
@@ -24,7 +24,7 @@ export const WarehousesSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Warehouses-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -37,7 +37,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "address",
+        id: "Warehouses-address",
         type: "field",
         inputType: "text",
         label: "Address",
@@ -50,7 +50,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "city",
+        id: "Warehouses-city",
         type: "field",
         inputType: "text",
         label: "City",
@@ -63,7 +63,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "state",
+        id: "Warehouses-state",
         type: "field",
         inputType: "text",
         label: "State",
@@ -76,7 +76,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "postalCode",
+        id: "Warehouses-postalCode",
         type: "field",
         inputType: "text",
         label: "Postal Code",
@@ -89,7 +89,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "country",
+        id: "Warehouses-country",
         type: "field",
         inputType: "text",
         label: "Country",
@@ -102,7 +102,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "timezone",
+        id: "Warehouses-timezone",
         type: "field",
         inputType: "text",
         label: "Timezone",
@@ -115,7 +115,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "contactPerson",
+        id: "Warehouses-contactPerson",
         type: "field",
         inputType: "text",
         label: "Contact Person",
@@ -128,7 +128,7 @@ export const WarehousesSchema = z
       .email()
       .optional()
       .register(fieldRegistry, {
-        id: "contactEmail",
+        id: "Warehouses-contactEmail",
         type: "field",
         inputType: "email",
         label: "Contact Email",
@@ -141,7 +141,7 @@ export const WarehousesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "contactPhone",
+        id: "Warehouses-contactPhone",
         type: "field",
         inputType: "text",
         label: "Contact Phone",
@@ -151,7 +151,7 @@ export const WarehousesSchema = z
         },
       }),
     isActive: z.unknown().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "Warehouses-isActive",
       type: "field",
       inputType: "bool",
       label: "Is Active",
@@ -161,7 +161,7 @@ export const WarehousesSchema = z
       .array(z.file())
       .optional()
       .register(fieldRegistry, {
-        id: "images",
+        id: "Warehouses-images",
         type: "field",
         inputType: "file",
         label: "Images",
@@ -172,7 +172,7 @@ export const WarehousesSchema = z
         },
       }),
     location: z.unknown().optional().register(fieldRegistry, {
-      id: "location",
+      id: "Warehouses-location",
       type: "field",
       inputType: "geoPoint",
       label: "Location",
@@ -182,7 +182,7 @@ export const WarehousesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Warehouses-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -195,7 +195,7 @@ export const WarehousesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Warehouses-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

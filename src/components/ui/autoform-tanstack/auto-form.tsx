@@ -26,6 +26,7 @@ export type AutoFormProps<Schema extends z.ZodObject> = React.ComponentProps<
   FormSchema & {
     title?: string;
     description?: string;
+    defaultValues?: Partial<z.infer<Schema>>;
   } & {
     onSubmit: (data: z.infer<Schema>) => Promise<void> | void;
   };
@@ -40,7 +41,7 @@ const AutoForm = <Schema extends z.ZodObject>(props: AutoFormProps<Schema>) => {
   } = props;
 
   const form = useAppForm({
-    defaultValues: {} as z.infer<typeof props.schema>,
+    defaultValues: props.defaultValues as z.infer<typeof props.schema>,
     validators: {
       onSubmit: props.schema,
     },

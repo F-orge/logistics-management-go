@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const VehiclesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Vehicles-id",
       type: "field",
       inputType: "text",
       label: "Vehicle ID",
@@ -25,7 +25,7 @@ export const VehiclesSchema = z
       },
     }),
     registrationNumber: z.string().register(fieldRegistry, {
-      id: "registrationNumber",
+      id: "Vehicles-registrationNumber",
       type: "field",
       inputType: "text",
       label: "Registration Number",
@@ -38,7 +38,7 @@ export const VehiclesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "model",
+        id: "Vehicles-model",
         type: "field",
         inputType: "text",
         label: "Model",
@@ -51,7 +51,7 @@ export const VehiclesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "capacityVolume",
+        id: "Vehicles-capacityVolume",
         type: "field",
         inputType: "number",
         label: "Capacity Volume",
@@ -65,7 +65,7 @@ export const VehiclesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "capacityWeight",
+        id: "Vehicles-capacityWeight",
         type: "field",
         inputType: "number",
         label: "Capacity Weight",
@@ -78,7 +78,7 @@ export const VehiclesSchema = z
     status: z
       .enum(["available", "in-maintenance", "on-trip", "out-of-service"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Vehicles-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -97,7 +97,7 @@ export const VehiclesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "maintenances",
+        id: "Vehicles-maintenances",
         inputType: "relation",
         label: "Maintenances",
         description: "Vehicle maintenance records",
@@ -112,7 +112,7 @@ export const VehiclesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "gps_pings",
+        id: "Vehicles-gps_pings",
         inputType: "relation",
         label: "GPS Pings",
         description: "GPS tracking pings",
@@ -126,7 +126,7 @@ export const VehiclesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Vehicles-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -139,7 +139,7 @@ export const VehiclesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Vehicles-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

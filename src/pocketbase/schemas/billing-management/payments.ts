@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PaymentsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Payments-id",
       type: "field",
       inputType: "text",
       label: "Payment ID",
@@ -29,7 +29,7 @@ export const PaymentsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "invoice",
+        id: "Payments-invoice",
         inputType: "relation",
         label: "Invoice",
         description: "Related invoice for this payment",
@@ -43,7 +43,7 @@ export const PaymentsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "amount",
+        id: "Payments-amount",
         type: "field",
         inputType: "number",
         label: "Amount",
@@ -66,7 +66,7 @@ export const PaymentsSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "paymentMethod",
+        id: "Payments-paymentMethod",
         type: "field",
         inputType: "select",
         label: "Payment Method",
@@ -88,7 +88,7 @@ export const PaymentsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "transactionId",
+        id: "Payments-transactionId",
         type: "field",
         inputType: "text",
         label: "Transaction ID",
@@ -101,7 +101,7 @@ export const PaymentsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "gatewayReferenceId",
+        id: "Payments-gatewayReferenceId",
         type: "field",
         inputType: "text",
         label: "Gateway Reference",
@@ -121,7 +121,7 @@ export const PaymentsSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Payments-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -138,14 +138,14 @@ export const PaymentsSchema = z
         },
       }),
     paymentDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "paymentDate",
+      id: "Payments-paymentDate",
       type: "field",
       inputType: "date",
       label: "Payment Date",
       description: "Date of payment",
     }),
     processedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "processedAt",
+      id: "Payments-processedAt",
       type: "field",
       inputType: "date",
       label: "Processed Date",
@@ -155,7 +155,7 @@ export const PaymentsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "currency",
+        id: "Payments-currency",
         type: "field",
         inputType: "text",
         label: "Currency",
@@ -168,7 +168,7 @@ export const PaymentsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "fees",
+        id: "Payments-fees",
         type: "field",
         inputType: "number",
         label: "Fees",
@@ -182,7 +182,7 @@ export const PaymentsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "netAmount",
+        id: "Payments-netAmount",
         type: "field",
         inputType: "number",
         label: "Net Amount",
@@ -193,7 +193,7 @@ export const PaymentsSchema = z
         },
       }),
     notes: z.string().optional().register(fieldRegistry, {
-      id: "notes",
+      id: "Payments-notes",
       type: "field",
       inputType: "textarea",
       label: "Notes",
@@ -204,7 +204,7 @@ export const PaymentsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "processedBy",
+        id: "Payments-processedBy",
         inputType: "relation",
         label: "Processed By",
         description: "User who processed the payment",
@@ -218,7 +218,7 @@ export const PaymentsSchema = z
       .array(z.string())
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Payments-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -231,7 +231,7 @@ export const PaymentsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Payments-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -244,7 +244,7 @@ export const PaymentsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Payments-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

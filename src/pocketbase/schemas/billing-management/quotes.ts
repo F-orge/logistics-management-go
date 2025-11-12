@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const QuotesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Quotes-id",
       type: "field",
       inputType: "text",
       label: "Quote ID",
@@ -29,7 +29,7 @@ export const QuotesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "client",
+        id: "Quotes-client",
         inputType: "relation",
         label: "Client",
         description: "Client requesting the quote",
@@ -40,14 +40,14 @@ export const QuotesSchema = z
         } as RelationFieldProps<any>,
       }),
     originDetails: z.string().optional().register(fieldRegistry, {
-      id: "originDetails",
+      id: "Quotes-originDetails",
       type: "field",
       inputType: "textarea",
       label: "Origin Details",
       description: "Pickup location details",
     }),
     destinationDetails: z.string().optional().register(fieldRegistry, {
-      id: "destinationDetails",
+      id: "Quotes-destinationDetails",
       type: "field",
       inputType: "textarea",
       label: "Destination Details",
@@ -57,7 +57,7 @@ export const QuotesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "weight",
+        id: "Quotes-weight",
         type: "field",
         inputType: "number",
         label: "Weight (kg)",
@@ -71,7 +71,7 @@ export const QuotesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "length",
+        id: "Quotes-length",
         type: "field",
         inputType: "number",
         label: "Length (cm)",
@@ -85,7 +85,7 @@ export const QuotesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "width",
+        id: "Quotes-width",
         type: "field",
         inputType: "number",
         label: "Width (cm)",
@@ -99,7 +99,7 @@ export const QuotesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "height",
+        id: "Quotes-height",
         type: "field",
         inputType: "number",
         label: "Height (cm)",
@@ -113,7 +113,7 @@ export const QuotesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quotePrice",
+        id: "Quotes-quotePrice",
         type: "field",
         inputType: "number",
         label: "Quote Price",
@@ -127,7 +127,7 @@ export const QuotesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "serviceLevel",
+        id: "Quotes-serviceLevel",
         type: "field",
         inputType: "text",
         label: "Service Level",
@@ -137,7 +137,7 @@ export const QuotesSchema = z
         },
       }),
     expiredAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "expiredAt",
+      id: "Quotes-expiredAt",
       type: "field",
       inputType: "date",
       label: "Expiration Date",
@@ -147,7 +147,7 @@ export const QuotesSchema = z
       .enum(["pending", "accepted", "expired", "cancelled", "converted"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Quotes-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -166,7 +166,7 @@ export const QuotesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "quoteNumber",
+        id: "Quotes-quoteNumber",
         type: "field",
         inputType: "text",
         label: "Quote Number",
@@ -176,7 +176,7 @@ export const QuotesSchema = z
         },
       }),
     notes: z.string().optional().register(fieldRegistry, {
-      id: "notes",
+      id: "Quotes-notes",
       type: "field",
       inputType: "textarea",
       label: "Notes",
@@ -187,7 +187,7 @@ export const QuotesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "createdBy",
+        id: "Quotes-createdBy",
         inputType: "relation",
         label: "Created By",
         description: "User who created the quote",
@@ -201,7 +201,7 @@ export const QuotesSchema = z
       .array(z.string())
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Quotes-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -214,7 +214,7 @@ export const QuotesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Quotes-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -227,7 +227,7 @@ export const QuotesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Quotes-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

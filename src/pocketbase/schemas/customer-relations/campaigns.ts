@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const CampaignsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Campaigns-id",
       type: "field",
       inputType: "text",
       label: "Campaign ID",
@@ -25,7 +25,7 @@ export const CampaignsSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Campaigns-name",
       type: "field",
       inputType: "text",
       label: "Campaign Name",
@@ -35,7 +35,7 @@ export const CampaignsSchema = z
       },
     }),
     budget: z.number().register(fieldRegistry, {
-      id: "budget",
+      id: "Campaigns-budget",
       type: "field",
       inputType: "number",
       label: "Budget",
@@ -46,14 +46,14 @@ export const CampaignsSchema = z
       },
     }),
     startDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "startDate",
+      id: "Campaigns-startDate",
       type: "field",
       inputType: "date",
       label: "Start Date",
       description: "Campaign start date",
     }),
     endDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "endDate",
+      id: "Campaigns-endDate",
       type: "field",
       inputType: "date",
       label: "End Date",
@@ -64,7 +64,7 @@ export const CampaignsSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Campaigns-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -78,7 +78,7 @@ export const CampaignsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Campaigns-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -91,7 +91,7 @@ export const CampaignsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Campaigns-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

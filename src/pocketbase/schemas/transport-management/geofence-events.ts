@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const GeofenceEventsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "GeofenceEvents-id",
       type: "field",
       inputType: "text",
       label: "Event ID",
@@ -26,7 +26,7 @@ export const GeofenceEventsSchema = z
     }),
     vehicle: z.string().register(fieldRegistry, {
       type: "field",
-      id: "vehicle",
+      id: "GeofenceEvents-vehicle",
       inputType: "relation",
       label: "Vehicle",
       description: "Vehicle involved in this event",
@@ -38,7 +38,7 @@ export const GeofenceEventsSchema = z
     }),
     geofence: z.string().register(fieldRegistry, {
       type: "field",
-      id: "geofence",
+      id: "GeofenceEvents-geofence",
       inputType: "relation",
       label: "Geofence",
       description: "Geofence that triggered the event",
@@ -49,7 +49,7 @@ export const GeofenceEventsSchema = z
       } as RelationFieldProps<any>,
     }),
     type: z.enum(["enter", "exit"]).register(fieldRegistry, {
-      id: "type",
+      id: "GeofenceEvents-type",
       type: "field",
       inputType: "select",
       label: "Type",
@@ -62,7 +62,7 @@ export const GeofenceEventsSchema = z
       },
     }),
     timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "timestamp",
+      id: "GeofenceEvents-timestamp",
       type: "field",
       inputType: "date",
       label: "Timestamp",

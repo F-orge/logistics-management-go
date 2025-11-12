@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ShipmentLegEventsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ShipmentLegEvents-id",
       type: "field",
       inputType: "text",
       label: "Event ID",
@@ -25,7 +25,7 @@ export const ShipmentLegEventsSchema = z
       },
     }),
     message: z.string().register(fieldRegistry, {
-      id: "message",
+      id: "ShipmentLegEvents-message",
       type: "field",
       inputType: "textarea",
       label: "Message",
@@ -36,7 +36,7 @@ export const ShipmentLegEventsSchema = z
     }),
     shipmentLegId: z.string().register(fieldRegistry, {
       type: "field",
-      id: "shipmentLegId",
+      id: "ShipmentLegEvents-shipmentLegId",
       inputType: "relation",
       label: "Shipment Leg",
       description: "Shipment leg for this event",
@@ -47,14 +47,14 @@ export const ShipmentLegEventsSchema = z
       } as RelationFieldProps<any>,
     }),
     location: z.unknown().register(fieldRegistry, {
-      id: "location",
+      id: "ShipmentLegEvents-location",
       type: "field",
       inputType: "geoPoint",
       label: "Location",
       description: "GPS location of the event",
     }),
     timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "timestamp",
+      id: "ShipmentLegEvents-timestamp",
       type: "field",
       inputType: "date",
       label: "Timestamp",

@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PartnerInvoiceItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "PartnerInvoiceItems-id",
       type: "field",
       inputType: "text",
       label: "Invoice Item ID",
@@ -26,7 +26,7 @@ export const PartnerInvoiceItemsSchema = z
     }),
     partnerInvoice: z.string().register(fieldRegistry, {
       type: "field",
-      id: "partnerInvoice",
+      id: "PartnerInvoiceItems-partnerInvoice",
       inputType: "relation",
       label: "Partner Invoice",
       description: "Invoice this item belongs to",
@@ -38,7 +38,7 @@ export const PartnerInvoiceItemsSchema = z
     }),
     shipmentLeg: z.string().register(fieldRegistry, {
       type: "field",
-      id: "shipmentLeg",
+      id: "PartnerInvoiceItems-shipmentLeg",
       inputType: "relation",
       label: "Shipment Leg",
       description: "Shipment leg for this invoice item",
@@ -49,7 +49,7 @@ export const PartnerInvoiceItemsSchema = z
       } as RelationFieldProps<any>,
     }),
     amount: z.number().register(fieldRegistry, {
-      id: "amount",
+      id: "PartnerInvoiceItems-amount",
       type: "field",
       inputType: "number",
       label: "Amount",
@@ -63,7 +63,7 @@ export const PartnerInvoiceItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "PartnerInvoiceItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -76,7 +76,7 @@ export const PartnerInvoiceItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "PartnerInvoiceItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

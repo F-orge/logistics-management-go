@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const OutboundShipmentItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "OutboundShipmentItems-id",
       type: "field",
       inputType: "text",
       label: "Item ID",
@@ -26,7 +26,7 @@ export const OutboundShipmentItemsSchema = z
     }),
     outboundShipment: z.string().register(fieldRegistry, {
       type: "field",
-      id: "outboundShipment",
+      id: "OutboundShipmentItems-outboundShipment",
       inputType: "relation",
       label: "Outbound Shipment",
       description: "Outbound shipment this item belongs to",
@@ -38,7 +38,7 @@ export const OutboundShipmentItemsSchema = z
     }),
     salesOrderItem: z.string().register(fieldRegistry, {
       type: "field",
-      id: "salesOrderItem",
+      id: "OutboundShipmentItems-salesOrderItem",
       inputType: "relation",
       label: "Sales Order Item",
       description: "Sales order item being shipped",
@@ -50,7 +50,7 @@ export const OutboundShipmentItemsSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "OutboundShipmentItems-product",
       inputType: "relation",
       label: "Product",
       description: "Product being shipped",
@@ -65,7 +65,7 @@ export const OutboundShipmentItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "batch",
+        id: "OutboundShipmentItems-batch",
         inputType: "relation",
         label: "Batch",
         description: "Batch of the product",
@@ -76,7 +76,7 @@ export const OutboundShipmentItemsSchema = z
         } as RelationFieldProps<any>,
       }),
     quantityShipped: z.number().register(fieldRegistry, {
-      id: "quantityShipped",
+      id: "OutboundShipmentItems-quantityShipped",
       type: "field",
       inputType: "number",
       label: "Quantity Shipped",
@@ -90,7 +90,7 @@ export const OutboundShipmentItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "OutboundShipmentItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -103,7 +103,7 @@ export const OutboundShipmentItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "OutboundShipmentItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

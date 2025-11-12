@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InvoicesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Invoices-id",
       type: "field",
       inputType: "text",
       label: "Invoice ID",
@@ -29,7 +29,7 @@ export const InvoicesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "quote",
+        id: "Invoices-quote",
         inputType: "relation",
         label: "Quote",
         description: "Related quote for this invoice",
@@ -43,7 +43,7 @@ export const InvoicesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "invoiceNumber",
+        id: "Invoices-invoiceNumber",
         type: "field",
         inputType: "text",
         label: "Invoice Number",
@@ -66,7 +66,7 @@ export const InvoicesSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Invoices-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -86,14 +86,14 @@ export const InvoicesSchema = z
         },
       }),
     issueDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "issueDate",
+      id: "Invoices-issueDate",
       type: "field",
       inputType: "date",
       label: "Issue Date",
       description: "Date when invoice was issued",
     }),
     dueDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "dueDate",
+      id: "Invoices-dueDate",
       type: "field",
       inputType: "date",
       label: "Due Date",
@@ -103,7 +103,7 @@ export const InvoicesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "totalAmount",
+        id: "Invoices-totalAmount",
         type: "field",
         inputType: "number",
         label: "Total Amount",
@@ -117,7 +117,7 @@ export const InvoicesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "amountPaid",
+        id: "Invoices-amountPaid",
         type: "field",
         inputType: "number",
         label: "Amount Paid",
@@ -131,7 +131,7 @@ export const InvoicesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "currency",
+        id: "Invoices-currency",
         type: "field",
         inputType: "text",
         label: "Currency",
@@ -144,7 +144,7 @@ export const InvoicesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "discountAmount",
+        id: "Invoices-discountAmount",
         type: "field",
         inputType: "number",
         label: "Discount Amount",
@@ -158,7 +158,7 @@ export const InvoicesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "subtotal",
+        id: "Invoices-subtotal",
         type: "field",
         inputType: "number",
         label: "Subtotal",
@@ -169,28 +169,28 @@ export const InvoicesSchema = z
         },
       }),
     paymentTerms: z.string().optional().register(fieldRegistry, {
-      id: "paymentTerms",
+      id: "Invoices-paymentTerms",
       type: "field",
       inputType: "textarea",
       label: "Payment Terms",
       description: "Payment terms and conditions",
     }),
     notes: z.string().optional().register(fieldRegistry, {
-      id: "notes",
+      id: "Invoices-notes",
       type: "field",
       inputType: "textarea",
       label: "Notes",
       description: "Additional notes",
     }),
     sentAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "sentAt",
+      id: "Invoices-sentAt",
       type: "field",
       inputType: "date",
       label: "Sent Date",
       description: "Date when invoice was sent",
     }),
     paidAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "paidAt",
+      id: "Invoices-paidAt",
       type: "field",
       inputType: "date",
       label: "Paid Date",
@@ -201,7 +201,7 @@ export const InvoicesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "createdBy",
+        id: "Invoices-createdBy",
         inputType: "relation",
         label: "Created By",
         description: "User who created the invoice",
@@ -215,7 +215,7 @@ export const InvoicesSchema = z
       .array(z.string())
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Invoices-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -228,7 +228,7 @@ export const InvoicesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Invoices-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -241,7 +241,7 @@ export const InvoicesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Invoices-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

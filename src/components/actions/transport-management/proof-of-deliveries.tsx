@@ -16,152 +16,150 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
+import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
 import { Collections } from "@/lib/pb.types";
 import { ProofOfDeliveriesSchema } from "@/pocketbase/schemas/transport-management/proof-of-deliveries";
 
-export const CreateProofOfDeliveries = () => {
+const ProofOfDeliveriesFormSchema = ProofOfDeliveriesSchema.omit({
+  id: true,
+  created: true,
+  updated: true,
+});
+
+export const ProofOfDeliveriesActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
     from: "/dashboard/$schema/$collection",
   });
 
-  return (
-    <FormDialog
-      title="Create ProofOfDeliveries"
-      description="Fill in the details to create a new proof-of-deliveries."
-      open={searchQuery.action === "create"}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={ProofOfDeliveriesSchema}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.TransportManagementProofOfDeliveries)
-            .create(data);
-          toast.success("ProofOfDeliveries created successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to create proof-of-deliveries: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+  const { data } = useQuery({
+    queryKey: ["proof-of-deliveriess", searchQuery.id],
+    enabled:
+      !!searchQuery.id &&
+      (searchQuery.action === "update" || searchQuery.action === "delete"),
+    queryFn: async () => {
+      const record = await pocketbase
+        .collection(Collections.TransportManagementProofOfDeliveries)
+        .getOne(searchQuery.id!);
+      return record;
+    },
+  });
+
+  if (searchQuery.action === "create") {
+    return (
+      <AutoForm<typeof ProofOfDeliveriesFormSchema>
+        title="Create ProofOfDeliveries"
+        description="Fill in the details to create a new proof-of-deliveries."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-      }}
-    />
-  );
-};
-
-export const UpdateProofOfDeliveries = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.TransportManagementProofOfDeliveries, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.TransportManagementProofOfDeliveries)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "update" && !!searchQuery.id,
-  });
-
-  return (
-    <FormDialog
-      title="Update ProofOfDeliveries"
-      description="Modify the details of the proof-of-deliveries."
-      defaultValues={record || undefined}
-      open={searchQuery.action === "update" && !!searchQuery.id}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={ProofOfDeliveriesSchema.partial()}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.TransportManagementProofOfDeliveries)
-            .update(searchQuery.id!, data);
-          toast.success("ProofOfDeliveries updated successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to update proof-of-deliveries: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-        }
-      }}
-    />
-  );
-};
-
-export const DeleteProofOfDeliveries = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.TransportManagementProofOfDeliveries, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.TransportManagementProofOfDeliveries)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "delete" && !!searchQuery.id,
-  });
-
-  const handleDelete = async () => {
-    try {
-      await pocketbase
-        .collection(Collections.TransportManagementProofOfDeliveries)
-        .delete(searchQuery.id!);
-      toast.success("ProofOfDeliveries deleted successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to delete proof-of-deliveries: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  };
-
-  return (
-    <AlertDialog open={searchQuery.action === "delete" && !!searchQuery.id}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            proof-of-deliveries and remove all associated data.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel
-            onClick={() =>
-              navigate({ search: (prev) => ({ ...prev, action: undefined }) })
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.TransportManagementProofOfDeliveries)
+              .create(data);
+            toast.success("ProofOfDeliveries created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create proof-of-deliveries: ${error.message} (${error.status})`
+              );
             }
-          >
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={ProofOfDeliveriesFormSchema}
+      />
+    );
+  }
+
+  if (searchQuery.action === "update" && data) {
+    return (
+      <AutoForm<typeof ProofOfDeliveriesFormSchema>
+        title="Update ProofOfDeliveries"
+        description="Update the proof-of-deliveries details."
+        open={searchQuery.action === "update"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.TransportManagementProofOfDeliveries)
+              .update(searchQuery.id!, data);
+            toast.success("ProofOfDeliveries updated successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to update proof-of-deliveries: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={ProofOfDeliveriesFormSchema}
+        defaultValues={data as any}
+      />
+    );
+  }
+
+  if (searchQuery.action === "delete" && data) {
+    return (
+      <AlertDialog
+        open={searchQuery.action === "delete"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete ProofOfDeliveries</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this proof-of-deliveries? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                try {
+                  await pocketbase
+                    .collection(Collections.TransportManagementProofOfDeliveries)
+                    .delete(searchQuery.id!);
+                  toast.success("ProofOfDeliveries deleted successfully!");
+                } catch (error) {
+                  if (error instanceof ClientResponseError) {
+                    toast.error(
+                      `Failed to delete proof-of-deliveries: ${error.message} (${error.status})`
+                    );
+                  }
+                } finally {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      action: undefined,
+                      id: undefined,
+                    }),
+                  });
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
 };
 
-export default [
-  <CreateProofOfDeliveries key={"action-create"} />,
-  <UpdateProofOfDeliveries key={"action-update"} />,
-  <DeleteProofOfDeliveries key={"action-delete"} />,
-];
+export default ProofOfDeliveriesActions;

@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const AccountTransactionsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "AccountTransactions-id",
       type: "field",
       inputType: "text",
       label: "Transaction ID",
@@ -26,7 +26,7 @@ export const AccountTransactionsSchema = z
     }),
     clientAccount: z.string().register(fieldRegistry, {
       type: "field",
-      id: "clientAccount",
+      id: "AccountTransactions-clientAccount",
       inputType: "relation",
       label: "Client Account",
       description: "Client account for this transaction",
@@ -39,7 +39,7 @@ export const AccountTransactionsSchema = z
     type: z
       .enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"])
       .register(fieldRegistry, {
-        id: "type",
+        id: "AccountTransactions-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -56,7 +56,7 @@ export const AccountTransactionsSchema = z
         },
       }),
     amount: z.number().register(fieldRegistry, {
-      id: "amount",
+      id: "AccountTransactions-amount",
       type: "field",
       inputType: "number",
       label: "Amount",
@@ -70,7 +70,7 @@ export const AccountTransactionsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "runningBalance",
+        id: "AccountTransactions-runningBalance",
         type: "field",
         inputType: "number",
         label: "Running Balance",
@@ -80,7 +80,7 @@ export const AccountTransactionsSchema = z
         },
       }),
     transactionDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "transactionDate",
+      id: "AccountTransactions-transactionDate",
       type: "field",
       inputType: "date",
       label: "Transaction Date",
@@ -91,7 +91,7 @@ export const AccountTransactionsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "processedBy",
+        id: "AccountTransactions-processedBy",
         inputType: "relation",
         label: "Processed By",
         description: "User who processed the transaction",
@@ -105,7 +105,7 @@ export const AccountTransactionsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "referenceNumber",
+        id: "AccountTransactions-referenceNumber",
         type: "field",
         inputType: "text",
         label: "Reference Number",
@@ -118,7 +118,7 @@ export const AccountTransactionsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "AccountTransactions-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -131,7 +131,7 @@ export const AccountTransactionsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "AccountTransactions-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

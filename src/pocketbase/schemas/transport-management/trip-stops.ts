@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const TripStopsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "TripStops-id",
       type: "field",
       inputType: "text",
       label: "Stop ID",
@@ -26,7 +26,7 @@ export const TripStopsSchema = z
     }),
     trip: z.string().register(fieldRegistry, {
       type: "field",
-      id: "trip",
+      id: "TripStops-trip",
       inputType: "relation",
       label: "Trip",
       description: "Trip this stop belongs to",
@@ -37,7 +37,7 @@ export const TripStopsSchema = z
       } as RelationFieldProps<any>,
     }),
     sequence: z.number().register(fieldRegistry, {
-      id: "sequence",
+      id: "TripStops-sequence",
       type: "field",
       inputType: "number",
       label: "Sequence",
@@ -51,7 +51,7 @@ export const TripStopsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "address",
+        id: "TripStops-address",
         type: "field",
         inputType: "text",
         label: "Address",
@@ -63,7 +63,7 @@ export const TripStopsSchema = z
     status: z
       .enum(["pending", "arrived", "completed", "skipped"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "TripStops-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -78,28 +78,28 @@ export const TripStopsSchema = z
         },
       }),
     estimatedArrivalTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "estimatedArrivalTime",
+      id: "TripStops-estimatedArrivalTime",
       type: "field",
       inputType: "date",
       label: "Estimated Arrival Time",
       description: "Expected arrival time",
     }),
     actualArrivalTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "actualArrivalTime",
+      id: "TripStops-actualArrivalTime",
       type: "field",
       inputType: "date",
       label: "Actual Arrival Time",
       description: "Actual arrival time",
     }),
     estimatedDepartureTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "estimatedDepartureTime",
+      id: "TripStops-estimatedDepartureTime",
       type: "field",
       inputType: "date",
       label: "Estimated Departure Time",
       description: "Expected departure time",
     }),
     actualDepartureTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "actualDepartureTime",
+      id: "TripStops-actualDepartureTime",
       type: "field",
       inputType: "date",
       label: "Actual Departure Time",
@@ -110,7 +110,7 @@ export const TripStopsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "shipment",
+        id: "TripStops-shipment",
         inputType: "relation",
         label: "Shipment",
         description: "Outbound shipment for this stop",
@@ -124,7 +124,7 @@ export const TripStopsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "TripStops-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -137,7 +137,7 @@ export const TripStopsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "TripStops-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

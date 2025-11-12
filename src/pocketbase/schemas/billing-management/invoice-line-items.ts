@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InvoiceLineItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "InvoiceLineItems-id",
       type: "field",
       inputType: "text",
       label: "Line Item ID",
@@ -29,7 +29,7 @@ export const InvoiceLineItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "invoice",
+        id: "InvoiceLineItems-invoice",
         inputType: "relation",
         label: "Invoice",
         description: "Related invoice for this line item",
@@ -40,7 +40,7 @@ export const InvoiceLineItemsSchema = z
         } as RelationFieldProps<any>,
       }),
     description: z.string().optional().register(fieldRegistry, {
-      id: "description",
+      id: "InvoiceLineItems-description",
       type: "field",
       inputType: "textarea",
       label: "Description",
@@ -50,7 +50,7 @@ export const InvoiceLineItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantity",
+        id: "InvoiceLineItems-quantity",
         type: "field",
         inputType: "number",
         label: "Quantity",
@@ -64,7 +64,7 @@ export const InvoiceLineItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "unitPrice",
+        id: "InvoiceLineItems-unitPrice",
         type: "field",
         inputType: "number",
         label: "Unit Price",
@@ -78,7 +78,7 @@ export const InvoiceLineItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "taxRate",
+        id: "InvoiceLineItems-taxRate",
         type: "field",
         inputType: "number",
         label: "Tax Rate (%)",
@@ -93,7 +93,7 @@ export const InvoiceLineItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "taxAmount",
+        id: "InvoiceLineItems-taxAmount",
         type: "field",
         inputType: "number",
         label: "Tax Amount",
@@ -107,7 +107,7 @@ export const InvoiceLineItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "discountRate",
+        id: "InvoiceLineItems-discountRate",
         type: "field",
         inputType: "number",
         label: "Discount Rate (%)",
@@ -122,7 +122,7 @@ export const InvoiceLineItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "discountAmount",
+        id: "InvoiceLineItems-discountAmount",
         type: "field",
         inputType: "number",
         label: "Discount Amount",
@@ -136,7 +136,7 @@ export const InvoiceLineItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "InvoiceLineItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -149,7 +149,7 @@ export const InvoiceLineItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "InvoiceLineItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

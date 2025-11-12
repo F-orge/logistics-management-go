@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const DriverLocationSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "DriverLocation-id",
       type: "field",
       inputType: "text",
       label: "Location ID",
@@ -26,7 +26,7 @@ export const DriverLocationSchema = z
     }),
     driver: z.string().register(fieldRegistry, {
       type: "field",
-      id: "driver",
+      id: "DriverLocation-driver",
       inputType: "relation",
       label: "Driver",
       description: "Driver associated with this location",
@@ -37,14 +37,14 @@ export const DriverLocationSchema = z
       } as RelationFieldProps<any>,
     }),
     coordinates: z.unknown().register(fieldRegistry, {
-      id: "coordinates",
+      id: "DriverLocation-coordinates",
       type: "field",
       inputType: "geoPoint",
       label: "Coordinates",
       description: "GPS coordinates of the driver",
     }),
     heading: z.unknown().register(fieldRegistry, {
-      id: "heading",
+      id: "DriverLocation-heading",
       type: "field",
       inputType: "number",
       label: "Heading",
@@ -58,7 +58,7 @@ export const DriverLocationSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "timestamp",
+        id: "DriverLocation-timestamp",
         type: "field",
         inputType: "date",
         label: "Timestamp",

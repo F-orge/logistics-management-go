@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const OpportunityProductsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "OpportunityProducts-id",
       type: "field",
       inputType: "text",
       label: "Product ID",
@@ -29,7 +29,7 @@ export const OpportunityProductsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "opportunity",
+        id: "OpportunityProducts-opportunity",
         inputType: "relation",
         label: "Opportunity",
         description: "Opportunity this product is associated with",
@@ -44,7 +44,7 @@ export const OpportunityProductsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "product",
+        id: "OpportunityProducts-product",
         inputType: "relation",
         label: "Product",
         description: "Product associated with this opportunity",
@@ -55,7 +55,7 @@ export const OpportunityProductsSchema = z
         } as RelationFieldProps<any>,
       }),
     quantity: z.number().register(fieldRegistry, {
-      id: "quantity",
+      id: "OpportunityProducts-quantity",
       type: "field",
       inputType: "number",
       label: "Quantity",
@@ -69,7 +69,7 @@ export const OpportunityProductsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "OpportunityProducts-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -82,7 +82,7 @@ export const OpportunityProductsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "OpportunityProducts-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

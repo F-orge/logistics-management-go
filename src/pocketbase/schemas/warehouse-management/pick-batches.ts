@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PickBatchesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "PickBatches-id",
       type: "field",
       inputType: "text",
       label: "Batch ID",
@@ -28,7 +28,7 @@ export const PickBatchesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "batchNumber",
+        id: "PickBatches-batchNumber",
         type: "field",
         inputType: "text",
         label: "Batch Number",
@@ -42,7 +42,7 @@ export const PickBatchesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "warehouse",
+        id: "PickBatches-warehouse",
         inputType: "relation",
         label: "Warehouse",
         description: "Warehouse for this batch",
@@ -56,7 +56,7 @@ export const PickBatchesSchema = z
       .enum(["open", "in-progress", "completed", "cancelled"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "PickBatches-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -80,7 +80,7 @@ export const PickBatchesSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "strategy",
+        id: "PickBatches-strategy",
         type: "field",
         inputType: "select",
         label: "Strategy",
@@ -96,7 +96,7 @@ export const PickBatchesSchema = z
         },
       }),
     priority: z.number().register(fieldRegistry, {
-      id: "priority",
+      id: "PickBatches-priority",
       type: "field",
       inputType: "number",
       label: "Priority",
@@ -111,7 +111,7 @@ export const PickBatchesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "assignedUser",
+        id: "PickBatches-assignedUser",
         inputType: "relation",
         label: "Assigned User",
         description: "User assigned to this batch",
@@ -125,7 +125,7 @@ export const PickBatchesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "estimatedDuration",
+        id: "PickBatches-estimatedDuration",
         type: "field",
         inputType: "number",
         label: "Estimated Duration",
@@ -139,7 +139,7 @@ export const PickBatchesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "actualDuration",
+        id: "PickBatches-actualDuration",
         type: "field",
         inputType: "number",
         label: "Actual Duration",
@@ -153,7 +153,7 @@ export const PickBatchesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "totalItems",
+        id: "PickBatches-totalItems",
         type: "field",
         inputType: "number",
         label: "Total Items",
@@ -167,7 +167,7 @@ export const PickBatchesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "completedItems",
+        id: "PickBatches-completedItems",
         type: "field",
         inputType: "number",
         label: "Completed Items",
@@ -178,14 +178,14 @@ export const PickBatchesSchema = z
         },
       }),
     startedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "startedAt",
+      id: "PickBatches-startedAt",
       type: "field",
       inputType: "date",
       label: "Started At",
       description: "When the batch was started",
     }),
     completedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "completedAt",
+      id: "PickBatches-completedAt",
       type: "field",
       inputType: "date",
       label: "Completed At",
@@ -196,7 +196,7 @@ export const PickBatchesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "items",
+        id: "PickBatches-items",
         inputType: "relation",
         label: "Items",
         description: "Items in this batch",
@@ -210,7 +210,7 @@ export const PickBatchesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "PickBatches-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -223,7 +223,7 @@ export const PickBatchesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "PickBatches-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

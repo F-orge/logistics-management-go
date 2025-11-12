@@ -16,152 +16,150 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
+import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
 import { Collections } from "@/lib/pb.types";
 import { InvoiceLineItemsSchema } from "@/pocketbase/schemas/billing-management/invoice-line-items";
 
-export const CreateInvoiceLineItems = () => {
+const InvoiceLineItemsFormSchema = InvoiceLineItemsSchema.omit({
+  id: true,
+  created: true,
+  updated: true,
+});
+
+export const InvoiceLineItemsActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
     from: "/dashboard/$schema/$collection",
   });
 
-  return (
-    <FormDialog
-      title="Create InvoiceLineItems"
-      description="Fill in the details to create a new invoice-line-items."
-      open={searchQuery.action === "create"}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={InvoiceLineItemsSchema}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.BillingManagementInvoiceLineItems)
-            .create(data);
-          toast.success("InvoiceLineItems created successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to create invoice-line-items: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+  const { data } = useQuery({
+    queryKey: ["invoice-line-itemss", searchQuery.id],
+    enabled:
+      !!searchQuery.id &&
+      (searchQuery.action === "update" || searchQuery.action === "delete"),
+    queryFn: async () => {
+      const record = await pocketbase
+        .collection(Collections.BillingManagementInvoiceLineItems)
+        .getOne(searchQuery.id!);
+      return record;
+    },
+  });
+
+  if (searchQuery.action === "create") {
+    return (
+      <AutoForm<typeof InvoiceLineItemsFormSchema>
+        title="Create InvoiceLineItems"
+        description="Fill in the details to create a new invoice-line-items."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-      }}
-    />
-  );
-};
-
-export const UpdateInvoiceLineItems = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.BillingManagementInvoiceLineItems, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.BillingManagementInvoiceLineItems)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "update" && !!searchQuery.id,
-  });
-
-  return (
-    <FormDialog
-      title="Update InvoiceLineItems"
-      description="Modify the details of the invoice-line-items."
-      defaultValues={record || undefined}
-      open={searchQuery.action === "update" && !!searchQuery.id}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={InvoiceLineItemsSchema.partial()}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.BillingManagementInvoiceLineItems)
-            .update(searchQuery.id!, data);
-          toast.success("InvoiceLineItems updated successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to update invoice-line-items: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-        }
-      }}
-    />
-  );
-};
-
-export const DeleteInvoiceLineItems = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.BillingManagementInvoiceLineItems, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.BillingManagementInvoiceLineItems)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "delete" && !!searchQuery.id,
-  });
-
-  const handleDelete = async () => {
-    try {
-      await pocketbase
-        .collection(Collections.BillingManagementInvoiceLineItems)
-        .delete(searchQuery.id!);
-      toast.success("InvoiceLineItems deleted successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to delete invoice-line-items: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  };
-
-  return (
-    <AlertDialog open={searchQuery.action === "delete" && !!searchQuery.id}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            invoice-line-items and remove all associated data.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel
-            onClick={() =>
-              navigate({ search: (prev) => ({ ...prev, action: undefined }) })
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.BillingManagementInvoiceLineItems)
+              .create(data);
+            toast.success("InvoiceLineItems created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create invoice-line-items: ${error.message} (${error.status})`
+              );
             }
-          >
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={InvoiceLineItemsFormSchema}
+      />
+    );
+  }
+
+  if (searchQuery.action === "update" && data) {
+    return (
+      <AutoForm<typeof InvoiceLineItemsFormSchema>
+        title="Update InvoiceLineItems"
+        description="Update the invoice-line-items details."
+        open={searchQuery.action === "update"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.BillingManagementInvoiceLineItems)
+              .update(searchQuery.id!, data);
+            toast.success("InvoiceLineItems updated successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to update invoice-line-items: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={InvoiceLineItemsFormSchema}
+        defaultValues={data as any}
+      />
+    );
+  }
+
+  if (searchQuery.action === "delete" && data) {
+    return (
+      <AlertDialog
+        open={searchQuery.action === "delete"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete InvoiceLineItems</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this invoice-line-items? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                try {
+                  await pocketbase
+                    .collection(Collections.BillingManagementInvoiceLineItems)
+                    .delete(searchQuery.id!);
+                  toast.success("InvoiceLineItems deleted successfully!");
+                } catch (error) {
+                  if (error instanceof ClientResponseError) {
+                    toast.error(
+                      `Failed to delete invoice-line-items: ${error.message} (${error.status})`
+                    );
+                  }
+                } finally {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      action: undefined,
+                      id: undefined,
+                    }),
+                  });
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
 };
 
-export default [
-  <CreateInvoiceLineItems key={"action-create"} />,
-  <UpdateInvoiceLineItems key={"action-update"} />,
-  <DeleteInvoiceLineItems key={"action-delete"} />,
-];
+export default InvoiceLineItemsActions;

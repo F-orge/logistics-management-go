@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const BinThresholdSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "BinThreshold-id",
       type: "field",
       inputType: "text",
       label: "Threshold ID",
@@ -26,7 +26,7 @@ export const BinThresholdSchema = z
     }),
     location: z.string().register(fieldRegistry, {
       type: "field",
-      id: "location",
+      id: "BinThreshold-location",
       inputType: "relation",
       label: "Location",
       description: "Warehouse location for this threshold",
@@ -38,7 +38,7 @@ export const BinThresholdSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "BinThreshold-product",
       inputType: "relation",
       label: "Product",
       description: "Product for this threshold",
@@ -52,7 +52,7 @@ export const BinThresholdSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "minQuantity",
+        id: "BinThreshold-minQuantity",
         type: "field",
         inputType: "number",
         label: "Minimum Quantity",
@@ -66,7 +66,7 @@ export const BinThresholdSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "maxQuantity",
+        id: "BinThreshold-maxQuantity",
         type: "field",
         inputType: "number",
         label: "Maximum Quantity",
@@ -80,7 +80,7 @@ export const BinThresholdSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "reorderQuantity",
+        id: "BinThreshold-reorderQuantity",
         type: "field",
         inputType: "number",
         label: "Reorder Quantity",
@@ -94,7 +94,7 @@ export const BinThresholdSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "alertThreshold",
+        id: "BinThreshold-alertThreshold",
         type: "field",
         inputType: "number",
         label: "Alert Threshold",
@@ -105,7 +105,7 @@ export const BinThresholdSchema = z
         },
       }),
     isActive: z.unknown().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "BinThreshold-isActive",
       type: "field",
       inputType: "bool",
       label: "Active",
@@ -115,7 +115,7 @@ export const BinThresholdSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "BinThreshold-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -128,7 +128,7 @@ export const BinThresholdSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "BinThreshold-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

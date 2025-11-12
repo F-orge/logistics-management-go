@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const TripsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Trips-id",
       type: "field",
       inputType: "text",
       label: "Trip ID",
@@ -26,7 +26,7 @@ export const TripsSchema = z
     }),
     driver: z.string().register(fieldRegistry, {
       type: "field",
-      id: "driver",
+      id: "Trips-driver",
       inputType: "relation",
       label: "Driver",
       description: "Driver assigned to this trip",
@@ -38,7 +38,7 @@ export const TripsSchema = z
     }),
     vehicle: z.string().register(fieldRegistry, {
       type: "field",
-      id: "vehicle",
+      id: "Trips-vehicle",
       inputType: "relation",
       label: "Vehicle",
       description: "Vehicle used for this trip",
@@ -51,7 +51,7 @@ export const TripsSchema = z
     status: z
       .enum(["planned", "in-progress", "completed", "cancelled"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Trips-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -69,7 +69,7 @@ export const TripsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Trips-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -82,7 +82,7 @@ export const TripsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Trips-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

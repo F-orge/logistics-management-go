@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InvoiceItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "InvoiceItems-id",
       type: "field",
       inputType: "text",
       label: "Item ID",
@@ -26,7 +26,7 @@ export const InvoiceItemsSchema = z
     }),
     invoice: z.string().register(fieldRegistry, {
       type: "field",
-      id: "invoice",
+      id: "InvoiceItems-invoice",
       inputType: "relation",
       label: "Invoice",
       description: "Invoice this item belongs to",
@@ -38,7 +38,7 @@ export const InvoiceItemsSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "InvoiceItems-product",
       inputType: "relation",
       label: "Product",
       description: "Product being invoiced",
@@ -49,7 +49,7 @@ export const InvoiceItemsSchema = z
       } as RelationFieldProps<any>,
     }),
     quantity: z.number().register(fieldRegistry, {
-      id: "quantity",
+      id: "InvoiceItems-quantity",
       type: "field",
       inputType: "number",
       label: "Quantity",
@@ -60,7 +60,7 @@ export const InvoiceItemsSchema = z
       },
     }),
     price: z.number().register(fieldRegistry, {
-      id: "price",
+      id: "InvoiceItems-price",
       type: "field",
       inputType: "number",
       label: "Price",
@@ -74,7 +74,7 @@ export const InvoiceItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "InvoiceItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -87,7 +87,7 @@ export const InvoiceItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "InvoiceItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

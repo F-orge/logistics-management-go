@@ -23,7 +23,7 @@ import { Collections } from "@/lib/pb.types";
 export const ProductsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Products-id",
       type: "field",
       inputType: "text",
       label: "Product ID",
@@ -36,7 +36,7 @@ export const ProductsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "sku",
+        id: "Products-sku",
         type: "field",
         inputType: "text",
         label: "SKU",
@@ -49,7 +49,7 @@ export const ProductsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "name",
+        id: "Products-name",
         type: "field",
         inputType: "text",
         label: "Name",
@@ -62,7 +62,7 @@ export const ProductsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "description",
+        id: "Products-description",
         type: "field",
         inputType: "textarea",
         label: "Description",
@@ -75,7 +75,7 @@ export const ProductsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "category",
+        id: "Products-category",
         type: "field",
         inputType: "text",
         label: "Category",
@@ -88,7 +88,7 @@ export const ProductsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "price",
+        id: "Products-price",
         type: "field",
         inputType: "number",
         label: "Price",
@@ -102,7 +102,7 @@ export const ProductsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "unit",
+        id: "Products-unit",
         type: "field",
         inputType: "text",
         label: "Unit",
@@ -115,7 +115,7 @@ export const ProductsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "weight",
+        id: "Products-weight",
         type: "field",
         inputType: "number",
         label: "Weight",
@@ -130,7 +130,7 @@ export const ProductsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "supplier",
+        id: "Products-supplier",
         inputType: "relation",
         label: "Supplier",
         description: "Primary supplier for this product",
@@ -145,7 +145,7 @@ export const ProductsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "client",
+        id: "Products-client",
         inputType: "relation",
         label: "Client",
         description: "Associated client",
@@ -159,7 +159,7 @@ export const ProductsSchema = z
       .array(z.string())
       .optional()
       .register(fieldRegistry, {
-        id: "images",
+        id: "Products-images",
         type: "field",
         inputType: "file",
         label: "Images",
@@ -173,7 +173,7 @@ export const ProductsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Products-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -186,7 +186,7 @@ export const ProductsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Products-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InboundShipmentsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "InboundShipments-id",
       type: "field",
       inputType: "text",
       label: "Shipment ID",
@@ -26,7 +26,7 @@ export const InboundShipmentsSchema = z
     }),
     client: z.string().register(fieldRegistry, {
       type: "field",
-      id: "client",
+      id: "InboundShipments-client",
       inputType: "relation",
       label: "Client",
       description: "Client sending the shipment",
@@ -40,7 +40,7 @@ export const InboundShipmentsSchema = z
       .enum(["pending", "arrived", "processing", "completed", "cancelled"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "InboundShipments-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -56,14 +56,14 @@ export const InboundShipmentsSchema = z
         },
       }),
     expectedArrivalDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "expectedArrivalDate",
+      id: "InboundShipments-expectedArrivalDate",
       type: "field",
       inputType: "date",
       label: "Expected Arrival Date",
       description: "Expected arrival date",
     }),
     actualArrivalDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "actualArrivalDate",
+      id: "InboundShipments-actualArrivalDate",
       type: "field",
       inputType: "date",
       label: "Actual Arrival Date",
@@ -71,7 +71,7 @@ export const InboundShipmentsSchema = z
     }),
     warehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "warehouse",
+      id: "InboundShipments-warehouse",
       inputType: "relation",
       label: "Warehouse",
       description: "Destination warehouse",
@@ -85,7 +85,7 @@ export const InboundShipmentsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "InboundShipments-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -98,7 +98,7 @@ export const InboundShipmentsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "InboundShipments-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

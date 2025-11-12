@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const LocationsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Locations-id",
       type: "field",
       inputType: "text",
       label: "Location ID",
@@ -29,7 +29,7 @@ export const LocationsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "warehouse",
+        id: "Locations-warehouse",
         inputType: "relation",
         label: "Warehouse",
         description: "Warehouse this location belongs to",
@@ -40,7 +40,7 @@ export const LocationsSchema = z
         } as RelationFieldProps<any>,
       }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Locations-name",
       type: "field",
       inputType: "text",
       label: "Location Name",
@@ -53,7 +53,7 @@ export const LocationsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "barcode",
+        id: "Locations-barcode",
         type: "field",
         inputType: "text",
         label: "Barcode",
@@ -77,7 +77,7 @@ export const LocationsSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "type",
+        id: "Locations-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -101,7 +101,7 @@ export const LocationsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "level",
+        id: "Locations-level",
         type: "field",
         inputType: "number",
         label: "Level",
@@ -115,7 +115,7 @@ export const LocationsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "maxWeight",
+        id: "Locations-maxWeight",
         type: "field",
         inputType: "number",
         label: "Max Weight",
@@ -129,7 +129,7 @@ export const LocationsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "maxVolume",
+        id: "Locations-maxVolume",
         type: "field",
         inputType: "number",
         label: "Max Volume",
@@ -143,7 +143,7 @@ export const LocationsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "maxPallets",
+        id: "Locations-maxPallets",
         type: "field",
         inputType: "number",
         label: "Max Pallets",
@@ -154,35 +154,35 @@ export const LocationsSchema = z
         },
       }),
     isPickable: z.unknown().optional().register(fieldRegistry, {
-      id: "isPickable",
+      id: "Locations-isPickable",
       type: "field",
       inputType: "bool",
       label: "Pickable",
       description: "Whether this location can be picked from",
     }),
     isReceivable: z.unknown().optional().register(fieldRegistry, {
-      id: "isReceivable",
+      id: "Locations-isReceivable",
       type: "field",
       inputType: "bool",
       label: "Receivable",
       description: "Whether items can be received at this location",
     }),
     temperatureControlled: z.unknown().optional().register(fieldRegistry, {
-      id: "temperatureControlled",
+      id: "Locations-temperatureControlled",
       type: "field",
       inputType: "bool",
       label: "Temperature Controlled",
       description: "Whether the location has temperature control",
     }),
     hazmatApproved: z.unknown().optional().register(fieldRegistry, {
-      id: "hazmatApproved",
+      id: "Locations-hazmatApproved",
       type: "field",
       inputType: "bool",
       label: "Hazmat Approved",
       description: "Whether hazardous materials can be stored here",
     }),
     isActive: z.unknown().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "Locations-isActive",
       type: "field",
       inputType: "bool",
       label: "Active",
@@ -193,7 +193,7 @@ export const LocationsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "parentLocation",
+        id: "Locations-parentLocation",
         inputType: "relation",
         label: "Parent Location",
         description: "Parent location if this is a sub-location",
@@ -207,7 +207,7 @@ export const LocationsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Locations-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -220,7 +220,7 @@ export const LocationsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Locations-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

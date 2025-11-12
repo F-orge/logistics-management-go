@@ -14,7 +14,7 @@ import { Collections } from "@/lib/pb.types";
 export const CarriersSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Carriers-id",
       type: "field",
       inputType: "text",
       label: "Carrier ID",
@@ -24,7 +24,7 @@ export const CarriersSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Carriers-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -37,7 +37,7 @@ export const CarriersSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "contactDetails",
+        id: "Carriers-contactDetails",
         type: "field",
         inputType: "textarea",
         label: "Contact Details",
@@ -50,7 +50,7 @@ export const CarriersSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "serviceOffered",
+        id: "Carriers-serviceOffered",
         type: "field",
         inputType: "textarea",
         label: "Service Offered",
@@ -63,7 +63,7 @@ export const CarriersSchema = z
       .file()
       .optional()
       .register(fieldRegistry, {
-        id: "image",
+        id: "Carriers-image",
         type: "field",
         inputType: "file",
         label: "Image",
@@ -76,7 +76,7 @@ export const CarriersSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Carriers-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -89,7 +89,7 @@ export const CarriersSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Carriers-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

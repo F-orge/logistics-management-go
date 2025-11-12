@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const TaskEventsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "TaskEvents-id",
       type: "field",
       inputType: "text",
       label: "Event ID",
@@ -26,7 +26,7 @@ export const TaskEventsSchema = z
     }),
     task: z.string().register(fieldRegistry, {
       type: "field",
-      id: "task",
+      id: "TaskEvents-task",
       inputType: "relation",
       label: "Task",
       description: "Task this event is associated with",
@@ -48,7 +48,7 @@ export const TaskEventsSchema = z
         "rescheduled",
       ])
       .register(fieldRegistry, {
-        id: "status",
+        id: "TaskEvents-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -70,7 +70,7 @@ export const TaskEventsSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "reason",
+        id: "TaskEvents-reason",
         type: "field",
         inputType: "textarea",
         label: "Reason",
@@ -83,7 +83,7 @@ export const TaskEventsSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "notes",
+        id: "TaskEvents-notes",
         type: "field",
         inputType: "textarea",
         label: "Notes",
@@ -93,7 +93,7 @@ export const TaskEventsSchema = z
         },
       }),
     coordinates: z.unknown().optional().register(fieldRegistry, {
-      id: "coordinates",
+      id: "TaskEvents-coordinates",
       type: "field",
       inputType: "geoPoint",
       label: "Coordinates",
@@ -103,7 +103,7 @@ export const TaskEventsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "timestamp",
+        id: "TaskEvents-timestamp",
         type: "field",
         inputType: "date",
         label: "Timestamp",

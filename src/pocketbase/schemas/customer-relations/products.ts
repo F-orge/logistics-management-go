@@ -14,7 +14,7 @@ import { Collections } from "@/lib/pb.types";
 export const ProductsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Products-id",
       type: "field",
       inputType: "text",
       label: "Product ID",
@@ -24,7 +24,7 @@ export const ProductsSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Products-name",
       type: "field",
       inputType: "text",
       label: "Product Name",
@@ -34,7 +34,7 @@ export const ProductsSchema = z
       },
     }),
     sku: z.string().register(fieldRegistry, {
-      id: "sku",
+      id: "Products-sku",
       type: "field",
       inputType: "text",
       label: "SKU",
@@ -44,7 +44,7 @@ export const ProductsSchema = z
       },
     }),
     price: z.number().register(fieldRegistry, {
-      id: "price",
+      id: "Products-price",
       type: "field",
       inputType: "number",
       label: "Price",
@@ -57,7 +57,7 @@ export const ProductsSchema = z
     type: z
       .enum(["service", "good", "digital", "subscription"])
       .register(fieldRegistry, {
-        id: "type",
+        id: "Products-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -75,7 +75,7 @@ export const ProductsSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "description",
+        id: "Products-description",
         type: "field",
         inputType: "textarea",
         label: "Description",
@@ -89,7 +89,7 @@ export const ProductsSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Products-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -103,7 +103,7 @@ export const ProductsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Products-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -116,7 +116,7 @@ export const ProductsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Products-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

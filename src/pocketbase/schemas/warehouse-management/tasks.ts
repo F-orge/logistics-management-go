@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const TasksSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Tasks-id",
       type: "field",
       inputType: "text",
       label: "Task ID",
@@ -25,7 +25,7 @@ export const TasksSchema = z
       },
     }),
     taskNumber: z.string().register(fieldRegistry, {
-      id: "taskNumber",
+      id: "Tasks-taskNumber",
       type: "field",
       inputType: "text",
       label: "Task Number",
@@ -39,7 +39,7 @@ export const TasksSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "warehouse",
+        id: "Tasks-warehouse",
         inputType: "relation",
         label: "Warehouse",
         description: "Warehouse for this task",
@@ -54,7 +54,7 @@ export const TasksSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "user",
+        id: "Tasks-user",
         inputType: "relation",
         label: "User",
         description: "User assigned to this task",
@@ -78,7 +78,7 @@ export const TasksSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "type",
+        id: "Tasks-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -108,7 +108,7 @@ export const TasksSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Tasks-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -125,7 +125,7 @@ export const TasksSchema = z
         },
       }),
     priority: z.number().register(fieldRegistry, {
-      id: "priority",
+      id: "Tasks-priority",
       type: "field",
       inputType: "number",
       label: "Priority",
@@ -140,7 +140,7 @@ export const TasksSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "pickBatchId",
+        id: "Tasks-pickBatchId",
         inputType: "relation",
         label: "Pick Batch",
         description: "Associated pick batch",
@@ -154,7 +154,7 @@ export const TasksSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "instructions",
+        id: "Tasks-instructions",
         type: "field",
         inputType: "textarea",
         label: "Instructions",
@@ -167,7 +167,7 @@ export const TasksSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "notes",
+        id: "Tasks-notes",
         type: "field",
         inputType: "textarea",
         label: "Notes",
@@ -177,14 +177,14 @@ export const TasksSchema = z
         },
       }),
     startTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "startTime",
+      id: "Tasks-startTime",
       type: "field",
       inputType: "date",
       label: "Start Time",
       description: "When the task started",
     }),
     endTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "endTime",
+      id: "Tasks-endTime",
       type: "field",
       inputType: "date",
       label: "End Time",
@@ -194,7 +194,7 @@ export const TasksSchema = z
       .array(z.file())
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Tasks-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -208,7 +208,7 @@ export const TasksSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Tasks-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -221,7 +221,7 @@ export const TasksSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Tasks-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

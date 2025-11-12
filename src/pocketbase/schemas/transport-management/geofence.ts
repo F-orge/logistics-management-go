@@ -14,7 +14,7 @@ import { Collections } from "@/lib/pb.types";
 export const GeofenceSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Geofence-id",
       type: "field",
       inputType: "text",
       label: "Geofence ID",
@@ -24,7 +24,7 @@ export const GeofenceSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Geofence-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -34,14 +34,14 @@ export const GeofenceSchema = z
       },
     }),
     coordinates: z.unknown().register(fieldRegistry, {
-      id: "coordinates",
+      id: "Geofence-coordinates",
       type: "field",
       inputType: "geoPoint",
       label: "Coordinates",
       description: "Geographic coordinates of the geofence center",
     }),
     radius: z.number().register(fieldRegistry, {
-      id: "radius",
+      id: "Geofence-radius",
       type: "field",
       inputType: "number",
       label: "Radius",
@@ -55,7 +55,7 @@ export const GeofenceSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Geofence-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -68,7 +68,7 @@ export const GeofenceSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Geofence-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

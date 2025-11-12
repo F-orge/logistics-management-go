@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ReorderPointsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ReorderPoints-id",
       type: "field",
       inputType: "text",
       label: "Reorder Point ID",
@@ -26,7 +26,7 @@ export const ReorderPointsSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "ReorderPoints-product",
       inputType: "relation",
       label: "Product",
       description: "Product for this reorder point",
@@ -40,7 +40,7 @@ export const ReorderPointsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "threshold",
+        id: "ReorderPoints-threshold",
         type: "field",
         inputType: "number",
         label: "Threshold",
@@ -52,7 +52,7 @@ export const ReorderPointsSchema = z
       }),
     warehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "warehouse",
+      id: "ReorderPoints-warehouse",
       inputType: "relation",
       label: "Warehouse",
       description: "Warehouse for this reorder point",
@@ -66,7 +66,7 @@ export const ReorderPointsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "ReorderPoints-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -79,7 +79,7 @@ export const ReorderPointsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "ReorderPoints-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

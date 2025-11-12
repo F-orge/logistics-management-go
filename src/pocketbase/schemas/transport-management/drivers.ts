@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const DriversSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Drivers-id",
       type: "field",
       inputType: "text",
       label: "Driver ID",
@@ -29,7 +29,7 @@ export const DriversSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "user",
+        id: "Drivers-user",
         inputType: "relation",
         label: "User",
         description: "Associated user account",
@@ -40,7 +40,7 @@ export const DriversSchema = z
         } as RelationFieldProps<any>,
       }),
     licenseNumber: z.string().register(fieldRegistry, {
-      id: "licenseNumber",
+      id: "Drivers-licenseNumber",
       type: "field",
       inputType: "text",
       label: "License Number",
@@ -50,14 +50,14 @@ export const DriversSchema = z
       },
     }),
     licenseExpiryDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "licenseExpiryDate",
+      id: "Drivers-licenseExpiryDate",
       type: "field",
       inputType: "date",
       label: "License Expiry Date",
       description: "When the license expires",
     }),
     status: z.enum(["active", "inactive", "on-leave"]).register(fieldRegistry, {
-      id: "status",
+      id: "Drivers-status",
       type: "field",
       inputType: "select",
       label: "Status",
@@ -75,7 +75,7 @@ export const DriversSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "schedules",
+        id: "Drivers-schedules",
         inputType: "relation",
         label: "Schedules",
         description: "Driver schedules",
@@ -89,7 +89,7 @@ export const DriversSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Drivers-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -102,7 +102,7 @@ export const DriversSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Drivers-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

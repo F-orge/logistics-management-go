@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const CarrierRatesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "CarrierRates-id",
       type: "field",
       inputType: "text",
       label: "Rate ID",
@@ -29,7 +29,7 @@ export const CarrierRatesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "carrier",
+        id: "CarrierRates-carrier",
         inputType: "relation",
         label: "Carrier",
         description: "Carrier for this rate",
@@ -43,7 +43,7 @@ export const CarrierRatesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "serviceType",
+        id: "CarrierRates-serviceType",
         type: "field",
         inputType: "text",
         label: "Service Type",
@@ -53,7 +53,7 @@ export const CarrierRatesSchema = z
         },
       }),
     origin: z.string().register(fieldRegistry, {
-      id: "origin",
+      id: "CarrierRates-origin",
       type: "field",
       inputType: "text",
       label: "Origin",
@@ -63,7 +63,7 @@ export const CarrierRatesSchema = z
       },
     }),
     destination: z.string().register(fieldRegistry, {
-      id: "destination",
+      id: "CarrierRates-destination",
       type: "field",
       inputType: "text",
       label: "Destination",
@@ -73,7 +73,7 @@ export const CarrierRatesSchema = z
       },
     }),
     rate: z.number().register(fieldRegistry, {
-      id: "rate",
+      id: "CarrierRates-rate",
       type: "field",
       inputType: "number",
       label: "Rate",
@@ -87,7 +87,7 @@ export const CarrierRatesSchema = z
       .enum(["per-kg", "per-container", "per-mile", "per-km", "flat-rate"])
       .optional()
       .register(fieldRegistry, {
-        id: "unit",
+        id: "CarrierRates-unit",
         type: "field",
         inputType: "select",
         label: "Unit",
@@ -106,7 +106,7 @@ export const CarrierRatesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "CarrierRates-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -119,7 +119,7 @@ export const CarrierRatesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "CarrierRates-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

@@ -16,152 +16,150 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import FormDialog from "@/components/ui/autoform/components/helpers/FormDialog";
+import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
 import { Collections } from "@/lib/pb.types";
 import { StockTransferSchema } from "@/pocketbase/schemas/warehouse-management/stock-transfer";
 
-export const CreateStockTransfer = () => {
+const StockTransferFormSchema = StockTransferSchema.omit({
+  id: true,
+  created: true,
+  updated: true,
+});
+
+export const StockTransferActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
     from: "/dashboard/$schema/$collection",
   });
 
-  return (
-    <FormDialog
-      title="Create StockTransfer"
-      description="Fill in the details to create a new stock-transfer."
-      open={searchQuery.action === "create"}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={StockTransferSchema}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.WarehouseManagementStockTransfer)
-            .create(data);
-          toast.success("StockTransfer created successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to create stock-transfer: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+  const { data } = useQuery({
+    queryKey: ["stock-transfers", searchQuery.id],
+    enabled:
+      !!searchQuery.id &&
+      (searchQuery.action === "update" || searchQuery.action === "delete"),
+    queryFn: async () => {
+      const record = await pocketbase
+        .collection(Collections.WarehouseManagementStockTransfer)
+        .getOne(searchQuery.id!);
+      return record;
+    },
+  });
+
+  if (searchQuery.action === "create") {
+    return (
+      <AutoForm<typeof StockTransferFormSchema>
+        title="Create StockTransfer"
+        description="Fill in the details to create a new stock-transfer."
+        open={searchQuery.action === "create"}
+        onOpenChange={() =>
+          navigate({ search: (prev) => ({ ...prev, action: undefined }) })
         }
-      }}
-    />
-  );
-};
-
-export const UpdateStockTransfer = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.WarehouseManagementStockTransfer, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.WarehouseManagementStockTransfer)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "update" && !!searchQuery.id,
-  });
-
-  return (
-    <FormDialog
-      title="Update StockTransfer"
-      description="Modify the details of the stock-transfer."
-      defaultValues={record || undefined}
-      open={searchQuery.action === "update" && !!searchQuery.id}
-      onOpenChange={() =>
-        navigate({ search: (prev) => ({ ...prev, action: undefined }) })
-      }
-      schema={StockTransferSchema.partial()}
-      onSubmit={async (data) => {
-        try {
-          await pocketbase
-            .collection(Collections.WarehouseManagementStockTransfer)
-            .update(searchQuery.id!, data);
-          toast.success("StockTransfer updated successfully!");
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            toast.error(
-              `Failed to update stock-transfer: ${error.message} (${error.status})`
-            );
-          }
-        } finally {
-          navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-        }
-      }}
-    />
-  );
-};
-
-export const DeleteStockTransfer = () => {
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-
-  const { data: record } = useQuery({
-    queryKey: [Collections.WarehouseManagementStockTransfer, searchQuery.id],
-    queryFn: async () =>
-      pocketbase
-        .collection(Collections.WarehouseManagementStockTransfer)
-        .getOne(searchQuery.id!),
-    enabled: searchQuery.action === "delete" && !!searchQuery.id,
-  });
-
-  const handleDelete = async () => {
-    try {
-      await pocketbase
-        .collection(Collections.WarehouseManagementStockTransfer)
-        .delete(searchQuery.id!);
-      toast.success("StockTransfer deleted successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to delete stock-transfer: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      navigate({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  };
-
-  return (
-    <AlertDialog open={searchQuery.action === "delete" && !!searchQuery.id}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete the
-            stock-transfer and remove all associated data.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel
-            onClick={() =>
-              navigate({ search: (prev) => ({ ...prev, action: undefined }) })
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.WarehouseManagementStockTransfer)
+              .create(data);
+            toast.success("StockTransfer created successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to create stock-transfer: ${error.message} (${error.status})`
+              );
             }
-          >
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={StockTransferFormSchema}
+      />
+    );
+  }
+
+  if (searchQuery.action === "update" && data) {
+    return (
+      <AutoForm<typeof StockTransferFormSchema>
+        title="Update StockTransfer"
+        description="Update the stock-transfer details."
+        open={searchQuery.action === "update"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+        onSubmit={async (data) => {
+          try {
+            await pocketbase
+              .collection(Collections.WarehouseManagementStockTransfer)
+              .update(searchQuery.id!, data);
+            toast.success("StockTransfer updated successfully!");
+          } catch (error) {
+            if (error instanceof ClientResponseError) {
+              toast.error(
+                `Failed to update stock-transfer: ${error.message} (${error.status})`
+              );
+            }
+          } finally {
+            navigate({ search: (prev) => ({ ...prev, action: undefined }) });
+          }
+        }}
+        schema={StockTransferFormSchema}
+        defaultValues={data as any}
+      />
+    );
+  }
+
+  if (searchQuery.action === "delete" && data) {
+    return (
+      <AlertDialog
+        open={searchQuery.action === "delete"}
+        onOpenChange={() =>
+          navigate({
+            search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+          })
+        }
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete StockTransfer</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this stock-transfer? This action
+              cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                try {
+                  await pocketbase
+                    .collection(Collections.WarehouseManagementStockTransfer)
+                    .delete(searchQuery.id!);
+                  toast.success("StockTransfer deleted successfully!");
+                } catch (error) {
+                  if (error instanceof ClientResponseError) {
+                    toast.error(
+                      `Failed to delete stock-transfer: ${error.message} (${error.status})`
+                    );
+                  }
+                } finally {
+                  navigate({
+                    search: (prev) => ({
+                      ...prev,
+                      action: undefined,
+                      id: undefined,
+                    }),
+                  });
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
 };
 
-export default [
-  <CreateStockTransfer key={"action-create"} />,
-  <UpdateStockTransfer key={"action-update"} />,
-  <DeleteStockTransfer key={"action-delete"} />,
-];
+export default StockTransferActions;

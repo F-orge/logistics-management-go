@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ReturnsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Returns-id",
       type: "field",
       inputType: "text",
       label: "Return ID",
@@ -25,7 +25,7 @@ export const ReturnsSchema = z
       },
     }),
     returnNumber: z.string().register(fieldRegistry, {
-      id: "returnNumber",
+      id: "Returns-returnNumber",
       type: "field",
       inputType: "text",
       label: "Return Number",
@@ -39,7 +39,7 @@ export const ReturnsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "salesOrder",
+        id: "Returns-salesOrder",
         inputType: "relation",
         label: "Sales Order",
         description: "Sales order being returned",
@@ -54,7 +54,7 @@ export const ReturnsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "client",
+        id: "Returns-client",
         inputType: "relation",
         label: "Client",
         description: "Client making the return",
@@ -67,7 +67,7 @@ export const ReturnsSchema = z
     status: z
       .enum(["requested", "approved", "rejeceted", "received", "processed"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Returns-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -86,7 +86,7 @@ export const ReturnsSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "reason",
+        id: "Returns-reason",
         type: "field",
         inputType: "textarea",
         label: "Reason",
@@ -99,7 +99,7 @@ export const ReturnsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Returns-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -112,7 +112,7 @@ export const ReturnsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Returns-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

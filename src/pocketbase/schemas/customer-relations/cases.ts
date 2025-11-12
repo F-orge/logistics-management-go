@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const CasesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Cases-id",
       type: "field",
       inputType: "text",
       label: "Case ID",
@@ -25,7 +25,7 @@ export const CasesSchema = z
       },
     }),
     caseNumber: z.string().register(fieldRegistry, {
-      id: "caseNumber",
+      id: "Cases-caseNumber",
       type: "field",
       inputType: "text",
       label: "Case Number",
@@ -46,7 +46,7 @@ export const CasesSchema = z
         "cancelled",
       ])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Cases-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -67,7 +67,7 @@ export const CasesSchema = z
     priority: z
       .enum(["critical", "high", "medium", "low"])
       .register(fieldRegistry, {
-        id: "priority",
+        id: "Cases-priority",
         type: "field",
         inputType: "select",
         label: "Priority",
@@ -91,7 +91,7 @@ export const CasesSchema = z
         "technical-support",
       ])
       .register(fieldRegistry, {
-        id: "type",
+        id: "Cases-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -109,7 +109,7 @@ export const CasesSchema = z
       }),
     owner: z.string().register(fieldRegistry, {
       type: "field",
-      id: "owner",
+      id: "Cases-owner",
       inputType: "relation",
       label: "Owner",
       description: "User assigned to this case",
@@ -124,7 +124,7 @@ export const CasesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "contact",
+        id: "Cases-contact",
         inputType: "relation",
         label: "Contact",
         description: "Contact associated with this case",
@@ -138,7 +138,7 @@ export const CasesSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "description",
+        id: "Cases-description",
         type: "field",
         inputType: "textarea",
         label: "Description",
@@ -151,7 +151,7 @@ export const CasesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Cases-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -164,7 +164,7 @@ export const CasesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Cases-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

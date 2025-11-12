@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PackagesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Packages-id",
       type: "field",
       inputType: "text",
       label: "Package ID",
@@ -26,7 +26,7 @@ export const PackagesSchema = z
     }),
     salesOrder: z.string().register(fieldRegistry, {
       type: "field",
-      id: "salesOrder",
+      id: "Packages-salesOrder",
       inputType: "relation",
       label: "Sales Order",
       description: "Sales order for this package",
@@ -37,7 +37,7 @@ export const PackagesSchema = z
       } as RelationFieldProps<any>,
     }),
     packageNumber: z.string().register(fieldRegistry, {
-      id: "packageNumber",
+      id: "Packages-packageNumber",
       type: "field",
       inputType: "text",
       label: "Package Number",
@@ -48,7 +48,7 @@ export const PackagesSchema = z
     }),
     warehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "warehouse",
+      id: "Packages-warehouse",
       inputType: "relation",
       label: "Warehouse",
       description: "Warehouse where package is located",
@@ -62,7 +62,7 @@ export const PackagesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "type",
+        id: "Packages-type",
         type: "field",
         inputType: "text",
         label: "Type",
@@ -75,7 +75,7 @@ export const PackagesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "weight",
+        id: "Packages-weight",
         type: "field",
         inputType: "number",
         label: "Weight",
@@ -89,7 +89,7 @@ export const PackagesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "length",
+        id: "Packages-length",
         type: "field",
         inputType: "number",
         label: "Length",
@@ -103,7 +103,7 @@ export const PackagesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "width",
+        id: "Packages-width",
         type: "field",
         inputType: "number",
         label: "Width",
@@ -117,7 +117,7 @@ export const PackagesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "height",
+        id: "Packages-height",
         type: "field",
         inputType: "number",
         label: "Height",
@@ -132,7 +132,7 @@ export const PackagesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "packedByUser",
+        id: "Packages-packedByUser",
         inputType: "relation",
         label: "Packed By",
         description: "User who packed this package",
@@ -143,35 +143,35 @@ export const PackagesSchema = z
         } as RelationFieldProps<any>,
       }),
     packedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "packedAt",
+      id: "Packages-packedAt",
       type: "field",
       inputType: "date",
       label: "Packed At",
       description: "When the package was packed",
     }),
     shippedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "shippedAt",
+      id: "Packages-shippedAt",
       type: "field",
       inputType: "date",
       label: "Shipped At",
       description: "When the package was shipped",
     }),
     isFragile: z.unknown().optional().register(fieldRegistry, {
-      id: "isFragile",
+      id: "Packages-isFragile",
       type: "field",
       inputType: "bool",
       label: "Fragile",
       description: "Whether the package contains fragile items",
     }),
     isHazmat: z.unknown().optional().register(fieldRegistry, {
-      id: "isHazmat",
+      id: "Packages-isHazmat",
       type: "field",
       inputType: "bool",
       label: "Hazmat",
       description: "Whether the package contains hazardous materials",
     }),
     requireSignature: z.unknown().optional().register(fieldRegistry, {
-      id: "requireSignature",
+      id: "Packages-requireSignature",
       type: "field",
       inputType: "bool",
       label: "Requires Signature",
@@ -181,7 +181,7 @@ export const PackagesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "insuranceValue",
+        id: "Packages-insuranceValue",
         type: "field",
         inputType: "number",
         label: "Insurance Value",
@@ -196,7 +196,7 @@ export const PackagesSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "images",
+        id: "Packages-images",
         type: "field",
         inputType: "file",
         label: "Images",
@@ -210,7 +210,7 @@ export const PackagesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Packages-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -223,7 +223,7 @@ export const PackagesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Packages-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

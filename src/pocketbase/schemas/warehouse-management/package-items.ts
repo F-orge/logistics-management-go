@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PackageItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "PackageItems-id",
       type: "field",
       inputType: "text",
       label: "Package Item ID",
@@ -26,7 +26,7 @@ export const PackageItemsSchema = z
     }),
     package: z.string().register(fieldRegistry, {
       type: "field",
-      id: "package",
+      id: "PackageItems-package",
       inputType: "relation",
       label: "Package",
       description: "Package this item belongs to",
@@ -38,7 +38,7 @@ export const PackageItemsSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "PackageItems-product",
       inputType: "relation",
       label: "Product",
       description: "Product in the package",
@@ -53,7 +53,7 @@ export const PackageItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "batch",
+        id: "PackageItems-batch",
         inputType: "relation",
         label: "Batch",
         description: "Product batch",
@@ -64,7 +64,7 @@ export const PackageItemsSchema = z
         } as RelationFieldProps<any>,
       }),
     quantity: z.number().register(fieldRegistry, {
-      id: "quantity",
+      id: "PackageItems-quantity",
       type: "field",
       inputType: "number",
       label: "Quantity",
@@ -78,7 +78,7 @@ export const PackageItemsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "lotNumber",
+        id: "PackageItems-lotNumber",
         type: "field",
         inputType: "text",
         label: "Lot Number",
@@ -88,7 +88,7 @@ export const PackageItemsSchema = z
         },
       }),
     expiryDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "expiryDate",
+      id: "PackageItems-expiryDate",
       type: "field",
       inputType: "date",
       label: "Expiry Date",
@@ -98,7 +98,7 @@ export const PackageItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "PackageItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -111,7 +111,7 @@ export const PackageItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "PackageItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

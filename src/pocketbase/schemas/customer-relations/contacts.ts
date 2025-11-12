@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ContactsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Contacts-id",
       type: "field",
       inputType: "text",
       label: "Contact ID",
@@ -25,7 +25,7 @@ export const ContactsSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Contacts-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -38,7 +38,7 @@ export const ContactsSchema = z
       .string()
       .email()
       .register(fieldRegistry, {
-        id: "email",
+        id: "Contacts-email",
         type: "field",
         inputType: "email",
         label: "Email",
@@ -51,7 +51,7 @@ export const ContactsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "phoneNumber",
+        id: "Contacts-phoneNumber",
         type: "field",
         inputType: "text",
         label: "Phone Number",
@@ -64,7 +64,7 @@ export const ContactsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "jobTitle",
+        id: "Contacts-jobTitle",
         type: "field",
         inputType: "text",
         label: "Job Title",
@@ -78,7 +78,7 @@ export const ContactsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "company",
+        id: "Contacts-company",
         inputType: "relation",
         label: "Company",
         description: "Company associated with this contact",
@@ -90,7 +90,7 @@ export const ContactsSchema = z
       }),
     owner: z.string().register(fieldRegistry, {
       type: "field",
-      id: "owner",
+      id: "Contacts-owner",
       inputType: "relation",
       label: "Owner",
       description: "User who owns this contact",
@@ -105,7 +105,7 @@ export const ContactsSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Contacts-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -119,7 +119,7 @@ export const ContactsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Contacts-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -132,7 +132,7 @@ export const ContactsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Contacts-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

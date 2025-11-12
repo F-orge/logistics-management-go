@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const PartnerInvoiceSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "PartnerInvoice-id",
       type: "field",
       inputType: "text",
       label: "Invoice ID",
@@ -26,7 +26,7 @@ export const PartnerInvoiceSchema = z
     }),
     carrier: z.string().register(fieldRegistry, {
       type: "field",
-      id: "carrier",
+      id: "PartnerInvoice-carrier",
       inputType: "relation",
       label: "Carrier",
       description: "Carrier this invoice is from",
@@ -37,7 +37,7 @@ export const PartnerInvoiceSchema = z
       } as RelationFieldProps<any>,
     }),
     invoiceNumber: z.string().register(fieldRegistry, {
-      id: "invoiceNumber",
+      id: "PartnerInvoice-invoiceNumber",
       type: "field",
       inputType: "text",
       label: "Invoice Number",
@@ -47,14 +47,14 @@ export const PartnerInvoiceSchema = z
       },
     }),
     invoiceDate: z.iso.date().register(fieldRegistry, {
-      id: "invoiceDate",
+      id: "PartnerInvoice-invoiceDate",
       type: "field",
       inputType: "date",
       label: "Invoice Date",
       description: "Date of the invoice",
     }),
     totalAmount: z.number().register(fieldRegistry, {
-      id: "totalAmount",
+      id: "PartnerInvoice-totalAmount",
       type: "field",
       inputType: "number",
       label: "Total Amount",
@@ -68,7 +68,7 @@ export const PartnerInvoiceSchema = z
       .enum(["pending", "paid", "disputed", "overdue", "cancelled"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "PartnerInvoice-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -88,7 +88,7 @@ export const PartnerInvoiceSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "items",
+        id: "PartnerInvoice-items",
         inputType: "relation",
         label: "Items",
         description: "Invoice items",
@@ -102,7 +102,7 @@ export const PartnerInvoiceSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "PartnerInvoice-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -115,7 +115,7 @@ export const PartnerInvoiceSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "PartnerInvoice-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

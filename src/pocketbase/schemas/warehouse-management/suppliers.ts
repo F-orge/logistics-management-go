@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const SuppliersSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Suppliers-id",
       type: "field",
       inputType: "text",
       label: "Supplier ID",
@@ -25,7 +25,7 @@ export const SuppliersSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Suppliers-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -38,7 +38,7 @@ export const SuppliersSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "contactPerson",
+        id: "Suppliers-contactPerson",
         type: "field",
         inputType: "text",
         label: "Contact Person",
@@ -51,7 +51,7 @@ export const SuppliersSchema = z
       .email()
       .optional()
       .register(fieldRegistry, {
-        id: "email",
+        id: "Suppliers-email",
         type: "field",
         inputType: "email",
         label: "Email",
@@ -64,7 +64,7 @@ export const SuppliersSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "phoneNumber",
+        id: "Suppliers-phoneNumber",
         type: "field",
         inputType: "text",
         label: "Phone Number",
@@ -78,7 +78,7 @@ export const SuppliersSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "client",
+        id: "Suppliers-client",
         inputType: "relation",
         label: "Client",
         description: "Associated client",
@@ -92,7 +92,7 @@ export const SuppliersSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Suppliers-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -105,7 +105,7 @@ export const SuppliersSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Suppliers-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

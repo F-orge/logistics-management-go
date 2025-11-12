@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const TasksSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Tasks-id",
       type: "field",
       inputType: "text",
       label: "Task ID",
@@ -26,7 +26,7 @@ export const TasksSchema = z
     }),
     package: z.string().register(fieldRegistry, {
       type: "field",
-      id: "package",
+      id: "Tasks-package",
       inputType: "relation",
       label: "Package",
       description: "Package to be delivered",
@@ -38,7 +38,7 @@ export const TasksSchema = z
     }),
     route: z.string().register(fieldRegistry, {
       type: "field",
-      id: "route",
+      id: "Tasks-route",
       inputType: "relation",
       label: "Route",
       description: "Route this task is part of",
@@ -49,7 +49,7 @@ export const TasksSchema = z
       } as RelationFieldProps<any>,
     }),
     sequence: z.number().register(fieldRegistry, {
-      id: "sequence",
+      id: "Tasks-sequence",
       type: "field",
       inputType: "number",
       label: "Sequence",
@@ -60,7 +60,7 @@ export const TasksSchema = z
       },
     }),
     deliveryAddress: z.string().register(fieldRegistry, {
-      id: "deliveryAddress",
+      id: "Tasks-deliveryAddress",
       type: "field",
       inputType: "textarea",
       label: "Delivery Address",
@@ -73,7 +73,7 @@ export const TasksSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "recipientName",
+        id: "Tasks-recipientName",
         type: "field",
         inputType: "text",
         label: "Recipient Name",
@@ -86,7 +86,7 @@ export const TasksSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "recipientPhone",
+        id: "Tasks-recipientPhone",
         type: "field",
         inputType: "text",
         label: "Recipient Phone",
@@ -99,7 +99,7 @@ export const TasksSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "deliveryInstructions",
+        id: "Tasks-deliveryInstructions",
         type: "field",
         inputType: "textarea",
         label: "Delivery Instructions",
@@ -109,21 +109,21 @@ export const TasksSchema = z
         },
       }),
     estimatedArrivalTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "estimatedArrivalTime",
+      id: "Tasks-estimatedArrivalTime",
       type: "field",
       inputType: "date",
       label: "Estimated Arrival Time",
       description: "Estimated time of arrival",
     }),
     actualArrivalTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "actualArrivalTime",
+      id: "Tasks-actualArrivalTime",
       type: "field",
       inputType: "date",
       label: "Actual Arrival Time",
       description: "Actual time of arrival",
     }),
     deliveryTime: z.iso.date().optional().register(fieldRegistry, {
-      id: "deliveryTime",
+      id: "Tasks-deliveryTime",
       type: "field",
       inputType: "date",
       label: "Delivery Time",
@@ -140,7 +140,7 @@ export const TasksSchema = z
         "rescheduled",
       ])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Tasks-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -161,7 +161,7 @@ export const TasksSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "attempCount",
+        id: "Tasks-attempCount",
         type: "field",
         inputType: "number",
         label: "Attempt Count",
@@ -176,7 +176,7 @@ export const TasksSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Tasks-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -199,7 +199,7 @@ export const TasksSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "failureReason",
+        id: "Tasks-failureReason",
         type: "field",
         inputType: "select",
         label: "Failure Reason",
@@ -221,7 +221,7 @@ export const TasksSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Tasks-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -234,7 +234,7 @@ export const TasksSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Tasks-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

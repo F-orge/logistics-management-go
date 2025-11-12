@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const SalesOrdersSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "SalesOrders-id",
       type: "field",
       inputType: "text",
       label: "Sales Order ID",
@@ -28,7 +28,7 @@ export const SalesOrdersSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "shippingAddress",
+        id: "SalesOrders-shippingAddress",
         type: "field",
         inputType: "number",
         label: "Shipping Address",
@@ -39,7 +39,7 @@ export const SalesOrdersSchema = z
       }),
     client: z.string().register(fieldRegistry, {
       type: "field",
-      id: "client",
+      id: "SalesOrders-client",
       inputType: "relation",
       label: "Client",
       description: "Client for this sales order",
@@ -54,7 +54,7 @@ export const SalesOrdersSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "opportunity",
+        id: "SalesOrders-opportunity",
         inputType: "relation",
         label: "Opportunity",
         description: "Related sales opportunity",
@@ -67,7 +67,7 @@ export const SalesOrdersSchema = z
     status: z
       .enum(["pending", "processing", "shipped", "completed", "cancelled"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "SalesOrders-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -83,7 +83,7 @@ export const SalesOrdersSchema = z
         },
       }),
     orderNumber: z.string().register(fieldRegistry, {
-      id: "orderNumber",
+      id: "SalesOrders-orderNumber",
       type: "field",
       inputType: "text",
       label: "Order Number",
@@ -96,7 +96,7 @@ export const SalesOrdersSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "SalesOrders-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -109,7 +109,7 @@ export const SalesOrdersSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "SalesOrders-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

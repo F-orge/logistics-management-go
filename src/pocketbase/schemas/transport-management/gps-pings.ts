@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const GpsPingsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "GpsPings-id",
       type: "field",
       inputType: "text",
       label: "Ping ID",
@@ -26,7 +26,7 @@ export const GpsPingsSchema = z
     }),
     vehicle: z.string().register(fieldRegistry, {
       type: "field",
-      id: "vehicle",
+      id: "GpsPings-vehicle",
       inputType: "relation",
       label: "Vehicle",
       description: "Vehicle sending the GPS ping",
@@ -37,14 +37,14 @@ export const GpsPingsSchema = z
       } as RelationFieldProps<any>,
     }),
     coordinates: z.unknown().register(fieldRegistry, {
-      id: "coordinates",
+      id: "GpsPings-coordinates",
       type: "field",
       inputType: "geoPoint",
       label: "Coordinates",
       description: "GPS coordinates of the vehicle",
     }),
     timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "timestamp",
+      id: "GpsPings-timestamp",
       type: "field",
       inputType: "date",
       label: "Timestamp",

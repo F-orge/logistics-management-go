@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ProofOfDeliveriesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ProofOfDeliveries-id",
       type: "field",
       inputType: "text",
       label: "Proof ID",
@@ -26,7 +26,7 @@ export const ProofOfDeliveriesSchema = z
     }),
     tripStop: z.string().register(fieldRegistry, {
       type: "field",
-      id: "tripStop",
+      id: "ProofOfDeliveries-tripStop",
       inputType: "relation",
       label: "Trip Stop",
       description: "Trip stop this proof belongs to",
@@ -37,7 +37,7 @@ export const ProofOfDeliveriesSchema = z
       } as RelationFieldProps<any>,
     }),
     coordinate: z.unknown().register(fieldRegistry, {
-      id: "coordinate",
+      id: "ProofOfDeliveries-coordinate",
       type: "field",
       inputType: "geoPoint",
       label: "Coordinate",
@@ -47,7 +47,7 @@ export const ProofOfDeliveriesSchema = z
       .array(z.file())
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "ProofOfDeliveries-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -61,7 +61,7 @@ export const ProofOfDeliveriesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "ProofOfDeliveries-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -74,7 +74,7 @@ export const ProofOfDeliveriesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "ProofOfDeliveries-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

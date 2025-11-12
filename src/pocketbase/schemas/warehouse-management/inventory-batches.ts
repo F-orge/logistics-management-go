@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InventoryBatchesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "InventoryBatches-id",
       type: "field",
       inputType: "text",
       label: "Batch ID",
@@ -26,7 +26,7 @@ export const InventoryBatchesSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "InventoryBatches-product",
       inputType: "relation",
       label: "Product",
       description: "Product in this batch",
@@ -37,7 +37,7 @@ export const InventoryBatchesSchema = z
       } as RelationFieldProps<any>,
     }),
     batchNumber: z.string().register(fieldRegistry, {
-      id: "batchNumber",
+      id: "InventoryBatches-batchNumber",
       type: "field",
       inputType: "text",
       label: "Batch Number",
@@ -47,7 +47,7 @@ export const InventoryBatchesSchema = z
       },
     }),
     expirationDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "expirationDate",
+      id: "InventoryBatches-expirationDate",
       type: "field",
       inputType: "date",
       label: "Expiration Date",
@@ -57,7 +57,7 @@ export const InventoryBatchesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "InventoryBatches-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -70,7 +70,7 @@ export const InventoryBatchesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "InventoryBatches-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

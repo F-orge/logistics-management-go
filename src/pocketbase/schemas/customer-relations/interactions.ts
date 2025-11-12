@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InteractionsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Interactions-id",
       type: "field",
       inputType: "text",
       label: "Interaction ID",
@@ -26,7 +26,7 @@ export const InteractionsSchema = z
     }),
     contact: z.string().register(fieldRegistry, {
       type: "field",
-      id: "contact",
+      id: "Interactions-contact",
       inputType: "relation",
       label: "Contact",
       description: "Contact involved in this interaction",
@@ -38,7 +38,7 @@ export const InteractionsSchema = z
     }),
     user: z.string().register(fieldRegistry, {
       type: "field",
-      id: "user",
+      id: "Interactions-user",
       inputType: "relation",
       label: "User",
       description: "User who conducted this interaction",
@@ -53,7 +53,7 @@ export const InteractionsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "case",
+        id: "Interactions-case",
         inputType: "relation",
         label: "Case",
         description: "Case associated with this interaction",
@@ -67,7 +67,7 @@ export const InteractionsSchema = z
       .enum(["call", "meeting", "text", "email"])
       .optional()
       .register(fieldRegistry, {
-        id: "type",
+        id: "Interactions-type",
         type: "field",
         inputType: "select",
         label: "Type",
@@ -85,7 +85,7 @@ export const InteractionsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "outcome",
+        id: "Interactions-outcome",
         type: "field",
         inputType: "text",
         label: "Outcome",
@@ -98,7 +98,7 @@ export const InteractionsSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "notes",
+        id: "Interactions-notes",
         type: "field",
         inputType: "textarea",
         label: "Notes",
@@ -112,7 +112,7 @@ export const InteractionsSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Interactions-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -123,7 +123,7 @@ export const InteractionsSchema = z
         },
       }),
     interactionDate: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "interactionDate",
+      id: "Interactions-interactionDate",
       type: "field",
       inputType: "date",
       label: "Interaction Date",

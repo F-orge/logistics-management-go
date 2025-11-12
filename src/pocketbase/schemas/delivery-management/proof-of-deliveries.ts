@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ProofOfDeliveriesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ProofOfDeliveries-id",
       type: "field",
       inputType: "text",
       label: "Proof ID",
@@ -29,7 +29,7 @@ export const ProofOfDeliveriesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "task",
+        id: "ProofOfDeliveries-task",
         inputType: "relation",
         label: "Task",
         description: "Delivery task this proof is for",
@@ -43,7 +43,7 @@ export const ProofOfDeliveriesSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "signatureData",
+        id: "ProofOfDeliveries-signatureData",
         type: "field",
         inputType: "file",
         label: "Signature",
@@ -56,7 +56,7 @@ export const ProofOfDeliveriesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "recipientName",
+        id: "ProofOfDeliveries-recipientName",
         type: "field",
         inputType: "text",
         label: "Recipient Name",
@@ -66,7 +66,7 @@ export const ProofOfDeliveriesSchema = z
         },
       }),
     coordinates: z.unknown().optional().register(fieldRegistry, {
-      id: "coordinates",
+      id: "ProofOfDeliveries-coordinates",
       type: "field",
       inputType: "geoPoint",
       label: "Delivery Coordinates",
@@ -76,7 +76,7 @@ export const ProofOfDeliveriesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "timestamp",
+        id: "ProofOfDeliveries-timestamp",
         type: "field",
         inputType: "date",
         label: "Timestamp",

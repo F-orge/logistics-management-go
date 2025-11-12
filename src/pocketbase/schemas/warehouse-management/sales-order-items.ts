@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const SalesOrderItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "SalesOrderItems-id",
       type: "field",
       inputType: "text",
       label: "Order Item ID",
@@ -29,7 +29,7 @@ export const SalesOrderItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "salesOrder",
+        id: "SalesOrderItems-salesOrder",
         inputType: "relation",
         label: "Sales Order",
         description: "Sales order this item belongs to",
@@ -44,7 +44,7 @@ export const SalesOrderItemsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "product",
+        id: "SalesOrderItems-product",
         inputType: "relation",
         label: "Product",
         description: "Product in this order",
@@ -55,7 +55,7 @@ export const SalesOrderItemsSchema = z
         } as RelationFieldProps<any>,
       }),
     quantityOrdered: z.number().register(fieldRegistry, {
-      id: "quantityOrdered",
+      id: "SalesOrderItems-quantityOrdered",
       type: "field",
       inputType: "number",
       label: "Quantity Ordered",
@@ -69,7 +69,7 @@ export const SalesOrderItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "SalesOrderItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -82,7 +82,7 @@ export const SalesOrderItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "SalesOrderItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

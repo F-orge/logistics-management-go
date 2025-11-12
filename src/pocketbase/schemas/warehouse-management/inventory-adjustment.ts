@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const InventoryAdjustmentSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "InventoryAdjustment-id",
       type: "field",
       inputType: "text",
       label: "Adjustment ID",
@@ -26,7 +26,7 @@ export const InventoryAdjustmentSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "InventoryAdjustment-product",
       inputType: "relation",
       label: "Product",
       description: "Product being adjusted",
@@ -38,7 +38,7 @@ export const InventoryAdjustmentSchema = z
     }),
     user: z.string().register(fieldRegistry, {
       type: "field",
-      id: "user",
+      id: "InventoryAdjustment-user",
       inputType: "relation",
       label: "User",
       description: "User making the adjustment",
@@ -49,7 +49,7 @@ export const InventoryAdjustmentSchema = z
       } as RelationFieldProps<any>,
     }),
     quantityChange: z.number().register(fieldRegistry, {
-      id: "quantityChange",
+      id: "InventoryAdjustment-quantityChange",
       type: "field",
       inputType: "number",
       label: "Quantity Change",
@@ -68,7 +68,7 @@ export const InventoryAdjustmentSchema = z
         "manual-correction",
       ])
       .register(fieldRegistry, {
-        id: "reason",
+        id: "InventoryAdjustment-reason",
         type: "field",
         inputType: "select",
         label: "Reason",
@@ -88,7 +88,7 @@ export const InventoryAdjustmentSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "notes",
+        id: "InventoryAdjustment-notes",
         type: "field",
         inputType: "textarea",
         label: "Notes",
@@ -99,7 +99,7 @@ export const InventoryAdjustmentSchema = z
       }),
     warehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "warehouse",
+      id: "InventoryAdjustment-warehouse",
       inputType: "relation",
       label: "Warehouse",
       description: "Warehouse where adjustment occurred",
@@ -113,7 +113,7 @@ export const InventoryAdjustmentSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "InventoryAdjustment-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -126,7 +126,7 @@ export const InventoryAdjustmentSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "InventoryAdjustment-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

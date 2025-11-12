@@ -14,7 +14,7 @@ import { Collections } from "@/lib/pb.types";
 export const RoutesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Routes-id",
       type: "field",
       inputType: "text",
       label: "Route ID",
@@ -24,7 +24,7 @@ export const RoutesSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Routes-name",
       type: "field",
       inputType: "text",
       label: "Name",
@@ -34,7 +34,7 @@ export const RoutesSchema = z
       },
     }),
     totalDistance: z.number().register(fieldRegistry, {
-      id: "totalDistance",
+      id: "Routes-totalDistance",
       type: "field",
       inputType: "number",
       label: "Total Distance",
@@ -45,7 +45,7 @@ export const RoutesSchema = z
       },
     }),
     totalDuration: z.number().register(fieldRegistry, {
-      id: "totalDuration",
+      id: "Routes-totalDuration",
       type: "field",
       inputType: "number",
       label: "Total Duration",
@@ -59,7 +59,7 @@ export const RoutesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Routes-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -72,7 +72,7 @@ export const RoutesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Routes-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

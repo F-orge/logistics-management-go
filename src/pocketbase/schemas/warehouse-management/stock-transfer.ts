@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const StockTransferSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "StockTransfer-id",
       type: "field",
       inputType: "text",
       label: "Transfer ID",
@@ -29,7 +29,7 @@ export const StockTransferSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "product",
+        id: "StockTransfer-product",
         inputType: "relation",
         label: "Product",
         description: "Product being transferred",
@@ -43,7 +43,7 @@ export const StockTransferSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantity",
+        id: "StockTransfer-quantity",
         type: "field",
         inputType: "number",
         label: "Quantity",
@@ -57,7 +57,7 @@ export const StockTransferSchema = z
       .enum(["pending", "in-transit", "received", "cancelled"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "StockTransfer-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -73,7 +73,7 @@ export const StockTransferSchema = z
       }),
     sourceWarehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "sourceWarehouse",
+      id: "StockTransfer-sourceWarehouse",
       inputType: "relation",
       label: "Source Warehouse",
       description: "Warehouse the stock is transferred from",
@@ -85,7 +85,7 @@ export const StockTransferSchema = z
     }),
     destinationWarehouse: z.string().register(fieldRegistry, {
       type: "field",
-      id: "destinationWarehouse",
+      id: "StockTransfer-destinationWarehouse",
       inputType: "relation",
       label: "Destination Warehouse",
       description: "Warehouse the stock is transferred to",
@@ -99,7 +99,7 @@ export const StockTransferSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "StockTransfer-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -112,7 +112,7 @@ export const StockTransferSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "StockTransfer-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

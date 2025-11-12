@@ -13,7 +13,7 @@ import {
 export const SurchargesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Surcharges-id",
       type: "field",
       inputType: "text",
       label: "Surcharge ID",
@@ -26,7 +26,7 @@ export const SurchargesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "name",
+        id: "Surcharges-name",
         type: "field",
         inputType: "text",
         label: "Name",
@@ -39,7 +39,7 @@ export const SurchargesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "type",
+        id: "Surcharges-type",
         type: "field",
         inputType: "text",
         label: "Type",
@@ -52,7 +52,7 @@ export const SurchargesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "amount",
+        id: "Surcharges-amount",
         type: "field",
         inputType: "number",
         label: "Amount",
@@ -66,7 +66,7 @@ export const SurchargesSchema = z
       .enum(["percentage", "fixed", "per-unit", "sliding-scale"])
       .optional()
       .register(fieldRegistry, {
-        id: "calculationMethod",
+        id: "Surcharges-calculationMethod",
         type: "field",
         inputType: "select",
         label: "Calculation Method",
@@ -81,28 +81,28 @@ export const SurchargesSchema = z
         },
       }),
     isActive: z.boolean().optional().register(fieldRegistry, {
-      id: "isActive",
+      id: "Surcharges-isActive",
       type: "field",
       inputType: "bool",
       label: "Active",
       description: "Whether this surcharge is active",
     }),
     validFrom: z.iso.date().optional().register(fieldRegistry, {
-      id: "validFrom",
+      id: "Surcharges-validFrom",
       type: "field",
       inputType: "date",
       label: "Valid From",
       description: "Start date for surcharge validity",
     }),
     validTo: z.iso.date().optional().register(fieldRegistry, {
-      id: "validTo",
+      id: "Surcharges-validTo",
       type: "field",
       inputType: "date",
       label: "Valid To",
       description: "End date for surcharge validity",
     }),
     description: z.string().optional().register(fieldRegistry, {
-      id: "description",
+      id: "Surcharges-description",
       type: "field",
       inputType: "textarea",
       label: "Description",
@@ -112,7 +112,7 @@ export const SurchargesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Surcharges-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -125,7 +125,7 @@ export const SurchargesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Surcharges-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

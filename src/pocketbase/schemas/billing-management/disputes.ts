@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const DisputesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Disputes-id",
       type: "field",
       inputType: "text",
       label: "Dispute ID",
@@ -26,7 +26,7 @@ export const DisputesSchema = z
     }),
     lineItem: z.string().register(fieldRegistry, {
       type: "field",
-      id: "lineItem",
+      id: "Disputes-lineItem",
       inputType: "relation",
       label: "Line Item",
       description: "Invoice line item being disputed",
@@ -38,7 +38,7 @@ export const DisputesSchema = z
     }),
     client: z.string().register(fieldRegistry, {
       type: "field",
-      id: "client",
+      id: "Disputes-client",
       inputType: "relation",
       label: "Client",
       description: "Client company filing the dispute",
@@ -58,7 +58,7 @@ export const DisputesSchema = z
         "other",
       ])
       .register(fieldRegistry, {
-        id: "reason",
+        id: "Disputes-reason",
         type: "field",
         inputType: "select",
         label: "Reason",
@@ -84,7 +84,7 @@ export const DisputesSchema = z
         "closed",
       ])
       .register(fieldRegistry, {
-        id: "status",
+        id: "Disputes-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -104,7 +104,7 @@ export const DisputesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "disputeAmount",
+        id: "Disputes-disputeAmount",
         type: "field",
         inputType: "number",
         label: "Dispute Amount",
@@ -115,21 +115,21 @@ export const DisputesSchema = z
         },
       }),
     resolutionNotes: z.string().optional().register(fieldRegistry, {
-      id: "resolutionNotes",
+      id: "Disputes-resolutionNotes",
       type: "field",
       inputType: "textarea",
       label: "Resolution Notes",
       description: "Notes on how the dispute was resolved",
     }),
     submittedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "submittedAt",
+      id: "Disputes-submittedAt",
       type: "field",
       inputType: "date",
       label: "Submitted Date",
       description: "Date when dispute was submitted",
     }),
     resolvedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "resolvedAt",
+      id: "Disputes-resolvedAt",
       type: "field",
       inputType: "date",
       label: "Resolved Date",
@@ -140,7 +140,7 @@ export const DisputesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "resolvedBy",
+        id: "Disputes-resolvedBy",
         inputType: "relation",
         label: "Resolved By",
         description: "User who resolved the dispute",
@@ -154,7 +154,7 @@ export const DisputesSchema = z
       .array(z.string())
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Disputes-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -167,7 +167,7 @@ export const DisputesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Disputes-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -180,7 +180,7 @@ export const DisputesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Disputes-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

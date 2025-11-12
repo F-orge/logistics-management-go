@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ShipmentLegsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ShipmentLegs-id",
       type: "field",
       inputType: "text",
       label: "Leg ID",
@@ -25,7 +25,7 @@ export const ShipmentLegsSchema = z
       },
     }),
     legSequence: z.number().register(fieldRegistry, {
-      id: "legSequence",
+      id: "ShipmentLegs-legSequence",
       type: "field",
       inputType: "number",
       label: "Leg Sequence",
@@ -36,14 +36,14 @@ export const ShipmentLegsSchema = z
       },
     }),
     startLocation: z.unknown().register(fieldRegistry, {
-      id: "startLocation",
+      id: "ShipmentLegs-startLocation",
       type: "field",
       inputType: "geoPoint",
       label: "Start Location",
       description: "Starting GPS coordinates",
     }),
     endLocation: z.unknown().register(fieldRegistry, {
-      id: "endLocation",
+      id: "ShipmentLegs-endLocation",
       type: "field",
       inputType: "geoPoint",
       label: "End Location",
@@ -54,7 +54,7 @@ export const ShipmentLegsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "carrier",
+        id: "ShipmentLegs-carrier",
         inputType: "relation",
         label: "Carrier",
         description: "Carrier for this leg",
@@ -69,7 +69,7 @@ export const ShipmentLegsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "interalTrip",
+        id: "ShipmentLegs-interalTrip",
         inputType: "relation",
         label: "Internal Trip",
         description: "Internal trip for this leg",
@@ -82,7 +82,7 @@ export const ShipmentLegsSchema = z
     status: z
       .enum(["pending", "in-transit", "delivered", "cancelled", "failed"])
       .register(fieldRegistry, {
-        id: "status",
+        id: "ShipmentLegs-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -102,7 +102,7 @@ export const ShipmentLegsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "shipment",
+        id: "ShipmentLegs-shipment",
         inputType: "relation",
         label: "Shipment",
         description: "Outbound shipment for this leg",
@@ -116,7 +116,7 @@ export const ShipmentLegsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "ShipmentLegs-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -129,7 +129,7 @@ export const ShipmentLegsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "ShipmentLegs-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const CompaniesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Companies-id",
       type: "field",
       inputType: "text",
       label: "Company ID",
@@ -28,7 +28,7 @@ export const CompaniesSchema = z
       .string()
       .nonempty()
       .register(fieldRegistry, {
-        id: "name",
+        id: "Companies-name",
         type: "field",
         inputType: "text",
         label: "Company Name",
@@ -41,7 +41,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "street",
+        id: "Companies-street",
         type: "field",
         inputType: "text",
         label: "Street Address",
@@ -54,7 +54,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "city",
+        id: "Companies-city",
         type: "field",
         inputType: "text",
         label: "City",
@@ -67,7 +67,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "state",
+        id: "Companies-state",
         type: "field",
         inputType: "text",
         label: "State/Province",
@@ -80,7 +80,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "postalCode",
+        id: "Companies-postalCode",
         type: "field",
         inputType: "text",
         label: "Postal Code",
@@ -93,7 +93,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "country",
+        id: "Companies-country",
         type: "field",
         inputType: "text",
         label: "Country",
@@ -106,7 +106,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "phoneNumber",
+        id: "Companies-phoneNumber",
         type: "field",
         inputType: "text",
         label: "Phone Number",
@@ -119,7 +119,7 @@ export const CompaniesSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "industry",
+        id: "Companies-industry",
         type: "field",
         inputType: "text",
         label: "Industry",
@@ -133,7 +133,7 @@ export const CompaniesSchema = z
       .url()
       .optional()
       .register(fieldRegistry, {
-        id: "website",
+        id: "Companies-website",
         type: "field",
         inputType: "url",
         label: "Website",
@@ -146,7 +146,7 @@ export const CompaniesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "annualRevenue",
+        id: "Companies-annualRevenue",
         type: "field",
         inputType: "number",
         label: "Annual Revenue",
@@ -161,7 +161,7 @@ export const CompaniesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "owner",
+        id: "Companies-owner",
         inputType: "relation",
         label: "Owner",
         description: "User who owns the company record",
@@ -176,7 +176,7 @@ export const CompaniesSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Companies-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -190,7 +190,7 @@ export const CompaniesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Companies-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -203,7 +203,7 @@ export const CompaniesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Companies-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

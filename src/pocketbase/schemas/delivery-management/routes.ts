@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const RoutesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Routes-id",
       type: "field",
       inputType: "text",
       label: "Route ID",
@@ -29,7 +29,7 @@ export const RoutesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "driver",
+        id: "Routes-driver",
         inputType: "relation",
         label: "Driver",
         description: "Driver assigned to this route",
@@ -40,7 +40,7 @@ export const RoutesSchema = z
         } as RelationFieldProps<any>,
       }),
     routeDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "routeDate",
+      id: "Routes-routeDate",
       type: "field",
       inputType: "date",
       label: "Route Date",
@@ -50,7 +50,7 @@ export const RoutesSchema = z
       .enum(["planned", "in-progress", "completed", "cancelled", "paused"])
       .optional()
       .register(fieldRegistry, {
-        id: "status",
+        id: "Routes-status",
         type: "field",
         inputType: "select",
         label: "Status",
@@ -69,7 +69,7 @@ export const RoutesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "totalDistance",
+        id: "Routes-totalDistance",
         type: "field",
         inputType: "number",
         label: "Total Distance",
@@ -83,7 +83,7 @@ export const RoutesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "estimatedDurationInMinutes",
+        id: "Routes-estimatedDurationInMinutes",
         type: "field",
         inputType: "number",
         label: "Estimated Duration",
@@ -94,14 +94,14 @@ export const RoutesSchema = z
         },
       }),
     startedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "startedAt",
+      id: "Routes-startedAt",
       type: "field",
       inputType: "date",
       label: "Started At",
       description: "When the route was started",
     }),
     completedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "completedAt",
+      id: "Routes-completedAt",
       type: "field",
       inputType: "date",
       label: "Completed At",
@@ -111,7 +111,7 @@ export const RoutesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Routes-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -124,7 +124,7 @@ export const RoutesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Routes-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

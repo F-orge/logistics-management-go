@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const CreditNotesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "CreditNotes-id",
       type: "field",
       inputType: "text",
       label: "Credit Note ID",
@@ -26,7 +26,7 @@ export const CreditNotesSchema = z
     }),
     invoice: z.string().register(fieldRegistry, {
       type: "field",
-      id: "invoice",
+      id: "CreditNotes-invoice",
       inputType: "relation",
       label: "Invoice",
       description: "Related invoice for this credit note",
@@ -38,7 +38,7 @@ export const CreditNotesSchema = z
     }),
     dispute: z.string().register(fieldRegistry, {
       type: "field",
-      id: "dispute",
+      id: "CreditNotes-dispute",
       inputType: "relation",
       label: "Dispute",
       description: "Related dispute for this credit note",
@@ -49,7 +49,7 @@ export const CreditNotesSchema = z
       } as RelationFieldProps<any>,
     }),
     creditNoteNumber: z.string().register(fieldRegistry, {
-      id: "creditNoteNumber",
+      id: "CreditNotes-creditNoteNumber",
       type: "field",
       inputType: "text",
       label: "Credit Note Number",
@@ -62,7 +62,7 @@ export const CreditNotesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "amount",
+        id: "CreditNotes-amount",
         type: "field",
         inputType: "number",
         label: "Amount",
@@ -75,7 +75,7 @@ export const CreditNotesSchema = z
     reason: z
       .enum(["return", "discount", "correction", "goodwill", "other"])
       .register(fieldRegistry, {
-        id: "reason",
+        id: "CreditNotes-reason",
         type: "field",
         inputType: "select",
         label: "Reason",
@@ -91,21 +91,21 @@ export const CreditNotesSchema = z
         },
       }),
     issueDate: z.iso.date().register(fieldRegistry, {
-      id: "issueDate",
+      id: "CreditNotes-issueDate",
       type: "field",
       inputType: "date",
       label: "Issue Date",
       description: "Date when credit note was issued",
     }),
     appliedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "appliedAt",
+      id: "CreditNotes-appliedAt",
       type: "field",
       inputType: "date",
       label: "Applied Date",
       description: "Date when credit note was applied",
     }),
     currency: z.string().register(fieldRegistry, {
-      id: "currency",
+      id: "CreditNotes-currency",
       type: "field",
       inputType: "text",
       label: "Currency",
@@ -115,7 +115,7 @@ export const CreditNotesSchema = z
       },
     }),
     notes: z.string().optional().register(fieldRegistry, {
-      id: "notes",
+      id: "CreditNotes-notes",
       type: "field",
       inputType: "textarea",
       label: "Notes",
@@ -125,7 +125,7 @@ export const CreditNotesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "CreditNotes-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -138,7 +138,7 @@ export const CreditNotesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "CreditNotes-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

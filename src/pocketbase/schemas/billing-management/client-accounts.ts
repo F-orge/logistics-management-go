@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ClientAccountsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ClientAccounts-id",
       type: "field",
       inputType: "text",
       label: "Account ID",
@@ -29,7 +29,7 @@ export const ClientAccountsSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "client",
+        id: "ClientAccounts-client",
         inputType: "relation",
         label: "Client",
         description: "Client company for this account",
@@ -43,7 +43,7 @@ export const ClientAccountsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "creditLimit",
+        id: "ClientAccounts-creditLimit",
         type: "field",
         inputType: "number",
         label: "Credit Limit",
@@ -57,7 +57,7 @@ export const ClientAccountsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "availableCredit",
+        id: "ClientAccounts-availableCredit",
         type: "field",
         inputType: "number",
         label: "Available Credit",
@@ -71,7 +71,7 @@ export const ClientAccountsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "walletBalance",
+        id: "ClientAccounts-walletBalance",
         type: "field",
         inputType: "number",
         label: "Wallet Balance",
@@ -85,7 +85,7 @@ export const ClientAccountsSchema = z
       .string()
       .optional()
       .register(fieldRegistry, {
-        id: "currency",
+        id: "ClientAccounts-currency",
         type: "field",
         inputType: "text",
         label: "Currency",
@@ -98,7 +98,7 @@ export const ClientAccountsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "paymentTermsDays",
+        id: "ClientAccounts-paymentTermsDays",
         type: "field",
         inputType: "number",
         label: "Payment Terms (Days)",
@@ -109,14 +109,14 @@ export const ClientAccountsSchema = z
         },
       }),
     isCreditApproved: z.boolean().optional().register(fieldRegistry, {
-      id: "isCreditApproved",
+      id: "ClientAccounts-isCreditApproved",
       type: "field",
       inputType: "bool",
       label: "Credit Approved",
       description: "Whether credit is approved for this client",
     }),
     lastPaymentDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "lastPaymentDate",
+      id: "ClientAccounts-lastPaymentDate",
       type: "field",
       inputType: "date",
       label: "Last Payment Date",
@@ -126,7 +126,7 @@ export const ClientAccountsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "ClientAccounts-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -139,7 +139,7 @@ export const ClientAccountsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "ClientAccounts-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

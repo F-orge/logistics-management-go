@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const OpportunitiesSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "Opportunities-id",
       type: "field",
       inputType: "text",
       label: "Opportunity ID",
@@ -25,7 +25,7 @@ export const OpportunitiesSchema = z
       },
     }),
     name: z.string().register(fieldRegistry, {
-      id: "name",
+      id: "Opportunities-name",
       type: "field",
       inputType: "text",
       label: "Opportunity Name",
@@ -47,7 +47,7 @@ export const OpportunitiesSchema = z
       ])
       .optional()
       .register(fieldRegistry, {
-        id: "stage",
+        id: "Opportunities-stage",
         type: "field",
         inputType: "select",
         label: "Stage",
@@ -69,7 +69,7 @@ export const OpportunitiesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "dealValue",
+        id: "Opportunities-dealValue",
         type: "field",
         inputType: "number",
         label: "Deal Value",
@@ -83,7 +83,7 @@ export const OpportunitiesSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "probability",
+        id: "Opportunities-probability",
         type: "field",
         inputType: "number",
         label: "Probability",
@@ -95,7 +95,7 @@ export const OpportunitiesSchema = z
         },
       }),
     expectedCloseDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "expectedCloseDate",
+      id: "Opportunities-expectedCloseDate",
       type: "field",
       inputType: "date",
       label: "Expected Close Date",
@@ -105,7 +105,7 @@ export const OpportunitiesSchema = z
       .unknown()
       .optional()
       .register(fieldRegistry, {
-        id: "lostReason",
+        id: "Opportunities-lostReason",
         type: "field",
         inputType: "textarea",
         label: "Lost Reason",
@@ -128,7 +128,7 @@ export const OpportunitiesSchema = z
         "other",
       ])
       .register(fieldRegistry, {
-        id: "source",
+        id: "Opportunities-source",
         type: "field",
         inputType: "select",
         label: "Source",
@@ -150,7 +150,7 @@ export const OpportunitiesSchema = z
       }),
     owner: z.string().register(fieldRegistry, {
       type: "field",
-      id: "owner",
+      id: "Opportunities-owner",
       inputType: "relation",
       label: "Owner",
       description: "User assigned to this opportunity",
@@ -165,7 +165,7 @@ export const OpportunitiesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "contact",
+        id: "Opportunities-contact",
         inputType: "relation",
         label: "Contact",
         description: "Primary contact for this opportunity",
@@ -180,7 +180,7 @@ export const OpportunitiesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "company",
+        id: "Opportunities-company",
         inputType: "relation",
         label: "Company",
         description: "Company associated with this opportunity",
@@ -195,7 +195,7 @@ export const OpportunitiesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "campaign",
+        id: "Opportunities-campaign",
         inputType: "relation",
         label: "Campaign",
         description: "Campaign associated with this opportunity",
@@ -210,7 +210,7 @@ export const OpportunitiesSchema = z
       .array()
       .optional()
       .register(fieldRegistry, {
-        id: "attachments",
+        id: "Opportunities-attachments",
         type: "field",
         inputType: "file",
         label: "Attachments",
@@ -225,7 +225,7 @@ export const OpportunitiesSchema = z
       .optional()
       .register(fieldRegistry, {
         type: "field",
-        id: "products",
+        id: "Opportunities-products",
         inputType: "relation",
         label: "Products",
         description: "Products included in this opportunity",
@@ -239,7 +239,7 @@ export const OpportunitiesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "Opportunities-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -252,7 +252,7 @@ export const OpportunitiesSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "Opportunities-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",

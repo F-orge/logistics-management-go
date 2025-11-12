@@ -15,7 +15,7 @@ import { Collections } from "@/lib/pb.types";
 export const ReturnItemsSchema = z
   .object({
     id: z.string().register(fieldRegistry, {
-      id: "id",
+      id: "ReturnItems-id",
       type: "field",
       inputType: "text",
       label: "Return Item ID",
@@ -26,7 +26,7 @@ export const ReturnItemsSchema = z
     }),
     return: z.string().register(fieldRegistry, {
       type: "field",
-      id: "return",
+      id: "ReturnItems-return",
       inputType: "relation",
       label: "Return",
       description: "Return order this item belongs to",
@@ -38,7 +38,7 @@ export const ReturnItemsSchema = z
     }),
     product: z.string().register(fieldRegistry, {
       type: "field",
-      id: "product",
+      id: "ReturnItems-product",
       inputType: "relation",
       label: "Product",
       description: "Product being returned",
@@ -52,7 +52,7 @@ export const ReturnItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantityExpected",
+        id: "ReturnItems-quantityExpected",
         type: "field",
         inputType: "number",
         label: "Quantity Expected",
@@ -66,7 +66,7 @@ export const ReturnItemsSchema = z
       .number()
       .optional()
       .register(fieldRegistry, {
-        id: "quantityRecevied",
+        id: "ReturnItems-quantityRecevied",
         type: "field",
         inputType: "number",
         label: "Quantity Received",
@@ -80,7 +80,7 @@ export const ReturnItemsSchema = z
       .enum(["sellable", "damaged", "defective", "expired", "unsellable"])
       .optional()
       .register(fieldRegistry, {
-        id: "condition",
+        id: "ReturnItems-condition",
         type: "field",
         inputType: "select",
         label: "Condition",
@@ -99,7 +99,7 @@ export const ReturnItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "created",
+        id: "ReturnItems-created",
         type: "field",
         inputType: "date",
         label: "Created At",
@@ -112,7 +112,7 @@ export const ReturnItemsSchema = z
       .datetime()
       .optional()
       .register(fieldRegistry, {
-        id: "updated",
+        id: "ReturnItems-updated",
         type: "field",
         inputType: "date",
         label: "Updated At",
