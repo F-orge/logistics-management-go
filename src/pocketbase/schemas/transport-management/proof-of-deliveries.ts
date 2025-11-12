@@ -52,8 +52,8 @@ export const ProofOfDeliveriesSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Proof files (signature, photos, etc.)",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

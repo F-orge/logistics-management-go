@@ -203,8 +203,8 @@ export const LeadsSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Lead documents and files",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

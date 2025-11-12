@@ -166,8 +166,8 @@ export const WarehousesSchema = z
         inputType: "file",
         label: "Images",
         description: "Warehouse images",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "image/*",
         },
       }),

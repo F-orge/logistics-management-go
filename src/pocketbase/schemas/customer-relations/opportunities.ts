@@ -215,8 +215,8 @@ export const OpportunitiesSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Opportunity documents and files",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

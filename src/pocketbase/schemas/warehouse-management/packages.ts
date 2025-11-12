@@ -201,8 +201,8 @@ export const PackagesSchema = z
         inputType: "file",
         label: "Images",
         description: "Package images",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "image/*",
         },
       }),

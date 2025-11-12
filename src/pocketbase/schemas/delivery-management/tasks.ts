@@ -181,8 +181,8 @@ export const TasksSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Task documents and photos",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

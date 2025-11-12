@@ -117,8 +117,8 @@ export const InteractionsSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Interaction documents and files",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

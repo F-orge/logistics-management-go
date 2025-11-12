@@ -204,8 +204,8 @@ export const TaskItemsSchema = z
         inputType: "file",
         label: "Proofs",
         description: "Proof files for completion",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

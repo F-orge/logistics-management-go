@@ -155,8 +155,8 @@ export const InvoicesSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Invoice documents and files",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

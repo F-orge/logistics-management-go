@@ -110,8 +110,8 @@ export const ContactsSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Contact documents and files",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

@@ -71,16 +71,19 @@ export const ProductsSchema = z
           ],
         },
       }),
-    description: z.unknown().optional().register(fieldRegistry, {
-      id: "description",
-      type: "field",
-      inputType: "textarea",
-      label: "Description",
-      description: "Product description",
-      props: {
-        placeholder: "Enter product description",
-      },
-    }),
+    description: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "description",
+        type: "field",
+        inputType: "textarea",
+        label: "Description",
+        description: "Product description",
+        props: {
+          placeholder: "Enter product description",
+        },
+      }),
     attachments: z
       .file()
       .array()
@@ -91,13 +94,13 @@ export const ProductsSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Product images and documents",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),
-    created: z
-      .iso.datetime()
+    created: z.iso
+      .datetime()
       .optional()
       .register(fieldRegistry, {
         id: "created",
@@ -109,8 +112,8 @@ export const ProductsSchema = z
           disabled: true,
         },
       }),
-    updated: z
-      .iso.datetime()
+    updated: z.iso
+      .datetime()
       .optional()
       .register(fieldRegistry, {
         id: "updated",

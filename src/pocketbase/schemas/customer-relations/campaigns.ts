@@ -69,8 +69,8 @@ export const CampaignsSchema = z
         inputType: "file",
         label: "Attachments",
         description: "Campaign documents and files",
+        isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

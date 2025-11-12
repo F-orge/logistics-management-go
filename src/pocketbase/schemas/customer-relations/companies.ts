@@ -183,7 +183,6 @@ export const CompaniesSchema = z
         description: "Company documents and files",
         isArray: true,
         props: {
-          multiple: true,
           accept: "*/*",
         },
       }),

@@ -111,8 +111,8 @@ export const ExpensesSchema = z
       inputType: "file",
       label: "Receipts",
       description: "Receipt files for this expense",
+      isArray: true,
       props: {
-        multiple: true,
         accept: "*/*",
       },
     }),
