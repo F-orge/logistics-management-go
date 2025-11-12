@@ -5,34 +5,120 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InboundShipmentItemsSchema = z.object({
-  id: z.string(),
-  inboundShipment: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementInboundShipments,
-        displayField: "id",
+export const InboundShipmentItemsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Item ID",
+      description: "Unique identifier for the inbound shipment item",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  product: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
+    }),
+    inboundShipment: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "inboundShipment",
+        inputType: "relation",
+        label: "Inbound Shipment",
+        description: "Inbound shipment this item belongs to",
+        props: {
+          collectionName: Collections.WarehouseManagementInboundShipments,
+          relationshipName: "inboundShipment",
+          displayField: "id",
+        } as RelationFieldProps<any>,
+      }),
+    product: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "product",
+        inputType: "relation",
+        label: "Product",
+        description: "Product being received",
+        props: {
+          collectionName: Collections.WarehouseManagementProducts,
+          relationshipName: "product",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    expectedQuantity: z.number().register(fieldRegistry, {
+      id: "expectedQuantity",
+      type: "field",
+      inputType: "number",
+      label: "Expected Quantity",
+      description: "Expected quantity to receive",
+      props: {
+        placeholder: "0",
+        min: 0,
       },
-    })
-  ),
-  expectedQuantity: z.number(),
-  receivedQuantity: z.number().optional(),
-  discrepancyNotes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    receivedQuantity: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "receivedQuantity",
+        type: "field",
+        inputType: "number",
+        label: "Received Quantity",
+        description: "Actual quantity received",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    discrepancyNotes: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "discrepancyNotes",
+        type: "field",
+        inputType: "textarea",
+        label: "Discrepancy Notes",
+        description: "Notes about any discrepancies",
+        props: {
+          placeholder: "Enter notes about discrepancies",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type InboundShipmentItems = z.infer<typeof InboundShipmentItemsSchema>;

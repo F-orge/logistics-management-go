@@ -5,34 +5,123 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ReturnItemsSchema = z.object({
-  id: z.string(),
-  return: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+export const ReturnItemsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Return Item ID",
+      description: "Unique identifier for the return item",
+      props: {
+        disabled: true,
+      },
+    }),
+    return: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "return",
+      inputType: "relation",
+      label: "Return",
+      description: "Return order this item belongs to",
+      props: {
         collectionName: Collections.WarehouseManagementReturns,
-        displayField: "id",
-      },
-    })
-  ),
-  product: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+        relationshipName: "return",
+        displayField: "returnNumber",
+      } as RelationFieldProps<any>,
+    }),
+    product: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "product",
+      inputType: "relation",
+      label: "Product",
+      description: "Product being returned",
+      props: {
         collectionName: Collections.WarehouseManagementProducts,
-        displayField: "id",
-      },
-    })
-  ),
-  quantityExpected: z.number().optional(),
-  quantityRecevied: z.number().optional(),
-  condition: z.enum(["sellable", "damaged", "defective", "expired", "unsellable"]).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+        relationshipName: "product",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    quantityExpected: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "quantityExpected",
+        type: "field",
+        inputType: "number",
+        label: "Quantity Expected",
+        description: "Expected quantity of items",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    quantityRecevied: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "quantityRecevied",
+        type: "field",
+        inputType: "number",
+        label: "Quantity Received",
+        description: "Actual quantity received",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    condition: z
+      .enum(["sellable", "damaged", "defective", "expired", "unsellable"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "condition",
+        type: "field",
+        inputType: "select",
+        label: "Condition",
+        description: "Condition of the returned item",
+        props: {
+          options: [
+            { label: "Sellable", value: "sellable" },
+            { label: "Damaged", value: "damaged" },
+            { label: "Defective", value: "defective" },
+            { label: "Expired", value: "expired" },
+            { label: "Unsellable", value: "unsellable" },
+          ],
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type ReturnItems = z.infer<typeof ReturnItemsSchema>;

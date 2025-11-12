@@ -5,34 +5,123 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ReturnsSchema = z.object({
-  id: z.string(),
-  returnNumber: z.string(),
-  salesOrder: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementSalesOrders,
-        displayField: "id",
+export const ReturnsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Return ID",
+      description: "Unique identifier for the return",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  client: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
+    }),
+    returnNumber: z.string().register(fieldRegistry, {
+      id: "returnNumber",
+      type: "field",
+      inputType: "text",
+      label: "Return Number",
+      description: "Return reference number",
+      props: {
+        placeholder: "RET-001",
       },
-    })
-  ),
-  status: z.enum(["requested", "approved", "rejeceted", "received", "processed"]),
-  reason: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    salesOrder: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "salesOrder",
+        inputType: "relation",
+        label: "Sales Order",
+        description: "Sales order being returned",
+        props: {
+          collectionName: Collections.WarehouseManagementSalesOrders,
+          relationshipName: "salesOrder",
+          displayField: "orderNumber",
+        } as RelationFieldProps<any>,
+      }),
+    client: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "client",
+        inputType: "relation",
+        label: "Client",
+        description: "Client making the return",
+        props: {
+          collectionName: Collections.CustomerRelationsCompanies,
+          relationshipName: "client",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    status: z
+      .enum(["requested", "approved", "rejeceted", "received", "processed"])
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the return",
+        props: {
+          options: [
+            { label: "Requested", value: "requested" },
+            { label: "Approved", value: "approved" },
+            { label: "Rejected", value: "rejeceted" },
+            { label: "Received", value: "received" },
+            { label: "Processed", value: "processed" },
+          ],
+        },
+      }),
+    reason: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "reason",
+        type: "field",
+        inputType: "textarea",
+        label: "Reason",
+        description: "Reason for the return",
+        props: {
+          placeholder: "Explain the reason for return",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Returns = z.infer<typeof ReturnsSchema>;

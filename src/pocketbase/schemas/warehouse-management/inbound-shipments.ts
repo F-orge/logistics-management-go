@@ -5,34 +5,109 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InboundShipmentsSchema = z.object({
-  id: z.string(),
-  client: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+export const InboundShipmentsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Shipment ID",
+      description: "Unique identifier for the inbound shipment",
+      props: {
+        disabled: true,
+      },
+    }),
+    client: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "client",
+      inputType: "relation",
+      label: "Client",
+      description: "Client sending the shipment",
+      props: {
         collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "id",
-      },
-    })
-  ),
-  status: z.enum(["pending", "arrived", "processing", "completed", "cancelled"]).optional(),
-  expectedArrivalDate: z.iso.date().optional(),
-  actualArrivalDate: z.iso.date().optional(),
-  warehouse: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+        relationshipName: "client",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    status: z
+      .enum(["pending", "arrived", "processing", "completed", "cancelled"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the shipment",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "Arrived", value: "arrived" },
+            { label: "Processing", value: "processing" },
+            { label: "Completed", value: "completed" },
+            { label: "Cancelled", value: "cancelled" },
+          ],
+        },
+      }),
+    expectedArrivalDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "expectedArrivalDate",
+      type: "field",
+      inputType: "date",
+      label: "Expected Arrival Date",
+      description: "Expected arrival date",
+    }),
+    actualArrivalDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "actualArrivalDate",
+      type: "field",
+      inputType: "date",
+      label: "Actual Arrival Date",
+      description: "Actual arrival date",
+    }),
+    warehouse: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "warehouse",
+      inputType: "relation",
+      label: "Warehouse",
+      description: "Destination warehouse",
+      props: {
         collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+        relationshipName: "warehouse",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type InboundShipments = z.infer<typeof InboundShipmentsSchema>;
