@@ -5,38 +5,148 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const TripStopsSchema = z.object({
-  id: z.string(),
-  trip: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
+export const TripStopsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Stop ID",
+      description: "Unique identifier for the trip stop",
+      props: {
+        disabled: true,
+      },
+    }),
+    trip: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "trip",
+      inputType: "relation",
+      label: "Trip",
+      description: "Trip this stop belongs to",
+      props: {
         collectionName: Collections.TransportManagementTrips,
+        relationshipName: "trip",
         displayField: "id",
+      } as RelationFieldProps<any>,
+    }),
+    sequence: z.number().register(fieldRegistry, {
+      id: "sequence",
+      type: "field",
+      inputType: "number",
+      label: "Sequence",
+      description: "Sequence order of this stop",
+      props: {
+        placeholder: "0",
+        min: 0,
       },
-    })
-  ),
-  sequence: z.number(),
-  address: z.string().optional(),
-  status: z.enum(["pending", "arrived", "completed", "skipped"]),
-  estimatedArrivalTime: z.iso.date().optional(),
-  actualArrivalTime: z.iso.date().optional(),
-  estimatedDepartureTime: z.iso.date().optional(),
-  actualDepartureTime: z.iso.date().optional(),
-  shipment: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementOutboundShipments,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    address: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "address",
+        type: "field",
+        inputType: "text",
+        label: "Address",
+        description: "Stop address",
+        props: {
+          placeholder: "Street address",
+        },
+      }),
+    status: z
+      .enum(["pending", "arrived", "completed", "skipped"])
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the stop",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "Arrived", value: "arrived" },
+            { label: "Completed", value: "completed" },
+            { label: "Skipped", value: "skipped" },
+          ],
+        },
+      }),
+    estimatedArrivalTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "estimatedArrivalTime",
+      type: "field",
+      inputType: "date",
+      label: "Estimated Arrival Time",
+      description: "Expected arrival time",
+    }),
+    actualArrivalTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "actualArrivalTime",
+      type: "field",
+      inputType: "date",
+      label: "Actual Arrival Time",
+      description: "Actual arrival time",
+    }),
+    estimatedDepartureTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "estimatedDepartureTime",
+      type: "field",
+      inputType: "date",
+      label: "Estimated Departure Time",
+      description: "Expected departure time",
+    }),
+    actualDepartureTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "actualDepartureTime",
+      type: "field",
+      inputType: "date",
+      label: "Actual Departure Time",
+      description: "Actual departure time",
+    }),
+    shipment: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "shipment",
+        inputType: "relation",
+        label: "Shipment",
+        description: "Outbound shipment for this stop",
+        props: {
+          collectionName: Collections.WarehouseManagementOutboundShipments,
+          relationshipName: "shipment",
+          displayField: "shipmentNumber",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type TripStops = z.infer<typeof TripStopsSchema>;

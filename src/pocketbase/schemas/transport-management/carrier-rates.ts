@@ -5,27 +5,130 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const CarrierRatesSchema = z.object({
-  id: z.string(),
-  carrier: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementCarriers,
-        displayField: "id",
+export const CarrierRatesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Rate ID",
+      description: "Unique identifier for the carrier rate",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  serviceType: z.string().optional(),
-  origin: z.string(),
-  destination: z.string(),
-  rate: z.number(),
-  unit: z.enum(["per-kg", "per-container", "per-mile", "per-km", "flat-rate"]).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    carrier: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "carrier",
+        inputType: "relation",
+        label: "Carrier",
+        description: "Carrier for this rate",
+        props: {
+          collectionName: Collections.TransportManagementCarriers,
+          relationshipName: "carrier",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    serviceType: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "serviceType",
+        type: "field",
+        inputType: "text",
+        label: "Service Type",
+        description: "Type of service",
+        props: {
+          placeholder: "e.g., Standard, Express",
+        },
+      }),
+    origin: z.string().register(fieldRegistry, {
+      id: "origin",
+      type: "field",
+      inputType: "text",
+      label: "Origin",
+      description: "Origin location",
+      props: {
+        placeholder: "Origin city/region",
+      },
+    }),
+    destination: z.string().register(fieldRegistry, {
+      id: "destination",
+      type: "field",
+      inputType: "text",
+      label: "Destination",
+      description: "Destination location",
+      props: {
+        placeholder: "Destination city/region",
+      },
+    }),
+    rate: z.number().register(fieldRegistry, {
+      id: "rate",
+      type: "field",
+      inputType: "number",
+      label: "Rate",
+      description: "Shipping rate amount",
+      props: {
+        placeholder: "0.00",
+        min: 0,
+      },
+    }),
+    unit: z
+      .enum(["per-kg", "per-container", "per-mile", "per-km", "flat-rate"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "unit",
+        type: "field",
+        inputType: "select",
+        label: "Unit",
+        description: "Unit of measurement for rate",
+        props: {
+          options: [
+            { label: "Per KG", value: "per-kg" },
+            { label: "Per Container", value: "per-container" },
+            { label: "Per Mile", value: "per-mile" },
+            { label: "Per KM", value: "per-km" },
+            { label: "Flat Rate", value: "flat-rate" },
+          ],
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type CarrierRates = z.infer<typeof CarrierRatesSchema>;

@@ -5,24 +5,85 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ProofOfDeliveriesSchema = z.object({
-  id: z.string(),
-  tripStop: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementTripStops,
-        displayField: "id",
+export const ProofOfDeliveriesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Proof ID",
+      description: "Unique identifier for the proof of delivery",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  coordinate: z.unknown(),
-  attachments: z.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" }))).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    tripStop: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "tripStop",
+      inputType: "relation",
+      label: "Trip Stop",
+      description: "Trip stop this proof belongs to",
+      props: {
+        collectionName: Collections.TransportManagementTripStops,
+        relationshipName: "tripStop",
+        displayField: "address",
+      } as RelationFieldProps<any>,
+    }),
+    coordinate: z.unknown().register(fieldRegistry, {
+      id: "coordinate",
+      type: "field",
+      inputType: "geoPoint",
+      label: "Coordinate",
+      description: "GPS coordinates of delivery",
+    }),
+    attachments: z
+      .array(z.file())
+      .optional()
+      .register(fieldRegistry, {
+        id: "attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Proof files (signature, photos, etc.)",
+        props: {
+          multiple: true,
+          accept: "*/*",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

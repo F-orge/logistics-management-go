@@ -5,44 +5,140 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ShipmentLegsSchema = z.object({
-  id: z.string(),
-  legSequence: z.number(),
-  startLocation: z.unknown(),
-  endLocation: z.unknown(),
-  carrier: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementCarriers,
-        displayField: "id",
+export const ShipmentLegsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Leg ID",
+      description: "Unique identifier for the shipment leg",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  interalTrip: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementTrips,
-        displayField: "id",
+    }),
+    legSequence: z.number().register(fieldRegistry, {
+      id: "legSequence",
+      type: "field",
+      inputType: "number",
+      label: "Leg Sequence",
+      description: "Sequence number of this leg",
+      props: {
+        placeholder: "0",
+        min: 0,
       },
-    })
-  ),
-  status: z.enum(["pending", "in-transit", "delivered", "cancelled", "failed"]),
-  shipment: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.WarehouseManagementOutboundShipments,
-        displayField: "id",
-      },
-    })
-  ),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    startLocation: z.unknown().register(fieldRegistry, {
+      id: "startLocation",
+      type: "field",
+      inputType: "geoPoint",
+      label: "Start Location",
+      description: "Starting GPS coordinates",
+    }),
+    endLocation: z.unknown().register(fieldRegistry, {
+      id: "endLocation",
+      type: "field",
+      inputType: "geoPoint",
+      label: "End Location",
+      description: "Ending GPS coordinates",
+    }),
+    carrier: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "carrier",
+        inputType: "relation",
+        label: "Carrier",
+        description: "Carrier for this leg",
+        props: {
+          collectionName: Collections.TransportManagementCarriers,
+          relationshipName: "carrier",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    interalTrip: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "interalTrip",
+        inputType: "relation",
+        label: "Internal Trip",
+        description: "Internal trip for this leg",
+        props: {
+          collectionName: Collections.TransportManagementTrips,
+          relationshipName: "interalTrip",
+          displayField: "id",
+        } as RelationFieldProps<any>,
+      }),
+    status: z
+      .enum(["pending", "in-transit", "delivered", "cancelled", "failed"])
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the leg",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "In Transit", value: "in-transit" },
+            { label: "Delivered", value: "delivered" },
+            { label: "Cancelled", value: "cancelled" },
+            { label: "Failed", value: "failed" },
+          ],
+        },
+      }),
+    shipment: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "shipment",
+        inputType: "relation",
+        label: "Shipment",
+        description: "Outbound shipment for this leg",
+        props: {
+          collectionName: Collections.WarehouseManagementOutboundShipments,
+          relationshipName: "shipment",
+          displayField: "shipmentNumber",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type ShipmentLegs = z.infer<typeof ShipmentLegsSchema>;

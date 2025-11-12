@@ -5,25 +5,96 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const DriverSchedulesSchema = z.object({
-  id: z.string(),
-  driver: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementDrivers,
-        displayField: "id",
+export const DriverSchedulesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Schedule ID",
+      description: "Unique identifier for the schedule",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  startDate: z.iso.date(),
-  endDate: z.iso.date(),
-  reason: z.enum(["vacation", "sick-leave", "training", "personal-leave"]).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    driver: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "driver",
+      inputType: "relation",
+      label: "Driver",
+      description: "Driver for this schedule",
+      props: {
+        collectionName: Collections.TransportManagementDrivers,
+        relationshipName: "driver",
+        displayField: "licenseNumber",
+      } as RelationFieldProps<any>,
+    }),
+    startDate: z.iso.date().register(fieldRegistry, {
+      id: "startDate",
+      type: "field",
+      inputType: "date",
+      label: "Start Date",
+      description: "Schedule start date",
+    }),
+    endDate: z.iso.date().register(fieldRegistry, {
+      id: "endDate",
+      type: "field",
+      inputType: "date",
+      label: "End Date",
+      description: "Schedule end date",
+    }),
+    reason: z
+      .enum(["vacation", "sick-leave", "training", "personal-leave"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "reason",
+        type: "field",
+        inputType: "select",
+        label: "Reason",
+        description: "Reason for the schedule",
+        props: {
+          options: [
+            { label: "Vacation", value: "vacation" },
+            { label: "Sick Leave", value: "sick-leave" },
+            { label: "Training", value: "training" },
+            { label: "Personal Leave", value: "personal-leave" },
+          ],
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type DriverSchedules = z.infer<typeof DriverSchedulesSchema>;

@@ -5,16 +5,79 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
-export const GeofenceSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  coordinates: z.unknown(),
-  radius: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+export const GeofenceSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Geofence ID",
+      description: "Unique identifier for the geofence",
+      props: {
+        disabled: true,
+      },
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "name",
+      type: "field",
+      inputType: "text",
+      label: "Name",
+      description: "Geofence name",
+      props: {
+        placeholder: "e.g., Warehouse A, Delivery Zone",
+      },
+    }),
+    coordinates: z.unknown().register(fieldRegistry, {
+      id: "coordinates",
+      type: "field",
+      inputType: "geoPoint",
+      label: "Coordinates",
+      description: "Geographic coordinates of the geofence center",
+    }),
+    radius: z.number().register(fieldRegistry, {
+      id: "radius",
+      type: "field",
+      inputType: "number",
+      label: "Radius",
+      description: "Radius in meters",
+      props: {
+        placeholder: "0",
+        min: 0,
+      },
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Geofence = z.infer<typeof GeofenceSchema>;

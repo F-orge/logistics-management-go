@@ -5,16 +5,83 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
-export const RoutesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  totalDistance: z.number(),
-  totalDuration: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+export const RoutesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Route ID",
+      description: "Unique identifier for the route",
+      props: {
+        disabled: true,
+      },
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "name",
+      type: "field",
+      inputType: "text",
+      label: "Name",
+      description: "Route name",
+      props: {
+        placeholder: "e.g., Route A, North Circuit",
+      },
+    }),
+    totalDistance: z.number().register(fieldRegistry, {
+      id: "totalDistance",
+      type: "field",
+      inputType: "number",
+      label: "Total Distance",
+      description: "Total distance in km",
+      props: {
+        placeholder: "0.00",
+        min: 0,
+      },
+    }),
+    totalDuration: z.number().register(fieldRegistry, {
+      id: "totalDuration",
+      type: "field",
+      inputType: "number",
+      label: "Total Duration",
+      description: "Total duration in minutes",
+      props: {
+        placeholder: "0",
+        min: 0,
+      },
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Routes = z.infer<typeof RoutesSchema>;
