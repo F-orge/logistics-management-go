@@ -5,28 +5,135 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const RoutesSchema = z.object({
-  id: z.string(),
-  driver: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.TransportManagementDrivers,
-        displayField: "id",
+export const RoutesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Route ID",
+      description: "Unique identifier for the route",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  routeDate: z.iso.date().optional(),
-  status: z.enum(["planned", "in-progress", "completed", "cancelled", "paused"]).optional(),
-  totalDistance: z.number().optional(),
-  estimatedDurationInMinutes: z.number().optional(),
-  startedAt: z.iso.date().optional(),
-  completedAt: z.iso.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-});
+    }),
+    driver: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "driver",
+        inputType: "relation",
+        label: "Driver",
+        description: "Driver assigned to this route",
+        props: {
+          collectionName: Collections.TransportManagementDrivers,
+          relationshipName: "driver",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    routeDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "routeDate",
+      type: "field",
+      inputType: "date",
+      label: "Route Date",
+      description: "Date of the route",
+    }),
+    status: z
+      .enum(["planned", "in-progress", "completed", "cancelled", "paused"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the route",
+        props: {
+          options: [
+            { label: "Planned", value: "planned" },
+            { label: "In Progress", value: "in-progress" },
+            { label: "Completed", value: "completed" },
+            { label: "Cancelled", value: "cancelled" },
+            { label: "Paused", value: "paused" },
+          ],
+        },
+      }),
+    totalDistance: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "totalDistance",
+        type: "field",
+        inputType: "number",
+        label: "Total Distance",
+        description: "Total distance of the route in kilometers",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    estimatedDurationInMinutes: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "estimatedDurationInMinutes",
+        type: "field",
+        inputType: "number",
+        label: "Estimated Duration",
+        description: "Estimated duration of the route in minutes",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    startedAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "startedAt",
+      type: "field",
+      inputType: "date",
+      label: "Started At",
+      description: "When the route was started",
+    }),
+    completedAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "completedAt",
+      type: "field",
+      inputType: "date",
+      label: "Completed At",
+      description: "When the route was completed",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the route was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the route was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Routes = z.infer<typeof RoutesSchema>;

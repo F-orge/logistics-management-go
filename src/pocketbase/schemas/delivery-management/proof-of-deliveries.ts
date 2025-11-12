@@ -5,24 +5,87 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ProofOfDeliveriesSchema = z.object({
-  id: z.string(),
-  task: z.string().optional().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.DeliveryManagementTasks,
-        displayField: "id",
+export const ProofOfDeliveriesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Proof ID",
+      description: "Unique identifier for the proof of delivery",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  signatureData: z.unknown().optional(),
-  recipientName: z.string().optional(),
-  coordinates: z.unknown().optional(),
-  timestamp: z.iso.datetime().optional(),
-});
+    }),
+    task: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "task",
+        inputType: "relation",
+        label: "Task",
+        description: "Delivery task this proof is for",
+        props: {
+          collectionName: Collections.DeliveryManagementTasks,
+          relationshipName: "task",
+          displayField: "sequence",
+        } as RelationFieldProps<any>,
+      }),
+    signatureData: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "signatureData",
+        type: "field",
+        inputType: "file",
+        label: "Signature",
+        description: "Recipient signature data",
+        props: {
+          accept: "image/*",
+        },
+      }),
+    recipientName: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "recipientName",
+        type: "field",
+        inputType: "text",
+        label: "Recipient Name",
+        description: "Name of the person who received the delivery",
+        props: {
+          placeholder: "Enter recipient name",
+        },
+      }),
+    coordinates: z.unknown().optional().register(fieldRegistry, {
+      id: "coordinates",
+      type: "field",
+      inputType: "geoPoint",
+      label: "Delivery Coordinates",
+      description: "GPS coordinates where delivery was made",
+    }),
+    timestamp: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "timestamp",
+        type: "field",
+        inputType: "date",
+        label: "Timestamp",
+        description: "When the delivery was completed",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

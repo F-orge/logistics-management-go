@@ -5,25 +5,114 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const TaskEventsSchema = z.object({
-  id: z.string(),
-  task: z.string().check(
-    fieldConfigFactory<"relation">()({
-      fieldType: "relation",
-      customData: {
-        collectionName: Collections.DeliveryManagementTasks,
-        displayField: "id",
+export const TaskEventsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "id",
+      type: "field",
+      inputType: "text",
+      label: "Event ID",
+      description: "Unique identifier for the task event",
+      props: {
+        disabled: true,
       },
-    })
-  ),
-  status: z.enum(["assigned", "started", "arrived", "delivered", "failed", "exception", "cancelled", "rescheduled"]),
-  reason: z.unknown().optional(),
-  notes: z.unknown().optional(),
-  coordinates: z.unknown().optional(),
-  timestamp: z.iso.datetime().optional(),
-});
+    }),
+    task: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "task",
+      inputType: "relation",
+      label: "Task",
+      description: "Task this event is associated with",
+      props: {
+        collectionName: Collections.DeliveryManagementTasks,
+        relationshipName: "task",
+        displayField: "sequence",
+      } as RelationFieldProps<any>,
+    }),
+    status: z
+      .enum([
+        "assigned",
+        "started",
+        "arrived",
+        "delivered",
+        "failed",
+        "exception",
+        "cancelled",
+        "rescheduled",
+      ])
+      .register(fieldRegistry, {
+        id: "status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Status change event",
+        props: {
+          options: [
+            { label: "Assigned", value: "assigned" },
+            { label: "Started", value: "started" },
+            { label: "Arrived", value: "arrived" },
+            { label: "Delivered", value: "delivered" },
+            { label: "Failed", value: "failed" },
+            { label: "Exception", value: "exception" },
+            { label: "Cancelled", value: "cancelled" },
+            { label: "Rescheduled", value: "rescheduled" },
+          ],
+        },
+      }),
+    reason: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "reason",
+        type: "field",
+        inputType: "textarea",
+        label: "Reason",
+        description: "Reason for the status change",
+        props: {
+          placeholder: "Enter reason for status change",
+        },
+      }),
+    notes: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "notes",
+        type: "field",
+        inputType: "textarea",
+        label: "Notes",
+        description: "Additional notes about the event",
+        props: {
+          placeholder: "Enter notes",
+        },
+      }),
+    coordinates: z.unknown().optional().register(fieldRegistry, {
+      id: "coordinates",
+      type: "field",
+      inputType: "geoPoint",
+      label: "Coordinates",
+      description: "GPS coordinates of the event location",
+    }),
+    timestamp: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "timestamp",
+        type: "field",
+        inputType: "date",
+        label: "Timestamp",
+        description: "When the event occurred",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type TaskEvents = z.infer<typeof TaskEventsSchema>;
