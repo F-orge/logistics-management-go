@@ -1,70 +1,100 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  formatDate,
+  formatLocationType,
+  truncateText,
+} from "@/components/utils";
 import { WarehouseManagementInventoryAdjustmentResponse } from "@/lib/pb.types";
 
 type InventoryAdjustmentResponse =
-	WarehouseManagementInventoryAdjustmentResponse;
+  WarehouseManagementInventoryAdjustmentResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "product",
-		header: "Product ID",
-	},
-	{
-		accessorKey: "warehouse",
-		header: "Warehouse ID",
-	},
-	{
-		accessorKey: "quantityChange",
-		header: "Quantity Change",
-		cell: ({ row }) => {
-			const change = row.getValue("quantityChange") as number;
-			const sign = change > 0 ? "+" : "";
-			return (
-				<span className={change > 0 ? "text-green-600" : "text-red-600"}>
-					{sign}
-					{change}
-				</span>
-			);
-		},
-	},
-	{
-		accessorKey: "reason",
-		header: "Reason",
-		cell: ({ row }) => {
-			const reason = row.getValue("reason") as string;
-			return reason.replace(/-/g, " ");
-		},
-	},
-	{
-		accessorKey: "user",
-		header: "User ID",
-	},
-	{
-		accessorKey: "notes",
-		header: "Notes",
-		cell: ({ row }) => {
-			const notes = row.getValue("notes") as string | undefined;
-			return notes ? notes.substring(0, 50) + "..." : "-";
-		},
-	},
-	{
-		accessorKey: "created",
-		header: "Created",
-		cell: ({ row }) => {
-			const date = row.getValue("created") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-	{
-		accessorKey: "updated",
-		header: "Updated",
-		cell: ({ row }) => {
-			const date = row.getValue("updated") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-] satisfies ColumnDef<InventoryAdjustmentResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<InventoryAdjustmentResponse>[] = [
+  {
+    label: "Edit Inventory Adjustment",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Inventory Adjustment",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<InventoryAdjustmentResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "product",
+    header: "Product ID",
+  },
+  {
+    accessorKey: "warehouse",
+    header: "Warehouse ID",
+  },
+  {
+    accessorKey: "quantityChange",
+    header: "Quantity Change",
+    cell: ({ row }) => {
+      const change = row.getValue("quantityChange") as number;
+      const sign = change > 0 ? "+" : "";
+      return (
+        <span className={change > 0 ? "text-green-600" : "text-red-600"}>
+          {sign}
+          {change}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "reason",
+    header: "Reason",
+    cell: ({ row }) => formatLocationType(row.getValue("reason") as string),
+  },
+  {
+    accessorKey: "user",
+    header: "User ID",
+  },
+  {
+    accessorKey: "notes",
+    header: "Notes",
+    cell: ({ row }) => {
+      const notes = row.getValue("notes") as string | undefined;
+      return notes ? truncateText(notes, 50) : "-";
+    },
+  },
+  {
+    accessorKey: "created",
+    header: "Created",
+    cell: ({ row }) => formatDate(row.getValue("created") as string),
+  },
+  {
+    accessorKey: "updated",
+    header: "Updated",
+    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+  },
+];

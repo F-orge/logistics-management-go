@@ -1,67 +1,95 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
+import { formatDate, statusBadgeCell } from "@/components/utils";
 import { WarehouseManagementBinThresholdResponse } from "@/lib/pb.types";
 
 type BinThresholdResponse = WarehouseManagementBinThresholdResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "product",
-		header: "Product ID",
-	},
-	{
-		accessorKey: "location",
-		header: "Location ID",
-	},
-	{
-		accessorKey: "minQuantity",
-		header: "Min Quantity",
-	},
-	{
-		accessorKey: "maxQuantity",
-		header: "Max Quantity",
-	},
-	{
-		accessorKey: "reorderQuantity",
-		header: "Reorder Quantity",
-	},
-	{
-		accessorKey: "alertThreshold",
-		header: "Alert Threshold",
-	},
-	{
-		accessorKey: "isActive",
-		header: "Active",
-		cell: ({ row }) => {
-			const isActive = row.getValue("isActive") as boolean | undefined;
-			return isActive ? (
-				<span className="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">
-					Active
-				</span>
-			) : (
-				<span className="px-2 py-1 bg-gray-100 text-gray-800 rounded text-sm">
-					Inactive
-				</span>
-			);
-		},
-	},
-	{
-		accessorKey: "created",
-		header: "Created",
-		cell: ({ row }) => {
-			const date = row.getValue("created") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-	{
-		accessorKey: "updated",
-		header: "Updated",
-		cell: ({ row }) => {
-			const date = row.getValue("updated") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-] satisfies ColumnDef<BinThresholdResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<BinThresholdResponse>[] = [
+  {
+    label: "Edit Bin Threshold",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Bin Threshold",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+const activeStatusColors: Record<string, string> = {
+  true: "bg-green-100 text-green-800",
+  false: "bg-gray-100 text-gray-800",
+};
+
+export const columns: ColumnDef<BinThresholdResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "product",
+    header: "Product ID",
+  },
+  {
+    accessorKey: "location",
+    header: "Location ID",
+  },
+  {
+    accessorKey: "minQuantity",
+    header: "Min Quantity",
+  },
+  {
+    accessorKey: "maxQuantity",
+    header: "Max Quantity",
+  },
+  {
+    accessorKey: "reorderQuantity",
+    header: "Reorder Quantity",
+  },
+  {
+    accessorKey: "alertThreshold",
+    header: "Alert Threshold",
+  },
+  {
+    accessorKey: "isActive",
+    header: "Active",
+    cell: ({ row }) => {
+      const isActive = row.getValue("isActive") as boolean | undefined;
+      const status = isActive ? "Active" : "Inactive";
+      const colors = activeStatusColors[String(isActive ?? false)];
+      return statusBadgeCell(status, { [status]: colors });
+    },
+  },
+  {
+    accessorKey: "created",
+    header: "Created",
+    cell: ({ row }) => formatDate(row.getValue("created") as string),
+  },
+  {
+    accessorKey: "updated",
+    header: "Updated",
+    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+  },
+];

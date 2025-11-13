@@ -141,17 +141,6 @@ export const casePriorityColors: Record<string, string> = {
 };
 
 /**
- * Invoice status badge color map
- */
-export const invoiceStatusColors: Record<string, string> = {
-  draft: "bg-gray-100 text-gray-800",
-  sent: "bg-blue-100 text-blue-800",
-  paid: "bg-green-100 text-green-800",
-  overdue: "bg-red-100 text-red-800",
-  cancelled: "bg-red-100 text-red-800",
-};
-
-/**
  * Lead status badge color map
  */
 export const leadStatusColors: Record<string, string> = {
@@ -410,4 +399,103 @@ export const formatDynamicCurrency = (
     style: "currency",
     currency: currencyCode || "USD",
   }).format(amount);
+};
+
+/**
+ * Inbound shipment status badge color map
+ */
+export const inboundShipmentStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  "in-progress": "bg-blue-100 text-blue-800",
+  received: "bg-green-100 text-green-800",
+  completed: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
+/**
+ * Outbound shipment status badge color map
+ */
+export const outboundShipmentStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  processed: "bg-blue-100 text-blue-800",
+  shipped: "bg-blue-100 text-blue-800",
+  delivered: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
+/**
+ * Inventory stock status badge color map
+ */
+export const inventoryStockStatusColors: Record<string, string> = {
+  available: "bg-green-100 text-green-800",
+  reserved: "bg-yellow-100 text-yellow-800",
+  damaged: "bg-red-100 text-red-800",
+  expired: "bg-red-100 text-red-800",
+};
+
+/**
+ * Pick batch status badge color map
+ */
+export const pickBatchStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  "in-progress": "bg-blue-100 text-blue-800",
+  completed: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
+/**
+ * Sales order status badge color map
+ */
+export const salesOrderStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  processing: "bg-blue-100 text-blue-800",
+  ready: "bg-blue-100 text-blue-800",
+  shipped: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
+/**
+ * Return status badge color map
+ */
+export const returnStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  received: "bg-blue-100 text-blue-800",
+  inspected: "bg-blue-100 text-blue-800",
+  approved: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
+  restocked: "bg-green-100 text-green-800",
+};
+
+/**
+ * Stock transfer status badge color map
+ */
+export const stockTransferStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  "in-transit": "bg-blue-100 text-blue-800",
+  completed: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
+/**
+ * Warehouse task status badge color map
+ */
+export const warehouseTaskStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  "in-progress": "bg-blue-100 text-blue-800",
+  completed: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
+};
+
+/**
+ * Format location type by replacing hyphens with spaces
+ */
+export const formatLocationType = (locationType: string): string => {
+  return locationType.replace(/-/g, " ");
+};
+
+/**
+ * Boolean badge cell renderer (for checkboxes as ✓ or -)
+ */
+export const booleanBadgeCell = (value: boolean | undefined): string => {
+  return value ? "✓" : "-";
 };

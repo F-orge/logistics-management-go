@@ -1,48 +1,77 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
+import { formatDate } from "@/components/utils";
 import { WarehouseManagementOutboundShipmentItemsResponse } from "@/lib/pb.types";
 
 type OutboundShipmentItemResponse =
-	WarehouseManagementOutboundShipmentItemsResponse;
+  WarehouseManagementOutboundShipmentItemsResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "outboundShipment",
-		header: "Shipment ID",
-	},
-	{
-		accessorKey: "product",
-		header: "Product ID",
-	},
-	{
-		accessorKey: "salesOrderItem",
-		header: "Sales Order Item ID",
-	},
-	{
-		accessorKey: "quantityShipped",
-		header: "Quantity Shipped",
-	},
-	{
-		accessorKey: "batch",
-		header: "Batch ID",
-	},
-	{
-		accessorKey: "created",
-		header: "Created",
-		cell: ({ row }) => {
-			const date = row.getValue("created") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-	{
-		accessorKey: "updated",
-		header: "Updated",
-		cell: ({ row }) => {
-			const date = row.getValue("updated") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-] satisfies ColumnDef<OutboundShipmentItemResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<OutboundShipmentItemResponse>[] = [
+  {
+    label: "Edit Outbound Shipment Item",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Outbound Shipment Item",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<OutboundShipmentItemResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "outboundShipment",
+    header: "Shipment ID",
+  },
+  {
+    accessorKey: "product",
+    header: "Product ID",
+  },
+  {
+    accessorKey: "salesOrderItem",
+    header: "Sales Order Item ID",
+  },
+  {
+    accessorKey: "quantityShipped",
+    header: "Quantity Shipped",
+  },
+  {
+    accessorKey: "batch",
+    header: "Batch ID",
+  },
+  {
+    accessorKey: "created",
+    header: "Created",
+    cell: ({ row }) => formatDate(row.getValue("created") as string),
+  },
+  {
+    accessorKey: "updated",
+    header: "Updated",
+    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+  },
+];
