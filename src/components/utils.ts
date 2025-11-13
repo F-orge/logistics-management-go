@@ -499,3 +499,76 @@ export const formatLocationType = (locationType: string): string => {
 export const booleanBadgeCell = (value: boolean | undefined): string => {
   return value ? "✓" : "-";
 };
+
+/**
+ * Account transaction type status badge color map
+ */
+export const accountTransactionStatusColors: Record<string, string> = {
+  credit: "bg-green-100 text-green-800",
+  debit: "bg-red-100 text-red-800",
+  "top-up": "bg-blue-100 text-blue-800",
+  refund: "bg-purple-100 text-purple-800",
+  adjustment: "bg-yellow-100 text-yellow-800",
+  fee: "bg-orange-100 text-orange-800",
+};
+
+/**
+ * Billing invoice status badge color map (different from delivery invoice)
+ */
+export const billingInvoiceStatusColors: Record<string, string> = {
+  draft: "bg-gray-100 text-gray-800",
+  sent: "bg-blue-100 text-blue-800",
+  viewed: "bg-blue-100 text-blue-800",
+  paid: "bg-green-100 text-green-800",
+  "partial-paid": "bg-yellow-100 text-yellow-800",
+  "past-due": "bg-red-100 text-red-800",
+  disputed: "bg-orange-100 text-orange-800",
+  cancelled: "bg-red-100 text-red-800",
+  void: "bg-red-100 text-red-800",
+};
+
+/**
+ * Dispute status badge color map
+ */
+export const disputeStatusColors: Record<string, string> = {
+  open: "bg-yellow-100 text-yellow-800",
+  "under-review": "bg-blue-100 text-blue-800",
+  approved: "bg-green-100 text-green-800",
+  denied: "bg-red-100 text-red-800",
+  escalated: "bg-red-100 text-red-800",
+  closed: "bg-gray-100 text-gray-800",
+};
+
+/**
+ * Payment status badge color map
+ */
+export const paymentStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  processing: "bg-blue-100 text-blue-800",
+  successful: "bg-green-100 text-green-800",
+  failed: "bg-red-100 text-red-800",
+  cancelled: "bg-gray-100 text-gray-800",
+  refunded: "bg-purple-100 text-purple-800",
+};
+
+/**
+ * Log sync status badge color map
+ */
+export const logSyncStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  "in-progress": "bg-blue-100 text-blue-800",
+  success: "bg-green-100 text-green-800",
+  failed: "bg-red-100 text-red-800",
+  retry: "bg-orange-100 text-orange-800",
+};
+
+/**
+ * Quote status badge color map
+ */
+export const quoteStatusColors: Record<string, string> = {
+  pending: "bg-yellow-100 text-yellow-800",
+  accepted: "bg-green-100 text-green-800",
+  expired: "bg-red-100 text-red-800",
+  cancelled: "bg-gray-100 text-gray-800",
+  converted: "bg-blue-100 text-blue-800",
+};
