@@ -1,57 +1,72 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
 import { DeliveryManagementProofOfDeliveriesResponse } from "@/lib/pb.types";
+import { formatDateTime, coordinatesCell, signatureCell } from "@/components/utils";
 
 type ProofOfDeliveryResponse = DeliveryManagementProofOfDeliveriesResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "task",
-		header: "Task ID",
-	},
-	{
-		accessorKey: "recipientName",
-		header: "Recipient Name",
-	},
-	{
-		accessorKey: "coordinates",
-		header: "Delivery Location",
-		cell: ({ row }) => {
-			const coords = row.getValue("coordinates") as
-				| { lon: number; lat: number }
-				| undefined;
-			return coords ? (
-				<span className="font-mono text-sm">
-					{coords.lat.toFixed(6)}, {coords.lon.toFixed(6)}
-				</span>
-			) : (
-				"-"
-			);
-		},
-	},
-	{
-		accessorKey: "timestamp",
-		header: "Delivery Time",
-		cell: ({ row }) => {
-			const date = row.getValue("timestamp") as string;
-			return new Date(date).toLocaleString();
-		},
-	},
-	{
-		accessorKey: "signatureData",
-		header: "Signature",
-		cell: ({ row }) => {
-			const sig = row.getValue("signatureData") as any;
-			return sig ? (
-				<span className="px-2 py-1 bg-green-100 text-green-800 rounded text-sm">
-					✓ Signed
-				</span>
-			) : (
-				"-"
-			);
-		},
-	},
-] satisfies ColumnDef<ProofOfDeliveryResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<ProofOfDeliveryResponse>[] = [
+  {
+    label: "Edit Proof of Delivery",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Proof of Delivery",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<ProofOfDeliveryResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "task",
+    header: "Task ID",
+  },
+  {
+    accessorKey: "recipientName",
+    header: "Recipient Name",
+  },
+  {
+    accessorKey: "coordinates",
+    header: "Delivery Location",
+    cell: ({ row }) =>
+      coordinatesCell(
+        row.getValue("coordinates") as { lon: number; lat: number } | undefined
+      ),
+  },
+  {
+    accessorKey: "timestamp",
+    header: "Delivery Time",
+    cell: ({ row }) => formatDateTime(row.getValue("timestamp") as string),
+  },
+  {
+    accessorKey: "signatureData",
+    header: "Signature",
+    cell: ({ row }) => signatureCell(row.getValue("signatureData")),
+  },
+];

@@ -1,100 +1,104 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
 import { DeliveryManagementTasksResponse } from "@/lib/pb.types";
+import { formatDateTime, formatHyphens, truncateText, taskStatusColors, statusBadgeCell } from "@/components/utils";
 
 type TaskResponse = DeliveryManagementTasksResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "package",
-		header: "Package ID",
-	},
-	{
-		accessorKey: "route",
-		header: "Route ID",
-	},
-	{
-		accessorKey: "sequence",
-		header: "Sequence",
-	},
-	{
-		accessorKey: "status",
-		header: "Status",
-		cell: ({ row }) => {
-			const status = row.getValue("status") as string;
-			const colors: Record<string, string> = {
-				pending: "bg-yellow-100 text-yellow-800",
-				assigned: "bg-blue-100 text-blue-800",
-				"out-for-delivery": "bg-purple-100 text-purple-800",
-				delivered: "bg-green-100 text-green-800",
-				failed: "bg-red-100 text-red-800",
-				cancelled: "bg-red-100 text-red-800",
-				rescheduled: "bg-yellow-100 text-yellow-800",
-			};
-			return (
-				<span className={`px-2 py-1 rounded text-sm ${colors[status] || ""}`}>
-					{status.replace(/-/g, " ")}
-				</span>
-			);
-		},
-	},
-	{
-		accessorKey: "deliveryAddress",
-		header: "Delivery Address",
-	},
-	{
-		accessorKey: "recipientName",
-		header: "Recipient Name",
-	},
-	{
-		accessorKey: "recipientPhone",
-		header: "Recipient Phone",
-	},
-	{
-		accessorKey: "estimatedArrivalTime",
-		header: "Est. Arrival",
-		cell: ({ row }) => {
-			const date = row.getValue("estimatedArrivalTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-	{
-		accessorKey: "actualArrivalTime",
-		header: "Actual Arrival",
-		cell: ({ row }) => {
-			const date = row.getValue("actualArrivalTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-	{
-		accessorKey: "deliveryTime",
-		header: "Delivery Time",
-		cell: ({ row }) => {
-			const date = row.getValue("deliveryTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-	{
-		accessorKey: "failureReason",
-		header: "Failure Reason",
-		cell: ({ row }) => {
-			const reason = row.getValue("failureReason") as string | undefined;
-			return reason ? reason.replace(/-/g, " ") : "-";
-		},
-	},
-	{
-		accessorKey: "attempCount",
-		header: "Attempts",
-	},
-	{
-		accessorKey: "deliveryInstructions",
-		header: "Instructions",
-		cell: ({ row }) => {
-			const instr = row.getValue("deliveryInstructions") as string | undefined;
-			return instr ? instr.substring(0, 40) + "..." : "-";
-		},
-	},
-] satisfies ColumnDef<TaskResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<TaskResponse>[] = [
+  {
+    label: "Edit Task",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Task",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<TaskResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "package",
+    header: "Package ID",
+  },
+  {
+    accessorKey: "route",
+    header: "Route ID",
+  },
+  {
+    accessorKey: "sequence",
+    header: "Sequence",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => statusBadgeCell(row.getValue("status") as string, taskStatusColors),
+  },
+  {
+    accessorKey: "deliveryAddress",
+    header: "Delivery Address",
+  },
+  {
+    accessorKey: "recipientName",
+    header: "Recipient Name",
+  },
+  {
+    accessorKey: "recipientPhone",
+    header: "Recipient Phone",
+  },
+  {
+    accessorKey: "estimatedArrivalTime",
+    header: "Est. Arrival",
+    cell: ({ row }) => formatDateTime(row.getValue("estimatedArrivalTime") as string | undefined),
+  },
+  {
+    accessorKey: "actualArrivalTime",
+    header: "Actual Arrival",
+    cell: ({ row }) => formatDateTime(row.getValue("actualArrivalTime") as string | undefined),
+  },
+  {
+    accessorKey: "deliveryTime",
+    header: "Delivery Time",
+    cell: ({ row }) => formatDateTime(row.getValue("deliveryTime") as string | undefined),
+  },
+  {
+    accessorKey: "failureReason",
+    header: "Failure Reason",
+    cell: ({ row }) => formatHyphens(row.getValue("failureReason") as string | undefined),
+  },
+  {
+    accessorKey: "attempCount",
+    header: "Attempts",
+  },
+  {
+    accessorKey: "deliveryInstructions",
+    header: "Instructions",
+    cell: ({ row }) => truncateText(row.getValue("deliveryInstructions") as string | undefined, 40),
+  },
+];

@@ -1,82 +1,95 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  emailCell,
+  formatDate,
+  formatHyphens,
+  leadStatusColors,
+  statusBadgeCell,
+} from "@/components/utils";
 import { CustomerRelationsLeadsResponse } from "@/lib/pb.types";
 
 type LeadResponse = CustomerRelationsLeadsResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "name",
-		header: "Lead Name",
-	},
-	{
-		accessorKey: "email",
-		header: "Email",
-		cell: ({ row }) => {
-			const email = row.getValue("email") as string | undefined;
-			return email ? (
-				<a href={`mailto:${email}`} className="text-blue-500 hover:underline">
-					{email}
-				</a>
-			) : (
-				"-"
-			);
-		},
-	},
-	{
-		accessorKey: "status",
-		header: "Status",
-		cell: ({ row }) => {
-			const status = row.getValue("status") as string | undefined;
-			const colors: Record<string, string> = {
-				new: "bg-blue-100 text-blue-800",
-				contacted: "bg-yellow-100 text-yellow-800",
-				qualified: "bg-green-100 text-green-800",
-				unqualified: "bg-red-100 text-red-800",
-				converted: "bg-green-100 text-green-800",
-			};
-			return (
-				<span
-					className={`px-2 py-1 rounded text-sm ${colors[status || ""] || ""}`}
-				>
-					{status || "-"}
-				</span>
-			);
-		},
-	},
-	{
-		accessorKey: "source",
-		header: "Source",
-		cell: ({ row }) => {
-			const source = row.getValue("source") as string | undefined;
-			return source ? source.replace(/-/g, " ") : "-";
-		},
-	},
-	{
-		accessorKey: "score",
-		header: "Score",
-	},
-	{
-		accessorKey: "convertedAt",
-		header: "Converted At",
-		cell: ({ row }) => {
-			const date = row.getValue("convertedAt") as string | undefined;
-			return date ? new Date(date).toLocaleDateString() : "-";
-		},
-	},
-	{
-		accessorKey: "campaign",
-		header: "Campaign ID",
-	},
-	{
-		accessorKey: "created",
-		header: "Created",
-		cell: ({ row }) => {
-			const date = row.getValue("created") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-] satisfies ColumnDef<LeadResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<LeadResponse>[] = [
+  {
+    label: "Edit Lead",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Lead",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<LeadResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "name",
+    header: "Lead Name",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => emailCell(row.getValue("email") as string | undefined),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) =>
+      statusBadgeCell(
+        row.getValue("status") as string | undefined,
+        leadStatusColors
+      ),
+  },
+  {
+    accessorKey: "source",
+    header: "Source",
+    cell: ({ row }) =>
+      formatHyphens(row.getValue("source") as string | undefined),
+  },
+  {
+    accessorKey: "score",
+    header: "Score",
+  },
+  {
+    accessorKey: "convertedAt",
+    header: "Converted At",
+    cell: ({ row }) =>
+      formatDate(row.getValue("convertedAt") as string | undefined),
+  },
+  {
+    accessorKey: "campaign",
+    header: "Campaign ID",
+  },
+  {
+    accessorKey: "created",
+    header: "Created",
+    cell: ({ row }) => formatDate(row.getValue("created") as string),
+  },
+];

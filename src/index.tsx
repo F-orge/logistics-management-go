@@ -38,7 +38,7 @@ if (rootEl) {
 						storageKey="pocketbase-template-theme"
 					>
 						<RouterProvider router={router} />
-						<Toaster />
+						<Toaster position="top-center" />
 					</ThemeProvider>
 				</QueryClientProvider>
 			</PocketBaseProvider>

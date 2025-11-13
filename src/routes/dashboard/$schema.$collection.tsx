@@ -1,10 +1,11 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { ColumnDef } from "@tanstack/react-table";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { EditIcon } from "lucide-react";
-import { ClientResponseError } from "pocketbase";
+import { ClientResponseError, RecordListOptions } from "pocketbase";
 import React from "react";
 import z from "zod";
-import { DataTable } from "@/components/ui/data-table";
+import { ContextMenuItem, DataTable } from "@/components/ui/data-table";
 import { GlobalAction } from "@/lib/utils";
 
 export const Route = createFileRoute("/dashboard/$schema/$collection")({
@@ -22,7 +23,15 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
   beforeLoad: ({ search }) => ({ search }),
   loader: async ({ context, params }) => {
     try {
-      const { default: columns } = await import(
+      const {
+        columns,
+        options,
+        actions,
+      }: {
+        columns: ColumnDef<any>[];
+        options: RecordListOptions;
+        actions: ContextMenuItem<any>[];
+      } = await import(
         `../../components/tables/${params.schema}/${params.collection}.tsx`
       );
 
@@ -58,6 +67,7 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
       const result = await context.pocketbase
         .collection(collection)
         .getList(context.search.page, context.search.perPage, {
+          ...options,
           filter: context.search.filter,
           sort: context.search.sort,
         });
@@ -66,6 +76,7 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
         data: result,
         columns,
         Actions,
+        actions,
         tableActions,
         globalActions,
         ControlSection,
@@ -89,6 +100,7 @@ function RouteComponent() {
     ControlSection,
     tableActions,
     globalActions,
+    actions,
   } = Route.useLoaderData();
   const navigate = Route.useNavigate();
 
@@ -105,6 +117,8 @@ function RouteComponent() {
           onPageChange={(page) =>
             navigate({ search: { page, perPage: data.perPage } })
           }
+          navigate={navigate}
+          contextItems={actions}
         />
       </section>
       <section>

@@ -1,77 +1,104 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  formatDateTime,
+  statusBadgeCell,
+  tripStopStatusColors,
+} from "@/components/utils";
 import { TransportManagementTripStopsResponse } from "@/lib/pb.types";
 
 type TripStopResponse = TransportManagementTripStopsResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "trip",
-		header: "Trip ID",
-	},
-	{
-		accessorKey: "shipment",
-		header: "Shipment ID",
-	},
-	{
-		accessorKey: "sequence",
-		header: "Sequence",
-	},
-	{
-		accessorKey: "address",
-		header: "Address",
-	},
-	{
-		accessorKey: "status",
-		header: "Status",
-		cell: ({ row }) => {
-			const status = row.getValue("status") as string;
-			const colors: Record<string, string> = {
-				pending: "bg-yellow-100 text-yellow-800",
-				arrived: "bg-blue-100 text-blue-800",
-				completed: "bg-green-100 text-green-800",
-				skipped: "bg-gray-100 text-gray-800",
-			};
-			return (
-				<span className={`px-2 py-1 rounded text-sm ${colors[status] || ""}`}>
-					{status}
-				</span>
-			);
-		},
-	},
-	{
-		accessorKey: "estimatedArrivalTime",
-		header: "Est. Arrival",
-		cell: ({ row }) => {
-			const date = row.getValue("estimatedArrivalTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-	{
-		accessorKey: "actualArrivalTime",
-		header: "Actual Arrival",
-		cell: ({ row }) => {
-			const date = row.getValue("actualArrivalTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-	{
-		accessorKey: "estimatedDepartureTime",
-		header: "Est. Departure",
-		cell: ({ row }) => {
-			const date = row.getValue("estimatedDepartureTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-	{
-		accessorKey: "actualDepartureTime",
-		header: "Actual Departure",
-		cell: ({ row }) => {
-			const date = row.getValue("actualDepartureTime") as string | undefined;
-			return date ? new Date(date).toLocaleString() : "-";
-		},
-	},
-] satisfies ColumnDef<TripStopResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<TripStopResponse>[] = [
+  {
+    label: "Edit Trip Stop",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Trip Stop",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<TripStopResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "trip",
+    header: "Trip ID",
+  },
+  {
+    accessorKey: "shipment",
+    header: "Shipment ID",
+  },
+  {
+    accessorKey: "sequence",
+    header: "Sequence",
+  },
+  {
+    accessorKey: "address",
+    header: "Address",
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) =>
+      statusBadgeCell(row.getValue("status") as string, tripStopStatusColors),
+  },
+  {
+    accessorKey: "estimatedArrivalTime",
+    header: "Est. Arrival",
+    cell: ({ row }) => {
+      const date = row.getValue("estimatedArrivalTime") as string | undefined;
+      return date ? formatDateTime(date) : "-";
+    },
+  },
+  {
+    accessorKey: "actualArrivalTime",
+    header: "Actual Arrival",
+    cell: ({ row }) => {
+      const date = row.getValue("actualArrivalTime") as string | undefined;
+      return date ? formatDateTime(date) : "-";
+    },
+  },
+  {
+    accessorKey: "estimatedDepartureTime",
+    header: "Est. Departure",
+    cell: ({ row }) => {
+      const date = row.getValue("estimatedDepartureTime") as string | undefined;
+      return date ? formatDateTime(date) : "-";
+    },
+  },
+  {
+    accessorKey: "actualDepartureTime",
+    header: "Actual Departure",
+    cell: ({ row }) => {
+      const date = row.getValue("actualDepartureTime") as string | undefined;
+      return date ? formatDateTime(date) : "-";
+    },
+  },
+];

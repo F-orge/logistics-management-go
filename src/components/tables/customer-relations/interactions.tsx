@@ -1,61 +1,83 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { EditIcon, Trash } from "lucide-react";
+import { RecordListOptions } from "pocketbase";
+import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  formatDate,
+  interactionTypeCell,
+  truncateText,
+} from "@/components/utils";
 import { CustomerRelationsInteractionsResponse } from "@/lib/pb.types";
 
 type InteractionResponse = CustomerRelationsInteractionsResponse;
 
-export default [
-	{
-		accessorKey: "id",
-		header: "ID",
-	},
-	{
-		accessorKey: "type",
-		header: "Type",
-		cell: ({ row }) => {
-			const type = row.getValue("type") as string | undefined;
-			const icons: Record<string, string> = {
-				call: "📞",
-				meeting: "🤝",
-				text: "💬",
-				email: "📧",
-			};
-			return (
-				<span>
-					{icons[type || ""]} {type || "-"}
-				</span>
-			);
-		},
-	},
-	{
-		accessorKey: "interactionDate",
-		header: "Date",
-		cell: ({ row }) => {
-			const date = row.getValue("interactionDate") as string;
-			return new Date(date).toLocaleDateString();
-		},
-	},
-	{
-		accessorKey: "outcome",
-		header: "Outcome",
-	},
-	{
-		accessorKey: "notes",
-		header: "Notes",
-		cell: ({ row }) => {
-			const notes = row.getValue("notes") as string | undefined;
-			return notes ? notes.substring(0, 50) + "..." : "-";
-		},
-	},
-	{
-		accessorKey: "contact",
-		header: "Contact ID",
-	},
-	{
-		accessorKey: "user",
-		header: "User ID",
-	},
-	{
-		accessorKey: "case",
-		header: "Case ID",
-	},
-] satisfies ColumnDef<InteractionResponse>[];
+export const options: RecordListOptions = {};
+
+export const actions: ContextMenuItem<InteractionResponse>[] = [
+  {
+    label: "Edit Interaction",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "update",
+          id: row.original.id,
+        }),
+      }),
+    divider: true,
+  },
+  {
+    label: "Delete Interaction",
+    variant: "destructive",
+    icon: <Trash />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({
+          ...prev,
+          action: "delete",
+          id: row.original.id,
+        }),
+      }),
+  },
+];
+
+export const columns: ColumnDef<InteractionResponse>[] = [
+  {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
+    accessorKey: "type",
+    header: "Type",
+    cell: ({ row }) =>
+      interactionTypeCell(row.getValue("type") as string | undefined),
+  },
+  {
+    accessorKey: "interactionDate",
+    header: "Date",
+    cell: ({ row }) => formatDate(row.getValue("interactionDate") as string),
+  },
+  {
+    accessorKey: "outcome",
+    header: "Outcome",
+  },
+  {
+    accessorKey: "notes",
+    header: "Notes",
+    cell: ({ row }) =>
+      truncateText(row.getValue("notes") as string | undefined),
+  },
+  {
+    accessorKey: "contact",
+    header: "Contact ID",
+  },
+  {
+    accessorKey: "user",
+    header: "User ID",
+  },
+  {
+    accessorKey: "case",
+    header: "Case ID",
+  },
+];
