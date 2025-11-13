@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * SurchargeControls
@@ -60,6 +62,17 @@ const SurchargeControls = () => {
     handleSearch();
   }, [calculationMethodFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setCalculationMethodFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -88,7 +101,7 @@ const SurchargeControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={calculationMethodFilter} onValueChange={setCalculationMethodFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All calculationMethod" />
@@ -100,6 +113,20 @@ const SurchargeControls = () => {
           <SelectItem value="sliding-scale">sliding-scale</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || calculationMethodFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

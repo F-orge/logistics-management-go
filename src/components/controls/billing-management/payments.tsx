@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * PaymentControls
@@ -63,6 +65,18 @@ const PaymentControls = () => {
     handleSearch();
   }, [paymentMethodFilter, statusFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setPaymentMethodFilter("");
+    setStatusFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -91,7 +105,7 @@ const PaymentControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={paymentMethodFilter} onValueChange={setPaymentMethodFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All paymentMethod" />
@@ -120,6 +134,20 @@ const PaymentControls = () => {
           <SelectItem value="refunded">refunded</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || paymentMethodFilter || statusFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

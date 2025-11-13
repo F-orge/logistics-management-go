@@ -259,9 +259,18 @@ export default ${componentName}Controls;
       )
       .join("\n");
 
+    const importsWithTooltip = importsUI.includes("Select")
+      ? importsUI.replace(
+          'from "@/components/ui/select";',
+          `from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";`
+        )
+      : importsUI;
+
     return `import { useNavigate } from "@tanstack/react-router";
 import React from "react";
-${importsUI}
+${importsWithTooltip}
 
 const ${componentName}Controls = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
@@ -291,14 +300,40 @@ ${enumStates}
     });
   };
 
+  const handleClearFilters = () => {
+    ${enumFields.map((field) => `set${toPascalCase(field.name)}Filter("");`).join("\n    ")}
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
+  const hasActiveFilters = ${enumFields.map((field) => `${field.name}Filter`).join(" || ")};
+
   React.useEffect(() => {
     handleFilterChange();
   }, [${enumFields.map((field) => field.name + "Filter").join(", ")}]);
 
   return (
     <section className="col-span-full flex justify-between gap-4">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
 ${enumSelectsMarkup}
+        {hasActiveFilters && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={handleClearFilters}
+                variant="outline"
+                size="icon-sm"
+              >
+                <X />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Clear filters</TooltipContent>
+          </Tooltip>
+        )}
       </div>
       <Button
         onClick={() =>
@@ -368,6 +403,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * ${componentName}Controls
@@ -412,6 +449,17 @@ ${enumStates}
     handleSearch();
   }, [${enumFields.map((field) => field.name + "Filter").join(", ")}]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    ${enumFields.map((field) => `set${toPascalCase(field.name)}Filter("");`).join("\n    ")}
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -440,8 +488,22 @@ ${enumStates}
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
 ${enumSelectsMarkup}
+            {(searchTerm || ${enumFields.map((field) => field.name + "Filter").join(" || ")}) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

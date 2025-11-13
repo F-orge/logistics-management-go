@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * RateRuleControls
@@ -60,6 +62,17 @@ const RateRuleControls = () => {
     handleSearch();
   }, [pricingModelFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setPricingModelFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -88,7 +101,7 @@ const RateRuleControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={pricingModelFilter} onValueChange={setPricingModelFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All pricingModel" />
@@ -103,6 +116,20 @@ const RateRuleControls = () => {
           <SelectItem value="tiered">tiered</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || pricingModelFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

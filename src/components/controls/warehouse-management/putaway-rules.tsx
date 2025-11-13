@@ -8,6 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 const PutawayRuleControls = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
@@ -37,13 +39,25 @@ const PutawayRuleControls = () => {
     });
   };
 
+  const handleClearFilters = () => {
+    setLocationTypeFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
+  const hasActiveFilters = locationTypeFilter;
+
   React.useEffect(() => {
     handleFilterChange();
   }, [locationTypeFilter]);
 
   return (
     <section className="col-span-full flex justify-between gap-4">
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-center">
       <Select value={locationTypeFilter} onValueChange={setLocationTypeFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All locationType" />
@@ -61,6 +75,20 @@ const PutawayRuleControls = () => {
           <SelectItem value="returns-area">returns-area</SelectItem>
         </SelectContent>
       </Select>
+        {hasActiveFilters && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={handleClearFilters}
+                variant="outline"
+                size="icon-sm"
+              >
+                <X />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Clear filters</TooltipContent>
+          </Tooltip>
+        )}
       </div>
       <Button
         onClick={() =>

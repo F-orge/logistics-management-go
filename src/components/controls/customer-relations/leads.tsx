@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * LeadControls
@@ -62,6 +64,18 @@ const LeadControls = () => {
     handleSearch();
   }, [sourceFilter, statusFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setSourceFilter("");
+    setStatusFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -90,7 +104,7 @@ const LeadControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={sourceFilter} onValueChange={setSourceFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All source" />
@@ -119,6 +133,20 @@ const LeadControls = () => {
           <SelectItem value="converted">converted</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || sourceFilter || statusFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

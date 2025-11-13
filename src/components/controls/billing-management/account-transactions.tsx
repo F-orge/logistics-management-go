@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * AccountTransactionControls
@@ -59,6 +61,17 @@ const AccountTransactionControls = () => {
     handleSearch();
   }, [typeFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setTypeFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -87,7 +100,7 @@ const AccountTransactionControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={typeFilter} onValueChange={setTypeFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All type" />
@@ -101,6 +114,20 @@ const AccountTransactionControls = () => {
           <SelectItem value="fee">fee</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || typeFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

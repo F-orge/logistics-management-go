@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * CarrierRateControls
@@ -61,6 +63,17 @@ const CarrierRateControls = () => {
     handleSearch();
   }, [unitFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setUnitFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -89,7 +102,7 @@ const CarrierRateControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={unitFilter} onValueChange={setUnitFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All unit" />
@@ -102,6 +115,20 @@ const CarrierRateControls = () => {
           <SelectItem value="flat-rate">flat-rate</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || unitFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button

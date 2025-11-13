@@ -15,6 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { X } from "lucide-react";
 
 /**
  * PickBatchControls
@@ -61,6 +63,18 @@ const PickBatchControls = () => {
     handleSearch();
   }, [statusFilter, strategyFilter]);
 
+  const handleClearFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("");
+    setStrategyFilter("");
+    navigate({
+      search: (prev) => {
+        const { filter, ...rest } = prev;
+        return rest;
+      },
+    });
+  };
+
   return (
     <section className="col-span-full space-y-4">
       <div className="flex justify-between gap-4">
@@ -89,7 +103,7 @@ const PickBatchControls = () => {
               </InputGroupButton>
             </InputGroupAddon>
           </InputGroup>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
       <Select value={statusFilter} onValueChange={setStatusFilter}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="All status" />
@@ -113,6 +127,20 @@ const PickBatchControls = () => {
           <SelectItem value="cluster-picking">cluster-picking</SelectItem>
         </SelectContent>
       </Select>
+            {(searchTerm || statusFilter || strategyFilter) && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={handleClearFilters}
+                    variant="outline"
+                    size="icon-sm"
+                  >
+                    <X />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Clear filters</TooltipContent>
+              </Tooltip>
+            )}
           </div>
         </div>
         <Button
