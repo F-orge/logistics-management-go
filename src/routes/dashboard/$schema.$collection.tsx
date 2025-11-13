@@ -5,78 +5,92 @@ import { ClientResponseError } from "pocketbase";
 import React from "react";
 import z from "zod";
 import { DataTable } from "@/components/ui/data-table";
+import { GlobalAction } from "@/lib/utils";
 
 export const Route = createFileRoute("/dashboard/$schema/$collection")({
-	component: RouteComponent,
-	validateSearch: zodValidator(
-		z.object({
-			page: z.number().min(1).nonnegative().default(1).catch(1),
-			perPage: z.number().min(10).nonnegative().max(100).catch(10),
-			filter: z.string().optional(),
-			sort: z.string().optional(),
-			action: z.string().optional(),
-			id: z.string().optional(),
-		}),
-	),
-	beforeLoad: ({ search }) => ({ search }),
-	loader: async ({ context, params }) => {
-		try {
-			const { default: columns } = await import(
-				`../../components/tables/${params.schema}/${params.collection}.tsx`
-			);
+  component: RouteComponent,
+  validateSearch: zodValidator(
+    z.object({
+      page: z.number().min(1).nonnegative().default(1).catch(1),
+      perPage: z.number().min(10).nonnegative().max(100).catch(10),
+      filter: z.string().optional(),
+      sort: z.string().optional().default("-created"),
+      action: z.string().optional(),
+      id: z.string().optional(),
+    })
+  ),
+  beforeLoad: ({ search }) => ({ search }),
+  loader: async ({ context, params }) => {
+    try {
+      const { default: columns } = await import(
+        `../../components/tables/${params.schema}/${params.collection}.tsx`
+      );
 
-			const { default: Actions }: { default: React.FC<any> } = await import(
-				`../../components/actions/${params.schema}/${params.collection}`
-			);
+      const { default: Actions }: { default: React.FC<any> } = await import(
+        `../../components/actions/${params.schema}/${params.collection}`
+      );
 
-			const { default: ControlSection } = await import(
-				`../../components/controls/${params.schema}/${params.collection}.tsx`
-			);
+      const {
+        default: globalAction,
+      }: {
+        default: Array<GlobalAction<"/dashboard/$schema/$collection">>;
+      } = await import(`../../components/actions/${params.schema}/global`);
 
-			const collection = `${params.schema}-${params.collection}`.replaceAll(
-				"-",
-				"_",
-			);
+      const {
+        default: ControlSection,
+      }: {
+        default: React.FC<{
+          globalAction: GlobalAction<"/dashboard/$schema/$collection">[];
+        }>;
+      } = await import(
+        `../../components/controls/${params.schema}/${params.collection}.tsx`
+      );
 
-			const result = await context.pocketbase
-				.collection(collection)
-				.getList(context.search.page, context.search.perPage, {
-					filter: context.search.filter,
-					sort: `-created`,
-				});
+      const collection = `${params.schema}-${params.collection}`.replaceAll(
+        "-",
+        "_"
+      );
 
-			return { data: result, columns, Actions, ControlSection };
-		} catch (error) {
-			if (error instanceof ClientResponseError) {
-				if (error.status === 404) {
-					throw notFound();
-				}
-			}
-			throw error;
-		}
-	},
+      const result = await context.pocketbase
+        .collection(collection)
+        .getList(context.search.page, context.search.perPage, {
+          filter: context.search.filter,
+          sort: context.search.sort,
+        });
+
+      return { data: result, columns, Actions, globalAction, ControlSection };
+    } catch (error) {
+      if (error instanceof ClientResponseError) {
+        if (error.status === 404) {
+          throw notFound();
+        }
+      }
+      throw error;
+    }
+  },
 });
 
 function RouteComponent() {
-	const { data, columns, Actions, ControlSection } = Route.useLoaderData();
-	const navigate = Route.useNavigate();
+  const { data, columns, Actions, ControlSection, globalAction } =
+    Route.useLoaderData();
+  const navigate = Route.useNavigate();
 
-	return (
-		<article className="grid grid-cols-12 gap-5">
-			<section>{/* analytics section */}</section>
-			{ControlSection && <ControlSection />}
-			<section className="col-span-full">
-				<DataTable
-					columns={columns}
-					data={data}
-					onPageChange={(page) =>
-						navigate({ search: { page, perPage: data.perPage } })
-					}
-				/>
-			</section>
-			<section>
-				<Actions />
-			</section>
-		</article>
-	);
+  return (
+    <article className="grid grid-cols-12 gap-5">
+      <section>{/* analytics section */}</section>
+      {ControlSection && <ControlSection globalAction={globalAction} />}
+      <section className="col-span-full">
+        <DataTable
+          columns={columns}
+          data={data}
+          onPageChange={(page) =>
+            navigate({ search: { page, perPage: data.perPage } })
+          }
+        />
+      </section>
+      <section>
+        <Actions />
+      </section>
+    </article>
+  );
 }
