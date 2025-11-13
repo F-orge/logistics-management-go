@@ -31,10 +31,14 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
       );
 
       const {
-        default: globalAction,
+        default: tableActions,
       }: {
         default: Array<GlobalAction<"/dashboard/$schema/$collection">>;
       } = await import(`../../components/actions/${params.schema}/global`);
+
+      const { default: globalActions } = await import(
+        "@/components/actions/system"
+      );
 
       const {
         default: ControlSection,
@@ -58,7 +62,14 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
           sort: context.search.sort,
         });
 
-      return { data: result, columns, Actions, globalAction, ControlSection };
+      return {
+        data: result,
+        columns,
+        Actions,
+        tableActions,
+        globalActions,
+        ControlSection,
+      };
     } catch (error) {
       if (error instanceof ClientResponseError) {
         if (error.status === 404) {
@@ -71,14 +82,22 @@ export const Route = createFileRoute("/dashboard/$schema/$collection")({
 });
 
 function RouteComponent() {
-  const { data, columns, Actions, ControlSection, globalAction } =
-    Route.useLoaderData();
+  const {
+    data,
+    columns,
+    Actions,
+    ControlSection,
+    tableActions,
+    globalActions,
+  } = Route.useLoaderData();
   const navigate = Route.useNavigate();
 
   return (
     <article className="grid grid-cols-12 gap-5">
       <section>{/* analytics section */}</section>
-      {ControlSection && <ControlSection globalAction={globalAction} />}
+      {ControlSection && (
+        <ControlSection globalAction={[...globalActions, ...tableActions]} />
+      )}
       <section className="col-span-full">
         <DataTable
           columns={columns}
