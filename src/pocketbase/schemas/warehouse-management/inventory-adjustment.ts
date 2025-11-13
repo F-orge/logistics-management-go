@@ -5,50 +5,137 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InventoryAdjustmentSchema = z.object({
-	id: z.string(),
-	product: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementProducts,
-				displayField: "id",
-			},
-		}),
-	),
-	user: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.Users,
-				displayField: "id",
-			},
-		}),
-	),
-	quantityChange: z.number(),
-	reason: z.enum([
-		"cycle-count",
-		"damaged-goods",
-		"theft",
-		"expired",
-		"return-to-vendor",
-		"manual-correction",
-	]),
-	notes: z.unknown().optional(),
-	warehouse: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementWarehouses,
-				displayField: "id",
-			},
-		}),
-	),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const InventoryAdjustmentSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "InventoryAdjustment-id",
+      type: "field",
+      inputType: "text",
+      label: "Adjustment ID",
+      description: "Unique identifier for the inventory adjustment",
+      props: {
+        disabled: true,
+      },
+    }),
+    product: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "InventoryAdjustment-product",
+      inputType: "relation",
+      label: "Product",
+      description: "Product being adjusted",
+      props: {
+        collectionName: Collections.WarehouseManagementProducts,
+        relationshipName: "product",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    user: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "InventoryAdjustment-user",
+      inputType: "relation",
+      label: "User",
+      description: "User making the adjustment",
+      props: {
+        collectionName: Collections.Users,
+        relationshipName: "user",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    quantityChange: z.number().register(fieldRegistry, {
+      id: "InventoryAdjustment-quantityChange",
+      type: "field",
+      inputType: "number",
+      label: "Quantity Change",
+      description: "Amount to adjust inventory by (positive or negative)",
+      props: {
+        placeholder: "0",
+      },
+    }),
+    reason: z
+      .enum([
+        "cycle-count",
+        "damaged-goods",
+        "theft",
+        "expired",
+        "return-to-vendor",
+        "manual-correction",
+      ])
+      .register(fieldRegistry, {
+        id: "InventoryAdjustment-reason",
+        type: "field",
+        inputType: "select",
+        label: "Reason",
+        description: "Reason for the adjustment",
+        props: {
+          options: [
+            { label: "Cycle Count", value: "cycle-count" },
+            { label: "Damaged Goods", value: "damaged-goods" },
+            { label: "Theft", value: "theft" },
+            { label: "Expired", value: "expired" },
+            { label: "Return to Vendor", value: "return-to-vendor" },
+            { label: "Manual Correction", value: "manual-correction" },
+          ],
+        },
+      }),
+    notes: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InventoryAdjustment-notes",
+        type: "field",
+        inputType: "textarea",
+        label: "Notes",
+        description: "Additional notes about the adjustment",
+        props: {
+          placeholder: "Enter notes",
+        },
+      }),
+    warehouse: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "InventoryAdjustment-warehouse",
+      inputType: "relation",
+      label: "Warehouse",
+      description: "Warehouse where adjustment occurred",
+      props: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        relationshipName: "warehouse",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InventoryAdjustment-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InventoryAdjustment-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type InventoryAdjustment = z.infer<typeof InventoryAdjustmentSchema>;

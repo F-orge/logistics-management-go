@@ -5,38 +5,93 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const OpportunityProductsSchema = z.object({
-	id: z.string(),
-	opportunity: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsOpportunities,
-					displayField: "id",
-				},
-			}),
-		),
-	product: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsProducts,
-					displayField: "id",
-				},
-			}),
-		),
-	quantity: z.number(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const OpportunityProductsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "OpportunityProducts-id",
+      type: "field",
+      inputType: "text",
+      label: "Product ID",
+      description: "Unique identifier for the opportunity product",
+      props: {
+        disabled: true,
+      },
+    }),
+    opportunity: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "OpportunityProducts-opportunity",
+        inputType: "relation",
+        label: "Opportunity",
+        description: "Opportunity this product is associated with",
+        props: {
+          collectionName: Collections.CustomerRelationsOpportunities,
+          relationshipName: "opportunity",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    product: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "OpportunityProducts-product",
+        inputType: "relation",
+        label: "Product",
+        description: "Product associated with this opportunity",
+        props: {
+          collectionName: Collections.CustomerRelationsProducts,
+          relationshipName: "product",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    quantity: z.number().register(fieldRegistry, {
+      id: "OpportunityProducts-quantity",
+      type: "field",
+      inputType: "number",
+      label: "Quantity",
+      description: "Quantity of the product",
+      props: {
+        placeholder: "0",
+        min: 0,
+      },
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "OpportunityProducts-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the product was added",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "OpportunityProducts-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the product was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type OpportunityProducts = z.infer<typeof OpportunityProductsSchema>;

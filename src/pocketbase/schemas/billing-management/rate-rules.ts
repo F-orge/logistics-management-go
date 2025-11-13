@@ -5,41 +5,172 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const RateRulesSchema = z.object({
-	id: z.string(),
-	rateCard: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.BillingManagementRateCards,
-					displayField: "id",
-				},
-			}),
-		),
-	condition: z.string(),
-	value: z.string(),
-	price: z.number(),
-	pricingModel: z.enum([
-		"per-kg",
-		"per-item",
-		"flat-rate",
-		"per-cubic-meter",
-		"per-zone",
-		"percentage",
-		"tiered",
-	]),
-	minValue: z.number().optional(),
-	maxValue: z.number().optional(),
-	priority: z.number(),
-	isActive: z.unknown().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const RateRulesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "RateRules-id",
+      type: "field",
+      inputType: "text",
+      label: "Rate Rule ID",
+      description: "Unique identifier for the rate rule",
+      props: {
+        disabled: true,
+      },
+    }),
+    rateCard: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "RateRules-rateCard",
+        inputType: "relation",
+        label: "Rate Card",
+        description: "Associated rate card",
+        props: {
+          collectionName: Collections.BillingManagementRateCards,
+          relationshipName: "rateCard",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    condition: z.string().register(fieldRegistry, {
+      id: "RateRules-condition",
+      type: "field",
+      inputType: "text",
+      label: "Condition",
+      description: "Condition field (e.g., weight, zone)",
+      props: {
+        placeholder: "weight",
+      },
+    }),
+    value: z.string().register(fieldRegistry, {
+      id: "RateRules-value",
+      type: "field",
+      inputType: "text",
+      label: "Value",
+      description: "Condition value (e.g., 0-5kg, Zone A)",
+      props: {
+        placeholder: "0-5kg",
+      },
+    }),
+    price: z.number().register(fieldRegistry, {
+      id: "RateRules-price",
+      type: "field",
+      inputType: "number",
+      label: "Price",
+      description: "Rate price",
+      props: {
+        placeholder: "0.00",
+        min: 0,
+      },
+    }),
+    pricingModel: z
+      .enum([
+        "per-kg",
+        "per-item",
+        "flat-rate",
+        "per-cubic-meter",
+        "per-zone",
+        "percentage",
+        "tiered",
+      ])
+      .register(fieldRegistry, {
+        id: "RateRules-pricingModel",
+        type: "field",
+        inputType: "select",
+        label: "Pricing Model",
+        description: "How the price is calculated",
+        props: {
+          options: [
+            { label: "Per KG", value: "per-kg" },
+            { label: "Per Item", value: "per-item" },
+            { label: "Flat Rate", value: "flat-rate" },
+            { label: "Per Cubic Meter", value: "per-cubic-meter" },
+            { label: "Per Zone", value: "per-zone" },
+            { label: "Percentage", value: "percentage" },
+            { label: "Tiered", value: "tiered" },
+          ],
+        },
+      }),
+    minValue: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "RateRules-minValue",
+        type: "field",
+        inputType: "number",
+        label: "Minimum Value",
+        description: "Minimum value for this rule",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    maxValue: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "RateRules-maxValue",
+        type: "field",
+        inputType: "number",
+        label: "Maximum Value",
+        description: "Maximum value for this rule",
+        props: {
+          placeholder: "999999.99",
+          min: 0,
+        },
+      }),
+    priority: z.number().register(fieldRegistry, {
+      id: "RateRules-priority",
+      type: "field",
+      inputType: "number",
+      label: "Priority",
+      description: "Rule execution priority (lower number = higher priority)",
+      props: {
+        placeholder: "1",
+        min: 0,
+      },
+    }),
+    isActive: z.boolean().optional().register(fieldRegistry, {
+      id: "RateRules-isActive",
+      type: "field",
+      inputType: "bool",
+      label: "Active",
+      description: "Whether this rule is active",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "RateRules-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "RateRules-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type RateRules = z.infer<typeof RateRulesSchema>;

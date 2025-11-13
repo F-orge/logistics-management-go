@@ -5,26 +5,155 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
-import { Collections } from "@/lib/pb.types";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 
-export const LogsSchema = z.object({
-	id: z.string(),
-	recordId: z.string(),
-	recordType: z.string(),
-	externalSystem: z.string(),
-	externalId: z.string().optional(),
-	status: z
-		.enum(["pending", "in-progress", "success", "failed", "retry"])
-		.optional(),
-	errorMessage: z.string().optional(),
-	requestPayload: z.unknown().optional(),
-	responsePayload: z.unknown().optional(),
-	lastSyncAt: z.iso.date().optional(),
-	retryCount: z.number().optional(),
-	nextRetryAt: z.iso.date().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const LogsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Logs-id",
+      type: "field",
+      inputType: "text",
+      label: "Log ID",
+      description: "Unique identifier for the log entry",
+      props: {
+        disabled: true,
+      },
+    }),
+    recordId: z.string().register(fieldRegistry, {
+      id: "Logs-recordId",
+      type: "field",
+      inputType: "text",
+      label: "Record ID",
+      description: "ID of the record being synced",
+      props: {
+        disabled: true,
+      },
+    }),
+    recordType: z.string().register(fieldRegistry, {
+      id: "Logs-recordType",
+      type: "field",
+      inputType: "text",
+      label: "Record Type",
+      description: "Type of record being synced",
+      props: {
+        disabled: true,
+      },
+    }),
+    externalSystem: z.string().register(fieldRegistry, {
+      id: "Logs-externalSystem",
+      type: "field",
+      inputType: "text",
+      label: "External System",
+      description: "Name of the external system",
+      props: {
+        placeholder: "SAP, NetSuite, etc.",
+      },
+    }),
+    externalId: z.string().optional().register(fieldRegistry, {
+      id: "Logs-externalId",
+      type: "field",
+      inputType: "text",
+      label: "External ID",
+      description: "ID in the external system",
+    }),
+    status: z
+      .enum(["pending", "in-progress", "success", "failed", "retry"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "Logs-status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Sync status",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "In Progress", value: "in-progress" },
+            { label: "Success", value: "success" },
+            { label: "Failed", value: "failed" },
+            { label: "Retry", value: "retry" },
+          ],
+        },
+      }),
+    errorMessage: z.string().optional().register(fieldRegistry, {
+      id: "Logs-errorMessage",
+      type: "field",
+      inputType: "textarea",
+      label: "Error Message",
+      description: "Error message if sync failed",
+    }),
+    requestPayload: z.string().optional().register(fieldRegistry, {
+      id: "Logs-requestPayload",
+      type: "field",
+      inputType: "textarea",
+      label: "Request Payload",
+      description: "JSON payload sent to external system",
+    }),
+    responsePayload: z.string().optional().register(fieldRegistry, {
+      id: "Logs-responsePayload",
+      type: "field",
+      inputType: "textarea",
+      label: "Response Payload",
+      description: "JSON response from external system",
+    }),
+    lastSyncAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "Logs-lastSyncAt",
+      type: "field",
+      inputType: "date",
+      label: "Last Sync Date",
+      description: "Last sync attempt date",
+    }),
+    retryCount: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Logs-retryCount",
+        type: "field",
+        inputType: "number",
+        label: "Retry Count",
+        description: "Number of retry attempts",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    nextRetryAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "Logs-nextRetryAt",
+      type: "field",
+      inputType: "date",
+      label: "Next Retry Date",
+      description: "Scheduled date for next retry",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Logs-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Logs-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Logs = z.infer<typeof LogsSchema>;

@@ -5,32 +5,160 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InvoiceLineItemsSchema = z.object({
-	id: z.string(),
-	invoice: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.BillingManagementInvoices,
-					displayField: "id",
-				},
-			}),
-		),
-	description: z.unknown().optional(),
-	quantity: z.number().optional(),
-	unitPrice: z.number().optional(),
-	taxRate: z.number().optional(),
-	taxAmount: z.number().optional(),
-	discountRate: z.number().optional(),
-	discountAmount: z.number().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const InvoiceLineItemsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "InvoiceLineItems-id",
+      type: "field",
+      inputType: "text",
+      label: "Line Item ID",
+      description: "Unique identifier for the line item",
+      props: {
+        disabled: true,
+      },
+    }),
+    invoice: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "InvoiceLineItems-invoice",
+        inputType: "relation",
+        label: "Invoice",
+        description: "Related invoice for this line item",
+        props: {
+          collectionName: Collections.BillingManagementInvoices,
+          relationshipName: "invoice",
+          displayField: "invoiceNumber",
+        } as RelationFieldProps<any>,
+      }),
+    description: z.string().optional().register(fieldRegistry, {
+      id: "InvoiceLineItems-description",
+      type: "field",
+      inputType: "textarea",
+      label: "Description",
+      description: "Item description",
+    }),
+    quantity: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-quantity",
+        type: "field",
+        inputType: "number",
+        label: "Quantity",
+        description: "Item quantity",
+        props: {
+          placeholder: "1",
+          min: 0,
+        },
+      }),
+    unitPrice: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-unitPrice",
+        type: "field",
+        inputType: "number",
+        label: "Unit Price",
+        description: "Price per unit",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    taxRate: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-taxRate",
+        type: "field",
+        inputType: "number",
+        label: "Tax Rate (%)",
+        description: "Tax rate percentage",
+        props: {
+          placeholder: "10",
+          min: 0,
+          max: 100,
+        },
+      }),
+    taxAmount: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-taxAmount",
+        type: "field",
+        inputType: "number",
+        label: "Tax Amount",
+        description: "Calculated tax amount",
+        props: {
+          placeholder: "0.00",
+          disabled: true,
+        },
+      }),
+    discountRate: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-discountRate",
+        type: "field",
+        inputType: "number",
+        label: "Discount Rate (%)",
+        description: "Discount percentage",
+        props: {
+          placeholder: "0",
+          min: 0,
+          max: 100,
+        },
+      }),
+    discountAmount: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-discountAmount",
+        type: "field",
+        inputType: "number",
+        label: "Discount Amount",
+        description: "Calculated discount amount",
+        props: {
+          placeholder: "0.00",
+          disabled: true,
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InvoiceLineItems-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type InvoiceLineItems = z.infer<typeof InvoiceLineItemsSchema>;

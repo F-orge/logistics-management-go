@@ -5,24 +5,81 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InventoryBatchesSchema = z.object({
-	id: z.string(),
-	product: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementProducts,
-				displayField: "id",
-			},
-		}),
-	),
-	batchNumber: z.string(),
-	expirationDate: z.iso.date().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const InventoryBatchesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "InventoryBatches-id",
+      type: "field",
+      inputType: "text",
+      label: "Batch ID",
+      description: "Unique identifier for the inventory batch",
+      props: {
+        disabled: true,
+      },
+    }),
+    product: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "InventoryBatches-product",
+      inputType: "relation",
+      label: "Product",
+      description: "Product in this batch",
+      props: {
+        collectionName: Collections.WarehouseManagementProducts,
+        relationshipName: "product",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    batchNumber: z.string().register(fieldRegistry, {
+      id: "InventoryBatches-batchNumber",
+      type: "field",
+      inputType: "text",
+      label: "Batch Number",
+      description: "Unique batch number",
+      props: {
+        placeholder: "BATCH-001",
+      },
+    }),
+    expirationDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "InventoryBatches-expirationDate",
+      type: "field",
+      inputType: "date",
+      label: "Expiration Date",
+      description: "Expiration date of the batch",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InventoryBatches-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "InventoryBatches-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type InventoryBatches = z.infer<typeof InventoryBatchesSchema>;

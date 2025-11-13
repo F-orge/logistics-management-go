@@ -5,34 +5,111 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const PickBatchItemsSchema = z.object({
-	id: z.string(),
-	pickBatch: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementPickBatches,
-				displayField: "id",
-			},
-		}),
-	),
-	salesOrder: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementSalesOrders,
-				displayField: "id",
-			},
-		}),
-	),
-	orderPriority: z.number().optional(),
-	estimatedPickTime: z.iso.date().optional(),
-	actualPickTime: z.number().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const PickBatchItemsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "PickBatchItems-id",
+      type: "field",
+      inputType: "text",
+      label: "Item ID",
+      description: "Unique identifier for the pick batch item",
+      props: {
+        disabled: true,
+      },
+    }),
+    pickBatch: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "PickBatchItems-pickBatch",
+      inputType: "relation",
+      label: "Pick Batch",
+      description: "Pick batch this item belongs to",
+      props: {
+        collectionName: Collections.WarehouseManagementPickBatches,
+        relationshipName: "pickBatch",
+        displayField: "batchNumber",
+      } as RelationFieldProps<any>,
+    }),
+    salesOrder: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "PickBatchItems-salesOrder",
+      inputType: "relation",
+      label: "Sales Order",
+      description: "Sales order for this pick",
+      props: {
+        collectionName: Collections.WarehouseManagementSalesOrders,
+        relationshipName: "salesOrder",
+        displayField: "orderNumber",
+      } as RelationFieldProps<any>,
+    }),
+    orderPriority: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PickBatchItems-orderPriority",
+        type: "field",
+        inputType: "number",
+        label: "Order Priority",
+        description: "Priority level for this order",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    estimatedPickTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "PickBatchItems-estimatedPickTime",
+      type: "field",
+      inputType: "date",
+      label: "Estimated Pick Time",
+      description: "Estimated time to pick this item",
+    }),
+    actualPickTime: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PickBatchItems-actualPickTime",
+        type: "field",
+        inputType: "number",
+        label: "Actual Pick Time",
+        description: "Actual time taken to pick (in seconds)",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PickBatchItems-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PickBatchItems-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type PickBatchItems = z.infer<typeof PickBatchItemsSchema>;

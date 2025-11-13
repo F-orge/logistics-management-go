@@ -5,42 +5,152 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const VehiclesSchema = z.object({
-	id: z.string(),
-	registrationNumber: z.string(),
-	model: z.string().optional(),
-	capacityVolume: z.number().optional(),
-	capacityWeight: z.number().optional(),
-	status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
-	maintenances: z
-		.array(z.string())
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.TransportManagementVehicleMaintenance,
-					displayField: "id",
-				},
-			}),
-		),
-	gps_pings: z
-		.array(z.string())
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.TransportManagementGpsPings,
-					displayField: "id",
-				},
-			}),
-		),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const VehiclesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Vehicles-id",
+      type: "field",
+      inputType: "text",
+      label: "Vehicle ID",
+      description: "Unique identifier for the vehicle",
+      props: {
+        disabled: true,
+      },
+    }),
+    registrationNumber: z.string().register(fieldRegistry, {
+      id: "Vehicles-registrationNumber",
+      type: "field",
+      inputType: "text",
+      label: "Registration Number",
+      description: "Vehicle registration plate number",
+      props: {
+        placeholder: "ABC-1234",
+      },
+    }),
+    model: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Vehicles-model",
+        type: "field",
+        inputType: "text",
+        label: "Model",
+        description: "Vehicle model",
+        props: {
+          placeholder: "e.g., Toyota Hiace 2023",
+        },
+      }),
+    capacityVolume: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Vehicles-capacityVolume",
+        type: "field",
+        inputType: "number",
+        label: "Capacity Volume",
+        description: "Volume capacity in m³",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    capacityWeight: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Vehicles-capacityWeight",
+        type: "field",
+        inputType: "number",
+        label: "Capacity Weight",
+        description: "Weight capacity in kg",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    status: z
+      .enum(["available", "in-maintenance", "on-trip", "out-of-service"])
+      .register(fieldRegistry, {
+        id: "Vehicles-status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the vehicle",
+        props: {
+          options: [
+            { label: "Available", value: "available" },
+            { label: "In Maintenance", value: "in-maintenance" },
+            { label: "On Trip", value: "on-trip" },
+            { label: "Out of Service", value: "out-of-service" },
+          ],
+        },
+      }),
+    maintenances: z
+      .array(z.string())
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Vehicles-maintenances",
+        inputType: "relation",
+        isArray: true,
+        label: "Maintenances",
+        description: "Vehicle maintenance records",
+        props: {
+          collectionName: Collections.TransportManagementVehicleMaintenance,
+          relationshipName: "maintenances",
+          displayField: "id",
+        } as RelationFieldProps<any>,
+      }),
+    gps_pings: z
+      .array(z.string())
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Vehicles-gps_pings",
+        inputType: "relation",
+        isArray: true,
+        label: "GPS Pings",
+        description: "GPS tracking pings",
+        props: {
+          collectionName: Collections.TransportManagementGpsPings,
+          relationshipName: "gps_pings",
+          displayField: "id",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Vehicles-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Vehicles-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Vehicles = z.infer<typeof VehiclesSchema>;

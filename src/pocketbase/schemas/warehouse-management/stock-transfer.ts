@@ -5,45 +5,123 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const StockTransferSchema = z.object({
-	id: z.string(),
-	product: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.WarehouseManagementProducts,
-					displayField: "id",
-				},
-			}),
-		),
-	quantity: z.number().optional(),
-	status: z.enum(["pending", "in-transit", "received", "cancelled"]).optional(),
-	sourceWarehouse: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementWarehouses,
-				displayField: "id",
-			},
-		}),
-	),
-	destinationWarehouse: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementWarehouses,
-				displayField: "id",
-			},
-		}),
-	),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const StockTransferSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "StockTransfer-id",
+      type: "field",
+      inputType: "text",
+      label: "Transfer ID",
+      description: "Unique identifier for the stock transfer",
+      props: {
+        disabled: true,
+      },
+    }),
+    product: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "StockTransfer-product",
+        inputType: "relation",
+        label: "Product",
+        description: "Product being transferred",
+        props: {
+          collectionName: Collections.WarehouseManagementProducts,
+          relationshipName: "product",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    quantity: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "StockTransfer-quantity",
+        type: "field",
+        inputType: "number",
+        label: "Quantity",
+        description: "Quantity being transferred",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    status: z
+      .enum(["pending", "in-transit", "received", "cancelled"])
+      .optional()
+      .register(fieldRegistry, {
+        id: "StockTransfer-status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the transfer",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "In Transit", value: "in-transit" },
+            { label: "Received", value: "received" },
+            { label: "Cancelled", value: "cancelled" },
+          ],
+        },
+      }),
+    sourceWarehouse: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "StockTransfer-sourceWarehouse",
+      inputType: "relation",
+      label: "Source Warehouse",
+      description: "Warehouse the stock is transferred from",
+      props: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        relationshipName: "sourceWarehouse",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    destinationWarehouse: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "StockTransfer-destinationWarehouse",
+      inputType: "relation",
+      label: "Destination Warehouse",
+      description: "Warehouse the stock is transferred to",
+      props: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        relationshipName: "destinationWarehouse",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "StockTransfer-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "StockTransfer-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type StockTransfer = z.infer<typeof StockTransferSchema>;

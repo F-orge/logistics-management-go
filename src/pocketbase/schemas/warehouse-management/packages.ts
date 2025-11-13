@@ -5,58 +5,234 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const PackagesSchema = z.object({
-	id: z.string(),
-	salesOrder: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementSalesOrders,
-				displayField: "id",
-			},
-		}),
-	),
-	packageNumber: z.string(),
-	warehouse: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementWarehouses,
-				displayField: "id",
-			},
-		}),
-	),
-	type: z.string().optional(),
-	weight: z.number().optional(),
-	length: z.number().optional(),
-	width: z.number().optional(),
-	height: z.number().optional(),
-	packedByUser: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.Users,
-					displayField: "id",
-				},
-			}),
-		),
-	packedAt: z.iso.date().optional(),
-	shippedAt: z.iso.date().optional(),
-	isFragile: z.unknown().optional(),
-	isHazmat: z.unknown().optional(),
-	requireSignature: z.unknown().optional(),
-	insuranceValue: z.number().optional(),
-	images: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const PackagesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Packages-id",
+      type: "field",
+      inputType: "text",
+      label: "Package ID",
+      description: "Unique identifier for the package",
+      props: {
+        disabled: true,
+      },
+    }),
+    salesOrder: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "Packages-salesOrder",
+      inputType: "relation",
+      label: "Sales Order",
+      description: "Sales order for this package",
+      props: {
+        collectionName: Collections.WarehouseManagementSalesOrders,
+        relationshipName: "salesOrder",
+        displayField: "orderNumber",
+      } as RelationFieldProps<any>,
+    }),
+    packageNumber: z.string().register(fieldRegistry, {
+      id: "Packages-packageNumber",
+      type: "field",
+      inputType: "text",
+      label: "Package Number",
+      description: "Package reference number",
+      props: {
+        placeholder: "PKG-001",
+      },
+    }),
+    warehouse: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "Packages-warehouse",
+      inputType: "relation",
+      label: "Warehouse",
+      description: "Warehouse where package is located",
+      props: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        relationshipName: "warehouse",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    type: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-type",
+        type: "field",
+        inputType: "text",
+        label: "Type",
+        description: "Package type",
+        props: {
+          placeholder: "e.g., Box, Pallet",
+        },
+      }),
+    weight: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-weight",
+        type: "field",
+        inputType: "number",
+        label: "Weight",
+        description: "Package weight (kg)",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    length: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-length",
+        type: "field",
+        inputType: "number",
+        label: "Length",
+        description: "Package length (cm)",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    width: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-width",
+        type: "field",
+        inputType: "number",
+        label: "Width",
+        description: "Package width (cm)",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    height: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-height",
+        type: "field",
+        inputType: "number",
+        label: "Height",
+        description: "Package height (cm)",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    packedByUser: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Packages-packedByUser",
+        inputType: "relation",
+        label: "Packed By",
+        description: "User who packed this package",
+        props: {
+          collectionName: Collections.Users,
+          relationshipName: "packedByUser",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    packedAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "Packages-packedAt",
+      type: "field",
+      inputType: "date",
+      label: "Packed At",
+      description: "When the package was packed",
+    }),
+    shippedAt: z.iso.date().optional().register(fieldRegistry, {
+      id: "Packages-shippedAt",
+      type: "field",
+      inputType: "date",
+      label: "Shipped At",
+      description: "When the package was shipped",
+    }),
+    isFragile: z.unknown().optional().register(fieldRegistry, {
+      id: "Packages-isFragile",
+      type: "field",
+      inputType: "bool",
+      label: "Fragile",
+      description: "Whether the package contains fragile items",
+    }),
+    isHazmat: z.unknown().optional().register(fieldRegistry, {
+      id: "Packages-isHazmat",
+      type: "field",
+      inputType: "bool",
+      label: "Hazmat",
+      description: "Whether the package contains hazardous materials",
+    }),
+    requireSignature: z.unknown().optional().register(fieldRegistry, {
+      id: "Packages-requireSignature",
+      type: "field",
+      inputType: "bool",
+      label: "Requires Signature",
+      description: "Whether delivery requires signature",
+    }),
+    insuranceValue: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-insuranceValue",
+        type: "field",
+        inputType: "number",
+        label: "Insurance Value",
+        description: "Insurance value of the package",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    images: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-images",
+        type: "field",
+        inputType: "file",
+        label: "Images",
+        description: "Package images",
+        isArray: true,
+        props: {
+          accept: "image/*",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Packages-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Packages = z.infer<typeof PackagesSchema>;

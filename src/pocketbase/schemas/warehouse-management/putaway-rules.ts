@@ -5,75 +5,228 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const PutawayRulesSchema = z.object({
-	id: z.string(),
-	product: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementProducts,
-				displayField: "id",
-			},
-		}),
-	),
-	client: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsCompanies,
-					displayField: "id",
-				},
-			}),
-		),
-	warehouse: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementWarehouses,
-				displayField: "id",
-			},
-		}),
-	),
-	preferredLocation: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.WarehouseManagementLocations,
-					displayField: "id",
-				},
-			}),
-		),
-	locationType: z.enum([
-		"receiving-dock",
-		"pick-bin",
-		"packing-station",
-		"cross-dock-area",
-		"bulk-storage",
-		"reserve-storage",
-		"damaged-goods",
-		"staging-area",
-		"quality-control",
-		"returns-area",
-	]),
-	priority: z.number(),
-	minQuantity: z.number().optional(),
-	maxQuantity: z.number().optional(),
-	weightThreshold: z.number().optional(),
-	volumeThreshold: z.number().optional(),
-	requireTemperatureControl: z.unknown().optional(),
-	requireHazmatApproval: z.unknown().optional(),
-	isActive: z.unknown().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const PutawayRulesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "PutawayRules-id",
+      type: "field",
+      inputType: "text",
+      label: "Rule ID",
+      description: "Unique identifier for the putaway rule",
+      props: {
+        disabled: true,
+      },
+    }),
+    product: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "PutawayRules-product",
+      inputType: "relation",
+      label: "Product",
+      description: "Product this rule applies to",
+      props: {
+        collectionName: Collections.WarehouseManagementProducts,
+        relationshipName: "product",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    client: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "PutawayRules-client",
+        inputType: "relation",
+        label: "Client",
+        description: "Associated client",
+        props: {
+          collectionName: Collections.CustomerRelationsCompanies,
+          relationshipName: "client",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    warehouse: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "PutawayRules-warehouse",
+      inputType: "relation",
+      label: "Warehouse",
+      description: "Warehouse this rule applies to",
+      props: {
+        collectionName: Collections.WarehouseManagementWarehouses,
+        relationshipName: "warehouse",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    preferredLocation: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "PutawayRules-preferredLocation",
+        inputType: "relation",
+        label: "Preferred Location",
+        description: "Preferred location for putaway",
+        props: {
+          collectionName: Collections.WarehouseManagementLocations,
+          relationshipName: "preferredLocation",
+          displayField: "code",
+        } as RelationFieldProps<any>,
+      }),
+    locationType: z
+      .enum([
+        "receiving-dock",
+        "pick-bin",
+        "packing-station",
+        "cross-dock-area",
+        "bulk-storage",
+        "reserve-storage",
+        "damaged-goods",
+        "staging-area",
+        "quality-control",
+        "returns-area",
+      ])
+      .register(fieldRegistry, {
+        id: "PutawayRules-locationType",
+        type: "field",
+        inputType: "select",
+        label: "Location Type",
+        description: "Type of location for putaway",
+        props: {
+          options: [
+            { label: "Receiving Dock", value: "receiving-dock" },
+            { label: "Pick Bin", value: "pick-bin" },
+            { label: "Packing Station", value: "packing-station" },
+            { label: "Cross Dock Area", value: "cross-dock-area" },
+            { label: "Bulk Storage", value: "bulk-storage" },
+            { label: "Reserve Storage", value: "reserve-storage" },
+            { label: "Damaged Goods", value: "damaged-goods" },
+            { label: "Staging Area", value: "staging-area" },
+            { label: "Quality Control", value: "quality-control" },
+            { label: "Returns Area", value: "returns-area" },
+          ],
+        },
+      }),
+    priority: z.number().register(fieldRegistry, {
+      id: "PutawayRules-priority",
+      type: "field",
+      inputType: "number",
+      label: "Priority",
+      description: "Rule priority (lower number = higher priority)",
+      props: {
+        placeholder: "0",
+        min: 0,
+      },
+    }),
+    minQuantity: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PutawayRules-minQuantity",
+        type: "field",
+        inputType: "number",
+        label: "Minimum Quantity",
+        description: "Minimum quantity required",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    maxQuantity: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PutawayRules-maxQuantity",
+        type: "field",
+        inputType: "number",
+        label: "Maximum Quantity",
+        description: "Maximum quantity allowed",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    weightThreshold: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PutawayRules-weightThreshold",
+        type: "field",
+        inputType: "number",
+        label: "Weight Threshold",
+        description: "Weight threshold in kg",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    volumeThreshold: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PutawayRules-volumeThreshold",
+        type: "field",
+        inputType: "number",
+        label: "Volume Threshold",
+        description: "Volume threshold in m³",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    requireTemperatureControl: z.unknown().optional().register(fieldRegistry, {
+      id: "PutawayRules-requireTemperatureControl",
+      type: "field",
+      inputType: "bool",
+      label: "Require Temperature Control",
+      description: "Whether temperature control is required",
+    }),
+    requireHazmatApproval: z.unknown().optional().register(fieldRegistry, {
+      id: "PutawayRules-requireHazmatApproval",
+      type: "field",
+      inputType: "bool",
+      label: "Require Hazmat Approval",
+      description: "Whether hazmat approval is required",
+    }),
+    isActive: z.unknown().optional().register(fieldRegistry, {
+      id: "PutawayRules-isActive",
+      type: "field",
+      inputType: "bool",
+      label: "Is Active",
+      description: "Whether this rule is active",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PutawayRules-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "PutawayRules-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type PutawayRules = z.infer<typeof PutawayRulesSchema>;

@@ -5,40 +5,114 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const DriversSchema = z.object({
-	id: z.string(),
-	user: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.Users,
-					displayField: "id",
-				},
-			}),
-		),
-	licenseNumber: z.string(),
-	licenseExpiryDate: z.iso.date().optional(),
-	status: z.enum(["active", "inactive", "on-leave"]),
-	schedules: z
-		.array(z.string())
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.TransportManagementDriverSchedules,
-					displayField: "id",
-				},
-			}),
-		),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const DriversSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Drivers-id",
+      type: "field",
+      inputType: "text",
+      label: "Driver ID",
+      description: "Unique identifier for the driver",
+      props: {
+        disabled: true,
+      },
+    }),
+    user: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Drivers-user",
+        inputType: "relation",
+        label: "User",
+        description: "Associated user account",
+        props: {
+          collectionName: Collections.Users,
+          relationshipName: "user",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    licenseNumber: z.string().register(fieldRegistry, {
+      id: "Drivers-licenseNumber",
+      type: "field",
+      inputType: "text",
+      label: "License Number",
+      description: "Driver's license number",
+      props: {
+        placeholder: "License number",
+      },
+    }),
+    licenseExpiryDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "Drivers-licenseExpiryDate",
+      type: "field",
+      inputType: "date",
+      label: "License Expiry Date",
+      description: "When the license expires",
+    }),
+    status: z.enum(["active", "inactive", "on-leave"]).register(fieldRegistry, {
+      id: "Drivers-status",
+      type: "field",
+      inputType: "select",
+      label: "Status",
+      description: "Current status of the driver",
+      props: {
+        options: [
+          { label: "Active", value: "active" },
+          { label: "Inactive", value: "inactive" },
+          { label: "On Leave", value: "on-leave" },
+        ],
+      },
+    }),
+    schedules: z
+      .array(z.string())
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Drivers-schedules",
+        inputType: "relation",
+        isArray: true,
+        label: "Schedules",
+        description: "Driver schedules",
+        props: {
+          collectionName: Collections.TransportManagementDriverSchedules,
+          relationshipName: "schedules",
+          displayField: "id",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Drivers-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Drivers-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Drivers = z.infer<typeof DriversSchema>;

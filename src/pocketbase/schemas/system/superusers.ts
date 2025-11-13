@@ -8,14 +8,14 @@ import { z } from "zod";
 import * as PB from "../../../lib/pb.types";
 
 export const SuperusersSchema = z.object({
-	created: z.iso.date(),
-	email: z.string(),
-	emailVisibility: z.boolean().optional(),
-	id: z.string(),
-	password: z.string(),
-	tokenKey: z.string(),
-	updated: z.iso.date(),
-	verified: z.boolean().optional(),
+  created: z.iso.date(),
+  email: z.string(),
+  emailVisibility: z.boolean().optional(),
+  id: z.string(),
+  password: z.string(),
+  tokenKey: z.string(),
+  updated: z.iso.date(),
+  verified: z.boolean().optional(),
 });
 
 export type Superusers = z.infer<typeof SuperusersSchema>;

@@ -5,21 +5,127 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
-export const ProductsSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	sku: z.string(),
-	price: z.number(),
-	type: z.enum(["service", "good", "digital", "subscription"]),
-	description: z.unknown().optional(),
-	attachments: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const ProductsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Products-id",
+      type: "field",
+      inputType: "text",
+      label: "Product ID",
+      description: "Unique identifier for the product",
+      props: {
+        disabled: true,
+      },
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "Products-name",
+      type: "field",
+      inputType: "text",
+      label: "Product Name",
+      description: "Name of the product",
+      props: {
+        placeholder: "Enter product name",
+      },
+    }),
+    sku: z.string().register(fieldRegistry, {
+      id: "Products-sku",
+      type: "field",
+      inputType: "text",
+      label: "SKU",
+      description: "Product stock keeping unit",
+      props: {
+        placeholder: "SKU-001",
+      },
+    }),
+    price: z.number().register(fieldRegistry, {
+      id: "Products-price",
+      type: "field",
+      inputType: "number",
+      label: "Price",
+      description: "Product price",
+      props: {
+        placeholder: "0.00",
+        min: 0,
+      },
+    }),
+    type: z
+      .enum(["service", "good", "digital", "subscription"])
+      .register(fieldRegistry, {
+        id: "Products-type",
+        type: "field",
+        inputType: "select",
+        label: "Type",
+        description: "Type of product",
+        props: {
+          options: [
+            { label: "Service", value: "service" },
+            { label: "Good", value: "good" },
+            { label: "Digital", value: "digital" },
+            { label: "Subscription", value: "subscription" },
+          ],
+        },
+      }),
+    description: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Products-description",
+        type: "field",
+        inputType: "textarea",
+        label: "Description",
+        description: "Product description",
+        props: {
+          placeholder: "Enter product description",
+        },
+      }),
+    attachments: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Products-attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Product images and documents",
+        isArray: true,
+        props: {
+          accept: "*/*",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Products-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the product was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Products-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the product was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Products = z.infer<typeof ProductsSchema>;

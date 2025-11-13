@@ -5,20 +5,102 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const CampaignsSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	budget: z.number(),
-	startDate: z.iso.date().optional(),
-	endDate: z.iso.date().optional(),
-	attachments: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const CampaignsSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Campaigns-id",
+      type: "field",
+      inputType: "text",
+      label: "Campaign ID",
+      description: "Unique identifier for the campaign",
+      props: {
+        disabled: true,
+      },
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "Campaigns-name",
+      type: "field",
+      inputType: "text",
+      label: "Campaign Name",
+      description: "Name of the campaign",
+      props: {
+        placeholder: "Enter campaign name",
+      },
+    }),
+    budget: z.number().register(fieldRegistry, {
+      id: "Campaigns-budget",
+      type: "field",
+      inputType: "number",
+      label: "Budget",
+      description: "Campaign budget amount",
+      props: {
+        placeholder: "0.00",
+        min: 0,
+      },
+    }),
+    startDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "Campaigns-startDate",
+      type: "field",
+      inputType: "date",
+      label: "Start Date",
+      description: "Campaign start date",
+    }),
+    endDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "Campaigns-endDate",
+      type: "field",
+      inputType: "date",
+      label: "End Date",
+      description: "Campaign end date",
+    }),
+    attachments: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Campaigns-attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Campaign documents and files",
+        isArray: true,
+        props: {
+          accept: "*/*",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Campaigns-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the campaign was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Campaigns-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the campaign was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

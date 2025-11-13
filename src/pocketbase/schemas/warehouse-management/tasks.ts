@@ -5,81 +5,232 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const TasksSchema = z.object({
-	id: z.string(),
-	taskNumber: z.string(),
-	warehouse: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.WarehouseManagementWarehouses,
-					displayField: "id",
-				},
-			}),
-		),
-	user: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.Users,
-					displayField: "id",
-				},
-			}),
-		),
-	type: z
-		.enum([
-			"putaway",
-			"pick",
-			"pack",
-			"replenishment",
-			"cycle-count",
-			"cross-dock",
-			"returns-processing",
-			"damage-inspection",
-			"quality-check",
-		])
-		.optional(),
-	status: z
-		.enum([
-			"pending",
-			"assigned",
-			"in-progress",
-			"completed",
-			"cancelled",
-			"error",
-		])
-		.optional(),
-	priority: z.number(),
-	pickBatchId: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.WarehouseManagementPickBatches,
-					displayField: "id",
-				},
-			}),
-		),
-	instructions: z.unknown().optional(),
-	notes: z.unknown().optional(),
-	startTime: z.iso.date().optional(),
-	endTime: z.iso.date().optional(),
-	attachments: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const TasksSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Tasks-id",
+      type: "field",
+      inputType: "text",
+      label: "Task ID",
+      description: "Unique identifier for the task",
+      props: {
+        disabled: true,
+      },
+    }),
+    taskNumber: z.string().register(fieldRegistry, {
+      id: "Tasks-taskNumber",
+      type: "field",
+      inputType: "text",
+      label: "Task Number",
+      description: "Task reference number",
+      props: {
+        placeholder: "TASK-001",
+      },
+    }),
+    warehouse: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Tasks-warehouse",
+        inputType: "relation",
+        label: "Warehouse",
+        description: "Warehouse for this task",
+        props: {
+          collectionName: Collections.WarehouseManagementWarehouses,
+          relationshipName: "warehouse",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    user: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Tasks-user",
+        inputType: "relation",
+        label: "User",
+        description: "User assigned to this task",
+        props: {
+          collectionName: Collections.Users,
+          relationshipName: "user",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    type: z
+      .enum([
+        "putaway",
+        "pick",
+        "pack",
+        "replenishment",
+        "cycle-count",
+        "cross-dock",
+        "returns-processing",
+        "damage-inspection",
+        "quality-check",
+      ])
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-type",
+        type: "field",
+        inputType: "select",
+        label: "Type",
+        description: "Type of warehouse task",
+        props: {
+          options: [
+            { label: "Putaway", value: "putaway" },
+            { label: "Pick", value: "pick" },
+            { label: "Pack", value: "pack" },
+            { label: "Replenishment", value: "replenishment" },
+            { label: "Cycle Count", value: "cycle-count" },
+            { label: "Cross Dock", value: "cross-dock" },
+            { label: "Returns Processing", value: "returns-processing" },
+            { label: "Damage Inspection", value: "damage-inspection" },
+            { label: "Quality Check", value: "quality-check" },
+          ],
+        },
+      }),
+    status: z
+      .enum([
+        "pending",
+        "assigned",
+        "in-progress",
+        "completed",
+        "cancelled",
+        "error",
+      ])
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the task",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "Assigned", value: "assigned" },
+            { label: "In Progress", value: "in-progress" },
+            { label: "Completed", value: "completed" },
+            { label: "Cancelled", value: "cancelled" },
+            { label: "Error", value: "error" },
+          ],
+        },
+      }),
+    priority: z.number().register(fieldRegistry, {
+      id: "Tasks-priority",
+      type: "field",
+      inputType: "number",
+      label: "Priority",
+      description: "Task priority level",
+      props: {
+        placeholder: "0",
+        min: 0,
+      },
+    }),
+    pickBatchId: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Tasks-pickBatchId",
+        inputType: "relation",
+        label: "Pick Batch",
+        description: "Associated pick batch",
+        props: {
+          collectionName: Collections.WarehouseManagementPickBatches,
+          relationshipName: "pickBatchId",
+          displayField: "batchNumber",
+        } as RelationFieldProps<any>,
+      }),
+    instructions: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-instructions",
+        type: "field",
+        inputType: "textarea",
+        label: "Instructions",
+        description: "Task instructions",
+        props: {
+          placeholder: "Provide task instructions",
+        },
+      }),
+    notes: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-notes",
+        type: "field",
+        inputType: "textarea",
+        label: "Notes",
+        description: "Additional notes",
+        props: {
+          placeholder: "Add notes here",
+        },
+      }),
+    startTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "Tasks-startTime",
+      type: "field",
+      inputType: "date",
+      label: "Start Time",
+      description: "When the task started",
+    }),
+    endTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "Tasks-endTime",
+      type: "field",
+      inputType: "date",
+      label: "End Time",
+      description: "When the task ended",
+    }),
+    attachments: z
+      .array(z.file())
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Task attachments",
+        isArray: true,
+        props: {
+          accept: "*/*",
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Tasks = z.infer<typeof TasksSchema>;

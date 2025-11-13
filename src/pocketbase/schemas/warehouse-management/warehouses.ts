@@ -5,28 +5,206 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
-export const WarehousesSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	address: z.string().optional(),
-	city: z.string().optional(),
-	state: z.string().optional(),
-	postalCode: z.string().optional(),
-	country: z.string().optional(),
-	timezone: z.string().optional(),
-	contactPerson: z.string().optional(),
-	contactEmail: z.email().optional(),
-	contactPhone: z.string().optional(),
-	isActive: z.unknown().optional(),
-	images: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	location: z.unknown().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const WarehousesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Warehouses-id",
+      type: "field",
+      inputType: "text",
+      label: "Warehouse ID",
+      description: "Unique identifier for the warehouse",
+      props: {
+        disabled: true,
+      },
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "Warehouses-name",
+      type: "field",
+      inputType: "text",
+      label: "Name",
+      description: "Warehouse name",
+      props: {
+        placeholder: "Warehouse name",
+      },
+    }),
+    address: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-address",
+        type: "field",
+        inputType: "text",
+        label: "Address",
+        description: "Street address",
+        props: {
+          placeholder: "123 Main Street",
+        },
+      }),
+    city: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-city",
+        type: "field",
+        inputType: "text",
+        label: "City",
+        description: "City name",
+        props: {
+          placeholder: "City",
+        },
+      }),
+    state: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-state",
+        type: "field",
+        inputType: "text",
+        label: "State",
+        description: "State or province",
+        props: {
+          placeholder: "State",
+        },
+      }),
+    postalCode: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-postalCode",
+        type: "field",
+        inputType: "text",
+        label: "Postal Code",
+        description: "Postal or zip code",
+        props: {
+          placeholder: "12345",
+        },
+      }),
+    country: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-country",
+        type: "field",
+        inputType: "text",
+        label: "Country",
+        description: "Country name",
+        props: {
+          placeholder: "Country",
+        },
+      }),
+    timezone: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-timezone",
+        type: "field",
+        inputType: "text",
+        label: "Timezone",
+        description: "Timezone identifier",
+        props: {
+          placeholder: "UTC-5",
+        },
+      }),
+    contactPerson: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-contactPerson",
+        type: "field",
+        inputType: "text",
+        label: "Contact Person",
+        description: "Primary contact person",
+        props: {
+          placeholder: "Contact person name",
+        },
+      }),
+    contactEmail: z
+      .email()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-contactEmail",
+        type: "field",
+        inputType: "email",
+        label: "Contact Email",
+        description: "Contact email address",
+        props: {
+          placeholder: "warehouse@example.com",
+        },
+      }),
+    contactPhone: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-contactPhone",
+        type: "field",
+        inputType: "text",
+        label: "Contact Phone",
+        description: "Contact phone number",
+        props: {
+          placeholder: "+1 (555) 000-0000",
+        },
+      }),
+    isActive: z.unknown().optional().register(fieldRegistry, {
+      id: "Warehouses-isActive",
+      type: "field",
+      inputType: "bool",
+      label: "Is Active",
+      description: "Whether this warehouse is active",
+    }),
+    images: z
+      .array(z.file())
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-images",
+        type: "field",
+        inputType: "file",
+        label: "Images",
+        description: "Warehouse images",
+        isArray: true,
+        props: {
+          accept: "image/*",
+        },
+      }),
+    location: z.unknown().optional().register(fieldRegistry, {
+      id: "Warehouses-location",
+      type: "field",
+      inputType: "geoPoint",
+      label: "Location",
+      description: "Warehouse GPS location",
+    }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Warehouses-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Warehouses = z.infer<typeof WarehousesSchema>;

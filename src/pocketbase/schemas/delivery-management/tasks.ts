@@ -5,64 +5,245 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const TasksSchema = z.object({
-	id: z.string(),
-	package: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.WarehouseManagementPackages,
-				displayField: "id",
-			},
-		}),
-	),
-	route: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.DeliveryManagementRoutes,
-				displayField: "id",
-			},
-		}),
-	),
-	sequence: z.number(),
-	deliveryAddress: z.string(),
-	recipientName: z.string().optional(),
-	recipientPhone: z.string().optional(),
-	deliveryInstructions: z.unknown().optional(),
-	estimatedArrivalTime: z.iso.date().optional(),
-	actualArrivalTime: z.iso.date().optional(),
-	deliveryTime: z.iso.date().optional(),
-	status: z.enum([
-		"pending",
-		"assigned",
-		"out-for-delivery",
-		"delivered",
-		"failed",
-		"cancelled",
-		"rescheduled",
-	]),
-	attempCount: z.number().optional(),
-	attachments: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	failureReason: z
-		.enum([
-			"reecipient-not-home",
-			"address-not-found",
-			"refused-delivery",
-			"damaged-package",
-			"access-denied",
-			"weather-conditions",
-			"vehicle-breakdown",
-			"other",
-		])
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const TasksSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Tasks-id",
+      type: "field",
+      inputType: "text",
+      label: "Task ID",
+      description: "Unique identifier for the task",
+      props: {
+        disabled: true,
+      },
+    }),
+    package: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "Tasks-package",
+      inputType: "relation",
+      label: "Package",
+      description: "Package to be delivered",
+      props: {
+        collectionName: Collections.WarehouseManagementPackages,
+        relationshipName: "package",
+        displayField: "trackingNumber",
+      } as RelationFieldProps<any>,
+    }),
+    route: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "Tasks-route",
+      inputType: "relation",
+      label: "Route",
+      description: "Route this task is part of",
+      props: {
+        collectionName: Collections.DeliveryManagementRoutes,
+        relationshipName: "route",
+        displayField: "id",
+      } as RelationFieldProps<any>,
+    }),
+    sequence: z.number().register(fieldRegistry, {
+      id: "Tasks-sequence",
+      type: "field",
+      inputType: "number",
+      label: "Sequence",
+      description: "Order of this task in the route",
+      props: {
+        placeholder: "1",
+        min: 1,
+      },
+    }),
+    deliveryAddress: z.string().register(fieldRegistry, {
+      id: "Tasks-deliveryAddress",
+      type: "field",
+      inputType: "textarea",
+      label: "Delivery Address",
+      description: "Address where the package should be delivered",
+      props: {
+        placeholder: "Enter delivery address",
+      },
+    }),
+    recipientName: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-recipientName",
+        type: "field",
+        inputType: "text",
+        label: "Recipient Name",
+        description: "Name of the person receiving the package",
+        props: {
+          placeholder: "Enter recipient name",
+        },
+      }),
+    recipientPhone: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-recipientPhone",
+        type: "field",
+        inputType: "text",
+        label: "Recipient Phone",
+        description: "Phone number of the recipient",
+        props: {
+          placeholder: "+1 (555) 123-4567",
+        },
+      }),
+    deliveryInstructions: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-deliveryInstructions",
+        type: "field",
+        inputType: "textarea",
+        label: "Delivery Instructions",
+        description: "Special instructions for delivery",
+        props: {
+          placeholder: "e.g., Leave at front door, Signature required",
+        },
+      }),
+    estimatedArrivalTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "Tasks-estimatedArrivalTime",
+      type: "field",
+      inputType: "date",
+      label: "Estimated Arrival Time",
+      description: "Estimated time of arrival",
+    }),
+    actualArrivalTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "Tasks-actualArrivalTime",
+      type: "field",
+      inputType: "date",
+      label: "Actual Arrival Time",
+      description: "Actual time of arrival",
+    }),
+    deliveryTime: z.iso.date().optional().register(fieldRegistry, {
+      id: "Tasks-deliveryTime",
+      type: "field",
+      inputType: "date",
+      label: "Delivery Time",
+      description: "Time when the package was delivered",
+    }),
+    status: z
+      .enum([
+        "pending",
+        "assigned",
+        "out-for-delivery",
+        "delivered",
+        "failed",
+        "cancelled",
+        "rescheduled",
+      ])
+      .register(fieldRegistry, {
+        id: "Tasks-status",
+        type: "field",
+        inputType: "select",
+        label: "Status",
+        description: "Current status of the task",
+        props: {
+          options: [
+            { label: "Pending", value: "pending" },
+            { label: "Assigned", value: "assigned" },
+            { label: "Out for Delivery", value: "out-for-delivery" },
+            { label: "Delivered", value: "delivered" },
+            { label: "Failed", value: "failed" },
+            { label: "Cancelled", value: "cancelled" },
+            { label: "Rescheduled", value: "rescheduled" },
+          ],
+        },
+      }),
+    attempCount: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-attempCount",
+        type: "field",
+        inputType: "number",
+        label: "Attempt Count",
+        description: "Number of delivery attempts made",
+        props: {
+          placeholder: "0",
+          min: 0,
+        },
+      }),
+    attachments: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Task documents and photos",
+        isArray: true,
+        props: {
+          accept: "*/*",
+        },
+      }),
+    failureReason: z
+      .enum([
+        "reecipient-not-home",
+        "address-not-found",
+        "refused-delivery",
+        "damaged-package",
+        "access-denied",
+        "weather-conditions",
+        "vehicle-breakdown",
+        "other",
+      ])
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-failureReason",
+        type: "field",
+        inputType: "select",
+        label: "Failure Reason",
+        description: "Reason for failed delivery",
+        props: {
+          options: [
+            { label: "Recipient Not Home", value: "reecipient-not-home" },
+            { label: "Address Not Found", value: "address-not-found" },
+            { label: "Refused Delivery", value: "refused-delivery" },
+            { label: "Damaged Package", value: "damaged-package" },
+            { label: "Access Denied", value: "access-denied" },
+            { label: "Weather Conditions", value: "weather-conditions" },
+            { label: "Vehicle Breakdown", value: "vehicle-breakdown" },
+            { label: "Other", value: "other" },
+          ],
+        },
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the task was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Tasks-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the task was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Tasks = z.infer<typeof TasksSchema>;

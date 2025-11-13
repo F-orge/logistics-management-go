@@ -5,102 +5,264 @@
  */
 
 import { z } from "zod";
-import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const OpportunitiesSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	stage: z
-		.enum([
-			"prospecting",
-			"qualification",
-			"need-analysis",
-			"demo",
-			"proposal",
-			"negotiation",
-			"closed-won",
-			"closed-lost",
-		])
-		.optional(),
-	dealValue: z.number().optional(),
-	probability: z.number().optional(),
-	expectedCloseDate: z.iso.date().optional(),
-	lostReason: z.unknown().optional(),
-	source: z.enum([
-		"website",
-		"referral",
-		"social-media",
-		"email-campaign",
-		"cold-call",
-		"event",
-		"advertisment",
-		"partner",
-		"existing-customer",
-		"other",
-	]),
-	owner: z.string().check(
-		fieldConfigFactory<"relation">()({
-			fieldType: "relation",
-			customData: {
-				collectionName: Collections.Users,
-				displayField: "id",
-			},
-		}),
-	),
-	contact: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsContacts,
-					displayField: "id",
-				},
-			}),
-		),
-	company: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsCompanies,
-					displayField: "id",
-				},
-			}),
-		),
-	campaign: z
-		.string()
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsCampaigns,
-					displayField: "id",
-				},
-			}),
-		),
-	attachments: z
-		.array(z.file().check(fieldConfigFactory<"file">()({ fieldType: "file" })))
-		.optional(),
-	products: z
-		.array(z.string())
-		.optional()
-		.check(
-			fieldConfigFactory<"relation">()({
-				fieldType: "relation",
-				customData: {
-					collectionName: Collections.CustomerRelationsOpportunityProducts,
-					displayField: "id",
-				},
-			}),
-		),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
-});
+export const OpportunitiesSchema = z
+  .object({
+    id: z.string().register(fieldRegistry, {
+      id: "Opportunities-id",
+      type: "field",
+      inputType: "text",
+      label: "Opportunity ID",
+      description: "Unique identifier for the opportunity",
+      props: {
+        disabled: true,
+      },
+    }),
+    name: z.string().register(fieldRegistry, {
+      id: "Opportunities-name",
+      type: "field",
+      inputType: "text",
+      label: "Opportunity Name",
+      description: "Name of the opportunity",
+      props: {
+        placeholder: "Enter opportunity name",
+      },
+    }),
+    stage: z
+      .enum([
+        "prospecting",
+        "qualification",
+        "need-analysis",
+        "demo",
+        "proposal",
+        "negotiation",
+        "closed-won",
+        "closed-lost",
+      ])
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-stage",
+        type: "field",
+        inputType: "select",
+        label: "Stage",
+        description: "Current stage of the opportunity",
+        props: {
+          options: [
+            { label: "Prospecting", value: "prospecting" },
+            { label: "Qualification", value: "qualification" },
+            { label: "Need Analysis", value: "need-analysis" },
+            { label: "Demo", value: "demo" },
+            { label: "Proposal", value: "proposal" },
+            { label: "Negotiation", value: "negotiation" },
+            { label: "Closed Won", value: "closed-won" },
+            { label: "Closed Lost", value: "closed-lost" },
+          ],
+        },
+      }),
+    dealValue: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-dealValue",
+        type: "field",
+        inputType: "number",
+        label: "Deal Value",
+        description: "Value of the deal",
+        props: {
+          placeholder: "0.00",
+          min: 0,
+        },
+      }),
+    probability: z
+      .number()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-probability",
+        type: "field",
+        inputType: "number",
+        label: "Probability",
+        description: "Probability of closing (0-100)",
+        props: {
+          placeholder: "0",
+          min: 0,
+          max: 100,
+        },
+      }),
+    expectedCloseDate: z.iso.date().optional().register(fieldRegistry, {
+      id: "Opportunities-expectedCloseDate",
+      type: "field",
+      inputType: "date",
+      label: "Expected Close Date",
+      description: "Expected date to close the deal",
+    }),
+    lostReason: z
+      .unknown()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-lostReason",
+        type: "field",
+        inputType: "textarea",
+        label: "Lost Reason",
+        description: "Reason if the opportunity was lost",
+        props: {
+          placeholder: "Enter reason for lost opportunity",
+        },
+      }),
+    source: z
+      .enum([
+        "website",
+        "referral",
+        "social-media",
+        "email-campaign",
+        "cold-call",
+        "event",
+        "advertisment",
+        "partner",
+        "existing-customer",
+        "other",
+      ])
+      .register(fieldRegistry, {
+        id: "Opportunities-source",
+        type: "field",
+        inputType: "select",
+        label: "Source",
+        description: "Source of the opportunity",
+        props: {
+          options: [
+            { label: "Website", value: "website" },
+            { label: "Referral", value: "referral" },
+            { label: "Social Media", value: "social-media" },
+            { label: "Email Campaign", value: "email-campaign" },
+            { label: "Cold Call", value: "cold-call" },
+            { label: "Event", value: "event" },
+            { label: "Advertisement", value: "advertisment" },
+            { label: "Partner", value: "partner" },
+            { label: "Existing Customer", value: "existing-customer" },
+            { label: "Other", value: "other" },
+          ],
+        },
+      }),
+    owner: z.string().register(fieldRegistry, {
+      type: "field",
+      id: "Opportunities-owner",
+      inputType: "relation",
+      label: "Owner",
+      description: "User assigned to this opportunity",
+      props: {
+        collectionName: Collections.Users,
+        relationshipName: "owner",
+        displayField: "name",
+      } as RelationFieldProps<any>,
+    }),
+    contact: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Opportunities-contact",
+        inputType: "relation",
+        label: "Contact",
+        description: "Primary contact for this opportunity",
+        props: {
+          collectionName: Collections.CustomerRelationsContacts,
+          relationshipName: "contact",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    company: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Opportunities-company",
+        inputType: "relation",
+        label: "Company",
+        description: "Company associated with this opportunity",
+        props: {
+          collectionName: Collections.CustomerRelationsCompanies,
+          relationshipName: "company",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    campaign: z
+      .string()
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Opportunities-campaign",
+        inputType: "relation",
+        label: "Campaign",
+        description: "Campaign associated with this opportunity",
+        props: {
+          collectionName: Collections.CustomerRelationsCampaigns,
+          relationshipName: "campaign",
+          displayField: "name",
+        } as RelationFieldProps<any>,
+      }),
+    attachments: z
+      .file()
+      .array()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-attachments",
+        type: "field",
+        inputType: "file",
+        label: "Attachments",
+        description: "Opportunity documents and files",
+        isArray: true,
+        props: {
+          accept: "*/*",
+        },
+      }),
+    products: z
+      .array(z.string())
+      .optional()
+      .register(fieldRegistry, {
+        type: "field",
+        id: "Opportunities-products",
+        inputType: "relation",
+        isArray: true,
+        label: "Products",
+        description: "Products included in this opportunity",
+        props: {
+          collectionName: Collections.CustomerRelationsOpportunityProducts,
+          relationshipName: "products",
+          displayField: "product",
+        } as RelationFieldProps<any>,
+      }),
+    created: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-created",
+        type: "field",
+        inputType: "date",
+        label: "Created At",
+        description: "Timestamp when the opportunity was created",
+        props: {
+          disabled: true,
+        },
+      }),
+    updated: z.iso
+      .datetime()
+      .optional()
+      .register(fieldRegistry, {
+        id: "Opportunities-updated",
+        type: "field",
+        inputType: "date",
+        label: "Updated At",
+        description: "Timestamp when the opportunity was last updated",
+        props: {
+          disabled: true,
+        },
+      }),
+  })
+  .register(fieldSetRegistry, { separator: true });
 
 export type Opportunities = z.infer<typeof OpportunitiesSchema>;
