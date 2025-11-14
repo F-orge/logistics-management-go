@@ -1,36 +1,69 @@
-FROM oven/bun:1 AS base
+# ============================================================================
+# Builder Stage 1: Go Backend
+# ============================================================================
+FROM golang:1.24.2-alpine AS go-builder
 
-# Set working directory
-WORKDIR /build
-
-# Copy package and lock files
-COPY package.json bun.lock ./
-COPY packages/db/package.json ./packages/db/
-COPY packages/ui/package.json ./packages/ui/
-COPY packages/graphql/package.json ./packages/graphql/
-COPY apps/backend/package.json ./apps/backend/
-COPY apps/frontend/package.json ./apps/frontend/
-
-# Install dependencies
-RUN bun install --frozen-lockfile
-
-# Copy the rest of the codebase
-COPY . .
-
-# Build the whole project
-RUN bun --filter '@packages/*' build && bun --filter '@apps/*' build
-
-# --- Release image ---
-FROM oven/bun:canary-alpine AS runner
 WORKDIR /app
 
-# Copy built output and server files
-COPY --from=base /build/apps/frontend/.output ./.output
-COPY --from=base /build/apps/backend/.output/server.js ./.output/server.js
-COPY --from=base /build/apps/backend/migrations ./.output/migrations
+# Install build dependencies
+RUN apk add --no-cache git make
 
-# Expose port 3000
-EXPOSE 3000
+# Copy Go module files
+COPY go.mod go.sum ./
 
-# Start the server
-CMD ["bun", ".output/server.js"]
+# Download dependencies
+RUN go mod download
+
+# Copy the entire project
+COPY . .
+
+# Build the backend
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o pocketbase .
+
+# ============================================================================
+# Builder Stage 2: Frontend (Node)
+# ============================================================================
+FROM node:latest AS frontend-builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy package files
+COPY package.json pnpm-lock.yaml* ./
+
+# Copy src directory for frontend
+COPY src ./src
+COPY rsbuild.config.ts tsconfig.json ./
+COPY components.json ./
+
+# Install dependencies
+RUN pnpm install
+
+# Build frontend
+RUN pnpm run build
+
+# ============================================================================
+# Runtime Stage: Alpine
+# ============================================================================
+FROM alpine:3.20
+
+WORKDIR /app
+
+# Copy backend binary from go-builder
+COPY --from=go-builder /app/pocketbase ./
+
+# Copy frontend build from frontend-builder
+COPY --from=frontend-builder /app/.output ./frontend
+
+# Copy migrations
+COPY --chown=app:app migrations ./migrations
+
+# Expose ports
+EXPOSE 80
+
+# Start the application
+CMD ["./pocketbase", "serve", "--http", "0.0.0.0:80"]
+
+
