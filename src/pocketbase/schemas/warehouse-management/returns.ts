@@ -14,114 +14,32 @@ import { Collections } from "@/lib/pb.types";
 
 export const ReturnsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Returns-id",
-      type: "field",
-      inputType: "text",
-      label: "Return ID",
-      description: "Unique identifier for the return",
-      props: {
-        disabled: true,
-      },
-    }),
-    returnNumber: z.string().register(fieldRegistry, {
-      id: "Returns-returnNumber",
-      type: "field",
-      inputType: "text",
-      label: "Return Number",
-      description: "Return reference number",
-      props: {
-        placeholder: "RET-001",
-      },
-    }),
+    id: z.string(),
+    returnNumber: z.string(),
     salesOrder: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Returns-salesOrder",
-        inputType: "relation",
-        label: "Sales Order",
-        description: "Sales order being returned",
-        props: {
-          collectionName: Collections.WarehouseManagementSalesOrders,
-          relationshipName: "salesOrder",
-          displayField: "orderNumber",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     client: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Returns-client",
-        inputType: "relation",
-        label: "Client",
-        description: "Client making the return",
-        props: {
-          collectionName: Collections.CustomerRelationsCompanies,
-          relationshipName: "client",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     status: z
       .enum(["requested", "approved", "rejeceted", "received", "processed"])
-      .register(fieldRegistry, {
-        id: "Returns-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the return",
-        props: {
-          options: [
-            { label: "Requested", value: "requested" },
-            { label: "Approved", value: "approved" },
-            { label: "Rejected", value: "rejeceted" },
-            { label: "Received", value: "received" },
-            { label: "Processed", value: "processed" },
-          ],
-        },
-      }),
+      ,
     reason: z
       .unknown()
       .optional()
-      .register(fieldRegistry, {
-        id: "Returns-reason",
-        type: "field",
-        inputType: "textarea",
-        label: "Reason",
-        description: "Reason for the return",
-        props: {
-          placeholder: "Explain the reason for return",
-        },
-      }),
+      ,
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Returns-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Returns-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type Returns = z.infer<typeof ReturnsSchema>;

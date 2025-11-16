@@ -14,107 +14,33 @@ import { Collections } from "@/lib/pb.types";
 
 export const SuppliersSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Suppliers-id",
-      type: "field",
-      inputType: "text",
-      label: "Supplier ID",
-      description: "Unique identifier for the supplier",
-      props: {
-        disabled: true,
-      },
-    }),
-    name: z.string().register(fieldRegistry, {
-      id: "Suppliers-name",
-      type: "field",
-      inputType: "text",
-      label: "Name",
-      description: "Supplier name",
-      props: {
-        placeholder: "Supplier name",
-      },
-    }),
+    id: z.string(),
+    name: z.string(),
     contactPerson: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Suppliers-contactPerson",
-        type: "field",
-        inputType: "text",
-        label: "Contact Person",
-        description: "Primary contact person",
-        props: {
-          placeholder: "Contact person name",
-        },
-      }),
+      ,
     email: z
       .email()
       .optional()
-      .register(fieldRegistry, {
-        id: "Suppliers-email",
-        type: "field",
-        inputType: "email",
-        label: "Email",
-        description: "Supplier email address",
-        props: {
-          placeholder: "supplier@example.com",
-        },
-      }),
+      ,
     phoneNumber: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Suppliers-phoneNumber",
-        type: "field",
-        inputType: "text",
-        label: "Phone Number",
-        description: "Supplier phone number",
-        props: {
-          placeholder: "+1 (555) 000-0000",
-        },
-      }),
+      ,
     client: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Suppliers-client",
-        inputType: "relation",
-        label: "Client",
-        description: "Associated client",
-        props: {
-          collectionName: Collections.CustomerRelationsCompanies,
-          relationshipName: "client",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Suppliers-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Suppliers-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type Suppliers = z.infer<typeof SuppliersSchema>;

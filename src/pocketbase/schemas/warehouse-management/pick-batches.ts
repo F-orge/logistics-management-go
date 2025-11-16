@@ -14,62 +14,19 @@ import { Collections } from "@/lib/pb.types";
 
 export const PickBatchesSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "PickBatches-id",
-      type: "field",
-      inputType: "text",
-      label: "Batch ID",
-      description: "Unique identifier for the pick batch",
-      props: {
-        disabled: true,
-      },
-    }),
+    id: z.string(),
     batchNumber: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-batchNumber",
-        type: "field",
-        inputType: "text",
-        label: "Batch Number",
-        description: "Batch reference number",
-        props: {
-          placeholder: "BATCH-001",
-        },
-      }),
+      ,
     warehouse: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "PickBatches-warehouse",
-        inputType: "relation",
-        label: "Warehouse",
-        description: "Warehouse for this batch",
-        props: {
-          collectionName: Collections.WarehouseManagementWarehouses,
-          relationshipName: "warehouse",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     status: z
       .enum(["open", "in-progress", "completed", "cancelled"])
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the batch",
-        props: {
-          options: [
-            { label: "Open", value: "open" },
-            { label: "In Progress", value: "in-progress" },
-            { label: "Completed", value: "completed" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
+      ,
     strategy: z
       .enum([
         "batch-picking",
@@ -79,161 +36,43 @@ export const PickBatchesSchema = z
         "cluster-picking",
       ])
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-strategy",
-        type: "field",
-        inputType: "select",
-        label: "Strategy",
-        description: "Picking strategy used",
-        props: {
-          options: [
-            { label: "Batch Picking", value: "batch-picking" },
-            { label: "Zone Picking", value: "zone-picking" },
-            { label: "Wave Picking", value: "wave-picking" },
-            { label: "Single Order Picking", value: "single-order-picking" },
-            { label: "Cluster Picking", value: "cluster-picking" },
-          ],
-        },
-      }),
-    priority: z.number().register(fieldRegistry, {
-      id: "PickBatches-priority",
-      type: "field",
-      inputType: "number",
-      label: "Priority",
-      description: "Priority level for this batch",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
+      ,
+    priority: z.number(),
     assignedUser: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "PickBatches-assignedUser",
-        inputType: "relation",
-        label: "Assigned User",
-        description: "User assigned to this batch",
-        props: {
-          collectionName: Collections.Users,
-          relationshipName: "assignedUser",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     estimatedDuration: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-estimatedDuration",
-        type: "field",
-        inputType: "number",
-        label: "Estimated Duration",
-        description: "Estimated duration in minutes",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
+      ,
     actualDuration: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-actualDuration",
-        type: "field",
-        inputType: "number",
-        label: "Actual Duration",
-        description: "Actual duration in minutes",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
+      ,
     totalItems: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-totalItems",
-        type: "field",
-        inputType: "number",
-        label: "Total Items",
-        description: "Total items in this batch",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
+      ,
     completedItems: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-completedItems",
-        type: "field",
-        inputType: "number",
-        label: "Completed Items",
-        description: "Number of completed items",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    startedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "PickBatches-startedAt",
-      type: "field",
-      inputType: "date",
-      label: "Started At",
-      description: "When the batch was started",
-    }),
-    completedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "PickBatches-completedAt",
-      type: "field",
-      inputType: "date",
-      label: "Completed At",
-      description: "When the batch was completed",
-    }),
+      ,
+    startedAt: z.iso.date().optional(),
+    completedAt: z.iso.date().optional(),
     items: z
       .array(z.string())
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "PickBatches-items",
-        inputType: "relation",
-        isArray: true,
-        label: "Items",
-        description: "Items in this batch",
-        props: {
-          collectionName: Collections.WarehouseManagementPickBatchItems,
-          relationshipName: "items",
-          displayField: "id",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "PickBatches-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type PickBatches = z.infer<typeof PickBatchesSchema>;

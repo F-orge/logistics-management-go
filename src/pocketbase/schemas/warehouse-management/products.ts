@@ -22,181 +22,56 @@ import { Collections } from "@/lib/pb.types";
 
 export const ProductsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Products-id",
-      type: "field",
-      inputType: "text",
-      label: "Product ID",
-      description: "Unique identifier for the product",
-      props: {
-        disabled: true,
-      },
-    }),
+    id: z.string(),
     sku: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-sku",
-        type: "field",
-        inputType: "text",
-        label: "SKU",
-        description: "Stock Keeping Unit",
-        props: {
-          placeholder: "SKU-001",
-        },
-      }),
+      ,
     name: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-name",
-        type: "field",
-        inputType: "text",
-        label: "Name",
-        description: "Product name",
-        props: {
-          placeholder: "Product name",
-        },
-      }),
+      ,
     description: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-description",
-        type: "field",
-        inputType: "textarea",
-        label: "Description",
-        description: "Product description",
-        props: {
-          placeholder: "Describe the product",
-        },
-      }),
+      ,
     category: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-category",
-        type: "field",
-        inputType: "text",
-        label: "Category",
-        description: "Product category",
-        props: {
-          placeholder: "Category",
-        },
-      }),
+      ,
     price: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-price",
-        type: "field",
-        inputType: "number",
-        label: "Price",
-        description: "Unit price",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
+      ,
     unit: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-unit",
-        type: "field",
-        inputType: "text",
-        label: "Unit",
-        description: "Unit of measurement",
-        props: {
-          placeholder: "pcs, kg, l, etc",
-        },
-      }),
+      ,
     weight: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-weight",
-        type: "field",
-        inputType: "number",
-        label: "Weight",
-        description: "Weight in kg",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
+      ,
     supplier: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Products-supplier",
-        inputType: "relation",
-        label: "Supplier",
-        description: "Primary supplier for this product",
-        props: {
-          collectionName: Collections.WarehouseManagementSuppliers,
-          relationshipName: "supplier",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     client: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Products-client",
-        inputType: "relation",
-        label: "Client",
-        description: "Associated client",
-        props: {
-          collectionName: Collections.CustomerRelationsCompanies,
-          relationshipName: "client",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     images: z
       .array(z.string())
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-images",
-        type: "field",
-        inputType: "file",
-        isArray: true,
-        label: "Images",
-        description: "Product images",
-        props: {
-          multiple: true,
-          accept: "image/*",
-        },
-      }),
+      ,
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Products-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type Products = z.infer<typeof ProductsSchema>;

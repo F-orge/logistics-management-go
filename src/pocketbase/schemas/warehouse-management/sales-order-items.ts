@@ -14,84 +14,25 @@ import { Collections } from "@/lib/pb.types";
 
 export const SalesOrderItemsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "SalesOrderItems-id",
-      type: "field",
-      inputType: "text",
-      label: "Order Item ID",
-      description: "Unique identifier for the order item",
-      props: {
-        disabled: true,
-      },
-    }),
+    id: z.string(),
     salesOrder: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "SalesOrderItems-salesOrder",
-        inputType: "relation",
-        label: "Sales Order",
-        description: "Sales order this item belongs to",
-        props: {
-          collectionName: Collections.WarehouseManagementSalesOrders,
-          relationshipName: "salesOrder",
-          displayField: "orderNumber",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     product: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "SalesOrderItems-product",
-        inputType: "relation",
-        label: "Product",
-        description: "Product in this order",
-        props: {
-          collectionName: Collections.WarehouseManagementProducts,
-          relationshipName: "product",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    quantityOrdered: z.number().register(fieldRegistry, {
-      id: "SalesOrderItems-quantityOrdered",
-      type: "field",
-      inputType: "number",
-      label: "Quantity Ordered",
-      description: "Quantity ordered",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
+      ,
+    quantityOrdered: z.number(),
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "SalesOrderItems-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "SalesOrderItems-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type SalesOrderItems = z.infer<typeof SalesOrderItemsSchema>;

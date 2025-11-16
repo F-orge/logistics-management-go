@@ -12,154 +12,29 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InventoryStockSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "InventoryStock-id",
-      type: "field",
-      inputType: "text",
-      label: "Stock ID",
-      description: "Unique identifier for the inventory stock",
-      props: {
-        disabled: true,
-      },
-    }),
-    location: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "InventoryStock-location",
-      inputType: "relation",
-      label: "Location",
-      description: "Warehouse location",
-      props: {
-        collectionName: Collections.WarehouseManagementLocations,
-        relationshipName: "location",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    product: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "InventoryStock-product",
-      inputType: "relation",
-      label: "Product",
-      description: "Product in stock",
-      props: {
-        collectionName: Collections.WarehouseManagementProducts,
-        relationshipName: "product",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    batch: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "InventoryStock-batch",
-        inputType: "relation",
-        label: "Batch",
-        description: "Inventory batch",
-        props: {
-          collectionName: Collections.WarehouseManagementInventoryBatches,
-          relationshipName: "batch",
-          displayField: "batchNumber",
-        } as RelationFieldProps<any>,
-      }),
-    quantity: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "InventoryStock-quantity",
-        type: "field",
-        inputType: "number",
-        label: "Quantity",
-        description: "Current quantity on hand",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    reservedQuantity: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "InventoryStock-reservedQuantity",
-        type: "field",
-        inputType: "number",
-        label: "Reserved Quantity",
-        description: "Quantity reserved for orders",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    status: z
-      .enum([
-        "available",
-        "allocated",
-        "damaged",
-        "quarantine",
-        "hold",
-        "shipped",
-        "expired",
-      ])
-      .register(fieldRegistry, {
-        id: "InventoryStock-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Stock status",
-        props: {
-          options: [
-            { label: "Available", value: "available" },
-            { label: "Allocated", value: "allocated" },
-            { label: "Damaged", value: "damaged" },
-            { label: "Quarantine", value: "quarantine" },
-            { label: "Hold", value: "hold" },
-            { label: "Shipped", value: "shipped" },
-            { label: "Expired", value: "expired" },
-          ],
-        },
-      }),
-    lastCountedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "InventoryStock-lastCountedAt",
-      type: "field",
-      inputType: "date",
-      label: "Last Counted At",
-      description: "Date of last inventory count",
-    }),
-    lastMovementAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "InventoryStock-lastMovementAt",
-      type: "field",
-      inputType: "date",
-      label: "Last Movement At",
-      description: "Date of last stock movement",
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "InventoryStock-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "InventoryStock-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const InventoryStockSchema = z.object({
+  id: z.string(),
+  location: z.string(),
+  product: z.string(),
+  batch: z.string().optional(),
+  quantity: z.number().optional().min(0, "Quantity on hand cannot be negative"),
+  reservedQuantity: z
+    .number()
+    .optional()
+    .min(0, "Reserved quantity cannot be negative"),
+  status: z.enum([
+    "available",
+    "allocated",
+    "damaged",
+    "quarantine",
+    "hold",
+    "shipped",
+    "expired",
+  ]),
+  lastCountedAt: z.iso.date().optional(),
+  lastMovementAt: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type InventoryStock = z.infer<typeof InventoryStockSchema>;

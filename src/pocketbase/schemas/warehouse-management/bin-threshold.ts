@@ -12,132 +12,23 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const BinThresholdSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "BinThreshold-id",
-      type: "field",
-      inputType: "text",
-      label: "Threshold ID",
-      description: "Unique identifier for the bin threshold",
-      props: {
-        disabled: true,
-      },
-    }),
-    location: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "BinThreshold-location",
-      inputType: "relation",
-      label: "Location",
-      description: "Warehouse location for this threshold",
-      props: {
-        collectionName: Collections.WarehouseManagementLocations,
-        relationshipName: "location",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    product: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "BinThreshold-product",
-      inputType: "relation",
-      label: "Product",
-      description: "Product for this threshold",
-      props: {
-        collectionName: Collections.WarehouseManagementProducts,
-        relationshipName: "product",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    minQuantity: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "BinThreshold-minQuantity",
-        type: "field",
-        inputType: "number",
-        label: "Minimum Quantity",
-        description: "Minimum quantity threshold",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    maxQuantity: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "BinThreshold-maxQuantity",
-        type: "field",
-        inputType: "number",
-        label: "Maximum Quantity",
-        description: "Maximum quantity threshold",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    reorderQuantity: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "BinThreshold-reorderQuantity",
-        type: "field",
-        inputType: "number",
-        label: "Reorder Quantity",
-        description: "Quantity to reorder when minimum is reached",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    alertThreshold: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "BinThreshold-alertThreshold",
-        type: "field",
-        inputType: "number",
-        label: "Alert Threshold",
-        description: "Quantity level for alert",
-        props: {
-          placeholder: "0",
-          min: 0,
-        },
-      }),
-    isActive: z.unknown().optional().register(fieldRegistry, {
-      id: "BinThreshold-isActive",
-      type: "field",
-      inputType: "bool",
-      label: "Active",
-      description: "Whether this threshold is active",
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "BinThreshold-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "BinThreshold-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const BinThresholdSchema = z.object({
+  id: z.string(),
+  location: z.string(),
+  product: z.string(),
+  minQuantity: z.number().min(0, "Min quantity cannot be negative").optional(),
+  maxQuantity: z.number().min(0, "Max quantity cannot be negative").optional(),
+  reorderQuantity: z
+    .number()
+    .min(0, "Reorder quantity cannot be negative")
+    .optional(),
+  alertThreshold: z
+    .number()
+    .min(0, "Alert threshold cannot be negative")
+    .optional(),
+  isActive: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type BinThreshold = z.infer<typeof BinThresholdSchema>;
