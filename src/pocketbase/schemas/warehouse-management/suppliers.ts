@@ -7,14 +7,14 @@
 import { z } from "zod";
 
 export const SuppliersSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  contactPerson: z.string().optional(),
-  email: z.email().optional(),
-  phoneNumber: z.string().optional(),
-  client: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	contactPerson: z.string().optional(),
+	email: z.email().optional(),
+	phoneNumber: z.string().optional(),
+	client: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Suppliers = z.infer<typeof SuppliersSchema>;

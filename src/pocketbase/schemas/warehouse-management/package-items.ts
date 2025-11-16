@@ -7,15 +7,15 @@
 import { z } from "zod";
 
 export const PackageItemsSchema = z.object({
-  id: z.string(),
-  package: z.string(),
-  product: z.string(),
-  batch: z.string().optional(),
-  quantity: z.number(),
-  lotNumber: z.string().optional(),
-  expiryDate: z.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	package: z.string(),
+	product: z.string(),
+	batch: z.string().optional(),
+	quantity: z.number(),
+	lotNumber: z.string().optional(),
+	expiryDate: z.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PackageItems = z.infer<typeof PackageItemsSchema>;

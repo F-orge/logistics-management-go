@@ -7,15 +7,15 @@
 import { z } from "zod";
 
 export const InteractionsSchema = z.object({
-  id: z.string(),
-  contact: z.string(),
-  user: z.string(),
-  case: z.string().optional(),
-  type: z.enum(["call", "meeting", "text", "email"]).optional(),
-  outcome: z.string().optional(),
-  notes: z.string().optional(),
-  attachments: z.file().array().optional(),
-  interactionDate: z.date().optional(),
+	id: z.string(),
+	contact: z.string(),
+	user: z.string(),
+	case: z.string().optional(),
+	type: z.enum(["call", "meeting", "text", "email"]).optional(),
+	outcome: z.string().optional(),
+	notes: z.string().optional(),
+	attachments: z.file().array().optional(),
+	interactionDate: z.date().optional(),
 });
 
 export type Interactions = z.infer<typeof InteractionsSchema>;

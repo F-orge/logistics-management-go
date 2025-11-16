@@ -1,47 +1,47 @@
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
 import {
-  BoolField,
-  CheckboxGroupField,
-  DateTimeField,
-  EmailField,
-  FileField,
-  GeoPointField,
-  JSONField,
-  NumberField,
-  RadioGroupField,
-  RelationField,
-  RichEditorField,
-  SelectField,
-  TextareaField,
-  TextField,
-  URLField,
+	BoolField,
+	CheckboxGroupField,
+	DateTimeField,
+	EmailField,
+	FileField,
+	GeoPointField,
+	JSONField,
+	NumberField,
+	RadioGroupField,
+	RelationField,
+	RichEditorField,
+	SelectField,
+	TextareaField,
+	TextField,
+	URLField,
 } from "./fields";
 import ClearButton from "./utils/clear";
 import FormDialog from "./utils/dialog";
 import SubmitButton from "./utils/submit";
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
-  createFormHookContexts();
+	createFormHookContexts();
 
 export const { useAppForm, withFieldGroup, withForm } = createFormHook({
-  fieldContext,
-  formContext,
-  fieldComponents: {
-    BoolField,
-    CheckboxGroupField,
-    DateTimeField,
-    EmailField,
-    FileField,
-    GeoPointField,
-    JSONField,
-    NumberField,
-    RadioGroupField,
-    RelationField,
-    RichEditorField,
-    SelectField,
-    TextField,
-    TextareaField,
-    URLField,
-  },
-  formComponents: { FormDialog, SubmitButton, ClearButton },
+	fieldContext,
+	formContext,
+	fieldComponents: {
+		BoolField,
+		CheckboxGroupField,
+		DateTimeField,
+		EmailField,
+		FileField,
+		GeoPointField,
+		JSONField,
+		NumberField,
+		RadioGroupField,
+		RelationField,
+		RichEditorField,
+		SelectField,
+		TextField,
+		TextareaField,
+		URLField,
+	},
+	formComponents: { FormDialog, SubmitButton, ClearButton },
 });

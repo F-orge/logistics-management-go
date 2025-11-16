@@ -7,40 +7,40 @@
 import { z } from "zod";
 
 export const InvoicesSchema = z.object({
-  id: z.string(),
-  quote: z.string().optional(),
-  invoiceNumber: z.string().optional(),
-  status: z
-    .enum([
-      "draft",
-      "sent",
-      "viewed",
-      "paid",
-      "partial-paid",
-      "past-due",
-      "disputed",
-      "cancelled",
-      "void",
-    ])
-    .optional(),
-  issueDate: z.date().optional(),
-  dueDate: z.date().optional(),
-  totalAmount: z
-    .number()
-    .min(0.01, "Total amount must be a positive value")
-    .optional(),
-  amountPaid: z.number().min(0, "Amount paid cannot be negative").optional(),
-  currency: z.string().optional(),
-  discountAmount: z.number().optional(),
-  subtotal: z.number().optional(),
-  paymentTerms: z.string().optional(),
-  notes: z.string().optional(),
-  sentAt: z.date().optional(),
-  paidAt: z.date().optional(),
-  createdBy: z.string().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	quote: z.string().optional(),
+	invoiceNumber: z.string().optional(),
+	status: z
+		.enum([
+			"draft",
+			"sent",
+			"viewed",
+			"paid",
+			"partial-paid",
+			"past-due",
+			"disputed",
+			"cancelled",
+			"void",
+		])
+		.optional(),
+	issueDate: z.date().optional(),
+	dueDate: z.date().optional(),
+	totalAmount: z
+		.number()
+		.min(0.01, "Total amount must be a positive value")
+		.optional(),
+	amountPaid: z.number().min(0, "Amount paid cannot be negative").optional(),
+	currency: z.string().optional(),
+	discountAmount: z.number().optional(),
+	subtotal: z.number().optional(),
+	paymentTerms: z.string().optional(),
+	notes: z.string().optional(),
+	sentAt: z.date().optional(),
+	paidAt: z.date().optional(),
+	createdBy: z.string().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

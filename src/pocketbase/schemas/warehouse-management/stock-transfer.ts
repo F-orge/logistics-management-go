@@ -7,17 +7,17 @@
 import { z } from "zod";
 
 export const StockTransferSchema = z.object({
-  id: z.string(),
-  product: z.string().optional(),
-  quantity: z
-    .number()
-    .min(1, "Transfer quantity must be at least 1")
-    .optional(),
-  status: z.enum(["pending", "in-transit", "received", "cancelled"]).optional(),
-  sourceWarehouse: z.string(),
-  destinationWarehouse: z.string(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string().optional(),
+	quantity: z
+		.number()
+		.min(1, "Transfer quantity must be at least 1")
+		.optional(),
+	status: z.enum(["pending", "in-transit", "received", "cancelled"]).optional(),
+	sourceWarehouse: z.string(),
+	destinationWarehouse: z.string(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type StockTransfer = z.infer<typeof StockTransferSchema>;

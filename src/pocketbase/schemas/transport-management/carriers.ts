@@ -6,19 +6,19 @@
 
 import { z } from "zod";
 import {
-  fieldRegistry,
-  fieldSetRegistry,
+	fieldRegistry,
+	fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
 export const CarriersSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  contactDetails: z.unknown().optional(),
-  serviceOffered: z.unknown().optional(),
-  image: z.file().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	contactDetails: z.unknown().optional(),
+	serviceOffered: z.unknown().optional(),
+	image: z.file().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Carriers = z.infer<typeof CarriersSchema>;

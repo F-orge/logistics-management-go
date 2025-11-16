@@ -6,66 +6,28 @@
 
 import { z } from "zod";
 import {
-  fieldRegistry,
-  fieldSetRegistry,
+	fieldRegistry,
+	fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
-export const WarehousesSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    address: z
-      .string()
-      .optional()
-      ,
-    city: z
-      .string()
-      .optional()
-      ,
-    state: z
-      .string()
-      .optional()
-      ,
-    postalCode: z
-      .string()
-      .optional()
-      ,
-    country: z
-      .string()
-      .optional()
-      ,
-    timezone: z
-      .string()
-      .optional()
-      ,
-    contactPerson: z
-      .string()
-      .optional()
-      ,
-    contactEmail: z
-      .email()
-      .optional()
-      ,
-    contactPhone: z
-      .string()
-      .optional()
-      ,
-    isActive: z.unknown().optional(),
-    images: z
-      .array(z.file())
-      .optional()
-      ,
-    location: z.unknown().optional(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const WarehousesSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	address: z.string().optional(),
+	city: z.string().optional(),
+	state: z.string().optional(),
+	postalCode: z.string().optional(),
+	country: z.string().optional(),
+	timezone: z.string().optional(),
+	contactPerson: z.string().optional(),
+	contactEmail: z.email().optional(),
+	contactPhone: z.string().optional(),
+	isActive: z.unknown().optional(),
+	images: z.array(z.file()).optional(),
+	location: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
+});
 
 export type Warehouses = z.infer<typeof WarehousesSchema>;

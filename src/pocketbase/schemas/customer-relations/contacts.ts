@@ -7,16 +7,16 @@
 import { z } from "zod";
 
 export const ContactsSchema = z.object({
-  id: z.string(),
-  name: z.string().nonempty("Contact name is required"),
-  email: z.email("Must be a valid email address"),
-  phoneNumber: z.string().optional(),
-  jobTitle: z.string().optional(),
-  company: z.string().optional(),
-  owner: z.string(),
-  attachments: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().nonempty("Contact name is required"),
+	email: z.email("Must be a valid email address"),
+	phoneNumber: z.string().optional(),
+	jobTitle: z.string().optional(),
+	company: z.string().optional(),
+	owner: z.string(),
+	attachments: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Contacts = z.infer<typeof ContactsSchema>;

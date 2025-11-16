@@ -7,24 +7,24 @@
 import { z } from "zod";
 
 export const InventoryAdjustmentSchema = z.object({
-  id: z.string(),
-  product: z.string(),
-  user: z.string(),
-  quantityChange: z
-    .number()
-    .refine((n) => n !== 0, "Quantity change cannot be zero"),
-  reason: z.enum([
-    "cycle-count",
-    "damaged-goods",
-    "theft",
-    "expired",
-    "return-to-vendor",
-    "manual-correction",
-  ]),
-  notes: z.unknown().optional(),
-  warehouse: z.string(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string(),
+	user: z.string(),
+	quantityChange: z
+		.number()
+		.refine((n) => n !== 0, "Quantity change cannot be zero"),
+	reason: z.enum([
+		"cycle-count",
+		"damaged-goods",
+		"theft",
+		"expired",
+		"return-to-vendor",
+		"manual-correction",
+	]),
+	notes: z.unknown().optional(),
+	warehouse: z.string(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InventoryAdjustment = z.infer<typeof InventoryAdjustmentSchema>;

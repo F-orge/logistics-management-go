@@ -7,14 +7,12 @@
 import { z } from "zod";
 import { Coordinates } from "@/pocketbase/scalar";
 
-export const DriverLocationSchema = z
-  .object({
-    id: z.string(),
-    driver: z.string(),
-    coordinates: Coordinates,
-    heading: Coordinates,
-    timestamp: z.iso.datetime().optional()
-})
-  
+export const DriverLocationSchema = z.object({
+	id: z.string(),
+	driver: z.string(),
+	coordinates: Coordinates,
+	heading: Coordinates,
+	timestamp: z.iso.datetime().optional(),
+});
 
 export type DriverLocation = z.infer<typeof DriverLocationSchema>;

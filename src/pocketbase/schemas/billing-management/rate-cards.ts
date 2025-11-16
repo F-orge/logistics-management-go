@@ -7,25 +7,25 @@
 import { z } from "zod";
 
 export const RateCardsSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  type: z.enum([
-    "shipping",
-    "storage",
-    "fulfillment",
-    "handling",
-    "insurance",
-    "customs",
-    "packaging",
-    "returns",
-  ]),
-  isActive: z.boolean().optional(),
-  validFrom: z.date().optional(),
-  validTo: z.date().optional(),
-  description: z.string().optional(),
-  createdBy: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	type: z.enum([
+		"shipping",
+		"storage",
+		"fulfillment",
+		"handling",
+		"insurance",
+		"customs",
+		"packaging",
+		"returns",
+	]),
+	isActive: z.boolean().optional(),
+	validFrom: z.date().optional(),
+	validTo: z.date().optional(),
+	description: z.string().optional(),
+	createdBy: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type RateCards = z.infer<typeof RateCardsSchema>;

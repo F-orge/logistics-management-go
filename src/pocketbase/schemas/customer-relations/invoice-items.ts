@@ -6,19 +6,17 @@
 
 import { z } from "zod";
 
-export const InvoiceItemsSchema = z
-  .object({
-    id: z.string(),
-    invoice: z.string(),
-    product: z.string(),
-    quantity: z
-      .number()
-      .min(0, "Quantity must be non-negative")
-      .int("Quantity must be an integer"),
-    price: z.number().min(0, "Unit price must be non-negative"),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const InvoiceItemsSchema = z.object({
+	id: z.string(),
+	invoice: z.string(),
+	product: z.string(),
+	quantity: z
+		.number()
+		.min(0, "Quantity must be non-negative")
+		.int("Quantity must be an integer"),
+	price: z.number().min(0, "Unit price must be non-negative"),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
+});
 
 export type InvoiceItems = z.infer<typeof InvoiceItemsSchema>;

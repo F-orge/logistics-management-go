@@ -7,16 +7,16 @@
 import { z } from "zod";
 
 export const InboundShipmentsSchema = z.object({
-  id: z.string(),
-  client: z.string(),
-  status: z
-    .enum(["pending", "arrived", "processing", "completed", "cancelled"])
-    .optional(),
-  expectedArrivalDate: z.date().optional(),
-  actualArrivalDate: z.date().optional(),
-  warehouse: z.string(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	client: z.string(),
+	status: z
+		.enum(["pending", "arrived", "processing", "completed", "cancelled"])
+		.optional(),
+	expectedArrivalDate: z.date().optional(),
+	actualArrivalDate: z.date().optional(),
+	warehouse: z.string(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InboundShipments = z.infer<typeof InboundShipmentsSchema>;

@@ -7,15 +7,15 @@
 import { z } from "zod";
 
 export const ReorderPointsSchema = z.object({
-  id: z.string(),
-  product: z.string(),
-  threshold: z
-    .number()
-    .min(0, "Reorder threshold cannot be negative")
-    .optional(),
-  warehouse: z.string(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string(),
+	threshold: z
+		.number()
+		.min(0, "Reorder threshold cannot be negative")
+		.optional(),
+	warehouse: z.string(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type ReorderPoints = z.infer<typeof ReorderPointsSchema>;

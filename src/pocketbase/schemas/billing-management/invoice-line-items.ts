@@ -7,25 +7,25 @@
 import { z } from "zod";
 
 export const InvoiceLineItemsSchema = z.object({
-  id: z.string(),
-  invoice: z.string().optional(),
-  description: z.string().optional(),
-  quantity: z.number().min(1, "Quantity must be at least 1").optional(),
-  unitPrice: z.number().min(0, "Unit price cannot be negative").optional(),
-  taxRate: z
-    .number()
-    .min(0, "Tax rate cannot be negative")
-    .max(1, "Tax rate cannot exceed 100%")
-    .optional(),
-  discountRate: z
-    .number()
-    .min(0, "Discount rate cannot be negative")
-    .max(1, "Discount rate cannot exceed 100%")
-    .optional(),
-  discountRate: z.number().optional(),
-  discountAmount: z.number().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z.string().optional(),
+	description: z.string().optional(),
+	quantity: z.number().min(1, "Quantity must be at least 1").optional(),
+	unitPrice: z.number().min(0, "Unit price cannot be negative").optional(),
+	taxRate: z
+		.number()
+		.min(0, "Tax rate cannot be negative")
+		.max(1, "Tax rate cannot exceed 100%")
+		.optional(),
+	discountRate: z
+		.number()
+		.min(0, "Discount rate cannot be negative")
+		.max(1, "Discount rate cannot exceed 100%")
+		.optional(),
+	discountRate: z.number().optional(),
+	discountAmount: z.number().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InvoiceLineItems = z.infer<typeof InvoiceLineItemsSchema>;

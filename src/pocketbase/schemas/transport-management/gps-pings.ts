@@ -7,10 +7,10 @@
 import { z } from "zod";
 
 export const GpsPingsSchema = z.object({
-  id: z.string(),
-  vehicle: z.string(),
-  coordinates: z.unknown(),
-  timestamp: z.iso.datetime().optional(),
+	id: z.string(),
+	vehicle: z.string(),
+	coordinates: z.unknown(),
+	timestamp: z.iso.datetime().optional(),
 });
 
 export type GpsPings = z.infer<typeof GpsPingsSchema>;

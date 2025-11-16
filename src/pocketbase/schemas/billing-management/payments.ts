@@ -7,46 +7,46 @@
 import { z } from "zod";
 
 export const PaymentsSchema = z.object({
-  id: z.string(),
-  invoice: z.string().optional(),
-  amount: z
-    .number()
-    .min(0.01, "Payment amount must be a positive value")
-    .optional(),
-  paymentMethod: z
-    .enum([
-      "credit-card",
-      "debit-card",
-      "wallet",
-      "qr-ph",
-      "client-credit",
-      "bank-transfer",
-      "cash",
-      "check",
-    ])
-    .optional(),
-  transactionId: z.string().optional(),
-  gatewayReferenceId: z.string().optional(),
-  status: z
-    .enum([
-      "pending",
-      "processing",
-      "successful",
-      "failed",
-      "cancelled",
-      "refunded",
-    ])
-    .optional(),
-  paymentDate: z.date().optional(),
-  processedAt: z.date().optional(),
-  currency: z.string().optional(),
-  fees: z.number().optional(),
-  netAmount: z.number().optional(),
-  notes: z.string().optional(),
-  processedBy: z.string().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z.string().optional(),
+	amount: z
+		.number()
+		.min(0.01, "Payment amount must be a positive value")
+		.optional(),
+	paymentMethod: z
+		.enum([
+			"credit-card",
+			"debit-card",
+			"wallet",
+			"qr-ph",
+			"client-credit",
+			"bank-transfer",
+			"cash",
+			"check",
+		])
+		.optional(),
+	transactionId: z.string().optional(),
+	gatewayReferenceId: z.string().optional(),
+	status: z
+		.enum([
+			"pending",
+			"processing",
+			"successful",
+			"failed",
+			"cancelled",
+			"refunded",
+		])
+		.optional(),
+	paymentDate: z.date().optional(),
+	processedAt: z.date().optional(),
+	currency: z.string().optional(),
+	fees: z.number().optional(),
+	netAmount: z.number().optional(),
+	notes: z.string().optional(),
+	processedBy: z.string().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Payments = z.infer<typeof PaymentsSchema>;

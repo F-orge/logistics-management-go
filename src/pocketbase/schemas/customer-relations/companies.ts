@@ -7,24 +7,24 @@
 import { z } from "zod";
 
 export const CompaniesSchema = z.object({
-  id: z.string(),
-  name: z.string().nonempty(),
-  street: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: z.string().optional(),
-  phoneNumber: z.string().optional(),
-  industry: z.string().optional(),
-  website: z.string().url().optional(),
-  annualRevenue: z
-    .number()
-    .min(0, "Annual revenue must be non-negative")
-    .optional(),
-  owner: z.string().optional(),
-  attachments: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().nonempty(),
+	street: z.string().optional(),
+	city: z.string().optional(),
+	state: z.string().optional(),
+	postalCode: z.string().optional(),
+	country: z.string().optional(),
+	phoneNumber: z.string().optional(),
+	industry: z.string().optional(),
+	website: z.string().url().optional(),
+	annualRevenue: z
+		.number()
+		.min(0, "Annual revenue must be non-negative")
+		.optional(),
+	owner: z.string().optional(),
+	attachments: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Companies = z.infer<typeof CompaniesSchema>;

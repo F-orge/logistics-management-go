@@ -7,12 +7,12 @@
 import { z } from "zod";
 
 export const SalesOrderItemsSchema = z.object({
-  id: z.string(),
-  salesOrder: z.string().optional(),
-  product: z.string().optional(),
-  quantityOrdered: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	salesOrder: z.string().optional(),
+	product: z.string().optional(),
+	quantityOrdered: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type SalesOrderItems = z.infer<typeof SalesOrderItemsSchema>;

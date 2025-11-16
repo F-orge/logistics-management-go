@@ -7,17 +7,17 @@
 import { z } from "zod";
 
 export const OutboundShipmentsSchema = z.object({
-  id: z.string(),
-  salesOrder: z.string(),
-  status: z
-    .enum(["picking", "packed", "shipped", "delivered", "cancelled"])
-    .optional(),
-  trackingNumber: z.string(),
-  carrier: z.string().optional(),
-  items: z.array(z.string()).optional(),
-  warehouse: z.string(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	salesOrder: z.string(),
+	status: z
+		.enum(["picking", "packed", "shipped", "delivered", "cancelled"])
+		.optional(),
+	trackingNumber: z.string(),
+	carrier: z.string().optional(),
+	items: z.array(z.string()).optional(),
+	warehouse: z.string(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type OutboundShipments = z.infer<typeof OutboundShipmentsSchema>;

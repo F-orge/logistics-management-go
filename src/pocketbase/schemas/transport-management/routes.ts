@@ -6,18 +6,18 @@
 
 import { z } from "zod";
 import {
-  fieldRegistry,
-  fieldSetRegistry,
+	fieldRegistry,
+	fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
 export const RoutesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  totalDistance: z.number().min(0, "Total distance must be non-negative"),
-  totalDuration: z.number().min(0, "Total duration must be non-negative"),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	totalDistance: z.number().min(0, "Total distance must be non-negative"),
+	totalDuration: z.number().min(0, "Total duration must be non-negative"),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Routes = z.infer<typeof RoutesSchema>;

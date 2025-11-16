@@ -7,18 +7,18 @@
 import { z } from "zod";
 
 export const TripStopsSchema = z.object({
-  id: z.string(),
-  trip: z.string(),
-  sequence: z.number().min(1, "Sequence must be at least 1"),
-  address: z.string().optional(),
-  status: z.enum(["pending", "arrived", "completed", "skipped"]),
-  estimatedArrivalTime: z.date().optional(),
-  actualArrivalTime: z.date().optional(),
-  estimatedDepartureTime: z.date().optional(),
-  actualDepartureTime: z.date().optional(),
-  shipment: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	trip: z.string(),
+	sequence: z.number().min(1, "Sequence must be at least 1"),
+	address: z.string().optional(),
+	status: z.enum(["pending", "arrived", "completed", "skipped"]),
+	estimatedArrivalTime: z.date().optional(),
+	actualArrivalTime: z.date().optional(),
+	estimatedDepartureTime: z.date().optional(),
+	actualDepartureTime: z.date().optional(),
+	shipment: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type TripStops = z.infer<typeof TripStopsSchema>;

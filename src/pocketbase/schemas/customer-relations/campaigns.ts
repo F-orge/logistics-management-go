@@ -7,14 +7,14 @@
 import { z } from "zod";
 
 export const CampaignsSchema = z.object({
-  id: z.string(),
-  name: z.string().nonempty("Campaign name is required"),
-  budget: z.number().min(0, "Campaign budget must be non-negative"),
-  startDate: z.date().optional(),
-  endDate: z.date().optional(),
-  attachments: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().nonempty("Campaign name is required"),
+	budget: z.number().min(0, "Campaign budget must be non-negative"),
+	startDate: z.date().optional(),
+	endDate: z.date().optional(),
+	attachments: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

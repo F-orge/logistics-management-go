@@ -7,36 +7,36 @@
 import { z } from "zod";
 
 export const DisputesSchema = z.object({
-  id: z.string(),
-  lineItem: z.string(),
-  client: z.string(),
-  reason: z.enum([
-    "incorrect_charge",
-    "service_not_rendered",
-    "duplicate_charge",
-    "pricing_error",
-    "quality_issue",
-    "other",
-  ]),
-  status: z.enum([
-    "open",
-    "under-review",
-    "approved",
-    "denied",
-    "escalated",
-    "closed",
-  ]),
-  disputeAmount: z
-    .number()
-    .min(0.01, "Dispute amount must be a positive value")
-    .optional(),
-  resolutionNotes: z.string().optional(),
-  submittedAt: z.date().optional(),
-  resolvedAt: z.date().optional(),
-  resolvedBy: z.string().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	lineItem: z.string(),
+	client: z.string(),
+	reason: z.enum([
+		"incorrect_charge",
+		"service_not_rendered",
+		"duplicate_charge",
+		"pricing_error",
+		"quality_issue",
+		"other",
+	]),
+	status: z.enum([
+		"open",
+		"under-review",
+		"approved",
+		"denied",
+		"escalated",
+		"closed",
+	]),
+	disputeAmount: z
+		.number()
+		.min(0.01, "Dispute amount must be a positive value")
+		.optional(),
+	resolutionNotes: z.string().optional(),
+	submittedAt: z.date().optional(),
+	resolvedAt: z.date().optional(),
+	resolvedBy: z.string().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Disputes = z.infer<typeof DisputesSchema>;

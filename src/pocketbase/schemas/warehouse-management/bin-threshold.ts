@@ -7,22 +7,22 @@
 import { z } from "zod";
 
 export const BinThresholdSchema = z.object({
-  id: z.string(),
-  location: z.string(),
-  product: z.string(),
-  minQuantity: z.number().min(0, "Min quantity cannot be negative").optional(),
-  maxQuantity: z.number().min(0, "Max quantity cannot be negative").optional(),
-  reorderQuantity: z
-    .number()
-    .min(0, "Reorder quantity cannot be negative")
-    .optional(),
-  alertThreshold: z
-    .number()
-    .min(0, "Alert threshold cannot be negative")
-    .optional(),
-  isActive: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	location: z.string(),
+	product: z.string(),
+	minQuantity: z.number().min(0, "Min quantity cannot be negative").optional(),
+	maxQuantity: z.number().min(0, "Max quantity cannot be negative").optional(),
+	reorderQuantity: z
+		.number()
+		.min(0, "Reorder quantity cannot be negative")
+		.optional(),
+	alertThreshold: z
+		.number()
+		.min(0, "Alert threshold cannot be negative")
+		.optional(),
+	isActive: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type BinThreshold = z.infer<typeof BinThresholdSchema>;

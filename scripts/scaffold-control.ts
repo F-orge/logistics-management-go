@@ -114,9 +114,7 @@ function toSnakeCase(str: string): string {
 
 // Get searchable fields from collection
 // Searchable fields are typically text, email, url types
-function getSearchableFields(
-  collection: PocketBaseCollection
-): SearchableField[] {
+function getSearchableFields(collection: PocketBaseCollection): SearchableField[] {
   const searchableTypes = ["text", "email", "url"];
   const searchableFields: SearchableField[] = [];
 
@@ -141,9 +139,7 @@ function getSearchableFields(
 
 // Get filterable enum fields from collection
 // Enum fields are select and multiselect types with predefined options
-function getFilterableEnumFields(
-  collection: PocketBaseCollection
-): FilterableEnumField[] {
+function getFilterableEnumFields(collection: PocketBaseCollection): FilterableEnumField[] {
   const enumFields: FilterableEnumField[] = [];
 
   if (!collection.fields) {
@@ -239,10 +235,7 @@ export default ${componentName}Controls;
   // Handle enum-only case
   if (!hasSearch && hasEnumFilters) {
     const enumStates = enumFields
-      .map(
-        (field) =>
-          `  const [${field.name}Filter, set${toPascalCase(field.name)}Filter] = React.useState("");`
-      )
+      .map((field) => `  const [${field.name}Filter, set${toPascalCase(field.name)}Filter] = React.useState("");`)
       .join("\n");
 
     const enumSelectsMarkup = enumFields
@@ -353,10 +346,7 @@ export default ${componentName}Controls;
   // Handle search + enum case
   if (hasSearch && hasEnumFilters) {
     const enumStates = enumFields
-      .map(
-        (field) =>
-          `  const [${field.name}Filter, set${toPascalCase(field.name)}Filter] = React.useState("");`
-      )
+      .map((field) => `  const [${field.name}Filter, set${toPascalCase(field.name)}Filter] = React.useState("");`)
       .join("\n");
 
     const enumSelectsMarkup = enumFields
@@ -373,18 +363,12 @@ export default ${componentName}Controls;
       )
       .join("\n");
 
-    const searchFieldsComment = searchableFields
-      .map((field) => `   * - ${field.name}`)
-      .join("\n");
+    const searchFieldsComment = searchableFields.map((field) => `   * - ${field.name}`).join("\n");
 
-    const filterConditions = searchableFields
-      .map((field) => `${field.name} ~ '\${searchTerm}'`)
-      .join(" || ");
+    const filterConditions = searchableFields.map((field) => `${field.name} ~ '\${searchTerm}'`).join(" || ");
 
     const filterExpression =
-      searchableFields.length === 1
-        ? `${searchableFields[0].name} ~ '\${searchTerm}'`
-        : `(${filterConditions})`;
+      searchableFields.length === 1 ? `${searchableFields[0].name} ~ '\${searchTerm}'` : `(${filterConditions})`;
 
     return `import { useNavigate } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
@@ -523,20 +507,14 @@ export default ${componentName}Controls;
   }
 
   // Handle search-only case (original logic)
-  const searchFieldsComment = searchableFields
-    .map((field) => `   * - ${field.name}`)
-    .join("\n");
+  const searchFieldsComment = searchableFields.map((field) => `   * - ${field.name}`).join("\n");
 
   // Build the filter query logic - we need to output proper template literals
   // The trick is to build the string that will have ${...} in the final output
-  const filterConditions = searchableFields
-    .map((field) => `${field.name} ~ '\${searchTerm}'`)
-    .join(" || ");
+  const filterConditions = searchableFields.map((field) => `${field.name} ~ '\${searchTerm}'`).join(" || ");
 
   const filterExpression =
-    searchableFields.length === 1
-      ? `${searchableFields[0].name} ~ '\${searchTerm}'`
-      : `(${filterConditions})`;
+    searchableFields.length === 1 ? `${searchableFields[0].name} ~ '\${searchTerm}'` : `(${filterConditions})`;
 
   const filterQueryLine = `    const filterQuery = \`${filterExpression}\`;`;
 
@@ -655,9 +633,7 @@ async function scaffoldSingleControl(
   }
 
   try {
-    const collection = (await pb.collections.getOne(
-      collectionName
-    )) as PocketBaseCollection;
+    const collection = (await pb.collections.getOne(collectionName)) as PocketBaseCollection;
 
     if (!collection) {
       return {
@@ -675,17 +651,11 @@ async function scaffoldSingleControl(
     }
 
     // Generate and write the component
-    const componentContent = generateControlComponent(
-      componentName,
-      searchableFields,
-      enumFields
-    );
+    const componentContent = generateControlComponent(componentName, searchableFields, enumFields);
     fs.writeFileSync(filePath, componentContent);
 
-    const searchInfo =
-      searchableFields.length > 0 ? ` (${searchableFields.length} search)` : "";
-    const filterInfo =
-      enumFields.length > 0 ? ` + ${enumFields.length} filter(s)` : "";
+    const searchInfo = searchableFields.length > 0 ? ` (${searchableFields.length} search)` : "";
+    const filterInfo = enumFields.length > 0 ? ` + ${enumFields.length} filter(s)` : "";
     return {
       success: true,
       message: `✓ ${filePath}${searchInfo}${filterInfo}`,
@@ -698,18 +668,12 @@ async function scaffoldSingleControl(
   }
 }
 
-async function scaffoldAllControls(
-  pb: PocketBase,
-  force: boolean
-): Promise<void> {
+async function scaffoldAllControls(pb: PocketBase, force: boolean): Promise<void> {
   console.log("� Fetching all PocketBase collections...");
-  const collectionList =
-    (await pb.collections.getFullList()) as PocketBaseCollection[];
+  const collectionList = (await pb.collections.getFullList()) as PocketBaseCollection[];
 
   // Filter out system collections (those starting with _)
-  const userCollections = collectionList.filter(
-    (col) => !col.name.startsWith("_")
-  );
+  const userCollections = collectionList.filter((col) => !col.name.startsWith("_"));
 
   console.log(`✅ Found ${userCollections.length} user collections`);
   console.log("");
@@ -756,9 +720,7 @@ async function scaffoldAllControls(
   let totalFailed = 0;
 
   for (const [schema, tables] of collectionsBySchema) {
-    console.log(
-      `\n📦 Processing schema: ${colors.yellow}${schema}${colors.reset}`
-    );
+    console.log(`\n📦 Processing schema: ${colors.yellow}${schema}${colors.reset}`);
 
     for (const table of tables.sort()) {
       try {
@@ -775,9 +737,7 @@ async function scaffoldAllControls(
           totalFailed++;
         }
       } catch (error) {
-        console.log(
-          `  ${colors.red}✗ Error: ${error instanceof Error ? error.message : String(error)}${colors.reset}`
-        );
+        console.log(`  ${colors.red}✗ Error: ${error instanceof Error ? error.message : String(error)}${colors.reset}`);
         totalFailed++;
       }
     }
@@ -800,16 +760,10 @@ async function main() {
     const args = process.argv.slice(2);
 
     if (args.length === 0) {
-      console.error(
-        `${colors.red}Error: Invalid number of arguments${colors.reset}`
-      );
-      console.error(
-        "Usage: bun scaffold-control.ts <schema> <table> [--force]"
-      );
+      console.error(`${colors.red}Error: Invalid number of arguments${colors.reset}`);
+      console.error("Usage: bun scaffold-control.ts <schema> <table> [--force]");
       console.error("       bun scaffold-control.ts --all [--force]");
-      console.error(
-        "Example: bun scaffold-control.ts customer-relations companies"
-      );
+      console.error("Example: bun scaffold-control.ts customer-relations companies");
       console.error("Example: bun scaffold-control.ts --all --force");
       process.exit(1);
     }
@@ -827,12 +781,8 @@ async function main() {
       await scaffoldAllControls(pb, force);
     } else {
       if (args.length < 2) {
-        console.error(
-          `${colors.red}Error: Invalid number of arguments${colors.reset}`
-        );
-        console.error(
-          "Usage: bun scaffold-control.ts <schema> <table> [--force]"
-        );
+        console.error(`${colors.red}Error: Invalid number of arguments${colors.reset}`);
+        console.error("Usage: bun scaffold-control.ts <schema> <table> [--force]");
         console.error("       bun scaffold-control.ts --all [--force]");
         process.exit(1);
       }
@@ -851,9 +801,7 @@ async function main() {
       }
     }
   } catch (error) {
-    console.error(
-      `${colors.red}Error: ${error instanceof Error ? error.message : String(error)}${colors.reset}`
-    );
+    console.error(`${colors.red}Error: ${error instanceof Error ? error.message : String(error)}${colors.reset}`);
     process.exit(1);
   }
 }

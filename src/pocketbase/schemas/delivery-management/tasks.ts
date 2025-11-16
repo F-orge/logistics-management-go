@@ -8,47 +8,47 @@ import { z } from "zod";
 import { Collections } from "@/lib/pb.types";
 
 export const TasksSchema = z.object({
-  id: z.string(),
-  package: z.string(),
-  route: z.string(),
-  sequence: z.number().min(1, "Sequence must be at least 1"),
-  deliveryAddress: z.string(),
-  recipientName: z.string().optional(),
-  recipientPhone: z.string().optional(),
-  deliveryInstructions: z.string().optional(),
-  estimatedArrivalTime: z.date().optional(),
-  actualArrivalTime: z.date().optional(),
-  deliveryTime: z.date().optional(),
-  status: z
-    .enum([
-      "pending",
-      "assigned",
-      "out-for-delivery",
-      "delivered",
-      "failed",
-      "cancelled",
-      "rescheduled",
-    ])
-    .optional(),
-  attempCount: z
-    .number()
-    .min(0, "Attempt count must be non-negative")
-    .optional(),
-  attachments: z.file().array().optional(),
-  failureReason: z
-    .enum([
-      "recipient-not-home",
-      "address-not-found",
-      "refused-delivery",
-      "damaged-package",
-      "access-denied",
-      "weather-conditions",
-      "vehicle-breakdown",
-      "other",
-    ])
-    .optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	package: z.string(),
+	route: z.string(),
+	sequence: z.number().min(1, "Sequence must be at least 1"),
+	deliveryAddress: z.string(),
+	recipientName: z.string().optional(),
+	recipientPhone: z.string().optional(),
+	deliveryInstructions: z.string().optional(),
+	estimatedArrivalTime: z.date().optional(),
+	actualArrivalTime: z.date().optional(),
+	deliveryTime: z.date().optional(),
+	status: z
+		.enum([
+			"pending",
+			"assigned",
+			"out-for-delivery",
+			"delivered",
+			"failed",
+			"cancelled",
+			"rescheduled",
+		])
+		.optional(),
+	attempCount: z
+		.number()
+		.min(0, "Attempt count must be non-negative")
+		.optional(),
+	attachments: z.file().array().optional(),
+	failureReason: z
+		.enum([
+			"recipient-not-home",
+			"address-not-found",
+			"refused-delivery",
+			"damaged-package",
+			"access-denied",
+			"weather-conditions",
+			"vehicle-breakdown",
+			"other",
+		])
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Tasks = z.infer<typeof TasksSchema>;

@@ -8,15 +8,13 @@ import { z } from "zod";
 import { Collections } from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
-export const ProofOfDeliveriesSchema = z
-  .object({
-    id: z.string(),
-    task: z.string().optional(),
-    signatureData: z.any().optional(),
-    recipientName: z.string().optional(),
-    coordinates: Coordinates.optional(),
-    timestamp: z.iso.datetime().optional()
-})
-  
+export const ProofOfDeliveriesSchema = z.object({
+	id: z.string(),
+	task: z.string().optional(),
+	signatureData: z.any().optional(),
+	recipientName: z.string().optional(),
+	coordinates: Coordinates.optional(),
+	timestamp: z.iso.datetime().optional(),
+});
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

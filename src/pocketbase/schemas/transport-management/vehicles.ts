@@ -7,22 +7,22 @@
 import { z } from "zod";
 
 export const VehiclesSchema = z.object({
-  id: z.string(),
-  registrationNumber: z.string(),
-  model: z.string().optional(),
-  capacityVolume: z
-    .number()
-    .min(0, "Capacity volume must be non-negative")
-    .optional(),
-  capacityWeight: z
-    .number()
-    .min(0, "Capacity weight must be non-negative")
-    .optional(),
-  status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
-  maintenances: z.array(z.string()).optional(),
-  gps_pings: z.array(z.string()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	registrationNumber: z.string(),
+	model: z.string().optional(),
+	capacityVolume: z
+		.number()
+		.min(0, "Capacity volume must be non-negative")
+		.optional(),
+	capacityWeight: z
+		.number()
+		.min(0, "Capacity weight must be non-negative")
+		.optional(),
+	status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
+	maintenances: z.array(z.string()).optional(),
+	gps_pings: z.array(z.string()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Vehicles = z.infer<typeof VehiclesSchema>;

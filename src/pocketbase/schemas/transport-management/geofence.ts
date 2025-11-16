@@ -6,26 +6,18 @@
 
 import { z } from "zod";
 import {
-  fieldRegistry,
-  fieldSetRegistry,
+	fieldRegistry,
+	fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 
-export const GeofenceSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    coordinates: z.unknown(),
-    radius: z.number(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const GeofenceSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	coordinates: z.unknown(),
+	radius: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
+});
 
 export type Geofence = z.infer<typeof GeofenceSchema>;

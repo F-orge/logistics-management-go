@@ -7,14 +7,14 @@
 import { z } from "zod";
 
 export const PickBatchItemsSchema = z.object({
-  id: z.string(),
-  pickBatch: z.string(),
-  salesOrder: z.string(),
-  orderPriority: z.number().optional(),
-  estimatedPickTime: z.date().optional(),
-  actualPickTime: z.number().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	pickBatch: z.string(),
+	salesOrder: z.string(),
+	orderPriority: z.number().optional(),
+	estimatedPickTime: z.date().optional(),
+	actualPickTime: z.number().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PickBatchItems = z.infer<typeof PickBatchItemsSchema>;

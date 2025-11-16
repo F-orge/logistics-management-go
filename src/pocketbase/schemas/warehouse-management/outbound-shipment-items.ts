@@ -7,14 +7,14 @@
 import { z } from "zod";
 
 export const OutboundShipmentItemsSchema = z.object({
-  id: z.string(),
-  outboundShipment: z.string(),
-  salesOrderItem: z.string(),
-  product: z.string(),
-  batch: z.string().optional(),
-  quantityShipped: z.number().min(1, "Quantity shipped must be at least 1"),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	outboundShipment: z.string(),
+	salesOrderItem: z.string(),
+	product: z.string(),
+	batch: z.string().optional(),
+	quantityShipped: z.number().min(1, "Quantity shipped must be at least 1"),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type OutboundShipmentItems = z.infer<typeof OutboundShipmentItemsSchema>;

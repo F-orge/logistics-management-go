@@ -7,11 +7,11 @@
 import { z } from "zod";
 
 export const ShipmentLegEventsSchema = z.object({
-  id: z.string(),
-  message: z.string(),
-  shipmentLegId: z.string(),
-  location: z.unknown(),
-  timestamp: z.iso.datetime().optional(),
+	id: z.string(),
+	message: z.string(),
+	shipmentLegId: z.string(),
+	location: z.unknown(),
+	timestamp: z.iso.datetime().optional(),
 });
 
 export type ShipmentLegEvents = z.infer<typeof ShipmentLegEventsSchema>;

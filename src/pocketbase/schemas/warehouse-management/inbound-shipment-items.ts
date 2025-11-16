@@ -7,17 +7,17 @@
 import { z } from "zod";
 
 export const InboundShipmentItemsSchema = z.object({
-  id: z.string(),
-  inboundShipment: z.string().optional(),
-  product: z.string().optional(),
-  expectedQuantity: z.number().min(1, "Expected quantity must be at least 1"),
-  receivedQuantity: z
-    .number()
-    .min(0, "Received quantity cannot be negative")
-    .optional(),
-  discrepancyNotes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	inboundShipment: z.string().optional(),
+	product: z.string().optional(),
+	expectedQuantity: z.number().min(1, "Expected quantity must be at least 1"),
+	receivedQuantity: z
+		.number()
+		.min(0, "Received quantity cannot be negative")
+		.optional(),
+	discrepancyNotes: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InboundShipmentItems = z.infer<typeof InboundShipmentItemsSchema>;

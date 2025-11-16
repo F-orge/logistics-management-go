@@ -7,21 +7,21 @@
 import { z } from "zod";
 
 export const CreditNotesSchema = z.object({
-  id: z.string(),
-  invoice: z.string(),
-  dispute: z.string(),
-  creditNoteNumber: z.string(),
-  amount: z
-    .number()
-    .min(0.01, "Credit note amount must be a positive value")
-    .optional(),
-  reason: z.enum(["return", "discount", "correction", "goodwill", "other"]),
-  issueDate: z.date(),
-  appliedAt: z.date().optional(),
-  currency: z.string(),
-  notes: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z.string(),
+	dispute: z.string(),
+	creditNoteNumber: z.string(),
+	amount: z
+		.number()
+		.min(0.01, "Credit note amount must be a positive value")
+		.optional(),
+	reason: z.enum(["return", "discount", "correction", "goodwill", "other"]),
+	issueDate: z.date(),
+	appliedAt: z.date().optional(),
+	currency: z.string(),
+	notes: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type CreditNotes = z.infer<typeof CreditNotesSchema>;

@@ -6,22 +6,20 @@
 
 import { z } from "zod";
 
-export const OpportunityProductsSchema = z
-  .object({
-    id: z.string(),
-    opportunity: z.string().optional(),
-    product: z.string().optional(),
-    quantity: z
-      .number()
-      .min(0, "Quantity must be non-negative")
-      .int("Quantity must be an integer"),
-    priceSnapshot: z
-      .number()
-      .min(0, "Price snapshot must be non-negative")
-      .optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const OpportunityProductsSchema = z.object({
+	id: z.string(),
+	opportunity: z.string().optional(),
+	product: z.string().optional(),
+	quantity: z
+		.number()
+		.min(0, "Quantity must be non-negative")
+		.int("Quantity must be an integer"),
+	priceSnapshot: z
+		.number()
+		.min(0, "Price snapshot must be non-negative")
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
+});
 
 export type OpportunityProducts = z.infer<typeof OpportunityProductsSchema>;

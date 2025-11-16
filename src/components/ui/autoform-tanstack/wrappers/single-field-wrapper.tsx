@@ -1,17 +1,17 @@
 import React from "react";
 import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldError,
-  FieldLabel,
+	Field,
+	FieldContent,
+	FieldDescription,
+	FieldError,
+	FieldLabel,
 } from "../../field";
 
 export interface SingleFieldWrapperProps {
-  label?: string;
-  description?: string;
-  errors?: any[];
-  children: React.ReactNode;
+	label?: string;
+	description?: string;
+	errors?: any[];
+	children: React.ReactNode;
 }
 
 /**
@@ -20,23 +20,23 @@ export interface SingleFieldWrapperProps {
  * Uses shadcn field component structure for design consistency
  */
 export const SingleFieldWrapper: React.FC<SingleFieldWrapperProps> = ({
-  label,
-  description,
-  errors,
-  children,
+	label,
+	description,
+	errors,
+	children,
 }) => {
-  const hasErrors = errors && errors.length > 0;
+	const hasErrors = errors && errors.length > 0;
 
-  return (
-    <Field data-invalid={hasErrors ? "true" : "false"}>
-      {label && <FieldLabel>{label}</FieldLabel>}
-      {children}
-      {(description || hasErrors) && (
-        <FieldContent>
-          {description && <FieldDescription>{description}</FieldDescription>}
-          {hasErrors && <FieldError errors={errors} />}
-        </FieldContent>
-      )}
-    </Field>
-  );
+	return (
+		<Field data-invalid={hasErrors ? "true" : "false"}>
+			{label && <FieldLabel>{label}</FieldLabel>}
+			{children}
+			{(description || hasErrors) && (
+				<FieldContent>
+					{description && <FieldDescription>{description}</FieldDescription>}
+					{hasErrors && <FieldError errors={errors} />}
+				</FieldContent>
+			)}
+		</Field>
+	);
 };

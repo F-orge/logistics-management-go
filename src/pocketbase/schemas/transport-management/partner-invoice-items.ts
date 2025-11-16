@@ -7,12 +7,12 @@
 import { z } from "zod";
 
 export const PartnerInvoiceItemsSchema = z.object({
-  id: z.string(),
-  partnerInvoice: z.string(),
-  shipmentLeg: z.string(),
-  amount: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	partnerInvoice: z.string(),
+	shipmentLeg: z.string(),
+	amount: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type PartnerInvoiceItems = z.infer<typeof PartnerInvoiceItemsSchema>;

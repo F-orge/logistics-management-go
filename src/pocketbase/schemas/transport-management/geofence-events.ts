@@ -7,11 +7,11 @@
 import { z } from "zod";
 
 export const GeofenceEventsSchema = z.object({
-  id: z.string(),
-  vehicle: z.string(),
-  geofence: z.string(),
-  type: z.enum(["enter", "exit"]),
-  timestamp: z.iso.datetime().optional(),
+	id: z.string(),
+	vehicle: z.string(),
+	geofence: z.string(),
+	type: z.enum(["enter", "exit"]),
+	timestamp: z.iso.datetime().optional(),
 });
 
 export type GeofenceEvents = z.infer<typeof GeofenceEventsSchema>;

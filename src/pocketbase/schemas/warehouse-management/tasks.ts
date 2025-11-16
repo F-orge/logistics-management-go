@@ -7,42 +7,42 @@
 import { z } from "zod";
 
 export const TasksSchema = z.object({
-  id: z.string(),
-  taskNumber: z.string(),
-  warehouse: z.string().optional(),
-  user: z.string().optional(),
-  type: z
-    .enum([
-      "putaway",
-      "pick",
-      "pack",
-      "replenishment",
-      "cycle-count",
-      "cross-dock",
-      "returns-processing",
-      "damage-inspection",
-      "quality-check",
-    ])
-    .optional(),
-  status: z
-    .enum([
-      "pending",
-      "assigned",
-      "in-progress",
-      "completed",
-      "cancelled",
-      "error",
-    ])
-    .optional(),
-  priority: z.number().min(1, "Priority must be at least 1"),
-  pickBatchId: z.string().optional(),
-  instructions: z.unknown().optional(),
-  notes: z.unknown().optional(),
-  startTime: z.date().optional(),
-  endTime: z.date().optional(),
-  attachments: z.array(z.file()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	taskNumber: z.string(),
+	warehouse: z.string().optional(),
+	user: z.string().optional(),
+	type: z
+		.enum([
+			"putaway",
+			"pick",
+			"pack",
+			"replenishment",
+			"cycle-count",
+			"cross-dock",
+			"returns-processing",
+			"damage-inspection",
+			"quality-check",
+		])
+		.optional(),
+	status: z
+		.enum([
+			"pending",
+			"assigned",
+			"in-progress",
+			"completed",
+			"cancelled",
+			"error",
+		])
+		.optional(),
+	priority: z.number().min(1, "Priority must be at least 1"),
+	pickBatchId: z.string().optional(),
+	instructions: z.unknown().optional(),
+	notes: z.unknown().optional(),
+	startTime: z.date().optional(),
+	endTime: z.date().optional(),
+	attachments: z.array(z.file()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Tasks = z.infer<typeof TasksSchema>;

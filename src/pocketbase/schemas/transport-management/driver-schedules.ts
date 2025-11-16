@@ -7,15 +7,15 @@
 import { z } from "zod";
 
 export const DriverSchedulesSchema = z.object({
-  id: z.string(),
-  driver: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
-  reason: z
-    .enum(["vacation", "sick-leave", "training", "personal-leave"])
-    .optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	driver: z.string(),
+	startDate: z.date(),
+	endDate: z.date(),
+	reason: z
+		.enum(["vacation", "sick-leave", "training", "personal-leave"])
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type DriverSchedules = z.infer<typeof DriverSchedulesSchema>;

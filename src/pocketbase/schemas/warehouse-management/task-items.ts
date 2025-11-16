@@ -7,31 +7,31 @@
 import { z } from "zod";
 
 export const TaskItemsSchema = z.object({
-  id: z.string(),
-  task: z.string().optional(),
-  product: z.string().optional(),
-  batch: z.string().optional(),
-  sourceLocation: z.string().optional(),
-  destinationLocation: z.string().optional(),
-  quantityRequired: z.number().optional(),
-  quantityCompleted: z.number().optional(),
-  status: z
-    .enum([
-      "pending",
-      "in-progress",
-      "completed",
-      "short-picked",
-      "damaged",
-      "not-found",
-    ])
-    .optional(),
-  lotNumber: z.number().optional(),
-  expiryDate: z.date().optional(),
-  notes: z.unknown().optional(),
-  completedAt: z.date().optional(),
-  proofs: z.array(z.file()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	task: z.string().optional(),
+	product: z.string().optional(),
+	batch: z.string().optional(),
+	sourceLocation: z.string().optional(),
+	destinationLocation: z.string().optional(),
+	quantityRequired: z.number().optional(),
+	quantityCompleted: z.number().optional(),
+	status: z
+		.enum([
+			"pending",
+			"in-progress",
+			"completed",
+			"short-picked",
+			"damaged",
+			"not-found",
+		])
+		.optional(),
+	lotNumber: z.number().optional(),
+	expiryDate: z.date().optional(),
+	notes: z.unknown().optional(),
+	completedAt: z.date().optional(),
+	proofs: z.array(z.file()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type TaskItems = z.infer<typeof TaskItemsSchema>;

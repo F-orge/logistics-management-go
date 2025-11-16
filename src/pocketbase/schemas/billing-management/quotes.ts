@@ -7,29 +7,29 @@
 import { z } from "zod";
 
 export const QuotesSchema = z.object({
-  id: z.string(),
-  client: z.string().optional(),
-  originDetails: z.string().optional(),
-  destinationDetails: z.string().optional(),
-  weight: z.number().optional(),
-  length: z.number().optional(),
-  width: z.number().optional(),
-  height: z.number().optional(),
-  quotePrice: z
-    .number()
-    .min(0.01, "Quote price must be a positive value")
-    .optional(),
-  serviceLevel: z.string().optional(),
-  expiredAt: z.date().optional(),
-  status: z
-    .enum(["pending", "accepted", "expired", "cancelled", "converted"])
-    .optional(),
-  quoteNumber: z.string().optional(),
-  notes: z.string().optional(),
-  createdBy: z.string().optional(),
-  attachments: z.array(z.string()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	client: z.string().optional(),
+	originDetails: z.string().optional(),
+	destinationDetails: z.string().optional(),
+	weight: z.number().optional(),
+	length: z.number().optional(),
+	width: z.number().optional(),
+	height: z.number().optional(),
+	quotePrice: z
+		.number()
+		.min(0.01, "Quote price must be a positive value")
+		.optional(),
+	serviceLevel: z.string().optional(),
+	expiredAt: z.date().optional(),
+	status: z
+		.enum(["pending", "accepted", "expired", "cancelled", "converted"])
+		.optional(),
+	quoteNumber: z.string().optional(),
+	notes: z.string().optional(),
+	createdBy: z.string().optional(),
+	attachments: z.array(z.string()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Quotes = z.infer<typeof QuotesSchema>;

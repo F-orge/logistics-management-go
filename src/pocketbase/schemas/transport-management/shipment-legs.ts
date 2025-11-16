@@ -7,16 +7,16 @@
 import { z } from "zod";
 
 export const ShipmentLegsSchema = z.object({
-  id: z.string(),
-  legSequence: z.number().min(1, "Leg sequence must be at least 1"),
-  startLocation: z.unknown(),
-  endLocation: z.unknown(),
-  carrier: z.string().optional(),
-  interalTrip: z.string().optional(),
-  status: z.enum(["pending", "in-transit", "delivered", "cancelled", "failed"]),
-  shipment: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	legSequence: z.number().min(1, "Leg sequence must be at least 1"),
+	startLocation: z.unknown(),
+	endLocation: z.unknown(),
+	carrier: z.string().optional(),
+	interalTrip: z.string().optional(),
+	status: z.enum(["pending", "in-transit", "delivered", "cancelled", "failed"]),
+	shipment: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type ShipmentLegs = z.infer<typeof ShipmentLegsSchema>;

@@ -1,9 +1,9 @@
 import { formOptions } from "@tanstack/react-form";
 import {
-  UseNavigateResult,
-  useNavigate,
-  useRouteContext,
-  useSearch,
+	UseNavigateResult,
+	useNavigate,
+	useRouteContext,
+	useSearch,
 } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
@@ -12,53 +12,53 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 const FormOption = formOptions({
-  onSubmitMeta: {} as {
-    id: string;
-    pocketbase: TypedPocketBase;
-    navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-  },
-  onSubmit: async ({ meta }) => {
-    try {
-      await meta
-        .pocketbase!.collection(Collections.CustomerRelationsInteractions)
-        .delete(meta.id);
-      toast.success("Interaction deleted successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(`Error: ${error.message}`);
-      }
-    } finally {
-      meta.navigate({
-        search: (prev) => ({ ...prev, action: undefined, id: undefined }),
-      });
-    }
-  },
+	onSubmitMeta: {} as {
+		id: string;
+		pocketbase: TypedPocketBase;
+		navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+	},
+	onSubmit: async ({ meta }) => {
+		try {
+			await meta
+				.pocketbase!.collection(Collections.CustomerRelationsInteractions)
+				.delete(meta.id);
+			toast.success("Interaction deleted successfully!");
+		} catch (error) {
+			if (error instanceof ClientResponseError) {
+				toast.error(`Error: ${error.message}`);
+			}
+		} finally {
+			meta.navigate({
+				search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+			});
+		}
+	},
 });
 
 const DeleteInteractions = () => {
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
+	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+	const { pocketbase } = useRouteContext({
+		from: "/dashboard/$schema/$collection",
+	});
+	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
-  const form = useAppForm(FormOption);
+	const form = useAppForm(FormOption);
 
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit({ id: searchQuery.id!, navigate, pocketbase });
-      }}
-    >
-      <form.AppForm>
-        <DialogFooter>
-          <form.SubmitButton>Delete Interaction</form.SubmitButton>
-        </DialogFooter>
-      </form.AppForm>
-    </form>
-  );
+	return (
+		<form
+			onSubmit={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				form.handleSubmit({ id: searchQuery.id!, navigate, pocketbase });
+			}}
+		>
+			<form.AppForm>
+				<DialogFooter>
+					<form.SubmitButton>Delete Interaction</form.SubmitButton>
+				</DialogFooter>
+			</form.AppForm>
+		</form>
+	);
 };
 
 export default DeleteInteractions;

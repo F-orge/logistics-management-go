@@ -7,26 +7,26 @@
 import { z } from "zod";
 
 export const RateRulesSchema = z.object({
-  id: z.string(),
-  rateCard: z.string().optional(),
-  condition: z.string(),
-  value: z.string(),
-  price: z.number(),
-  pricingModel: z.enum([
-    "per-kg",
-    "per-item",
-    "flat-rate",
-    "per-cubic-meter",
-    "per-zone",
-    "percentage",
-    "tiered",
-  ]),
-  minValue: z.number().optional(),
-  maxValue: z.number().optional(),
-  priority: z.number(),
-  isActive: z.boolean().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	rateCard: z.string().optional(),
+	condition: z.string(),
+	value: z.string(),
+	price: z.number(),
+	pricingModel: z.enum([
+		"per-kg",
+		"per-item",
+		"flat-rate",
+		"per-cubic-meter",
+		"per-zone",
+		"percentage",
+		"tiered",
+	]),
+	minValue: z.number().optional(),
+	maxValue: z.number().optional(),
+	priority: z.number(),
+	isActive: z.boolean().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type RateRules = z.infer<typeof RateRulesSchema>;

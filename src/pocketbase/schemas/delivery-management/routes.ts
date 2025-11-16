@@ -8,24 +8,24 @@ import { z } from "zod";
 import { Collections } from "@/lib/pb.types";
 
 export const RoutesSchema = z.object({
-  id: z.string(),
-  driver: z.string().optional(),
-  routeDate: z.date().optional(),
-  status: z
-    .enum(["planned", "in-progress", "completed", "cancelled", "paused"])
-    .optional(),
-  totalDistance: z
-    .number()
-    .min(0, "Total distance must be non-negative")
-    .optional(),
-  estimatedDurationInMinutes: z
-    .number()
-    .min(0, "Estimated duration must be non-negative")
-    .optional(),
-  startedAt: z.date().optional(),
-  completedAt: z.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	driver: z.string().optional(),
+	routeDate: z.date().optional(),
+	status: z
+		.enum(["planned", "in-progress", "completed", "cancelled", "paused"])
+		.optional(),
+	totalDistance: z
+		.number()
+		.min(0, "Total distance must be non-negative")
+		.optional(),
+	estimatedDurationInMinutes: z
+		.number()
+		.min(0, "Estimated duration must be non-negative")
+		.optional(),
+	startedAt: z.date().optional(),
+	completedAt: z.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Routes = z.infer<typeof RoutesSchema>;

@@ -7,20 +7,20 @@
 import { z } from "zod";
 
 export const ReturnsSchema = z.object({
-  id: z.string(),
-  returnNumber: z.string(),
-  salesOrder: z.string().optional(),
-  client: z.string().optional(),
-  status: z.enum([
-    "requested",
-    "approved",
-    "rejeceted",
-    "received",
-    "processed",
-  ]),
-  reason: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	returnNumber: z.string(),
+	salesOrder: z.string().optional(),
+	client: z.string().optional(),
+	status: z.enum([
+		"requested",
+		"approved",
+		"rejeceted",
+		"received",
+		"processed",
+	]),
+	reason: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Returns = z.infer<typeof ReturnsSchema>;

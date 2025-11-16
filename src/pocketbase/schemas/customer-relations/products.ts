@@ -7,15 +7,15 @@
 import { z } from "zod";
 
 export const ProductsSchema = z.object({
-  id: z.string(),
-  name: z.string().nonempty("Product name is required"),
-  sku: z.string().nonempty("SKU is required"),
-  price: z.number().min(0, "Price must be a positive value or zero"),
-  type: z.enum(["service", "good", "digital", "subscription"]),
-  description: z.unknown().optional(),
-  attachments: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional()
+	id: z.string(),
+	name: z.string().nonempty("Product name is required"),
+	sku: z.string().nonempty("SKU is required"),
+	price: z.number().min(0, "Price must be a positive value or zero"),
+	type: z.enum(["service", "good", "digital", "subscription"]),
+	description: z.unknown().optional(),
+	attachments: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Products = z.infer<typeof ProductsSchema>;

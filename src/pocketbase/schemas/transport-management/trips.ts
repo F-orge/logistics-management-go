@@ -7,12 +7,12 @@
 import { z } from "zod";
 
 export const TripsSchema = z.object({
-  id: z.string(),
-  driver: z.string(),
-  vehicle: z.string(),
-  status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	driver: z.string(),
+	vehicle: z.string(),
+	status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Trips = z.infer<typeof TripsSchema>;

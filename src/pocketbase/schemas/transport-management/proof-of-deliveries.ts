@@ -7,12 +7,12 @@
 import { z } from "zod";
 
 export const ProofOfDeliveriesSchema = z.object({
-  id: z.string(),
-  tripStop: z.string(),
-  coordinate: z.unknown(),
-  attachments: z.array(z.file()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	tripStop: z.string(),
+	coordinate: z.unknown(),
+	attachments: z.array(z.file()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

@@ -7,12 +7,12 @@
 import { z } from "zod";
 
 export const InventoryBatchesSchema = z.object({
-  id: z.string(),
-  product: z.string(),
-  batchNumber: z.string(),
-  expirationDate: z.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string(),
+	batchNumber: z.string(),
+	expirationDate: z.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InventoryBatches = z.infer<typeof InventoryBatchesSchema>;

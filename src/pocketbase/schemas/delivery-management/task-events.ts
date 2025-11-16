@@ -8,27 +8,25 @@ import { z } from "zod";
 import { Collections } from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
-export const TaskEventsSchema = z
-  .object({
-    id: z.string(),
-    task: z.string(),
-    status: z
-      .enum([
-        "assigned",
-        "started",
-        "arrived",
-        "delivered",
-        "failed",
-        "exception",
-        "cancelled",
-        "rescheduled",
-      ])
-      .optional(),
-    reason: z.string().optional(),
-    notes: z.string().optional(),
-    coordinates: Coordinates.optional(),
-    timestamp: z.iso.datetime().optional()
-})
-  
+export const TaskEventsSchema = z.object({
+	id: z.string(),
+	task: z.string(),
+	status: z
+		.enum([
+			"assigned",
+			"started",
+			"arrived",
+			"delivered",
+			"failed",
+			"exception",
+			"cancelled",
+			"rescheduled",
+		])
+		.optional(),
+	reason: z.string().optional(),
+	notes: z.string().optional(),
+	coordinates: Coordinates.optional(),
+	timestamp: z.iso.datetime().optional(),
+});
 
 export type TaskEvents = z.infer<typeof TaskEventsSchema>;
