@@ -164,7 +164,7 @@ const UpdateInvoiceForm = () => {
           {...toAutoFormFieldSet(CreateInvoiceSchema)}
         />
         <DialogFooter>
-          <form.SubmitButton>Create Invoice</form.SubmitButton>
+          <form.SubmitButton>Update Invoice</form.SubmitButton>
         </DialogFooter>
       </form.AppForm>
     </form>

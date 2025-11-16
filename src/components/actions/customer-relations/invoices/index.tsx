@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import CreateInvoiceForm from "./create";
+import DeleteInvoice from "./delete";
 import UpdateInvoiceForm from "./update";
 
 const InvoiceActions = () => {
@@ -42,7 +43,11 @@ const InvoiceActions = () => {
   }
 
   if (searchQuery.action === "delete" && searchQuery.id) {
-    return <>todo: delete action</>;
+    Component = {
+      title: "Delete Invoice",
+      description: "Are you sure you want to delete this invoice?",
+      Element: <DeleteInvoice />,
+    };
   }
 
   if (Component) {
