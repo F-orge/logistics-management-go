@@ -5,33 +5,18 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const InboundShipmentsSchema = z
-  .object({
-    id: z.string(),
-    client: z.string(),
-    status: z
-      .enum(["pending", "arrived", "processing", "completed", "cancelled"])
-      .optional()
-      ,
-    expectedArrivalDate: z.iso.date().optional(),
-    actualArrivalDate: z.iso.date().optional(),
-    warehouse: z.string(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const InboundShipmentsSchema = z.object({
+  id: z.string(),
+  client: z.string(),
+  status: z
+    .enum(["pending", "arrived", "processing", "completed", "cancelled"])
+    .optional(),
+  expectedArrivalDate: z.iso.date().optional(),
+  actualArrivalDate: z.iso.date().optional(),
+  warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type InboundShipments = z.infer<typeof InboundShipmentsSchema>;

@@ -13,65 +13,21 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const ProductsSchema = z
-  .object({
-    id: z.string(),
-    sku: z
-      .string()
-      .optional()
-      ,
-    name: z
-      .string()
-      .optional()
-      ,
-    description: z
-      .string()
-      .optional()
-      ,
-    category: z
-      .string()
-      .optional()
-      ,
-    price: z
-      .number()
-      .optional()
-      ,
-    unit: z
-      .string()
-      .optional()
-      ,
-    weight: z
-      .number()
-      .optional()
-      ,
-    supplier: z
-      .string()
-      .optional()
-      ,
-    client: z
-      .string()
-      .optional()
-      ,
-    images: z
-      .array(z.string())
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const ProductsSchema = z.object({
+  id: z.string(),
+  sku: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  price: z.number().optional(),
+  unit: z.string().optional(),
+  weight: z.number().optional(),
+  supplier: z.string().optional(),
+  client: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Products = z.infer<typeof ProductsSchema>;

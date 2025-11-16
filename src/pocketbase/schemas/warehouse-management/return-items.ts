@@ -5,39 +5,18 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const ReturnItemsSchema = z
-  .object({
-    id: z.string(),
-    return: z.string(),
-    product: z.string(),
-    quantityExpected: z
-      .number()
-      .optional()
-      ,
-    quantityRecevied: z
-      .number()
-      .optional()
-      ,
-    condition: z
-      .enum(["sellable", "damaged", "defective", "expired", "unsellable"])
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const ReturnItemsSchema = z.object({
+  id: z.string(),
+  return: z.string(),
+  product: z.string(),
+  quantityExpected: z.number().optional(),
+  quantityRecevied: z.number().optional(),
+  condition: z
+    .enum(["sellable", "damaged", "defective", "expired", "unsellable"])
+    .optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type ReturnItems = z.infer<typeof ReturnItemsSchema>;

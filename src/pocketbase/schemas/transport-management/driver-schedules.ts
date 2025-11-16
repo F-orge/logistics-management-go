@@ -5,32 +5,17 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const DriverSchedulesSchema = z
-  .object({
-    id: z.string(),
-    driver: z.string(),
-    startDate: z.iso.date(),
-    endDate: z.iso.date(),
-    reason: z
-      .enum(["vacation", "sick-leave", "training", "personal-leave"])
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const DriverSchedulesSchema = z.object({
+  id: z.string(),
+  driver: z.string(),
+  startDate: z.iso.date(),
+  endDate: z.iso.date(),
+  reason: z
+    .enum(["vacation", "sick-leave", "training", "personal-leave"])
+    .optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type DriverSchedules = z.infer<typeof DriverSchedulesSchema>;

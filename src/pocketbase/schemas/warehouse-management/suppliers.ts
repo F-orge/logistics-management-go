@@ -5,42 +5,16 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const SuppliersSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    contactPerson: z
-      .string()
-      .optional()
-      ,
-    email: z
-      .email()
-      .optional()
-      ,
-    phoneNumber: z
-      .string()
-      .optional()
-      ,
-    client: z
-      .string()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const SuppliersSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  contactPerson: z.string().optional(),
+  email: z.email().optional(),
+  phoneNumber: z.string().optional(),
+  client: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Suppliers = z.infer<typeof SuppliersSchema>;

@@ -5,21 +5,13 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const GeofenceEventsSchema = z
-  .object({
-    id: z.string(),
-    vehicle: z.string(),
-    geofence: z.string(),
-    type: z.enum(["enter", "exit"]),
-    timestamp: z.iso.datetime().optional(),
-  })
-  ;
+export const GeofenceEventsSchema = z.object({
+  id: z.string(),
+  vehicle: z.string(),
+  geofence: z.string(),
+  type: z.enum(["enter", "exit"]),
+  timestamp: z.iso.datetime().optional(),
+});
 
 export type GeofenceEvents = z.infer<typeof GeofenceEventsSchema>;

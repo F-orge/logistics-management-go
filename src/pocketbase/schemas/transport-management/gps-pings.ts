@@ -5,20 +5,12 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const GpsPingsSchema = z
-  .object({
-    id: z.string(),
-    vehicle: z.string(),
-    coordinates: z.unknown(),
-    timestamp: z.iso.datetime().optional(),
-  })
-  ;
+export const GpsPingsSchema = z.object({
+  id: z.string(),
+  vehicle: z.string(),
+  coordinates: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
+});
 
 export type GpsPings = z.infer<typeof GpsPingsSchema>;

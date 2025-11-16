@@ -5,28 +5,14 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const InventoryBatchesSchema = z
-  .object({
-    id: z.string(),
-    product: z.string(),
-    batchNumber: z.string(),
-    expirationDate: z.iso.date().optional(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const InventoryBatchesSchema = z.object({
+  id: z.string(),
+  product: z.string(),
+  batchNumber: z.string(),
+  expirationDate: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type InventoryBatches = z.infer<typeof InventoryBatchesSchema>;

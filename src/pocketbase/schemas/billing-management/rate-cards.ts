@@ -5,46 +5,27 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const RateCardsSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    type: z
-      .enum([
-        "shipping",
-        "storage",
-        "fulfillment",
-        "handling",
-        "insurance",
-        "customs",
-        "packaging",
-        "returns",
-      ])
-      ,
-    isActive: z.boolean().optional(),
-    validFrom: z.iso.date().optional(),
-    validTo: z.iso.date().optional(),
-    description: z.string().optional(),
-    createdBy: z
-      .string()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const RateCardsSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  type: z.enum([
+    "shipping",
+    "storage",
+    "fulfillment",
+    "handling",
+    "insurance",
+    "customs",
+    "packaging",
+    "returns",
+  ]),
+  isActive: z.boolean().optional(),
+  validFrom: z.iso.date().optional(),
+  validTo: z.iso.date().optional(),
+  description: z.string().optional(),
+  createdBy: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type RateCards = z.infer<typeof RateCardsSchema>;

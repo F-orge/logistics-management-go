@@ -5,41 +5,22 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const ReturnsSchema = z
-  .object({
-    id: z.string(),
-    returnNumber: z.string(),
-    salesOrder: z
-      .string()
-      .optional()
-      ,
-    client: z
-      .string()
-      .optional()
-      ,
-    status: z
-      .enum(["requested", "approved", "rejeceted", "received", "processed"])
-      ,
-    reason: z
-      .unknown()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const ReturnsSchema = z.object({
+  id: z.string(),
+  returnNumber: z.string(),
+  salesOrder: z.string().optional(),
+  client: z.string().optional(),
+  status: z.enum([
+    "requested",
+    "approved",
+    "rejeceted",
+    "received",
+    "processed",
+  ]),
+  reason: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Returns = z.infer<typeof ReturnsSchema>;

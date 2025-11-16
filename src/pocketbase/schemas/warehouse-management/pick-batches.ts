@@ -5,74 +5,32 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const PickBatchesSchema = z
-  .object({
-    id: z.string(),
-    batchNumber: z
-      .string()
-      .optional()
-      ,
-    warehouse: z
-      .string()
-      .optional()
-      ,
-    status: z
-      .enum(["open", "in-progress", "completed", "cancelled"])
-      .optional()
-      ,
-    strategy: z
-      .enum([
-        "batch-picking",
-        "zone-picking",
-        "wave-picking",
-        "single-order-picking",
-        "cluster-picking",
-      ])
-      .optional()
-      ,
-    priority: z.number(),
-    assignedUser: z
-      .string()
-      .optional()
-      ,
-    estimatedDuration: z
-      .number()
-      .optional()
-      ,
-    actualDuration: z
-      .number()
-      .optional()
-      ,
-    totalItems: z
-      .number()
-      .optional()
-      ,
-    completedItems: z
-      .number()
-      .optional()
-      ,
-    startedAt: z.iso.date().optional(),
-    completedAt: z.iso.date().optional(),
-    items: z
-      .array(z.string())
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const PickBatchesSchema = z.object({
+  id: z.string(),
+  batchNumber: z.string().optional(),
+  warehouse: z.string().optional(),
+  status: z.enum(["open", "in-progress", "completed", "cancelled"]).optional(),
+  strategy: z
+    .enum([
+      "batch-picking",
+      "zone-picking",
+      "wave-picking",
+      "single-order-picking",
+      "cluster-picking",
+    ])
+    .optional(),
+  priority: z.number(),
+  assignedUser: z.string().optional(),
+  estimatedDuration: z.number().optional(),
+  actualDuration: z.number().optional(),
+  totalItems: z.number().optional(),
+  completedItems: z.number().optional(),
+  startedAt: z.iso.date().optional(),
+  completedAt: z.iso.date().optional(),
+  items: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type PickBatches = z.infer<typeof PickBatchesSchema>;

@@ -5,34 +5,14 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const SalesOrderItemsSchema = z
-  .object({
-    id: z.string(),
-    salesOrder: z
-      .string()
-      .optional()
-      ,
-    product: z
-      .string()
-      .optional()
-      ,
-    quantityOrdered: z.number(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const SalesOrderItemsSchema = z.object({
+  id: z.string(),
+  salesOrder: z.string().optional(),
+  product: z.string().optional(),
+  quantityOrdered: z.number(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type SalesOrderItems = z.infer<typeof SalesOrderItemsSchema>;

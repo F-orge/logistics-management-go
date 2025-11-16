@@ -5,78 +5,33 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const TaskItemsSchema = z
-  .object({
-    id: z.string(),
-    task: z
-      .string()
-      .optional()
-      ,
-    product: z
-      .string()
-      .optional()
-      ,
-    batch: z
-      .string()
-      .optional()
-      ,
-    sourceLocation: z
-      .string()
-      .optional()
-      ,
-    destinationLocation: z
-      .string()
-      .optional()
-      ,
-    quantityRequired: z
-      .number()
-      .optional()
-      ,
-    quantityCompleted: z
-      .number()
-      .optional()
-      ,
-    status: z
-      .enum([
-        "pending",
-        "in-progress",
-        "completed",
-        "short-picked",
-        "damaged",
-        "not-found",
-      ])
-      .optional()
-      ,
-    lotNumber: z
-      .number()
-      .optional()
-      ,
-    expiryDate: z.iso.date().optional(),
-    notes: z
-      .unknown()
-      .optional()
-      ,
-    completedAt: z.iso.date().optional(),
-    proofs: z
-      .array(z.file())
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const TaskItemsSchema = z.object({
+  id: z.string(),
+  task: z.string().optional(),
+  product: z.string().optional(),
+  batch: z.string().optional(),
+  sourceLocation: z.string().optional(),
+  destinationLocation: z.string().optional(),
+  quantityRequired: z.number().optional(),
+  quantityCompleted: z.number().optional(),
+  status: z
+    .enum([
+      "pending",
+      "in-progress",
+      "completed",
+      "short-picked",
+      "damaged",
+      "not-found",
+    ])
+    .optional(),
+  lotNumber: z.number().optional(),
+  expiryDate: z.iso.date().optional(),
+  notes: z.unknown().optional(),
+  completedAt: z.iso.date().optional(),
+  proofs: z.array(z.file()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type TaskItems = z.infer<typeof TaskItemsSchema>;

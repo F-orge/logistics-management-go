@@ -5,30 +5,14 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const TripsSchema = z
-  .object({
-    id: z.string(),
-    driver: z.string(),
-    vehicle: z.string(),
-    status: z
-      .enum(["planned", "in-progress", "completed", "cancelled"])
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const TripsSchema = z.object({
+  id: z.string(),
+  driver: z.string(),
+  vehicle: z.string(),
+  status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Trips = z.infer<typeof TripsSchema>;

@@ -5,74 +5,38 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const LocationsSchema = z
-  .object({
-    id: z.string(),
-    warehouse: z
-      .string()
-      .optional()
-      ,
-    name: z.string(),
-    barcode: z
-      .string()
-      .optional()
-      ,
-    type: z
-      .enum([
-        "receiving-dock",
-        "pick-bin",
-        "packing-station",
-        "cross-dock-area",
-        "bulk-storage",
-        "reserve-storage",
-        "damaged-goods",
-        "staging-area",
-        "quality-control",
-        "returns-area",
-      ])
-      .optional()
-      ,
-    level: z
-      .number()
-      .optional()
-      ,
-    maxWeight: z
-      .number()
-      .optional()
-      ,
-    maxVolume: z
-      .number()
-      .optional()
-      ,
-    maxPallets: z
-      .number()
-      .optional()
-      ,
-    isPickable: z.unknown().optional(),
-    isReceivable: z.unknown().optional(),
-    temperatureControlled: z.unknown().optional(),
-    hazmatApproved: z.unknown().optional(),
-    isActive: z.unknown().optional(),
-    parentLocation: z
-      .string()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const LocationsSchema = z.object({
+  id: z.string(),
+  warehouse: z.string().optional(),
+  name: z.string(),
+  barcode: z.string().optional(),
+  type: z
+    .enum([
+      "receiving-dock",
+      "pick-bin",
+      "packing-station",
+      "cross-dock-area",
+      "bulk-storage",
+      "reserve-storage",
+      "damaged-goods",
+      "staging-area",
+      "quality-control",
+      "returns-area",
+    ])
+    .optional(),
+  level: z.number().optional(),
+  maxWeight: z.number().optional(),
+  maxVolume: z.number().optional(),
+  maxPallets: z.number().optional(),
+  isPickable: z.unknown().optional(),
+  isReceivable: z.unknown().optional(),
+  temperatureControlled: z.unknown().optional(),
+  hazmatApproved: z.unknown().optional(),
+  isActive: z.unknown().optional(),
+  parentLocation: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Locations = z.infer<typeof LocationsSchema>;

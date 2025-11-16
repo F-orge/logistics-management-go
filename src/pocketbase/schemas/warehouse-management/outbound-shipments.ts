@@ -5,40 +5,19 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const OutboundShipmentsSchema = z
-  .object({
-    id: z.string(),
-    salesOrder: z.string(),
-    status: z
-      .enum(["picking", "packed", "shipped", "delivered", "cancelled"])
-      .optional()
-      ,
-    trackingNumber: z.string(),
-    carrier: z
-      .string()
-      .optional()
-      ,
-    items: z
-      .array(z.string())
-      .optional()
-      ,
-    warehouse: z.string(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const OutboundShipmentsSchema = z.object({
+  id: z.string(),
+  salesOrder: z.string(),
+  status: z
+    .enum(["picking", "packed", "shipped", "delivered", "cancelled"])
+    .optional(),
+  trackingNumber: z.string(),
+  carrier: z.string().optional(),
+  items: z.array(z.string()).optional(),
+  warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type OutboundShipments = z.infer<typeof OutboundShipmentsSchema>;

@@ -5,37 +5,17 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const PackageItemsSchema = z
-  .object({
-    id: z.string(),
-    package: z.string(),
-    product: z.string(),
-    batch: z
-      .string()
-      .optional()
-      ,
-    quantity: z.number(),
-    lotNumber: z
-      .string()
-      .optional()
-      ,
-    expiryDate: z.iso.date().optional(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const PackageItemsSchema = z.object({
+  id: z.string(),
+  package: z.string(),
+  product: z.string(),
+  batch: z.string().optional(),
+  quantity: z.number(),
+  lotNumber: z.string().optional(),
+  expiryDate: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type PackageItems = z.infer<typeof PackageItemsSchema>;

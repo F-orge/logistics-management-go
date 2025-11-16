@@ -5,66 +5,27 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const PackagesSchema = z
-  .object({
-    id: z.string(),
-    salesOrder: z.string(),
-    packageNumber: z.string(),
-    warehouse: z.string(),
-    type: z
-      .string()
-      .optional()
-      ,
-    weight: z
-      .number()
-      .optional()
-      ,
-    length: z
-      .number()
-      .optional()
-      ,
-    width: z
-      .number()
-      .optional()
-      ,
-    height: z
-      .number()
-      .optional()
-      ,
-    packedByUser: z
-      .string()
-      .optional()
-      ,
-    packedAt: z.iso.date().optional(),
-    shippedAt: z.iso.date().optional(),
-    isFragile: z.unknown().optional(),
-    isHazmat: z.unknown().optional(),
-    requireSignature: z.unknown().optional(),
-    insuranceValue: z
-      .number()
-      .optional()
-      ,
-    images: z
-      .file()
-      .array()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const PackagesSchema = z.object({
+  id: z.string(),
+  salesOrder: z.string(),
+  packageNumber: z.string(),
+  warehouse: z.string(),
+  type: z.string().optional(),
+  weight: z.number().optional(),
+  length: z.number().optional(),
+  width: z.number().optional(),
+  height: z.number().optional(),
+  packedByUser: z.string().optional(),
+  packedAt: z.iso.date().optional(),
+  shippedAt: z.iso.date().optional(),
+  isFragile: z.unknown().optional(),
+  isHazmat: z.unknown().optional(),
+  requireSignature: z.unknown().optional(),
+  insuranceValue: z.number().optional(),
+  images: z.file().array().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Packages = z.infer<typeof PackagesSchema>;

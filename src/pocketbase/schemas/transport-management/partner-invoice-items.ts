@@ -5,28 +5,14 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const PartnerInvoiceItemsSchema = z
-  .object({
-    id: z.string(),
-    partnerInvoice: z.string(),
-    shipmentLeg: z.string(),
-    amount: z.number(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const PartnerInvoiceItemsSchema = z.object({
+  id: z.string(),
+  partnerInvoice: z.string(),
+  shipmentLeg: z.string(),
+  amount: z.number(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type PartnerInvoiceItems = z.infer<typeof PartnerInvoiceItemsSchema>;

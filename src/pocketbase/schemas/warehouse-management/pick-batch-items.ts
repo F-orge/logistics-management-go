@@ -5,36 +5,16 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const PickBatchItemsSchema = z
-  .object({
-    id: z.string(),
-    pickBatch: z.string(),
-    salesOrder: z.string(),
-    orderPriority: z
-      .number()
-      .optional()
-      ,
-    estimatedPickTime: z.iso.date().optional(),
-    actualPickTime: z
-      .number()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const PickBatchItemsSchema = z.object({
+  id: z.string(),
+  pickBatch: z.string(),
+  salesOrder: z.string(),
+  orderPriority: z.number().optional(),
+  estimatedPickTime: z.iso.date().optional(),
+  actualPickTime: z.number().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type PickBatchItems = z.infer<typeof PickBatchItemsSchema>;

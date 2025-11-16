@@ -5,37 +5,19 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const PartnerInvoiceSchema = z
-  .object({
-    id: z.string(),
-    carrier: z.string(),
-    invoiceNumber: z.string(),
-    invoiceDate: z.iso.date(),
-    totalAmount: z.number(),
-    status: z
-      .enum(["pending", "paid", "disputed", "overdue", "cancelled"])
-      .optional()
-      ,
-    items: z
-      .string()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const PartnerInvoiceSchema = z.object({
+  id: z.string(),
+  carrier: z.string(),
+  invoiceNumber: z.string(),
+  invoiceDate: z.iso.date(),
+  totalAmount: z.number(),
+  status: z
+    .enum(["pending", "paid", "disputed", "overdue", "cancelled"])
+    .optional(),
+  items: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type PartnerInvoice = z.infer<typeof PartnerInvoiceSchema>;

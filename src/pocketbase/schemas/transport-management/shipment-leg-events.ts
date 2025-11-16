@@ -5,21 +5,13 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const ShipmentLegEventsSchema = z
-  .object({
-    id: z.string(),
-    message: z.string(),
-    shipmentLegId: z.string(),
-    location: z.unknown(),
-    timestamp: z.iso.datetime().optional(),
-  })
-  ;
+export const ShipmentLegEventsSchema = z.object({
+  id: z.string(),
+  message: z.string(),
+  shipmentLegId: z.string(),
+  location: z.unknown(),
+  timestamp: z.iso.datetime().optional(),
+});
 
 export type ShipmentLegEvents = z.infer<typeof ShipmentLegEventsSchema>;

@@ -5,43 +5,18 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
-export const AccountTransactionsSchema = z
-  .object({
-    id: z.string(),
-    clientAccount: z.string(),
-    type: z
-      .enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"])
-      ,
-    amount: z.number(),
-    runningBalance: z
-      .number()
-      .optional()
-      ,
-    transactionDate: z.iso.date().optional(),
-    processedBy: z
-      .string()
-      .optional()
-      ,
-    referenceNumber: z
-      .string()
-      .optional()
-      ,
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const AccountTransactionsSchema = z.object({
+  id: z.string(),
+  clientAccount: z.string(),
+  type: z.enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"]),
+  amount: z.number(),
+  runningBalance: z.number().optional(),
+  transactionDate: z.iso.date().optional(),
+  processedBy: z.string().optional(),
+  referenceNumber: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type AccountTransactions = z.infer<typeof AccountTransactionsSchema>;
