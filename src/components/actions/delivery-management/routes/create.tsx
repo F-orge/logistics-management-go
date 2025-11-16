@@ -14,10 +14,7 @@ import {
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
-import {
-  Collections,
-  TypedPocketBase,
-} from "@/lib/pb.types";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { RoutesSchema } from "@/pocketbase/schemas/delivery-management/routes";
 
 export const CreateRouteSchema = z.object({
@@ -42,20 +39,24 @@ export const CreateRouteSchema = z.object({
     description: "Select the route status (optional)",
     inputType: "select",
   }),
-  totalDistance: RoutesSchema.shape.totalDistance.optional().register(fieldRegistry, {
-    id: "dm-routes-totalDistance-create",
-    type: "field",
-    label: "Total Distance",
-    description: "Enter the total distance (optional)",
-    inputType: "number",
-  }),
-  estimatedDurationInMinutes: RoutesSchema.shape.estimatedDurationInMinutes.optional().register(fieldRegistry, {
-    id: "dm-routes-estimatedDurationInMinutes-create",
-    type: "field",
-    label: "Estimated Duration (Minutes)",
-    description: "Enter estimated duration in minutes (optional)",
-    inputType: "number",
-  }),
+  totalDistance: RoutesSchema.shape.totalDistance
+    .optional()
+    .register(fieldRegistry, {
+      id: "dm-routes-totalDistance-create",
+      type: "field",
+      label: "Total Distance",
+      description: "Enter the total distance (optional)",
+      inputType: "number",
+    }),
+  estimatedDurationInMinutes: RoutesSchema.shape.estimatedDurationInMinutes
+    .optional()
+    .register(fieldRegistry, {
+      id: "dm-routes-estimatedDurationInMinutes-create",
+      type: "field",
+      label: "Estimated Duration (Minutes)",
+      description: "Enter estimated duration in minutes (optional)",
+      inputType: "number",
+    }),
 });
 
 const FormOption = formOptions({

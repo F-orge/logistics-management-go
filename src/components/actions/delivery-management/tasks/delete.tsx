@@ -53,7 +53,10 @@ const DeleteTask = () => {
       }}
     >
       <form.AppForm>
-        <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+        <p>
+          Are you sure you want to delete this task? This action cannot be
+          undone.
+        </p>
         <DialogFooter>
           <form.SubmitButton>Delete Task</form.SubmitButton>
         </DialogFooter>

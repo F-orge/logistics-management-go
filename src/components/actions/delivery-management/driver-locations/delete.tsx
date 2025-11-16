@@ -53,7 +53,10 @@ const DeleteDriverLocation = () => {
       }}
     >
       <form.AppForm>
-        <p>Are you sure you want to delete this driver location? This action cannot be undone.</p>
+        <p>
+          Are you sure you want to delete this driver location? This action
+          cannot be undone.
+        </p>
         <DialogFooter>
           <form.SubmitButton>Delete Driver Location</form.SubmitButton>
         </DialogFooter>

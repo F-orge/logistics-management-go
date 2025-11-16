@@ -1,7 +1,4 @@
-import {
-  useNavigate,
-  useSearch,
-} from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   Dialog,
   DialogContent,

@@ -53,7 +53,10 @@ const DeleteRoute = () => {
       }}
     >
       <form.AppForm>
-        <p>Are you sure you want to delete this route? This action cannot be undone.</p>
+        <p>
+          Are you sure you want to delete this route? This action cannot be
+          undone.
+        </p>
         <DialogFooter>
           <form.SubmitButton>Delete Route</form.SubmitButton>
         </DialogFooter>

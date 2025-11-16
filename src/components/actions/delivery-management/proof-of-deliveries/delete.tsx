@@ -53,7 +53,10 @@ const DeleteProofOfDelivery = () => {
       }}
     >
       <form.AppForm>
-        <p>Are you sure you want to delete this proof of delivery? This action cannot be undone.</p>
+        <p>
+          Are you sure you want to delete this proof of delivery? This action
+          cannot be undone.
+        </p>
         <DialogFooter>
           <form.SubmitButton>Delete Proof of Delivery</form.SubmitButton>
         </DialogFooter>
