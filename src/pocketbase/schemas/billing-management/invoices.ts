@@ -12,246 +12,41 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const InvoicesSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Invoices-id",
-      type: "field",
-      inputType: "text",
-      label: "Invoice ID",
-      description: "Unique identifier for the invoice",
-      props: {
-        disabled: true,
-      },
-    }),
-    quote: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Invoices-quote",
-        inputType: "relation",
-        label: "Quote",
-        description: "Related quote for this invoice",
-        props: {
-          collectionName: Collections.BillingManagementQuotes,
-          relationshipName: "quote",
-          displayField: "quoteNumber",
-        } as RelationFieldProps<any>,
-      }),
-    invoiceNumber: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-invoiceNumber",
-        type: "field",
-        inputType: "text",
-        label: "Invoice Number",
-        description: "Unique invoice number",
-        props: {
-          placeholder: "INV-001",
-        },
-      }),
-    status: z
-      .enum([
-        "draft",
-        "sent",
-        "viewed",
-        "paid",
-        "partial-paid",
-        "past-due",
-        "disputed",
-        "cancelled",
-        "void",
-      ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current invoice status",
-        props: {
-          options: [
-            { label: "Draft", value: "draft" },
-            { label: "Sent", value: "sent" },
-            { label: "Viewed", value: "viewed" },
-            { label: "Paid", value: "paid" },
-            { label: "Partial Paid", value: "partial-paid" },
-            { label: "Past Due", value: "past-due" },
-            { label: "Disputed", value: "disputed" },
-            { label: "Cancelled", value: "cancelled" },
-            { label: "Void", value: "void" },
-          ],
-        },
-      }),
-    issueDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-issueDate",
-      type: "field",
-      inputType: "date",
-      label: "Issue Date",
-      description: "Date when invoice was issued",
-    }),
-    dueDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-dueDate",
-      type: "field",
-      inputType: "date",
-      label: "Due Date",
-      description: "Payment due date",
-    }),
-    totalAmount: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-totalAmount",
-        type: "field",
-        inputType: "number",
-        label: "Total Amount",
-        description: "Total invoice amount",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    amountPaid: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-amountPaid",
-        type: "field",
-        inputType: "number",
-        label: "Amount Paid",
-        description: "Amount already paid",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    currency: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-currency",
-        type: "field",
-        inputType: "text",
-        label: "Currency",
-        description: "Currency code (e.g., USD, EUR)",
-        props: {
-          placeholder: "USD",
-        },
-      }),
-    discountAmount: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-discountAmount",
-        type: "field",
-        inputType: "number",
-        label: "Discount Amount",
-        description: "Applied discount amount",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    subtotal: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-subtotal",
-        type: "field",
-        inputType: "number",
-        label: "Subtotal",
-        description: "Invoice subtotal before tax",
-        props: {
-          placeholder: "0.00",
-          disabled: true,
-        },
-      }),
-    paymentTerms: z.string().optional().register(fieldRegistry, {
-      id: "Invoices-paymentTerms",
-      type: "field",
-      inputType: "textarea",
-      label: "Payment Terms",
-      description: "Payment terms and conditions",
-    }),
-    notes: z.string().optional().register(fieldRegistry, {
-      id: "Invoices-notes",
-      type: "field",
-      inputType: "textarea",
-      label: "Notes",
-      description: "Additional notes",
-    }),
-    sentAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-sentAt",
-      type: "field",
-      inputType: "date",
-      label: "Sent Date",
-      description: "Date when invoice was sent",
-    }),
-    paidAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-paidAt",
-      type: "field",
-      inputType: "date",
-      label: "Paid Date",
-      description: "Date when invoice was paid",
-    }),
-    createdBy: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Invoices-createdBy",
-        inputType: "relation",
-        label: "Created By",
-        description: "User who created the invoice",
-        props: {
-          collectionName: Collections.Users,
-          relationshipName: "createdBy",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    attachments: z
-      .array(z.string())
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-attachments",
-        type: "field",
-        inputType: "file",
-        isArray: true,
-        label: "Attachments",
-        description: "Supporting documents",
-        props: {
-          multiple: true,
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const InvoicesSchema = z.object({
+  id: z.string(),
+  quote: z.string().optional(),
+  invoiceNumber: z.string().optional(),
+  status: z
+    .enum([
+      "draft",
+      "sent",
+      "viewed",
+      "paid",
+      "partial-paid",
+      "past-due",
+      "disputed",
+      "cancelled",
+      "void",
+    ])
+    .optional(),
+  issueDate: z.iso.date().optional(),
+  dueDate: z.iso.date().optional(),
+  totalAmount: z
+    .number()
+    .min(0.01, "Total amount must be a positive value")
+    .optional(),
+  amountPaid: z.number().min(0, "Amount paid cannot be negative").optional(),
+  currency: z.string().optional(),
+  discountAmount: z.number().optional(),
+  subtotal: z.number().optional(),
+  paymentTerms: z.string().optional(),
+  notes: z.string().optional(),
+  sentAt: z.iso.date().optional(),
+  paidAt: z.iso.date().optional(),
+  createdBy: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

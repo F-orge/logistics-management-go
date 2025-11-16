@@ -12,185 +12,37 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const DisputesSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Disputes-id",
-      type: "field",
-      inputType: "text",
-      label: "Dispute ID",
-      description: "Unique identifier for the dispute",
-      props: {
-        disabled: true,
-      },
-    }),
-    lineItem: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Disputes-lineItem",
-      inputType: "relation",
-      label: "Line Item",
-      description: "Invoice line item being disputed",
-      props: {
-        collectionName: Collections.BillingManagementInvoiceLineItems,
-        relationshipName: "lineItem",
-        displayField: "id",
-      } as RelationFieldProps<any>,
-    }),
-    client: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Disputes-client",
-      inputType: "relation",
-      label: "Client",
-      description: "Client company filing the dispute",
-      props: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        relationshipName: "client",
-        displayField: "companyName",
-      } as RelationFieldProps<any>,
-    }),
-    reason: z
-      .enum([
-        "incorrect_charge",
-        "service_not_rendered",
-        "duplicate_charge",
-        "pricing_error",
-        "quality_issue",
-        "other",
-      ])
-      .register(fieldRegistry, {
-        id: "Disputes-reason",
-        type: "field",
-        inputType: "select",
-        label: "Reason",
-        description: "Reason for the dispute",
-        props: {
-          options: [
-            { label: "Incorrect Charge", value: "incorrect_charge" },
-            { label: "Service Not Rendered", value: "service_not_rendered" },
-            { label: "Duplicate Charge", value: "duplicate_charge" },
-            { label: "Pricing Error", value: "pricing_error" },
-            { label: "Quality Issue", value: "quality_issue" },
-            { label: "Other", value: "other" },
-          ],
-        },
-      }),
-    status: z
-      .enum([
-        "open",
-        "under-review",
-        "approved",
-        "denied",
-        "escalated",
-        "closed",
-      ])
-      .register(fieldRegistry, {
-        id: "Disputes-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the dispute",
-        props: {
-          options: [
-            { label: "Open", value: "open" },
-            { label: "Under Review", value: "under-review" },
-            { label: "Approved", value: "approved" },
-            { label: "Denied", value: "denied" },
-            { label: "Escalated", value: "escalated" },
-            { label: "Closed", value: "closed" },
-          ],
-        },
-      }),
-    disputeAmount: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Disputes-disputeAmount",
-        type: "field",
-        inputType: "number",
-        label: "Dispute Amount",
-        description: "Amount being disputed",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    resolutionNotes: z.string().optional().register(fieldRegistry, {
-      id: "Disputes-resolutionNotes",
-      type: "field",
-      inputType: "textarea",
-      label: "Resolution Notes",
-      description: "Notes on how the dispute was resolved",
-    }),
-    submittedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Disputes-submittedAt",
-      type: "field",
-      inputType: "date",
-      label: "Submitted Date",
-      description: "Date when dispute was submitted",
-    }),
-    resolvedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Disputes-resolvedAt",
-      type: "field",
-      inputType: "date",
-      label: "Resolved Date",
-      description: "Date when dispute was resolved",
-    }),
-    resolvedBy: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Disputes-resolvedBy",
-        inputType: "relation",
-        label: "Resolved By",
-        description: "User who resolved the dispute",
-        props: {
-          collectionName: Collections.Users,
-          relationshipName: "resolvedBy",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    attachments: z
-      .array(z.string())
-      .optional()
-      .register(fieldRegistry, {
-        id: "Disputes-attachments",
-        type: "field",
-        inputType: "file",
-        isArray: true,
-        label: "Attachments",
-        description: "Supporting documents for the dispute",
-        props: {
-          multiple: true,
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Disputes-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Disputes-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const DisputesSchema = z.object({
+  id: z.string(),
+  lineItem: z.string(),
+  client: z.string(),
+  reason: z.enum([
+    "incorrect_charge",
+    "service_not_rendered",
+    "duplicate_charge",
+    "pricing_error",
+    "quality_issue",
+    "other",
+  ]),
+  status: z.enum([
+    "open",
+    "under-review",
+    "approved",
+    "denied",
+    "escalated",
+    "closed",
+  ]),
+  disputeAmount: z
+    .number()
+    .min(0.01, "Dispute amount must be a positive value")
+    .optional(),
+  resolutionNotes: z.string().optional(),
+  submittedAt: z.iso.date().optional(),
+  resolvedAt: z.iso.date().optional(),
+  resolvedBy: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Disputes = z.infer<typeof DisputesSchema>;

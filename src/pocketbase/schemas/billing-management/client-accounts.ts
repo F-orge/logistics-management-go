@@ -12,143 +12,24 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ClientAccountsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "ClientAccounts-id",
-      type: "field",
-      inputType: "text",
-      label: "Account ID",
-      description: "Unique identifier for the client account",
-      props: {
-        disabled: true,
-      },
-    }),
-    client: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "ClientAccounts-client",
-        inputType: "relation",
-        label: "Client",
-        description: "Client company for this account",
-        props: {
-          collectionName: Collections.CustomerRelationsCompanies,
-          relationshipName: "client",
-          displayField: "companyName",
-        } as RelationFieldProps<any>,
-      }),
-    creditLimit: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-creditLimit",
-        type: "field",
-        inputType: "number",
-        label: "Credit Limit",
-        description: "Maximum credit allowed for the client",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    availableCredit: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-availableCredit",
-        type: "field",
-        inputType: "number",
-        label: "Available Credit",
-        description: "Currently available credit amount",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    walletBalance: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-walletBalance",
-        type: "field",
-        inputType: "number",
-        label: "Wallet Balance",
-        description: "Current wallet balance",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    currency: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-currency",
-        type: "field",
-        inputType: "text",
-        label: "Currency",
-        description: "Currency code (e.g., USD, EUR)",
-        props: {
-          placeholder: "USD",
-        },
-      }),
-    paymentTermsDays: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-paymentTermsDays",
-        type: "field",
-        inputType: "number",
-        label: "Payment Terms (Days)",
-        description: "Number of days for payment terms",
-        props: {
-          placeholder: "30",
-          min: 0,
-        },
-      }),
-    isCreditApproved: z.boolean().optional().register(fieldRegistry, {
-      id: "ClientAccounts-isCreditApproved",
-      type: "field",
-      inputType: "bool",
-      label: "Credit Approved",
-      description: "Whether credit is approved for this client",
-    }),
-    lastPaymentDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "ClientAccounts-lastPaymentDate",
-      type: "field",
-      inputType: "date",
-      label: "Last Payment Date",
-      description: "Date of the last payment",
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ClientAccounts-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const ClientAccountsSchema = z.object({
+  id: z.string(),
+  client: z.string().optional(),
+  creditLimit: z.number().min(0, "Credit limit cannot be negative").optional(),
+  availableCredit: z
+    .number()
+    .min(0, "Available credit cannot be negative")
+    .optional(),
+  walletBalance: z
+    .number()
+    .min(0, "Wallet balance cannot be negative")
+    .optional(),
+  currency: z.string().optional(),
+  paymentTermsDays: z.number().optional(),
+  isCreditApproved: z.boolean().optional(),
+  lastPaymentDate: z.iso.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type ClientAccounts = z.infer<typeof ClientAccountsSchema>;

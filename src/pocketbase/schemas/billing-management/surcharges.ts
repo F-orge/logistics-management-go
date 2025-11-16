@@ -12,129 +12,36 @@ import {
 
 export const SurchargesSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Surcharges-id",
-      type: "field",
-      inputType: "text",
-      label: "Surcharge ID",
-      description: "Unique identifier for the surcharge",
-      props: {
-        disabled: true,
-      },
-    }),
+    id: z.string(),
     name: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Surcharges-name",
-        type: "field",
-        inputType: "text",
-        label: "Name",
-        description: "Surcharge name",
-        props: {
-          placeholder: "e.g., Fuel Surcharge, Peak Surcharge",
-        },
-      }),
+      ,
     type: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        id: "Surcharges-type",
-        type: "field",
-        inputType: "text",
-        label: "Type",
-        description: "Type of surcharge",
-        props: {
-          placeholder: "e.g., fuel, holiday, peak, custom",
-        },
-      }),
+      ,
     amount: z
       .number()
       .optional()
-      .register(fieldRegistry, {
-        id: "Surcharges-amount",
-        type: "field",
-        inputType: "number",
-        label: "Amount",
-        description: "Surcharge amount",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
+      ,
     calculationMethod: z
       .enum(["percentage", "fixed", "per-unit", "sliding-scale"])
       .optional()
-      .register(fieldRegistry, {
-        id: "Surcharges-calculationMethod",
-        type: "field",
-        inputType: "select",
-        label: "Calculation Method",
-        description: "How the surcharge is calculated",
-        props: {
-          options: [
-            { label: "Percentage", value: "percentage" },
-            { label: "Fixed Amount", value: "fixed" },
-            { label: "Per Unit", value: "per-unit" },
-            { label: "Sliding Scale", value: "sliding-scale" },
-          ],
-        },
-      }),
-    isActive: z.boolean().optional().register(fieldRegistry, {
-      id: "Surcharges-isActive",
-      type: "field",
-      inputType: "bool",
-      label: "Active",
-      description: "Whether this surcharge is active",
-    }),
-    validFrom: z.iso.date().optional().register(fieldRegistry, {
-      id: "Surcharges-validFrom",
-      type: "field",
-      inputType: "date",
-      label: "Valid From",
-      description: "Start date for surcharge validity",
-    }),
-    validTo: z.iso.date().optional().register(fieldRegistry, {
-      id: "Surcharges-validTo",
-      type: "field",
-      inputType: "date",
-      label: "Valid To",
-      description: "End date for surcharge validity",
-    }),
-    description: z.string().optional().register(fieldRegistry, {
-      id: "Surcharges-description",
-      type: "field",
-      inputType: "textarea",
-      label: "Description",
-      description: "Surcharge description",
-    }),
+      ,
+    isActive: z.boolean().optional(),
+    validFrom: z.iso.date().optional(),
+    validTo: z.iso.date().optional(),
+    description: z.string().optional(),
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Surcharges-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "Surcharges-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type Surcharges = z.infer<typeof SurchargesSchema>;

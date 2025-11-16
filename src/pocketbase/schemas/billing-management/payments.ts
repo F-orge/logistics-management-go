@@ -12,249 +12,47 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const PaymentsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Payments-id",
-      type: "field",
-      inputType: "text",
-      label: "Payment ID",
-      description: "Unique identifier for the payment",
-      props: {
-        disabled: true,
-      },
-    }),
-    invoice: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Payments-invoice",
-        inputType: "relation",
-        label: "Invoice",
-        description: "Related invoice for this payment",
-        props: {
-          collectionName: Collections.BillingManagementInvoices,
-          relationshipName: "invoice",
-          displayField: "invoiceNumber",
-        } as RelationFieldProps<any>,
-      }),
-    amount: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-amount",
-        type: "field",
-        inputType: "number",
-        label: "Amount",
-        description: "Payment amount",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    paymentMethod: z
-      .enum([
-        "credit-card",
-        "debit-card",
-        "wallet",
-        "qr-ph",
-        "client-credit",
-        "bank-transfer",
-        "cash",
-        "check",
-      ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-paymentMethod",
-        type: "field",
-        inputType: "select",
-        label: "Payment Method",
-        description: "Method used for payment",
-        props: {
-          options: [
-            { label: "Credit Card", value: "credit-card" },
-            { label: "Debit Card", value: "debit-card" },
-            { label: "Wallet", value: "wallet" },
-            { label: "QR PH", value: "qr-ph" },
-            { label: "Client Credit", value: "client-credit" },
-            { label: "Bank Transfer", value: "bank-transfer" },
-            { label: "Cash", value: "cash" },
-            { label: "Check", value: "check" },
-          ],
-        },
-      }),
-    transactionId: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-transactionId",
-        type: "field",
-        inputType: "text",
-        label: "Transaction ID",
-        description: "Payment processor transaction ID",
-        props: {
-          disabled: true,
-        },
-      }),
-    gatewayReferenceId: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-gatewayReferenceId",
-        type: "field",
-        inputType: "text",
-        label: "Gateway Reference",
-        description: "Payment gateway reference ID",
-        props: {
-          disabled: true,
-        },
-      }),
-    status: z
-      .enum([
-        "pending",
-        "processing",
-        "successful",
-        "failed",
-        "cancelled",
-        "refunded",
-      ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Payment status",
-        props: {
-          options: [
-            { label: "Pending", value: "pending" },
-            { label: "Processing", value: "processing" },
-            { label: "Successful", value: "successful" },
-            { label: "Failed", value: "failed" },
-            { label: "Cancelled", value: "cancelled" },
-            { label: "Refunded", value: "refunded" },
-          ],
-        },
-      }),
-    paymentDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "Payments-paymentDate",
-      type: "field",
-      inputType: "date",
-      label: "Payment Date",
-      description: "Date of payment",
-    }),
-    processedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Payments-processedAt",
-      type: "field",
-      inputType: "date",
-      label: "Processed Date",
-      description: "Date when payment was processed",
-    }),
-    currency: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-currency",
-        type: "field",
-        inputType: "text",
-        label: "Currency",
-        description: "Currency code (e.g., USD, EUR)",
-        props: {
-          placeholder: "USD",
-        },
-      }),
-    fees: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-fees",
-        type: "field",
-        inputType: "number",
-        label: "Fees",
-        description: "Payment processing fees",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    netAmount: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-netAmount",
-        type: "field",
-        inputType: "number",
-        label: "Net Amount",
-        description: "Amount after fees",
-        props: {
-          placeholder: "0.00",
-          disabled: true,
-        },
-      }),
-    notes: z.string().optional().register(fieldRegistry, {
-      id: "Payments-notes",
-      type: "field",
-      inputType: "textarea",
-      label: "Notes",
-      description: "Additional notes",
-    }),
-    processedBy: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Payments-processedBy",
-        inputType: "relation",
-        label: "Processed By",
-        description: "User who processed the payment",
-        props: {
-          collectionName: Collections.Users,
-          relationshipName: "processedBy",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    attachments: z
-      .array(z.string())
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-attachments",
-        type: "field",
-        inputType: "file",
-        isArray: true,
-        label: "Attachments",
-        description: "Payment receipts and documents",
-        props: {
-          multiple: true,
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Payments-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const PaymentsSchema = z.object({
+  id: z.string(),
+  invoice: z.string().optional(),
+  amount: z
+    .number()
+    .min(0.01, "Payment amount must be a positive value")
+    .optional(),
+  paymentMethod: z
+    .enum([
+      "credit-card",
+      "debit-card",
+      "wallet",
+      "qr-ph",
+      "client-credit",
+      "bank-transfer",
+      "cash",
+      "check",
+    ])
+    .optional(),
+  transactionId: z.string().optional(),
+  gatewayReferenceId: z.string().optional(),
+  status: z
+    .enum([
+      "pending",
+      "processing",
+      "successful",
+      "failed",
+      "cancelled",
+      "refunded",
+    ])
+    .optional(),
+  paymentDate: z.iso.date().optional(),
+  processedAt: z.iso.date().optional(),
+  currency: z.string().optional(),
+  fees: z.number().optional(),
+  netAmount: z.number().optional(),
+  notes: z.string().optional(),
+  processedBy: z.string().optional(),
+  attachments: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Payments = z.infer<typeof PaymentsSchema>;
