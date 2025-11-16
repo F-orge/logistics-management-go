@@ -69,7 +69,7 @@ const CasesActions = () => {
         }
       }}
     >
-      <DialogContent>
+      <DialogContent className="max-h-3/4 overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{Component.title}</DialogTitle>
           {Component.description && (
