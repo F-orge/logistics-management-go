@@ -19,7 +19,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	serviceDate: VehicleMaintenanceSchema.shape.serviceDate.optional().register(fieldRegistry, {
+		id: "transport-management-vehicle-maintenance-serviceDate-update",
+		type: "field",
+		label: "ServiceDate",
+		description: "Enter a servicedate",
+		inputType: "date",
+	}),
+	serviceType: VehicleMaintenanceSchema.shape.serviceType.optional().register(fieldRegistry, {
+		id: "transport-management-vehicle-maintenance-serviceType-update",
+		type: "field",
+		label: "ServiceType",
+		description: "Enter a servicetype",
+		inputType: "date",
+	}),
+	cost: VehicleMaintenanceSchema.shape.cost.optional().register(fieldRegistry, {
+		id: "transport-management-vehicle-maintenance-cost-update",
+		type: "field",
+		label: "Cost",
+		description: "Enter a cost",
+		inputType: "number",
+	}),
+	notes: VehicleMaintenanceSchema.shape.notes.optional().register(fieldRegistry, {
+		id: "transport-management-vehicle-maintenance-notes-update",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

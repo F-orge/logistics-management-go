@@ -19,7 +19,71 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	rateCard: RateRulesSchema.shape.rateCard.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-rateCard-update",
+		type: "field",
+		label: "RateCard",
+		description: "Enter a ratecard",
+		inputType: "text",
+	}),
+	condition: RateRulesSchema.shape.condition.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-condition-update",
+		type: "field",
+		label: "Condition",
+		description: "Enter a condition",
+		inputType: "text",
+	}),
+	value: RateRulesSchema.shape.value.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-value-update",
+		type: "field",
+		label: "Value",
+		description: "Enter a value",
+		inputType: "text",
+	}),
+	price: RateRulesSchema.shape.price.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-price-update",
+		type: "field",
+		label: "Price",
+		description: "Enter a price",
+		inputType: "number",
+	}),
+	pricingModel: RateRulesSchema.shape.pricingModel.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-pricingModel-update",
+		type: "field",
+		label: "PricingModel",
+		description: "Enter a pricingmodel",
+		inputType: "select",
+	}),
+	minValue: RateRulesSchema.shape.minValue.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-minValue-update",
+		type: "field",
+		label: "MinValue",
+		description: "Enter a minvalue",
+		inputType: "number",
+	}),
+	maxValue: RateRulesSchema.shape.maxValue.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-maxValue-update",
+		type: "field",
+		label: "MaxValue",
+		description: "Enter a maxvalue",
+		inputType: "number",
+	}),
+	priority: RateRulesSchema.shape.priority.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-priority-update",
+		type: "field",
+		label: "Priority",
+		description: "Enter a priority",
+		inputType: "number",
+	}),
+	isActive: RateRulesSchema.shape.isActive.optional().register(fieldRegistry, {
+		id: "billing-management-rate-rules-isActive-update",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "boolean",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

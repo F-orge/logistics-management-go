@@ -19,7 +19,29 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	message: ShipmentLegEventsSchema.shape.message.optional().register(fieldRegistry, {
+		id: "transport-management-shipment-leg-events-message-update",
+		type: "field",
+		label: "Message",
+		description: "Enter a message",
+		inputType: "text",
+	}),
+	location: ShipmentLegEventsSchema.shape.location.optional().register(fieldRegistry, {
+		id: "transport-management-shipment-leg-events-location-update",
+		type: "field",
+		label: "Location",
+		description: "Enter a location",
+		inputType: "text",
+	}),
+	timestamp: ShipmentLegEventsSchema.shape.timestamp.optional().register(fieldRegistry, {
+		id: "transport-management-shipment-leg-events-timestamp-update",
+		type: "field",
+		label: "Timestamp",
+		description: "Enter a timestamp",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

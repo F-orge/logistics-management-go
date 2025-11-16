@@ -19,7 +19,92 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	batchNumber: PickBatchesSchema.shape.batchNumber.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-batchNumber-update",
+		type: "field",
+		label: "BatchNumber",
+		description: "Enter a batchnumber",
+		inputType: "text",
+	}),
+	status: PickBatchesSchema.shape.status.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	strategy: PickBatchesSchema.shape.strategy.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-strategy-update",
+		type: "field",
+		label: "Strategy",
+		description: "Enter a strategy",
+		inputType: "text",
+	}),
+	priority: PickBatchesSchema.shape.priority.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-priority-update",
+		type: "field",
+		label: "Priority",
+		description: "Enter a priority",
+		inputType: "number",
+	}),
+	assignedUser: PickBatchesSchema.shape.assignedUser.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-assignedUser-update",
+		type: "field",
+		label: "AssignedUser",
+		description: "Enter an assigneduser",
+		inputType: "text",
+	}),
+	estimatedDuration: PickBatchesSchema.shape.estimatedDuration.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-estimatedDuration-update",
+		type: "field",
+		label: "EstimatedDuration",
+		description: "Enter an estimatedduration",
+		inputType: "number",
+	}),
+	actualDuration: PickBatchesSchema.shape.actualDuration.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-actualDuration-update",
+		type: "field",
+		label: "ActualDuration",
+		description: "Enter an actualduration",
+		inputType: "number",
+	}),
+	totalItems: PickBatchesSchema.shape.totalItems.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-totalItems-update",
+		type: "field",
+		label: "TotalItems",
+		description: "Enter a totalitems",
+		inputType: "number",
+	}),
+	completedItems: PickBatchesSchema.shape.completedItems.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-completedItems-update",
+		type: "field",
+		label: "CompletedItems",
+		description: "Enter a completeditems",
+		inputType: "number",
+	}),
+	startedAt: PickBatchesSchema.shape.startedAt.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-startedAt-update",
+		type: "field",
+		label: "StartedAt",
+		description: "Enter a startedat",
+		inputType: "date",
+	}),
+	completedAt: PickBatchesSchema.shape.completedAt.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-completedAt-update",
+		type: "field",
+		label: "CompletedAt",
+		description: "Enter a completedat",
+		inputType: "date",
+	}),
+	items: PickBatchesSchema.shape.items.optional().register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-items-update",
+		type: "field",
+		label: "Items",
+		description: "Enter an items",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

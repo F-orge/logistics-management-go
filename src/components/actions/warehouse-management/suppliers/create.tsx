@@ -17,7 +17,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { SuppliersSchema } from "@/pocketbase/schemas/warehouse-management/suppliers";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	name: SuppliersSchema.shape.name.register(fieldRegistry, {
+		id: "warehouse-management-suppliers-name-create",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	email: SuppliersSchema.shape.email.register(fieldRegistry, {
+		id: "warehouse-management-suppliers-email-create",
+		type: "field",
+		label: "Email",
+		description: "Enter an email",
+		inputType: "text",
+	}),
+	phoneNumber: SuppliersSchema.shape.phoneNumber.register(fieldRegistry, {
+		id: "warehouse-management-suppliers-phoneNumber-create",
+		type: "field",
+		label: "PhoneNumber",
+		description: "Enter a phonenumber",
+		inputType: "text",
+	}),
+	client: SuppliersSchema.shape.client.register(fieldRegistry, {
+		id: "warehouse-management-suppliers-client-create",
+		type: "field",
+		label: "Client",
+		description: "Enter a client",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

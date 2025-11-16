@@ -17,7 +17,43 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PackageItemsSchema } from "@/pocketbase/schemas/warehouse-management/package-items";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	package: PackageItemsSchema.shape.package.register(fieldRegistry, {
+		id: "warehouse-management-package-items-package-create",
+		type: "field",
+		label: "Package",
+		description: "Enter a package",
+		inputType: "text",
+	}),
+	batch: PackageItemsSchema.shape.batch.register(fieldRegistry, {
+		id: "warehouse-management-package-items-batch-create",
+		type: "field",
+		label: "Batch",
+		description: "Enter a batch",
+		inputType: "text",
+	}),
+	quantity: PackageItemsSchema.shape.quantity.register(fieldRegistry, {
+		id: "warehouse-management-package-items-quantity-create",
+		type: "field",
+		label: "Quantity",
+		description: "Enter a quantity",
+		inputType: "number",
+	}),
+	lotNumber: PackageItemsSchema.shape.lotNumber.register(fieldRegistry, {
+		id: "warehouse-management-package-items-lotNumber-create",
+		type: "field",
+		label: "LotNumber",
+		description: "Enter a lotnumber",
+		inputType: "text",
+	}),
+	expiryDate: PackageItemsSchema.shape.expiryDate.register(fieldRegistry, {
+		id: "warehouse-management-package-items-expiryDate-create",
+		type: "field",
+		label: "ExpiryDate",
+		description: "Enter an expirydate",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

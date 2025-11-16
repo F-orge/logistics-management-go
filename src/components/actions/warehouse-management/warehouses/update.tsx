@@ -19,7 +19,78 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	name: WarehousesSchema.shape.name.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-name-update",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	address: WarehousesSchema.shape.address.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-address-update",
+		type: "field",
+		label: "Address",
+		description: "Enter an address",
+		inputType: "text",
+	}),
+	city: WarehousesSchema.shape.city.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-city-update",
+		type: "field",
+		label: "City",
+		description: "Enter a city",
+		inputType: "text",
+	}),
+	state: WarehousesSchema.shape.state.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-state-update",
+		type: "field",
+		label: "State",
+		description: "Enter a state",
+		inputType: "text",
+	}),
+	postalCode: WarehousesSchema.shape.postalCode.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-postalCode-update",
+		type: "field",
+		label: "PostalCode",
+		description: "Enter a postalcode",
+		inputType: "text",
+	}),
+	country: WarehousesSchema.shape.country.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-country-update",
+		type: "field",
+		label: "Country",
+		description: "Enter a country",
+		inputType: "text",
+	}),
+	timezone: WarehousesSchema.shape.timezone.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-timezone-update",
+		type: "field",
+		label: "Timezone",
+		description: "Enter a timezone",
+		inputType: "text",
+	}),
+	contactEmail: WarehousesSchema.shape.contactEmail.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-contactEmail-update",
+		type: "field",
+		label: "ContactEmail",
+		description: "Enter a contactemail",
+		inputType: "text",
+	}),
+	isActive: WarehousesSchema.shape.isActive.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-isActive-update",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "text",
+	}),
+	location: WarehousesSchema.shape.location.optional().register(fieldRegistry, {
+		id: "warehouse-management-warehouses-location-update",
+		type: "field",
+		label: "Location",
+		description: "Enter a location",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

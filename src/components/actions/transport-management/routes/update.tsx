@@ -19,7 +19,29 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	name: RoutesSchema.shape.name.optional().register(fieldRegistry, {
+		id: "transport-management-routes-name-update",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	totalDistance: RoutesSchema.shape.totalDistance.optional().register(fieldRegistry, {
+		id: "transport-management-routes-totalDistance-update",
+		type: "field",
+		label: "TotalDistance",
+		description: "Enter a totaldistance",
+		inputType: "number",
+	}),
+	totalDuration: RoutesSchema.shape.totalDuration.optional().register(fieldRegistry, {
+		id: "transport-management-routes-totalDuration-update",
+		type: "field",
+		label: "TotalDuration",
+		description: "Enter a totalduration",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

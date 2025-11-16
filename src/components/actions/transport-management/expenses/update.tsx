@@ -19,7 +19,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	trip: ExpensesSchema.shape.trip.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-trip-update",
+		type: "field",
+		label: "Trip",
+		description: "Enter a trip",
+		inputType: "text",
+	}),
+	type: ExpensesSchema.shape.type.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-type-update",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "select",
+	}),
+	amount: ExpensesSchema.shape.amount.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-amount-update",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "number",
+	}),
+	currency: ExpensesSchema.shape.currency.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-currency-update",
+		type: "field",
+		label: "Currency",
+		description: "Enter a currency",
+		inputType: "select",
+	}),
+	fuelQuantity: ExpensesSchema.shape.fuelQuantity.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-fuelQuantity-update",
+		type: "field",
+		label: "FuelQuantity",
+		description: "Enter a fuelquantity",
+		inputType: "number",
+	}),
+	odometerReading: ExpensesSchema.shape.odometerReading.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-odometerReading-update",
+		type: "field",
+		label: "OdometerReading",
+		description: "Enter an odometerreading",
+		inputType: "number",
+	}),
+	status: ExpensesSchema.shape.status.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

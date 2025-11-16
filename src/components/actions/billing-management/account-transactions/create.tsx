@@ -17,7 +17,50 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { AccountTransactionsSchema } from "@/pocketbase/schemas/billing-management/account-transactions";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	type: AccountTransactionsSchema.shape.type.register(fieldRegistry, {
+		id: "billing-management-account-transactions-type-create",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "select",
+	}),
+	amount: AccountTransactionsSchema.shape.amount.register(fieldRegistry, {
+		id: "billing-management-account-transactions-amount-create",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "number",
+	}),
+	runningBalance: AccountTransactionsSchema.shape.runningBalance.register(fieldRegistry, {
+		id: "billing-management-account-transactions-runningBalance-create",
+		type: "field",
+		label: "RunningBalance",
+		description: "Enter a runningbalance",
+		inputType: "number",
+	}),
+	transactionDate: AccountTransactionsSchema.shape.transactionDate.register(fieldRegistry, {
+		id: "billing-management-account-transactions-transactionDate-create",
+		type: "field",
+		label: "TransactionDate",
+		description: "Enter a transactiondate",
+		inputType: "date",
+	}),
+	processedBy: AccountTransactionsSchema.shape.processedBy.register(fieldRegistry, {
+		id: "billing-management-account-transactions-processedBy-create",
+		type: "field",
+		label: "ProcessedBy",
+		description: "Enter a processedby",
+		inputType: "text",
+	}),
+	referenceNumber: AccountTransactionsSchema.shape.referenceNumber.register(fieldRegistry, {
+		id: "billing-management-account-transactions-referenceNumber-create",
+		type: "field",
+		label: "ReferenceNumber",
+		description: "Enter a referencenumber",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

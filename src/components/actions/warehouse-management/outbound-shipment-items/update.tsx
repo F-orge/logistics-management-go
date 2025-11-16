@@ -19,7 +19,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	outboundShipment: OutboundShipmentItemsSchema.shape.outboundShipment.optional().register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipment-items-outboundShipment-update",
+		type: "field",
+		label: "OutboundShipment",
+		description: "Enter an outboundshipment",
+		inputType: "text",
+	}),
+	salesOrderItem: OutboundShipmentItemsSchema.shape.salesOrderItem.optional().register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipment-items-salesOrderItem-update",
+		type: "field",
+		label: "SalesOrderItem",
+		description: "Enter a salesorderitem",
+		inputType: "text",
+	}),
+	batch: OutboundShipmentItemsSchema.shape.batch.optional().register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipment-items-batch-update",
+		type: "field",
+		label: "Batch",
+		description: "Enter a batch",
+		inputType: "text",
+	}),
+	quantityShipped: OutboundShipmentItemsSchema.shape.quantityShipped.optional().register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipment-items-quantityShipped-update",
+		type: "field",
+		label: "QuantityShipped",
+		description: "Enter a quantityshipped",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

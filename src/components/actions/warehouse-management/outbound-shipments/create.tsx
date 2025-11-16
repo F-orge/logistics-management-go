@@ -17,7 +17,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { OutboundShipmentsSchema } from "@/pocketbase/schemas/warehouse-management/outbound-shipments";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	salesOrder: OutboundShipmentsSchema.shape.salesOrder.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipments-salesOrder-create",
+		type: "field",
+		label: "SalesOrder",
+		description: "Enter a salesorder",
+		inputType: "text",
+	}),
+	status: OutboundShipmentsSchema.shape.status.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipments-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	trackingNumber: OutboundShipmentsSchema.shape.trackingNumber.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipments-trackingNumber-create",
+		type: "field",
+		label: "TrackingNumber",
+		description: "Enter a trackingnumber",
+		inputType: "text",
+	}),
+	items: OutboundShipmentsSchema.shape.items.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipments-items-create",
+		type: "field",
+		label: "Items",
+		description: "Enter an items",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

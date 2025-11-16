@@ -19,7 +19,29 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	partnerInvoice: PartnerInvoiceItemsSchema.shape.partnerInvoice.optional().register(fieldRegistry, {
+		id: "transport-management-partner-invoice-items-partnerInvoice-update",
+		type: "field",
+		label: "PartnerInvoice",
+		description: "Enter a partnerinvoice",
+		inputType: "text",
+	}),
+	shipmentLeg: PartnerInvoiceItemsSchema.shape.shipmentLeg.optional().register(fieldRegistry, {
+		id: "transport-management-partner-invoice-items-shipmentLeg-update",
+		type: "field",
+		label: "ShipmentLeg",
+		description: "Enter a shipmentleg",
+		inputType: "text",
+	}),
+	amount: PartnerInvoiceItemsSchema.shape.amount.optional().register(fieldRegistry, {
+		id: "transport-management-partner-invoice-items-amount-update",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

@@ -19,7 +19,50 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	location: BinThresholdSchema.shape.location.optional().register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-location-update",
+		type: "field",
+		label: "Location",
+		description: "Enter a location",
+		inputType: "text",
+	}),
+	minQuantity: BinThresholdSchema.shape.minQuantity.optional().register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-minQuantity-update",
+		type: "field",
+		label: "MinQuantity",
+		description: "Enter a minquantity",
+		inputType: "number",
+	}),
+	maxQuantity: BinThresholdSchema.shape.maxQuantity.optional().register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-maxQuantity-update",
+		type: "field",
+		label: "MaxQuantity",
+		description: "Enter a maxquantity",
+		inputType: "number",
+	}),
+	reorderQuantity: BinThresholdSchema.shape.reorderQuantity.optional().register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-reorderQuantity-update",
+		type: "field",
+		label: "ReorderQuantity",
+		description: "Enter a reorderquantity",
+		inputType: "text",
+	}),
+	alertThreshold: BinThresholdSchema.shape.alertThreshold.optional().register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-alertThreshold-update",
+		type: "field",
+		label: "AlertThreshold",
+		description: "Enter an alertthreshold",
+		inputType: "text",
+	}),
+	isActive: BinThresholdSchema.shape.isActive.optional().register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-isActive-update",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

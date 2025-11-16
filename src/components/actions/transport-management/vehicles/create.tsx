@@ -17,7 +17,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { VehiclesSchema } from "@/pocketbase/schemas/transport-management/vehicles";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	registrationNumber: VehiclesSchema.shape.registrationNumber.register(fieldRegistry, {
+		id: "transport-management-vehicles-registrationNumber-create",
+		type: "field",
+		label: "RegistrationNumber",
+		description: "Enter a registrationnumber",
+		inputType: "text",
+	}),
+	model: VehiclesSchema.shape.model.register(fieldRegistry, {
+		id: "transport-management-vehicles-model-create",
+		type: "field",
+		label: "Model",
+		description: "Enter a model",
+		inputType: "text",
+	}),
+	capacityVolume: VehiclesSchema.shape.capacityVolume.register(fieldRegistry, {
+		id: "transport-management-vehicles-capacityVolume-create",
+		type: "field",
+		label: "CapacityVolume",
+		description: "Enter a capacityvolume",
+		inputType: "text",
+	}),
+	capacityWeight: VehiclesSchema.shape.capacityWeight.register(fieldRegistry, {
+		id: "transport-management-vehicles-capacityWeight-create",
+		type: "field",
+		label: "CapacityWeight",
+		description: "Enter a capacityweight",
+		inputType: "text",
+	}),
+	status: VehiclesSchema.shape.status.register(fieldRegistry, {
+		id: "transport-management-vehicles-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	maintenances: VehiclesSchema.shape.maintenances.register(fieldRegistry, {
+		id: "transport-management-vehicles-maintenances-create",
+		type: "field",
+		label: "Maintenances",
+		description: "Enter a maintenances",
+		inputType: "text",
+	}),
+	gps_pings: VehiclesSchema.shape.gps_pings.register(fieldRegistry, {
+		id: "transport-management-vehicles-gps_pings-create",
+		type: "field",
+		label: "Gps_pings",
+		description: "Enter a gps_pings",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

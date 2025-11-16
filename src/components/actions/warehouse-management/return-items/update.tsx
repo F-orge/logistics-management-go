@@ -19,7 +19,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	return: ReturnItemsSchema.shape.return.optional().register(fieldRegistry, {
+		id: "warehouse-management-return-items-return-update",
+		type: "field",
+		label: "Return",
+		description: "Enter a return",
+		inputType: "text",
+	}),
+	quantityExpected: ReturnItemsSchema.shape.quantityExpected.optional().register(fieldRegistry, {
+		id: "warehouse-management-return-items-quantityExpected-update",
+		type: "field",
+		label: "QuantityExpected",
+		description: "Enter a quantityexpected",
+		inputType: "number",
+	}),
+	quantityRecevied: ReturnItemsSchema.shape.quantityRecevied.optional().register(fieldRegistry, {
+		id: "warehouse-management-return-items-quantityRecevied-update",
+		type: "field",
+		label: "QuantityRecevied",
+		description: "Enter a quantityrecevied",
+		inputType: "number",
+	}),
+	condition: ReturnItemsSchema.shape.condition.optional().register(fieldRegistry, {
+		id: "warehouse-management-return-items-condition-update",
+		type: "field",
+		label: "Condition",
+		description: "Enter a condition",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

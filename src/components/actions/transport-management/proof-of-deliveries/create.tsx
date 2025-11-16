@@ -17,7 +17,22 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ProofOfDeliveriesSchema } from "@/pocketbase/schemas/transport-management/proof-of-deliveries";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	tripStop: ProofOfDeliveriesSchema.shape.tripStop.register(fieldRegistry, {
+		id: "transport-management-proof-of-deliveries-tripStop-create",
+		type: "field",
+		label: "TripStop",
+		description: "Enter a tripstop",
+		inputType: "text",
+	}),
+	coordinate: ProofOfDeliveriesSchema.shape.coordinate.register(fieldRegistry, {
+		id: "transport-management-proof-of-deliveries-coordinate-create",
+		type: "field",
+		label: "Coordinate",
+		description: "Enter a coordinate",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

@@ -17,7 +17,71 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TasksSchema } from "@/pocketbase/schemas/warehouse-management/tasks";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	taskNumber: TasksSchema.shape.taskNumber.register(fieldRegistry, {
+		id: "warehouse-management-tasks-taskNumber-create",
+		type: "field",
+		label: "TaskNumber",
+		description: "Enter a tasknumber",
+		inputType: "text",
+	}),
+	user: TasksSchema.shape.user.register(fieldRegistry, {
+		id: "warehouse-management-tasks-user-create",
+		type: "field",
+		label: "User",
+		description: "Enter an user",
+		inputType: "text",
+	}),
+	type: TasksSchema.shape.type.register(fieldRegistry, {
+		id: "warehouse-management-tasks-type-create",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "text",
+	}),
+	status: TasksSchema.shape.status.register(fieldRegistry, {
+		id: "warehouse-management-tasks-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	priority: TasksSchema.shape.priority.register(fieldRegistry, {
+		id: "warehouse-management-tasks-priority-create",
+		type: "field",
+		label: "Priority",
+		description: "Enter a priority",
+		inputType: "number",
+	}),
+	instructions: TasksSchema.shape.instructions.register(fieldRegistry, {
+		id: "warehouse-management-tasks-instructions-create",
+		type: "field",
+		label: "Instructions",
+		description: "Enter an instructions",
+		inputType: "text",
+	}),
+	notes: TasksSchema.shape.notes.register(fieldRegistry, {
+		id: "warehouse-management-tasks-notes-create",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	}),
+	startTime: TasksSchema.shape.startTime.register(fieldRegistry, {
+		id: "warehouse-management-tasks-startTime-create",
+		type: "field",
+		label: "StartTime",
+		description: "Enter a starttime",
+		inputType: "date",
+	}),
+	endTime: TasksSchema.shape.endTime.register(fieldRegistry, {
+		id: "warehouse-management-tasks-endTime-create",
+		type: "field",
+		label: "EndTime",
+		description: "Enter an endtime",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

@@ -19,7 +19,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	location: InventoryStockSchema.shape.location.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-location-update",
+		type: "field",
+		label: "Location",
+		description: "Enter a location",
+		inputType: "text",
+	}),
+	batch: InventoryStockSchema.shape.batch.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-batch-update",
+		type: "field",
+		label: "Batch",
+		description: "Enter a batch",
+		inputType: "text",
+	}),
+	quantity: InventoryStockSchema.shape.quantity.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-quantity-update",
+		type: "field",
+		label: "Quantity",
+		description: "Enter a quantity",
+		inputType: "number",
+	}),
+	reservedQuantity: InventoryStockSchema.shape.reservedQuantity.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-reservedQuantity-update",
+		type: "field",
+		label: "ReservedQuantity",
+		description: "Enter a reservedquantity",
+		inputType: "text",
+	}),
+	status: InventoryStockSchema.shape.status.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	lastCountedAt: InventoryStockSchema.shape.lastCountedAt.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-lastCountedAt-update",
+		type: "field",
+		label: "LastCountedAt",
+		description: "Enter a lastcountedat",
+		inputType: "date",
+	}),
+	lastMovementAt: InventoryStockSchema.shape.lastMovementAt.optional().register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-lastMovementAt-update",
+		type: "field",
+		label: "LastMovementAt",
+		description: "Enter a lastmovementat",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

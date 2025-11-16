@@ -19,7 +19,71 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	trip: TripStopsSchema.shape.trip.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-trip-update",
+		type: "field",
+		label: "Trip",
+		description: "Enter a trip",
+		inputType: "text",
+	}),
+	sequence: TripStopsSchema.shape.sequence.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-sequence-update",
+		type: "field",
+		label: "Sequence",
+		description: "Enter a sequence",
+		inputType: "number",
+	}),
+	address: TripStopsSchema.shape.address.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-address-update",
+		type: "field",
+		label: "Address",
+		description: "Enter an address",
+		inputType: "text",
+	}),
+	status: TripStopsSchema.shape.status.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	estimatedArrivalTime: TripStopsSchema.shape.estimatedArrivalTime.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-estimatedArrivalTime-update",
+		type: "field",
+		label: "EstimatedArrivalTime",
+		description: "Enter an estimatedarrivaltime",
+		inputType: "date",
+	}),
+	actualArrivalTime: TripStopsSchema.shape.actualArrivalTime.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-actualArrivalTime-update",
+		type: "field",
+		label: "ActualArrivalTime",
+		description: "Enter an actualarrivaltime",
+		inputType: "date",
+	}),
+	estimatedDepartureTime: TripStopsSchema.shape.estimatedDepartureTime.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-estimatedDepartureTime-update",
+		type: "field",
+		label: "EstimatedDepartureTime",
+		description: "Enter an estimateddeparturetime",
+		inputType: "date",
+	}),
+	actualDepartureTime: TripStopsSchema.shape.actualDepartureTime.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-actualDepartureTime-update",
+		type: "field",
+		label: "ActualDepartureTime",
+		description: "Enter an actualdeparturetime",
+		inputType: "date",
+	}),
+	shipment: TripStopsSchema.shape.shipment.optional().register(fieldRegistry, {
+		id: "transport-management-trip-stops-shipment-update",
+		type: "field",
+		label: "Shipment",
+		description: "Enter a shipment",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

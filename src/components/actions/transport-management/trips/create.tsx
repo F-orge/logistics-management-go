@@ -17,7 +17,15 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TripsSchema } from "@/pocketbase/schemas/transport-management/trips";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	status: TripsSchema.shape.status.register(fieldRegistry, {
+		id: "transport-management-trips-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

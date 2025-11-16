@@ -17,7 +17,29 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { GeofenceEventsSchema } from "@/pocketbase/schemas/transport-management/geofence-events";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	geofence: GeofenceEventsSchema.shape.geofence.register(fieldRegistry, {
+		id: "transport-management-geofence-events-geofence-create",
+		type: "field",
+		label: "Geofence",
+		description: "Enter a geofence",
+		inputType: "text",
+	}),
+	type: GeofenceEventsSchema.shape.type.register(fieldRegistry, {
+		id: "transport-management-geofence-events-type-create",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "select",
+	}),
+	timestamp: GeofenceEventsSchema.shape.timestamp.register(fieldRegistry, {
+		id: "transport-management-geofence-events-timestamp-create",
+		type: "field",
+		label: "Timestamp",
+		description: "Enter a timestamp",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

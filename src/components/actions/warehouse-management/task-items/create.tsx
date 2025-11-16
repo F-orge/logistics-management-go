@@ -17,7 +17,85 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TaskItemsSchema } from "@/pocketbase/schemas/warehouse-management/task-items";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	task: TaskItemsSchema.shape.task.register(fieldRegistry, {
+		id: "warehouse-management-task-items-task-create",
+		type: "field",
+		label: "Task",
+		description: "Enter a task",
+		inputType: "text",
+	}),
+	batch: TaskItemsSchema.shape.batch.register(fieldRegistry, {
+		id: "warehouse-management-task-items-batch-create",
+		type: "field",
+		label: "Batch",
+		description: "Enter a batch",
+		inputType: "text",
+	}),
+	sourceLocation: TaskItemsSchema.shape.sourceLocation.register(fieldRegistry, {
+		id: "warehouse-management-task-items-sourceLocation-create",
+		type: "field",
+		label: "SourceLocation",
+		description: "Enter a sourcelocation",
+		inputType: "text",
+	}),
+	destinationLocation: TaskItemsSchema.shape.destinationLocation.register(fieldRegistry, {
+		id: "warehouse-management-task-items-destinationLocation-create",
+		type: "field",
+		label: "DestinationLocation",
+		description: "Enter a destinationlocation",
+		inputType: "text",
+	}),
+	quantityRequired: TaskItemsSchema.shape.quantityRequired.register(fieldRegistry, {
+		id: "warehouse-management-task-items-quantityRequired-create",
+		type: "field",
+		label: "QuantityRequired",
+		description: "Enter a quantityrequired",
+		inputType: "number",
+	}),
+	quantityCompleted: TaskItemsSchema.shape.quantityCompleted.register(fieldRegistry, {
+		id: "warehouse-management-task-items-quantityCompleted-create",
+		type: "field",
+		label: "QuantityCompleted",
+		description: "Enter a quantitycompleted",
+		inputType: "number",
+	}),
+	status: TaskItemsSchema.shape.status.register(fieldRegistry, {
+		id: "warehouse-management-task-items-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	lotNumber: TaskItemsSchema.shape.lotNumber.register(fieldRegistry, {
+		id: "warehouse-management-task-items-lotNumber-create",
+		type: "field",
+		label: "LotNumber",
+		description: "Enter a lotnumber",
+		inputType: "number",
+	}),
+	expiryDate: TaskItemsSchema.shape.expiryDate.register(fieldRegistry, {
+		id: "warehouse-management-task-items-expiryDate-create",
+		type: "field",
+		label: "ExpiryDate",
+		description: "Enter an expirydate",
+		inputType: "date",
+	}),
+	notes: TaskItemsSchema.shape.notes.register(fieldRegistry, {
+		id: "warehouse-management-task-items-notes-create",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	}),
+	completedAt: TaskItemsSchema.shape.completedAt.register(fieldRegistry, {
+		id: "warehouse-management-task-items-completedAt-create",
+		type: "field",
+		label: "CompletedAt",
+		description: "Enter a completedat",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

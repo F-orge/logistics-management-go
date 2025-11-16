@@ -19,7 +19,78 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	lineItem: DisputesSchema.shape.lineItem.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-lineItem-update",
+		type: "field",
+		label: "LineItem",
+		description: "Enter a lineitem",
+		inputType: "text",
+	}),
+	client: DisputesSchema.shape.client.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-client-update",
+		type: "field",
+		label: "Client",
+		description: "Enter a client",
+		inputType: "text",
+	}),
+	reason: DisputesSchema.shape.reason.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-reason-update",
+		type: "field",
+		label: "Reason",
+		description: "Enter a reason",
+		inputType: "select",
+	}),
+	status: DisputesSchema.shape.status.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	disputeAmount: DisputesSchema.shape.disputeAmount.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-disputeAmount-update",
+		type: "field",
+		label: "DisputeAmount",
+		description: "Enter a disputeamount",
+		inputType: "text",
+	}),
+	resolutionNotes: DisputesSchema.shape.resolutionNotes.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-resolutionNotes-update",
+		type: "field",
+		label: "ResolutionNotes",
+		description: "Enter a resolutionnotes",
+		inputType: "text",
+	}),
+	submittedAt: DisputesSchema.shape.submittedAt.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-submittedAt-update",
+		type: "field",
+		label: "SubmittedAt",
+		description: "Enter a submittedat",
+		inputType: "date",
+	}),
+	resolvedAt: DisputesSchema.shape.resolvedAt.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-resolvedAt-update",
+		type: "field",
+		label: "ResolvedAt",
+		description: "Enter a resolvedat",
+		inputType: "date",
+	}),
+	resolvedBy: DisputesSchema.shape.resolvedBy.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-resolvedBy-update",
+		type: "field",
+		label: "ResolvedBy",
+		description: "Enter a resolvedby",
+		inputType: "text",
+	}),
+	attachments: DisputesSchema.shape.attachments.optional().register(fieldRegistry, {
+		id: "billing-management-disputes-attachments-update",
+		type: "field",
+		label: "Attachments",
+		description: "Enter an attachments",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

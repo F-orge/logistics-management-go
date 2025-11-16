@@ -19,7 +19,29 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	name: GeofenceSchema.shape.name.optional().register(fieldRegistry, {
+		id: "transport-management-geofence-name-update",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	coordinates: GeofenceSchema.shape.coordinates.optional().register(fieldRegistry, {
+		id: "transport-management-geofence-coordinates-update",
+		type: "field",
+		label: "Coordinates",
+		description: "Enter a coordinates",
+		inputType: "text",
+	}),
+	radius: GeofenceSchema.shape.radius.optional().register(fieldRegistry, {
+		id: "transport-management-geofence-radius-update",
+		type: "field",
+		label: "Radius",
+		description: "Enter a radius",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

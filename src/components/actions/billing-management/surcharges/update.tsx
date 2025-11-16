@@ -19,7 +19,64 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	name: SurchargesSchema.shape.name.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-name-update",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	type: SurchargesSchema.shape.type.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-type-update",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "text",
+	}),
+	amount: SurchargesSchema.shape.amount.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-amount-update",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "number",
+	}),
+	calculationMethod: SurchargesSchema.shape.calculationMethod.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-calculationMethod-update",
+		type: "field",
+		label: "CalculationMethod",
+		description: "Enter a calculationmethod",
+		inputType: "text",
+	}),
+	isActive: SurchargesSchema.shape.isActive.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-isActive-update",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "boolean",
+	}),
+	validFrom: SurchargesSchema.shape.validFrom.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-validFrom-update",
+		type: "field",
+		label: "ValidFrom",
+		description: "Enter a validfrom",
+		inputType: "date",
+	}),
+	validTo: SurchargesSchema.shape.validTo.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-validTo-update",
+		type: "field",
+		label: "ValidTo",
+		description: "Enter a validto",
+		inputType: "date",
+	}),
+	description: SurchargesSchema.shape.description.optional().register(fieldRegistry, {
+		id: "billing-management-surcharges-description-update",
+		type: "field",
+		label: "Description",
+		description: "Enter a description",
+		inputType: "textarea",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

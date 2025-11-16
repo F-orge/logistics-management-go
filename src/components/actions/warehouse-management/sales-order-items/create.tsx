@@ -17,7 +17,22 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { SalesOrderItemsSchema } from "@/pocketbase/schemas/warehouse-management/sales-order-items";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	salesOrder: SalesOrderItemsSchema.shape.salesOrder.register(fieldRegistry, {
+		id: "warehouse-management-sales-order-items-salesOrder-create",
+		type: "field",
+		label: "SalesOrder",
+		description: "Enter a salesorder",
+		inputType: "text",
+	}),
+	quantityOrdered: SalesOrderItemsSchema.shape.quantityOrdered.register(fieldRegistry, {
+		id: "warehouse-management-sales-order-items-quantityOrdered-create",
+		type: "field",
+		label: "QuantityOrdered",
+		description: "Enter a quantityordered",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

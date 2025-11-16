@@ -17,7 +17,43 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PickBatchItemsSchema } from "@/pocketbase/schemas/warehouse-management/pick-batch-items";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	pickBatch: PickBatchItemsSchema.shape.pickBatch.register(fieldRegistry, {
+		id: "warehouse-management-pick-batch-items-pickBatch-create",
+		type: "field",
+		label: "PickBatch",
+		description: "Enter a pickbatch",
+		inputType: "text",
+	}),
+	salesOrder: PickBatchItemsSchema.shape.salesOrder.register(fieldRegistry, {
+		id: "warehouse-management-pick-batch-items-salesOrder-create",
+		type: "field",
+		label: "SalesOrder",
+		description: "Enter a salesorder",
+		inputType: "text",
+	}),
+	orderPriority: PickBatchItemsSchema.shape.orderPriority.register(fieldRegistry, {
+		id: "warehouse-management-pick-batch-items-orderPriority-create",
+		type: "field",
+		label: "OrderPriority",
+		description: "Enter an orderpriority",
+		inputType: "number",
+	}),
+	estimatedPickTime: PickBatchItemsSchema.shape.estimatedPickTime.register(fieldRegistry, {
+		id: "warehouse-management-pick-batch-items-estimatedPickTime-create",
+		type: "field",
+		label: "EstimatedPickTime",
+		description: "Enter an estimatedpicktime",
+		inputType: "date",
+	}),
+	actualPickTime: PickBatchItemsSchema.shape.actualPickTime.register(fieldRegistry, {
+		id: "warehouse-management-pick-batch-items-actualPickTime-create",
+		type: "field",
+		label: "ActualPickTime",
+		description: "Enter an actualpicktime",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

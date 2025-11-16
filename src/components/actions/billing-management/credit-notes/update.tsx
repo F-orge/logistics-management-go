@@ -19,7 +19,71 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	invoice: CreditNotesSchema.shape.invoice.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-invoice-update",
+		type: "field",
+		label: "Invoice",
+		description: "Enter an invoice",
+		inputType: "text",
+	}),
+	dispute: CreditNotesSchema.shape.dispute.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-dispute-update",
+		type: "field",
+		label: "Dispute",
+		description: "Enter a dispute",
+		inputType: "text",
+	}),
+	creditNoteNumber: CreditNotesSchema.shape.creditNoteNumber.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-creditNoteNumber-update",
+		type: "field",
+		label: "CreditNoteNumber",
+		description: "Enter a creditnotenumber",
+		inputType: "text",
+	}),
+	amount: CreditNotesSchema.shape.amount.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-amount-update",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "text",
+	}),
+	reason: CreditNotesSchema.shape.reason.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-reason-update",
+		type: "field",
+		label: "Reason",
+		description: "Enter a reason",
+		inputType: "select",
+	}),
+	issueDate: CreditNotesSchema.shape.issueDate.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-issueDate-update",
+		type: "field",
+		label: "IssueDate",
+		description: "Enter an issuedate",
+		inputType: "date",
+	}),
+	appliedAt: CreditNotesSchema.shape.appliedAt.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-appliedAt-update",
+		type: "field",
+		label: "AppliedAt",
+		description: "Enter an appliedat",
+		inputType: "date",
+	}),
+	currency: CreditNotesSchema.shape.currency.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-currency-update",
+		type: "field",
+		label: "Currency",
+		description: "Enter a currency",
+		inputType: "text",
+	}),
+	notes: CreditNotesSchema.shape.notes.optional().register(fieldRegistry, {
+		id: "billing-management-credit-notes-notes-update",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

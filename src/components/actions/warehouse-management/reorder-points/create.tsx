@@ -17,7 +17,15 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ReorderPointsSchema } from "@/pocketbase/schemas/warehouse-management/reorder-points";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	threshold: ReorderPointsSchema.shape.threshold.register(fieldRegistry, {
+		id: "warehouse-management-reorder-points-threshold-create",
+		type: "field",
+		label: "Threshold",
+		description: "Enter a threshold",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

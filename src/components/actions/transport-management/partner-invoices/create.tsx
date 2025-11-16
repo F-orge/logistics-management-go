@@ -17,7 +17,43 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PartnerInvoiceSchema } from "@/pocketbase/schemas/transport-management/partner-invoices";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	invoiceNumber: PartnerInvoiceSchema.shape.invoiceNumber.register(fieldRegistry, {
+		id: "transport-management-partner-invoices-invoiceNumber-create",
+		type: "field",
+		label: "InvoiceNumber",
+		description: "Enter an invoicenumber",
+		inputType: "text",
+	}),
+	invoiceDate: PartnerInvoiceSchema.shape.invoiceDate.register(fieldRegistry, {
+		id: "transport-management-partner-invoices-invoiceDate-create",
+		type: "field",
+		label: "InvoiceDate",
+		description: "Enter an invoicedate",
+		inputType: "date",
+	}),
+	totalAmount: PartnerInvoiceSchema.shape.totalAmount.register(fieldRegistry, {
+		id: "transport-management-partner-invoices-totalAmount-create",
+		type: "field",
+		label: "TotalAmount",
+		description: "Enter a totalamount",
+		inputType: "number",
+	}),
+	status: PartnerInvoiceSchema.shape.status.register(fieldRegistry, {
+		id: "transport-management-partner-invoices-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	items: PartnerInvoiceSchema.shape.items.register(fieldRegistry, {
+		id: "transport-management-partner-invoices-items-create",
+		type: "field",
+		label: "Items",
+		description: "Enter an items",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

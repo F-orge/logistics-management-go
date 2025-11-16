@@ -19,7 +19,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	name: RateCardsSchema.shape.name.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-name-update",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	type: RateCardsSchema.shape.type.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-type-update",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "select",
+	}),
+	isActive: RateCardsSchema.shape.isActive.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-isActive-update",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "boolean",
+	}),
+	validFrom: RateCardsSchema.shape.validFrom.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-validFrom-update",
+		type: "field",
+		label: "ValidFrom",
+		description: "Enter a validfrom",
+		inputType: "date",
+	}),
+	validTo: RateCardsSchema.shape.validTo.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-validTo-update",
+		type: "field",
+		label: "ValidTo",
+		description: "Enter a validto",
+		inputType: "date",
+	}),
+	description: RateCardsSchema.shape.description.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-description-update",
+		type: "field",
+		label: "Description",
+		description: "Enter a description",
+		inputType: "textarea",
+	}),
+	createdBy: RateCardsSchema.shape.createdBy.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-createdBy-update",
+		type: "field",
+		label: "CreatedBy",
+		description: "Enter a createdby",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

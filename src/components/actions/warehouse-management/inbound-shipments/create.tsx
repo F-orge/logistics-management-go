@@ -17,7 +17,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InboundShipmentsSchema } from "@/pocketbase/schemas/warehouse-management/inbound-shipments";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	client: InboundShipmentsSchema.shape.client.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipments-client-create",
+		type: "field",
+		label: "Client",
+		description: "Enter a client",
+		inputType: "text",
+	}),
+	status: InboundShipmentsSchema.shape.status.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipments-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	expectedArrivalDate: InboundShipmentsSchema.shape.expectedArrivalDate.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipments-expectedArrivalDate-create",
+		type: "field",
+		label: "ExpectedArrivalDate",
+		description: "Enter an expectedarrivaldate",
+		inputType: "date",
+	}),
+	actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipments-actualArrivalDate-create",
+		type: "field",
+		label: "ActualArrivalDate",
+		description: "Enter an actualarrivaldate",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

@@ -17,7 +17,50 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ShipmentLegsSchema } from "@/pocketbase/schemas/transport-management/shipment-legs";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	legSequence: ShipmentLegsSchema.shape.legSequence.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-legSequence-create",
+		type: "field",
+		label: "LegSequence",
+		description: "Enter a legsequence",
+		inputType: "number",
+	}),
+	startLocation: ShipmentLegsSchema.shape.startLocation.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-startLocation-create",
+		type: "field",
+		label: "StartLocation",
+		description: "Enter a startlocation",
+		inputType: "text",
+	}),
+	endLocation: ShipmentLegsSchema.shape.endLocation.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-endLocation-create",
+		type: "field",
+		label: "EndLocation",
+		description: "Enter an endlocation",
+		inputType: "text",
+	}),
+	interalTrip: ShipmentLegsSchema.shape.interalTrip.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-interalTrip-create",
+		type: "field",
+		label: "InteralTrip",
+		description: "Enter an interaltrip",
+		inputType: "text",
+	}),
+	status: ShipmentLegsSchema.shape.status.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	shipment: ShipmentLegsSchema.shape.shipment.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-shipment-create",
+		type: "field",
+		label: "Shipment",
+		description: "Enter a shipment",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

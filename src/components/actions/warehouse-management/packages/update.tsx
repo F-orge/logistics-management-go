@@ -19,7 +19,106 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	salesOrder: PackagesSchema.shape.salesOrder.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-salesOrder-update",
+		type: "field",
+		label: "SalesOrder",
+		description: "Enter a salesorder",
+		inputType: "text",
+	}),
+	packageNumber: PackagesSchema.shape.packageNumber.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-packageNumber-update",
+		type: "field",
+		label: "PackageNumber",
+		description: "Enter a packagenumber",
+		inputType: "text",
+	}),
+	type: PackagesSchema.shape.type.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-type-update",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "text",
+	}),
+	weight: PackagesSchema.shape.weight.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-weight-update",
+		type: "field",
+		label: "Weight",
+		description: "Enter a weight",
+		inputType: "number",
+	}),
+	length: PackagesSchema.shape.length.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-length-update",
+		type: "field",
+		label: "Length",
+		description: "Enter a length",
+		inputType: "number",
+	}),
+	width: PackagesSchema.shape.width.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-width-update",
+		type: "field",
+		label: "Width",
+		description: "Enter a width",
+		inputType: "number",
+	}),
+	height: PackagesSchema.shape.height.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-height-update",
+		type: "field",
+		label: "Height",
+		description: "Enter a height",
+		inputType: "number",
+	}),
+	packedByUser: PackagesSchema.shape.packedByUser.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-packedByUser-update",
+		type: "field",
+		label: "PackedByUser",
+		description: "Enter a packedbyuser",
+		inputType: "text",
+	}),
+	packedAt: PackagesSchema.shape.packedAt.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-packedAt-update",
+		type: "field",
+		label: "PackedAt",
+		description: "Enter a packedat",
+		inputType: "date",
+	}),
+	shippedAt: PackagesSchema.shape.shippedAt.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-shippedAt-update",
+		type: "field",
+		label: "ShippedAt",
+		description: "Enter a shippedat",
+		inputType: "date",
+	}),
+	isFragile: PackagesSchema.shape.isFragile.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-isFragile-update",
+		type: "field",
+		label: "IsFragile",
+		description: "Enter an isfragile",
+		inputType: "text",
+	}),
+	isHazmat: PackagesSchema.shape.isHazmat.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-isHazmat-update",
+		type: "field",
+		label: "IsHazmat",
+		description: "Enter an ishazmat",
+		inputType: "text",
+	}),
+	requireSignature: PackagesSchema.shape.requireSignature.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-requireSignature-update",
+		type: "field",
+		label: "RequireSignature",
+		description: "Enter a requiresignature",
+		inputType: "text",
+	}),
+	insuranceValue: PackagesSchema.shape.insuranceValue.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-insuranceValue-update",
+		type: "field",
+		label: "InsuranceValue",
+		description: "Enter an insurancevalue",
+		inputType: "number",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

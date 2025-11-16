@@ -17,7 +17,71 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { RateRulesSchema } from "@/pocketbase/schemas/billing-management/rate-rules";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	rateCard: RateRulesSchema.shape.rateCard.register(fieldRegistry, {
+		id: "billing-management-rate-rules-rateCard-create",
+		type: "field",
+		label: "RateCard",
+		description: "Enter a ratecard",
+		inputType: "text",
+	}),
+	condition: RateRulesSchema.shape.condition.register(fieldRegistry, {
+		id: "billing-management-rate-rules-condition-create",
+		type: "field",
+		label: "Condition",
+		description: "Enter a condition",
+		inputType: "text",
+	}),
+	value: RateRulesSchema.shape.value.register(fieldRegistry, {
+		id: "billing-management-rate-rules-value-create",
+		type: "field",
+		label: "Value",
+		description: "Enter a value",
+		inputType: "text",
+	}),
+	price: RateRulesSchema.shape.price.register(fieldRegistry, {
+		id: "billing-management-rate-rules-price-create",
+		type: "field",
+		label: "Price",
+		description: "Enter a price",
+		inputType: "number",
+	}),
+	pricingModel: RateRulesSchema.shape.pricingModel.register(fieldRegistry, {
+		id: "billing-management-rate-rules-pricingModel-create",
+		type: "field",
+		label: "PricingModel",
+		description: "Enter a pricingmodel",
+		inputType: "select",
+	}),
+	minValue: RateRulesSchema.shape.minValue.register(fieldRegistry, {
+		id: "billing-management-rate-rules-minValue-create",
+		type: "field",
+		label: "MinValue",
+		description: "Enter a minvalue",
+		inputType: "number",
+	}),
+	maxValue: RateRulesSchema.shape.maxValue.register(fieldRegistry, {
+		id: "billing-management-rate-rules-maxValue-create",
+		type: "field",
+		label: "MaxValue",
+		description: "Enter a maxvalue",
+		inputType: "number",
+	}),
+	priority: RateRulesSchema.shape.priority.register(fieldRegistry, {
+		id: "billing-management-rate-rules-priority-create",
+		type: "field",
+		label: "Priority",
+		description: "Enter a priority",
+		inputType: "number",
+	}),
+	isActive: RateRulesSchema.shape.isActive.register(fieldRegistry, {
+		id: "billing-management-rate-rules-isActive-create",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "boolean",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

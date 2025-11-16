@@ -31,6 +31,9 @@ typecheck:
 check:
   bun biome check --fix
 
+register-schemas *ARGS:
+  bun scripts/register-field-schemas.ts {{ARGS}}
+
 start:
   bun .output/server
 

@@ -19,7 +19,113 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	client: QuotesSchema.shape.client.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-client-update",
+		type: "field",
+		label: "Client",
+		description: "Enter a client",
+		inputType: "text",
+	}),
+	originDetails: QuotesSchema.shape.originDetails.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-originDetails-update",
+		type: "field",
+		label: "OriginDetails",
+		description: "Enter an origindetails",
+		inputType: "text",
+	}),
+	destinationDetails: QuotesSchema.shape.destinationDetails.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-destinationDetails-update",
+		type: "field",
+		label: "DestinationDetails",
+		description: "Enter a destinationdetails",
+		inputType: "text",
+	}),
+	weight: QuotesSchema.shape.weight.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-weight-update",
+		type: "field",
+		label: "Weight",
+		description: "Enter a weight",
+		inputType: "number",
+	}),
+	length: QuotesSchema.shape.length.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-length-update",
+		type: "field",
+		label: "Length",
+		description: "Enter a length",
+		inputType: "number",
+	}),
+	width: QuotesSchema.shape.width.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-width-update",
+		type: "field",
+		label: "Width",
+		description: "Enter a width",
+		inputType: "number",
+	}),
+	height: QuotesSchema.shape.height.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-height-update",
+		type: "field",
+		label: "Height",
+		description: "Enter a height",
+		inputType: "number",
+	}),
+	quotePrice: QuotesSchema.shape.quotePrice.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-quotePrice-update",
+		type: "field",
+		label: "QuotePrice",
+		description: "Enter a quoteprice",
+		inputType: "text",
+	}),
+	serviceLevel: QuotesSchema.shape.serviceLevel.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-serviceLevel-update",
+		type: "field",
+		label: "ServiceLevel",
+		description: "Enter a servicelevel",
+		inputType: "text",
+	}),
+	expiredAt: QuotesSchema.shape.expiredAt.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-expiredAt-update",
+		type: "field",
+		label: "ExpiredAt",
+		description: "Enter an expiredat",
+		inputType: "date",
+	}),
+	status: QuotesSchema.shape.status.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	quoteNumber: QuotesSchema.shape.quoteNumber.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-quoteNumber-update",
+		type: "field",
+		label: "QuoteNumber",
+		description: "Enter a quotenumber",
+		inputType: "text",
+	}),
+	notes: QuotesSchema.shape.notes.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-notes-update",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	}),
+	createdBy: QuotesSchema.shape.createdBy.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-createdBy-update",
+		type: "field",
+		label: "CreatedBy",
+		description: "Enter a createdby",
+		inputType: "text",
+	}),
+	attachments: QuotesSchema.shape.attachments.optional().register(fieldRegistry, {
+		id: "billing-management-quotes-attachments-update",
+		type: "field",
+		label: "Attachments",
+		description: "Enter an attachments",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

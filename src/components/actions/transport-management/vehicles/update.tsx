@@ -19,7 +19,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
-export const UpdateSchema = z.object({});
+export const UpdateSchema = z.object({
+	registrationNumber: VehiclesSchema.shape.registrationNumber.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-registrationNumber-update",
+		type: "field",
+		label: "RegistrationNumber",
+		description: "Enter a registrationnumber",
+		inputType: "text",
+	}),
+	model: VehiclesSchema.shape.model.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-model-update",
+		type: "field",
+		label: "Model",
+		description: "Enter a model",
+		inputType: "text",
+	}),
+	capacityVolume: VehiclesSchema.shape.capacityVolume.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-capacityVolume-update",
+		type: "field",
+		label: "CapacityVolume",
+		description: "Enter a capacityvolume",
+		inputType: "text",
+	}),
+	capacityWeight: VehiclesSchema.shape.capacityWeight.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-capacityWeight-update",
+		type: "field",
+		label: "CapacityWeight",
+		description: "Enter a capacityweight",
+		inputType: "text",
+	}),
+	status: VehiclesSchema.shape.status.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-status-update",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "select",
+	}),
+	maintenances: VehiclesSchema.shape.maintenances.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-maintenances-update",
+		type: "field",
+		label: "Maintenances",
+		description: "Enter a maintenances",
+		inputType: "text",
+	}),
+	gps_pings: VehiclesSchema.shape.gps_pings.optional().register(fieldRegistry, {
+		id: "transport-management-vehicles-gps_pings-update",
+		type: "field",
+		label: "Gps_pings",
+		description: "Enter a gps_pings",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof UpdateSchema>,

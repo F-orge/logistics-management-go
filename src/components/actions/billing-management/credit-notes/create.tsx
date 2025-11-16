@@ -17,7 +17,71 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreditNotesSchema } from "@/pocketbase/schemas/billing-management/credit-notes";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	invoice: CreditNotesSchema.shape.invoice.register(fieldRegistry, {
+		id: "billing-management-credit-notes-invoice-create",
+		type: "field",
+		label: "Invoice",
+		description: "Enter an invoice",
+		inputType: "text",
+	}),
+	dispute: CreditNotesSchema.shape.dispute.register(fieldRegistry, {
+		id: "billing-management-credit-notes-dispute-create",
+		type: "field",
+		label: "Dispute",
+		description: "Enter a dispute",
+		inputType: "text",
+	}),
+	creditNoteNumber: CreditNotesSchema.shape.creditNoteNumber.register(fieldRegistry, {
+		id: "billing-management-credit-notes-creditNoteNumber-create",
+		type: "field",
+		label: "CreditNoteNumber",
+		description: "Enter a creditnotenumber",
+		inputType: "text",
+	}),
+	amount: CreditNotesSchema.shape.amount.register(fieldRegistry, {
+		id: "billing-management-credit-notes-amount-create",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "text",
+	}),
+	reason: CreditNotesSchema.shape.reason.register(fieldRegistry, {
+		id: "billing-management-credit-notes-reason-create",
+		type: "field",
+		label: "Reason",
+		description: "Enter a reason",
+		inputType: "select",
+	}),
+	issueDate: CreditNotesSchema.shape.issueDate.register(fieldRegistry, {
+		id: "billing-management-credit-notes-issueDate-create",
+		type: "field",
+		label: "IssueDate",
+		description: "Enter an issuedate",
+		inputType: "date",
+	}),
+	appliedAt: CreditNotesSchema.shape.appliedAt.register(fieldRegistry, {
+		id: "billing-management-credit-notes-appliedAt-create",
+		type: "field",
+		label: "AppliedAt",
+		description: "Enter an appliedat",
+		inputType: "date",
+	}),
+	currency: CreditNotesSchema.shape.currency.register(fieldRegistry, {
+		id: "billing-management-credit-notes-currency-create",
+		type: "field",
+		label: "Currency",
+		description: "Enter a currency",
+		inputType: "text",
+	}),
+	notes: CreditNotesSchema.shape.notes.register(fieldRegistry, {
+		id: "billing-management-credit-notes-notes-create",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

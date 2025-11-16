@@ -17,7 +17,92 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PaymentsSchema } from "@/pocketbase/schemas/billing-management/payments";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	invoice: PaymentsSchema.shape.invoice.register(fieldRegistry, {
+		id: "billing-management-payments-invoice-create",
+		type: "field",
+		label: "Invoice",
+		description: "Enter an invoice",
+		inputType: "text",
+	}),
+	amount: PaymentsSchema.shape.amount.register(fieldRegistry, {
+		id: "billing-management-payments-amount-create",
+		type: "field",
+		label: "Amount",
+		description: "Enter an amount",
+		inputType: "text",
+	}),
+	paymentMethod: PaymentsSchema.shape.paymentMethod.register(fieldRegistry, {
+		id: "billing-management-payments-paymentMethod-create",
+		type: "field",
+		label: "PaymentMethod",
+		description: "Enter a paymentmethod",
+		inputType: "text",
+	}),
+	status: PaymentsSchema.shape.status.register(fieldRegistry, {
+		id: "billing-management-payments-status-create",
+		type: "field",
+		label: "Status",
+		description: "Enter a status",
+		inputType: "text",
+	}),
+	paymentDate: PaymentsSchema.shape.paymentDate.register(fieldRegistry, {
+		id: "billing-management-payments-paymentDate-create",
+		type: "field",
+		label: "PaymentDate",
+		description: "Enter a paymentdate",
+		inputType: "date",
+	}),
+	processedAt: PaymentsSchema.shape.processedAt.register(fieldRegistry, {
+		id: "billing-management-payments-processedAt-create",
+		type: "field",
+		label: "ProcessedAt",
+		description: "Enter a processedat",
+		inputType: "date",
+	}),
+	currency: PaymentsSchema.shape.currency.register(fieldRegistry, {
+		id: "billing-management-payments-currency-create",
+		type: "field",
+		label: "Currency",
+		description: "Enter a currency",
+		inputType: "text",
+	}),
+	fees: PaymentsSchema.shape.fees.register(fieldRegistry, {
+		id: "billing-management-payments-fees-create",
+		type: "field",
+		label: "Fees",
+		description: "Enter a fees",
+		inputType: "number",
+	}),
+	netAmount: PaymentsSchema.shape.netAmount.register(fieldRegistry, {
+		id: "billing-management-payments-netAmount-create",
+		type: "field",
+		label: "NetAmount",
+		description: "Enter a netamount",
+		inputType: "number",
+	}),
+	notes: PaymentsSchema.shape.notes.register(fieldRegistry, {
+		id: "billing-management-payments-notes-create",
+		type: "field",
+		label: "Notes",
+		description: "Enter a notes",
+		inputType: "text",
+	}),
+	processedBy: PaymentsSchema.shape.processedBy.register(fieldRegistry, {
+		id: "billing-management-payments-processedBy-create",
+		type: "field",
+		label: "ProcessedBy",
+		description: "Enter a processedby",
+		inputType: "text",
+	}),
+	attachments: PaymentsSchema.shape.attachments.register(fieldRegistry, {
+		id: "billing-management-payments-attachments-create",
+		type: "field",
+		label: "Attachments",
+		description: "Enter an attachments",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

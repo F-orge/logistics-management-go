@@ -17,7 +17,99 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { LocationsSchema } from "@/pocketbase/schemas/warehouse-management/locations";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	name: LocationsSchema.shape.name.register(fieldRegistry, {
+		id: "warehouse-management-locations-name-create",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	barcode: LocationsSchema.shape.barcode.register(fieldRegistry, {
+		id: "warehouse-management-locations-barcode-create",
+		type: "field",
+		label: "Barcode",
+		description: "Enter a barcode",
+		inputType: "text",
+	}),
+	type: LocationsSchema.shape.type.register(fieldRegistry, {
+		id: "warehouse-management-locations-type-create",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "text",
+	}),
+	level: LocationsSchema.shape.level.register(fieldRegistry, {
+		id: "warehouse-management-locations-level-create",
+		type: "field",
+		label: "Level",
+		description: "Enter a level",
+		inputType: "number",
+	}),
+	maxWeight: LocationsSchema.shape.maxWeight.register(fieldRegistry, {
+		id: "warehouse-management-locations-maxWeight-create",
+		type: "field",
+		label: "MaxWeight",
+		description: "Enter a maxweight",
+		inputType: "number",
+	}),
+	maxVolume: LocationsSchema.shape.maxVolume.register(fieldRegistry, {
+		id: "warehouse-management-locations-maxVolume-create",
+		type: "field",
+		label: "MaxVolume",
+		description: "Enter a maxvolume",
+		inputType: "number",
+	}),
+	maxPallets: LocationsSchema.shape.maxPallets.register(fieldRegistry, {
+		id: "warehouse-management-locations-maxPallets-create",
+		type: "field",
+		label: "MaxPallets",
+		description: "Enter a maxpallets",
+		inputType: "number",
+	}),
+	isPickable: LocationsSchema.shape.isPickable.register(fieldRegistry, {
+		id: "warehouse-management-locations-isPickable-create",
+		type: "field",
+		label: "IsPickable",
+		description: "Enter an ispickable",
+		inputType: "text",
+	}),
+	isReceivable: LocationsSchema.shape.isReceivable.register(fieldRegistry, {
+		id: "warehouse-management-locations-isReceivable-create",
+		type: "field",
+		label: "IsReceivable",
+		description: "Enter an isreceivable",
+		inputType: "text",
+	}),
+	temperatureControlled: LocationsSchema.shape.temperatureControlled.register(fieldRegistry, {
+		id: "warehouse-management-locations-temperatureControlled-create",
+		type: "field",
+		label: "TemperatureControlled",
+		description: "Enter a temperaturecontrolled",
+		inputType: "text",
+	}),
+	hazmatApproved: LocationsSchema.shape.hazmatApproved.register(fieldRegistry, {
+		id: "warehouse-management-locations-hazmatApproved-create",
+		type: "field",
+		label: "HazmatApproved",
+		description: "Enter a hazmatapproved",
+		inputType: "text",
+	}),
+	isActive: LocationsSchema.shape.isActive.register(fieldRegistry, {
+		id: "warehouse-management-locations-isActive-create",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "text",
+	}),
+	parentLocation: LocationsSchema.shape.parentLocation.register(fieldRegistry, {
+		id: "warehouse-management-locations-parentLocation-create",
+		type: "field",
+		label: "ParentLocation",
+		description: "Enter a parentlocation",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

@@ -17,7 +17,36 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InboundShipmentItemsSchema } from "@/pocketbase/schemas/warehouse-management/inbound-shipment-items";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	inboundShipment: InboundShipmentItemsSchema.shape.inboundShipment.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipment-items-inboundShipment-create",
+		type: "field",
+		label: "InboundShipment",
+		description: "Enter an inboundshipment",
+		inputType: "text",
+	}),
+	expectedQuantity: InboundShipmentItemsSchema.shape.expectedQuantity.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipment-items-expectedQuantity-create",
+		type: "field",
+		label: "ExpectedQuantity",
+		description: "Enter an expectedquantity",
+		inputType: "number",
+	}),
+	receivedQuantity: InboundShipmentItemsSchema.shape.receivedQuantity.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipment-items-receivedQuantity-create",
+		type: "field",
+		label: "ReceivedQuantity",
+		description: "Enter a receivedquantity",
+		inputType: "text",
+	}),
+	discrepancyNotes: InboundShipmentItemsSchema.shape.discrepancyNotes.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipment-items-discrepancyNotes-create",
+		type: "field",
+		label: "DiscrepancyNotes",
+		description: "Enter a discrepancynotes",
+		inputType: "text",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

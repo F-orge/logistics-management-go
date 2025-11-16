@@ -17,7 +17,22 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InventoryBatchesSchema } from "@/pocketbase/schemas/warehouse-management/inventory-batches";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	batchNumber: InventoryBatchesSchema.shape.batchNumber.register(fieldRegistry, {
+		id: "warehouse-management-inventory-batches-batchNumber-create",
+		type: "field",
+		label: "BatchNumber",
+		description: "Enter a batchnumber",
+		inputType: "text",
+	}),
+	expirationDate: InventoryBatchesSchema.shape.expirationDate.register(fieldRegistry, {
+		id: "warehouse-management-inventory-batches-expirationDate-create",
+		type: "field",
+		label: "ExpirationDate",
+		description: "Enter an expirationdate",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,

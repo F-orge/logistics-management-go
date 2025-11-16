@@ -17,7 +17,22 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { GpsPingsSchema } from "@/pocketbase/schemas/transport-management/gps-pings";
 
-export const CreateSchema = z.object({});
+export const CreateSchema = z.object({
+	coordinates: GpsPingsSchema.shape.coordinates.register(fieldRegistry, {
+		id: "transport-management-gps-pings-coordinates-create",
+		type: "field",
+		label: "Coordinates",
+		description: "Enter a coordinates",
+		inputType: "text",
+	}),
+	timestamp: GpsPingsSchema.shape.timestamp.register(fieldRegistry, {
+		id: "transport-management-gps-pings-timestamp-create",
+		type: "field",
+		label: "Timestamp",
+		description: "Enter a timestamp",
+		inputType: "date",
+	})
+});
 
 const FormOption = formOptions({
 	defaultValues: {} as z.infer<typeof CreateSchema>,
