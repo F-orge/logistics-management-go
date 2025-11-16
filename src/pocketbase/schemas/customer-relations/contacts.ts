@@ -5,143 +5,32 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const ContactsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Contacts-id",
-      type: "field",
-      inputType: "text",
-      label: "Contact ID",
-      description: "Unique identifier for the contact",
-      props: {
-        disabled: true,
-      },
-    }),
-    name: z.string().register(fieldRegistry, {
-      id: "Contacts-name",
-      type: "field",
-      inputType: "text",
-      label: "Name",
-      description: "Contact name",
-      props: {
-        placeholder: "Enter contact name",
-      },
-    }),
-    email: z
-      .string()
-      .email()
-      .register(fieldRegistry, {
-        id: "Contacts-email",
-        type: "field",
-        inputType: "email",
-        label: "Email",
-        description: "Contact email address",
-        props: {
-          placeholder: "example@company.com",
-        },
-      }),
-    phoneNumber: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Contacts-phoneNumber",
-        type: "field",
-        inputType: "text",
-        label: "Phone Number",
-        description: "Contact phone number",
-        props: {
-          placeholder: "+1 (555) 123-4567",
-        },
-      }),
-    jobTitle: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Contacts-jobTitle",
-        type: "field",
-        inputType: "text",
-        label: "Job Title",
-        description: "Contact job title",
-        props: {
-          placeholder: "e.g., Manager, Director",
-        },
-      }),
-    company: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Contacts-company",
-        inputType: "relation",
-        label: "Company",
-        description: "Company associated with this contact",
-        props: {
-          collectionName: Collections.CustomerRelationsCompanies,
-          relationshipName: "company",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    owner: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Contacts-owner",
-      inputType: "relation",
-      label: "Owner",
-      description: "User who owns this contact",
-      props: {
-        collectionName: Collections.Users,
-        relationshipName: "owner",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    attachments: z
-      .file()
-      .array()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Contacts-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Contact documents and files",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Contacts-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the contact was created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Contacts-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the contact was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+    id: z.string(),
+    name: z.string().nonempty("Contact name is required"),
+    email: z.email("Must be a valid email address"),
+    phoneNumber: z.string().optional(),
+    jobTitle: z.string().optional(),
+    company: z.string().optional(),
+    owner: z.string(),
+    attachments: z.file().array().optional(),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    if (!data.email) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["email"],
+        message: "Contact email is required",
+      });
+    }
+
+    console.info(
+      "👤 Contact Record: Can be created from lead conversion or directly. Linked to companies and opportunities for CRM tracking."
+    );
+  });
 
 export type Contacts = z.infer<typeof ContactsSchema>;

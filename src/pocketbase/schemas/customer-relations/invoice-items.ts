@@ -5,98 +5,31 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const InvoiceItemsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "InvoiceItems-id",
-      type: "field",
-      inputType: "text",
-      label: "Item ID",
-      description: "Unique identifier for the invoice item",
-      props: {
-        disabled: true,
-      },
-    }),
-    invoice: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "InvoiceItems-invoice",
-      inputType: "relation",
-      label: "Invoice",
-      description: "Invoice this item belongs to",
-      props: {
-        collectionName: Collections.CustomerRelationsInvoices,
-        relationshipName: "invoice",
-        displayField: "invoiceNumber",
-      } as RelationFieldProps<any>,
-    }),
-    product: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "InvoiceItems-product",
-      inputType: "relation",
-      label: "Product",
-      description: "Product being invoiced",
-      props: {
-        collectionName: Collections.CustomerRelationsProducts,
-        relationshipName: "product",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    quantity: z.number().register(fieldRegistry, {
-      id: "InvoiceItems-quantity",
-      type: "field",
-      inputType: "number",
-      label: "Quantity",
-      description: "Quantity of the product",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
-    price: z.number().register(fieldRegistry, {
-      id: "InvoiceItems-price",
-      type: "field",
-      inputType: "number",
-      label: "Price",
-      description: "Unit price of the product",
-      props: {
-        placeholder: "0.00",
-        min: 0,
-      },
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "InvoiceItems-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the item was created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "InvoiceItems-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the item was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+    id: z.string(),
+    invoice: z.string(),
+    product: z.string(),
+    quantity: z
+      .number()
+      .min(0, "Quantity must be non-negative")
+      .int("Quantity must be an integer"),
+    price: z.number().min(0, "Unit price must be non-negative"),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    if (data.quantity && data.price) {
+      const lineTotal = data.quantity * data.price;
+      console.info(
+        `💵 Line Item Total: ${lineTotal.toFixed(2)} (Qty: ${data.quantity} × Price: ${data.price.toFixed(2)}). This amount is locked in the invoice.`
+      );
+    }
+
+    console.info(
+      "🔒 Invoice Line Items: Immutable once invoice reaches terminal state (Paid/Cancelled). Amendments require credit note."
+    );
+  });
 
 export type InvoiceItems = z.infer<typeof InvoiceItemsSchema>;

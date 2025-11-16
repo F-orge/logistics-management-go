@@ -5,52 +5,12 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const LeadsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Leads-id",
-      type: "field",
-      inputType: "text",
-      label: "Lead ID",
-      description: "Unique identifier for the lead",
-      props: {
-        disabled: true,
-      },
-    }),
-    name: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-name",
-        type: "field",
-        inputType: "text",
-        label: "Name",
-        description: "Lead name",
-        props: {
-          placeholder: "Enter lead name",
-        },
-      }),
-    email: z
-      .string()
-      .email()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-email",
-        type: "field",
-        inputType: "email",
-        label: "Email",
-        description: "Lead email address",
-        props: {
-          placeholder: "example@company.com",
-        },
-      }),
+    id: z.string(),
+    name: z.string().optional(),
+    email: z.string().email().optional(),
     source: z
       .enum([
         "website",
@@ -63,178 +23,42 @@ export const LeadsSchema = z
         "partner",
         "other",
       ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-source",
-        type: "field",
-        inputType: "select",
-        label: "Source",
-        description: "Source of the lead",
-        props: {
-          options: [
-            { label: "Website", value: "website" },
-            { label: "Referral", value: "referral" },
-            { label: "Social Media", value: "social-media" },
-            { label: "Email Campaign", value: "email-campaign" },
-            { label: "Cold Call", value: "cold-call" },
-            { label: "Event", value: "event" },
-            { label: "Advertisement", value: "advertisment" },
-            { label: "Partner", value: "partner" },
-            { label: "Other", value: "other" },
-          ],
-        },
-      }),
+      .optional(),
     status: z
       .enum(["new", "contacted", "qualified", "unqualified", "converted"])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Lead status",
-        props: {
-          options: [
-            { label: "New", value: "new" },
-            { label: "Contacted", value: "contacted" },
-            { label: "Qualified", value: "qualified" },
-            { label: "Unqualified", value: "unqualified" },
-            { label: "Converted", value: "converted" },
-          ],
-        },
-      }),
-    score: z.number().register(fieldRegistry, {
-      id: "Leads-score",
-      type: "field",
-      inputType: "number",
-      label: "Score",
-      description: "Lead score",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
-    owner: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Leads-owner",
-      inputType: "relation",
-      label: "Owner",
-      description: "User assigned to this lead",
-      props: {
-        collectionName: Collections.Users,
-        relationshipName: "owner",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    campaign: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Leads-campaign",
-        inputType: "relation",
-        label: "Campaign",
-        description: "Campaign associated with this lead",
-        props: {
-          collectionName: Collections.CustomerRelationsCampaigns,
-          relationshipName: "campaign",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    convertedAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Leads-convertedAt",
-      type: "field",
-      inputType: "date",
-      label: "Converted At",
-      description: "Date when the lead was converted",
-    }),
-    convertedContact: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Leads-convertedContact",
-        inputType: "relation",
-        label: "Converted Contact",
-        description: "Contact this lead was converted to",
-        props: {
-          collectionName: Collections.CustomerRelationsContacts,
-          relationshipName: "convertedContact",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    convertedCompany: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Leads-convertedCompany",
-        inputType: "relation",
-        label: "Converted Company",
-        description: "Company this lead was converted to",
-        props: {
-          collectionName: Collections.CustomerRelationsCompanies,
-          relationshipName: "convertedCompany",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    convertedOpportunity: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Leads-convertedOpportunity",
-        inputType: "relation",
-        label: "Converted Opportunity",
-        description: "Opportunity this lead was converted to",
-        props: {
-          collectionName: Collections.CustomerRelationsOpportunities,
-          relationshipName: "convertedOpportunity",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    attachments: z
-      .file()
-      .array()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Lead documents and files",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the lead was created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Leads-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the lead was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      .optional(),
+    score: z.number().min(0, "Lead score must be non-negative"),
+    owner: z.string(),
+    campaign: z.string().optional(),
+    convertedAt: z.iso.date().optional(),
+    convertedContact: z.string().optional(),
+    convertedCompany: z.string().optional(),
+    convertedOpportunity: z.string().optional(),
+    attachments: z.file().array().optional(),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    // State Machine Constraint: When status is changed to 'qualified', a trigger must:
+    // 1. Set the `converted_at` timestamp
+    // 2. Create corresponding records in `companies`, `contacts`, and `opportunities`
+    if (data.status === "qualified" && !data.convertedAt) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["convertedAt"],
+        message:
+          "When lead is qualified, converted_at must be set and related records must be created",
+      });
+    }
+
+    // Immutability Constraint: A converted lead (convertedAt is not null) is immutable
+    if (data.convertedAt) {
+      ctx.addIssue({
+        code: "custom",
+        message:
+          "A converted lead is immutable and cannot be modified. Original lead data is preserved for audit purposes.",
+      });
+    }
+  });
 
 export type Leads = z.infer<typeof LeadsSchema>;

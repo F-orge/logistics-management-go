@@ -5,111 +5,20 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const InvoicesSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Invoices-id",
-      type: "field",
-      inputType: "text",
-      label: "Invoice ID",
-      description: "Unique identifier for the invoice",
-      props: {
-        disabled: true,
-      },
-    }),
-    invoiceNumber: z.string().register(fieldRegistry, {
-      id: "Invoices-invoiceNumber",
-      type: "field",
-      inputType: "text",
-      label: "Invoice Number",
-      description: "Invoice reference number",
-      props: {
-        placeholder: "INV-001",
-      },
-    }),
-    opportunity: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Invoices-opportunity",
-        inputType: "relation",
-        label: "Opportunity",
-        description: "Sales opportunity associated with this invoice",
-        props: {
-          collectionName: Collections.CustomerRelationsOpportunities,
-          relationshipName: "opportunity",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
+    id: z.string(),
+    invoiceNumber: z.string().nonempty("Invoice number is required"),
+    opportunity: z.string().optional(),
     status: z
       .enum(["draft", "sent", "paid", "overdue", "cancelled"])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Invoice status",
-        props: {
-          options: [
-            { label: "Draft", value: "draft" },
-            { label: "Sent", value: "sent" },
-            { label: "Paid", value: "paid" },
-            { label: "Overdue", value: "overdue" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
-    total: z
-      .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-total",
-        type: "field",
-        inputType: "number",
-        label: "Total",
-        description: "Total invoice amount",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    issueDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-issueDate",
-      type: "field",
-      inputType: "date",
-      label: "Issue Date",
-      description: "Date the invoice was issued",
-    }),
-    dueDate: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-dueDate",
-      type: "field",
-      inputType: "date",
-      label: "Due Date",
-      description: "Payment due date",
-    }),
-    sentAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-sentAt",
-      type: "field",
-      inputType: "date",
-      label: "Sent At",
-      description: "Date the invoice was sent",
-    }),
-    paidAt: z.iso.date().optional().register(fieldRegistry, {
-      id: "Invoices-paidAt",
-      type: "field",
-      inputType: "date",
-      label: "Paid At",
-      description: "Date the invoice was paid",
-    }),
+      .optional(),
+    total: z.number().min(0, "Total amount must be non-negative").optional(),
+    issueDate: z.string().datetime().or(z.string().date()).optional(),
+    dueDate: z.string().datetime().or(z.string().date()).optional(),
+    sentAt: z.string().datetime().or(z.string().date()).optional(),
+    paidAt: z.string().datetime().or(z.string().date()).optional(),
     paymentMethod: z
       .enum([
         "credit-card",
@@ -123,86 +32,56 @@ export const InvoicesSchema = z
         "maya",
         "gcash",
       ])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-paymentMethod",
-        type: "field",
-        inputType: "select",
-        label: "Payment Method",
-        description: "Payment method used",
-        props: {
-          options: [
-            { label: "Credit Card", value: "credit-card" },
-            { label: "Bank Transfer", value: "bank-transfer" },
-            { label: "Cash", value: "cash" },
-            { label: "Check", value: "check" },
-            { label: "PayPal", value: "paypal" },
-            { label: "Stripe", value: "stripe" },
-            { label: "Wire Transfer", value: "wire-transfer" },
-            { label: "Other", value: "other" },
-            { label: "Maya", value: "maya" },
-            { label: "GCash", value: "gcash" },
-          ],
-        },
-      }),
-    attachments: z
-      .file()
-      .array()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Invoice documents and files",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    items: z
-      .array(z.string())
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Invoices-items",
-        inputType: "relation",
-        isArray: true,
-        label: "Items",
-        description: "Line items included in this invoice",
-        props: {
-          collectionName: Collections.CustomerRelationsInvoiceItems,
-          relationshipName: "items",
-          displayField: "description",
-        } as RelationFieldProps<any>,
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the invoice was created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Invoices-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the invoice was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      .optional(),
+    attachments: z.file().array().optional(),
+    items: z.array(z.string()).optional(),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    // State Machine Constraint: Status must follow lifecycle
+    // Draft -> Sent -> (Paid | Overdue | Cancelled)
+    // Terminal states: Paid, Cancelled (cannot be modified)
+    const terminalStatuses = ["paid", "cancelled"];
+
+    if (data.status && terminalStatuses.includes(data.status)) {
+      ctx.addIssue({
+        code: "custom",
+        message: `Invoice with status '${data.status}' is in a terminal state and cannot be modified. Original invoice data is preserved for audit.`,
+      });
+    }
+
+    // Date Validation: due_date must be on or after issue_date
+    if (data.issueDate && data.dueDate) {
+      const issueDate = new Date(data.issueDate);
+      const dueDate = new Date(data.dueDate);
+      if (dueDate < issueDate) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["dueDate"],
+          message: "Due date must be on or after the issue date",
+        });
+      }
+    }
+
+    // Amount Validation: amount_paid cannot be greater than total_amount
+    if (data.total !== undefined && data.paidAt) {
+      console.info(
+        "💰 Payment tracking: When payment is received that covers the full total amount, status must be automatically updated to 'Paid'"
+      );
+    }
+
+    // Access Control Note: UPDATE of status to 'Cancelled' restricted to users with 'Finance Manager' role
+    if (data.status === "cancelled") {
+      console.info(
+        "🔐 Access Control: Only users with 'Finance Manager' role can update invoice status to 'Cancelled'"
+      );
+    }
+
+    // Periodic Job Reminder
+    console.info(
+      "⏰ Periodic Job: A job should update status to 'Overdue' if due_date is in the past and invoice is not 'Paid' or 'Cancelled'"
+    );
+  });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

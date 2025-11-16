@@ -5,214 +5,40 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const CompaniesSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Companies-id",
-      type: "field",
-      inputType: "text",
-      label: "Company ID",
-      description: "Unique identifier for the company",
-      props: {
-        disabled: true,
-      },
-    }),
-    name: z
-      .string()
-      .nonempty()
-      .register(fieldRegistry, {
-        id: "Companies-name",
-        type: "field",
-        inputType: "text",
-        label: "Company Name",
-        description: "Name of the company",
-        props: {
-          placeholder: "Enter company name",
-        },
-      }),
-    street: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-street",
-        type: "field",
-        inputType: "text",
-        label: "Street Address",
-        description: "Street address",
-        props: {
-          placeholder: "Street address",
-        },
-      }),
-    city: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-city",
-        type: "field",
-        inputType: "text",
-        label: "City",
-        description: "City location",
-        props: {
-          placeholder: "City",
-        },
-      }),
-    state: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-state",
-        type: "field",
-        inputType: "text",
-        label: "State/Province",
-        description: "State or province",
-        props: {
-          placeholder: "State or Province",
-        },
-      }),
-    postalCode: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-postalCode",
-        type: "field",
-        inputType: "text",
-        label: "Postal Code",
-        description: "Postal or ZIP code",
-        props: {
-          placeholder: "Postal code",
-        },
-      }),
-    country: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-country",
-        type: "field",
-        inputType: "text",
-        label: "Country",
-        description: "Country of operation",
-        props: {
-          placeholder: "Country",
-        },
-      }),
-    phoneNumber: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-phoneNumber",
-        type: "field",
-        inputType: "text",
-        label: "Phone Number",
-        description: "Company contact number",
-        props: {
-          placeholder: "+1 (555) 123-4567",
-        },
-      }),
-    industry: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-industry",
-        type: "field",
-        inputType: "text",
-        label: "Industry",
-        description: "Sector or industry type",
-        props: {
-          placeholder: "e.g., Technology, Finance",
-        },
-      }),
-    website: z
-      .string()
-      .url()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-website",
-        type: "field",
-        inputType: "url",
-        label: "Website",
-        description: "Company website URL",
-        props: {
-          placeholder: "https://example.com",
-        },
-      }),
+    id: z.string(),
+    name: z.string().nonempty(),
+    street: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    postalCode: z.string().optional(),
+    country: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    industry: z.string().optional(),
+    website: z.string().url().optional(),
     annualRevenue: z
       .number()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-annualRevenue",
-        type: "field",
-        inputType: "number",
-        label: "Annual Revenue",
-        description: "Yearly revenue figure",
-        props: {
-          placeholder: "0.00",
-          min: 0,
-        },
-      }),
-    owner: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Companies-owner",
-        inputType: "relation",
-        label: "Owner",
-        description: "User who owns the company record",
-        props: {
-          collectionName: Collections.Users,
-          relationshipName: "owner",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    attachments: z
-      .file()
-      .array()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Company documents and files",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the company was created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Companies-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the company was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      .min(0, "Annual revenue must be non-negative")
+      .optional(),
+    owner: z.string().optional(),
+    attachments: z.file().array().optional(),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    if (!data.name) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["name"],
+        message: "Company name is required",
+      });
+    }
+
+    console.info(
+      "ℹ️ Company Record: Created from lead conversion or direct entry. Maintains audit trail of origin."
+    );
+  });
 
 export type Companies = z.infer<typeof CompaniesSchema>;

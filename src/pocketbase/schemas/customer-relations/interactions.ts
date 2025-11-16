@@ -5,131 +5,40 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const InteractionsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "Interactions-id",
-      type: "field",
-      inputType: "text",
-      label: "Interaction ID",
-      description: "Unique identifier for the interaction",
-      props: {
-        disabled: true,
-      },
-    }),
-    contact: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Interactions-contact",
-      inputType: "relation",
-      label: "Contact",
-      description: "Contact involved in this interaction",
-      props: {
-        collectionName: Collections.CustomerRelationsContacts,
-        relationshipName: "contact",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    user: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "Interactions-user",
-      inputType: "relation",
-      label: "User",
-      description: "User who conducted this interaction",
-      props: {
-        collectionName: Collections.Users,
-        relationshipName: "user",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    case: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "Interactions-case",
-        inputType: "relation",
-        label: "Case",
-        description: "Case associated with this interaction",
-        props: {
-          collectionName: Collections.CustomerRelationsCases,
-          relationshipName: "case",
-          displayField: "caseNumber",
-        } as RelationFieldProps<any>,
-      }),
-    type: z
-      .enum(["call", "meeting", "text", "email"])
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-type",
-        type: "field",
-        inputType: "select",
-        label: "Type",
-        description: "Type of interaction",
-        props: {
-          options: [
-            { label: "Call", value: "call" },
-            { label: "Meeting", value: "meeting" },
-            { label: "Text", value: "text" },
-            { label: "Email", value: "email" },
-          ],
-        },
-      }),
-    outcome: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-outcome",
-        type: "field",
-        inputType: "text",
-        label: "Outcome",
-        description: "Outcome of the interaction",
-        props: {
-          placeholder: "Enter outcome",
-        },
-      }),
-    notes: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-notes",
-        type: "field",
-        inputType: "textarea",
-        label: "Notes",
-        description: "Additional notes about the interaction",
-        props: {
-          placeholder: "Enter notes",
-        },
-      }),
-    attachments: z
-      .file()
-      .array()
-      .optional()
-      .register(fieldRegistry, {
-        id: "Interactions-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Interaction documents and files",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    interactionDate: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "Interactions-interactionDate",
-      type: "field",
-      inputType: "date",
-      label: "Interaction Date",
-      description: "When the interaction occurred",
-    }),
+    id: z.string(),
+    contact: z.string(),
+    user: z.string(),
+    case: z.string().optional(),
+    type: z.enum(["call", "meeting", "text", "email"]).optional(),
+    outcome: z.string().optional(),
+    notes: z.unknown().optional(),
+    attachments: z.file().array().optional(),
+    interactionDate: z.string().datetime().or(z.string().date()).optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    if (!data.contact) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["contact"],
+        message: "Contact is required for interaction audit trail",
+      });
+    }
+
+    if (!data.user) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["user"],
+        message:
+          "User (who conducted the interaction) is required for audit trail",
+      });
+    }
+
+    console.info(
+      "📝 Interaction Record: Creates immutable audit trail of contact communications. Linked to cases for support history."
+    );
+  });
 
 export type Interactions = z.infer<typeof InteractionsSchema>;

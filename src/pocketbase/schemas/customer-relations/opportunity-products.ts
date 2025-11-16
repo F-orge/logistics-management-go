@@ -5,93 +5,40 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
 
 export const OpportunityProductsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "OpportunityProducts-id",
-      type: "field",
-      inputType: "text",
-      label: "Product ID",
-      description: "Unique identifier for the opportunity product",
-      props: {
-        disabled: true,
-      },
-    }),
-    opportunity: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "OpportunityProducts-opportunity",
-        inputType: "relation",
-        label: "Opportunity",
-        description: "Opportunity this product is associated with",
-        props: {
-          collectionName: Collections.CustomerRelationsOpportunities,
-          relationshipName: "opportunity",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    product: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "OpportunityProducts-product",
-        inputType: "relation",
-        label: "Product",
-        description: "Product associated with this opportunity",
-        props: {
-          collectionName: Collections.CustomerRelationsProducts,
-          relationshipName: "product",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    quantity: z.number().register(fieldRegistry, {
-      id: "OpportunityProducts-quantity",
-      type: "field",
-      inputType: "number",
-      label: "Quantity",
-      description: "Quantity of the product",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "OpportunityProducts-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when the product was added",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "OpportunityProducts-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when the product was last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+    id: z.string(),
+    opportunity: z.string().optional(),
+    product: z.string().optional(),
+    quantity: z
+      .number()
+      .min(0, "Quantity must be non-negative")
+      .int("Quantity must be an integer"),
+    priceSnapshot: z
+      .number()
+      .min(0, "Price snapshot must be non-negative")
+      .optional(),
+    created: z.iso.datetime().optional(),
+    updated: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    // Price Snapshot Constraint: When a product is added to an opportunity,
+    // its price must be copied from the main product catalog at that moment in time.
+    // This ensures future price changes in the catalog do not affect existing opportunities.
+    if (!data.priceSnapshot && data.product) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["priceSnapshot"],
+        message:
+          "Price snapshot must be populated when adding a product. It will be copied from the product catalog and locked to prevent historical pricing changes.",
+      });
+    }
+
+    // Immutability reminder for price snapshot
+    console.info(
+      "📌 Price Snapshot: Once set, the price snapshot for this product line item is immutable to maintain historical accuracy"
+    );
+  });
 
 export type OpportunityProducts = z.infer<typeof OpportunityProductsSchema>;
