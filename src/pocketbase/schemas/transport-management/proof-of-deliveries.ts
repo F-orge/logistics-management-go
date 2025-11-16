@@ -12,78 +12,13 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ProofOfDeliveriesSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "ProofOfDeliveries-id",
-      type: "field",
-      inputType: "text",
-      label: "Proof ID",
-      description: "Unique identifier for the proof of delivery",
-      props: {
-        disabled: true,
-      },
-    }),
-    tripStop: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "ProofOfDeliveries-tripStop",
-      inputType: "relation",
-      label: "Trip Stop",
-      description: "Trip stop this proof belongs to",
-      props: {
-        collectionName: Collections.TransportManagementTripStops,
-        relationshipName: "tripStop",
-        displayField: "address",
-      } as RelationFieldProps<any>,
-    }),
-    coordinate: z.unknown().register(fieldRegistry, {
-      id: "ProofOfDeliveries-coordinate",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Coordinate",
-      description: "GPS coordinates of delivery",
-    }),
-    attachments: z
-      .array(z.file())
-      .optional()
-      .register(fieldRegistry, {
-        id: "ProofOfDeliveries-attachments",
-        type: "field",
-        inputType: "file",
-        label: "Attachments",
-        description: "Proof files (signature, photos, etc.)",
-        isArray: true,
-        props: {
-          accept: "*/*",
-        },
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ProofOfDeliveries-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ProofOfDeliveries-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const ProofOfDeliveriesSchema = z.object({
+  id: z.string(),
+  tripStop: z.string(),
+  coordinate: z.unknown(),
+  attachments: z.array(z.file()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

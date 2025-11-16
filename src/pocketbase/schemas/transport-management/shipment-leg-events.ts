@@ -14,53 +14,12 @@ import { Collections } from "@/lib/pb.types";
 
 export const ShipmentLegEventsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "ShipmentLegEvents-id",
-      type: "field",
-      inputType: "text",
-      label: "Event ID",
-      description: "Unique identifier for the shipment leg event",
-      props: {
-        disabled: true,
-      },
-    }),
-    message: z.string().register(fieldRegistry, {
-      id: "ShipmentLegEvents-message",
-      type: "field",
-      inputType: "textarea",
-      label: "Message",
-      description: "Event message",
-      props: {
-        placeholder: "Event details",
-      },
-    }),
-    shipmentLegId: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "ShipmentLegEvents-shipmentLegId",
-      inputType: "relation",
-      label: "Shipment Leg",
-      description: "Shipment leg for this event",
-      props: {
-        collectionName: Collections.TransportManagementShipmentLegs,
-        relationshipName: "shipmentLegId",
-        displayField: "id",
-      } as RelationFieldProps<any>,
-    }),
-    location: z.unknown().register(fieldRegistry, {
-      id: "ShipmentLegEvents-location",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Location",
-      description: "GPS location of the event",
-    }),
-    timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "ShipmentLegEvents-timestamp",
-      type: "field",
-      inputType: "date",
-      label: "Timestamp",
-      description: "When the event occurred",
-    }),
+    id: z.string(),
+    message: z.string(),
+    shipmentLegId: z.string(),
+    location: z.unknown(),
+    timestamp: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type ShipmentLegEvents = z.infer<typeof ShipmentLegEventsSchema>;

@@ -14,78 +14,19 @@ import { Collections } from "@/lib/pb.types";
 
 export const PartnerInvoiceItemsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "PartnerInvoiceItems-id",
-      type: "field",
-      inputType: "text",
-      label: "Invoice Item ID",
-      description: "Unique identifier for the invoice item",
-      props: {
-        disabled: true,
-      },
-    }),
-    partnerInvoice: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "PartnerInvoiceItems-partnerInvoice",
-      inputType: "relation",
-      label: "Partner Invoice",
-      description: "Invoice this item belongs to",
-      props: {
-        collectionName: Collections.TransportManagementPartnerInvoice,
-        relationshipName: "partnerInvoice",
-        displayField: "invoiceNumber",
-      } as RelationFieldProps<any>,
-    }),
-    shipmentLeg: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "PartnerInvoiceItems-shipmentLeg",
-      inputType: "relation",
-      label: "Shipment Leg",
-      description: "Shipment leg for this invoice item",
-      props: {
-        collectionName: Collections.TransportManagementShipmentLegs,
-        relationshipName: "shipmentLeg",
-        displayField: "id",
-      } as RelationFieldProps<any>,
-    }),
-    amount: z.number().register(fieldRegistry, {
-      id: "PartnerInvoiceItems-amount",
-      type: "field",
-      inputType: "number",
-      label: "Amount",
-      description: "Invoice item amount",
-      props: {
-        placeholder: "0.00",
-        min: 0,
-      },
-    }),
+    id: z.string(),
+    partnerInvoice: z.string(),
+    shipmentLeg: z.string(),
+    amount: z.number(),
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "PartnerInvoiceItems-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "PartnerInvoiceItems-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type PartnerInvoiceItems = z.infer<typeof PartnerInvoiceItemsSchema>;

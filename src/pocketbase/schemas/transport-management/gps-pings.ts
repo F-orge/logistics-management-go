@@ -14,43 +14,11 @@ import { Collections } from "@/lib/pb.types";
 
 export const GpsPingsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "GpsPings-id",
-      type: "field",
-      inputType: "text",
-      label: "Ping ID",
-      description: "Unique identifier for the GPS ping",
-      props: {
-        disabled: true,
-      },
-    }),
-    vehicle: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "GpsPings-vehicle",
-      inputType: "relation",
-      label: "Vehicle",
-      description: "Vehicle sending the GPS ping",
-      props: {
-        collectionName: Collections.TransportManagementVehicles,
-        relationshipName: "vehicle",
-        displayField: "registrationNumber",
-      } as RelationFieldProps<any>,
-    }),
-    coordinates: z.unknown().register(fieldRegistry, {
-      id: "GpsPings-coordinates",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Coordinates",
-      description: "GPS coordinates of the vehicle",
-    }),
-    timestamp: z.iso.datetime().optional().register(fieldRegistry, {
-      id: "GpsPings-timestamp",
-      type: "field",
-      inputType: "date",
-      label: "Timestamp",
-      description: "When the ping was recorded",
-    }),
+    id: z.string(),
+    vehicle: z.string(),
+    coordinates: z.unknown(),
+    timestamp: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type GpsPings = z.infer<typeof GpsPingsSchema>;

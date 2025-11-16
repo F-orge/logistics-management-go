@@ -12,133 +12,17 @@ import {
 import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
 
-export const ShipmentLegsSchema = z
-  .object({
-    id: z.string().register(fieldRegistry, {
-      id: "ShipmentLegs-id",
-      type: "field",
-      inputType: "text",
-      label: "Leg ID",
-      description: "Unique identifier for the shipment leg",
-      props: {
-        disabled: true,
-      },
-    }),
-    legSequence: z.number().register(fieldRegistry, {
-      id: "ShipmentLegs-legSequence",
-      type: "field",
-      inputType: "number",
-      label: "Leg Sequence",
-      description: "Sequence number of this leg",
-      props: {
-        placeholder: "0",
-        min: 0,
-      },
-    }),
-    startLocation: z.unknown().register(fieldRegistry, {
-      id: "ShipmentLegs-startLocation",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Start Location",
-      description: "Starting GPS coordinates",
-    }),
-    endLocation: z.unknown().register(fieldRegistry, {
-      id: "ShipmentLegs-endLocation",
-      type: "field",
-      inputType: "geoPoint",
-      label: "End Location",
-      description: "Ending GPS coordinates",
-    }),
-    carrier: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "ShipmentLegs-carrier",
-        inputType: "relation",
-        label: "Carrier",
-        description: "Carrier for this leg",
-        props: {
-          collectionName: Collections.TransportManagementCarriers,
-          relationshipName: "carrier",
-          displayField: "name",
-        } as RelationFieldProps<any>,
-      }),
-    interalTrip: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "ShipmentLegs-interalTrip",
-        inputType: "relation",
-        label: "Internal Trip",
-        description: "Internal trip for this leg",
-        props: {
-          collectionName: Collections.TransportManagementTrips,
-          relationshipName: "interalTrip",
-          displayField: "id",
-        } as RelationFieldProps<any>,
-      }),
-    status: z
-      .enum(["pending", "in-transit", "delivered", "cancelled", "failed"])
-      .register(fieldRegistry, {
-        id: "ShipmentLegs-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the leg",
-        props: {
-          options: [
-            { label: "Pending", value: "pending" },
-            { label: "In Transit", value: "in-transit" },
-            { label: "Delivered", value: "delivered" },
-            { label: "Cancelled", value: "cancelled" },
-            { label: "Failed", value: "failed" },
-          ],
-        },
-      }),
-    shipment: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "ShipmentLegs-shipment",
-        inputType: "relation",
-        label: "Shipment",
-        description: "Outbound shipment for this leg",
-        props: {
-          collectionName: Collections.WarehouseManagementOutboundShipments,
-          relationshipName: "shipment",
-          displayField: "shipmentNumber",
-        } as RelationFieldProps<any>,
-      }),
-    created: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ShipmentLegs-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
-    updated: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ShipmentLegs-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
-  })
-  .register(fieldSetRegistry, { separator: true });
+export const ShipmentLegsSchema = z.object({
+  id: z.string(),
+  legSequence: z.number().min(1, "Leg sequence must be at least 1"),
+  startLocation: z.unknown(),
+  endLocation: z.unknown(),
+  carrier: z.string().optional(),
+  interalTrip: z.string().optional(),
+  status: z.enum(["pending", "in-transit", "delivered", "cancelled", "failed"]),
+  shipment: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type ShipmentLegs = z.infer<typeof ShipmentLegsSchema>;

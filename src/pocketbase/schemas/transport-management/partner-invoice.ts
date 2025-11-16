@@ -14,117 +14,28 @@ import { Collections } from "@/lib/pb.types";
 
 export const PartnerInvoiceSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "PartnerInvoice-id",
-      type: "field",
-      inputType: "text",
-      label: "Invoice ID",
-      description: "Unique identifier for the partner invoice",
-      props: {
-        disabled: true,
-      },
-    }),
-    carrier: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "PartnerInvoice-carrier",
-      inputType: "relation",
-      label: "Carrier",
-      description: "Carrier this invoice is from",
-      props: {
-        collectionName: Collections.TransportManagementCarriers,
-        relationshipName: "carrier",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    invoiceNumber: z.string().register(fieldRegistry, {
-      id: "PartnerInvoice-invoiceNumber",
-      type: "field",
-      inputType: "text",
-      label: "Invoice Number",
-      description: "Invoice reference number",
-      props: {
-        placeholder: "INV-001",
-      },
-    }),
-    invoiceDate: z.iso.date().register(fieldRegistry, {
-      id: "PartnerInvoice-invoiceDate",
-      type: "field",
-      inputType: "date",
-      label: "Invoice Date",
-      description: "Date of the invoice",
-    }),
-    totalAmount: z.number().register(fieldRegistry, {
-      id: "PartnerInvoice-totalAmount",
-      type: "field",
-      inputType: "number",
-      label: "Total Amount",
-      description: "Total invoice amount",
-      props: {
-        placeholder: "0.00",
-        min: 0,
-      },
-    }),
+    id: z.string(),
+    carrier: z.string(),
+    invoiceNumber: z.string(),
+    invoiceDate: z.iso.date(),
+    totalAmount: z.number(),
     status: z
       .enum(["pending", "paid", "disputed", "overdue", "cancelled"])
       .optional()
-      .register(fieldRegistry, {
-        id: "PartnerInvoice-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Current status of the invoice",
-        props: {
-          options: [
-            { label: "Pending", value: "pending" },
-            { label: "Paid", value: "paid" },
-            { label: "Disputed", value: "disputed" },
-            { label: "Overdue", value: "overdue" },
-            { label: "Cancelled", value: "cancelled" },
-          ],
-        },
-      }),
+      ,
     items: z
       .string()
       .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "PartnerInvoice-items",
-        inputType: "relation",
-        label: "Items",
-        description: "Invoice items",
-        props: {
-          collectionName: Collections.TransportManagementPartnerInvoiceItems,
-          relationshipName: "items",
-          displayField: "id",
-        } as RelationFieldProps<any>,
-      }),
+      ,
     created: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "PartnerInvoice-created",
-        type: "field",
-        inputType: "date",
-        label: "Created At",
-        description: "Timestamp when created",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
     updated: z.iso
       .datetime()
       .optional()
-      .register(fieldRegistry, {
-        id: "PartnerInvoice-updated",
-        type: "field",
-        inputType: "date",
-        label: "Updated At",
-        description: "Timestamp when last updated",
-        props: {
-          disabled: true,
-        },
-      }),
+      ,
   })
-  .register(fieldSetRegistry, { separator: true });
+  ;
 
 export type PartnerInvoice = z.infer<typeof PartnerInvoiceSchema>;
