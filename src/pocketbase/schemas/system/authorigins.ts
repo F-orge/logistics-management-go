@@ -9,11 +9,11 @@ import * as PB from "../../../lib/pb.types";
 
 export const AuthoriginsSchema = z.object({
   collectionRef: z.string(),
-  created: z.coerce.date(),
+  created: z.date(),
   fingerprint: z.string(),
   id: z.string(),
   recordRef: z.string(),
-  updated: z.coerce.date(),
+  updated: z.date(),
 });
 
 export type Authorigins = z.infer<typeof AuthoriginsSchema>;

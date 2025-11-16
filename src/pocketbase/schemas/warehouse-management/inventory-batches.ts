@@ -10,7 +10,7 @@ export const InventoryBatchesSchema = z.object({
   id: z.string(),
   product: z.string(),
   batchNumber: z.string(),
-  expirationDate: z.coerce.date().optional(),
+  expirationDate: z.date().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

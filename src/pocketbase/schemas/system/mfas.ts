@@ -9,11 +9,11 @@ import * as PB from "../../../lib/pb.types";
 
 export const MfasSchema = z.object({
   collectionRef: z.string(),
-  created: z.coerce.date(),
+  created: z.date(),
   id: z.string(),
   method: z.string(),
   recordRef: z.string(),
-  updated: z.coerce.date(),
+  updated: z.date(),
 });
 
 export type Mfas = z.infer<typeof MfasSchema>;

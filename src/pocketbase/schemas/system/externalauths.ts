@@ -9,12 +9,12 @@ import * as PB from "../../../lib/pb.types";
 
 export const ExternalauthsSchema = z.object({
   collectionRef: z.string(),
-  created: z.coerce.date(),
+  created: z.date(),
   id: z.string(),
   provider: z.string(),
   providerId: z.string(),
   recordRef: z.string(),
-  updated: z.coerce.date(),
+  updated: z.date(),
 });
 
 export type Externalauths = z.infer<typeof ExternalauthsSchema>;

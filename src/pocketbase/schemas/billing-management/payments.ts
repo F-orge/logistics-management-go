@@ -37,8 +37,8 @@ export const PaymentsSchema = z.object({
       "refunded",
     ])
     .optional(),
-  paymentDate: z.coerce.date().optional(),
-  processedAt: z.coerce.date().optional(),
+  paymentDate: z.date().optional(),
+  processedAt: z.date().optional(),
   currency: z.string().optional(),
   fees: z.number().optional(),
   netAmount: z.number().optional(),

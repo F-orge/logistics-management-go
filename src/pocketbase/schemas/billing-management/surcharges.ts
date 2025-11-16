@@ -19,8 +19,8 @@ export const SurchargesSchema = z.object({
     .enum(["percentage", "fixed", "per-unit", "sliding-scale"])
     .optional(),
   isActive: z.boolean().optional(),
-  validFrom: z.coerce.date().optional(),
-  validTo: z.coerce.date().optional(),
+  validFrom: z.date().optional(),
+  validTo: z.date().optional(),
   description: z.string().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

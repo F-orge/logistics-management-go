@@ -22,9 +22,9 @@ export const LogsSchema = z.object({
   errorMessage: z.string().optional(),
   requestPayload: z.string().optional(),
   responsePayload: z.string().optional(),
-  lastSyncAt: z.coerce.date().optional(),
+  lastSyncAt: z.date().optional(),
   retryCount: z.number().optional(),
-  nextRetryAt: z.coerce.date().optional(),
+  nextRetryAt: z.date().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

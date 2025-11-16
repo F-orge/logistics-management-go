@@ -9,8 +9,8 @@ import { z } from "zod";
 export const VehicleMaintenanceSchema = z.object({
   id: z.string(),
   vehicle: z.string(),
-  serviceDate: z.coerce.date(),
-  serviceType: z.coerce.date(),
+  serviceDate: z.date(),
+  serviceType: z.date(),
   cost: z.number().min(0, "Cost must be non-negative").optional(),
   notes: z.unknown().optional(),
   created: z.iso.datetime().optional(),

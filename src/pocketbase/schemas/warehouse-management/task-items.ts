@@ -26,9 +26,9 @@ export const TaskItemsSchema = z.object({
     ])
     .optional(),
   lotNumber: z.number().optional(),
-  expiryDate: z.coerce.date().optional(),
+  expiryDate: z.date().optional(),
   notes: z.unknown().optional(),
-  completedAt: z.coerce.date().optional(),
+  completedAt: z.date().optional(),
   proofs: z.array(z.file()).optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

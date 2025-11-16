@@ -10,7 +10,7 @@ export const PartnerInvoiceSchema = z.object({
   id: z.string(),
   carrier: z.string(),
   invoiceNumber: z.string(),
-  invoiceDate: z.coerce.date(),
+  invoiceDate: z.date(),
   totalAmount: z.number(),
   status: z
     .enum(["pending", "paid", "disputed", "overdue", "cancelled"])

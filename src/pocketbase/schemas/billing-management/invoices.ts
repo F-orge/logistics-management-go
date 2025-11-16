@@ -23,8 +23,8 @@ export const InvoicesSchema = z.object({
       "void",
     ])
     .optional(),
-  issueDate: z.coerce.date().optional(),
-  dueDate: z.coerce.date().optional(),
+  issueDate: z.date().optional(),
+  dueDate: z.date().optional(),
   totalAmount: z
     .number()
     .min(0.01, "Total amount must be a positive value")
@@ -35,8 +35,8 @@ export const InvoicesSchema = z.object({
   subtotal: z.number().optional(),
   paymentTerms: z.string().optional(),
   notes: z.string().optional(),
-  sentAt: z.coerce.date().optional(),
-  paidAt: z.coerce.date().optional(),
+  sentAt: z.date().optional(),
+  paidAt: z.date().optional(),
   createdBy: z.string().optional(),
   attachments: z.array(z.string()).optional(),
   created: z.iso.datetime().optional(),

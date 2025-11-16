@@ -16,8 +16,8 @@ export const CreditNotesSchema = z.object({
     .min(0.01, "Credit note amount must be a positive value")
     .optional(),
   reason: z.enum(["return", "discount", "correction", "goodwill", "other"]),
-  issueDate: z.coerce.date(),
-  appliedAt: z.coerce.date().optional(),
+  issueDate: z.date(),
+  appliedAt: z.date().optional(),
   currency: z.string(),
   notes: z.string().optional(),
   created: z.iso.datetime().optional(),
