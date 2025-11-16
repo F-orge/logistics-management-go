@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-16T16:06:47.688Z",
+  "timestamp": "2025-11-16T17:47:17.076Z",
   "collections": [
     {
       "id": "_pb_users_auth_",
@@ -10397,7 +10397,7 @@
       "createRule": "@request.auth.id != ''",
       "updateRule": "@request.auth.id != ''",
       "deleteRule": "@request.auth.id != ''",
-      "name": "billing_management_logs",
+      "name": "billing_management_account_logs",
       "type": "base",
       "fields": [
         {
@@ -10578,11 +10578,16 @@
       ],
       "indexes": [],
       "created": "2025-11-04 18:17:29.350Z",
-      "updated": "2025-11-06 13:24:02.391Z",
+      "updated": "2025-11-16 17:46:33.419Z",
       "system": false
     }
   ],
   "schemaFiles": [
+    {
+      "name": "partner-invoices",
+      "category": "transport-management",
+      "path": "/transport-management/partner-invoices.ts"
+    },
     {
       "name": "carriers",
       "category": "transport-management",
@@ -10662,11 +10667,6 @@
       "name": "partner-invoice-items",
       "category": "transport-management",
       "path": "/transport-management/partner-invoice-items.ts"
-    },
-    {
-      "name": "partner-invoice",
-      "category": "transport-management",
-      "path": "/transport-management/partner-invoice.ts"
     },
     {
       "name": "geofence-events",

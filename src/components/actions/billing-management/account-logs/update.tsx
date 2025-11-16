@@ -17,47 +17,81 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { ReorderPointsSchema } from "@/pocketbase/schemas/warehouse-management/reorder-points";
+import { LogsSchema } from "@/pocketbase/schemas/billing-management/logs";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-  product: ReorderPointsSchema.shape.product
+  recordType: LogsSchema.shape.recordType.optional().register(fieldRegistry, {
+    id: "billing-management-logs-recordType-update",
+    type: "field",
+    label: "RecordType",
+    description: "Enter a recordtype",
+    inputType: "text",
+  }),
+  externalSystem: LogsSchema.shape.externalSystem
     .optional()
     .register(fieldRegistry, {
-      id: "warehouse-management-reorder-points-product-update",
+      id: "billing-management-logs-externalSystem-update",
       type: "field",
-      label: "Product",
-      description: "Enter a product",
-      inputType: "relation",
-      props: {
-        collectionName: Collections.WarehouseManagementProducts,
-        displayField: "name",
-        relationshipName: "product",
-      },
-    }),
-  threshold: ReorderPointsSchema.shape.threshold
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-reorder-points-threshold-update",
-      type: "field",
-      label: "Threshold",
-      description: "Enter a threshold",
+      label: "ExternalSystem",
+      description: "Enter an externalsystem",
       inputType: "text",
     }),
-  warehouse: ReorderPointsSchema.shape.warehouse
+  status: LogsSchema.shape.status.optional().register(fieldRegistry, {
+    id: "billing-management-logs-status-update",
+    type: "field",
+    label: "Status",
+    description: "Enter a status",
+    inputType: "text",
+  }),
+  errorMessage: LogsSchema.shape.errorMessage
     .optional()
     .register(fieldRegistry, {
-      id: "warehouse-management-reorder-points-warehouse-update",
+      id: "billing-management-logs-errorMessage-update",
       type: "field",
-      label: "Warehouse",
-      description: "Enter a warehouse",
-      inputType: "relation",
-      props: {
-        collectionName: Collections.WarehouseManagementWarehouses,
-        displayField: "name",
-        relationshipName: "warehouse",
-      },
+      label: "ErrorMessage",
+      description: "Enter an errormessage",
+      inputType: "text",
     }),
+  requestPayload: LogsSchema.shape.requestPayload
+    .optional()
+    .register(fieldRegistry, {
+      id: "billing-management-logs-requestPayload-update",
+      type: "field",
+      label: "RequestPayload",
+      description: "Enter a requestpayload",
+      inputType: "text",
+    }),
+  responsePayload: LogsSchema.shape.responsePayload
+    .optional()
+    .register(fieldRegistry, {
+      id: "billing-management-logs-responsePayload-update",
+      type: "field",
+      label: "ResponsePayload",
+      description: "Enter a responsepayload",
+      inputType: "text",
+    }),
+  lastSyncAt: LogsSchema.shape.lastSyncAt.optional().register(fieldRegistry, {
+    id: "billing-management-logs-lastSyncAt-update",
+    type: "field",
+    label: "LastSyncAt",
+    description: "Enter a lastsyncat",
+    inputType: "date",
+  }),
+  retryCount: LogsSchema.shape.retryCount.optional().register(fieldRegistry, {
+    id: "billing-management-logs-retryCount-update",
+    type: "field",
+    label: "RetryCount",
+    description: "Enter a retrycount",
+    inputType: "number",
+  }),
+  nextRetryAt: LogsSchema.shape.nextRetryAt.optional().register(fieldRegistry, {
+    id: "billing-management-logs-nextRetryAt-update",
+    type: "field",
+    label: "NextRetryAt",
+    description: "Enter a nextretryat",
+    inputType: "date",
+  }),
 });
 
 const FormOption = formOptions({
@@ -73,14 +107,14 @@ const FormOption = formOptions({
   onSubmit: async ({ value, meta }) => {
     try {
       await meta
-        .pocketbase!.collection(Collections.WarehouseManagementReorderPoints)
+        .pocketbase!.collection(Collections.BillingManagementAccountLogs)
         .update(meta.id!, value);
 
-      toast.success("Reorder Points updated successfully!");
+      toast.success("Logs updated successfully!");
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.error(
-          `Failed to update reorder-points: ${error.message} (${error.status})`
+          `Failed to update logs: ${error.message} (${error.status})`
         );
       }
     } finally {
@@ -99,11 +133,11 @@ const UpdateForm = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
   const { data } = useQuery({
-    queryKey: ["reorderPoints", searchQuery.id],
+    queryKey: ["logs", searchQuery.id],
     enabled: !!searchQuery.id,
     queryFn: async () => {
       const record = await pocketbase
-        .collection(Collections.WarehouseManagementReorderPoints)
+        .collection(Collections.BillingManagementAccountLogs)
         .getOne(searchQuery.id!);
       return record;
     },
@@ -128,7 +162,7 @@ const UpdateForm = () => {
           {...toAutoFormFieldSet(UpdateSchema)}
         />
         <DialogFooter>
-          <form.SubmitButton>Update Reorder Points</form.SubmitButton>
+          <form.SubmitButton>Update Logs</form.SubmitButton>
         </DialogFooter>
       </form.AppForm>
     </form>

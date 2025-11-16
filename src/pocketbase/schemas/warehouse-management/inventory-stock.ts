@@ -7,28 +7,28 @@
 import { z } from "zod";
 
 export const InventoryStockSchema = z.object({
-	id: z.string(),
-	location: z.string(),
-	product: z.string(),
-	batch: z.string().optional(),
-	quantity: z.number().optional().min(0, "Quantity on hand cannot be negative"),
-	reservedQuantity: z
-		.number()
-		.optional()
-		.min(0, "Reserved quantity cannot be negative"),
-	status: z.enum([
-		"available",
-		"allocated",
-		"damaged",
-		"quarantine",
-		"hold",
-		"shipped",
-		"expired",
-	]),
-	lastCountedAt: z.date().optional(),
-	lastMovementAt: z.date().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  location: z.string(),
+  product: z.string(),
+  batch: z.string().optional(),
+  quantity: z.number().min(0, "Quantity on hand cannot be negative").optional(),
+  reservedQuantity: z
+    .number()
+    .min(0, "Reserved quantity cannot be negative")
+    .optional(),
+  status: z.enum([
+    "available",
+    "allocated",
+    "damaged",
+    "quarantine",
+    "hold",
+    "shipped",
+    "expired",
+  ]),
+  lastCountedAt: z.date().optional(),
+  lastMovementAt: z.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InventoryStock = z.infer<typeof InventoryStockSchema>;
