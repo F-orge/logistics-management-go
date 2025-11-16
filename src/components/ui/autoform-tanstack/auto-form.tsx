@@ -1,3 +1,9 @@
+import {
+  FormAsyncValidateOrFn,
+  FormOptions,
+  FormValidateOrFn,
+  formOptions,
+} from "@tanstack/react-form";
 import React from "react";
 import z from "zod";
 import { Button } from "../button";
@@ -9,44 +15,38 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../dialog";
-import {
-  FieldDescription,
-  FieldLegend,
-  FieldSeparator,
-  FieldSet,
-} from "../field";
+import { FieldSeparator } from "../field";
 import { useAppForm } from "../forms";
-import AutoField from "./auto-field";
 import AutoFieldSet from "./auto-fieldset";
-import { FormSchema, toAutoFormFieldSet } from "./types";
+import { toAutoFormFieldSet } from "./types";
 
-export type AutoFormProps<Schema extends z.ZodObject> = React.ComponentProps<
-  typeof Dialog
-> &
-  FormSchema & {
-    title?: string;
-    description?: string;
-    defaultValues?: Partial<z.infer<Schema>>;
-  } & {
-    onSubmit: (data: z.infer<Schema>) => Promise<void> | void;
+export type AutoFormProps<TSchema extends z.ZodSchema, TSubmitMeta = never> = {
+  formOptions: FormOptions<
+    z.infer<TSchema>,
+    FormValidateOrFn<z.infer<TSchema>> | undefined,
+    FormValidateOrFn<z.infer<TSchema>> | undefined,
+    FormAsyncValidateOrFn<z.infer<TSchema>> | undefined,
+    FormValidateOrFn<z.infer<TSchema>> | undefined,
+    FormAsyncValidateOrFn<z.infer<TSchema>> | undefined,
+    FormValidateOrFn<z.infer<TSchema>> | undefined,
+    FormAsyncValidateOrFn<z.infer<TSchema>> | undefined,
+    FormValidateOrFn<z.infer<TSchema>> | undefined,
+    FormAsyncValidateOrFn<z.infer<TSchema>> | undefined,
+    FormAsyncValidateOrFn<z.infer<TSchema>> | undefined,
+    TSubmitMeta
+  >;
+  title: string;
+  description?: string;
+} & React.ComponentProps<typeof Dialog> & {
+    children?: (form: ReturnType<typeof useAppForm>) => React.ReactNode;
   };
 
-const AutoForm = <Schema extends z.ZodObject>(props: AutoFormProps<Schema>) => {
-  const {
-    schema,
-    form: formOptions,
-    title,
-    description,
-    ...dialogProps
-  } = props;
+const AutoForm = <TSchema extends z.ZodSchema, TSubmitMeta = never>(
+  props: AutoFormProps<TSchema, TSubmitMeta>
+) => {
+  const { formOptions, title, description, ...dialogProps } = props;
 
-  const form = useAppForm({
-    defaultValues: props.defaultValues as z.infer<typeof props.schema>,
-    validators: {
-      onSubmitAsync: props.schema,
-    },
-    onSubmit: ({ value }) => props.onSubmit(value as z.infer<Schema>),
-  });
+  const form = useAppForm(formOptions);
 
   return (
     <Dialog {...dialogProps}>
@@ -57,7 +57,6 @@ const AutoForm = <Schema extends z.ZodObject>(props: AutoFormProps<Schema>) => {
         </DialogHeader>
         <FieldSeparator />
         <form
-          {...formOptions?.props}
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -65,20 +64,11 @@ const AutoForm = <Schema extends z.ZodObject>(props: AutoFormProps<Schema>) => {
           }}
         >
           <form.AppForm>
-            {
-              <AutoFieldSet
-                form={form as any}
-                {...toAutoFormFieldSet(schema)}
-              />
-            }
-            {/* {formOptions?.fieldsets.map((fieldset, index) => (
-              <AutoFieldSet
-                // todo: fix any
-                form={form as any}
-                key={index}
-                {...fieldset}
-              />
-            ))} */}
+            <AutoFieldSet
+              form={form as any}
+              {...toAutoFormFieldSet(formOptions.validators?.onChange as any)}
+            />
+            {props.children?.(form)}
           </form.AppForm>
           <DialogFooter>
             <Button type="submit">Submit</Button>

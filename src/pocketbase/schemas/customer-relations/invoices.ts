@@ -12,10 +12,10 @@ export const InvoicesSchema = z.object({
   opportunity: z.string().optional(),
   status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
   total: z.number().min(0, "Total amount must be non-negative").optional(),
-  issueDate: z.coerce.date().or(z.string().date()).optional(),
-  dueDate: z.coerce.date().or(z.string().date()).optional(),
-  sentAt: z.coerce.date().or(z.string().date()).optional(),
-  paidAt: z.coerce.date().or(z.string().date()).optional(),
+  issueDate: z.string().optional(),
+  dueDate: z.string().optional(),
+  sentAt: z.string().optional(),
+  paidAt: z.string().optional(),
   paymentMethod: z
     .enum([
       "credit-card",
