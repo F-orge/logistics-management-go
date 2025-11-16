@@ -49,52 +49,8 @@ export const OpportunitiesSchema = z
     attachments: z.file().array().optional(),
     products: z.array(z.string()).optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // State Machine Constraint: Stage must follow defined pipeline
-    // Valid progression: prospecting -> qualification -> need-analysis -> demo -> proposal -> negotiation -> closed-won/closed-lost
-    const stageOrder = [
-      "prospecting",
-      "qualification",
-      "need-analysis",
-      "demo",
-      "proposal",
-      "negotiation",
-      "closed-won",
-      "closed-lost",
-    ];
-    const terminalStages = ["closed-won", "closed-lost"];
-
-    if (data.stage && !stageOrder.includes(data.stage)) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["stage"],
-        message: `Invalid stage. Must be one of: ${stageOrder.join(", ")}`,
-      });
-    }
-
-    // Immutability Constraint: Closed-Won and Closed-Lost are terminal states
-    if (data.stage && terminalStages.includes(data.stage)) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Opportunity with stage '${data.stage}' is in a terminal state and cannot be modified`,
-      });
-    }
-
-    // Probability Constraint: Must be automatically updated based on stage
-    if (data.stage && data.probability !== undefined) {
-      console.info(
-        "⚠️ Probability should be automatically updated by trigger based on opportunity stage. Manual updates may be overridden."
-      );
-    }
-
-    // Trigger: When stage is updated to 'closed-won', invoice generation process must be initiated
-    if (data.stage === "closed-won") {
-      console.info(
-        "🔄 Trigger: Invoice generation process should be initiated for this closed-won opportunity"
-      );
-    }
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Opportunities = z.infer<typeof OpportunitiesSchema>;

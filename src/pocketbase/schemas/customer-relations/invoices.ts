@@ -36,52 +36,8 @@ export const InvoicesSchema = z
     attachments: z.file().array().optional(),
     items: z.array(z.string()).optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // State Machine Constraint: Status must follow lifecycle
-    // Draft -> Sent -> (Paid | Overdue | Cancelled)
-    // Terminal states: Paid, Cancelled (cannot be modified)
-    const terminalStatuses = ["paid", "cancelled"];
-
-    if (data.status && terminalStatuses.includes(data.status)) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Invoice with status '${data.status}' is in a terminal state and cannot be modified. Original invoice data is preserved for audit.`,
-      });
-    }
-
-    // Date Validation: due_date must be on or after issue_date
-    if (data.issueDate && data.dueDate) {
-      const issueDate = new Date(data.issueDate);
-      const dueDate = new Date(data.dueDate);
-      if (dueDate < issueDate) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["dueDate"],
-          message: "Due date must be on or after the issue date",
-        });
-      }
-    }
-
-    // Amount Validation: amount_paid cannot be greater than total_amount
-    if (data.total !== undefined && data.paidAt) {
-      console.info(
-        "💰 Payment tracking: When payment is received that covers the full total amount, status must be automatically updated to 'Paid'"
-      );
-    }
-
-    // Access Control Note: UPDATE of status to 'Cancelled' restricted to users with 'Finance Manager' role
-    if (data.status === "cancelled") {
-      console.info(
-        "🔐 Access Control: Only users with 'Finance Manager' role can update invoice status to 'Cancelled'"
-      );
-    }
-
-    // Periodic Job Reminder
-    console.info(
-      "⏰ Periodic Job: A job should update status to 'Overdue' if due_date is in the past and invoice is not 'Paid' or 'Cancelled'"
-    );
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Invoices = z.infer<typeof InvoicesSchema>;

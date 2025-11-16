@@ -20,25 +20,8 @@ export const OpportunityProductsSchema = z
       .min(0, "Price snapshot must be non-negative")
       .optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // Price Snapshot Constraint: When a product is added to an opportunity,
-    // its price must be copied from the main product catalog at that moment in time.
-    // This ensures future price changes in the catalog do not affect existing opportunities.
-    if (!data.priceSnapshot && data.product) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["priceSnapshot"],
-        message:
-          "Price snapshot must be populated when adding a product. It will be copied from the product catalog and locked to prevent historical pricing changes.",
-      });
-    }
-
-    // Immutability reminder for price snapshot
-    console.info(
-      "📌 Price Snapshot: Once set, the price snapshot for this product line item is immutable to maintain historical accuracy"
-    );
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type OpportunityProducts = z.infer<typeof OpportunityProductsSchema>;

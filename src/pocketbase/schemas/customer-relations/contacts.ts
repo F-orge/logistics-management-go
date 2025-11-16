@@ -17,20 +17,8 @@ export const ContactsSchema = z
     owner: z.string(),
     attachments: z.file().array().optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.email) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["email"],
-        message: "Contact email is required",
-      });
-    }
-
-    console.info(
-      "👤 Contact Record: Can be created from lead conversion or directly. Linked to companies and opportunities for CRM tracking."
-    );
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Contacts = z.infer<typeof ContactsSchema>;

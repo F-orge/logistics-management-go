@@ -15,21 +15,8 @@ export const ProofOfDeliveriesSchema = z
     signatureData: z.any().optional(),
     recipientName: z.string().optional(),
     coordinates: Coordinates.optional(),
-    timestamp: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // POD Requirement: Proof of delivery record must be created before task can transition to 'delivered'
-    if (!data.task) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["task"],
-        message: "POD must be linked to a delivery task",
-      });
-    }
-
-    console.info(
-      "✍️ Proof of Delivery: Immutable audit record of delivery confirmation. Signature + GPS coordinates required for valid POD."
-    );
-  });
+    timestamp: z.iso.datetime().optional()
+})
+  
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;

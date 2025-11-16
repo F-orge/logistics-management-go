@@ -26,34 +26,8 @@ export const RoutesSchema = z
     startedAt: z.iso.date().optional(),
     completedAt: z.iso.date().optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // State Machine Constraint: Status follows lifecycle
-    // planned -> in-progress -> completed
-    // cancelled and paused are alternative branches
-    const terminalStatuses = ["completed", "cancelled"];
-
-    if (data.status && terminalStatuses.includes(data.status)) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Route with status '${data.status}' is in a terminal state and cannot be modified`,
-      });
-    }
-
-    // Immutability: A completed route is immutable
-    if (data.status === "completed" && data.completedAt) {
-      console.info(
-        "🔒 Route: Completed routes are immutable. Create a new route for additional deliveries."
-      );
-    }
-
-    // Trigger: actualDuration should be calculated when completedAt is set
-    if (data.completedAt && data.startedAt) {
-      console.info(
-        "⏱️ Route Duration: actual_duration_minutes should be auto-calculated by trigger when completed_at is set"
-      );
-    }
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Routes = z.infer<typeof RoutesSchema>;

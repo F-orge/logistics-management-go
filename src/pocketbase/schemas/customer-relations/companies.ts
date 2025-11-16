@@ -25,20 +25,8 @@ export const CompaniesSchema = z
     owner: z.string().optional(),
     attachments: z.file().array().optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.name) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["name"],
-        message: "Company name is required",
-      });
-    }
-
-    console.info(
-      "ℹ️ Company Record: Created from lead conversion or direct entry. Maintains audit trail of origin."
-    );
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Companies = z.infer<typeof CompaniesSchema>;

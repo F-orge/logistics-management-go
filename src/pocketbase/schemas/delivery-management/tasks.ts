@@ -49,43 +49,8 @@ export const TasksSchema = z
       ])
       .optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // State Machine Constraint: Status follows lifecycle
-    // pending -> assigned -> out-for-delivery -> (delivered | failed)
-    // Terminal states: delivered, failed, cancelled
-    const terminalStatuses = ["delivered", "failed", "cancelled"];
-
-    if (data.status && terminalStatuses.includes(data.status)) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Delivery task with status '${data.status}' is in a terminal state and cannot be modified`,
-      });
-    }
-
-    // POD Requirement: Transition to 'Delivered' is conditional on POD record creation
-    if (data.status === "delivered") {
-      console.info(
-        "📋 POD Requirement: Delivery task can only transition to 'delivered' after proof_of_deliveries record is created"
-      );
-    }
-
-    // Constraint: If status is Failed, failureReason must be populated
-    if (data.status === "failed" && !data.failureReason) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["failureReason"],
-        message: "Failure reason is required when delivery status is 'failed'",
-      });
-    }
-
-    // Trigger: When status is updated to 'out-for-delivery', generate customer tracking link
-    if (data.status === "out-for-delivery") {
-      console.info(
-        "🔄 Trigger: customer_tracking_links record should be generated when delivery task moves to 'out-for-delivery'"
-      );
-    }
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Tasks = z.infer<typeof TasksSchema>;

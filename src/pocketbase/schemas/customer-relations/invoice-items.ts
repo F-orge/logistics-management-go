@@ -17,19 +17,8 @@ export const InvoiceItemsSchema = z
       .int("Quantity must be an integer"),
     price: z.number().min(0, "Unit price must be non-negative"),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.quantity && data.price) {
-      const lineTotal = data.quantity * data.price;
-      console.info(
-        `💵 Line Item Total: ${lineTotal.toFixed(2)} (Qty: ${data.quantity} × Price: ${data.price.toFixed(2)}). This amount is locked in the invoice.`
-      );
-    }
-
-    console.info(
-      "🔒 Invoice Line Items: Immutable once invoice reaches terminal state (Paid/Cancelled). Amendments require credit note."
-    );
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type InvoiceItems = z.infer<typeof InvoiceItemsSchema>;

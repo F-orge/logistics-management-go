@@ -15,7 +15,7 @@ export const ProductsSchema = z.object({
   description: z.unknown().optional(),
   attachments: z.file().array().optional(),
   created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional()
 });
 
 export type Products = z.infer<typeof ProductsSchema>;

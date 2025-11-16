@@ -15,24 +15,8 @@ export const CampaignsSchema = z
     endDate: z.iso.date().optional(),
     attachments: z.file().array().optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.startDate && data.endDate) {
-      const startDate = new Date(data.startDate);
-      const endDate = new Date(data.endDate);
-      if (endDate < startDate) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["endDate"],
-          message: "Campaign end date must be on or after the start date",
-        });
-      }
-    }
-
-    console.info(
-      "📢 Campaign: Tracks leads and opportunities from marketing initiatives. Budget tracks ROI."
-    );
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

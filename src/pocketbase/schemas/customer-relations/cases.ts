@@ -33,43 +33,9 @@ export const CasesSchema = z
     contact: z.string().optional(),
     description: z.unknown().optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
+    updated: z.iso.datetime().optional()
+})
 
-  .superRefine((data, ctx) => {
-    // State Machine Constraint: Status defines case lifecycle
-    // Valid states: new -> in-progress -> (waiting-for-customer | waiting-for-internal | escalated) -> resolved -> closed
-    const terminalStates = ["resolved", "closed"];
-
-    // Immutability Constraint: A Closed or Resolved case is immutable and cannot be reopened or modified
-    if (data.status && terminalStates.includes(data.status)) {
-      ctx.addIssue({
-        code: "custom",
-        message: `A case with status '${data.status}' is immutable and cannot be reopened or modified. Create a new case if further action is needed.`,
-      });
-    }
-
-    // State transition validation
-    const validTransitions: Record<string, string[]> = {
-      new: ["in-progress", "cancelled"],
-      "in-progress": [
-        "waiting-for-customer",
-        "waiting-for-internal",
-        "escalated",
-        "resolved",
-        "cancelled",
-      ],
-      "waiting-for-customer": ["in-progress", "resolved", "cancelled"],
-      "waiting-for-internal": ["in-progress", "resolved", "cancelled"],
-      escalated: ["in-progress", "resolved", "cancelled"],
-      resolved: ["closed"],
-      closed: [],
-      cancelled: [],
-    };
-
-    console.info(
-      "📋 Case State Machine: Enforce valid transitions per configured workflow. Terminal states (resolved, closed) prevent any modifications."
-    );
-  });
+  
 
 export type Cases = z.infer<typeof CasesSchema>;

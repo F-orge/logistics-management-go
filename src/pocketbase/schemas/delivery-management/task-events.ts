@@ -27,21 +27,8 @@ export const TaskEventsSchema = z
     reason: z.string().optional(),
     notes: z.string().optional(),
     coordinates: Coordinates.optional(),
-    timestamp: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // Audit Trail Constraint: Task events create immutable history
-    // The status in the event must sync with the parent task status
-    console.info(
-      "📝 Task Event: Immutable audit record. Status changes trigger automatic parent task status updates."
-    );
-
-    // Event Syncing: Each task event should trigger task status update
-    if (data.status) {
-      console.info(
-        `🔄 Trigger: Task status should automatically update to '${data.status}' based on event record`
-      );
-    }
-  });
+    timestamp: z.iso.datetime().optional()
+})
+  
 
 export type TaskEvents = z.infer<typeof TaskEventsSchema>;

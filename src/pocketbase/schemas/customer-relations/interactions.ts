@@ -16,29 +16,8 @@ export const InteractionsSchema = z
     outcome: z.string().optional(),
     notes: z.unknown().optional(),
     attachments: z.file().array().optional(),
-    interactionDate: z.string().datetime().or(z.string().date()).optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.contact) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["contact"],
-        message: "Contact is required for interaction audit trail",
-      });
-    }
-
-    if (!data.user) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["user"],
-        message:
-          "User (who conducted the interaction) is required for audit trail",
-      });
-    }
-
-    console.info(
-      "📝 Interaction Record: Creates immutable audit trail of contact communications. Linked to cases for support history."
-    );
-  });
+    interactionDate: z.string().datetime().or(z.string().date()).optional()
+})
+  
 
 export type Interactions = z.infer<typeof InteractionsSchema>;

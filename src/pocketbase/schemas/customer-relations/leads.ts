@@ -36,29 +36,8 @@ export const LeadsSchema = z
     convertedOpportunity: z.string().optional(),
     attachments: z.file().array().optional(),
     created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // State Machine Constraint: When status is changed to 'qualified', a trigger must:
-    // 1. Set the `converted_at` timestamp
-    // 2. Create corresponding records in `companies`, `contacts`, and `opportunities`
-    if (data.status === "qualified" && !data.convertedAt) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["convertedAt"],
-        message:
-          "When lead is qualified, converted_at must be set and related records must be created",
-      });
-    }
-
-    // Immutability Constraint: A converted lead (convertedAt is not null) is immutable
-    if (data.convertedAt) {
-      ctx.addIssue({
-        code: "custom",
-        message:
-          "A converted lead is immutable and cannot be modified. Original lead data is preserved for audit purposes.",
-      });
-    }
-  });
+    updated: z.iso.datetime().optional()
+})
+  
 
 export type Leads = z.infer<typeof LeadsSchema>;

@@ -13,24 +13,8 @@ export const DriverLocationSchema = z
     driver: z.string(),
     coordinates: Coordinates,
     heading: Coordinates,
-    timestamp: z.iso.datetime().optional(),
-  })
-  .superRefine((data, ctx) => {
-    // Real-time Tracking: Driver location updates create audit trail
-    console.info(
-      "📍 Driver Location: Real-time tracking record. Coordinates and heading are captured for route optimization and delivery updates."
-    );
-
-    // Heading validation: must be 0-360 degrees
-    if (data.heading && typeof data.heading === "number") {
-      if (data.heading < 0 || data.heading > 360) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["heading"],
-          message: "Heading must be between 0-360 degrees",
-        });
-      }
-    }
-  });
+    timestamp: z.iso.datetime().optional()
+})
+  
 
 export type DriverLocation = z.infer<typeof DriverLocationSchema>;
