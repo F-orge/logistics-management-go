@@ -6,51 +6,49 @@
 
 import { z } from "zod";
 
-export const OpportunitiesSchema = z
-  .object({
-    id: z.string(),
-    name: z.string(),
-    stage: z
-      .enum([
-        "prospecting",
-        "qualification",
-        "need-analysis",
-        "demo",
-        "proposal",
-        "negotiation",
-        "closed-won",
-        "closed-lost",
-      ])
-      .optional(),
-    dealValue: z.number().optional(),
-    probability: z
-      .number()
-      .min(0, "Probability must be at least 0")
-      .max(1, "Probability must be at most 1 (0-1 scale, not 0-100)")
-      .optional(),
-    expectedCloseDate: z.iso.date().optional(),
-    lostReason: z.unknown().optional(),
-    source: z.enum([
-      "website",
-      "referral",
-      "social-media",
-      "email-campaign",
-      "cold-call",
-      "event",
-      "advertisment",
-      "partner",
-      "existing-customer",
-      "other",
-    ]),
-    owner: z.string(),
-    contact: z.string().optional(),
-    company: z.string().optional(),
-    campaign: z.string().optional(),
-    attachments: z.file().array().optional(),
-    products: z.array(z.string()).optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const OpportunitiesSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  stage: z
+    .enum([
+      "prospecting",
+      "qualification",
+      "need-analysis",
+      "demo",
+      "proposal",
+      "negotiation",
+      "closed-won",
+      "closed-lost",
+    ])
+    .optional(),
+  dealValue: z.number().optional(),
+  probability: z
+    .number()
+    .min(0, "Probability must be at least 0")
+    .max(1, "Probability must be at most 1 (0-1 scale, not 0-100)")
+    .optional(),
+  expectedCloseDate: z.coerce.date().optional(),
+  lostReason: z.unknown().optional(),
+  source: z.enum([
+    "website",
+    "referral",
+    "social-media",
+    "email-campaign",
+    "cold-call",
+    "event",
+    "advertisment",
+    "partner",
+    "existing-customer",
+    "other",
+  ]),
+  owner: z.string(),
+  contact: z.string().optional(),
+  company: z.string().optional(),
+  campaign: z.string().optional(),
+  attachments: z.file().array().optional(),
+  products: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Opportunities = z.infer<typeof OpportunitiesSchema>;

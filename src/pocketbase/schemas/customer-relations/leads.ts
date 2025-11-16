@@ -6,38 +6,36 @@
 
 import { z } from "zod";
 
-export const LeadsSchema = z
-  .object({
-    id: z.string(),
-    name: z.string().optional(),
-    email: z.string().email().optional(),
-    source: z
-      .enum([
-        "website",
-        "referral",
-        "social-media",
-        "email-campaign",
-        "cold-call",
-        "event",
-        "advertisment",
-        "partner",
-        "other",
-      ])
-      .optional(),
-    status: z
-      .enum(["new", "contacted", "qualified", "unqualified", "converted"])
-      .optional(),
-    score: z.number().min(0, "Lead score must be non-negative"),
-    owner: z.string(),
-    campaign: z.string().optional(),
-    convertedAt: z.iso.date().optional(),
-    convertedContact: z.string().optional(),
-    convertedCompany: z.string().optional(),
-    convertedOpportunity: z.string().optional(),
-    attachments: z.file().array().optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const LeadsSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  source: z
+    .enum([
+      "website",
+      "referral",
+      "social-media",
+      "email-campaign",
+      "cold-call",
+      "event",
+      "advertisment",
+      "partner",
+      "other",
+    ])
+    .optional(),
+  status: z
+    .enum(["new", "contacted", "qualified", "unqualified", "converted"])
+    .optional(),
+  score: z.number().min(0, "Lead score must be non-negative"),
+  owner: z.string(),
+  campaign: z.string().optional(),
+  convertedAt: z.coerce.date().optional(),
+  convertedContact: z.string().optional(),
+  convertedCompany: z.string().optional(),
+  convertedOpportunity: z.string().optional(),
+  attachments: z.file().array().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Leads = z.infer<typeof LeadsSchema>;

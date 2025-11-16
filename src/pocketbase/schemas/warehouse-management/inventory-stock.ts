@@ -25,8 +25,8 @@ export const InventoryStockSchema = z.object({
     "shipped",
     "expired",
   ]),
-  lastCountedAt: z.iso.date().optional(),
-  lastMovementAt: z.iso.date().optional(),
+  lastCountedAt: z.coerce.date().optional(),
+  lastMovementAt: z.coerce.date().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

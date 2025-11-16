@@ -13,7 +13,7 @@ export const PackageItemsSchema = z.object({
   batch: z.string().optional(),
   quantity: z.number(),
   lotNumber: z.string().optional(),
-  expiryDate: z.iso.date().optional(),
+  expiryDate: z.coerce.date().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

@@ -7,27 +7,25 @@
 import { z } from "zod";
 import { Collections } from "@/lib/pb.types";
 
-export const RoutesSchema = z
-  .object({
-    id: z.string(),
-    driver: z.string().optional(),
-    routeDate: z.iso.date().optional(),
-    status: z
-      .enum(["planned", "in-progress", "completed", "cancelled", "paused"])
-      .optional(),
-    totalDistance: z
-      .number()
-      .min(0, "Total distance must be non-negative")
-      .optional(),
-    estimatedDurationInMinutes: z
-      .number()
-      .min(0, "Estimated duration must be non-negative")
-      .optional(),
-    startedAt: z.iso.date().optional(),
-    completedAt: z.iso.date().optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const RoutesSchema = z.object({
+  id: z.string(),
+  driver: z.string().optional(),
+  routeDate: z.coerce.date().optional(),
+  status: z
+    .enum(["planned", "in-progress", "completed", "cancelled", "paused"])
+    .optional(),
+  totalDistance: z
+    .number()
+    .min(0, "Total distance must be non-negative")
+    .optional(),
+  estimatedDurationInMinutes: z
+    .number()
+    .min(0, "Estimated duration must be non-negative")
+    .optional(),
+  startedAt: z.coerce.date().optional(),
+  completedAt: z.coerce.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Routes = z.infer<typeof RoutesSchema>;

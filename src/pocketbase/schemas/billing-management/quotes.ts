@@ -20,7 +20,7 @@ export const QuotesSchema = z.object({
     .min(0.01, "Quote price must be a positive value")
     .optional(),
   serviceLevel: z.string().optional(),
-  expiredAt: z.iso.date().optional(),
+  expiredAt: z.coerce.date().optional(),
   status: z
     .enum(["pending", "accepted", "expired", "cancelled", "converted"])
     .optional(),

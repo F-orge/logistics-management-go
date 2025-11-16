@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
+import z from "zod";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,13 +18,80 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
+import { fieldRegistry } from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
 
-const CampaignsFormSchema = CampaignsSchema.omit({
-  id: true,
-  created: true,
-  updated: true,
+const CreateCampaignFormSchema = z.object({
+  name: CampaignsSchema.shape.name.register(fieldRegistry, {
+    id: "crm-campaign-name-create",
+    type: "field",
+    label: "Campaign Name",
+    description: "Enter the name of the campaign",
+    inputType: "text",
+  }),
+  budget: CampaignsSchema.shape.budget.register(fieldRegistry, {
+    id: "crm-campaign-budget-create",
+    type: "field",
+    label: "Budget",
+    description: "Enter the budget for the campaign",
+    inputType: "number",
+  }),
+  startDate: CampaignsSchema.shape.startDate.register(fieldRegistry, {
+    id: "crm-campaign-startDate-create",
+    type: "field",
+    label: "Start Date",
+    description: "Enter the start date of the campaign",
+    inputType: "date",
+  }),
+  endDate: CampaignsSchema.shape.endDate.register(fieldRegistry, {
+    id: "crm-campaign-endDate-create",
+    type: "field",
+    label: "End Date",
+    description: "Enter the end date of the campaign",
+    inputType: "date",
+  }),
+  attachments: CampaignsSchema.shape.attachments.register(fieldRegistry, {
+    id: "crm-campaign-attachments-create",
+    type: "field",
+    inputType: "file",
+    label: "Attachments",
+    description: "Upload attachments for the campaign",
+    isArray: true,
+  }),
+});
+
+const UpdateCampaignFormSchema = z.object({
+  name: CampaignsSchema.shape.name.optional().register(fieldRegistry, {
+    id: "crm-campaign-name-update",
+    type: "field",
+    label: "Campaign Name",
+    description: "Enter the name of the campaign",
+    inputType: "text",
+  }),
+  budget: CampaignsSchema.shape.budget.optional().register(fieldRegistry, {
+    id: "crm-campaign-budget-update",
+    type: "field",
+    label: "Budget",
+    description: "Enter the budget for the campaign",
+    inputType: "number",
+  }),
+  startDate: CampaignsSchema.shape.startDate
+    .optional()
+    .register(fieldRegistry, {
+      id: "crm-campaign-startDate-update",
+      type: "field",
+      label: "Start Date",
+      description: "Enter the start date of the campaign",
+      inputType: "date",
+    }),
+  endDate: CampaignsSchema.shape.endDate.optional().register(fieldRegistry, {
+    id: "crm-campaign-endDate-update",
+    type: "field",
+    label: "End Date",
+    description: "Enter the end date of the campaign",
+    inputType: "date",
+  }),
 });
 
 export const CampaignsActions = () => {
@@ -48,7 +116,7 @@ export const CampaignsActions = () => {
 
   if (searchQuery.action === "create") {
     return (
-      <AutoForm<typeof CampaignsFormSchema>
+      <AutoForm<typeof CreateCampaignFormSchema>
         title="Create Campaigns"
         description="Fill in the details to create a new campaigns."
         open={searchQuery.action === "create"}
@@ -71,14 +139,14 @@ export const CampaignsActions = () => {
             navigate({ search: (prev) => ({ ...prev, action: undefined }) });
           }
         }}
-        schema={CampaignsFormSchema}
+        schema={CreateCampaignFormSchema}
       />
     );
   }
 
   if (searchQuery.action === "update" && data) {
     return (
-      <AutoForm<typeof CampaignsFormSchema>
+      <AutoForm<typeof UpdateCampaignFormSchema>
         title="Update Campaigns"
         description="Update the campaigns details."
         open={searchQuery.action === "update"}
@@ -103,7 +171,7 @@ export const CampaignsActions = () => {
             navigate({ search: (prev) => ({ ...prev, action: undefined }) });
           }
         }}
-        schema={CampaignsFormSchema.partial().omit({ attachments: true })}
+        schema={UpdateCampaignFormSchema}
         defaultValues={data as any}
       />
     );

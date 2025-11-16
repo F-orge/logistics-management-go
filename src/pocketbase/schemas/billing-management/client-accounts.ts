@@ -21,7 +21,7 @@ export const ClientAccountsSchema = z.object({
   currency: z.string().optional(),
   paymentTermsDays: z.number().optional(),
   isCreditApproved: z.boolean().optional(),
-  lastPaymentDate: z.iso.date().optional(),
+  lastPaymentDate: z.coerce.date().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

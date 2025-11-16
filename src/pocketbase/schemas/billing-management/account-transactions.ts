@@ -12,7 +12,7 @@ export const AccountTransactionsSchema = z.object({
   type: z.enum(["credit", "debit", "top-up", "refund", "adjustment", "fee"]),
   amount: z.number(),
   runningBalance: z.number().optional(),
-  transactionDate: z.iso.date().optional(),
+  transactionDate: z.coerce.date().optional(),
   processedBy: z.string().optional(),
   referenceNumber: z.string().optional(),
   created: z.iso.datetime().optional(),

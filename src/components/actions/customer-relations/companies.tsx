@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
+import z from "zod";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,13 +18,182 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
+import { fieldRegistry } from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
 import { CompaniesSchema } from "@/pocketbase/schemas/customer-relations/companies";
 
-const CompaniesFormSchema = CompaniesSchema.omit({
-  id: true,
-  created: true,
-  updated: true,
+const CreateCompaniesFormSchema = z.object({
+  name: CompaniesSchema.shape.name.register(fieldRegistry, {
+    id: "crm-companies-name-create",
+    type: "field",
+    label: "Company Name",
+    description: "Enter the company name",
+    inputType: "text",
+  }),
+  street: CompaniesSchema.shape.street.register(fieldRegistry, {
+    id: "crm-companies-street-create",
+    type: "field",
+    label: "Street",
+    description: "Enter the street address (optional)",
+    inputType: "text",
+  }),
+  city: CompaniesSchema.shape.city.register(fieldRegistry, {
+    id: "crm-companies-city-create",
+    type: "field",
+    label: "City",
+    description: "Enter the city (optional)",
+    inputType: "text",
+  }),
+  state: CompaniesSchema.shape.state.register(fieldRegistry, {
+    id: "crm-companies-state-create",
+    type: "field",
+    label: "State",
+    description: "Enter the state (optional)",
+    inputType: "text",
+  }),
+  postalCode: CompaniesSchema.shape.postalCode.register(fieldRegistry, {
+    id: "crm-companies-postalCode-create",
+    type: "field",
+    label: "Postal Code",
+    description: "Enter the postal code (optional)",
+    inputType: "text",
+  }),
+  country: CompaniesSchema.shape.country.register(fieldRegistry, {
+    id: "crm-companies-country-create",
+    type: "field",
+    label: "Country",
+    description: "Enter the country (optional)",
+    inputType: "text",
+  }),
+  phoneNumber: CompaniesSchema.shape.phoneNumber.register(fieldRegistry, {
+    id: "crm-companies-phoneNumber-create",
+    type: "field",
+    label: "Phone Number",
+    description: "Enter the phone number (optional)",
+    inputType: "text",
+  }),
+  industry: CompaniesSchema.shape.industry.register(fieldRegistry, {
+    id: "crm-companies-industry-create",
+    type: "field",
+    label: "Industry",
+    description: "Enter the industry (optional)",
+    inputType: "text",
+  }),
+  website: CompaniesSchema.shape.website.register(fieldRegistry, {
+    id: "crm-companies-website-create",
+    type: "field",
+    label: "Website",
+    description: "Enter the website URL (optional)",
+    inputType: "url",
+  }),
+  annualRevenue: CompaniesSchema.shape.annualRevenue.register(fieldRegistry, {
+    id: "crm-companies-annualRevenue-create",
+    type: "field",
+    label: "Annual Revenue",
+    description: "Enter the annual revenue (optional)",
+    inputType: "number",
+  }),
+  owner: CompaniesSchema.shape.owner.register(fieldRegistry, {
+    id: "crm-companies-owner-create",
+    type: "field",
+    label: "Owner",
+    description: "Enter the owner (optional)",
+    inputType: "text",
+  }),
+  attachments: CompaniesSchema.shape.attachments.register(fieldRegistry, {
+    id: "crm-companies-attachments-create",
+    type: "field",
+    inputType: "file",
+    label: "Attachments",
+    description: "Upload attachments (optional)",
+    isArray: true,
+  }),
+});
+
+const UpdateCompaniesFormSchema = z.object({
+  name: CompaniesSchema.shape.name.optional().register(fieldRegistry, {
+    id: "crm-companies-name-update",
+    type: "field",
+    label: "Company Name",
+    description: "Enter the company name",
+    inputType: "text",
+  }),
+  street: CompaniesSchema.shape.street.optional().register(fieldRegistry, {
+    id: "crm-companies-street-update",
+    type: "field",
+    label: "Street",
+    description: "Enter the street address (optional)",
+    inputType: "text",
+  }),
+  city: CompaniesSchema.shape.city.optional().register(fieldRegistry, {
+    id: "crm-companies-city-update",
+    type: "field",
+    label: "City",
+    description: "Enter the city (optional)",
+    inputType: "text",
+  }),
+  state: CompaniesSchema.shape.state.optional().register(fieldRegistry, {
+    id: "crm-companies-state-update",
+    type: "field",
+    label: "State",
+    description: "Enter the state (optional)",
+    inputType: "text",
+  }),
+  postalCode: CompaniesSchema.shape.postalCode
+    .optional()
+    .register(fieldRegistry, {
+      id: "crm-companies-postalCode-update",
+      type: "field",
+      label: "Postal Code",
+      description: "Enter the postal code (optional)",
+      inputType: "text",
+    }),
+  country: CompaniesSchema.shape.country.optional().register(fieldRegistry, {
+    id: "crm-companies-country-update",
+    type: "field",
+    label: "Country",
+    description: "Enter the country (optional)",
+    inputType: "text",
+  }),
+  phoneNumber: CompaniesSchema.shape.phoneNumber
+    .optional()
+    .register(fieldRegistry, {
+      id: "crm-companies-phoneNumber-update",
+      type: "field",
+      label: "Phone Number",
+      description: "Enter the phone number (optional)",
+      inputType: "text",
+    }),
+  industry: CompaniesSchema.shape.industry.optional().register(fieldRegistry, {
+    id: "crm-companies-industry-update",
+    type: "field",
+    label: "Industry",
+    description: "Enter the industry (optional)",
+    inputType: "text",
+  }),
+  website: CompaniesSchema.shape.website.optional().register(fieldRegistry, {
+    id: "crm-companies-website-update",
+    type: "field",
+    label: "Website",
+    description: "Enter the website URL (optional)",
+    inputType: "url",
+  }),
+  annualRevenue: CompaniesSchema.shape.annualRevenue
+    .optional()
+    .register(fieldRegistry, {
+      id: "crm-companies-annualRevenue-update",
+      type: "field",
+      label: "Annual Revenue",
+      description: "Enter the annual revenue (optional)",
+      inputType: "number",
+    }),
+  owner: CompaniesSchema.shape.owner.optional().register(fieldRegistry, {
+    id: "crm-companies-owner-update",
+    type: "field",
+    label: "Owner",
+    description: "Enter the owner (optional)",
+    inputType: "text",
+  }),
 });
 
 export const CompaniesActions = () => {
@@ -48,7 +218,7 @@ export const CompaniesActions = () => {
 
   if (searchQuery.action === "create") {
     return (
-      <AutoForm<typeof CompaniesFormSchema>
+      <AutoForm<typeof CreateCompaniesFormSchema>
         title="Create Companies"
         description="Fill in the details to create a new companies."
         open={searchQuery.action === "create"}
@@ -71,14 +241,14 @@ export const CompaniesActions = () => {
             navigate({ search: (prev) => ({ ...prev, action: undefined }) });
           }
         }}
-        schema={CompaniesFormSchema}
+        schema={CreateCompaniesFormSchema}
       />
     );
   }
 
   if (searchQuery.action === "update" && data) {
     return (
-      <AutoForm<typeof CompaniesFormSchema>
+      <AutoForm<typeof UpdateCompaniesFormSchema>
         title="Update Companies"
         description="Update the companies details."
         open={searchQuery.action === "update"}
@@ -103,7 +273,7 @@ export const CompaniesActions = () => {
             navigate({ search: (prev) => ({ ...prev, action: undefined }) });
           }
         }}
-        schema={CompaniesFormSchema.partial()}
+        schema={UpdateCompaniesFormSchema}
         defaultValues={data as any}
       />
     );

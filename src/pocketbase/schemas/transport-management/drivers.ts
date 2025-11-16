@@ -10,7 +10,7 @@ export const DriversSchema = z.object({
   id: z.string(),
   user: z.string().optional(),
   licenseNumber: z.string().min(1, "License number is required"),
-  licenseExpiryDate: z.iso.date().optional(),
+  licenseExpiryDate: z.coerce.date().optional(),
   status: z.enum(["active", "inactive", "on-leave"]),
   schedules: z.array(z.string()).optional(),
   created: z.iso.datetime().optional(),

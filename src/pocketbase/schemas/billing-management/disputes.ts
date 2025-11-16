@@ -31,8 +31,8 @@ export const DisputesSchema = z.object({
     .min(0.01, "Dispute amount must be a positive value")
     .optional(),
   resolutionNotes: z.string().optional(),
-  submittedAt: z.iso.date().optional(),
-  resolvedAt: z.iso.date().optional(),
+  submittedAt: z.coerce.date().optional(),
+  resolvedAt: z.coerce.date().optional(),
   resolvedBy: z.string().optional(),
   attachments: z.array(z.string()).optional(),
   created: z.iso.datetime().optional(),

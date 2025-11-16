@@ -9,12 +9,12 @@ import * as PB from "../../../lib/pb.types";
 
 export const OtpsSchema = z.object({
   collectionRef: z.string(),
-  created: z.iso.date(),
+  created: z.coerce.date(),
   id: z.string(),
   password: z.string(),
   recordRef: z.string(),
   sentTo: z.string().optional(),
-  updated: z.iso.date(),
+  updated: z.coerce.date(),
 });
 
 export type Otps = z.infer<typeof OtpsSchema>;

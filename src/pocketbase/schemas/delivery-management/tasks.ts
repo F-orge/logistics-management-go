@@ -7,50 +7,48 @@
 import { z } from "zod";
 import { Collections } from "@/lib/pb.types";
 
-export const TasksSchema = z
-  .object({
-    id: z.string(),
-    package: z.string(),
-    route: z.string(),
-    sequence: z.number().min(1, "Sequence must be at least 1"),
-    deliveryAddress: z.string(),
-    recipientName: z.string().optional(),
-    recipientPhone: z.string().optional(),
-    deliveryInstructions: z.string().optional(),
-    estimatedArrivalTime: z.iso.date().optional(),
-    actualArrivalTime: z.iso.date().optional(),
-    deliveryTime: z.iso.date().optional(),
-    status: z
-      .enum([
-        "pending",
-        "assigned",
-        "out-for-delivery",
-        "delivered",
-        "failed",
-        "cancelled",
-        "rescheduled",
-      ])
-      .optional(),
-    attempCount: z
-      .number()
-      .min(0, "Attempt count must be non-negative")
-      .optional(),
-    attachments: z.file().array().optional(),
-    failureReason: z
-      .enum([
-        "recipient-not-home",
-        "address-not-found",
-        "refused-delivery",
-        "damaged-package",
-        "access-denied",
-        "weather-conditions",
-        "vehicle-breakdown",
-        "other",
-      ])
-      .optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const TasksSchema = z.object({
+  id: z.string(),
+  package: z.string(),
+  route: z.string(),
+  sequence: z.number().min(1, "Sequence must be at least 1"),
+  deliveryAddress: z.string(),
+  recipientName: z.string().optional(),
+  recipientPhone: z.string().optional(),
+  deliveryInstructions: z.string().optional(),
+  estimatedArrivalTime: z.coerce.date().optional(),
+  actualArrivalTime: z.coerce.date().optional(),
+  deliveryTime: z.coerce.date().optional(),
+  status: z
+    .enum([
+      "pending",
+      "assigned",
+      "out-for-delivery",
+      "delivered",
+      "failed",
+      "cancelled",
+      "rescheduled",
+    ])
+    .optional(),
+  attempCount: z
+    .number()
+    .min(0, "Attempt count must be non-negative")
+    .optional(),
+  attachments: z.file().array().optional(),
+  failureReason: z
+    .enum([
+      "recipient-not-home",
+      "address-not-found",
+      "refused-delivery",
+      "damaged-package",
+      "access-denied",
+      "weather-conditions",
+      "vehicle-breakdown",
+      "other",
+    ])
+    .optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Tasks = z.infer<typeof TasksSchema>;

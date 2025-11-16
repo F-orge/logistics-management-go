@@ -10,35 +10,23 @@ import {
   fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
 
-export const LogsSchema = z
-  .object({
-    id: z.string(),
-    recordId: z.string(),
-    recordType: z.string(),
-    externalSystem: z.string(),
-    externalId: z.string().optional(),
-    status: z
-      .enum(["pending", "in-progress", "success", "failed", "retry"])
-      .optional()
-      ,
-    errorMessage: z.string().optional(),
-    requestPayload: z.string().optional(),
-    responsePayload: z.string().optional(),
-    lastSyncAt: z.iso.date().optional(),
-    retryCount: z
-      .number()
-      .optional()
-      ,
-    nextRetryAt: z.iso.date().optional(),
-    created: z.iso
-      .datetime()
-      .optional()
-      ,
-    updated: z.iso
-      .datetime()
-      .optional()
-      ,
-  })
-  ;
+export const LogsSchema = z.object({
+  id: z.string(),
+  recordId: z.string(),
+  recordType: z.string(),
+  externalSystem: z.string(),
+  externalId: z.string().optional(),
+  status: z
+    .enum(["pending", "in-progress", "success", "failed", "retry"])
+    .optional(),
+  errorMessage: z.string().optional(),
+  requestPayload: z.string().optional(),
+  responsePayload: z.string().optional(),
+  lastSyncAt: z.coerce.date().optional(),
+  retryCount: z.number().optional(),
+  nextRetryAt: z.coerce.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Logs = z.infer<typeof LogsSchema>;

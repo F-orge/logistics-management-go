@@ -11,7 +11,7 @@ export const PickBatchItemsSchema = z.object({
   pickBatch: z.string(),
   salesOrder: z.string(),
   orderPriority: z.number().optional(),
-  estimatedPickTime: z.iso.date().optional(),
+  estimatedPickTime: z.coerce.date().optional(),
   actualPickTime: z.number().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),

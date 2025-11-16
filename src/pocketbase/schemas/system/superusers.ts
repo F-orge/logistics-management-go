@@ -8,13 +8,13 @@ import { z } from "zod";
 import * as PB from "../../../lib/pb.types";
 
 export const SuperusersSchema = z.object({
-  created: z.iso.date(),
+  created: z.coerce.date(),
   email: z.string(),
   emailVisibility: z.boolean().optional(),
   id: z.string(),
   password: z.string(),
   tokenKey: z.string(),
-  updated: z.iso.date(),
+  updated: z.coerce.date(),
   verified: z.boolean().optional(),
 });
 

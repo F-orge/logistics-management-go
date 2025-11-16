@@ -12,8 +12,8 @@ export const InboundShipmentsSchema = z.object({
   status: z
     .enum(["pending", "arrived", "processing", "completed", "cancelled"])
     .optional(),
-  expectedArrivalDate: z.iso.date().optional(),
-  actualArrivalDate: z.iso.date().optional(),
+  expectedArrivalDate: z.coerce.date().optional(),
+  actualArrivalDate: z.coerce.date().optional(),
   warehouse: z.string(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
