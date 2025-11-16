@@ -27,8 +27,8 @@ export const OpportunitiesSchema = z.object({
     .min(0, "Probability must be at least 0")
     .max(1, "Probability must be at most 1 (0-1 scale, not 0-100)")
     .optional(),
-  expectedCloseDate: z.coerce.date().optional(),
-  lostReason: z.unknown().optional(),
+  expectedCloseDate: z.date().optional(),
+  lostReason: z.string().optional(),
   source: z.enum([
     "website",
     "referral",

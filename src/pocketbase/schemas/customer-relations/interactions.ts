@@ -13,9 +13,9 @@ export const InteractionsSchema = z.object({
   case: z.string().optional(),
   type: z.enum(["call", "meeting", "text", "email"]).optional(),
   outcome: z.string().optional(),
-  notes: z.unknown().optional(),
+  notes: z.string().optional(),
   attachments: z.file().array().optional(),
-  interactionDate: z.coerce.date().or(z.string().date()).optional(),
+  interactionDate: z.date().optional(),
 });
 
 export type Interactions = z.infer<typeof InteractionsSchema>;

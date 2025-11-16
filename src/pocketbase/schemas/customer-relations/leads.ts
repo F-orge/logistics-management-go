@@ -29,7 +29,7 @@ export const LeadsSchema = z.object({
   score: z.number().min(0, "Lead score must be non-negative"),
   owner: z.string(),
   campaign: z.string().optional(),
-  convertedAt: z.coerce.date().optional(),
+  convertedAt: z.date().optional(),
   convertedContact: z.string().optional(),
   convertedCompany: z.string().optional(),
   convertedOpportunity: z.string().optional(),
