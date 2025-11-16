@@ -532,12 +532,15 @@ const handleZodArrayField = (
 
   // Array of objects (fieldset array)
   if (elementInnerDef instanceof z.ZodObject) {
+    // Check if the element object has fieldset metadata
+    const elementFieldSetMetadata = fieldSetRegistry.get(elementInnerDef);
+
     return {
       id: fieldName,
       name: fieldName,
       type: "fieldset",
-      label: undefined,
-      description: undefined,
+      label: elementFieldSetMetadata?.legend,
+      description: elementFieldSetMetadata?.description,
       required: false,
       isArray: true,
       groups: toAutoFormFieldSet(elementInnerDef).groups,

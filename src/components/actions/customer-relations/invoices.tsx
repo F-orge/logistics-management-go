@@ -18,9 +18,42 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
-import { fieldRegistry } from "@/components/ui/autoform-tanstack/types";
+import {
+  fieldRegistry,
+  fieldSetRegistry,
+} from "@/components/ui/autoform-tanstack/types";
 import { Collections } from "@/lib/pb.types";
+import { InvoiceItemsSchema } from "@/pocketbase/schemas/customer-relations";
 import { InvoicesSchema } from "@/pocketbase/schemas/customer-relations/invoices";
+
+const CreateInvoiceItemsFormSchema = z
+  .object({
+    product: InvoiceItemsSchema.shape.product.register(fieldRegistry, {
+      id: "crm-invoice-items-product-create",
+      type: "field",
+      label: "Product",
+      description: "Select the product",
+      inputType: "text",
+    }),
+    quantity: InvoiceItemsSchema.shape.quantity.register(fieldRegistry, {
+      id: "crm-invoice-items-quantity-create",
+      type: "field",
+      label: "Quantity",
+      description: "Enter the quantity",
+      inputType: "number",
+    }),
+    price: InvoiceItemsSchema.shape.price.register(fieldRegistry, {
+      id: "crm-invoice-items-price-create",
+      type: "field",
+      label: "Price",
+      description: "Enter the price",
+      inputType: "number",
+    }),
+  })
+  .register(fieldSetRegistry, {
+    legend: "Invoice Item",
+    description: "Add details for each invoice item",
+  });
 
 const CreateInvoicesFormSchema = z.object({
   invoiceNumber: InvoicesSchema.shape.invoiceNumber.register(fieldRegistry, {
@@ -70,14 +103,14 @@ const CreateInvoicesFormSchema = z.object({
     type: "field",
     label: "Sent At",
     description: "Select when it was sent (optional)",
-    inputType: "datetime-local",
+    inputType: "date",
   }),
   paidAt: InvoicesSchema.shape.paidAt.register(fieldRegistry, {
     id: "crm-invoices-paidAt-create",
     type: "field",
     label: "Paid At",
     description: "Select when it was paid (optional)",
-    inputType: "datetime-local",
+    inputType: "date",
   }),
   paymentMethod: InvoicesSchema.shape.paymentMethod.register(fieldRegistry, {
     id: "crm-invoices-paymentMethod-create",
@@ -86,20 +119,13 @@ const CreateInvoicesFormSchema = z.object({
     description: "Select the payment method (optional)",
     inputType: "select",
   }),
+  items: CreateInvoiceItemsFormSchema.array(),
   attachments: InvoicesSchema.shape.attachments.register(fieldRegistry, {
     id: "crm-invoices-attachments-create",
     type: "field",
     inputType: "file",
     label: "Attachments",
     description: "Upload attachments (optional)",
-    isArray: true,
-  }),
-  items: InvoicesSchema.shape.items.register(fieldRegistry, {
-    id: "crm-invoices-items-create",
-    type: "field",
-    label: "Items",
-    description: "Select items (optional)",
-    inputType: "text",
     isArray: true,
   }),
 });
@@ -156,14 +182,14 @@ const UpdateInvoicesFormSchema = z.object({
     type: "field",
     label: "Sent At",
     description: "Select when it was sent (optional)",
-    inputType: "datetime-local",
+    inputType: "date",
   }),
   paidAt: InvoicesSchema.shape.paidAt.optional().register(fieldRegistry, {
     id: "crm-invoices-paidAt-update",
     type: "field",
     label: "Paid At",
     description: "Select when it was paid (optional)",
-    inputType: "datetime-local",
+    inputType: "date",
   }),
   paymentMethod: InvoicesSchema.shape.paymentMethod
     .optional()

@@ -1,13 +1,21 @@
 import { Trash } from "lucide-react";
 import React from "react";
 import { Button } from "../../button";
-import { FieldGroup, FieldSet } from "../../field";
+import {
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "../../field";
+import type { FieldsetGroup } from "../types";
 
 export interface NestedFieldsetWrapperProps {
   index: number;
   errors?: any[];
   onRemove: () => void;
   children: React.ReactNode;
+  fieldConfig?: FieldsetGroup;
 }
 
 /**
@@ -20,18 +28,33 @@ export const NestedFieldsetWrapper: React.FC<NestedFieldsetWrapperProps> = ({
   errors,
   onRemove,
   children,
-}) => (
-  <FieldSet className="border rounded-md p-4">
-    <FieldGroup>{children}</FieldGroup>
-    <div className="flex justify-end pt-2">
-      <Button
-        type="button"
-        variant="destructive"
-        size="icon-sm"
-        onClick={onRemove}
-      >
-        <Trash />
-      </Button>
-    </div>
-  </FieldSet>
-);
+  fieldConfig,
+}) => {
+  const legend = fieldConfig?.label || `Item ${index + 1}`;
+  const description = fieldConfig?.description;
+
+  return (
+    <FieldSet className="border rounded-md p-4">
+      <FieldLegend variant="label">
+        {legend} {index + 1}
+      </FieldLegend>
+      {description && <FieldDescription>{description}</FieldDescription>}
+      {errors && errors.length > 0 && (
+        <FieldDescription className="text-destructive">
+          Errors present
+        </FieldDescription>
+      )}
+      <FieldGroup>{children}</FieldGroup>
+      <div className="flex justify-end pt-2">
+        <Button
+          type="button"
+          variant="destructive"
+          size="icon-sm"
+          onClick={onRemove}
+        >
+          <Trash />
+        </Button>
+      </div>
+    </FieldSet>
+  );
+};

@@ -24,7 +24,7 @@ export const ArrayFieldsetRenderer: React.FC<ArrayFieldsetRendererProps> = ({
 
   return (
     <>
-      {values.map((itemValue, index) => {
+      {values.map((_, index) => {
         const itemComponents: React.ReactNode[] = [];
 
         for (const subField of config.groups || []) {
@@ -57,6 +57,7 @@ export const ArrayFieldsetRenderer: React.FC<ArrayFieldsetRendererProps> = ({
             key={index}
             index={index}
             onRemove={() => field.removeValue(index)}
+            fieldConfig={config}
           >
             {itemComponents}
           </NestedFieldsetWrapper>
