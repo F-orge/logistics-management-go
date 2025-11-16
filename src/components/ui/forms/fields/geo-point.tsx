@@ -16,11 +16,18 @@ import {
 import { useFieldContext } from "..";
 import { TooltipFieldLabel } from "../utils/tooltip-field-label";
 
-export type GeoPointFieldProps = {};
+export type GeoPointFieldProps = {
+  mapControls?: React.ComponentProps<typeof MapDrawControl>;
+  mapControlComponents?: React.ReactNode[];
+};
 
 type GeoPoint = { lat: number; lng: number };
 
-const GeoPointField = (props: GeoPointFieldProps) => {
+const GeoPointField = (
+  props: GeoPointFieldProps = {
+    mapControlComponents: [<MapDrawMarker />],
+  }
+) => {
   const field = useFieldContext<GeoPoint>();
   const [currentPosition, setCurrentPosition] = React.useState<GeoPoint | null>(
     null
@@ -29,10 +36,6 @@ const GeoPointField = (props: GeoPointFieldProps) => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      const geoPoint = [
-        position.coords.latitude,
-        position.coords.longitude,
-      ] as LatLngExpression;
       setCurrentPosition({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
@@ -68,8 +71,9 @@ const GeoPointField = (props: GeoPointFieldProps) => {
             }
           });
         }}
+        {...props.mapControls}
       >
-        <MapDrawMarker />
+        {props.mapControlComponents}
         <MapDrawEdit />
         <MapDrawDelete />
         <MapDrawUndo />
