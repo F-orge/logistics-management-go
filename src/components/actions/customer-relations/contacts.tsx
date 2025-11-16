@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import AutoForm from "@/components/ui/autoform-tanstack/auto-form";
 import { fieldRegistry } from "@/components/ui/autoform-tanstack/types";
-import { Collections } from "@/lib/pb.types";
+import { Collections, Create } from "@/lib/pb.types";
 import { ContactsSchema } from "@/pocketbase/schemas/customer-relations/contacts";
 
 const CreateContactsFormSchema = z.object({
@@ -56,13 +56,6 @@ const CreateContactsFormSchema = z.object({
     type: "field",
     label: "Company",
     description: "Enter the company (optional)",
-    inputType: "text",
-  }),
-  owner: ContactsSchema.shape.owner.register(fieldRegistry, {
-    id: "crm-contacts-owner-create",
-    type: "field",
-    label: "Owner",
-    description: "Enter the owner",
     inputType: "text",
   }),
   attachments: ContactsSchema.shape.attachments.register(fieldRegistry, {
@@ -113,13 +106,6 @@ const UpdateContactsFormSchema = z.object({
     description: "Enter the company (optional)",
     inputType: "text",
   }),
-  owner: ContactsSchema.shape.owner.optional().register(fieldRegistry, {
-    id: "crm-contacts-owner-update",
-    type: "field",
-    label: "Owner",
-    description: "Enter the owner",
-    inputType: "text",
-  }),
 });
 
 export const ContactsActions = () => {
@@ -155,7 +141,10 @@ export const ContactsActions = () => {
           try {
             await pocketbase
               .collection(Collections.CustomerRelationsContacts)
-              .create(data);
+              .create<Create<Collections.CustomerRelationsContacts>>({
+                ...data,
+                owner: pocketbase.authStore.record?.id,
+              });
             toast.success("Contacts created successfully!");
           } catch (error) {
             if (error instanceof ClientResponseError) {

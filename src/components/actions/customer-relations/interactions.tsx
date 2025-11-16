@@ -80,7 +80,7 @@ const CreateInteractionsFormSchema = z.object({
       type: "field",
       label: "Interaction Date",
       description: "Select the interaction date (optional)",
-      inputType: "datetime-local",
+      inputType: "date",
     }
   ),
 });
@@ -135,7 +135,7 @@ const UpdateInteractionsFormSchema = z.object({
       type: "field",
       label: "Interaction Date",
       description: "Select the interaction date (optional)",
-      inputType: "datetime-local",
+      inputType: "date",
     }),
 });
 
