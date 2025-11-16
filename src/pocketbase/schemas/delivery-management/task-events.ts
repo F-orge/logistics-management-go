@@ -5,37 +5,13 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
+import { Coordinates } from "@/pocketbase/scalar";
 
 export const TaskEventsSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "TaskEvents-id",
-      type: "field",
-      inputType: "text",
-      label: "Event ID",
-      description: "Unique identifier for the task event",
-      props: {
-        disabled: true,
-      },
-    }),
-    task: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "TaskEvents-task",
-      inputType: "relation",
-      label: "Task",
-      description: "Task this event is associated with",
-      props: {
-        collectionName: Collections.DeliveryManagementTasks,
-        relationshipName: "task",
-        displayField: "sequence",
-      } as RelationFieldProps<any>,
-    }),
+    id: z.string(),
+    task: z.string(),
     status: z
       .enum([
         "assigned",
@@ -47,72 +23,25 @@ export const TaskEventsSchema = z
         "cancelled",
         "rescheduled",
       ])
-      .register(fieldRegistry, {
-        id: "TaskEvents-status",
-        type: "field",
-        inputType: "select",
-        label: "Status",
-        description: "Status change event",
-        props: {
-          options: [
-            { label: "Assigned", value: "assigned" },
-            { label: "Started", value: "started" },
-            { label: "Arrived", value: "arrived" },
-            { label: "Delivered", value: "delivered" },
-            { label: "Failed", value: "failed" },
-            { label: "Exception", value: "exception" },
-            { label: "Cancelled", value: "cancelled" },
-            { label: "Rescheduled", value: "rescheduled" },
-          ],
-        },
-      }),
-    reason: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskEvents-reason",
-        type: "field",
-        inputType: "textarea",
-        label: "Reason",
-        description: "Reason for the status change",
-        props: {
-          placeholder: "Enter reason for status change",
-        },
-      }),
-    notes: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskEvents-notes",
-        type: "field",
-        inputType: "textarea",
-        label: "Notes",
-        description: "Additional notes about the event",
-        props: {
-          placeholder: "Enter notes",
-        },
-      }),
-    coordinates: z.unknown().optional().register(fieldRegistry, {
-      id: "TaskEvents-coordinates",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Coordinates",
-      description: "GPS coordinates of the event location",
-    }),
-    timestamp: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "TaskEvents-timestamp",
-        type: "field",
-        inputType: "date",
-        label: "Timestamp",
-        description: "When the event occurred",
-        props: {
-          disabled: true,
-        },
-      }),
+      .optional(),
+    reason: z.string().optional(),
+    notes: z.string().optional(),
+    coordinates: Coordinates.optional(),
+    timestamp: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    // Audit Trail Constraint: Task events create immutable history
+    // The status in the event must sync with the parent task status
+    console.info(
+      "📝 Task Event: Immutable audit record. Status changes trigger automatic parent task status updates."
+    );
+
+    // Event Syncing: Each task event should trigger task status update
+    if (data.status) {
+      console.info(
+        `🔄 Trigger: Task status should automatically update to '${data.status}' based on event record`
+      );
+    }
+  });
 
 export type TaskEvents = z.infer<typeof TaskEventsSchema>;

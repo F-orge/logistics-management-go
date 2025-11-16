@@ -5,69 +5,32 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import { Collections } from "@/lib/pb.types";
+import { Coordinates } from "@/pocketbase/scalar";
 
 export const DriverLocationSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "DriverLocation-id",
-      type: "field",
-      inputType: "text",
-      label: "Location ID",
-      description: "Unique identifier for the driver location",
-      props: {
-        disabled: true,
-      },
-    }),
-    driver: z.string().register(fieldRegistry, {
-      type: "field",
-      id: "DriverLocation-driver",
-      inputType: "relation",
-      label: "Driver",
-      description: "Driver associated with this location",
-      props: {
-        collectionName: Collections.TransportManagementDrivers,
-        relationshipName: "driver",
-        displayField: "name",
-      } as RelationFieldProps<any>,
-    }),
-    coordinates: z.unknown().register(fieldRegistry, {
-      id: "DriverLocation-coordinates",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Coordinates",
-      description: "GPS coordinates of the driver",
-    }),
-    heading: z.unknown().register(fieldRegistry, {
-      id: "DriverLocation-heading",
-      type: "field",
-      inputType: "number",
-      label: "Heading",
-      description: "Direction the driver is heading (0-360 degrees)",
-      props: {
-        min: 0,
-        max: 360,
-      },
-    }),
-    timestamp: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "DriverLocation-timestamp",
-        type: "field",
-        inputType: "date",
-        label: "Timestamp",
-        description: "When the location was recorded",
-        props: {
-          disabled: true,
-        },
-      }),
+    id: z.string(),
+    driver: z.string(),
+    coordinates: Coordinates,
+    heading: Coordinates,
+    timestamp: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    // Real-time Tracking: Driver location updates create audit trail
+    console.info(
+      "📍 Driver Location: Real-time tracking record. Coordinates and heading are captured for route optimization and delivery updates."
+    );
+
+    // Heading validation: must be 0-360 degrees
+    if (data.heading && typeof data.heading === "number") {
+      if (data.heading < 0 || data.heading > 360) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["heading"],
+          message: "Heading must be between 0-360 degrees",
+        });
+      }
+    }
+  });
 
 export type DriverLocation = z.infer<typeof DriverLocationSchema>;

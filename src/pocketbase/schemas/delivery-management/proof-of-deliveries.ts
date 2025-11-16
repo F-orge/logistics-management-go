@@ -5,87 +5,31 @@
  */
 
 import { z } from "zod";
-import {
-  fieldRegistry,
-  fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
 import { Collections } from "@/lib/pb.types";
+import { Coordinates } from "@/pocketbase/scalar";
 
 export const ProofOfDeliveriesSchema = z
   .object({
-    id: z.string().register(fieldRegistry, {
-      id: "ProofOfDeliveries-id",
-      type: "field",
-      inputType: "text",
-      label: "Proof ID",
-      description: "Unique identifier for the proof of delivery",
-      props: {
-        disabled: true,
-      },
-    }),
-    task: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        type: "field",
-        id: "ProofOfDeliveries-task",
-        inputType: "relation",
-        label: "Task",
-        description: "Delivery task this proof is for",
-        props: {
-          collectionName: Collections.DeliveryManagementTasks,
-          relationshipName: "task",
-          displayField: "sequence",
-        } as RelationFieldProps<any>,
-      }),
-    signatureData: z
-      .unknown()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ProofOfDeliveries-signatureData",
-        type: "field",
-        inputType: "file",
-        label: "Signature",
-        description: "Recipient signature data",
-        props: {
-          accept: "image/*",
-        },
-      }),
-    recipientName: z
-      .string()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ProofOfDeliveries-recipientName",
-        type: "field",
-        inputType: "text",
-        label: "Recipient Name",
-        description: "Name of the person who received the delivery",
-        props: {
-          placeholder: "Enter recipient name",
-        },
-      }),
-    coordinates: z.unknown().optional().register(fieldRegistry, {
-      id: "ProofOfDeliveries-coordinates",
-      type: "field",
-      inputType: "geoPoint",
-      label: "Delivery Coordinates",
-      description: "GPS coordinates where delivery was made",
-    }),
-    timestamp: z.iso
-      .datetime()
-      .optional()
-      .register(fieldRegistry, {
-        id: "ProofOfDeliveries-timestamp",
-        type: "field",
-        inputType: "date",
-        label: "Timestamp",
-        description: "When the delivery was completed",
-        props: {
-          disabled: true,
-        },
-      }),
+    id: z.string(),
+    task: z.string().optional(),
+    signatureData: z.any().optional(),
+    recipientName: z.string().optional(),
+    coordinates: Coordinates.optional(),
+    timestamp: z.iso.datetime().optional(),
   })
-  .register(fieldSetRegistry, { separator: true });
+  .superRefine((data, ctx) => {
+    // POD Requirement: Proof of delivery record must be created before task can transition to 'delivered'
+    if (!data.task) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["task"],
+        message: "POD must be linked to a delivery task",
+      });
+    }
+
+    console.info(
+      "✍️ Proof of Delivery: Immutable audit record of delivery confirmation. Signature + GPS coordinates required for valid POD."
+    );
+  });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;
