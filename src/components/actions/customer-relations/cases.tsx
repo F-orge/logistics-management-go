@@ -23,7 +23,12 @@ import {
   RelationFieldProps,
   SelectFieldProps,
 } from "@/components/ui/forms/fields";
-import { Collections, CustomerRelationsCompaniesRecord } from "@/lib/pb.types";
+import {
+  Collections,
+  Create,
+  CustomerRelationsCasesRecord,
+  CustomerRelationsCompaniesRecord,
+} from "@/lib/pb.types";
 import { CasesSchema } from "@/pocketbase/schemas/customer-relations/cases";
 
 const CreateCasesFormSchema = z.object({
@@ -104,13 +109,6 @@ const UpdateCasesFormSchema = z.object({
     description: "Select the case type",
     inputType: "select",
   }),
-  owner: CasesSchema.shape.owner.optional().register(fieldRegistry, {
-    id: "crm-cases-owner-update",
-    type: "field",
-    label: "Owner",
-    description: "Enter the case owner",
-    inputType: "text",
-  }),
   contact: CasesSchema.shape.contact.optional().register(fieldRegistry, {
     id: "crm-cases-contact-update",
     type: "field",
@@ -162,7 +160,10 @@ export const CasesActions = () => {
           try {
             await pocketbase
               .collection(Collections.CustomerRelationsCases)
-              .create(data);
+              .create<Create<Collections.CustomerRelationsCases>>({
+                ...data,
+                owner: pocketbase.authStore.record?.id,
+              });
             toast.success("Cases created successfully!");
           } catch (error) {
             if (error instanceof ClientResponseError) {

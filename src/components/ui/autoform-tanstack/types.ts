@@ -611,11 +611,25 @@ export const toAutoFormFieldSet = <T extends z.ZodObject>(
     // Branch 2: Registered field with explicit metadata
     else if (fieldMetadata?.type === "field") {
       const fieldMeta = fieldMetadata;
+      // Generate inputType if not provided in metadata
+      const inputType = fieldMeta.inputType || detectInputTypeFromZod(innerDef);
+
+      // Special case: generate enum options if inputType is select and props doesn't have options
+      let props = fieldMeta.props;
+      if (
+        inputType === "select" &&
+        innerDef instanceof z.ZodEnum &&
+        (!props || !("options" in props))
+      ) {
+        const options = getEnumOptions(innerDef as z.ZodEnum<any>);
+        props = { ...props, options };
+      }
+
       groups.push({
         id: name,
         type: "field" as const,
         name,
-        inputType: fieldMeta.inputType,
+        inputType,
         label: fieldMeta.label || name,
         description: fieldMeta.description,
         required: fieldMeta.required,
@@ -625,7 +639,7 @@ export const toAutoFormFieldSet = <T extends z.ZodObject>(
         orientation: fieldMeta.orientation,
         arrayConfig: fieldMeta.arrayConfig,
         defaultValue: fieldMeta.defaultValue,
-        props: fieldMeta.props,
+        props,
       } as FieldGroup);
     }
     // Branch 3: Unregistered ZodObject - create auto-fieldset
