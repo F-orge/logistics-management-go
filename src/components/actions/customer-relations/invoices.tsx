@@ -22,7 +22,12 @@ import {
   fieldRegistry,
   fieldSetRegistry,
 } from "@/components/ui/autoform-tanstack/types";
-import { Collections } from "@/lib/pb.types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
+import {
+  Collections,
+  CustomerRelationsOpportunitiesRecord,
+  CustomerRelationsProductsRecord,
+} from "@/lib/pb.types";
 import { InvoiceItemsSchema } from "@/pocketbase/schemas/customer-relations";
 import { InvoicesSchema } from "@/pocketbase/schemas/customer-relations/invoices";
 
@@ -33,7 +38,14 @@ const CreateInvoiceItemsFormSchema = z
       type: "field",
       label: "Product",
       description: "Select the product",
-      inputType: "text",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.CustomerRelationsProducts,
+        relationshipName: "product",
+        placeholder: "Select a product",
+        displayField: "name",
+        renderOption: (item) => `${item.name} - $${item.price}`,
+      } as RelationFieldProps<CustomerRelationsProductsRecord>,
     }),
     quantity: InvoiceItemsSchema.shape.quantity.register(fieldRegistry, {
       id: "crm-invoice-items-quantity-create",
@@ -45,8 +57,8 @@ const CreateInvoiceItemsFormSchema = z
     price: InvoiceItemsSchema.shape.price.register(fieldRegistry, {
       id: "crm-invoice-items-price-create",
       type: "field",
-      label: "Price",
-      description: "Enter the price",
+      label: "Price Per Unit",
+      description: "Price per unit (auto-filled from product)",
       inputType: "number",
     }),
   })
@@ -68,7 +80,14 @@ const CreateInvoicesFormSchema = z.object({
     type: "field",
     label: "Opportunity",
     description: "Select the opportunity (optional)",
-    inputType: "text",
+    inputType: "relation",
+    props: {
+      collectionName: Collections.CustomerRelationsOpportunities,
+      relationshipName: "opportunity",
+      placeholder: "Select an opportunity",
+      displayField: "name",
+      renderOption: (item) => item.name,
+    } as RelationFieldProps<CustomerRelationsOpportunitiesRecord>,
   }),
   status: InvoicesSchema.shape.status.register(fieldRegistry, {
     id: "crm-invoices-status-create",
@@ -76,13 +95,6 @@ const CreateInvoicesFormSchema = z.object({
     label: "Status",
     description: "Select the status (optional)",
     inputType: "select",
-  }),
-  total: InvoicesSchema.shape.total.register(fieldRegistry, {
-    id: "crm-invoices-total-create",
-    type: "field",
-    label: "Total",
-    description: "Enter the total (optional)",
-    inputType: "number",
   }),
   issueDate: InvoicesSchema.shape.issueDate.register(fieldRegistry, {
     id: "crm-invoices-issueDate-create",
@@ -127,6 +139,13 @@ const CreateInvoicesFormSchema = z.object({
     label: "Attachments",
     description: "Upload attachments (optional)",
     isArray: true,
+  }),
+  total: InvoicesSchema.shape.total.register(fieldRegistry, {
+    id: "crm-invoices-total-create",
+    type: "field",
+    label: "Total",
+    description: "Enter the total",
+    inputType: "number",
   }),
 });
 
@@ -210,7 +229,7 @@ export const InvoicesActions = () => {
   });
 
   const { data } = useQuery({
-    queryKey: ["invoicess", searchQuery.id],
+    queryKey: ["invoices", searchQuery.id],
     enabled:
       !!searchQuery.id &&
       (searchQuery.action === "update" || searchQuery.action === "delete"),
@@ -233,9 +252,39 @@ export const InvoicesActions = () => {
         }
         onSubmit={async (data) => {
           try {
-            await pocketbase
+            // Calculate total from items
+            const itemsTotal = Array.isArray(data.items)
+              ? data.items.reduce((sum, item) => {
+                  const price = Number(item.price) || 0;
+                  const quantity = Number(item.quantity) || 0;
+                  return sum + price * quantity;
+                }, 0)
+              : 0;
+
+            const invoiceData = {
+              ...data,
+              total: itemsTotal,
+            };
+
+            // send invoice first
+            const invoice = await pocketbase
               .collection(Collections.CustomerRelationsInvoices)
-              .create(data);
+              .create(invoiceData);
+
+            // send invoice items
+            const batch = pocketbase.createBatch();
+
+            for (const item of data.items || []) {
+              batch
+                .collection(Collections.CustomerRelationsInvoiceItems)
+                .create({
+                  ...item,
+                  invoice: invoice.id,
+                });
+            }
+
+            await batch.send();
+
             toast.success("Invoices created successfully!");
           } catch (error) {
             if (error instanceof ClientResponseError) {

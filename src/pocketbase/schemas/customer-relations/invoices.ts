@@ -6,38 +6,34 @@
 
 import { z } from "zod";
 
-export const InvoicesSchema = z
-  .object({
-    id: z.string(),
-    invoiceNumber: z.string().nonempty("Invoice number is required"),
-    opportunity: z.string().optional(),
-    status: z
-      .enum(["draft", "sent", "paid", "overdue", "cancelled"])
-      .optional(),
-    total: z.number().min(0, "Total amount must be non-negative").optional(),
-    issueDate: z.string().datetime().or(z.string().date()).optional(),
-    dueDate: z.string().datetime().or(z.string().date()).optional(),
-    sentAt: z.string().datetime().or(z.string().date()).optional(),
-    paidAt: z.string().datetime().or(z.string().date()).optional(),
-    paymentMethod: z
-      .enum([
-        "credit-card",
-        "bank-transfer",
-        "cash",
-        "check",
-        "paypal",
-        "stripe",
-        "wire-transfer",
-        "other",
-        "maya",
-        "gcash",
-      ])
-      .optional(),
-    attachments: z.file().array().optional(),
-    items: z.array(z.string()).optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional()
-})
-  
+export const InvoicesSchema = z.object({
+  id: z.string(),
+  invoiceNumber: z.string().nonempty("Invoice number is required"),
+  opportunity: z.string().optional(),
+  status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
+  total: z.number().min(0, "Total amount must be non-negative").optional(),
+  issueDate: z.coerce.date().or(z.string().date()).optional(),
+  dueDate: z.coerce.date().or(z.string().date()).optional(),
+  sentAt: z.coerce.date().or(z.string().date()).optional(),
+  paidAt: z.coerce.date().or(z.string().date()).optional(),
+  paymentMethod: z
+    .enum([
+      "credit-card",
+      "bank-transfer",
+      "cash",
+      "check",
+      "paypal",
+      "stripe",
+      "wire-transfer",
+      "other",
+      "maya",
+      "gcash",
+    ])
+    .optional(),
+  attachments: z.file().array().optional(),
+  items: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Invoices = z.infer<typeof InvoicesSchema>;
