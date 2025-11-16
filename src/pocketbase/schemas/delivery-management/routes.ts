@@ -10,7 +10,7 @@ import { Collections } from "@/lib/pb.types";
 export const RoutesSchema = z.object({
   id: z.string(),
   driver: z.string().optional(),
-  routeDate: z.coerce.date().optional(),
+  routeDate: z.date().optional(),
   status: z
     .enum(["planned", "in-progress", "completed", "cancelled", "paused"])
     .optional(),
@@ -22,8 +22,8 @@ export const RoutesSchema = z.object({
     .number()
     .min(0, "Estimated duration must be non-negative")
     .optional(),
-  startedAt: z.coerce.date().optional(),
-  completedAt: z.coerce.date().optional(),
+  startedAt: z.date().optional(),
+  completedAt: z.date().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

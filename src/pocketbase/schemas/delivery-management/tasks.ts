@@ -16,9 +16,9 @@ export const TasksSchema = z.object({
   recipientName: z.string().optional(),
   recipientPhone: z.string().optional(),
   deliveryInstructions: z.string().optional(),
-  estimatedArrivalTime: z.coerce.date().optional(),
-  actualArrivalTime: z.coerce.date().optional(),
-  deliveryTime: z.coerce.date().optional(),
+  estimatedArrivalTime: z.date().optional(),
+  actualArrivalTime: z.date().optional(),
+  deliveryTime: z.date().optional(),
   status: z
     .enum([
       "pending",
