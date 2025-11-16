@@ -20,64 +20,69 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InteractionsSchema } from "@/pocketbase/schemas/customer-relations/interactions";
 import { CreateInteractionsSchema } from "./create";
 
-export const UpdateInteractionsSchema = z.object({
+export const UpdateSchema = z.object({
 	contact: InteractionsSchema.shape.contact.optional().register(fieldRegistry, {
-		id: "crm-interactions-contact-update",
+		id: "customer-relations-interactions-contact-update",
 		type: "field",
 		label: "Contact",
-		description: "Select the contact",
-		inputType: "text",
+		description: "Enter a contact",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsContacts,
+			displayField: "name",
+			relationshipName: "contact",
+		},
 	}),
 	user: InteractionsSchema.shape.user.optional().register(fieldRegistry, {
-		id: "crm-interactions-user-update",
+		id: "customer-relations-interactions-user-update",
 		type: "field",
 		label: "User",
-		description: "Select the user",
+		description: "Enter an user",
 		inputType: "text",
 	}),
 	case: InteractionsSchema.shape.case.optional().register(fieldRegistry, {
-		id: "crm-interactions-case-update",
+		id: "customer-relations-interactions-case-update",
 		type: "field",
 		label: "Case",
-		description: "Select the case (optional)",
+		description: "Enter a case",
 		inputType: "text",
 	}),
 	type: InteractionsSchema.shape.type.optional().register(fieldRegistry, {
-		id: "crm-interactions-type-update",
+		id: "customer-relations-interactions-type-update",
 		type: "field",
 		label: "Type",
-		description: "Select the interaction type (optional)",
+		description: "Enter a type",
 		inputType: "select",
 	}),
 	outcome: InteractionsSchema.shape.outcome.optional().register(fieldRegistry, {
-		id: "crm-interactions-outcome-update",
+		id: "customer-relations-interactions-outcome-update",
 		type: "field",
 		label: "Outcome",
-		description: "Enter the outcome (optional)",
+		description: "Enter an outcome",
 		inputType: "text",
 	}),
 	notes: InteractionsSchema.shape.notes.optional().register(fieldRegistry, {
-		id: "crm-interactions-notes-update",
+		id: "customer-relations-interactions-notes-update",
 		type: "field",
 		label: "Notes",
-		description: "Enter notes (optional)",
-		inputType: "textarea",
+		description: "Enter a notes",
+		inputType: "text",
 	}),
 	interactionDate: InteractionsSchema.shape.interactionDate
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-interactions-interactionDate-update",
+			id: "customer-relations-interactions-interactionDate-update",
 			type: "field",
-			label: "Interaction Date",
-			description: "Select the interaction date (optional)",
+			label: "InteractionDate",
+			description: "Enter an interactiondate",
 			inputType: "date",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateInteractionsSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateInteractionsSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -138,7 +143,7 @@ const UpdateInteractionsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateInteractionsSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Interaction</form.SubmitButton>

@@ -32,20 +32,36 @@ export const CreateSchema = z.object({
 		description: "Enter a status",
 		inputType: "text",
 	}),
-	expectedArrivalDate: InboundShipmentsSchema.shape.expectedArrivalDate.register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipments-expectedArrivalDate-create",
+	expectedArrivalDate:
+		InboundShipmentsSchema.shape.expectedArrivalDate.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipments-expectedArrivalDate-create",
+			type: "field",
+			label: "ExpectedArrivalDate",
+			description: "Enter an expectedarrivaldate",
+			inputType: "date",
+		}),
+	actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-inbound-shipments-actualArrivalDate-create",
+			type: "field",
+			label: "ActualArrivalDate",
+			description: "Enter an actualarrivaldate",
+			inputType: "date",
+		},
+	),
+	warehouse: InboundShipmentsSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-inbound-shipments-warehouse-create",
 		type: "field",
-		label: "ExpectedArrivalDate",
-		description: "Enter an expectedarrivaldate",
-		inputType: "date",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
 	}),
-	actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate.register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipments-actualArrivalDate-create",
-		type: "field",
-		label: "ActualArrivalDate",
-		description: "Enter an actualarrivaldate",
-		inputType: "date",
-	})
 });
 
 const FormOption = formOptions({

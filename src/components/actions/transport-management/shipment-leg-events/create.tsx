@@ -25,6 +25,21 @@ export const CreateSchema = z.object({
 		description: "Enter a message",
 		inputType: "text",
 	}),
+	shipmentLegId: ShipmentLegEventsSchema.shape.shipmentLegId.register(
+		fieldRegistry,
+		{
+			id: "transport-management-shipment-leg-events-shipmentLegId-create",
+			type: "field",
+			label: "ShipmentLegId",
+			description: "Enter a shipmentlegid",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.TransportManagementShipmentLegs,
+				displayField: "name",
+				relationshipName: "shipmentLegId",
+			},
+		},
+	),
 	location: ShipmentLegEventsSchema.shape.location.register(fieldRegistry, {
 		id: "transport-management-shipment-leg-events-location-create",
 		type: "field",
@@ -38,7 +53,7 @@ export const CreateSchema = z.object({
 		label: "Timestamp",
 		description: "Enter a timestamp",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

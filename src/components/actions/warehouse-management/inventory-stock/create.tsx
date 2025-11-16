@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a location",
 		inputType: "text",
 	}),
+	product: InventoryStockSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-inventory-stock-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	batch: InventoryStockSchema.shape.batch.register(fieldRegistry, {
 		id: "warehouse-management-inventory-stock-batch-create",
 		type: "field",
@@ -39,13 +51,16 @@ export const CreateSchema = z.object({
 		description: "Enter a quantity",
 		inputType: "number",
 	}),
-	reservedQuantity: InventoryStockSchema.shape.reservedQuantity.register(fieldRegistry, {
-		id: "warehouse-management-inventory-stock-reservedQuantity-create",
-		type: "field",
-		label: "ReservedQuantity",
-		description: "Enter a reservedquantity",
-		inputType: "text",
-	}),
+	reservedQuantity: InventoryStockSchema.shape.reservedQuantity.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-inventory-stock-reservedQuantity-create",
+			type: "field",
+			label: "ReservedQuantity",
+			description: "Enter a reservedquantity",
+			inputType: "text",
+		},
+	),
 	status: InventoryStockSchema.shape.status.register(fieldRegistry, {
 		id: "warehouse-management-inventory-stock-status-create",
 		type: "field",
@@ -53,20 +68,26 @@ export const CreateSchema = z.object({
 		description: "Enter a status",
 		inputType: "select",
 	}),
-	lastCountedAt: InventoryStockSchema.shape.lastCountedAt.register(fieldRegistry, {
-		id: "warehouse-management-inventory-stock-lastCountedAt-create",
-		type: "field",
-		label: "LastCountedAt",
-		description: "Enter a lastcountedat",
-		inputType: "date",
-	}),
-	lastMovementAt: InventoryStockSchema.shape.lastMovementAt.register(fieldRegistry, {
-		id: "warehouse-management-inventory-stock-lastMovementAt-create",
-		type: "field",
-		label: "LastMovementAt",
-		description: "Enter a lastmovementat",
-		inputType: "date",
-	})
+	lastCountedAt: InventoryStockSchema.shape.lastCountedAt.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-inventory-stock-lastCountedAt-create",
+			type: "field",
+			label: "LastCountedAt",
+			description: "Enter a lastcountedat",
+			inputType: "date",
+		},
+	),
+	lastMovementAt: InventoryStockSchema.shape.lastMovementAt.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-inventory-stock-lastMovementAt-create",
+			type: "field",
+			label: "LastMovementAt",
+			description: "Enter a lastmovementat",
+			inputType: "date",
+		},
+	),
 });
 
 const FormOption = formOptions({

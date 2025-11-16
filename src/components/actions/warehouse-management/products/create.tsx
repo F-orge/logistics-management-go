@@ -67,6 +67,18 @@ export const CreateSchema = z.object({
 		description: "Enter a weight",
 		inputType: "number",
 	}),
+	supplier: ProductsSchema.shape.supplier.register(fieldRegistry, {
+		id: "warehouse-management-products-supplier-create",
+		type: "field",
+		label: "Supplier",
+		description: "Enter a supplier",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementSuppliers,
+			displayField: "name",
+			relationshipName: "supplier",
+		},
+	}),
 	client: ProductsSchema.shape.client.register(fieldRegistry, {
 		id: "warehouse-management-products-client-create",
 		type: "field",
@@ -80,7 +92,7 @@ export const CreateSchema = z.object({
 		label: "Images",
 		description: "Enter an images",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

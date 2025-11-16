@@ -20,62 +20,78 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	invoice: InvoiceLineItemsSchema.shape.invoice.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-invoice-update",
-		type: "field",
-		label: "Invoice",
-		description: "Enter an invoice",
-		inputType: "text",
-	}),
-	description: InvoiceLineItemsSchema.shape.description.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-description-update",
-		type: "field",
-		label: "Description",
-		description: "Enter a description",
-		inputType: "textarea",
-	}),
-	quantity: InvoiceLineItemsSchema.shape.quantity.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-quantity-update",
-		type: "field",
-		label: "Quantity",
-		description: "Enter a quantity",
-		inputType: "number",
-	}),
-	unitPrice: InvoiceLineItemsSchema.shape.unitPrice.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-unitPrice-update",
-		type: "field",
-		label: "UnitPrice",
-		description: "Enter an unitprice",
-		inputType: "number",
-	}),
-	taxRate: InvoiceLineItemsSchema.shape.taxRate.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-taxRate-update",
-		type: "field",
-		label: "TaxRate",
-		description: "Enter a taxrate",
-		inputType: "text",
-	}),
-	discountRate: InvoiceLineItemsSchema.shape.discountRate.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-discountRate-update",
-		type: "field",
-		label: "DiscountRate",
-		description: "Enter a discountrate",
-		inputType: "text",
-	}),
-	discountRate: InvoiceLineItemsSchema.shape.discountRate.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-discountRate-update",
-		type: "field",
-		label: "DiscountRate",
-		description: "Enter a discountrate",
-		inputType: "number",
-	}),
-	discountAmount: InvoiceLineItemsSchema.shape.discountAmount.optional().register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-discountAmount-update",
-		type: "field",
-		label: "DiscountAmount",
-		description: "Enter a discountamount",
-		inputType: "number",
-	})
+	invoice: InvoiceLineItemsSchema.shape.invoice
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-invoice-update",
+			type: "field",
+			label: "Invoice",
+			description: "Enter an invoice",
+			inputType: "text",
+		}),
+	description: InvoiceLineItemsSchema.shape.description
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-description-update",
+			type: "field",
+			label: "Description",
+			description: "Enter a description",
+			inputType: "textarea",
+		}),
+	quantity: InvoiceLineItemsSchema.shape.quantity
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-quantity-update",
+			type: "field",
+			label: "Quantity",
+			description: "Enter a quantity",
+			inputType: "number",
+		}),
+	unitPrice: InvoiceLineItemsSchema.shape.unitPrice
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-unitPrice-update",
+			type: "field",
+			label: "UnitPrice",
+			description: "Enter an unitprice",
+			inputType: "number",
+		}),
+	taxRate: InvoiceLineItemsSchema.shape.taxRate
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-taxRate-update",
+			type: "field",
+			label: "TaxRate",
+			description: "Enter a taxrate",
+			inputType: "text",
+		}),
+	discountRate: InvoiceLineItemsSchema.shape.discountRate
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-discountRate-update",
+			type: "field",
+			label: "DiscountRate",
+			description: "Enter a discountrate",
+			inputType: "text",
+		}),
+	discountRate: InvoiceLineItemsSchema.shape.discountRate
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-discountRate-update",
+			type: "field",
+			label: "DiscountRate",
+			description: "Enter a discountrate",
+			inputType: "number",
+		}),
+	discountAmount: InvoiceLineItemsSchema.shape.discountAmount
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-invoice-line-items-discountAmount-update",
+			type: "field",
+			label: "DiscountAmount",
+			description: "Enter a discountamount",
+			inputType: "number",
+		}),
 });
 
 const FormOption = formOptions({

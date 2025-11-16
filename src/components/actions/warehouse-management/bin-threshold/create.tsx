@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a location",
 		inputType: "text",
 	}),
+	product: BinThresholdSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-bin-threshold-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	minQuantity: BinThresholdSchema.shape.minQuantity.register(fieldRegistry, {
 		id: "warehouse-management-bin-threshold-minQuantity-create",
 		type: "field",
@@ -39,27 +51,33 @@ export const CreateSchema = z.object({
 		description: "Enter a maxquantity",
 		inputType: "number",
 	}),
-	reorderQuantity: BinThresholdSchema.shape.reorderQuantity.register(fieldRegistry, {
-		id: "warehouse-management-bin-threshold-reorderQuantity-create",
-		type: "field",
-		label: "ReorderQuantity",
-		description: "Enter a reorderquantity",
-		inputType: "text",
-	}),
-	alertThreshold: BinThresholdSchema.shape.alertThreshold.register(fieldRegistry, {
-		id: "warehouse-management-bin-threshold-alertThreshold-create",
-		type: "field",
-		label: "AlertThreshold",
-		description: "Enter an alertthreshold",
-		inputType: "text",
-	}),
+	reorderQuantity: BinThresholdSchema.shape.reorderQuantity.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-bin-threshold-reorderQuantity-create",
+			type: "field",
+			label: "ReorderQuantity",
+			description: "Enter a reorderquantity",
+			inputType: "text",
+		},
+	),
+	alertThreshold: BinThresholdSchema.shape.alertThreshold.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-bin-threshold-alertThreshold-create",
+			type: "field",
+			label: "AlertThreshold",
+			description: "Enter an alertthreshold",
+			inputType: "text",
+		},
+	),
 	isActive: BinThresholdSchema.shape.isActive.register(fieldRegistry, {
 		id: "warehouse-management-bin-threshold-isActive-create",
 		type: "field",
 		label: "IsActive",
 		description: "Enter an isactive",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

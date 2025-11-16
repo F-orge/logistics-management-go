@@ -32,12 +32,27 @@ export const CreateSchema = z.object({
 		description: "Enter a status",
 		inputType: "text",
 	}),
-	trackingNumber: OutboundShipmentsSchema.shape.trackingNumber.register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipments-trackingNumber-create",
+	trackingNumber: OutboundShipmentsSchema.shape.trackingNumber.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-outbound-shipments-trackingNumber-create",
+			type: "field",
+			label: "TrackingNumber",
+			description: "Enter a trackingnumber",
+			inputType: "text",
+		},
+	),
+	carrier: OutboundShipmentsSchema.shape.carrier.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipments-carrier-create",
 		type: "field",
-		label: "TrackingNumber",
-		description: "Enter a trackingnumber",
-		inputType: "text",
+		label: "Carrier",
+		description: "Enter a carrier",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementCarriers,
+			displayField: "name",
+			relationshipName: "carrier",
+		},
 	}),
 	items: OutboundShipmentsSchema.shape.items.register(fieldRegistry, {
 		id: "warehouse-management-outbound-shipments-items-create",
@@ -45,7 +60,19 @@ export const CreateSchema = z.object({
 		label: "Items",
 		description: "Enter an items",
 		inputType: "text",
-	})
+	}),
+	warehouse: OutboundShipmentsSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipments-warehouse-create",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 });
 
 const FormOption = formOptions({

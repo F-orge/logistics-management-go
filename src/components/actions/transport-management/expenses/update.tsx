@@ -27,6 +27,18 @@ export const UpdateSchema = z.object({
 		description: "Enter a trip",
 		inputType: "text",
 	}),
+	driver: ExpensesSchema.shape.driver.optional().register(fieldRegistry, {
+		id: "transport-management-expenses-driver-update",
+		type: "field",
+		label: "Driver",
+		description: "Enter a driver",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementDrivers,
+			displayField: "name",
+			relationshipName: "driver",
+		},
+	}),
 	type: ExpensesSchema.shape.type.optional().register(fieldRegistry, {
 		id: "transport-management-expenses-type-update",
 		type: "field",
@@ -48,27 +60,31 @@ export const UpdateSchema = z.object({
 		description: "Enter a currency",
 		inputType: "select",
 	}),
-	fuelQuantity: ExpensesSchema.shape.fuelQuantity.optional().register(fieldRegistry, {
-		id: "transport-management-expenses-fuelQuantity-update",
-		type: "field",
-		label: "FuelQuantity",
-		description: "Enter a fuelquantity",
-		inputType: "number",
-	}),
-	odometerReading: ExpensesSchema.shape.odometerReading.optional().register(fieldRegistry, {
-		id: "transport-management-expenses-odometerReading-update",
-		type: "field",
-		label: "OdometerReading",
-		description: "Enter an odometerreading",
-		inputType: "number",
-	}),
+	fuelQuantity: ExpensesSchema.shape.fuelQuantity
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-expenses-fuelQuantity-update",
+			type: "field",
+			label: "FuelQuantity",
+			description: "Enter a fuelquantity",
+			inputType: "number",
+		}),
+	odometerReading: ExpensesSchema.shape.odometerReading
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-expenses-odometerReading-update",
+			type: "field",
+			label: "OdometerReading",
+			description: "Enter an odometerreading",
+			inputType: "number",
+		}),
 	status: ExpensesSchema.shape.status.optional().register(fieldRegistry, {
 		id: "transport-management-expenses-status-update",
 		type: "field",
 		label: "Status",
 		description: "Enter a status",
 		inputType: "select",
-	})
+	}),
 });
 
 const FormOption = formOptions({

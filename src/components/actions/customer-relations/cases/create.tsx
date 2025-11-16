@@ -22,61 +22,67 @@ import {
 } from "@/lib/pb.types";
 import { CasesSchema } from "@/pocketbase/schemas/customer-relations/cases";
 
-export const CreateCasesSchema = z.object({
+export const CreateSchema = z.object({
 	caseNumber: CasesSchema.shape.caseNumber.register(fieldRegistry, {
-		id: "crm-cases-caseNumber-create",
+		id: "customer-relations-cases-caseNumber-create",
 		type: "field",
-		label: "Case Number",
-		description: "Enter the case number",
+		label: "CaseNumber",
+		description: "Case number is required",
 		inputType: "text",
 	}),
 	status: CasesSchema.shape.status.register(fieldRegistry, {
-		id: "crm-cases-status-create",
+		id: "customer-relations-cases-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the case status",
+		description: "Enter a status",
 		inputType: "select",
 	}),
 	priority: CasesSchema.shape.priority.register(fieldRegistry, {
-		id: "crm-cases-priority-create",
+		id: "customer-relations-cases-priority-create",
 		type: "field",
 		label: "Priority",
-		description: "Select the priority level",
+		description: "Enter a priority",
 		inputType: "select",
 	}),
 	type: CasesSchema.shape.type.register(fieldRegistry, {
-		id: "crm-cases-type-create",
+		id: "customer-relations-cases-type-create",
 		type: "field",
 		label: "Type",
-		description: "Select the case type",
+		description: "Enter a type",
 		inputType: "select",
 	}),
+	owner: CasesSchema.shape.owner.register(fieldRegistry, {
+		id: "customer-relations-cases-owner-create",
+		type: "field",
+		label: "Owner",
+		description: "Enter an owner",
+		inputType: "text",
+	}),
 	contact: CasesSchema.shape.contact.register(fieldRegistry, {
-		id: "crm-cases-contact-create",
+		id: "customer-relations-cases-contact-create",
 		type: "field",
 		label: "Contact",
-		description: "Enter the contact (optional)",
+		description: "Enter a contact",
 		inputType: "relation",
 		props: {
 			collectionName: Collections.CustomerRelationsContacts,
+			displayField: "name",
 			relationshipName: "contact",
-			placeholder: "Select a contact",
-			renderOption: (item) => item.name,
-		} as RelationFieldProps<CustomerRelationsCompaniesRecord>,
+		},
 	}),
 	description: CasesSchema.shape.description.register(fieldRegistry, {
-		id: "crm-cases-description-create",
+		id: "customer-relations-cases-description-create",
 		type: "field",
 		label: "Description",
-		description: "Enter the case description (optional)",
+		description: "Enter a description",
 		inputType: "textarea",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateCasesSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateCasesSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -120,7 +126,7 @@ const CreateCasesForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateCasesSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Case</form.SubmitButton>

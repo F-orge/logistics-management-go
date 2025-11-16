@@ -18,13 +18,16 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { VehiclesSchema } from "@/pocketbase/schemas/transport-management/vehicles";
 
 export const CreateSchema = z.object({
-	registrationNumber: VehiclesSchema.shape.registrationNumber.register(fieldRegistry, {
-		id: "transport-management-vehicles-registrationNumber-create",
-		type: "field",
-		label: "RegistrationNumber",
-		description: "Enter a registrationnumber",
-		inputType: "text",
-	}),
+	registrationNumber: VehiclesSchema.shape.registrationNumber.register(
+		fieldRegistry,
+		{
+			id: "transport-management-vehicles-registrationNumber-create",
+			type: "field",
+			label: "RegistrationNumber",
+			description: "Enter a registrationnumber",
+			inputType: "text",
+		},
+	),
 	model: VehiclesSchema.shape.model.register(fieldRegistry, {
 		id: "transport-management-vehicles-model-create",
 		type: "field",
@@ -66,7 +69,7 @@ export const CreateSchema = z.object({
 		label: "Gps_pings",
 		description: "Enter a gps_pings",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

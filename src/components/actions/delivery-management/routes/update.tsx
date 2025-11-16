@@ -20,52 +20,73 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { RoutesSchema } from "@/pocketbase/schemas/delivery-management/routes";
 import { CreateRouteSchema } from "./create";
 
-export const UpdateRouteSchema = z.object({
+export const UpdateSchema = z.object({
 	driver: RoutesSchema.shape.driver.optional().register(fieldRegistry, {
-		id: "dm-routes-driver-update",
+		id: "delivery-management-routes-driver-update",
 		type: "field",
 		label: "Driver",
-		description: "Select the driver (optional)",
-		inputType: "text",
+		description: "Enter a driver",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementDrivers,
+			displayField: "name",
+			relationshipName: "driver",
+		},
 	}),
 	routeDate: RoutesSchema.shape.routeDate.optional().register(fieldRegistry, {
-		id: "dm-routes-routeDate-update",
+		id: "delivery-management-routes-routeDate-update",
 		type: "field",
-		label: "Route Date",
-		description: "Select the route date (optional)",
+		label: "RouteDate",
+		description: "Enter a routedate",
 		inputType: "date",
 	}),
 	status: RoutesSchema.shape.status.optional().register(fieldRegistry, {
-		id: "dm-routes-status-update",
+		id: "delivery-management-routes-status-update",
 		type: "field",
 		label: "Status",
-		description: "Select the route status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
 	totalDistance: RoutesSchema.shape.totalDistance
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-routes-totalDistance-update",
+			id: "delivery-management-routes-totalDistance-update",
 			type: "field",
-			label: "Total Distance",
-			description: "Enter the total distance (optional)",
-			inputType: "number",
+			label: "TotalDistance",
+			description: "Enter a totaldistance",
+			inputType: "text",
 		}),
 	estimatedDurationInMinutes: RoutesSchema.shape.estimatedDurationInMinutes
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-routes-estimatedDurationInMinutes-update",
+			id: "delivery-management-routes-estimatedDurationInMinutes-update",
 			type: "field",
-			label: "Estimated Duration (Minutes)",
-			description: "Enter estimated duration in minutes (optional)",
-			inputType: "number",
+			label: "EstimatedDurationInMinutes",
+			description: "Enter an estimateddurationinminutes",
+			inputType: "text",
+		}),
+	startedAt: RoutesSchema.shape.startedAt.optional().register(fieldRegistry, {
+		id: "delivery-management-routes-startedAt-update",
+		type: "field",
+		label: "StartedAt",
+		description: "Enter a startedat",
+		inputType: "date",
+	}),
+	completedAt: RoutesSchema.shape.completedAt
+		.optional()
+		.register(fieldRegistry, {
+			id: "delivery-management-routes-completedAt-update",
+			type: "field",
+			label: "CompletedAt",
+			description: "Enter a completedat",
+			inputType: "date",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateRouteSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateRouteSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -127,7 +148,7 @@ const UpdateRouteForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateRouteSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Route</form.SubmitButton>

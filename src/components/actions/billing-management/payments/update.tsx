@@ -34,13 +34,15 @@ export const UpdateSchema = z.object({
 		description: "Enter an amount",
 		inputType: "text",
 	}),
-	paymentMethod: PaymentsSchema.shape.paymentMethod.optional().register(fieldRegistry, {
-		id: "billing-management-payments-paymentMethod-update",
-		type: "field",
-		label: "PaymentMethod",
-		description: "Enter a paymentmethod",
-		inputType: "text",
-	}),
+	paymentMethod: PaymentsSchema.shape.paymentMethod
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-payments-paymentMethod-update",
+			type: "field",
+			label: "PaymentMethod",
+			description: "Enter a paymentmethod",
+			inputType: "text",
+		}),
 	status: PaymentsSchema.shape.status.optional().register(fieldRegistry, {
 		id: "billing-management-payments-status-update",
 		type: "field",
@@ -48,20 +50,24 @@ export const UpdateSchema = z.object({
 		description: "Enter a status",
 		inputType: "text",
 	}),
-	paymentDate: PaymentsSchema.shape.paymentDate.optional().register(fieldRegistry, {
-		id: "billing-management-payments-paymentDate-update",
-		type: "field",
-		label: "PaymentDate",
-		description: "Enter a paymentdate",
-		inputType: "date",
-	}),
-	processedAt: PaymentsSchema.shape.processedAt.optional().register(fieldRegistry, {
-		id: "billing-management-payments-processedAt-update",
-		type: "field",
-		label: "ProcessedAt",
-		description: "Enter a processedat",
-		inputType: "date",
-	}),
+	paymentDate: PaymentsSchema.shape.paymentDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-payments-paymentDate-update",
+			type: "field",
+			label: "PaymentDate",
+			description: "Enter a paymentdate",
+			inputType: "date",
+		}),
+	processedAt: PaymentsSchema.shape.processedAt
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-payments-processedAt-update",
+			type: "field",
+			label: "ProcessedAt",
+			description: "Enter a processedat",
+			inputType: "date",
+		}),
 	currency: PaymentsSchema.shape.currency.optional().register(fieldRegistry, {
 		id: "billing-management-payments-currency-update",
 		type: "field",
@@ -90,20 +96,24 @@ export const UpdateSchema = z.object({
 		description: "Enter a notes",
 		inputType: "text",
 	}),
-	processedBy: PaymentsSchema.shape.processedBy.optional().register(fieldRegistry, {
-		id: "billing-management-payments-processedBy-update",
-		type: "field",
-		label: "ProcessedBy",
-		description: "Enter a processedby",
-		inputType: "text",
-	}),
-	attachments: PaymentsSchema.shape.attachments.optional().register(fieldRegistry, {
-		id: "billing-management-payments-attachments-update",
-		type: "field",
-		label: "Attachments",
-		description: "Enter an attachments",
-		inputType: "text",
-	})
+	processedBy: PaymentsSchema.shape.processedBy
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-payments-processedBy-update",
+			type: "field",
+			label: "ProcessedBy",
+			description: "Enter a processedby",
+			inputType: "text",
+		}),
+	attachments: PaymentsSchema.shape.attachments
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-payments-attachments-update",
+			type: "field",
+			label: "Attachments",
+			description: "Enter an attachments",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

@@ -17,49 +17,41 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
 
-export const CreateCampaignSchema = z.object({
+export const CreateSchema = z.object({
 	name: CampaignsSchema.shape.name.register(fieldRegistry, {
-		id: "crm-campaign-name-create",
+		id: "customer-relations-campaigns-name-create",
 		type: "field",
-		label: "Campaign Name",
-		description: "Enter the name of the campaign",
+		label: "Name",
+		description: "Campaign name is required",
 		inputType: "text",
 	}),
 	budget: CampaignsSchema.shape.budget.register(fieldRegistry, {
-		id: "crm-campaign-budget-create",
+		id: "customer-relations-campaigns-budget-create",
 		type: "field",
 		label: "Budget",
-		description: "Enter the budget for the campaign",
+		description: "Enter a budget",
 		inputType: "number",
 	}),
 	startDate: CampaignsSchema.shape.startDate.register(fieldRegistry, {
-		id: "crm-campaign-startDate-create",
+		id: "customer-relations-campaigns-startDate-create",
 		type: "field",
-		label: "Start Date",
-		description: "Enter the start date of the campaign",
+		label: "StartDate",
+		description: "Enter a startdate",
 		inputType: "date",
 	}),
 	endDate: CampaignsSchema.shape.endDate.register(fieldRegistry, {
-		id: "crm-campaign-endDate-create",
+		id: "customer-relations-campaigns-endDate-create",
 		type: "field",
-		label: "End Date",
-		description: "Enter the end date of the campaign",
+		label: "EndDate",
+		description: "Enter an enddate",
 		inputType: "date",
-	}),
-	attachments: CampaignsSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-campaign-attachments-create",
-		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments for the campaign",
-		isArray: true,
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateCampaignSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateCampaignSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -103,7 +95,7 @@ const CreateCampaignForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateCampaignSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Campaign</form.SubmitButton>

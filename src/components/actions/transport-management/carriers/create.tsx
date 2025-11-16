@@ -19,32 +19,25 @@ import { CarriersSchema } from "@/pocketbase/schemas/transport-management/carrie
 
 export const CreateSchema = z.object({
 	name: CarriersSchema.shape.name.register(fieldRegistry, {
-		id: "tm-carriers-name-create",
+		id: "transport-management-carriers-name-create",
 		type: "field",
 		label: "Name",
-		description: "Enter the carrier name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	contactDetails: CarriersSchema.shape.contactDetails.register(fieldRegistry, {
-		id: "tm-carriers-contactDetails-create",
+		id: "transport-management-carriers-contactDetails-create",
 		type: "field",
-		label: "Contact Details",
-		description: "Enter contact details (optional)",
-		inputType: "textarea",
+		label: "ContactDetails",
+		description: "Enter a contactdetails",
+		inputType: "text",
 	}),
 	serviceOffered: CarriersSchema.shape.serviceOffered.register(fieldRegistry, {
-		id: "tm-carriers-serviceOffered-create",
+		id: "transport-management-carriers-serviceOffered-create",
 		type: "field",
-		label: "Service Offered",
-		description: "Enter services offered (optional)",
-		inputType: "textarea",
-	}),
-	image: CarriersSchema.shape.image.register(fieldRegistry, {
-		id: "tm-carriers-image-create",
-		type: "field",
-		label: "Image",
-		description: "Upload carrier image (optional)",
-		inputType: "file",
+		label: "ServiceOffered",
+		description: "Enter a serviceoffered",
+		inputType: "text",
 	}),
 });
 

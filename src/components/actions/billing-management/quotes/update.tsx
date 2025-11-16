@@ -27,20 +27,24 @@ export const UpdateSchema = z.object({
 		description: "Enter a client",
 		inputType: "text",
 	}),
-	originDetails: QuotesSchema.shape.originDetails.optional().register(fieldRegistry, {
-		id: "billing-management-quotes-originDetails-update",
-		type: "field",
-		label: "OriginDetails",
-		description: "Enter an origindetails",
-		inputType: "text",
-	}),
-	destinationDetails: QuotesSchema.shape.destinationDetails.optional().register(fieldRegistry, {
-		id: "billing-management-quotes-destinationDetails-update",
-		type: "field",
-		label: "DestinationDetails",
-		description: "Enter a destinationdetails",
-		inputType: "text",
-	}),
+	originDetails: QuotesSchema.shape.originDetails
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-quotes-originDetails-update",
+			type: "field",
+			label: "OriginDetails",
+			description: "Enter an origindetails",
+			inputType: "text",
+		}),
+	destinationDetails: QuotesSchema.shape.destinationDetails
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-quotes-destinationDetails-update",
+			type: "field",
+			label: "DestinationDetails",
+			description: "Enter a destinationdetails",
+			inputType: "text",
+		}),
 	weight: QuotesSchema.shape.weight.optional().register(fieldRegistry, {
 		id: "billing-management-quotes-weight-update",
 		type: "field",
@@ -76,13 +80,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a quoteprice",
 		inputType: "text",
 	}),
-	serviceLevel: QuotesSchema.shape.serviceLevel.optional().register(fieldRegistry, {
-		id: "billing-management-quotes-serviceLevel-update",
-		type: "field",
-		label: "ServiceLevel",
-		description: "Enter a servicelevel",
-		inputType: "text",
-	}),
+	serviceLevel: QuotesSchema.shape.serviceLevel
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-quotes-serviceLevel-update",
+			type: "field",
+			label: "ServiceLevel",
+			description: "Enter a servicelevel",
+			inputType: "text",
+		}),
 	expiredAt: QuotesSchema.shape.expiredAt.optional().register(fieldRegistry, {
 		id: "billing-management-quotes-expiredAt-update",
 		type: "field",
@@ -97,13 +103,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a status",
 		inputType: "text",
 	}),
-	quoteNumber: QuotesSchema.shape.quoteNumber.optional().register(fieldRegistry, {
-		id: "billing-management-quotes-quoteNumber-update",
-		type: "field",
-		label: "QuoteNumber",
-		description: "Enter a quotenumber",
-		inputType: "text",
-	}),
+	quoteNumber: QuotesSchema.shape.quoteNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-quotes-quoteNumber-update",
+			type: "field",
+			label: "QuoteNumber",
+			description: "Enter a quotenumber",
+			inputType: "text",
+		}),
 	notes: QuotesSchema.shape.notes.optional().register(fieldRegistry, {
 		id: "billing-management-quotes-notes-update",
 		type: "field",
@@ -118,13 +126,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a createdby",
 		inputType: "text",
 	}),
-	attachments: QuotesSchema.shape.attachments.optional().register(fieldRegistry, {
-		id: "billing-management-quotes-attachments-update",
-		type: "field",
-		label: "Attachments",
-		description: "Enter an attachments",
-		inputType: "text",
-	})
+	attachments: QuotesSchema.shape.attachments
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-quotes-attachments-update",
+			type: "field",
+			label: "Attachments",
+			description: "Enter an attachments",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

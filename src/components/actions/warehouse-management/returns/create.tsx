@@ -52,7 +52,7 @@ export const CreateSchema = z.object({
 		label: "Reason",
 		description: "Enter a reason",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

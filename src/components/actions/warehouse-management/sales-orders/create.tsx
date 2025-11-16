@@ -18,19 +18,34 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { SalesOrdersSchema } from "@/pocketbase/schemas/warehouse-management/sales-orders";
 
 export const CreateSchema = z.object({
-	shippingAddress: SalesOrdersSchema.shape.shippingAddress.register(fieldRegistry, {
-		id: "warehouse-management-sales-orders-shippingAddress-create",
-		type: "field",
-		label: "ShippingAddress",
-		description: "Enter a shippingaddress",
-		inputType: "number",
-	}),
+	shippingAddress: SalesOrdersSchema.shape.shippingAddress.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-sales-orders-shippingAddress-create",
+			type: "field",
+			label: "ShippingAddress",
+			description: "Enter a shippingaddress",
+			inputType: "number",
+		},
+	),
 	client: SalesOrdersSchema.shape.client.register(fieldRegistry, {
 		id: "warehouse-management-sales-orders-client-create",
 		type: "field",
 		label: "Client",
 		description: "Enter a client",
 		inputType: "text",
+	}),
+	opportunity: SalesOrdersSchema.shape.opportunity.register(fieldRegistry, {
+		id: "warehouse-management-sales-orders-opportunity-create",
+		type: "field",
+		label: "Opportunity",
+		description: "Enter an opportunity",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsOpportunities,
+			displayField: "name",
+			relationshipName: "opportunity",
+		},
 	}),
 	status: SalesOrdersSchema.shape.status.register(fieldRegistry, {
 		id: "warehouse-management-sales-orders-status-create",
@@ -45,7 +60,7 @@ export const CreateSchema = z.object({
 		label: "OrderNumber",
 		description: "Enter an ordernumber",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

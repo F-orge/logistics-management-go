@@ -39,13 +39,16 @@ export const CreateSchema = z.object({
 		description: "Enter an amount",
 		inputType: "number",
 	}),
-	calculationMethod: SurchargesSchema.shape.calculationMethod.register(fieldRegistry, {
-		id: "billing-management-surcharges-calculationMethod-create",
-		type: "field",
-		label: "CalculationMethod",
-		description: "Enter a calculationmethod",
-		inputType: "text",
-	}),
+	calculationMethod: SurchargesSchema.shape.calculationMethod.register(
+		fieldRegistry,
+		{
+			id: "billing-management-surcharges-calculationMethod-create",
+			type: "field",
+			label: "CalculationMethod",
+			description: "Enter a calculationmethod",
+			inputType: "text",
+		},
+	),
 	isActive: SurchargesSchema.shape.isActive.register(fieldRegistry, {
 		id: "billing-management-surcharges-isActive-create",
 		type: "field",
@@ -73,7 +76,7 @@ export const CreateSchema = z.object({
 		label: "Description",
 		description: "Enter a description",
 		inputType: "textarea",
-	})
+	}),
 });
 
 const FormOption = formOptions({

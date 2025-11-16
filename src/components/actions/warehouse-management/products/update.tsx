@@ -34,13 +34,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a name",
 		inputType: "text",
 	}),
-	description: ProductsSchema.shape.description.optional().register(fieldRegistry, {
-		id: "warehouse-management-products-description-update",
-		type: "field",
-		label: "Description",
-		description: "Enter a description",
-		inputType: "textarea",
-	}),
+	description: ProductsSchema.shape.description
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-products-description-update",
+			type: "field",
+			label: "Description",
+			description: "Enter a description",
+			inputType: "textarea",
+		}),
 	category: ProductsSchema.shape.category.optional().register(fieldRegistry, {
 		id: "warehouse-management-products-category-update",
 		type: "field",
@@ -69,6 +71,18 @@ export const UpdateSchema = z.object({
 		description: "Enter a weight",
 		inputType: "number",
 	}),
+	supplier: ProductsSchema.shape.supplier.optional().register(fieldRegistry, {
+		id: "warehouse-management-products-supplier-update",
+		type: "field",
+		label: "Supplier",
+		description: "Enter a supplier",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementSuppliers,
+			displayField: "name",
+			relationshipName: "supplier",
+		},
+	}),
 	client: ProductsSchema.shape.client.optional().register(fieldRegistry, {
 		id: "warehouse-management-products-client-update",
 		type: "field",
@@ -82,7 +96,7 @@ export const UpdateSchema = z.object({
 		label: "Images",
 		description: "Enter an images",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

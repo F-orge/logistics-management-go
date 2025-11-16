@@ -18,99 +18,129 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { OpportunitiesSchema } from "@/pocketbase/schemas/customer-relations/opportunities";
-import { CreateOpportunitiesSchema } from "./create";
 
-export const UpdateOpportunitiesSchema = z.object({
+export const UpdateSchema = z.object({
 	name: OpportunitiesSchema.shape.name.optional().register(fieldRegistry, {
-		id: "crm-opportunities-name-update",
+		id: "customer-relations-opportunities-name-update",
 		type: "field",
-		label: "Opportunity Name",
-		description: "Enter the opportunity name",
+		label: "Name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	stage: OpportunitiesSchema.shape.stage.optional().register(fieldRegistry, {
-		id: "crm-opportunities-stage-update",
+		id: "customer-relations-opportunities-stage-update",
 		type: "field",
 		label: "Stage",
-		description: "Select the stage (optional)",
-		inputType: "select",
+		description: "Enter a stage",
+		inputType: "text",
 	}),
 	dealValue: OpportunitiesSchema.shape.dealValue
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-dealValue-update",
+			id: "customer-relations-opportunities-dealValue-update",
 			type: "field",
-			label: "Deal Value",
-			description: "Enter the deal value (optional)",
+			label: "DealValue",
+			description: "Enter a dealvalue",
 			inputType: "number",
 		}),
 	probability: OpportunitiesSchema.shape.probability
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-probability-update",
+			id: "customer-relations-opportunities-probability-update",
 			type: "field",
 			label: "Probability",
-			description: "Enter the probability (0-1) (optional)",
-			inputType: "number",
+			description: "Enter a probability",
+			inputType: "text",
 		}),
 	expectedCloseDate: OpportunitiesSchema.shape.expectedCloseDate
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-expectedCloseDate-update",
+			id: "customer-relations-opportunities-expectedCloseDate-update",
 			type: "field",
-			label: "Expected Close Date",
-			description: "Select the expected close date (optional)",
+			label: "ExpectedCloseDate",
+			description: "Enter an expectedclosedate",
 			inputType: "date",
 		}),
 	lostReason: OpportunitiesSchema.shape.lostReason
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-lostReason-update",
+			id: "customer-relations-opportunities-lostReason-update",
 			type: "field",
-			label: "Lost Reason",
-			description: "Enter the lost reason (optional)",
-			inputType: "textarea",
+			label: "LostReason",
+			description: "Enter a lostreason",
+			inputType: "text",
 		}),
 	source: OpportunitiesSchema.shape.source.optional().register(fieldRegistry, {
-		id: "crm-opportunities-source-update",
+		id: "customer-relations-opportunities-source-update",
 		type: "field",
 		label: "Source",
-		description: "Select the source",
+		description: "Enter a source",
 		inputType: "select",
+	}),
+	owner: OpportunitiesSchema.shape.owner.optional().register(fieldRegistry, {
+		id: "customer-relations-opportunities-owner-update",
+		type: "field",
+		label: "Owner",
+		description: "Enter an owner",
+		inputType: "text",
 	}),
 	contact: OpportunitiesSchema.shape.contact
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-contact-update",
+			id: "customer-relations-opportunities-contact-update",
 			type: "field",
 			label: "Contact",
-			description: "Select the contact (optional)",
-			inputType: "text",
+			description: "Enter a contact",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsContacts,
+				displayField: "name",
+				relationshipName: "contact",
+			},
 		}),
 	company: OpportunitiesSchema.shape.company
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-company-update",
+			id: "customer-relations-opportunities-company-update",
 			type: "field",
 			label: "Company",
-			description: "Select the company (optional)",
-			inputType: "text",
+			description: "Enter a company",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsCompanies,
+				displayField: "name",
+				relationshipName: "company",
+			},
 		}),
 	campaign: OpportunitiesSchema.shape.campaign
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunities-campaign-update",
+			id: "customer-relations-opportunities-campaign-update",
 			type: "field",
 			label: "Campaign",
-			description: "Select the campaign (optional)",
+			description: "Enter a campaign",
 			inputType: "text",
+		}),
+	products: OpportunitiesSchema.shape.products
+		.optional()
+		.register(fieldRegistry, {
+			id: "customer-relations-opportunities-products-update",
+			type: "field",
+			label: "Products",
+			description: "Enter a products",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsOpportunityProducts,
+				displayField: "name",
+				relationshipName: "products",
+			},
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateOpportunitiesSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateOpportunitiesSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -171,7 +201,7 @@ const UpdateOpportunitiesForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateOpportunitiesSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Opportunity</form.SubmitButton>

@@ -17,56 +17,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ProofOfDeliveriesSchema } from "@/pocketbase/schemas/delivery-management/proof-of-deliveries";
 
-export const CreateProofOfDeliverySchema = z.object({
-	task: ProofOfDeliveriesSchema.shape.task.optional().register(fieldRegistry, {
-		id: "dm-proof-of-deliveries-task-create",
+export const CreateSchema = z.object({
+	task: ProofOfDeliveriesSchema.shape.task.register(fieldRegistry, {
+		id: "delivery-management-proof-of-deliveries-task-create",
 		type: "field",
 		label: "Task",
-		description: "Enter the task identifier (optional)",
+		description: "Enter a task",
 		inputType: "text",
 	}),
-	signatureData: ProofOfDeliveriesSchema.shape.signatureData
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-signatureData-create",
+	signatureData: ProofOfDeliveriesSchema.shape.signatureData.register(
+		fieldRegistry,
+		{
+			id: "delivery-management-proof-of-deliveries-signatureData-create",
 			type: "field",
-			label: "Signature Data",
-			description: "Enter signature data (optional)",
+			label: "SignatureData",
+			description: "Enter a signaturedata",
 			inputType: "text",
-		}),
-	recipientName: ProofOfDeliveriesSchema.shape.recipientName
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-recipientName-create",
+		},
+	),
+	recipientName: ProofOfDeliveriesSchema.shape.recipientName.register(
+		fieldRegistry,
+		{
+			id: "delivery-management-proof-of-deliveries-recipientName-create",
 			type: "field",
-			label: "Recipient Name",
-			description: "Enter the recipient name (optional)",
+			label: "RecipientName",
+			description: "Enter a recipientname",
 			inputType: "text",
-		}),
-	coordinates: ProofOfDeliveriesSchema.shape.coordinates
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-coordinates-create",
+		},
+	),
+	coordinates: ProofOfDeliveriesSchema.shape.coordinates.register(
+		fieldRegistry,
+		{
+			id: "delivery-management-proof-of-deliveries-coordinates-create",
 			type: "field",
 			label: "Coordinates",
-			description: "Enter the GPS coordinates (optional)",
+			description: "Enter a coordinates",
 			inputType: "text",
-		}),
-	timestamp: ProofOfDeliveriesSchema.shape.timestamp
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-timestamp-create",
-			type: "field",
-			label: "Timestamp",
-			description: "Select the timestamp (optional)",
-			inputType: "date",
-		}),
+		},
+	),
+	timestamp: ProofOfDeliveriesSchema.shape.timestamp.register(fieldRegistry, {
+		id: "delivery-management-proof-of-deliveries-timestamp-create",
+		type: "field",
+		label: "Timestamp",
+		description: "Enter a timestamp",
+		inputType: "date",
+	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateProofOfDeliverySchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateProofOfDeliverySchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -110,7 +111,7 @@ const CreateProofOfDeliveryForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateProofOfDeliverySchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Proof of Delivery</form.SubmitButton>

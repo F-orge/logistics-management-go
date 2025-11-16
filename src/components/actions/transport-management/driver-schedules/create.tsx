@@ -19,38 +19,37 @@ import { DriverSchedulesSchema } from "@/pocketbase/schemas/transport-management
 
 export const CreateSchema = z.object({
 	driver: DriverSchedulesSchema.shape.driver.register(fieldRegistry, {
-		id: "tm-driver-schedules-driver-create",
+		id: "transport-management-driver-schedules-driver-create",
 		type: "field",
 		label: "Driver",
-		description: "Enter the driver identifier",
-		inputType: "text",
+		description: "Enter a driver",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementDrivers,
+			displayField: "name",
+			relationshipName: "driver",
+		},
 	}),
 	startDate: DriverSchedulesSchema.shape.startDate.register(fieldRegistry, {
-		id: "tm-driver-schedules-startDate-create",
+		id: "transport-management-driver-schedules-startDate-create",
 		type: "field",
-		label: "Start Date",
-		description: "Select the start date",
+		label: "StartDate",
+		description: "Enter a startdate",
 		inputType: "date",
 	}),
 	endDate: DriverSchedulesSchema.shape.endDate.register(fieldRegistry, {
-		id: "tm-driver-schedules-endDate-create",
+		id: "transport-management-driver-schedules-endDate-create",
 		type: "field",
-		label: "End Date",
-		description: "Select the end date",
+		label: "EndDate",
+		description: "Enter an enddate",
 		inputType: "date",
 	}),
 	reason: DriverSchedulesSchema.shape.reason.register(fieldRegistry, {
-		id: "tm-driver-schedules-reason-create",
+		id: "transport-management-driver-schedules-reason-create",
 		type: "field",
 		label: "Reason",
-		description: "Select the reason (optional)",
-		inputType: "select",
-		options: [
-			{ value: "vacation", label: "Vacation" },
-			{ value: "sick-leave", label: "Sick Leave" },
-			{ value: "training", label: "Training" },
-			{ value: "personal-leave", label: "Personal Leave" },
-		],
+		description: "Enter a reason",
+		inputType: "text",
 	}),
 });
 

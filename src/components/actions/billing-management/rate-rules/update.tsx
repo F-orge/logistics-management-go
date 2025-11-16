@@ -27,13 +27,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a ratecard",
 		inputType: "text",
 	}),
-	condition: RateRulesSchema.shape.condition.optional().register(fieldRegistry, {
-		id: "billing-management-rate-rules-condition-update",
-		type: "field",
-		label: "Condition",
-		description: "Enter a condition",
-		inputType: "text",
-	}),
+	condition: RateRulesSchema.shape.condition
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-rate-rules-condition-update",
+			type: "field",
+			label: "Condition",
+			description: "Enter a condition",
+			inputType: "text",
+		}),
 	value: RateRulesSchema.shape.value.optional().register(fieldRegistry, {
 		id: "billing-management-rate-rules-value-update",
 		type: "field",
@@ -48,13 +50,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a price",
 		inputType: "number",
 	}),
-	pricingModel: RateRulesSchema.shape.pricingModel.optional().register(fieldRegistry, {
-		id: "billing-management-rate-rules-pricingModel-update",
-		type: "field",
-		label: "PricingModel",
-		description: "Enter a pricingmodel",
-		inputType: "select",
-	}),
+	pricingModel: RateRulesSchema.shape.pricingModel
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-rate-rules-pricingModel-update",
+			type: "field",
+			label: "PricingModel",
+			description: "Enter a pricingmodel",
+			inputType: "select",
+		}),
 	minValue: RateRulesSchema.shape.minValue.optional().register(fieldRegistry, {
 		id: "billing-management-rate-rules-minValue-update",
 		type: "field",
@@ -82,7 +86,7 @@ export const UpdateSchema = z.object({
 		label: "IsActive",
 		description: "Enter an isactive",
 		inputType: "boolean",
-	})
+	}),
 });
 
 const FormOption = formOptions({

@@ -20,20 +20,38 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	serviceDate: VehicleMaintenanceSchema.shape.serviceDate.optional().register(fieldRegistry, {
-		id: "transport-management-vehicle-maintenance-serviceDate-update",
-		type: "field",
-		label: "ServiceDate",
-		description: "Enter a servicedate",
-		inputType: "date",
-	}),
-	serviceType: VehicleMaintenanceSchema.shape.serviceType.optional().register(fieldRegistry, {
-		id: "transport-management-vehicle-maintenance-serviceType-update",
-		type: "field",
-		label: "ServiceType",
-		description: "Enter a servicetype",
-		inputType: "date",
-	}),
+	vehicle: VehicleMaintenanceSchema.shape.vehicle
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-vehicle-maintenance-vehicle-update",
+			type: "field",
+			label: "Vehicle",
+			description: "Enter a vehicle",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.TransportManagementVehicles,
+				displayField: "name",
+				relationshipName: "vehicle",
+			},
+		}),
+	serviceDate: VehicleMaintenanceSchema.shape.serviceDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-vehicle-maintenance-serviceDate-update",
+			type: "field",
+			label: "ServiceDate",
+			description: "Enter a servicedate",
+			inputType: "date",
+		}),
+	serviceType: VehicleMaintenanceSchema.shape.serviceType
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-vehicle-maintenance-serviceType-update",
+			type: "field",
+			label: "ServiceType",
+			description: "Enter a servicetype",
+			inputType: "date",
+		}),
 	cost: VehicleMaintenanceSchema.shape.cost.optional().register(fieldRegistry, {
 		id: "transport-management-vehicle-maintenance-cost-update",
 		type: "field",
@@ -41,13 +59,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a cost",
 		inputType: "number",
 	}),
-	notes: VehicleMaintenanceSchema.shape.notes.optional().register(fieldRegistry, {
-		id: "transport-management-vehicle-maintenance-notes-update",
-		type: "field",
-		label: "Notes",
-		description: "Enter a notes",
-		inputType: "text",
-	})
+	notes: VehicleMaintenanceSchema.shape.notes
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-vehicle-maintenance-notes-update",
+			type: "field",
+			label: "Notes",
+			description: "Enter a notes",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

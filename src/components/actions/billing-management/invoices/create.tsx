@@ -129,7 +129,7 @@ export const CreateSchema = z.object({
 		label: "Attachments",
 		description: "Enter an attachments",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

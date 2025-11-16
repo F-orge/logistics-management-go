@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a task",
 		inputType: "text",
 	}),
+	product: TaskItemsSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-task-items-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	batch: TaskItemsSchema.shape.batch.register(fieldRegistry, {
 		id: "warehouse-management-task-items-batch-create",
 		type: "field",
@@ -39,27 +51,36 @@ export const CreateSchema = z.object({
 		description: "Enter a sourcelocation",
 		inputType: "text",
 	}),
-	destinationLocation: TaskItemsSchema.shape.destinationLocation.register(fieldRegistry, {
-		id: "warehouse-management-task-items-destinationLocation-create",
-		type: "field",
-		label: "DestinationLocation",
-		description: "Enter a destinationlocation",
-		inputType: "text",
-	}),
-	quantityRequired: TaskItemsSchema.shape.quantityRequired.register(fieldRegistry, {
-		id: "warehouse-management-task-items-quantityRequired-create",
-		type: "field",
-		label: "QuantityRequired",
-		description: "Enter a quantityrequired",
-		inputType: "number",
-	}),
-	quantityCompleted: TaskItemsSchema.shape.quantityCompleted.register(fieldRegistry, {
-		id: "warehouse-management-task-items-quantityCompleted-create",
-		type: "field",
-		label: "QuantityCompleted",
-		description: "Enter a quantitycompleted",
-		inputType: "number",
-	}),
+	destinationLocation: TaskItemsSchema.shape.destinationLocation.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-task-items-destinationLocation-create",
+			type: "field",
+			label: "DestinationLocation",
+			description: "Enter a destinationlocation",
+			inputType: "text",
+		},
+	),
+	quantityRequired: TaskItemsSchema.shape.quantityRequired.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-task-items-quantityRequired-create",
+			type: "field",
+			label: "QuantityRequired",
+			description: "Enter a quantityrequired",
+			inputType: "number",
+		},
+	),
+	quantityCompleted: TaskItemsSchema.shape.quantityCompleted.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-task-items-quantityCompleted-create",
+			type: "field",
+			label: "QuantityCompleted",
+			description: "Enter a quantitycompleted",
+			inputType: "number",
+		},
+	),
 	status: TaskItemsSchema.shape.status.register(fieldRegistry, {
 		id: "warehouse-management-task-items-status-create",
 		type: "field",
@@ -94,7 +115,7 @@ export const CreateSchema = z.object({
 		label: "CompletedAt",
 		description: "Enter a completedat",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

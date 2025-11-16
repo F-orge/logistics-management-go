@@ -27,27 +27,45 @@ export const UpdateSchema = z.object({
 		description: "Enter a return",
 		inputType: "text",
 	}),
-	quantityExpected: ReturnItemsSchema.shape.quantityExpected.optional().register(fieldRegistry, {
-		id: "warehouse-management-return-items-quantityExpected-update",
+	product: ReturnItemsSchema.shape.product.optional().register(fieldRegistry, {
+		id: "warehouse-management-return-items-product-update",
 		type: "field",
-		label: "QuantityExpected",
-		description: "Enter a quantityexpected",
-		inputType: "number",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
 	}),
-	quantityRecevied: ReturnItemsSchema.shape.quantityRecevied.optional().register(fieldRegistry, {
-		id: "warehouse-management-return-items-quantityRecevied-update",
-		type: "field",
-		label: "QuantityRecevied",
-		description: "Enter a quantityrecevied",
-		inputType: "number",
-	}),
-	condition: ReturnItemsSchema.shape.condition.optional().register(fieldRegistry, {
-		id: "warehouse-management-return-items-condition-update",
-		type: "field",
-		label: "Condition",
-		description: "Enter a condition",
-		inputType: "text",
-	})
+	quantityExpected: ReturnItemsSchema.shape.quantityExpected
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-return-items-quantityExpected-update",
+			type: "field",
+			label: "QuantityExpected",
+			description: "Enter a quantityexpected",
+			inputType: "number",
+		}),
+	quantityRecevied: ReturnItemsSchema.shape.quantityRecevied
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-return-items-quantityRecevied-update",
+			type: "field",
+			label: "QuantityRecevied",
+			description: "Enter a quantityrecevied",
+			inputType: "number",
+		}),
+	condition: ReturnItemsSchema.shape.condition
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-return-items-condition-update",
+			type: "field",
+			label: "Condition",
+			description: "Enter a condition",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

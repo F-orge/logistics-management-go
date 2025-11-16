@@ -18,19 +18,37 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { OutboundShipmentItemsSchema } from "@/pocketbase/schemas/warehouse-management/outbound-shipment-items";
 
 export const CreateSchema = z.object({
-	outboundShipment: OutboundShipmentItemsSchema.shape.outboundShipment.register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipment-items-outboundShipment-create",
+	outboundShipment: OutboundShipmentItemsSchema.shape.outboundShipment.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-outbound-shipment-items-outboundShipment-create",
+			type: "field",
+			label: "OutboundShipment",
+			description: "Enter an outboundshipment",
+			inputType: "text",
+		},
+	),
+	salesOrderItem: OutboundShipmentItemsSchema.shape.salesOrderItem.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-outbound-shipment-items-salesOrderItem-create",
+			type: "field",
+			label: "SalesOrderItem",
+			description: "Enter a salesorderitem",
+			inputType: "text",
+		},
+	),
+	product: OutboundShipmentItemsSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-outbound-shipment-items-product-create",
 		type: "field",
-		label: "OutboundShipment",
-		description: "Enter an outboundshipment",
-		inputType: "text",
-	}),
-	salesOrderItem: OutboundShipmentItemsSchema.shape.salesOrderItem.register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipment-items-salesOrderItem-create",
-		type: "field",
-		label: "SalesOrderItem",
-		description: "Enter a salesorderitem",
-		inputType: "text",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
 	}),
 	batch: OutboundShipmentItemsSchema.shape.batch.register(fieldRegistry, {
 		id: "warehouse-management-outbound-shipment-items-batch-create",
@@ -39,13 +57,16 @@ export const CreateSchema = z.object({
 		description: "Enter a batch",
 		inputType: "text",
 	}),
-	quantityShipped: OutboundShipmentItemsSchema.shape.quantityShipped.register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipment-items-quantityShipped-create",
-		type: "field",
-		label: "QuantityShipped",
-		description: "Enter a quantityshipped",
-		inputType: "number",
-	})
+	quantityShipped: OutboundShipmentItemsSchema.shape.quantityShipped.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-outbound-shipment-items-quantityShipped-create",
+			type: "field",
+			label: "QuantityShipped",
+			description: "Enter a quantityshipped",
+			inputType: "number",
+		},
+	),
 });
 
 const FormOption = formOptions({

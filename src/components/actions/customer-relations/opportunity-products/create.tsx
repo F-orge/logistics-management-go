@@ -17,47 +17,57 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { OpportunityProductsSchema } from "@/pocketbase/schemas/customer-relations/opportunity-products";
 
-export const CreateOpportunityProductsSchema = z.object({
+export const CreateSchema = z.object({
 	opportunity: OpportunityProductsSchema.shape.opportunity.register(
 		fieldRegistry,
 		{
-			id: "crm-opportunity-products-opportunity-create",
+			id: "customer-relations-opportunity-products-opportunity-create",
 			type: "field",
 			label: "Opportunity",
-			description: "Select the opportunity (optional)",
-			inputType: "text",
+			description: "Enter an opportunity",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsOpportunities,
+				displayField: "name",
+				relationshipName: "opportunity",
+			},
 		},
 	),
 	product: OpportunityProductsSchema.shape.product.register(fieldRegistry, {
-		id: "crm-opportunity-products-product-create",
+		id: "customer-relations-opportunity-products-product-create",
 		type: "field",
 		label: "Product",
-		description: "Select the product (optional)",
-		inputType: "text",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
 	}),
 	quantity: OpportunityProductsSchema.shape.quantity.register(fieldRegistry, {
-		id: "crm-opportunity-products-quantity-create",
+		id: "customer-relations-opportunity-products-quantity-create",
 		type: "field",
 		label: "Quantity",
-		description: "Enter the quantity",
-		inputType: "number",
+		description: "Enter a quantity",
+		inputType: "text",
 	}),
 	priceSnapshot: OpportunityProductsSchema.shape.priceSnapshot.register(
 		fieldRegistry,
 		{
-			id: "crm-opportunity-products-priceSnapshot-create",
+			id: "customer-relations-opportunity-products-priceSnapshot-create",
 			type: "field",
-			label: "Price Snapshot",
-			description: "Enter the price snapshot (optional)",
-			inputType: "number",
+			label: "PriceSnapshot",
+			description: "Enter a pricesnapshot",
+			inputType: "text",
 		},
 	),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateOpportunityProductsSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateOpportunityProductsSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -103,7 +113,7 @@ const CreateOpportunityProductsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateOpportunityProductsSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Opportunity Product</form.SubmitButton>

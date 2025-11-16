@@ -80,7 +80,7 @@ export const CreateSchema = z.object({
 		label: "IsActive",
 		description: "Enter an isactive",
 		inputType: "boolean",
-	})
+	}),
 });
 
 const FormOption = formOptions({

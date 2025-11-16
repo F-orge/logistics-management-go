@@ -18,45 +18,44 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
-import { CreateCampaignSchema } from "./create";
 
-export const UpdateCampaignSchema = z.object({
+export const UpdateSchema = z.object({
 	name: CampaignsSchema.shape.name.optional().register(fieldRegistry, {
-		id: "crm-campaign-name-update",
+		id: "customer-relations-campaigns-name-update",
 		type: "field",
-		label: "Campaign Name",
-		description: "Enter the name of the campaign",
+		label: "Name",
+		description: "Campaign name is required",
 		inputType: "text",
 	}),
 	budget: CampaignsSchema.shape.budget.optional().register(fieldRegistry, {
-		id: "crm-campaign-budget-update",
+		id: "customer-relations-campaigns-budget-update",
 		type: "field",
 		label: "Budget",
-		description: "Enter the budget for the campaign",
+		description: "Enter a budget",
 		inputType: "number",
 	}),
 	startDate: CampaignsSchema.shape.startDate
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-campaign-startDate-update",
+			id: "customer-relations-campaigns-startDate-update",
 			type: "field",
-			label: "Start Date",
-			description: "Enter the start date of the campaign",
+			label: "StartDate",
+			description: "Enter a startdate",
 			inputType: "date",
 		}),
 	endDate: CampaignsSchema.shape.endDate.optional().register(fieldRegistry, {
-		id: "crm-campaign-endDate-update",
+		id: "customer-relations-campaigns-endDate-update",
 		type: "field",
-		label: "End Date",
-		description: "Enter the end date of the campaign",
+		label: "EndDate",
+		description: "Enter an enddate",
 		inputType: "date",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateCampaignSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateCampaignSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -117,7 +116,7 @@ const UpdateCampaignForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateCampaignSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Campaign</form.SubmitButton>

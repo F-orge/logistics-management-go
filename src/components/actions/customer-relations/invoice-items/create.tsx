@@ -17,41 +17,46 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InvoiceItemsSchema } from "@/pocketbase/schemas/customer-relations/invoice-items";
 
-export const CreateInvoiceItemsSchema = z.object({
+export const CreateSchema = z.object({
 	invoice: InvoiceItemsSchema.shape.invoice.register(fieldRegistry, {
-		id: "crm-invoice-items-invoice-create",
+		id: "customer-relations-invoice-items-invoice-create",
 		type: "field",
 		label: "Invoice",
-		description: "Select the invoice",
+		description: "Enter an invoice",
 		inputType: "text",
 	}),
 	product: InvoiceItemsSchema.shape.product.register(fieldRegistry, {
-		id: "crm-invoice-items-product-create",
+		id: "customer-relations-invoice-items-product-create",
 		type: "field",
 		label: "Product",
-		description: "Select the product",
-		inputType: "text",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
 	}),
 	quantity: InvoiceItemsSchema.shape.quantity.register(fieldRegistry, {
-		id: "crm-invoice-items-quantity-create",
+		id: "customer-relations-invoice-items-quantity-create",
 		type: "field",
 		label: "Quantity",
-		description: "Enter the quantity",
-		inputType: "number",
+		description: "Enter a quantity",
+		inputType: "text",
 	}),
 	price: InvoiceItemsSchema.shape.price.register(fieldRegistry, {
-		id: "crm-invoice-items-price-create",
+		id: "customer-relations-invoice-items-price-create",
 		type: "field",
 		label: "Price",
-		description: "Enter the price",
+		description: "Enter a price",
 		inputType: "number",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateInvoiceItemsSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateInvoiceItemsSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -95,7 +100,7 @@ const CreateInvoiceItemsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateInvoiceItemsSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Invoice Item</form.SubmitButton>

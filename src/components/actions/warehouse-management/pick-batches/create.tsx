@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a batchnumber",
 		inputType: "text",
 	}),
+	warehouse: PickBatchesSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-pick-batches-warehouse-create",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 	status: PickBatchesSchema.shape.status.register(fieldRegistry, {
 		id: "warehouse-management-pick-batches-status-create",
 		type: "field",
@@ -53,20 +65,26 @@ export const CreateSchema = z.object({
 		description: "Enter an assigneduser",
 		inputType: "text",
 	}),
-	estimatedDuration: PickBatchesSchema.shape.estimatedDuration.register(fieldRegistry, {
-		id: "warehouse-management-pick-batches-estimatedDuration-create",
-		type: "field",
-		label: "EstimatedDuration",
-		description: "Enter an estimatedduration",
-		inputType: "number",
-	}),
-	actualDuration: PickBatchesSchema.shape.actualDuration.register(fieldRegistry, {
-		id: "warehouse-management-pick-batches-actualDuration-create",
-		type: "field",
-		label: "ActualDuration",
-		description: "Enter an actualduration",
-		inputType: "number",
-	}),
+	estimatedDuration: PickBatchesSchema.shape.estimatedDuration.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-pick-batches-estimatedDuration-create",
+			type: "field",
+			label: "EstimatedDuration",
+			description: "Enter an estimatedduration",
+			inputType: "number",
+		},
+	),
+	actualDuration: PickBatchesSchema.shape.actualDuration.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-pick-batches-actualDuration-create",
+			type: "field",
+			label: "ActualDuration",
+			description: "Enter an actualduration",
+			inputType: "number",
+		},
+	),
 	totalItems: PickBatchesSchema.shape.totalItems.register(fieldRegistry, {
 		id: "warehouse-management-pick-batches-totalItems-create",
 		type: "field",
@@ -74,13 +92,16 @@ export const CreateSchema = z.object({
 		description: "Enter a totalitems",
 		inputType: "number",
 	}),
-	completedItems: PickBatchesSchema.shape.completedItems.register(fieldRegistry, {
-		id: "warehouse-management-pick-batches-completedItems-create",
-		type: "field",
-		label: "CompletedItems",
-		description: "Enter a completeditems",
-		inputType: "number",
-	}),
+	completedItems: PickBatchesSchema.shape.completedItems.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-pick-batches-completedItems-create",
+			type: "field",
+			label: "CompletedItems",
+			description: "Enter a completeditems",
+			inputType: "number",
+		},
+	),
 	startedAt: PickBatchesSchema.shape.startedAt.register(fieldRegistry, {
 		id: "warehouse-management-pick-batches-startedAt-create",
 		type: "field",
@@ -101,7 +122,7 @@ export const CreateSchema = z.object({
 		label: "Items",
 		description: "Enter an items",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

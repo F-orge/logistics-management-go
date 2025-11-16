@@ -32,6 +32,18 @@ export const CreateSchema = z.object({
 		description: "Enter a packagenumber",
 		inputType: "text",
 	}),
+	warehouse: PackagesSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-packages-warehouse-create",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 	type: PackagesSchema.shape.type.register(fieldRegistry, {
 		id: "warehouse-management-packages-type-create",
 		type: "field",
@@ -102,20 +114,23 @@ export const CreateSchema = z.object({
 		description: "Enter an ishazmat",
 		inputType: "text",
 	}),
-	requireSignature: PackagesSchema.shape.requireSignature.register(fieldRegistry, {
-		id: "warehouse-management-packages-requireSignature-create",
-		type: "field",
-		label: "RequireSignature",
-		description: "Enter a requiresignature",
-		inputType: "text",
-	}),
+	requireSignature: PackagesSchema.shape.requireSignature.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-packages-requireSignature-create",
+			type: "field",
+			label: "RequireSignature",
+			description: "Enter a requiresignature",
+			inputType: "text",
+		},
+	),
 	insuranceValue: PackagesSchema.shape.insuranceValue.register(fieldRegistry, {
 		id: "warehouse-management-packages-insuranceValue-create",
 		type: "field",
 		label: "InsuranceValue",
 		description: "Enter an insurancevalue",
 		inputType: "number",
-	})
+	}),
 });
 
 const FormOption = formOptions({

@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a package",
 		inputType: "text",
 	}),
+	product: PackageItemsSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-package-items-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	batch: PackageItemsSchema.shape.batch.register(fieldRegistry, {
 		id: "warehouse-management-package-items-batch-create",
 		type: "field",
@@ -52,7 +64,7 @@ export const CreateSchema = z.object({
 		label: "ExpiryDate",
 		description: "Enter an expirydate",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

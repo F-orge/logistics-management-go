@@ -18,6 +18,18 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PutawayRulesSchema } from "@/pocketbase/schemas/warehouse-management/putaway-rules";
 
 export const CreateSchema = z.object({
+	product: PutawayRulesSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-putaway-rules-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	client: PutawayRulesSchema.shape.client.register(fieldRegistry, {
 		id: "warehouse-management-putaway-rules-client-create",
 		type: "field",
@@ -25,13 +37,28 @@ export const CreateSchema = z.object({
 		description: "Enter a client",
 		inputType: "text",
 	}),
-	preferredLocation: PutawayRulesSchema.shape.preferredLocation.register(fieldRegistry, {
-		id: "warehouse-management-putaway-rules-preferredLocation-create",
+	warehouse: PutawayRulesSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-putaway-rules-warehouse-create",
 		type: "field",
-		label: "PreferredLocation",
-		description: "Enter a preferredlocation",
-		inputType: "text",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
 	}),
+	preferredLocation: PutawayRulesSchema.shape.preferredLocation.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-putaway-rules-preferredLocation-create",
+			type: "field",
+			label: "PreferredLocation",
+			description: "Enter a preferredlocation",
+			inputType: "text",
+		},
+	),
 	locationType: PutawayRulesSchema.shape.locationType.register(fieldRegistry, {
 		id: "warehouse-management-putaway-rules-locationType-create",
 		type: "field",
@@ -60,41 +87,49 @@ export const CreateSchema = z.object({
 		description: "Enter a maxquantity",
 		inputType: "number",
 	}),
-	weightThreshold: PutawayRulesSchema.shape.weightThreshold.register(fieldRegistry, {
-		id: "warehouse-management-putaway-rules-weightThreshold-create",
-		type: "field",
-		label: "WeightThreshold",
-		description: "Enter a weightthreshold",
-		inputType: "text",
-	}),
-	volumeThreshold: PutawayRulesSchema.shape.volumeThreshold.register(fieldRegistry, {
-		id: "warehouse-management-putaway-rules-volumeThreshold-create",
-		type: "field",
-		label: "VolumeThreshold",
-		description: "Enter a volumethreshold",
-		inputType: "text",
-	}),
-	requireTemperatureControl: PutawayRulesSchema.shape.requireTemperatureControl.register(fieldRegistry, {
-		id: "warehouse-management-putaway-rules-requireTemperatureControl-create",
-		type: "field",
-		label: "RequireTemperatureControl",
-		description: "Enter a requiretemperaturecontrol",
-		inputType: "text",
-	}),
-	requireHazmatApproval: PutawayRulesSchema.shape.requireHazmatApproval.register(fieldRegistry, {
-		id: "warehouse-management-putaway-rules-requireHazmatApproval-create",
-		type: "field",
-		label: "RequireHazmatApproval",
-		description: "Enter a requirehazmatapproval",
-		inputType: "text",
-	}),
+	weightThreshold: PutawayRulesSchema.shape.weightThreshold.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-putaway-rules-weightThreshold-create",
+			type: "field",
+			label: "WeightThreshold",
+			description: "Enter a weightthreshold",
+			inputType: "text",
+		},
+	),
+	volumeThreshold: PutawayRulesSchema.shape.volumeThreshold.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-putaway-rules-volumeThreshold-create",
+			type: "field",
+			label: "VolumeThreshold",
+			description: "Enter a volumethreshold",
+			inputType: "text",
+		},
+	),
+	requireTemperatureControl:
+		PutawayRulesSchema.shape.requireTemperatureControl.register(fieldRegistry, {
+			id: "warehouse-management-putaway-rules-requireTemperatureControl-create",
+			type: "field",
+			label: "RequireTemperatureControl",
+			description: "Enter a requiretemperaturecontrol",
+			inputType: "text",
+		}),
+	requireHazmatApproval:
+		PutawayRulesSchema.shape.requireHazmatApproval.register(fieldRegistry, {
+			id: "warehouse-management-putaway-rules-requireHazmatApproval-create",
+			type: "field",
+			label: "RequireHazmatApproval",
+			description: "Enter a requirehazmatapproval",
+			inputType: "text",
+		}),
 	isActive: PutawayRulesSchema.shape.isActive.register(fieldRegistry, {
 		id: "warehouse-management-putaway-rules-isActive-create",
 		type: "field",
 		label: "IsActive",
 		description: "Enter an isactive",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

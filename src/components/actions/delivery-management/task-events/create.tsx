@@ -17,59 +17,55 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TaskEventsSchema } from "@/pocketbase/schemas/delivery-management/task-events";
 
-export const CreateTaskEventSchema = z.object({
+export const CreateSchema = z.object({
 	task: TaskEventsSchema.shape.task.register(fieldRegistry, {
-		id: "dm-task-events-task-create",
+		id: "delivery-management-task-events-task-create",
 		type: "field",
 		label: "Task",
-		description: "Enter the task identifier",
+		description: "Enter a task",
 		inputType: "text",
 	}),
-	status: TaskEventsSchema.shape.status.optional().register(fieldRegistry, {
-		id: "dm-task-events-status-create",
+	status: TaskEventsSchema.shape.status.register(fieldRegistry, {
+		id: "delivery-management-task-events-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the task event status (optional)",
-		inputType: "select",
-	}),
-	reason: TaskEventsSchema.shape.reason.optional().register(fieldRegistry, {
-		id: "dm-task-events-reason-create",
-		type: "field",
-		label: "Reason",
-		description: "Enter the reason (optional)",
+		description: "Enter a status",
 		inputType: "text",
 	}),
-	notes: TaskEventsSchema.shape.notes.optional().register(fieldRegistry, {
-		id: "dm-task-events-notes-create",
+	reason: TaskEventsSchema.shape.reason.register(fieldRegistry, {
+		id: "delivery-management-task-events-reason-create",
+		type: "field",
+		label: "Reason",
+		description: "Enter a reason",
+		inputType: "text",
+	}),
+	notes: TaskEventsSchema.shape.notes.register(fieldRegistry, {
+		id: "delivery-management-task-events-notes-create",
 		type: "field",
 		label: "Notes",
-		description: "Enter additional notes (optional)",
-		inputType: "textarea",
+		description: "Enter a notes",
+		inputType: "text",
 	}),
-	coordinates: TaskEventsSchema.shape.coordinates
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-task-events-coordinates-create",
-			type: "field",
-			label: "Coordinates",
-			description: "Enter the GPS coordinates (optional)",
-			inputType: "text",
-		}),
-	timestamp: TaskEventsSchema.shape.timestamp
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-task-events-timestamp-create",
-			type: "field",
-			label: "Timestamp",
-			description: "Select the timestamp (optional)",
-			inputType: "date",
-		}),
+	coordinates: TaskEventsSchema.shape.coordinates.register(fieldRegistry, {
+		id: "delivery-management-task-events-coordinates-create",
+		type: "field",
+		label: "Coordinates",
+		description: "Enter a coordinates",
+		inputType: "text",
+	}),
+	timestamp: TaskEventsSchema.shape.timestamp.register(fieldRegistry, {
+		id: "delivery-management-task-events-timestamp-create",
+		type: "field",
+		label: "Timestamp",
+		description: "Enter a timestamp",
+		inputType: "date",
+	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateTaskEventSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateTaskEventSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -113,7 +109,7 @@ const CreateTaskEventForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateTaskEventSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Task Event</form.SubmitButton>

@@ -20,19 +20,35 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	salesOrder: PackagesSchema.shape.salesOrder.optional().register(fieldRegistry, {
-		id: "warehouse-management-packages-salesOrder-update",
+	salesOrder: PackagesSchema.shape.salesOrder
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-packages-salesOrder-update",
+			type: "field",
+			label: "SalesOrder",
+			description: "Enter a salesorder",
+			inputType: "text",
+		}),
+	packageNumber: PackagesSchema.shape.packageNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-packages-packageNumber-update",
+			type: "field",
+			label: "PackageNumber",
+			description: "Enter a packagenumber",
+			inputType: "text",
+		}),
+	warehouse: PackagesSchema.shape.warehouse.optional().register(fieldRegistry, {
+		id: "warehouse-management-packages-warehouse-update",
 		type: "field",
-		label: "SalesOrder",
-		description: "Enter a salesorder",
-		inputType: "text",
-	}),
-	packageNumber: PackagesSchema.shape.packageNumber.optional().register(fieldRegistry, {
-		id: "warehouse-management-packages-packageNumber-update",
-		type: "field",
-		label: "PackageNumber",
-		description: "Enter a packagenumber",
-		inputType: "text",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
 	}),
 	type: PackagesSchema.shape.type.optional().register(fieldRegistry, {
 		id: "warehouse-management-packages-type-update",
@@ -69,13 +85,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a height",
 		inputType: "number",
 	}),
-	packedByUser: PackagesSchema.shape.packedByUser.optional().register(fieldRegistry, {
-		id: "warehouse-management-packages-packedByUser-update",
-		type: "field",
-		label: "PackedByUser",
-		description: "Enter a packedbyuser",
-		inputType: "text",
-	}),
+	packedByUser: PackagesSchema.shape.packedByUser
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-packages-packedByUser-update",
+			type: "field",
+			label: "PackedByUser",
+			description: "Enter a packedbyuser",
+			inputType: "text",
+		}),
 	packedAt: PackagesSchema.shape.packedAt.optional().register(fieldRegistry, {
 		id: "warehouse-management-packages-packedAt-update",
 		type: "field",
@@ -104,20 +122,24 @@ export const UpdateSchema = z.object({
 		description: "Enter an ishazmat",
 		inputType: "text",
 	}),
-	requireSignature: PackagesSchema.shape.requireSignature.optional().register(fieldRegistry, {
-		id: "warehouse-management-packages-requireSignature-update",
-		type: "field",
-		label: "RequireSignature",
-		description: "Enter a requiresignature",
-		inputType: "text",
-	}),
-	insuranceValue: PackagesSchema.shape.insuranceValue.optional().register(fieldRegistry, {
-		id: "warehouse-management-packages-insuranceValue-update",
-		type: "field",
-		label: "InsuranceValue",
-		description: "Enter an insurancevalue",
-		inputType: "number",
-	})
+	requireSignature: PackagesSchema.shape.requireSignature
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-packages-requireSignature-update",
+			type: "field",
+			label: "RequireSignature",
+			description: "Enter a requiresignature",
+			inputType: "text",
+		}),
+	insuranceValue: PackagesSchema.shape.insuranceValue
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-packages-insuranceValue-update",
+			type: "field",
+			label: "InsuranceValue",
+			description: "Enter an insurancevalue",
+			inputType: "number",
+		}),
 });
 
 const FormOption = formOptions({

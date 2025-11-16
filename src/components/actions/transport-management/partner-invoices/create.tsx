@@ -18,13 +18,16 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PartnerInvoiceSchema } from "@/pocketbase/schemas/transport-management/partner-invoices";
 
 export const CreateSchema = z.object({
-	invoiceNumber: PartnerInvoiceSchema.shape.invoiceNumber.register(fieldRegistry, {
-		id: "transport-management-partner-invoices-invoiceNumber-create",
-		type: "field",
-		label: "InvoiceNumber",
-		description: "Enter an invoicenumber",
-		inputType: "text",
-	}),
+	invoiceNumber: PartnerInvoiceSchema.shape.invoiceNumber.register(
+		fieldRegistry,
+		{
+			id: "transport-management-partner-invoices-invoiceNumber-create",
+			type: "field",
+			label: "InvoiceNumber",
+			description: "Enter an invoicenumber",
+			inputType: "text",
+		},
+	),
 	invoiceDate: PartnerInvoiceSchema.shape.invoiceDate.register(fieldRegistry, {
 		id: "transport-management-partner-invoices-invoiceDate-create",
 		type: "field",
@@ -52,7 +55,7 @@ export const CreateSchema = z.object({
 		label: "Items",
 		description: "Enter an items",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

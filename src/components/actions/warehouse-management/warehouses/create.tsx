@@ -87,7 +87,7 @@ export const CreateSchema = z.object({
 		label: "Location",
 		description: "Enter a location",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

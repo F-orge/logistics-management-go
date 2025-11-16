@@ -20,20 +20,24 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	returnNumber: ReturnsSchema.shape.returnNumber.optional().register(fieldRegistry, {
-		id: "warehouse-management-returns-returnNumber-update",
-		type: "field",
-		label: "ReturnNumber",
-		description: "Enter a returnnumber",
-		inputType: "text",
-	}),
-	salesOrder: ReturnsSchema.shape.salesOrder.optional().register(fieldRegistry, {
-		id: "warehouse-management-returns-salesOrder-update",
-		type: "field",
-		label: "SalesOrder",
-		description: "Enter a salesorder",
-		inputType: "text",
-	}),
+	returnNumber: ReturnsSchema.shape.returnNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-returns-returnNumber-update",
+			type: "field",
+			label: "ReturnNumber",
+			description: "Enter a returnnumber",
+			inputType: "text",
+		}),
+	salesOrder: ReturnsSchema.shape.salesOrder
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-returns-salesOrder-update",
+			type: "field",
+			label: "SalesOrder",
+			description: "Enter a salesorder",
+			inputType: "text",
+		}),
 	client: ReturnsSchema.shape.client.optional().register(fieldRegistry, {
 		id: "warehouse-management-returns-client-update",
 		type: "field",
@@ -54,7 +58,7 @@ export const UpdateSchema = z.object({
 		label: "Reason",
 		description: "Enter a reason",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

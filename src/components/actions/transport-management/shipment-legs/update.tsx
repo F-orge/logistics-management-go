@@ -20,34 +20,54 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	legSequence: ShipmentLegsSchema.shape.legSequence.optional().register(fieldRegistry, {
-		id: "transport-management-shipment-legs-legSequence-update",
+	legSequence: ShipmentLegsSchema.shape.legSequence
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-shipment-legs-legSequence-update",
+			type: "field",
+			label: "LegSequence",
+			description: "Enter a legsequence",
+			inputType: "number",
+		}),
+	startLocation: ShipmentLegsSchema.shape.startLocation
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-shipment-legs-startLocation-update",
+			type: "field",
+			label: "StartLocation",
+			description: "Enter a startlocation",
+			inputType: "text",
+		}),
+	endLocation: ShipmentLegsSchema.shape.endLocation
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-shipment-legs-endLocation-update",
+			type: "field",
+			label: "EndLocation",
+			description: "Enter an endlocation",
+			inputType: "text",
+		}),
+	carrier: ShipmentLegsSchema.shape.carrier.optional().register(fieldRegistry, {
+		id: "transport-management-shipment-legs-carrier-update",
 		type: "field",
-		label: "LegSequence",
-		description: "Enter a legsequence",
-		inputType: "number",
+		label: "Carrier",
+		description: "Enter a carrier",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementCarriers,
+			displayField: "name",
+			relationshipName: "carrier",
+		},
 	}),
-	startLocation: ShipmentLegsSchema.shape.startLocation.optional().register(fieldRegistry, {
-		id: "transport-management-shipment-legs-startLocation-update",
-		type: "field",
-		label: "StartLocation",
-		description: "Enter a startlocation",
-		inputType: "text",
-	}),
-	endLocation: ShipmentLegsSchema.shape.endLocation.optional().register(fieldRegistry, {
-		id: "transport-management-shipment-legs-endLocation-update",
-		type: "field",
-		label: "EndLocation",
-		description: "Enter an endlocation",
-		inputType: "text",
-	}),
-	interalTrip: ShipmentLegsSchema.shape.interalTrip.optional().register(fieldRegistry, {
-		id: "transport-management-shipment-legs-interalTrip-update",
-		type: "field",
-		label: "InteralTrip",
-		description: "Enter an interaltrip",
-		inputType: "text",
-	}),
+	interalTrip: ShipmentLegsSchema.shape.interalTrip
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-shipment-legs-interalTrip-update",
+			type: "field",
+			label: "InteralTrip",
+			description: "Enter an interaltrip",
+			inputType: "text",
+		}),
 	status: ShipmentLegsSchema.shape.status.optional().register(fieldRegistry, {
 		id: "transport-management-shipment-legs-status-update",
 		type: "field",
@@ -55,13 +75,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a status",
 		inputType: "select",
 	}),
-	shipment: ShipmentLegsSchema.shape.shipment.optional().register(fieldRegistry, {
-		id: "transport-management-shipment-legs-shipment-update",
-		type: "field",
-		label: "Shipment",
-		description: "Enter a shipment",
-		inputType: "text",
-	})
+	shipment: ShipmentLegsSchema.shape.shipment
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-shipment-legs-shipment-update",
+			type: "field",
+			label: "Shipment",
+			description: "Enter a shipment",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

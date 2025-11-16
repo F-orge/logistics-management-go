@@ -18,6 +18,18 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InventoryAdjustmentSchema } from "@/pocketbase/schemas/warehouse-management/inventory-adjustment";
 
 export const CreateSchema = z.object({
+	product: InventoryAdjustmentSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-inventory-adjustment-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	user: InventoryAdjustmentSchema.shape.user.register(fieldRegistry, {
 		id: "warehouse-management-inventory-adjustment-user-create",
 		type: "field",
@@ -25,13 +37,16 @@ export const CreateSchema = z.object({
 		description: "Enter an user",
 		inputType: "text",
 	}),
-	quantityChange: InventoryAdjustmentSchema.shape.quantityChange.register(fieldRegistry, {
-		id: "warehouse-management-inventory-adjustment-quantityChange-create",
-		type: "field",
-		label: "QuantityChange",
-		description: "Enter a quantitychange",
-		inputType: "text",
-	}),
+	quantityChange: InventoryAdjustmentSchema.shape.quantityChange.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-inventory-adjustment-quantityChange-create",
+			type: "field",
+			label: "QuantityChange",
+			description: "Enter a quantitychange",
+			inputType: "text",
+		},
+	),
 	reason: InventoryAdjustmentSchema.shape.reason.register(fieldRegistry, {
 		id: "warehouse-management-inventory-adjustment-reason-create",
 		type: "field",
@@ -45,7 +60,19 @@ export const CreateSchema = z.object({
 		label: "Notes",
 		description: "Enter a notes",
 		inputType: "text",
-	})
+	}),
+	warehouse: InventoryAdjustmentSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-inventory-adjustment-warehouse-create",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 });
 
 const FormOption = formOptions({

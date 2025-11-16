@@ -38,7 +38,7 @@ export const CreateSchema = z.object({
 		label: "TotalDuration",
 		description: "Enter a totalduration",
 		inputType: "number",
-	})
+	}),
 });
 
 const FormOption = formOptions({

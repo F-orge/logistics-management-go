@@ -20,20 +20,38 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	salesOrder: SalesOrderItemsSchema.shape.salesOrder.optional().register(fieldRegistry, {
-		id: "warehouse-management-sales-order-items-salesOrder-update",
-		type: "field",
-		label: "SalesOrder",
-		description: "Enter a salesorder",
-		inputType: "text",
-	}),
-	quantityOrdered: SalesOrderItemsSchema.shape.quantityOrdered.optional().register(fieldRegistry, {
-		id: "warehouse-management-sales-order-items-quantityOrdered-update",
-		type: "field",
-		label: "QuantityOrdered",
-		description: "Enter a quantityordered",
-		inputType: "number",
-	})
+	salesOrder: SalesOrderItemsSchema.shape.salesOrder
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-sales-order-items-salesOrder-update",
+			type: "field",
+			label: "SalesOrder",
+			description: "Enter a salesorder",
+			inputType: "text",
+		}),
+	product: SalesOrderItemsSchema.shape.product
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-sales-order-items-product-update",
+			type: "field",
+			label: "Product",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
+		}),
+	quantityOrdered: SalesOrderItemsSchema.shape.quantityOrdered
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-sales-order-items-quantityOrdered-update",
+			type: "field",
+			label: "QuantityOrdered",
+			description: "Enter a quantityordered",
+			inputType: "number",
+		}),
 });
 
 const FormOption = formOptions({

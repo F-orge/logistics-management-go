@@ -20,13 +20,43 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	threshold: ReorderPointsSchema.shape.threshold.optional().register(fieldRegistry, {
-		id: "warehouse-management-reorder-points-threshold-update",
-		type: "field",
-		label: "Threshold",
-		description: "Enter a threshold",
-		inputType: "text",
-	})
+	product: ReorderPointsSchema.shape.product
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-reorder-points-product-update",
+			type: "field",
+			label: "Product",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
+		}),
+	threshold: ReorderPointsSchema.shape.threshold
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-reorder-points-threshold-update",
+			type: "field",
+			label: "Threshold",
+			description: "Enter a threshold",
+			inputType: "text",
+		}),
+	warehouse: ReorderPointsSchema.shape.warehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-reorder-points-warehouse-update",
+			type: "field",
+			label: "Warehouse",
+			description: "Enter a warehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "warehouse",
+			},
+		}),
 });
 
 const FormOption = formOptions({

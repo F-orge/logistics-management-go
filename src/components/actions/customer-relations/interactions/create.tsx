@@ -17,73 +17,70 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InteractionsSchema } from "@/pocketbase/schemas/customer-relations/interactions";
 
-export const CreateInteractionsSchema = z.object({
+export const CreateSchema = z.object({
 	contact: InteractionsSchema.shape.contact.register(fieldRegistry, {
-		id: "crm-interactions-contact-create",
+		id: "customer-relations-interactions-contact-create",
 		type: "field",
 		label: "Contact",
-		description: "Select the contact",
-		inputType: "text",
+		description: "Enter a contact",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsContacts,
+			displayField: "name",
+			relationshipName: "contact",
+		},
 	}),
 	user: InteractionsSchema.shape.user.register(fieldRegistry, {
-		id: "crm-interactions-user-create",
+		id: "customer-relations-interactions-user-create",
 		type: "field",
 		label: "User",
-		description: "Select the user",
+		description: "Enter an user",
 		inputType: "text",
 	}),
 	case: InteractionsSchema.shape.case.register(fieldRegistry, {
-		id: "crm-interactions-case-create",
+		id: "customer-relations-interactions-case-create",
 		type: "field",
 		label: "Case",
-		description: "Select the case (optional)",
+		description: "Enter a case",
 		inputType: "text",
 	}),
 	type: InteractionsSchema.shape.type.register(fieldRegistry, {
-		id: "crm-interactions-type-create",
+		id: "customer-relations-interactions-type-create",
 		type: "field",
 		label: "Type",
-		description: "Select the interaction type (optional)",
+		description: "Enter a type",
 		inputType: "select",
 	}),
 	outcome: InteractionsSchema.shape.outcome.register(fieldRegistry, {
-		id: "crm-interactions-outcome-create",
+		id: "customer-relations-interactions-outcome-create",
 		type: "field",
 		label: "Outcome",
-		description: "Enter the outcome (optional)",
+		description: "Enter an outcome",
 		inputType: "text",
 	}),
 	notes: InteractionsSchema.shape.notes.register(fieldRegistry, {
-		id: "crm-interactions-notes-create",
+		id: "customer-relations-interactions-notes-create",
 		type: "field",
 		label: "Notes",
-		description: "Enter notes (optional)",
-		inputType: "textarea",
-	}),
-	attachments: InteractionsSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-interactions-attachments-create",
-		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments (optional)",
-		isArray: true,
+		description: "Enter a notes",
+		inputType: "text",
 	}),
 	interactionDate: InteractionsSchema.shape.interactionDate.register(
 		fieldRegistry,
 		{
-			id: "crm-interactions-interactionDate-create",
+			id: "customer-relations-interactions-interactionDate-create",
 			type: "field",
-			label: "Interaction Date",
-			description: "Select the interaction date (optional)",
+			label: "InteractionDate",
+			description: "Enter an interactiondate",
 			inputType: "date",
 		},
 	),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateInteractionsSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateInteractionsSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -127,7 +124,7 @@ const CreateInteractionsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateInteractionsSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Interaction</form.SubmitButton>

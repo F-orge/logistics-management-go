@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a tasknumber",
 		inputType: "text",
 	}),
+	warehouse: TasksSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-tasks-warehouse-create",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 	user: TasksSchema.shape.user.register(fieldRegistry, {
 		id: "warehouse-management-tasks-user-create",
 		type: "field",
@@ -53,6 +65,18 @@ export const CreateSchema = z.object({
 		description: "Enter a priority",
 		inputType: "number",
 	}),
+	pickBatchId: TasksSchema.shape.pickBatchId.register(fieldRegistry, {
+		id: "warehouse-management-tasks-pickBatchId-create",
+		type: "field",
+		label: "PickBatchId",
+		description: "Enter a pickbatchid",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementPickBatches,
+			displayField: "name",
+			relationshipName: "pickBatchId",
+		},
+	}),
 	instructions: TasksSchema.shape.instructions.register(fieldRegistry, {
 		id: "warehouse-management-tasks-instructions-create",
 		type: "field",
@@ -80,7 +104,7 @@ export const CreateSchema = z.object({
 		label: "EndTime",
 		description: "Enter an endtime",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

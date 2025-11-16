@@ -18,20 +18,38 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { VehicleMaintenanceSchema } from "@/pocketbase/schemas/transport-management/vehicle-maintenance";
 
 export const CreateSchema = z.object({
-	serviceDate: VehicleMaintenanceSchema.shape.serviceDate.register(fieldRegistry, {
-		id: "transport-management-vehicle-maintenance-serviceDate-create",
+	vehicle: VehicleMaintenanceSchema.shape.vehicle.register(fieldRegistry, {
+		id: "transport-management-vehicle-maintenance-vehicle-create",
 		type: "field",
-		label: "ServiceDate",
-		description: "Enter a servicedate",
-		inputType: "date",
+		label: "Vehicle",
+		description: "Enter a vehicle",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementVehicles,
+			displayField: "name",
+			relationshipName: "vehicle",
+		},
 	}),
-	serviceType: VehicleMaintenanceSchema.shape.serviceType.register(fieldRegistry, {
-		id: "transport-management-vehicle-maintenance-serviceType-create",
-		type: "field",
-		label: "ServiceType",
-		description: "Enter a servicetype",
-		inputType: "date",
-	}),
+	serviceDate: VehicleMaintenanceSchema.shape.serviceDate.register(
+		fieldRegistry,
+		{
+			id: "transport-management-vehicle-maintenance-serviceDate-create",
+			type: "field",
+			label: "ServiceDate",
+			description: "Enter a servicedate",
+			inputType: "date",
+		},
+	),
+	serviceType: VehicleMaintenanceSchema.shape.serviceType.register(
+		fieldRegistry,
+		{
+			id: "transport-management-vehicle-maintenance-serviceType-create",
+			type: "field",
+			label: "ServiceType",
+			description: "Enter a servicetype",
+			inputType: "date",
+		},
+	),
 	cost: VehicleMaintenanceSchema.shape.cost.register(fieldRegistry, {
 		id: "transport-management-vehicle-maintenance-cost-create",
 		type: "field",
@@ -45,7 +63,7 @@ export const CreateSchema = z.object({
 		label: "Notes",
 		description: "Enter a notes",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

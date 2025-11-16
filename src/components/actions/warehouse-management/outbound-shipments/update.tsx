@@ -20,34 +20,70 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	salesOrder: OutboundShipmentsSchema.shape.salesOrder.optional().register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipments-salesOrder-update",
-		type: "field",
-		label: "SalesOrder",
-		description: "Enter a salesorder",
-		inputType: "text",
-	}),
-	status: OutboundShipmentsSchema.shape.status.optional().register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipments-status-update",
-		type: "field",
-		label: "Status",
-		description: "Enter a status",
-		inputType: "text",
-	}),
-	trackingNumber: OutboundShipmentsSchema.shape.trackingNumber.optional().register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipments-trackingNumber-update",
-		type: "field",
-		label: "TrackingNumber",
-		description: "Enter a trackingnumber",
-		inputType: "text",
-	}),
-	items: OutboundShipmentsSchema.shape.items.optional().register(fieldRegistry, {
-		id: "warehouse-management-outbound-shipments-items-update",
-		type: "field",
-		label: "Items",
-		description: "Enter an items",
-		inputType: "text",
-	})
+	salesOrder: OutboundShipmentsSchema.shape.salesOrder
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-outbound-shipments-salesOrder-update",
+			type: "field",
+			label: "SalesOrder",
+			description: "Enter a salesorder",
+			inputType: "text",
+		}),
+	status: OutboundShipmentsSchema.shape.status
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-outbound-shipments-status-update",
+			type: "field",
+			label: "Status",
+			description: "Enter a status",
+			inputType: "text",
+		}),
+	trackingNumber: OutboundShipmentsSchema.shape.trackingNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-outbound-shipments-trackingNumber-update",
+			type: "field",
+			label: "TrackingNumber",
+			description: "Enter a trackingnumber",
+			inputType: "text",
+		}),
+	carrier: OutboundShipmentsSchema.shape.carrier
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-outbound-shipments-carrier-update",
+			type: "field",
+			label: "Carrier",
+			description: "Enter a carrier",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.TransportManagementCarriers,
+				displayField: "name",
+				relationshipName: "carrier",
+			},
+		}),
+	items: OutboundShipmentsSchema.shape.items
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-outbound-shipments-items-update",
+			type: "field",
+			label: "Items",
+			description: "Enter an items",
+			inputType: "text",
+		}),
+	warehouse: OutboundShipmentsSchema.shape.warehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-outbound-shipments-warehouse-update",
+			type: "field",
+			label: "Warehouse",
+			description: "Enter a warehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "warehouse",
+			},
+		}),
 });
 
 const FormOption = formOptions({

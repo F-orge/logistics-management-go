@@ -48,13 +48,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a state",
 		inputType: "text",
 	}),
-	postalCode: WarehousesSchema.shape.postalCode.optional().register(fieldRegistry, {
-		id: "warehouse-management-warehouses-postalCode-update",
-		type: "field",
-		label: "PostalCode",
-		description: "Enter a postalcode",
-		inputType: "text",
-	}),
+	postalCode: WarehousesSchema.shape.postalCode
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-warehouses-postalCode-update",
+			type: "field",
+			label: "PostalCode",
+			description: "Enter a postalcode",
+			inputType: "text",
+		}),
 	country: WarehousesSchema.shape.country.optional().register(fieldRegistry, {
 		id: "warehouse-management-warehouses-country-update",
 		type: "field",
@@ -69,13 +71,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a timezone",
 		inputType: "text",
 	}),
-	contactEmail: WarehousesSchema.shape.contactEmail.optional().register(fieldRegistry, {
-		id: "warehouse-management-warehouses-contactEmail-update",
-		type: "field",
-		label: "ContactEmail",
-		description: "Enter a contactemail",
-		inputType: "text",
-	}),
+	contactEmail: WarehousesSchema.shape.contactEmail
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-warehouses-contactEmail-update",
+			type: "field",
+			label: "ContactEmail",
+			description: "Enter a contactemail",
+			inputType: "text",
+		}),
 	isActive: WarehousesSchema.shape.isActive.optional().register(fieldRegistry, {
 		id: "warehouse-management-warehouses-isActive-update",
 		type: "field",
@@ -89,7 +93,7 @@ export const UpdateSchema = z.object({
 		label: "Location",
 		description: "Enter a location",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

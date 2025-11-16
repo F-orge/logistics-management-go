@@ -20,59 +20,59 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TaskEventsSchema } from "@/pocketbase/schemas/delivery-management/task-events";
 import { CreateTaskEventSchema } from "./create";
 
-export const UpdateTaskEventSchema = z.object({
+export const UpdateSchema = z.object({
 	task: TaskEventsSchema.shape.task.optional().register(fieldRegistry, {
-		id: "dm-task-events-task-update",
+		id: "delivery-management-task-events-task-update",
 		type: "field",
 		label: "Task",
-		description: "Enter the task identifier",
+		description: "Enter a task",
 		inputType: "text",
 	}),
 	status: TaskEventsSchema.shape.status.optional().register(fieldRegistry, {
-		id: "dm-task-events-status-update",
+		id: "delivery-management-task-events-status-update",
 		type: "field",
 		label: "Status",
-		description: "Select the task event status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
 	reason: TaskEventsSchema.shape.reason.optional().register(fieldRegistry, {
-		id: "dm-task-events-reason-update",
+		id: "delivery-management-task-events-reason-update",
 		type: "field",
 		label: "Reason",
-		description: "Enter the reason (optional)",
+		description: "Enter a reason",
 		inputType: "text",
 	}),
 	notes: TaskEventsSchema.shape.notes.optional().register(fieldRegistry, {
-		id: "dm-task-events-notes-update",
+		id: "delivery-management-task-events-notes-update",
 		type: "field",
 		label: "Notes",
-		description: "Enter additional notes (optional)",
-		inputType: "textarea",
+		description: "Enter a notes",
+		inputType: "text",
 	}),
 	coordinates: TaskEventsSchema.shape.coordinates
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-task-events-coordinates-update",
+			id: "delivery-management-task-events-coordinates-update",
 			type: "field",
 			label: "Coordinates",
-			description: "Enter the GPS coordinates (optional)",
+			description: "Enter a coordinates",
 			inputType: "text",
 		}),
 	timestamp: TaskEventsSchema.shape.timestamp
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-task-events-timestamp-update",
+			id: "delivery-management-task-events-timestamp-update",
 			type: "field",
 			label: "Timestamp",
-			description: "Select the timestamp (optional)",
+			description: "Enter a timestamp",
 			inputType: "date",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateTaskEventSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateTaskEventSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -134,7 +134,7 @@ const UpdateTaskEventForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateTaskEventSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Task Event</form.SubmitButton>

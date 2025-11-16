@@ -41,13 +41,15 @@ export const UpdateSchema = z.object({
 		description: "Enter an amount",
 		inputType: "number",
 	}),
-	calculationMethod: SurchargesSchema.shape.calculationMethod.optional().register(fieldRegistry, {
-		id: "billing-management-surcharges-calculationMethod-update",
-		type: "field",
-		label: "CalculationMethod",
-		description: "Enter a calculationmethod",
-		inputType: "text",
-	}),
+	calculationMethod: SurchargesSchema.shape.calculationMethod
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-surcharges-calculationMethod-update",
+			type: "field",
+			label: "CalculationMethod",
+			description: "Enter a calculationmethod",
+			inputType: "text",
+		}),
 	isActive: SurchargesSchema.shape.isActive.optional().register(fieldRegistry, {
 		id: "billing-management-surcharges-isActive-update",
 		type: "field",
@@ -55,13 +57,15 @@ export const UpdateSchema = z.object({
 		description: "Enter an isactive",
 		inputType: "boolean",
 	}),
-	validFrom: SurchargesSchema.shape.validFrom.optional().register(fieldRegistry, {
-		id: "billing-management-surcharges-validFrom-update",
-		type: "field",
-		label: "ValidFrom",
-		description: "Enter a validfrom",
-		inputType: "date",
-	}),
+	validFrom: SurchargesSchema.shape.validFrom
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-surcharges-validFrom-update",
+			type: "field",
+			label: "ValidFrom",
+			description: "Enter a validfrom",
+			inputType: "date",
+		}),
 	validTo: SurchargesSchema.shape.validTo.optional().register(fieldRegistry, {
 		id: "billing-management-surcharges-validTo-update",
 		type: "field",
@@ -69,13 +73,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a validto",
 		inputType: "date",
 	}),
-	description: SurchargesSchema.shape.description.optional().register(fieldRegistry, {
-		id: "billing-management-surcharges-description-update",
-		type: "field",
-		label: "Description",
-		description: "Enter a description",
-		inputType: "textarea",
-	})
+	description: SurchargesSchema.shape.description
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-surcharges-description-update",
+			type: "field",
+			label: "Description",
+			description: "Enter a description",
+			inputType: "textarea",
+		}),
 });
 
 const FormOption = formOptions({

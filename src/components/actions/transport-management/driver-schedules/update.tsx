@@ -24,44 +24,43 @@ export const UpdateSchema = z.object({
 	driver: DriverSchedulesSchema.shape.driver
 		.optional()
 		.register(fieldRegistry, {
-			id: "tm-driver-schedules-driver-update",
+			id: "transport-management-driver-schedules-driver-update",
 			type: "field",
 			label: "Driver",
-			description: "Enter the driver identifier",
-			inputType: "text",
+			description: "Enter a driver",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.TransportManagementDrivers,
+				displayField: "name",
+				relationshipName: "driver",
+			},
 		}),
 	startDate: DriverSchedulesSchema.shape.startDate
 		.optional()
 		.register(fieldRegistry, {
-			id: "tm-driver-schedules-startDate-update",
+			id: "transport-management-driver-schedules-startDate-update",
 			type: "field",
-			label: "Start Date",
-			description: "Select the start date",
+			label: "StartDate",
+			description: "Enter a startdate",
 			inputType: "date",
 		}),
 	endDate: DriverSchedulesSchema.shape.endDate
 		.optional()
 		.register(fieldRegistry, {
-			id: "tm-driver-schedules-endDate-update",
+			id: "transport-management-driver-schedules-endDate-update",
 			type: "field",
-			label: "End Date",
-			description: "Select the end date",
+			label: "EndDate",
+			description: "Enter an enddate",
 			inputType: "date",
 		}),
 	reason: DriverSchedulesSchema.shape.reason
 		.optional()
 		.register(fieldRegistry, {
-			id: "tm-driver-schedules-reason-update",
+			id: "transport-management-driver-schedules-reason-update",
 			type: "field",
 			label: "Reason",
-			description: "Select the reason (optional)",
-			inputType: "select",
-			options: [
-				{ value: "vacation", label: "Vacation" },
-				{ value: "sick-leave", label: "Sick Leave" },
-				{ value: "training", label: "Training" },
-				{ value: "personal-leave", label: "Personal Leave" },
-			],
+			description: "Enter a reason",
+			inputType: "text",
 		}),
 });
 

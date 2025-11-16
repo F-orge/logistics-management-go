@@ -18,93 +18,114 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { LeadsSchema } from "@/pocketbase/schemas/customer-relations/leads";
-import { CreateLeadsSchema } from "./create";
 
-export const UpdateLeadsSchema = z.object({
+export const UpdateSchema = z.object({
 	name: LeadsSchema.shape.name.optional().register(fieldRegistry, {
-		id: "crm-leads-name-update",
+		id: "customer-relations-leads-name-update",
 		type: "field",
-		label: "Lead Name",
-		description: "Enter the lead name (optional)",
+		label: "Name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	email: LeadsSchema.shape.email.optional().register(fieldRegistry, {
-		id: "crm-leads-email-update",
+		id: "customer-relations-leads-email-update",
 		type: "field",
 		label: "Email",
-		description: "Enter the email (optional)",
-		inputType: "email",
+		description: "Enter an email",
+		inputType: "text",
 	}),
 	source: LeadsSchema.shape.source.optional().register(fieldRegistry, {
-		id: "crm-leads-source-update",
+		id: "customer-relations-leads-source-update",
 		type: "field",
 		label: "Source",
-		description: "Select the lead source (optional)",
-		inputType: "select",
+		description: "Enter a source",
+		inputType: "text",
 	}),
 	status: LeadsSchema.shape.status.optional().register(fieldRegistry, {
-		id: "crm-leads-status-update",
+		id: "customer-relations-leads-status-update",
 		type: "field",
 		label: "Status",
-		description: "Select the status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
 	score: LeadsSchema.shape.score.optional().register(fieldRegistry, {
-		id: "crm-leads-score-update",
+		id: "customer-relations-leads-score-update",
 		type: "field",
 		label: "Score",
-		description: "Enter the lead score",
+		description: "Enter a score",
 		inputType: "number",
 	}),
+	owner: LeadsSchema.shape.owner.optional().register(fieldRegistry, {
+		id: "customer-relations-leads-owner-update",
+		type: "field",
+		label: "Owner",
+		description: "Enter an owner",
+		inputType: "text",
+	}),
 	campaign: LeadsSchema.shape.campaign.optional().register(fieldRegistry, {
-		id: "crm-leads-campaign-update",
+		id: "customer-relations-leads-campaign-update",
 		type: "field",
 		label: "Campaign",
-		description: "Select the campaign (optional)",
+		description: "Enter a campaign",
 		inputType: "text",
 	}),
 	convertedAt: LeadsSchema.shape.convertedAt
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-leads-convertedAt-update",
+			id: "customer-relations-leads-convertedAt-update",
 			type: "field",
-			label: "Converted At",
-			description: "Select the conversion date (optional)",
+			label: "ConvertedAt",
+			description: "Enter a convertedat",
 			inputType: "date",
 		}),
 	convertedContact: LeadsSchema.shape.convertedContact
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-leads-convertedContact-update",
+			id: "customer-relations-leads-convertedContact-update",
 			type: "field",
-			label: "Converted Contact",
-			description: "Enter the converted contact (optional)",
-			inputType: "text",
+			label: "ConvertedContact",
+			description: "Enter a convertedcontact",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsContacts,
+				displayField: "name",
+				relationshipName: "convertedContact",
+			},
 		}),
 	convertedCompany: LeadsSchema.shape.convertedCompany
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-leads-convertedCompany-update",
+			id: "customer-relations-leads-convertedCompany-update",
 			type: "field",
-			label: "Converted Company",
-			description: "Enter the converted company (optional)",
-			inputType: "text",
+			label: "ConvertedCompany",
+			description: "Enter a convertedcompany",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsCompanies,
+				displayField: "name",
+				relationshipName: "convertedCompany",
+			},
 		}),
 	convertedOpportunity: LeadsSchema.shape.convertedOpportunity
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-leads-convertedOpportunity-update",
+			id: "customer-relations-leads-convertedOpportunity-update",
 			type: "field",
-			label: "Converted Opportunity",
-			description: "Enter the converted opportunity (optional)",
-			inputType: "text",
+			label: "ConvertedOpportunity",
+			description: "Enter a convertedopportunity",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsOpportunities,
+				displayField: "name",
+				relationshipName: "convertedOpportunity",
+			},
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateLeadsSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateLeadsSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -165,7 +186,7 @@ const UpdateLeadsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateLeadsSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Lead</form.SubmitButton>

@@ -18,13 +18,37 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TripsSchema } from "@/pocketbase/schemas/transport-management/trips";
 
 export const CreateSchema = z.object({
+	driver: TripsSchema.shape.driver.register(fieldRegistry, {
+		id: "transport-management-trips-driver-create",
+		type: "field",
+		label: "Driver",
+		description: "Enter a driver",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementDrivers,
+			displayField: "name",
+			relationshipName: "driver",
+		},
+	}),
+	vehicle: TripsSchema.shape.vehicle.register(fieldRegistry, {
+		id: "transport-management-trips-vehicle-create",
+		type: "field",
+		label: "Vehicle",
+		description: "Enter a vehicle",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementVehicles,
+			displayField: "name",
+			relationshipName: "vehicle",
+		},
+	}),
 	status: TripsSchema.shape.status.register(fieldRegistry, {
 		id: "transport-management-trips-status-create",
 		type: "field",
 		label: "Status",
 		description: "Enter a status",
 		inputType: "select",
-	})
+	}),
 });
 
 const FormOption = formOptions({

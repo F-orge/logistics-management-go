@@ -18,45 +18,49 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InvoiceItemsSchema } from "@/pocketbase/schemas/customer-relations/invoice-items";
-import { CreateInvoiceItemsSchema } from "./create";
 
-export const UpdateInvoiceItemsSchema = z.object({
+export const UpdateSchema = z.object({
 	invoice: InvoiceItemsSchema.shape.invoice.optional().register(fieldRegistry, {
-		id: "crm-invoice-items-invoice-update",
+		id: "customer-relations-invoice-items-invoice-update",
 		type: "field",
 		label: "Invoice",
-		description: "Select the invoice",
+		description: "Enter an invoice",
 		inputType: "text",
 	}),
 	product: InvoiceItemsSchema.shape.product.optional().register(fieldRegistry, {
-		id: "crm-invoice-items-product-update",
+		id: "customer-relations-invoice-items-product-update",
 		type: "field",
 		label: "Product",
-		description: "Select the product",
-		inputType: "text",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
 	}),
 	quantity: InvoiceItemsSchema.shape.quantity
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-invoice-items-quantity-update",
+			id: "customer-relations-invoice-items-quantity-update",
 			type: "field",
 			label: "Quantity",
-			description: "Enter the quantity",
-			inputType: "number",
+			description: "Enter a quantity",
+			inputType: "text",
 		}),
 	price: InvoiceItemsSchema.shape.price.optional().register(fieldRegistry, {
-		id: "crm-invoice-items-price-update",
+		id: "customer-relations-invoice-items-price-update",
 		type: "field",
 		label: "Price",
-		description: "Enter the price",
+		description: "Enter a price",
 		inputType: "number",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateInvoiceItemsSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateInvoiceItemsSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -117,7 +121,7 @@ const UpdateInvoiceItemsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateInvoiceItemsSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Invoice Item</form.SubmitButton>

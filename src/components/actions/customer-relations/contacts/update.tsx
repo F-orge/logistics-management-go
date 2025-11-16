@@ -18,52 +18,63 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ContactsSchema } from "@/pocketbase/schemas/customer-relations/contacts";
-import { CreateContactsSchema } from "./create";
 
-export const UpdateContactsSchema = z.object({
+export const UpdateSchema = z.object({
 	name: ContactsSchema.shape.name.optional().register(fieldRegistry, {
-		id: "crm-contacts-name-update",
+		id: "customer-relations-contacts-name-update",
 		type: "field",
-		label: "Contact Name",
-		description: "Enter the contact name",
+		label: "Name",
+		description: "Contact name is required",
 		inputType: "text",
 	}),
 	email: ContactsSchema.shape.email.optional().register(fieldRegistry, {
-		id: "crm-contacts-email-update",
+		id: "customer-relations-contacts-email-update",
 		type: "field",
 		label: "Email",
-		description: "Enter the email address",
-		inputType: "email",
+		description: "Must be a valid email address",
+		inputType: "text",
 	}),
 	phoneNumber: ContactsSchema.shape.phoneNumber
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-contacts-phoneNumber-update",
+			id: "customer-relations-contacts-phoneNumber-update",
 			type: "field",
-			label: "Phone Number",
-			description: "Enter the phone number (optional)",
+			label: "PhoneNumber",
+			description: "Enter a phonenumber",
 			inputType: "text",
 		}),
 	jobTitle: ContactsSchema.shape.jobTitle.optional().register(fieldRegistry, {
-		id: "crm-contacts-jobTitle-update",
+		id: "customer-relations-contacts-jobTitle-update",
 		type: "field",
-		label: "Job Title",
-		description: "Enter the job title (optional)",
+		label: "JobTitle",
+		description: "Enter a jobtitle",
 		inputType: "text",
 	}),
 	company: ContactsSchema.shape.company.optional().register(fieldRegistry, {
-		id: "crm-contacts-company-update",
+		id: "customer-relations-contacts-company-update",
 		type: "field",
 		label: "Company",
-		description: "Enter the company (optional)",
+		description: "Enter a company",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsCompanies,
+			displayField: "name",
+			relationshipName: "company",
+		},
+	}),
+	owner: ContactsSchema.shape.owner.optional().register(fieldRegistry, {
+		id: "customer-relations-contacts-owner-update",
+		type: "field",
+		label: "Owner",
+		description: "Enter an owner",
 		inputType: "text",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateContactsSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateContactsSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -124,7 +135,7 @@ const UpdateContactsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateContactsSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Contact</form.SubmitButton>

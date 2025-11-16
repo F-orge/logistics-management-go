@@ -18,27 +18,33 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { PartnerInvoiceItemsSchema } from "@/pocketbase/schemas/transport-management/partner-invoice-items";
 
 export const CreateSchema = z.object({
-	partnerInvoice: PartnerInvoiceItemsSchema.shape.partnerInvoice.register(fieldRegistry, {
-		id: "transport-management-partner-invoice-items-partnerInvoice-create",
-		type: "field",
-		label: "PartnerInvoice",
-		description: "Enter a partnerinvoice",
-		inputType: "text",
-	}),
-	shipmentLeg: PartnerInvoiceItemsSchema.shape.shipmentLeg.register(fieldRegistry, {
-		id: "transport-management-partner-invoice-items-shipmentLeg-create",
-		type: "field",
-		label: "ShipmentLeg",
-		description: "Enter a shipmentleg",
-		inputType: "text",
-	}),
+	partnerInvoice: PartnerInvoiceItemsSchema.shape.partnerInvoice.register(
+		fieldRegistry,
+		{
+			id: "transport-management-partner-invoice-items-partnerInvoice-create",
+			type: "field",
+			label: "PartnerInvoice",
+			description: "Enter a partnerinvoice",
+			inputType: "text",
+		},
+	),
+	shipmentLeg: PartnerInvoiceItemsSchema.shape.shipmentLeg.register(
+		fieldRegistry,
+		{
+			id: "transport-management-partner-invoice-items-shipmentLeg-create",
+			type: "field",
+			label: "ShipmentLeg",
+			description: "Enter a shipmentleg",
+			inputType: "text",
+		},
+	),
 	amount: PartnerInvoiceItemsSchema.shape.amount.register(fieldRegistry, {
 		id: "transport-management-partner-invoice-items-amount-create",
 		type: "field",
 		label: "Amount",
 		description: "Enter an amount",
 		inputType: "number",
-	})
+	}),
 });
 
 const FormOption = formOptions({

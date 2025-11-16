@@ -25,13 +25,16 @@ export const CreateSchema = z.object({
 		description: "Enter an invoice",
 		inputType: "text",
 	}),
-	description: InvoiceLineItemsSchema.shape.description.register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-description-create",
-		type: "field",
-		label: "Description",
-		description: "Enter a description",
-		inputType: "textarea",
-	}),
+	description: InvoiceLineItemsSchema.shape.description.register(
+		fieldRegistry,
+		{
+			id: "billing-management-invoice-line-items-description-create",
+			type: "field",
+			label: "Description",
+			description: "Enter a description",
+			inputType: "textarea",
+		},
+	),
 	quantity: InvoiceLineItemsSchema.shape.quantity.register(fieldRegistry, {
 		id: "billing-management-invoice-line-items-quantity-create",
 		type: "field",
@@ -53,27 +56,36 @@ export const CreateSchema = z.object({
 		description: "Enter a taxrate",
 		inputType: "text",
 	}),
-	discountRate: InvoiceLineItemsSchema.shape.discountRate.register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-discountRate-create",
-		type: "field",
-		label: "DiscountRate",
-		description: "Enter a discountrate",
-		inputType: "text",
-	}),
-	discountRate: InvoiceLineItemsSchema.shape.discountRate.register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-discountRate-create",
-		type: "field",
-		label: "DiscountRate",
-		description: "Enter a discountrate",
-		inputType: "number",
-	}),
-	discountAmount: InvoiceLineItemsSchema.shape.discountAmount.register(fieldRegistry, {
-		id: "billing-management-invoice-line-items-discountAmount-create",
-		type: "field",
-		label: "DiscountAmount",
-		description: "Enter a discountamount",
-		inputType: "number",
-	})
+	discountRate: InvoiceLineItemsSchema.shape.discountRate.register(
+		fieldRegistry,
+		{
+			id: "billing-management-invoice-line-items-discountRate-create",
+			type: "field",
+			label: "DiscountRate",
+			description: "Enter a discountrate",
+			inputType: "text",
+		},
+	),
+	discountRate: InvoiceLineItemsSchema.shape.discountRate.register(
+		fieldRegistry,
+		{
+			id: "billing-management-invoice-line-items-discountRate-create",
+			type: "field",
+			label: "DiscountRate",
+			description: "Enter a discountrate",
+			inputType: "number",
+		},
+	),
+	discountAmount: InvoiceLineItemsSchema.shape.discountAmount.register(
+		fieldRegistry,
+		{
+			id: "billing-management-invoice-line-items-discountAmount-create",
+			type: "field",
+			label: "DiscountAmount",
+			description: "Enter a discountamount",
+			inputType: "number",
+		},
+	),
 });
 
 const FormOption = formOptions({

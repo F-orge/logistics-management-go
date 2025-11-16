@@ -18,51 +18,60 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { OpportunityProductsSchema } from "@/pocketbase/schemas/customer-relations/opportunity-products";
-import { CreateOpportunityProductsSchema } from "./create";
 
-export const UpdateOpportunityProductsSchema = z.object({
+export const UpdateSchema = z.object({
 	opportunity: OpportunityProductsSchema.shape.opportunity
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunity-products-opportunity-update",
+			id: "customer-relations-opportunity-products-opportunity-update",
 			type: "field",
 			label: "Opportunity",
-			description: "Select the opportunity (optional)",
-			inputType: "text",
+			description: "Enter an opportunity",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsOpportunities,
+				displayField: "name",
+				relationshipName: "opportunity",
+			},
 		}),
 	product: OpportunityProductsSchema.shape.product
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunity-products-product-update",
+			id: "customer-relations-opportunity-products-product-update",
 			type: "field",
 			label: "Product",
-			description: "Select the product (optional)",
-			inputType: "text",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
 		}),
 	quantity: OpportunityProductsSchema.shape.quantity
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunity-products-quantity-update",
+			id: "customer-relations-opportunity-products-quantity-update",
 			type: "field",
 			label: "Quantity",
-			description: "Enter the quantity",
-			inputType: "number",
+			description: "Enter a quantity",
+			inputType: "text",
 		}),
 	priceSnapshot: OpportunityProductsSchema.shape.priceSnapshot
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-opportunity-products-priceSnapshot-update",
+			id: "customer-relations-opportunity-products-priceSnapshot-update",
 			type: "field",
-			label: "Price Snapshot",
-			description: "Enter the price snapshot (optional)",
-			inputType: "number",
+			label: "PriceSnapshot",
+			description: "Enter a pricesnapshot",
+			inputType: "text",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateOpportunityProductsSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateOpportunityProductsSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -125,7 +134,7 @@ const UpdateOpportunityProductsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateOpportunityProductsSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Opportunity Product</form.SubmitButton>

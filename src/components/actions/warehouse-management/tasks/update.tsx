@@ -27,6 +27,18 @@ export const UpdateSchema = z.object({
 		description: "Enter a tasknumber",
 		inputType: "text",
 	}),
+	warehouse: TasksSchema.shape.warehouse.optional().register(fieldRegistry, {
+		id: "warehouse-management-tasks-warehouse-update",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 	user: TasksSchema.shape.user.optional().register(fieldRegistry, {
 		id: "warehouse-management-tasks-user-update",
 		type: "field",
@@ -55,13 +67,29 @@ export const UpdateSchema = z.object({
 		description: "Enter a priority",
 		inputType: "number",
 	}),
-	instructions: TasksSchema.shape.instructions.optional().register(fieldRegistry, {
-		id: "warehouse-management-tasks-instructions-update",
-		type: "field",
-		label: "Instructions",
-		description: "Enter an instructions",
-		inputType: "text",
-	}),
+	pickBatchId: TasksSchema.shape.pickBatchId
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-tasks-pickBatchId-update",
+			type: "field",
+			label: "PickBatchId",
+			description: "Enter a pickbatchid",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementPickBatches,
+				displayField: "name",
+				relationshipName: "pickBatchId",
+			},
+		}),
+	instructions: TasksSchema.shape.instructions
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-tasks-instructions-update",
+			type: "field",
+			label: "Instructions",
+			description: "Enter an instructions",
+			inputType: "text",
+		}),
 	notes: TasksSchema.shape.notes.optional().register(fieldRegistry, {
 		id: "warehouse-management-tasks-notes-update",
 		type: "field",
@@ -82,7 +110,7 @@ export const UpdateSchema = z.object({
 		label: "EndTime",
 		description: "Enter an endtime",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

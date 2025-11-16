@@ -31,7 +31,7 @@ export const CreateSchema = z.object({
 		label: "Coordinate",
 		description: "Enter a coordinate",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

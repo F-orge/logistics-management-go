@@ -20,34 +20,56 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	client: InboundShipmentsSchema.shape.client.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipments-client-update",
-		type: "field",
-		label: "Client",
-		description: "Enter a client",
-		inputType: "text",
-	}),
-	status: InboundShipmentsSchema.shape.status.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipments-status-update",
-		type: "field",
-		label: "Status",
-		description: "Enter a status",
-		inputType: "text",
-	}),
-	expectedArrivalDate: InboundShipmentsSchema.shape.expectedArrivalDate.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipments-expectedArrivalDate-update",
-		type: "field",
-		label: "ExpectedArrivalDate",
-		description: "Enter an expectedarrivaldate",
-		inputType: "date",
-	}),
-	actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipments-actualArrivalDate-update",
-		type: "field",
-		label: "ActualArrivalDate",
-		description: "Enter an actualarrivaldate",
-		inputType: "date",
-	})
+	client: InboundShipmentsSchema.shape.client
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipments-client-update",
+			type: "field",
+			label: "Client",
+			description: "Enter a client",
+			inputType: "text",
+		}),
+	status: InboundShipmentsSchema.shape.status
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipments-status-update",
+			type: "field",
+			label: "Status",
+			description: "Enter a status",
+			inputType: "text",
+		}),
+	expectedArrivalDate: InboundShipmentsSchema.shape.expectedArrivalDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipments-expectedArrivalDate-update",
+			type: "field",
+			label: "ExpectedArrivalDate",
+			description: "Enter an expectedarrivaldate",
+			inputType: "date",
+		}),
+	actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipments-actualArrivalDate-update",
+			type: "field",
+			label: "ActualArrivalDate",
+			description: "Enter an actualarrivaldate",
+			inputType: "date",
+		}),
+	warehouse: InboundShipmentsSchema.shape.warehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipments-warehouse-update",
+			type: "field",
+			label: "Warehouse",
+			description: "Enter a warehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "warehouse",
+			},
+		}),
 });
 
 const FormOption = formOptions({

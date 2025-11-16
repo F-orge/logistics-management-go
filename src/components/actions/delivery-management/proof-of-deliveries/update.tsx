@@ -20,56 +20,56 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ProofOfDeliveriesSchema } from "@/pocketbase/schemas/delivery-management/proof-of-deliveries";
 import { CreateProofOfDeliverySchema } from "./create";
 
-export const UpdateProofOfDeliverySchema = z.object({
+export const UpdateSchema = z.object({
 	task: ProofOfDeliveriesSchema.shape.task.optional().register(fieldRegistry, {
-		id: "dm-proof-of-deliveries-task-update",
+		id: "delivery-management-proof-of-deliveries-task-update",
 		type: "field",
 		label: "Task",
-		description: "Enter the task identifier (optional)",
+		description: "Enter a task",
 		inputType: "text",
 	}),
 	signatureData: ProofOfDeliveriesSchema.shape.signatureData
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-signatureData-update",
+			id: "delivery-management-proof-of-deliveries-signatureData-update",
 			type: "field",
-			label: "Signature Data",
-			description: "Enter signature data (optional)",
+			label: "SignatureData",
+			description: "Enter a signaturedata",
 			inputType: "text",
 		}),
 	recipientName: ProofOfDeliveriesSchema.shape.recipientName
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-recipientName-update",
+			id: "delivery-management-proof-of-deliveries-recipientName-update",
 			type: "field",
-			label: "Recipient Name",
-			description: "Enter the recipient name (optional)",
+			label: "RecipientName",
+			description: "Enter a recipientname",
 			inputType: "text",
 		}),
 	coordinates: ProofOfDeliveriesSchema.shape.coordinates
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-coordinates-update",
+			id: "delivery-management-proof-of-deliveries-coordinates-update",
 			type: "field",
 			label: "Coordinates",
-			description: "Enter the GPS coordinates (optional)",
+			description: "Enter a coordinates",
 			inputType: "text",
 		}),
 	timestamp: ProofOfDeliveriesSchema.shape.timestamp
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-proof-of-deliveries-timestamp-update",
+			id: "delivery-management-proof-of-deliveries-timestamp-update",
 			type: "field",
 			label: "Timestamp",
-			description: "Select the timestamp (optional)",
+			description: "Enter a timestamp",
 			inputType: "date",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateProofOfDeliverySchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateProofOfDeliverySchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -131,7 +131,7 @@ const UpdateProofOfDeliveryForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateProofOfDeliverySchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Proof of Delivery</form.SubmitButton>

@@ -20,20 +20,24 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	tripStop: ProofOfDeliveriesSchema.shape.tripStop.optional().register(fieldRegistry, {
-		id: "transport-management-proof-of-deliveries-tripStop-update",
-		type: "field",
-		label: "TripStop",
-		description: "Enter a tripstop",
-		inputType: "text",
-	}),
-	coordinate: ProofOfDeliveriesSchema.shape.coordinate.optional().register(fieldRegistry, {
-		id: "transport-management-proof-of-deliveries-coordinate-update",
-		type: "field",
-		label: "Coordinate",
-		description: "Enter a coordinate",
-		inputType: "text",
-	})
+	tripStop: ProofOfDeliveriesSchema.shape.tripStop
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-proof-of-deliveries-tripStop-update",
+			type: "field",
+			label: "TripStop",
+			description: "Enter a tripstop",
+			inputType: "text",
+		}),
+	coordinate: ProofOfDeliveriesSchema.shape.coordinate
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-proof-of-deliveries-coordinate-update",
+			type: "field",
+			label: "Coordinate",
+			description: "Enter a coordinate",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

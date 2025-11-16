@@ -20,114 +20,122 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TasksSchema } from "@/pocketbase/schemas/delivery-management/tasks";
 import { CreateTaskSchema } from "./create";
 
-export const UpdateTaskSchema = z.object({
+export const UpdateSchema = z.object({
 	package: TasksSchema.shape.package.optional().register(fieldRegistry, {
-		id: "dm-tasks-package-update",
+		id: "delivery-management-tasks-package-update",
 		type: "field",
 		label: "Package",
-		description: "Enter the package identifier",
+		description: "Enter a package",
 		inputType: "text",
 	}),
 	route: TasksSchema.shape.route.optional().register(fieldRegistry, {
-		id: "dm-tasks-route-update",
+		id: "delivery-management-tasks-route-update",
 		type: "field",
 		label: "Route",
-		description: "Enter the route identifier",
+		description: "Enter a route",
 		inputType: "text",
 	}),
 	sequence: TasksSchema.shape.sequence.optional().register(fieldRegistry, {
-		id: "dm-tasks-sequence-update",
+		id: "delivery-management-tasks-sequence-update",
 		type: "field",
 		label: "Sequence",
-		description: "Enter the sequence number",
+		description: "Enter a sequence",
 		inputType: "number",
 	}),
 	deliveryAddress: TasksSchema.shape.deliveryAddress
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-deliveryAddress-update",
+			id: "delivery-management-tasks-deliveryAddress-update",
 			type: "field",
-			label: "Delivery Address",
-			description: "Enter the delivery address",
+			label: "DeliveryAddress",
+			description: "Enter a deliveryaddress",
 			inputType: "text",
 		}),
 	recipientName: TasksSchema.shape.recipientName
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-recipientName-update",
+			id: "delivery-management-tasks-recipientName-update",
 			type: "field",
-			label: "Recipient Name",
-			description: "Enter the recipient name (optional)",
+			label: "RecipientName",
+			description: "Enter a recipientname",
 			inputType: "text",
 		}),
 	recipientPhone: TasksSchema.shape.recipientPhone
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-recipientPhone-update",
+			id: "delivery-management-tasks-recipientPhone-update",
 			type: "field",
-			label: "Recipient Phone",
-			description: "Enter the recipient phone (optional)",
+			label: "RecipientPhone",
+			description: "Enter a recipientphone",
 			inputType: "text",
 		}),
 	deliveryInstructions: TasksSchema.shape.deliveryInstructions
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-deliveryInstructions-update",
+			id: "delivery-management-tasks-deliveryInstructions-update",
 			type: "field",
-			label: "Delivery Instructions",
-			description: "Enter delivery instructions (optional)",
-			inputType: "textarea",
+			label: "DeliveryInstructions",
+			description: "Enter a deliveryinstructions",
+			inputType: "text",
 		}),
 	estimatedArrivalTime: TasksSchema.shape.estimatedArrivalTime
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-estimatedArrivalTime-update",
+			id: "delivery-management-tasks-estimatedArrivalTime-update",
 			type: "field",
-			label: "Estimated Arrival Time",
-			description: "Select the estimated arrival time (optional)",
+			label: "EstimatedArrivalTime",
+			description: "Enter an estimatedarrivaltime",
+			inputType: "date",
+		}),
+	actualArrivalTime: TasksSchema.shape.actualArrivalTime
+		.optional()
+		.register(fieldRegistry, {
+			id: "delivery-management-tasks-actualArrivalTime-update",
+			type: "field",
+			label: "ActualArrivalTime",
+			description: "Enter an actualarrivaltime",
+			inputType: "date",
+		}),
+	deliveryTime: TasksSchema.shape.deliveryTime
+		.optional()
+		.register(fieldRegistry, {
+			id: "delivery-management-tasks-deliveryTime-update",
+			type: "field",
+			label: "DeliveryTime",
+			description: "Enter a deliverytime",
 			inputType: "date",
 		}),
 	status: TasksSchema.shape.status.optional().register(fieldRegistry, {
-		id: "dm-tasks-status-update",
+		id: "delivery-management-tasks-status-update",
 		type: "field",
 		label: "Status",
-		description: "Select the task status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
 	attempCount: TasksSchema.shape.attempCount
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-attempCount-update",
+			id: "delivery-management-tasks-attempCount-update",
 			type: "field",
-			label: "Attempt Count",
-			description: "Enter the attempt count (optional)",
-			inputType: "number",
-		}),
-	attachments: TasksSchema.shape.attachments
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-attachments-update",
-			type: "field",
-			inputType: "file",
-			label: "Attachments",
-			description: "Upload attachments (optional)",
-			isArray: true,
+			label: "AttempCount",
+			description: "Enter an attempcount",
+			inputType: "text",
 		}),
 	failureReason: TasksSchema.shape.failureReason
 		.optional()
 		.register(fieldRegistry, {
-			id: "dm-tasks-failureReason-update",
+			id: "delivery-management-tasks-failureReason-update",
 			type: "field",
-			label: "Failure Reason",
-			description: "Select the failure reason (optional)",
-			inputType: "select",
+			label: "FailureReason",
+			description: "Enter a failurereason",
+			inputType: "text",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateTaskSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateTaskSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -189,7 +197,7 @@ const UpdateTaskForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateTaskSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Task</form.SubmitButton>

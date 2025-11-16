@@ -17,102 +17,115 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, Create, TypedPocketBase } from "@/lib/pb.types";
 import { OpportunitiesSchema } from "@/pocketbase/schemas/customer-relations/opportunities";
 
-export const CreateOpportunitiesSchema = z.object({
+export const CreateSchema = z.object({
 	name: OpportunitiesSchema.shape.name.register(fieldRegistry, {
-		id: "crm-opportunities-name-create",
+		id: "customer-relations-opportunities-name-create",
 		type: "field",
-		label: "Opportunity Name",
-		description: "Enter the opportunity name",
+		label: "Name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	stage: OpportunitiesSchema.shape.stage.register(fieldRegistry, {
-		id: "crm-opportunities-stage-create",
+		id: "customer-relations-opportunities-stage-create",
 		type: "field",
 		label: "Stage",
-		description: "Select the stage (optional)",
-		inputType: "select",
+		description: "Enter a stage",
+		inputType: "text",
 	}),
 	dealValue: OpportunitiesSchema.shape.dealValue.register(fieldRegistry, {
-		id: "crm-opportunities-dealValue-create",
+		id: "customer-relations-opportunities-dealValue-create",
 		type: "field",
-		label: "Deal Value",
-		description: "Enter the deal value (optional)",
+		label: "DealValue",
+		description: "Enter a dealvalue",
 		inputType: "number",
 	}),
 	probability: OpportunitiesSchema.shape.probability.register(fieldRegistry, {
-		id: "crm-opportunities-probability-create",
+		id: "customer-relations-opportunities-probability-create",
 		type: "field",
 		label: "Probability",
-		description: "Enter the probability (0-1) (optional)",
-		inputType: "number",
+		description: "Enter a probability",
+		inputType: "text",
 	}),
 	expectedCloseDate: OpportunitiesSchema.shape.expectedCloseDate.register(
 		fieldRegistry,
 		{
-			id: "crm-opportunities-expectedCloseDate-create",
+			id: "customer-relations-opportunities-expectedCloseDate-create",
 			type: "field",
-			label: "Expected Close Date",
-			description: "Select the expected close date (optional)",
+			label: "ExpectedCloseDate",
+			description: "Enter an expectedclosedate",
 			inputType: "date",
 		},
 	),
 	lostReason: OpportunitiesSchema.shape.lostReason.register(fieldRegistry, {
-		id: "crm-opportunities-lostReason-create",
+		id: "customer-relations-opportunities-lostReason-create",
 		type: "field",
-		label: "Lost Reason",
-		description: "Enter the lost reason (optional)",
-		inputType: "textarea",
+		label: "LostReason",
+		description: "Enter a lostreason",
+		inputType: "text",
 	}),
 	source: OpportunitiesSchema.shape.source.register(fieldRegistry, {
-		id: "crm-opportunities-source-create",
+		id: "customer-relations-opportunities-source-create",
 		type: "field",
 		label: "Source",
-		description: "Select the source",
+		description: "Enter a source",
 		inputType: "select",
 	}),
+	owner: OpportunitiesSchema.shape.owner.register(fieldRegistry, {
+		id: "customer-relations-opportunities-owner-create",
+		type: "field",
+		label: "Owner",
+		description: "Enter an owner",
+		inputType: "text",
+	}),
 	contact: OpportunitiesSchema.shape.contact.register(fieldRegistry, {
-		id: "crm-opportunities-contact-create",
+		id: "customer-relations-opportunities-contact-create",
 		type: "field",
 		label: "Contact",
-		description: "Select the contact (optional)",
-		inputType: "text",
+		description: "Enter a contact",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsContacts,
+			displayField: "name",
+			relationshipName: "contact",
+		},
 	}),
 	company: OpportunitiesSchema.shape.company.register(fieldRegistry, {
-		id: "crm-opportunities-company-create",
+		id: "customer-relations-opportunities-company-create",
 		type: "field",
 		label: "Company",
-		description: "Select the company (optional)",
-		inputType: "text",
+		description: "Enter a company",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsCompanies,
+			displayField: "name",
+			relationshipName: "company",
+		},
 	}),
 	campaign: OpportunitiesSchema.shape.campaign.register(fieldRegistry, {
-		id: "crm-opportunities-campaign-create",
+		id: "customer-relations-opportunities-campaign-create",
 		type: "field",
 		label: "Campaign",
-		description: "Select the campaign (optional)",
+		description: "Enter a campaign",
 		inputType: "text",
-	}),
-	attachments: OpportunitiesSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-opportunities-attachments-create",
-		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments (optional)",
-		isArray: true,
 	}),
 	products: OpportunitiesSchema.shape.products.register(fieldRegistry, {
-		id: "crm-opportunities-products-create",
+		id: "customer-relations-opportunities-products-create",
 		type: "field",
 		label: "Products",
-		description: "Select products (optional)",
-		inputType: "text",
-		isArray: true,
+		description: "Enter a products",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsOpportunityProducts,
+			displayField: "name",
+			relationshipName: "products",
+		},
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateOpportunitiesSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateOpportunitiesSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -156,7 +169,7 @@ const CreateOpportunitiesForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateOpportunitiesSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Opportunity</form.SubmitButton>

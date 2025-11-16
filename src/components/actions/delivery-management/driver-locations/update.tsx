@@ -20,47 +20,12 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { DriverLocationSchema } from "@/pocketbase/schemas/delivery-management/driver-location";
 import { CreateDriverLocationSchema } from "./create";
 
-export const UpdateDriverLocationSchema = z.object({
-	driver: DriverLocationSchema.shape.driver.optional().register(fieldRegistry, {
-		id: "dm-driver-locations-driver-update",
-		type: "field",
-		label: "Driver",
-		description: "Enter the driver identifier",
-		inputType: "text",
-	}),
-	coordinates: DriverLocationSchema.shape.coordinates
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-driver-locations-coordinates-update",
-			type: "field",
-			label: "Coordinates",
-			description: "Enter the GPS coordinates",
-			inputType: "text",
-		}),
-	heading: DriverLocationSchema.shape.heading
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-driver-locations-heading-update",
-			type: "field",
-			label: "Heading",
-			description: "Enter the heading coordinates",
-			inputType: "text",
-		}),
-	timestamp: DriverLocationSchema.shape.timestamp
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-driver-locations-timestamp-update",
-			type: "field",
-			label: "Timestamp",
-			description: "Select the timestamp (optional)",
-			inputType: "date",
-		}),
-});
+export const UpdateSchema = z.object({});
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateDriverLocationSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateDriverLocationSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -122,7 +87,7 @@ const UpdateDriverLocationForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateDriverLocationSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Driver Location</form.SubmitButton>

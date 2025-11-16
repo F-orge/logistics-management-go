@@ -18,6 +18,18 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { GeofenceEventsSchema } from "@/pocketbase/schemas/transport-management/geofence-events";
 
 export const CreateSchema = z.object({
+	vehicle: GeofenceEventsSchema.shape.vehicle.register(fieldRegistry, {
+		id: "transport-management-geofence-events-vehicle-create",
+		type: "field",
+		label: "Vehicle",
+		description: "Enter a vehicle",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementVehicles,
+			displayField: "name",
+			relationshipName: "vehicle",
+		},
+	}),
 	geofence: GeofenceEventsSchema.shape.geofence.register(fieldRegistry, {
 		id: "transport-management-geofence-events-geofence-create",
 		type: "field",
@@ -38,7 +50,7 @@ export const CreateSchema = z.object({
 		label: "Timestamp",
 		description: "Enter a timestamp",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

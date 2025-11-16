@@ -27,20 +27,24 @@ export const UpdateSchema = z.object({
 		description: "Enter a name",
 		inputType: "text",
 	}),
-	totalDistance: RoutesSchema.shape.totalDistance.optional().register(fieldRegistry, {
-		id: "transport-management-routes-totalDistance-update",
-		type: "field",
-		label: "TotalDistance",
-		description: "Enter a totaldistance",
-		inputType: "number",
-	}),
-	totalDuration: RoutesSchema.shape.totalDuration.optional().register(fieldRegistry, {
-		id: "transport-management-routes-totalDuration-update",
-		type: "field",
-		label: "TotalDuration",
-		description: "Enter a totalduration",
-		inputType: "number",
-	})
+	totalDistance: RoutesSchema.shape.totalDistance
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-routes-totalDistance-update",
+			type: "field",
+			label: "TotalDistance",
+			description: "Enter a totaldistance",
+			inputType: "number",
+		}),
+	totalDuration: RoutesSchema.shape.totalDuration
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-routes-totalDuration-update",
+			type: "field",
+			label: "TotalDuration",
+			description: "Enter a totalduration",
+			inputType: "number",
+		}),
 });
 
 const FormOption = formOptions({

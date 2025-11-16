@@ -18,6 +18,18 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { LocationsSchema } from "@/pocketbase/schemas/warehouse-management/locations";
 
 export const CreateSchema = z.object({
+	warehouse: LocationsSchema.shape.warehouse.register(fieldRegistry, {
+		id: "warehouse-management-locations-warehouse-create",
+		type: "field",
+		label: "Warehouse",
+		description: "Enter a warehouse",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementWarehouses,
+			displayField: "name",
+			relationshipName: "warehouse",
+		},
+	}),
 	name: LocationsSchema.shape.name.register(fieldRegistry, {
 		id: "warehouse-management-locations-name-create",
 		type: "field",
@@ -81,13 +93,16 @@ export const CreateSchema = z.object({
 		description: "Enter an isreceivable",
 		inputType: "text",
 	}),
-	temperatureControlled: LocationsSchema.shape.temperatureControlled.register(fieldRegistry, {
-		id: "warehouse-management-locations-temperatureControlled-create",
-		type: "field",
-		label: "TemperatureControlled",
-		description: "Enter a temperaturecontrolled",
-		inputType: "text",
-	}),
+	temperatureControlled: LocationsSchema.shape.temperatureControlled.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-locations-temperatureControlled-create",
+			type: "field",
+			label: "TemperatureControlled",
+			description: "Enter a temperaturecontrolled",
+			inputType: "text",
+		},
+	),
 	hazmatApproved: LocationsSchema.shape.hazmatApproved.register(fieldRegistry, {
 		id: "warehouse-management-locations-hazmatApproved-create",
 		type: "field",
@@ -108,7 +123,7 @@ export const CreateSchema = z.object({
 		label: "ParentLocation",
 		description: "Enter a parentlocation",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

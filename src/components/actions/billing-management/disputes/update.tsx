@@ -48,48 +48,60 @@ export const UpdateSchema = z.object({
 		description: "Enter a status",
 		inputType: "select",
 	}),
-	disputeAmount: DisputesSchema.shape.disputeAmount.optional().register(fieldRegistry, {
-		id: "billing-management-disputes-disputeAmount-update",
-		type: "field",
-		label: "DisputeAmount",
-		description: "Enter a disputeamount",
-		inputType: "text",
-	}),
-	resolutionNotes: DisputesSchema.shape.resolutionNotes.optional().register(fieldRegistry, {
-		id: "billing-management-disputes-resolutionNotes-update",
-		type: "field",
-		label: "ResolutionNotes",
-		description: "Enter a resolutionnotes",
-		inputType: "text",
-	}),
-	submittedAt: DisputesSchema.shape.submittedAt.optional().register(fieldRegistry, {
-		id: "billing-management-disputes-submittedAt-update",
-		type: "field",
-		label: "SubmittedAt",
-		description: "Enter a submittedat",
-		inputType: "date",
-	}),
-	resolvedAt: DisputesSchema.shape.resolvedAt.optional().register(fieldRegistry, {
-		id: "billing-management-disputes-resolvedAt-update",
-		type: "field",
-		label: "ResolvedAt",
-		description: "Enter a resolvedat",
-		inputType: "date",
-	}),
-	resolvedBy: DisputesSchema.shape.resolvedBy.optional().register(fieldRegistry, {
-		id: "billing-management-disputes-resolvedBy-update",
-		type: "field",
-		label: "ResolvedBy",
-		description: "Enter a resolvedby",
-		inputType: "text",
-	}),
-	attachments: DisputesSchema.shape.attachments.optional().register(fieldRegistry, {
-		id: "billing-management-disputes-attachments-update",
-		type: "field",
-		label: "Attachments",
-		description: "Enter an attachments",
-		inputType: "text",
-	})
+	disputeAmount: DisputesSchema.shape.disputeAmount
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-disputes-disputeAmount-update",
+			type: "field",
+			label: "DisputeAmount",
+			description: "Enter a disputeamount",
+			inputType: "text",
+		}),
+	resolutionNotes: DisputesSchema.shape.resolutionNotes
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-disputes-resolutionNotes-update",
+			type: "field",
+			label: "ResolutionNotes",
+			description: "Enter a resolutionnotes",
+			inputType: "text",
+		}),
+	submittedAt: DisputesSchema.shape.submittedAt
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-disputes-submittedAt-update",
+			type: "field",
+			label: "SubmittedAt",
+			description: "Enter a submittedat",
+			inputType: "date",
+		}),
+	resolvedAt: DisputesSchema.shape.resolvedAt
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-disputes-resolvedAt-update",
+			type: "field",
+			label: "ResolvedAt",
+			description: "Enter a resolvedat",
+			inputType: "date",
+		}),
+	resolvedBy: DisputesSchema.shape.resolvedBy
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-disputes-resolvedBy-update",
+			type: "field",
+			label: "ResolvedBy",
+			description: "Enter a resolvedby",
+			inputType: "text",
+		}),
+	attachments: DisputesSchema.shape.attachments
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-disputes-attachments-update",
+			type: "field",
+			label: "Attachments",
+			description: "Enter an attachments",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

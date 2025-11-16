@@ -32,27 +32,36 @@ export const CreateSchema = z.object({
 		description: "Enter a salesorder",
 		inputType: "text",
 	}),
-	orderPriority: PickBatchItemsSchema.shape.orderPriority.register(fieldRegistry, {
-		id: "warehouse-management-pick-batch-items-orderPriority-create",
-		type: "field",
-		label: "OrderPriority",
-		description: "Enter an orderpriority",
-		inputType: "number",
-	}),
-	estimatedPickTime: PickBatchItemsSchema.shape.estimatedPickTime.register(fieldRegistry, {
-		id: "warehouse-management-pick-batch-items-estimatedPickTime-create",
-		type: "field",
-		label: "EstimatedPickTime",
-		description: "Enter an estimatedpicktime",
-		inputType: "date",
-	}),
-	actualPickTime: PickBatchItemsSchema.shape.actualPickTime.register(fieldRegistry, {
-		id: "warehouse-management-pick-batch-items-actualPickTime-create",
-		type: "field",
-		label: "ActualPickTime",
-		description: "Enter an actualpicktime",
-		inputType: "number",
-	})
+	orderPriority: PickBatchItemsSchema.shape.orderPriority.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-pick-batch-items-orderPriority-create",
+			type: "field",
+			label: "OrderPriority",
+			description: "Enter an orderpriority",
+			inputType: "number",
+		},
+	),
+	estimatedPickTime: PickBatchItemsSchema.shape.estimatedPickTime.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-pick-batch-items-estimatedPickTime-create",
+			type: "field",
+			label: "EstimatedPickTime",
+			description: "Enter an estimatedpicktime",
+			inputType: "date",
+		},
+	),
+	actualPickTime: PickBatchItemsSchema.shape.actualPickTime.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-pick-batch-items-actualPickTime-create",
+			type: "field",
+			label: "ActualPickTime",
+			description: "Enter an actualpicktime",
+			inputType: "number",
+		},
+	),
 });
 
 const FormOption = formOptions({

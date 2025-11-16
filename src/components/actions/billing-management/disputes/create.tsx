@@ -53,13 +53,16 @@ export const CreateSchema = z.object({
 		description: "Enter a disputeamount",
 		inputType: "text",
 	}),
-	resolutionNotes: DisputesSchema.shape.resolutionNotes.register(fieldRegistry, {
-		id: "billing-management-disputes-resolutionNotes-create",
-		type: "field",
-		label: "ResolutionNotes",
-		description: "Enter a resolutionnotes",
-		inputType: "text",
-	}),
+	resolutionNotes: DisputesSchema.shape.resolutionNotes.register(
+		fieldRegistry,
+		{
+			id: "billing-management-disputes-resolutionNotes-create",
+			type: "field",
+			label: "ResolutionNotes",
+			description: "Enter a resolutionnotes",
+			inputType: "text",
+		},
+	),
 	submittedAt: DisputesSchema.shape.submittedAt.register(fieldRegistry, {
 		id: "billing-management-disputes-submittedAt-create",
 		type: "field",
@@ -87,7 +90,7 @@ export const CreateSchema = z.object({
 		label: "Attachments",
 		description: "Enter an attachments",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

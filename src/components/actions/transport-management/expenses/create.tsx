@@ -25,6 +25,18 @@ export const CreateSchema = z.object({
 		description: "Enter a trip",
 		inputType: "text",
 	}),
+	driver: ExpensesSchema.shape.driver.register(fieldRegistry, {
+		id: "transport-management-expenses-driver-create",
+		type: "field",
+		label: "Driver",
+		description: "Enter a driver",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementDrivers,
+			displayField: "name",
+			relationshipName: "driver",
+		},
+	}),
 	type: ExpensesSchema.shape.type.register(fieldRegistry, {
 		id: "transport-management-expenses-type-create",
 		type: "field",
@@ -53,20 +65,23 @@ export const CreateSchema = z.object({
 		description: "Enter a fuelquantity",
 		inputType: "number",
 	}),
-	odometerReading: ExpensesSchema.shape.odometerReading.register(fieldRegistry, {
-		id: "transport-management-expenses-odometerReading-create",
-		type: "field",
-		label: "OdometerReading",
-		description: "Enter an odometerreading",
-		inputType: "number",
-	}),
+	odometerReading: ExpensesSchema.shape.odometerReading.register(
+		fieldRegistry,
+		{
+			id: "transport-management-expenses-odometerReading-create",
+			type: "field",
+			label: "OdometerReading",
+			description: "Enter an odometerreading",
+			inputType: "number",
+		},
+	),
 	status: ExpensesSchema.shape.status.register(fieldRegistry, {
 		id: "transport-management-expenses-status-create",
 		type: "field",
 		label: "Status",
 		description: "Enter a status",
 		inputType: "select",
-	})
+	}),
 });
 
 const FormOption = formOptions({

@@ -46,41 +46,53 @@ export const CreateSchema = z.object({
 		description: "Enter a status",
 		inputType: "select",
 	}),
-	estimatedArrivalTime: TripStopsSchema.shape.estimatedArrivalTime.register(fieldRegistry, {
-		id: "transport-management-trip-stops-estimatedArrivalTime-create",
-		type: "field",
-		label: "EstimatedArrivalTime",
-		description: "Enter an estimatedarrivaltime",
-		inputType: "date",
-	}),
-	actualArrivalTime: TripStopsSchema.shape.actualArrivalTime.register(fieldRegistry, {
-		id: "transport-management-trip-stops-actualArrivalTime-create",
-		type: "field",
-		label: "ActualArrivalTime",
-		description: "Enter an actualarrivaltime",
-		inputType: "date",
-	}),
-	estimatedDepartureTime: TripStopsSchema.shape.estimatedDepartureTime.register(fieldRegistry, {
-		id: "transport-management-trip-stops-estimatedDepartureTime-create",
-		type: "field",
-		label: "EstimatedDepartureTime",
-		description: "Enter an estimateddeparturetime",
-		inputType: "date",
-	}),
-	actualDepartureTime: TripStopsSchema.shape.actualDepartureTime.register(fieldRegistry, {
-		id: "transport-management-trip-stops-actualDepartureTime-create",
-		type: "field",
-		label: "ActualDepartureTime",
-		description: "Enter an actualdeparturetime",
-		inputType: "date",
-	}),
+	estimatedArrivalTime: TripStopsSchema.shape.estimatedArrivalTime.register(
+		fieldRegistry,
+		{
+			id: "transport-management-trip-stops-estimatedArrivalTime-create",
+			type: "field",
+			label: "EstimatedArrivalTime",
+			description: "Enter an estimatedarrivaltime",
+			inputType: "date",
+		},
+	),
+	actualArrivalTime: TripStopsSchema.shape.actualArrivalTime.register(
+		fieldRegistry,
+		{
+			id: "transport-management-trip-stops-actualArrivalTime-create",
+			type: "field",
+			label: "ActualArrivalTime",
+			description: "Enter an actualarrivaltime",
+			inputType: "date",
+		},
+	),
+	estimatedDepartureTime: TripStopsSchema.shape.estimatedDepartureTime.register(
+		fieldRegistry,
+		{
+			id: "transport-management-trip-stops-estimatedDepartureTime-create",
+			type: "field",
+			label: "EstimatedDepartureTime",
+			description: "Enter an estimateddeparturetime",
+			inputType: "date",
+		},
+	),
+	actualDepartureTime: TripStopsSchema.shape.actualDepartureTime.register(
+		fieldRegistry,
+		{
+			id: "transport-management-trip-stops-actualDepartureTime-create",
+			type: "field",
+			label: "ActualDepartureTime",
+			description: "Enter an actualdeparturetime",
+			inputType: "date",
+		},
+	),
 	shipment: TripStopsSchema.shape.shipment.register(fieldRegistry, {
 		id: "transport-management-trip-stops-shipment-create",
 		type: "field",
 		label: "Shipment",
 		description: "Enter a shipment",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

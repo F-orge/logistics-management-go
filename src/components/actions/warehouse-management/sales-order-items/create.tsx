@@ -25,13 +25,28 @@ export const CreateSchema = z.object({
 		description: "Enter a salesorder",
 		inputType: "text",
 	}),
-	quantityOrdered: SalesOrderItemsSchema.shape.quantityOrdered.register(fieldRegistry, {
-		id: "warehouse-management-sales-order-items-quantityOrdered-create",
+	product: SalesOrderItemsSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-sales-order-items-product-create",
 		type: "field",
-		label: "QuantityOrdered",
-		description: "Enter a quantityordered",
-		inputType: "number",
-	})
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
+	quantityOrdered: SalesOrderItemsSchema.shape.quantityOrdered.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-sales-order-items-quantityOrdered-create",
+			type: "field",
+			label: "QuantityOrdered",
+			description: "Enter a quantityordered",
+			inputType: "number",
+		},
+	),
 });
 
 const FormOption = formOptions({

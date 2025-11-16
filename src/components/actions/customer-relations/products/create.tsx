@@ -17,56 +17,48 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ProductsSchema } from "@/pocketbase/schemas/customer-relations/products";
 
-export const CreateProductsSchema = z.object({
+export const CreateSchema = z.object({
 	name: ProductsSchema.shape.name.register(fieldRegistry, {
-		id: "crm-products-name-create",
+		id: "customer-relations-products-name-create",
 		type: "field",
-		label: "Product Name",
-		description: "Enter the product name",
+		label: "Name",
+		description: "Product name is required",
 		inputType: "text",
 	}),
 	sku: ProductsSchema.shape.sku.register(fieldRegistry, {
-		id: "crm-products-sku-create",
+		id: "customer-relations-products-sku-create",
 		type: "field",
-		label: "SKU",
-		description: "Enter the SKU",
+		label: "Sku",
+		description: "SKU is required",
 		inputType: "text",
 	}),
 	price: ProductsSchema.shape.price.register(fieldRegistry, {
-		id: "crm-products-price-create",
+		id: "customer-relations-products-price-create",
 		type: "field",
 		label: "Price",
-		description: "Enter the price",
+		description: "Enter a price",
 		inputType: "number",
 	}),
 	type: ProductsSchema.shape.type.register(fieldRegistry, {
-		id: "crm-products-type-create",
+		id: "customer-relations-products-type-create",
 		type: "field",
 		label: "Type",
-		description: "Select the product type",
+		description: "Enter a type",
 		inputType: "select",
 	}),
 	description: ProductsSchema.shape.description.register(fieldRegistry, {
-		id: "crm-products-description-create",
+		id: "customer-relations-products-description-create",
 		type: "field",
 		label: "Description",
-		description: "Enter the description (optional)",
+		description: "Enter a description",
 		inputType: "textarea",
-	}),
-	attachments: ProductsSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-products-attachments-create",
-		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments (optional)",
-		isArray: true,
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateProductsSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateProductsSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -110,7 +102,7 @@ const CreateProductsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateProductsSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Product</form.SubmitButton>

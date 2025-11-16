@@ -20,6 +20,20 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
+	warehouse: LocationsSchema.shape.warehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-warehouse-update",
+			type: "field",
+			label: "Warehouse",
+			description: "Enter a warehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "warehouse",
+			},
+		}),
 	name: LocationsSchema.shape.name.optional().register(fieldRegistry, {
 		id: "warehouse-management-locations-name-update",
 		type: "field",
@@ -48,55 +62,69 @@ export const UpdateSchema = z.object({
 		description: "Enter a level",
 		inputType: "number",
 	}),
-	maxWeight: LocationsSchema.shape.maxWeight.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-maxWeight-update",
-		type: "field",
-		label: "MaxWeight",
-		description: "Enter a maxweight",
-		inputType: "number",
-	}),
-	maxVolume: LocationsSchema.shape.maxVolume.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-maxVolume-update",
-		type: "field",
-		label: "MaxVolume",
-		description: "Enter a maxvolume",
-		inputType: "number",
-	}),
-	maxPallets: LocationsSchema.shape.maxPallets.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-maxPallets-update",
-		type: "field",
-		label: "MaxPallets",
-		description: "Enter a maxpallets",
-		inputType: "number",
-	}),
-	isPickable: LocationsSchema.shape.isPickable.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-isPickable-update",
-		type: "field",
-		label: "IsPickable",
-		description: "Enter an ispickable",
-		inputType: "text",
-	}),
-	isReceivable: LocationsSchema.shape.isReceivable.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-isReceivable-update",
-		type: "field",
-		label: "IsReceivable",
-		description: "Enter an isreceivable",
-		inputType: "text",
-	}),
-	temperatureControlled: LocationsSchema.shape.temperatureControlled.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-temperatureControlled-update",
-		type: "field",
-		label: "TemperatureControlled",
-		description: "Enter a temperaturecontrolled",
-		inputType: "text",
-	}),
-	hazmatApproved: LocationsSchema.shape.hazmatApproved.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-hazmatApproved-update",
-		type: "field",
-		label: "HazmatApproved",
-		description: "Enter a hazmatapproved",
-		inputType: "text",
-	}),
+	maxWeight: LocationsSchema.shape.maxWeight
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-maxWeight-update",
+			type: "field",
+			label: "MaxWeight",
+			description: "Enter a maxweight",
+			inputType: "number",
+		}),
+	maxVolume: LocationsSchema.shape.maxVolume
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-maxVolume-update",
+			type: "field",
+			label: "MaxVolume",
+			description: "Enter a maxvolume",
+			inputType: "number",
+		}),
+	maxPallets: LocationsSchema.shape.maxPallets
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-maxPallets-update",
+			type: "field",
+			label: "MaxPallets",
+			description: "Enter a maxpallets",
+			inputType: "number",
+		}),
+	isPickable: LocationsSchema.shape.isPickable
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-isPickable-update",
+			type: "field",
+			label: "IsPickable",
+			description: "Enter an ispickable",
+			inputType: "text",
+		}),
+	isReceivable: LocationsSchema.shape.isReceivable
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-isReceivable-update",
+			type: "field",
+			label: "IsReceivable",
+			description: "Enter an isreceivable",
+			inputType: "text",
+		}),
+	temperatureControlled: LocationsSchema.shape.temperatureControlled
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-temperatureControlled-update",
+			type: "field",
+			label: "TemperatureControlled",
+			description: "Enter a temperaturecontrolled",
+			inputType: "text",
+		}),
+	hazmatApproved: LocationsSchema.shape.hazmatApproved
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-hazmatApproved-update",
+			type: "field",
+			label: "HazmatApproved",
+			description: "Enter a hazmatapproved",
+			inputType: "text",
+		}),
 	isActive: LocationsSchema.shape.isActive.optional().register(fieldRegistry, {
 		id: "warehouse-management-locations-isActive-update",
 		type: "field",
@@ -104,13 +132,15 @@ export const UpdateSchema = z.object({
 		description: "Enter an isactive",
 		inputType: "text",
 	}),
-	parentLocation: LocationsSchema.shape.parentLocation.optional().register(fieldRegistry, {
-		id: "warehouse-management-locations-parentLocation-update",
-		type: "field",
-		label: "ParentLocation",
-		description: "Enter a parentlocation",
-		inputType: "text",
-	})
+	parentLocation: LocationsSchema.shape.parentLocation
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-locations-parentLocation-update",
+			type: "field",
+			label: "ParentLocation",
+			description: "Enter a parentlocation",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

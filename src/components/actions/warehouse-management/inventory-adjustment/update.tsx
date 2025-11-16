@@ -20,34 +20,70 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	user: InventoryAdjustmentSchema.shape.user.optional().register(fieldRegistry, {
-		id: "warehouse-management-inventory-adjustment-user-update",
-		type: "field",
-		label: "User",
-		description: "Enter an user",
-		inputType: "text",
-	}),
-	quantityChange: InventoryAdjustmentSchema.shape.quantityChange.optional().register(fieldRegistry, {
-		id: "warehouse-management-inventory-adjustment-quantityChange-update",
-		type: "field",
-		label: "QuantityChange",
-		description: "Enter a quantitychange",
-		inputType: "text",
-	}),
-	reason: InventoryAdjustmentSchema.shape.reason.optional().register(fieldRegistry, {
-		id: "warehouse-management-inventory-adjustment-reason-update",
-		type: "field",
-		label: "Reason",
-		description: "Enter a reason",
-		inputType: "select",
-	}),
-	notes: InventoryAdjustmentSchema.shape.notes.optional().register(fieldRegistry, {
-		id: "warehouse-management-inventory-adjustment-notes-update",
-		type: "field",
-		label: "Notes",
-		description: "Enter a notes",
-		inputType: "text",
-	})
+	product: InventoryAdjustmentSchema.shape.product
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-adjustment-product-update",
+			type: "field",
+			label: "Product",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
+		}),
+	user: InventoryAdjustmentSchema.shape.user
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-adjustment-user-update",
+			type: "field",
+			label: "User",
+			description: "Enter an user",
+			inputType: "text",
+		}),
+	quantityChange: InventoryAdjustmentSchema.shape.quantityChange
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-adjustment-quantityChange-update",
+			type: "field",
+			label: "QuantityChange",
+			description: "Enter a quantitychange",
+			inputType: "text",
+		}),
+	reason: InventoryAdjustmentSchema.shape.reason
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-adjustment-reason-update",
+			type: "field",
+			label: "Reason",
+			description: "Enter a reason",
+			inputType: "select",
+		}),
+	notes: InventoryAdjustmentSchema.shape.notes
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-adjustment-notes-update",
+			type: "field",
+			label: "Notes",
+			description: "Enter a notes",
+			inputType: "text",
+		}),
+	warehouse: InventoryAdjustmentSchema.shape.warehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-adjustment-warehouse-update",
+			type: "field",
+			label: "Warehouse",
+			description: "Enter a warehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "warehouse",
+			},
+		}),
 });
 
 const FormOption = formOptions({

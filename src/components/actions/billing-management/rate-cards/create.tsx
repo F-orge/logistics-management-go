@@ -66,7 +66,7 @@ export const CreateSchema = z.object({
 		label: "CreatedBy",
 		description: "Enter a createdby",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

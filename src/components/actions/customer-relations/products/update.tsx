@@ -18,52 +18,51 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { ProductsSchema } from "@/pocketbase/schemas/customer-relations/products";
-import { CreateProductsSchema } from "./create";
 
-export const UpdateProductsSchema = z.object({
+export const UpdateSchema = z.object({
 	name: ProductsSchema.shape.name.optional().register(fieldRegistry, {
-		id: "crm-products-name-update",
+		id: "customer-relations-products-name-update",
 		type: "field",
-		label: "Product Name",
-		description: "Enter the product name",
+		label: "Name",
+		description: "Product name is required",
 		inputType: "text",
 	}),
 	sku: ProductsSchema.shape.sku.optional().register(fieldRegistry, {
-		id: "crm-products-sku-update",
+		id: "customer-relations-products-sku-update",
 		type: "field",
-		label: "SKU",
-		description: "Enter the SKU",
+		label: "Sku",
+		description: "SKU is required",
 		inputType: "text",
 	}),
 	price: ProductsSchema.shape.price.optional().register(fieldRegistry, {
-		id: "crm-products-price-update",
+		id: "customer-relations-products-price-update",
 		type: "field",
 		label: "Price",
-		description: "Enter the price",
+		description: "Enter a price",
 		inputType: "number",
 	}),
 	type: ProductsSchema.shape.type.optional().register(fieldRegistry, {
-		id: "crm-products-type-update",
+		id: "customer-relations-products-type-update",
 		type: "field",
 		label: "Type",
-		description: "Select the product type",
+		description: "Enter a type",
 		inputType: "select",
 	}),
 	description: ProductsSchema.shape.description
 		.optional()
 		.register(fieldRegistry, {
-			id: "crm-products-description-update",
+			id: "customer-relations-products-description-update",
 			type: "field",
 			label: "Description",
-			description: "Enter the description (optional)",
+			description: "Enter a description",
 			inputType: "textarea",
 		}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateProductsSchema>,
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
 	validators: {
-		onSubmit: UpdateProductsSchema,
+		onSubmit: UpdateSchema,
 	},
 	onSubmitMeta: {} as {
 		id: string;
@@ -124,7 +123,7 @@ const UpdateProductsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(UpdateProductsSchema)}
+					{...toAutoFormFieldSet(UpdateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Update Product</form.SubmitButton>

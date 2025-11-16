@@ -18,6 +18,18 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { GpsPingsSchema } from "@/pocketbase/schemas/transport-management/gps-pings";
 
 export const CreateSchema = z.object({
+	vehicle: GpsPingsSchema.shape.vehicle.register(fieldRegistry, {
+		id: "transport-management-gps-pings-vehicle-create",
+		type: "field",
+		label: "Vehicle",
+		description: "Enter a vehicle",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementVehicles,
+			displayField: "name",
+			relationshipName: "vehicle",
+		},
+	}),
 	coordinates: GpsPingsSchema.shape.coordinates.register(fieldRegistry, {
 		id: "transport-management-gps-pings-coordinates-create",
 		type: "field",
@@ -31,7 +43,7 @@ export const CreateSchema = z.object({
 		label: "Timestamp",
 		description: "Enter a timestamp",
 		inputType: "date",
-	})
+	}),
 });
 
 const FormOption = formOptions({

@@ -18,6 +18,18 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { StockTransferSchema } from "@/pocketbase/schemas/warehouse-management/stock-transfer";
 
 export const CreateSchema = z.object({
+	product: StockTransferSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-stock-transfer-product-create",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	quantity: StockTransferSchema.shape.quantity.register(fieldRegistry, {
 		id: "warehouse-management-stock-transfer-quantity-create",
 		type: "field",
@@ -31,7 +43,37 @@ export const CreateSchema = z.object({
 		label: "Status",
 		description: "Enter a status",
 		inputType: "select",
-	})
+	}),
+	sourceWarehouse: StockTransferSchema.shape.sourceWarehouse.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-stock-transfer-sourceWarehouse-create",
+			type: "field",
+			label: "SourceWarehouse",
+			description: "Enter a sourcewarehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "sourceWarehouse",
+			},
+		},
+	),
+	destinationWarehouse: StockTransferSchema.shape.destinationWarehouse.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-stock-transfer-destinationWarehouse-create",
+			type: "field",
+			label: "DestinationWarehouse",
+			description: "Enter a destinationwarehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "destinationWarehouse",
+			},
+		},
+	),
 });
 
 const FormOption = formOptions({

@@ -25,19 +25,34 @@ export const CreateSchema = z.object({
 		description: "Enter a legsequence",
 		inputType: "number",
 	}),
-	startLocation: ShipmentLegsSchema.shape.startLocation.register(fieldRegistry, {
-		id: "transport-management-shipment-legs-startLocation-create",
-		type: "field",
-		label: "StartLocation",
-		description: "Enter a startlocation",
-		inputType: "text",
-	}),
+	startLocation: ShipmentLegsSchema.shape.startLocation.register(
+		fieldRegistry,
+		{
+			id: "transport-management-shipment-legs-startLocation-create",
+			type: "field",
+			label: "StartLocation",
+			description: "Enter a startlocation",
+			inputType: "text",
+		},
+	),
 	endLocation: ShipmentLegsSchema.shape.endLocation.register(fieldRegistry, {
 		id: "transport-management-shipment-legs-endLocation-create",
 		type: "field",
 		label: "EndLocation",
 		description: "Enter an endlocation",
 		inputType: "text",
+	}),
+	carrier: ShipmentLegsSchema.shape.carrier.register(fieldRegistry, {
+		id: "transport-management-shipment-legs-carrier-create",
+		type: "field",
+		label: "Carrier",
+		description: "Enter a carrier",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementCarriers,
+			displayField: "name",
+			relationshipName: "carrier",
+		},
 	}),
 	interalTrip: ShipmentLegsSchema.shape.interalTrip.register(fieldRegistry, {
 		id: "transport-management-shipment-legs-interalTrip-create",
@@ -59,7 +74,7 @@ export const CreateSchema = z.object({
 		label: "Shipment",
 		description: "Enter a shipment",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

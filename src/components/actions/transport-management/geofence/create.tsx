@@ -38,7 +38,7 @@ export const CreateSchema = z.object({
 		label: "Radius",
 		description: "Enter a radius",
 		inputType: "number",
-	})
+	}),
 });
 
 const FormOption = formOptions({

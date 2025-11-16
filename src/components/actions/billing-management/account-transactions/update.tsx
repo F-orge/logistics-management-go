@@ -20,48 +20,74 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	type: AccountTransactionsSchema.shape.type.optional().register(fieldRegistry, {
-		id: "billing-management-account-transactions-type-update",
-		type: "field",
-		label: "Type",
-		description: "Enter a type",
-		inputType: "select",
-	}),
-	amount: AccountTransactionsSchema.shape.amount.optional().register(fieldRegistry, {
-		id: "billing-management-account-transactions-amount-update",
-		type: "field",
-		label: "Amount",
-		description: "Enter an amount",
-		inputType: "number",
-	}),
-	runningBalance: AccountTransactionsSchema.shape.runningBalance.optional().register(fieldRegistry, {
-		id: "billing-management-account-transactions-runningBalance-update",
-		type: "field",
-		label: "RunningBalance",
-		description: "Enter a runningbalance",
-		inputType: "number",
-	}),
-	transactionDate: AccountTransactionsSchema.shape.transactionDate.optional().register(fieldRegistry, {
-		id: "billing-management-account-transactions-transactionDate-update",
-		type: "field",
-		label: "TransactionDate",
-		description: "Enter a transactiondate",
-		inputType: "date",
-	}),
-	processedBy: AccountTransactionsSchema.shape.processedBy.optional().register(fieldRegistry, {
-		id: "billing-management-account-transactions-processedBy-update",
-		type: "field",
-		label: "ProcessedBy",
-		description: "Enter a processedby",
-		inputType: "text",
-	}),
-	referenceNumber: AccountTransactionsSchema.shape.referenceNumber.optional().register(fieldRegistry, {
-		id: "billing-management-account-transactions-referenceNumber-update",
-		type: "field",
-		label: "ReferenceNumber",
-		description: "Enter a referencenumber",
-		inputType: "text",
-	})
+	clientAccount: AccountTransactionsSchema.shape.clientAccount
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-clientAccount-update",
+			type: "field",
+			label: "ClientAccount",
+			description: "Enter a clientaccount",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.BillingManagementClientAccounts,
+				displayField: "name",
+				relationshipName: "clientAccount",
+			},
+		}),
+	type: AccountTransactionsSchema.shape.type
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-type-update",
+			type: "field",
+			label: "Type",
+			description: "Enter a type",
+			inputType: "select",
+		}),
+	amount: AccountTransactionsSchema.shape.amount
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-amount-update",
+			type: "field",
+			label: "Amount",
+			description: "Enter an amount",
+			inputType: "number",
+		}),
+	runningBalance: AccountTransactionsSchema.shape.runningBalance
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-runningBalance-update",
+			type: "field",
+			label: "RunningBalance",
+			description: "Enter a runningbalance",
+			inputType: "number",
+		}),
+	transactionDate: AccountTransactionsSchema.shape.transactionDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-transactionDate-update",
+			type: "field",
+			label: "TransactionDate",
+			description: "Enter a transactiondate",
+			inputType: "date",
+		}),
+	processedBy: AccountTransactionsSchema.shape.processedBy
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-processedBy-update",
+			type: "field",
+			label: "ProcessedBy",
+			description: "Enter a processedby",
+			inputType: "text",
+		}),
+	referenceNumber: AccountTransactionsSchema.shape.referenceNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-account-transactions-referenceNumber-update",
+			type: "field",
+			label: "ReferenceNumber",
+			description: "Enter a referencenumber",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

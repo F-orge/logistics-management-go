@@ -27,20 +27,22 @@ export const UpdateSchema = z.object({
 		description: "Enter a name",
 		inputType: "text",
 	}),
-	coordinates: GeofenceSchema.shape.coordinates.optional().register(fieldRegistry, {
-		id: "transport-management-geofence-coordinates-update",
-		type: "field",
-		label: "Coordinates",
-		description: "Enter a coordinates",
-		inputType: "text",
-	}),
+	coordinates: GeofenceSchema.shape.coordinates
+		.optional()
+		.register(fieldRegistry, {
+			id: "transport-management-geofence-coordinates-update",
+			type: "field",
+			label: "Coordinates",
+			description: "Enter a coordinates",
+			inputType: "text",
+		}),
 	radius: GeofenceSchema.shape.radius.optional().register(fieldRegistry, {
 		id: "transport-management-geofence-radius-update",
 		type: "field",
 		label: "Radius",
 		description: "Enter a radius",
 		inputType: "number",
-	})
+	}),
 });
 
 const FormOption = formOptions({

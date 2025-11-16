@@ -20,20 +20,38 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	batchNumber: InventoryBatchesSchema.shape.batchNumber.optional().register(fieldRegistry, {
-		id: "warehouse-management-inventory-batches-batchNumber-update",
-		type: "field",
-		label: "BatchNumber",
-		description: "Enter a batchnumber",
-		inputType: "text",
-	}),
-	expirationDate: InventoryBatchesSchema.shape.expirationDate.optional().register(fieldRegistry, {
-		id: "warehouse-management-inventory-batches-expirationDate-update",
-		type: "field",
-		label: "ExpirationDate",
-		description: "Enter an expirationdate",
-		inputType: "date",
-	})
+	product: InventoryBatchesSchema.shape.product
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-batches-product-update",
+			type: "field",
+			label: "Product",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
+		}),
+	batchNumber: InventoryBatchesSchema.shape.batchNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-batches-batchNumber-update",
+			type: "field",
+			label: "BatchNumber",
+			description: "Enter a batchnumber",
+			inputType: "text",
+		}),
+	expirationDate: InventoryBatchesSchema.shape.expirationDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inventory-batches-expirationDate-update",
+			type: "field",
+			label: "ExpirationDate",
+			description: "Enter an expirationdate",
+			inputType: "date",
+		}),
 });
 
 const FormOption = formOptions({

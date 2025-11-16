@@ -22,37 +22,30 @@ import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
 	name: CarriersSchema.shape.name.optional().register(fieldRegistry, {
-		id: "tm-carriers-name-update",
+		id: "transport-management-carriers-name-update",
 		type: "field",
 		label: "Name",
-		description: "Enter the carrier name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	contactDetails: CarriersSchema.shape.contactDetails
 		.optional()
 		.register(fieldRegistry, {
-			id: "tm-carriers-contactDetails-update",
+			id: "transport-management-carriers-contactDetails-update",
 			type: "field",
-			label: "Contact Details",
-			description: "Enter contact details (optional)",
-			inputType: "textarea",
+			label: "ContactDetails",
+			description: "Enter a contactdetails",
+			inputType: "text",
 		}),
 	serviceOffered: CarriersSchema.shape.serviceOffered
 		.optional()
 		.register(fieldRegistry, {
-			id: "tm-carriers-serviceOffered-update",
+			id: "transport-management-carriers-serviceOffered-update",
 			type: "field",
-			label: "Service Offered",
-			description: "Enter services offered (optional)",
-			inputType: "textarea",
+			label: "ServiceOffered",
+			description: "Enter a serviceoffered",
+			inputType: "text",
 		}),
-	image: CarriersSchema.shape.image.optional().register(fieldRegistry, {
-		id: "tm-carriers-image-update",
-		type: "field",
-		label: "Image",
-		description: "Upload carrier image (optional)",
-		inputType: "file",
-	}),
 });
 
 const FormOption = formOptions({

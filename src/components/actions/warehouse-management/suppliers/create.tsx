@@ -45,7 +45,7 @@ export const CreateSchema = z.object({
 		label: "Client",
 		description: "Enter a client",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

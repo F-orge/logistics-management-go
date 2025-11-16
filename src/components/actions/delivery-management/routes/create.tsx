@@ -17,52 +17,68 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { RoutesSchema } from "@/pocketbase/schemas/delivery-management/routes";
 
-export const CreateRouteSchema = z.object({
-	driver: RoutesSchema.shape.driver.optional().register(fieldRegistry, {
-		id: "dm-routes-driver-create",
+export const CreateSchema = z.object({
+	driver: RoutesSchema.shape.driver.register(fieldRegistry, {
+		id: "delivery-management-routes-driver-create",
 		type: "field",
 		label: "Driver",
-		description: "Select the driver (optional)",
-		inputType: "text",
+		description: "Enter a driver",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.TransportManagementDrivers,
+			displayField: "name",
+			relationshipName: "driver",
+		},
 	}),
-	routeDate: RoutesSchema.shape.routeDate.optional().register(fieldRegistry, {
-		id: "dm-routes-routeDate-create",
+	routeDate: RoutesSchema.shape.routeDate.register(fieldRegistry, {
+		id: "delivery-management-routes-routeDate-create",
 		type: "field",
-		label: "Route Date",
-		description: "Select the route date (optional)",
+		label: "RouteDate",
+		description: "Enter a routedate",
 		inputType: "date",
 	}),
-	status: RoutesSchema.shape.status.optional().register(fieldRegistry, {
-		id: "dm-routes-status-create",
+	status: RoutesSchema.shape.status.register(fieldRegistry, {
+		id: "delivery-management-routes-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the route status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
-	totalDistance: RoutesSchema.shape.totalDistance
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-routes-totalDistance-create",
+	totalDistance: RoutesSchema.shape.totalDistance.register(fieldRegistry, {
+		id: "delivery-management-routes-totalDistance-create",
+		type: "field",
+		label: "TotalDistance",
+		description: "Enter a totaldistance",
+		inputType: "text",
+	}),
+	estimatedDurationInMinutes:
+		RoutesSchema.shape.estimatedDurationInMinutes.register(fieldRegistry, {
+			id: "delivery-management-routes-estimatedDurationInMinutes-create",
 			type: "field",
-			label: "Total Distance",
-			description: "Enter the total distance (optional)",
-			inputType: "number",
+			label: "EstimatedDurationInMinutes",
+			description: "Enter an estimateddurationinminutes",
+			inputType: "text",
 		}),
-	estimatedDurationInMinutes: RoutesSchema.shape.estimatedDurationInMinutes
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-routes-estimatedDurationInMinutes-create",
-			type: "field",
-			label: "Estimated Duration (Minutes)",
-			description: "Enter estimated duration in minutes (optional)",
-			inputType: "number",
-		}),
+	startedAt: RoutesSchema.shape.startedAt.register(fieldRegistry, {
+		id: "delivery-management-routes-startedAt-create",
+		type: "field",
+		label: "StartedAt",
+		description: "Enter a startedat",
+		inputType: "date",
+	}),
+	completedAt: RoutesSchema.shape.completedAt.register(fieldRegistry, {
+		id: "delivery-management-routes-completedAt-create",
+		type: "field",
+		label: "CompletedAt",
+		description: "Enter a completedat",
+		inputType: "date",
+	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateRouteSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateRouteSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -106,7 +122,7 @@ const CreateRouteForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateRouteSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Route</form.SubmitButton>

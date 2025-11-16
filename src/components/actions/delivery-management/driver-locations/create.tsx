@@ -17,43 +17,12 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { DriverLocationSchema } from "@/pocketbase/schemas/delivery-management/driver-location";
 
-export const CreateDriverLocationSchema = z.object({
-	driver: DriverLocationSchema.shape.driver.register(fieldRegistry, {
-		id: "dm-driver-locations-driver-create",
-		type: "field",
-		label: "Driver",
-		description: "Enter the driver identifier",
-		inputType: "text",
-	}),
-	coordinates: DriverLocationSchema.shape.coordinates.register(fieldRegistry, {
-		id: "dm-driver-locations-coordinates-create",
-		type: "field",
-		label: "Coordinates",
-		description: "Enter the GPS coordinates",
-		inputType: "text",
-	}),
-	heading: DriverLocationSchema.shape.heading.register(fieldRegistry, {
-		id: "dm-driver-locations-heading-create",
-		type: "field",
-		label: "Heading",
-		description: "Enter the heading coordinates",
-		inputType: "text",
-	}),
-	timestamp: DriverLocationSchema.shape.timestamp
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-driver-locations-timestamp-create",
-			type: "field",
-			label: "Timestamp",
-			description: "Select the timestamp (optional)",
-			inputType: "date",
-		}),
-});
+export const CreateSchema = z.object({});
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateDriverLocationSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateDriverLocationSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -97,7 +66,7 @@ const CreateDriverLocationForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateDriverLocationSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Driver Location</form.SubmitButton>

@@ -17,91 +17,90 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CompaniesSchema } from "@/pocketbase/schemas/customer-relations/companies";
 
-export const CreateCompaniesSchema = z.object({
+export const CreateSchema = z.object({
 	name: CompaniesSchema.shape.name.register(fieldRegistry, {
-		id: "crm-companies-name-create",
+		id: "customer-relations-companies-name-create",
 		type: "field",
-		label: "Company Name",
-		description: "Enter the company name",
+		label: "Name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	street: CompaniesSchema.shape.street.register(fieldRegistry, {
-		id: "crm-companies-street-create",
+		id: "customer-relations-companies-street-create",
 		type: "field",
 		label: "Street",
-		description: "Enter the street address (optional)",
+		description: "Enter a street",
 		inputType: "text",
 	}),
 	city: CompaniesSchema.shape.city.register(fieldRegistry, {
-		id: "crm-companies-city-create",
+		id: "customer-relations-companies-city-create",
 		type: "field",
 		label: "City",
-		description: "Enter the city (optional)",
+		description: "Enter a city",
 		inputType: "text",
 	}),
 	state: CompaniesSchema.shape.state.register(fieldRegistry, {
-		id: "crm-companies-state-create",
+		id: "customer-relations-companies-state-create",
 		type: "field",
 		label: "State",
-		description: "Enter the state (optional)",
+		description: "Enter a state",
 		inputType: "text",
 	}),
 	postalCode: CompaniesSchema.shape.postalCode.register(fieldRegistry, {
-		id: "crm-companies-postalCode-create",
+		id: "customer-relations-companies-postalCode-create",
 		type: "field",
-		label: "Postal Code",
-		description: "Enter the postal code (optional)",
+		label: "PostalCode",
+		description: "Enter a postalcode",
 		inputType: "text",
 	}),
 	country: CompaniesSchema.shape.country.register(fieldRegistry, {
-		id: "crm-companies-country-create",
+		id: "customer-relations-companies-country-create",
 		type: "field",
 		label: "Country",
-		description: "Enter the country (optional)",
+		description: "Enter a country",
 		inputType: "text",
 	}),
 	phoneNumber: CompaniesSchema.shape.phoneNumber.register(fieldRegistry, {
-		id: "crm-companies-phoneNumber-create",
+		id: "customer-relations-companies-phoneNumber-create",
 		type: "field",
-		label: "Phone Number",
-		description: "Enter the phone number (optional)",
+		label: "PhoneNumber",
+		description: "Enter a phonenumber",
 		inputType: "text",
 	}),
 	industry: CompaniesSchema.shape.industry.register(fieldRegistry, {
-		id: "crm-companies-industry-create",
+		id: "customer-relations-companies-industry-create",
 		type: "field",
 		label: "Industry",
-		description: "Enter the industry (optional)",
+		description: "Enter an industry",
 		inputType: "text",
 	}),
 	website: CompaniesSchema.shape.website.register(fieldRegistry, {
-		id: "crm-companies-website-create",
+		id: "customer-relations-companies-website-create",
 		type: "field",
 		label: "Website",
-		description: "Enter the website URL (optional)",
-		inputType: "url",
+		description: "Enter a website",
+		inputType: "text",
 	}),
 	annualRevenue: CompaniesSchema.shape.annualRevenue.register(fieldRegistry, {
-		id: "crm-companies-annualRevenue-create",
+		id: "customer-relations-companies-annualRevenue-create",
 		type: "field",
-		label: "Annual Revenue",
-		description: "Enter the annual revenue (optional)",
-		inputType: "number",
+		label: "AnnualRevenue",
+		description: "Enter an annualrevenue",
+		inputType: "text",
 	}),
-	attachments: CompaniesSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-companies-attachments-create",
+	owner: CompaniesSchema.shape.owner.register(fieldRegistry, {
+		id: "customer-relations-companies-owner-create",
 		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments (optional)",
-		isArray: true,
+		label: "Owner",
+		description: "Enter an owner",
+		inputType: "text",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateCompaniesSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateCompaniesSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -145,7 +144,7 @@ const CreateCompaniesForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateCompaniesSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Company</form.SubmitButton>

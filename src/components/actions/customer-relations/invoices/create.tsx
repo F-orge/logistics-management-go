@@ -22,91 +22,81 @@ import {
 } from "@/lib/pb.types";
 import { InvoicesSchema } from "@/pocketbase/schemas/customer-relations";
 
-export const CreateInvoiceSchema = z.object({
+export const CreateSchema = z.object({
 	invoiceNumber: InvoicesSchema.shape.invoiceNumber.register(fieldRegistry, {
-		id: "crm-invoices-invoiceNumber-create",
+		id: "customer-relations-invoices-invoiceNumber-create",
 		type: "field",
-		label: "Invoice Number",
-		description: "Enter the invoice number",
+		label: "InvoiceNumber",
+		description: "Invoice number is required",
 		inputType: "text",
 	}),
 	opportunity: InvoicesSchema.shape.opportunity.register(fieldRegistry, {
-		id: "crm-invoices-opportunity-create",
+		id: "customer-relations-invoices-opportunity-create",
 		type: "field",
 		label: "Opportunity",
-		description: "Select the opportunity (optional)",
+		description: "Enter an opportunity",
 		inputType: "relation",
 		props: {
 			collectionName: Collections.CustomerRelationsOpportunities,
-			relationshipName: "opportunity",
-			placeholder: "Select an opportunity",
 			displayField: "name",
-			renderOption: (item) => item.name,
-		} as RelationFieldProps<CustomerRelationsOpportunitiesRecord>,
+			relationshipName: "opportunity",
+		},
 	}),
 	status: InvoicesSchema.shape.status.register(fieldRegistry, {
-		id: "crm-invoices-status-create",
+		id: "customer-relations-invoices-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the status (optional)",
+		description: "Enter a status",
 		inputType: "select",
-	}),
-	issueDate: InvoicesSchema.shape.issueDate.register(fieldRegistry, {
-		id: "crm-invoices-issueDate-create",
-		type: "field",
-		label: "Issue Date",
-		description: "Select the issue date (optional)",
-		inputType: "date",
-	}),
-	dueDate: InvoicesSchema.shape.dueDate.register(fieldRegistry, {
-		id: "crm-invoices-dueDate-create",
-		type: "field",
-		label: "Due Date",
-		description: "Select the due date (optional)",
-		inputType: "date",
-	}),
-	sentAt: InvoicesSchema.shape.sentAt.register(fieldRegistry, {
-		id: "crm-invoices-sentAt-create",
-		type: "field",
-		label: "Sent At",
-		description: "Select when it was sent (optional)",
-		inputType: "date",
-	}),
-	paidAt: InvoicesSchema.shape.paidAt.register(fieldRegistry, {
-		id: "crm-invoices-paidAt-create",
-		type: "field",
-		label: "Paid At",
-		description: "Select when it was paid (optional)",
-		inputType: "date",
-	}),
-	paymentMethod: InvoicesSchema.shape.paymentMethod.register(fieldRegistry, {
-		id: "crm-invoices-paymentMethod-create",
-		type: "field",
-		label: "Payment Method",
-		description: "Select the payment method (optional)",
-		inputType: "select",
-	}),
-	attachments: InvoicesSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-invoices-attachments-create",
-		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments (optional)",
-		isArray: true,
 	}),
 	total: InvoicesSchema.shape.total.register(fieldRegistry, {
-		id: "crm-invoices-total-create",
+		id: "customer-relations-invoices-total-create",
 		type: "field",
 		label: "Total",
-		description: "Enter the total",
+		description: "Enter a total",
 		inputType: "number",
+	}),
+	issueDate: InvoicesSchema.shape.issueDate.register(fieldRegistry, {
+		id: "customer-relations-invoices-issueDate-create",
+		type: "field",
+		label: "IssueDate",
+		description: "Enter an issuedate",
+		inputType: "text",
+	}),
+	dueDate: InvoicesSchema.shape.dueDate.register(fieldRegistry, {
+		id: "customer-relations-invoices-dueDate-create",
+		type: "field",
+		label: "DueDate",
+		description: "Enter a duedate",
+		inputType: "text",
+	}),
+	sentAt: InvoicesSchema.shape.sentAt.register(fieldRegistry, {
+		id: "customer-relations-invoices-sentAt-create",
+		type: "field",
+		label: "SentAt",
+		description: "Enter a sentat",
+		inputType: "text",
+	}),
+	paymentMethod: InvoicesSchema.shape.paymentMethod.register(fieldRegistry, {
+		id: "customer-relations-invoices-paymentMethod-create",
+		type: "field",
+		label: "PaymentMethod",
+		description: "Enter a paymentmethod",
+		inputType: "text",
+	}),
+	items: InvoicesSchema.shape.items.register(fieldRegistry, {
+		id: "customer-relations-invoices-items-create",
+		type: "field",
+		label: "Items",
+		description: "Enter an items",
+		inputType: "text",
 	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateInvoiceSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateInvoiceSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -151,7 +141,7 @@ const CreateInvoiceForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateInvoiceSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Invoice</form.SubmitButton>

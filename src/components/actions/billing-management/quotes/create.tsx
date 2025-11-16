@@ -32,13 +32,16 @@ export const CreateSchema = z.object({
 		description: "Enter an origindetails",
 		inputType: "text",
 	}),
-	destinationDetails: QuotesSchema.shape.destinationDetails.register(fieldRegistry, {
-		id: "billing-management-quotes-destinationDetails-create",
-		type: "field",
-		label: "DestinationDetails",
-		description: "Enter a destinationdetails",
-		inputType: "text",
-	}),
+	destinationDetails: QuotesSchema.shape.destinationDetails.register(
+		fieldRegistry,
+		{
+			id: "billing-management-quotes-destinationDetails-create",
+			type: "field",
+			label: "DestinationDetails",
+			description: "Enter a destinationdetails",
+			inputType: "text",
+		},
+	),
 	weight: QuotesSchema.shape.weight.register(fieldRegistry, {
 		id: "billing-management-quotes-weight-create",
 		type: "field",
@@ -122,7 +125,7 @@ export const CreateSchema = z.object({
 		label: "Attachments",
 		description: "Enter an attachments",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

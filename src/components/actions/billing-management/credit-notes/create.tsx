@@ -32,13 +32,16 @@ export const CreateSchema = z.object({
 		description: "Enter a dispute",
 		inputType: "text",
 	}),
-	creditNoteNumber: CreditNotesSchema.shape.creditNoteNumber.register(fieldRegistry, {
-		id: "billing-management-credit-notes-creditNoteNumber-create",
-		type: "field",
-		label: "CreditNoteNumber",
-		description: "Enter a creditnotenumber",
-		inputType: "text",
-	}),
+	creditNoteNumber: CreditNotesSchema.shape.creditNoteNumber.register(
+		fieldRegistry,
+		{
+			id: "billing-management-credit-notes-creditNoteNumber-create",
+			type: "field",
+			label: "CreditNoteNumber",
+			description: "Enter a creditnotenumber",
+			inputType: "text",
+		},
+	),
 	amount: CreditNotesSchema.shape.amount.register(fieldRegistry, {
 		id: "billing-management-credit-notes-amount-create",
 		type: "field",
@@ -80,7 +83,7 @@ export const CreateSchema = z.object({
 		label: "Notes",
 		description: "Enter a notes",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({

@@ -20,13 +20,15 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	shippingAddress: SalesOrdersSchema.shape.shippingAddress.optional().register(fieldRegistry, {
-		id: "warehouse-management-sales-orders-shippingAddress-update",
-		type: "field",
-		label: "ShippingAddress",
-		description: "Enter a shippingaddress",
-		inputType: "number",
-	}),
+	shippingAddress: SalesOrdersSchema.shape.shippingAddress
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-sales-orders-shippingAddress-update",
+			type: "field",
+			label: "ShippingAddress",
+			description: "Enter a shippingaddress",
+			inputType: "number",
+		}),
 	client: SalesOrdersSchema.shape.client.optional().register(fieldRegistry, {
 		id: "warehouse-management-sales-orders-client-update",
 		type: "field",
@@ -34,6 +36,20 @@ export const UpdateSchema = z.object({
 		description: "Enter a client",
 		inputType: "text",
 	}),
+	opportunity: SalesOrdersSchema.shape.opportunity
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-sales-orders-opportunity-update",
+			type: "field",
+			label: "Opportunity",
+			description: "Enter an opportunity",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsOpportunities,
+				displayField: "name",
+				relationshipName: "opportunity",
+			},
+		}),
 	status: SalesOrdersSchema.shape.status.optional().register(fieldRegistry, {
 		id: "warehouse-management-sales-orders-status-update",
 		type: "field",
@@ -41,13 +57,15 @@ export const UpdateSchema = z.object({
 		description: "Enter a status",
 		inputType: "select",
 	}),
-	orderNumber: SalesOrdersSchema.shape.orderNumber.optional().register(fieldRegistry, {
-		id: "warehouse-management-sales-orders-orderNumber-update",
-		type: "field",
-		label: "OrderNumber",
-		description: "Enter an ordernumber",
-		inputType: "text",
-	})
+	orderNumber: SalesOrdersSchema.shape.orderNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-sales-orders-orderNumber-update",
+			type: "field",
+			label: "OrderNumber",
+			description: "Enter an ordernumber",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

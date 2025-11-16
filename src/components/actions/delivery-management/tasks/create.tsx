@@ -17,112 +17,113 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { TasksSchema } from "@/pocketbase/schemas/delivery-management/tasks";
 
-export const CreateTaskSchema = z.object({
+export const CreateSchema = z.object({
 	package: TasksSchema.shape.package.register(fieldRegistry, {
-		id: "dm-tasks-package-create",
+		id: "delivery-management-tasks-package-create",
 		type: "field",
 		label: "Package",
-		description: "Enter the package identifier",
+		description: "Enter a package",
 		inputType: "text",
 	}),
 	route: TasksSchema.shape.route.register(fieldRegistry, {
-		id: "dm-tasks-route-create",
+		id: "delivery-management-tasks-route-create",
 		type: "field",
 		label: "Route",
-		description: "Enter the route identifier",
+		description: "Enter a route",
 		inputType: "text",
 	}),
 	sequence: TasksSchema.shape.sequence.register(fieldRegistry, {
-		id: "dm-tasks-sequence-create",
+		id: "delivery-management-tasks-sequence-create",
 		type: "field",
 		label: "Sequence",
-		description: "Enter the sequence number",
+		description: "Enter a sequence",
 		inputType: "number",
 	}),
 	deliveryAddress: TasksSchema.shape.deliveryAddress.register(fieldRegistry, {
-		id: "dm-tasks-deliveryAddress-create",
+		id: "delivery-management-tasks-deliveryAddress-create",
 		type: "field",
-		label: "Delivery Address",
-		description: "Enter the delivery address",
+		label: "DeliveryAddress",
+		description: "Enter a deliveryaddress",
 		inputType: "text",
 	}),
-	recipientName: TasksSchema.shape.recipientName
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-recipientName-create",
+	recipientName: TasksSchema.shape.recipientName.register(fieldRegistry, {
+		id: "delivery-management-tasks-recipientName-create",
+		type: "field",
+		label: "RecipientName",
+		description: "Enter a recipientname",
+		inputType: "text",
+	}),
+	recipientPhone: TasksSchema.shape.recipientPhone.register(fieldRegistry, {
+		id: "delivery-management-tasks-recipientPhone-create",
+		type: "field",
+		label: "RecipientPhone",
+		description: "Enter a recipientphone",
+		inputType: "text",
+	}),
+	deliveryInstructions: TasksSchema.shape.deliveryInstructions.register(
+		fieldRegistry,
+		{
+			id: "delivery-management-tasks-deliveryInstructions-create",
 			type: "field",
-			label: "Recipient Name",
-			description: "Enter the recipient name (optional)",
+			label: "DeliveryInstructions",
+			description: "Enter a deliveryinstructions",
 			inputType: "text",
-		}),
-	recipientPhone: TasksSchema.shape.recipientPhone
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-recipientPhone-create",
+		},
+	),
+	estimatedArrivalTime: TasksSchema.shape.estimatedArrivalTime.register(
+		fieldRegistry,
+		{
+			id: "delivery-management-tasks-estimatedArrivalTime-create",
 			type: "field",
-			label: "Recipient Phone",
-			description: "Enter the recipient phone (optional)",
-			inputType: "text",
-		}),
-	deliveryInstructions: TasksSchema.shape.deliveryInstructions
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-deliveryInstructions-create",
-			type: "field",
-			label: "Delivery Instructions",
-			description: "Enter delivery instructions (optional)",
-			inputType: "textarea",
-		}),
-	estimatedArrivalTime: TasksSchema.shape.estimatedArrivalTime
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-estimatedArrivalTime-create",
-			type: "field",
-			label: "Estimated Arrival Time",
-			description: "Select the estimated arrival time (optional)",
+			label: "EstimatedArrivalTime",
+			description: "Enter an estimatedarrivaltime",
 			inputType: "date",
-		}),
-	status: TasksSchema.shape.status.optional().register(fieldRegistry, {
-		id: "dm-tasks-status-create",
+		},
+	),
+	actualArrivalTime: TasksSchema.shape.actualArrivalTime.register(
+		fieldRegistry,
+		{
+			id: "delivery-management-tasks-actualArrivalTime-create",
+			type: "field",
+			label: "ActualArrivalTime",
+			description: "Enter an actualarrivaltime",
+			inputType: "date",
+		},
+	),
+	deliveryTime: TasksSchema.shape.deliveryTime.register(fieldRegistry, {
+		id: "delivery-management-tasks-deliveryTime-create",
+		type: "field",
+		label: "DeliveryTime",
+		description: "Enter a deliverytime",
+		inputType: "date",
+	}),
+	status: TasksSchema.shape.status.register(fieldRegistry, {
+		id: "delivery-management-tasks-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the task status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
-	attempCount: TasksSchema.shape.attempCount
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-attempCount-create",
-			type: "field",
-			label: "Attempt Count",
-			description: "Enter the attempt count (optional)",
-			inputType: "number",
-		}),
-	attachments: TasksSchema.shape.attachments
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-attachments-create",
-			type: "field",
-			inputType: "file",
-			label: "Attachments",
-			description: "Upload attachments (optional)",
-			isArray: true,
-		}),
-	failureReason: TasksSchema.shape.failureReason
-		.optional()
-		.register(fieldRegistry, {
-			id: "dm-tasks-failureReason-create",
-			type: "field",
-			label: "Failure Reason",
-			description: "Select the failure reason (optional)",
-			inputType: "select",
-		}),
+	attempCount: TasksSchema.shape.attempCount.register(fieldRegistry, {
+		id: "delivery-management-tasks-attempCount-create",
+		type: "field",
+		label: "AttempCount",
+		description: "Enter an attempcount",
+		inputType: "text",
+	}),
+	failureReason: TasksSchema.shape.failureReason.register(fieldRegistry, {
+		id: "delivery-management-tasks-failureReason-create",
+		type: "field",
+		label: "FailureReason",
+		description: "Enter a failurereason",
+		inputType: "text",
+	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateTaskSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateTaskSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -166,7 +167,7 @@ const CreateTaskForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateTaskSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Task</form.SubmitButton>

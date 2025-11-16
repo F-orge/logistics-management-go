@@ -17,94 +17,108 @@ import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { LeadsSchema } from "@/pocketbase/schemas/customer-relations/leads";
 
-export const CreateLeadsSchema = z.object({
+export const CreateSchema = z.object({
 	name: LeadsSchema.shape.name.register(fieldRegistry, {
-		id: "crm-leads-name-create",
+		id: "customer-relations-leads-name-create",
 		type: "field",
-		label: "Lead Name",
-		description: "Enter the lead name (optional)",
+		label: "Name",
+		description: "Enter a name",
 		inputType: "text",
 	}),
 	email: LeadsSchema.shape.email.register(fieldRegistry, {
-		id: "crm-leads-email-create",
+		id: "customer-relations-leads-email-create",
 		type: "field",
 		label: "Email",
-		description: "Enter the email (optional)",
-		inputType: "email",
+		description: "Enter an email",
+		inputType: "text",
 	}),
 	source: LeadsSchema.shape.source.register(fieldRegistry, {
-		id: "crm-leads-source-create",
+		id: "customer-relations-leads-source-create",
 		type: "field",
 		label: "Source",
-		description: "Select the lead source (optional)",
-		inputType: "select",
+		description: "Enter a source",
+		inputType: "text",
 	}),
 	status: LeadsSchema.shape.status.register(fieldRegistry, {
-		id: "crm-leads-status-create",
+		id: "customer-relations-leads-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the status (optional)",
-		inputType: "select",
+		description: "Enter a status",
+		inputType: "text",
 	}),
 	score: LeadsSchema.shape.score.register(fieldRegistry, {
-		id: "crm-leads-score-create",
+		id: "customer-relations-leads-score-create",
 		type: "field",
 		label: "Score",
-		description: "Enter the lead score",
+		description: "Enter a score",
 		inputType: "number",
 	}),
+	owner: LeadsSchema.shape.owner.register(fieldRegistry, {
+		id: "customer-relations-leads-owner-create",
+		type: "field",
+		label: "Owner",
+		description: "Enter an owner",
+		inputType: "text",
+	}),
 	campaign: LeadsSchema.shape.campaign.register(fieldRegistry, {
-		id: "crm-leads-campaign-create",
+		id: "customer-relations-leads-campaign-create",
 		type: "field",
 		label: "Campaign",
-		description: "Select the campaign (optional)",
+		description: "Enter a campaign",
 		inputType: "text",
 	}),
 	convertedAt: LeadsSchema.shape.convertedAt.register(fieldRegistry, {
-		id: "crm-leads-convertedAt-create",
+		id: "customer-relations-leads-convertedAt-create",
 		type: "field",
-		label: "Converted At",
-		description: "Select the conversion date (optional)",
+		label: "ConvertedAt",
+		description: "Enter a convertedat",
 		inputType: "date",
 	}),
 	convertedContact: LeadsSchema.shape.convertedContact.register(fieldRegistry, {
-		id: "crm-leads-convertedContact-create",
+		id: "customer-relations-leads-convertedContact-create",
 		type: "field",
-		label: "Converted Contact",
-		description: "Enter the converted contact (optional)",
-		inputType: "text",
+		label: "ConvertedContact",
+		description: "Enter a convertedcontact",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsContacts,
+			displayField: "name",
+			relationshipName: "convertedContact",
+		},
 	}),
 	convertedCompany: LeadsSchema.shape.convertedCompany.register(fieldRegistry, {
-		id: "crm-leads-convertedCompany-create",
+		id: "customer-relations-leads-convertedCompany-create",
 		type: "field",
-		label: "Converted Company",
-		description: "Enter the converted company (optional)",
-		inputType: "text",
+		label: "ConvertedCompany",
+		description: "Enter a convertedcompany",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.CustomerRelationsCompanies,
+			displayField: "name",
+			relationshipName: "convertedCompany",
+		},
 	}),
 	convertedOpportunity: LeadsSchema.shape.convertedOpportunity.register(
 		fieldRegistry,
 		{
-			id: "crm-leads-convertedOpportunity-create",
+			id: "customer-relations-leads-convertedOpportunity-create",
 			type: "field",
-			label: "Converted Opportunity",
-			description: "Enter the converted opportunity (optional)",
-			inputType: "text",
+			label: "ConvertedOpportunity",
+			description: "Enter a convertedopportunity",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.CustomerRelationsOpportunities,
+				displayField: "name",
+				relationshipName: "convertedOpportunity",
+			},
 		},
 	),
-	attachments: LeadsSchema.shape.attachments.register(fieldRegistry, {
-		id: "crm-leads-attachments-create",
-		type: "field",
-		inputType: "file",
-		label: "Attachments",
-		description: "Upload attachments (optional)",
-		isArray: true,
-	}),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof CreateLeadsSchema>,
+	defaultValues: {} as z.infer<typeof CreateSchema>,
 	validators: {
-		onSubmit: CreateLeadsSchema,
+		onSubmit: CreateSchema,
 	},
 	onSubmitMeta: {} as {
 		pocketbase: TypedPocketBase;
@@ -148,7 +162,7 @@ const CreateLeadsForm = () => {
 			<form.AppForm>
 				<AutoFieldSet
 					form={form as any}
-					{...toAutoFormFieldSet(CreateLeadsSchema)}
+					{...toAutoFormFieldSet(CreateSchema)}
 				/>
 				<DialogFooter>
 					<form.SubmitButton>Create Lead</form.SubmitButton>

@@ -20,20 +20,64 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	quantity: StockTransferSchema.shape.quantity.optional().register(fieldRegistry, {
-		id: "warehouse-management-stock-transfer-quantity-update",
-		type: "field",
-		label: "Quantity",
-		description: "Enter a quantity",
-		inputType: "text",
-	}),
+	product: StockTransferSchema.shape.product
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-stock-transfer-product-update",
+			type: "field",
+			label: "Product",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
+		}),
+	quantity: StockTransferSchema.shape.quantity
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-stock-transfer-quantity-update",
+			type: "field",
+			label: "Quantity",
+			description: "Enter a quantity",
+			inputType: "text",
+		}),
 	status: StockTransferSchema.shape.status.optional().register(fieldRegistry, {
 		id: "warehouse-management-stock-transfer-status-update",
 		type: "field",
 		label: "Status",
 		description: "Enter a status",
 		inputType: "select",
-	})
+	}),
+	sourceWarehouse: StockTransferSchema.shape.sourceWarehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-stock-transfer-sourceWarehouse-update",
+			type: "field",
+			label: "SourceWarehouse",
+			description: "Enter a sourcewarehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "sourceWarehouse",
+			},
+		}),
+	destinationWarehouse: StockTransferSchema.shape.destinationWarehouse
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-stock-transfer-destinationWarehouse-update",
+			type: "field",
+			label: "DestinationWarehouse",
+			description: "Enter a destinationwarehouse",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementWarehouses,
+				displayField: "name",
+				relationshipName: "destinationWarehouse",
+			},
+		}),
 });
 
 const FormOption = formOptions({

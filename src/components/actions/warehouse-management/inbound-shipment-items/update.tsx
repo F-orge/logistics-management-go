@@ -20,34 +20,56 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	inboundShipment: InboundShipmentItemsSchema.shape.inboundShipment.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipment-items-inboundShipment-update",
-		type: "field",
-		label: "InboundShipment",
-		description: "Enter an inboundshipment",
-		inputType: "text",
-	}),
-	expectedQuantity: InboundShipmentItemsSchema.shape.expectedQuantity.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipment-items-expectedQuantity-update",
-		type: "field",
-		label: "ExpectedQuantity",
-		description: "Enter an expectedquantity",
-		inputType: "number",
-	}),
-	receivedQuantity: InboundShipmentItemsSchema.shape.receivedQuantity.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipment-items-receivedQuantity-update",
-		type: "field",
-		label: "ReceivedQuantity",
-		description: "Enter a receivedquantity",
-		inputType: "text",
-	}),
-	discrepancyNotes: InboundShipmentItemsSchema.shape.discrepancyNotes.optional().register(fieldRegistry, {
-		id: "warehouse-management-inbound-shipment-items-discrepancyNotes-update",
-		type: "field",
-		label: "DiscrepancyNotes",
-		description: "Enter a discrepancynotes",
-		inputType: "text",
-	})
+	inboundShipment: InboundShipmentItemsSchema.shape.inboundShipment
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipment-items-inboundShipment-update",
+			type: "field",
+			label: "InboundShipment",
+			description: "Enter an inboundshipment",
+			inputType: "text",
+		}),
+	product: InboundShipmentItemsSchema.shape.product
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipment-items-product-update",
+			type: "field",
+			label: "Product",
+			description: "Enter a product",
+			inputType: "relation",
+			props: {
+				collectionName: Collections.WarehouseManagementProducts,
+				displayField: "name",
+				relationshipName: "product",
+			},
+		}),
+	expectedQuantity: InboundShipmentItemsSchema.shape.expectedQuantity
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipment-items-expectedQuantity-update",
+			type: "field",
+			label: "ExpectedQuantity",
+			description: "Enter an expectedquantity",
+			inputType: "number",
+		}),
+	receivedQuantity: InboundShipmentItemsSchema.shape.receivedQuantity
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipment-items-receivedQuantity-update",
+			type: "field",
+			label: "ReceivedQuantity",
+			description: "Enter a receivedquantity",
+			inputType: "text",
+		}),
+	discrepancyNotes: InboundShipmentItemsSchema.shape.discrepancyNotes
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-inbound-shipment-items-discrepancyNotes-update",
+			type: "field",
+			label: "DiscrepancyNotes",
+			description: "Enter a discrepancynotes",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({

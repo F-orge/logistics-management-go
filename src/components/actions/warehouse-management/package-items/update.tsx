@@ -27,6 +27,18 @@ export const UpdateSchema = z.object({
 		description: "Enter a package",
 		inputType: "text",
 	}),
+	product: PackageItemsSchema.shape.product.optional().register(fieldRegistry, {
+		id: "warehouse-management-package-items-product-update",
+		type: "field",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
+	}),
 	batch: PackageItemsSchema.shape.batch.optional().register(fieldRegistry, {
 		id: "warehouse-management-package-items-batch-update",
 		type: "field",
@@ -34,27 +46,33 @@ export const UpdateSchema = z.object({
 		description: "Enter a batch",
 		inputType: "text",
 	}),
-	quantity: PackageItemsSchema.shape.quantity.optional().register(fieldRegistry, {
-		id: "warehouse-management-package-items-quantity-update",
-		type: "field",
-		label: "Quantity",
-		description: "Enter a quantity",
-		inputType: "number",
-	}),
-	lotNumber: PackageItemsSchema.shape.lotNumber.optional().register(fieldRegistry, {
-		id: "warehouse-management-package-items-lotNumber-update",
-		type: "field",
-		label: "LotNumber",
-		description: "Enter a lotnumber",
-		inputType: "text",
-	}),
-	expiryDate: PackageItemsSchema.shape.expiryDate.optional().register(fieldRegistry, {
-		id: "warehouse-management-package-items-expiryDate-update",
-		type: "field",
-		label: "ExpiryDate",
-		description: "Enter an expirydate",
-		inputType: "date",
-	})
+	quantity: PackageItemsSchema.shape.quantity
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-package-items-quantity-update",
+			type: "field",
+			label: "Quantity",
+			description: "Enter a quantity",
+			inputType: "number",
+		}),
+	lotNumber: PackageItemsSchema.shape.lotNumber
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-package-items-lotNumber-update",
+			type: "field",
+			label: "LotNumber",
+			description: "Enter a lotnumber",
+			inputType: "text",
+		}),
+	expiryDate: PackageItemsSchema.shape.expiryDate
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-package-items-expiryDate-update",
+			type: "field",
+			label: "ExpiryDate",
+			description: "Enter an expirydate",
+			inputType: "date",
+		}),
 });
 
 const FormOption = formOptions({

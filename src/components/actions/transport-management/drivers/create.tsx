@@ -19,40 +19,42 @@ import { DriversSchema } from "@/pocketbase/schemas/transport-management/drivers
 
 export const CreateSchema = z.object({
 	user: DriversSchema.shape.user.register(fieldRegistry, {
-		id: "tm-drivers-user-create",
+		id: "transport-management-drivers-user-create",
 		type: "field",
 		label: "User",
-		description: "Enter the user identifier (optional)",
+		description: "Enter an user",
 		inputType: "text",
 	}),
 	licenseNumber: DriversSchema.shape.licenseNumber.register(fieldRegistry, {
-		id: "tm-drivers-licenseNumber-create",
+		id: "transport-management-drivers-licenseNumber-create",
 		type: "field",
-		label: "License Number",
-		description: "Enter the license number",
+		label: "LicenseNumber",
+		description: "Enter a licensenumber",
 		inputType: "text",
 	}),
 	licenseExpiryDate: DriversSchema.shape.licenseExpiryDate.register(
 		fieldRegistry,
 		{
-			id: "tm-drivers-licenseExpiryDate-create",
+			id: "transport-management-drivers-licenseExpiryDate-create",
 			type: "field",
-			label: "License Expiry Date",
-			description: "Select the expiry date (optional)",
+			label: "LicenseExpiryDate",
+			description: "Enter a licenseexpirydate",
 			inputType: "date",
 		},
 	),
 	status: DriversSchema.shape.status.register(fieldRegistry, {
-		id: "tm-drivers-status-create",
+		id: "transport-management-drivers-status-create",
 		type: "field",
 		label: "Status",
-		description: "Select the driver status",
+		description: "Enter a status",
 		inputType: "select",
-		options: [
-			{ value: "active", label: "Active" },
-			{ value: "inactive", label: "Inactive" },
-			{ value: "on-leave", label: "On Leave" },
-		],
+	}),
+	schedules: DriversSchema.shape.schedules.register(fieldRegistry, {
+		id: "transport-management-drivers-schedules-create",
+		type: "field",
+		label: "Schedules",
+		description: "Enter a schedules",
+		inputType: "text",
 	}),
 });
 

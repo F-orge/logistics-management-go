@@ -25,27 +25,45 @@ export const CreateSchema = z.object({
 		description: "Enter a return",
 		inputType: "text",
 	}),
-	quantityExpected: ReturnItemsSchema.shape.quantityExpected.register(fieldRegistry, {
-		id: "warehouse-management-return-items-quantityExpected-create",
+	product: ReturnItemsSchema.shape.product.register(fieldRegistry, {
+		id: "warehouse-management-return-items-product-create",
 		type: "field",
-		label: "QuantityExpected",
-		description: "Enter a quantityexpected",
-		inputType: "number",
+		label: "Product",
+		description: "Enter a product",
+		inputType: "relation",
+		props: {
+			collectionName: Collections.WarehouseManagementProducts,
+			displayField: "name",
+			relationshipName: "product",
+		},
 	}),
-	quantityRecevied: ReturnItemsSchema.shape.quantityRecevied.register(fieldRegistry, {
-		id: "warehouse-management-return-items-quantityRecevied-create",
-		type: "field",
-		label: "QuantityRecevied",
-		description: "Enter a quantityrecevied",
-		inputType: "number",
-	}),
+	quantityExpected: ReturnItemsSchema.shape.quantityExpected.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-return-items-quantityExpected-create",
+			type: "field",
+			label: "QuantityExpected",
+			description: "Enter a quantityexpected",
+			inputType: "number",
+		},
+	),
+	quantityRecevied: ReturnItemsSchema.shape.quantityRecevied.register(
+		fieldRegistry,
+		{
+			id: "warehouse-management-return-items-quantityRecevied-create",
+			type: "field",
+			label: "QuantityRecevied",
+			description: "Enter a quantityrecevied",
+			inputType: "number",
+		},
+	),
 	condition: ReturnItemsSchema.shape.condition.register(fieldRegistry, {
 		id: "warehouse-management-return-items-condition-create",
 		type: "field",
 		label: "Condition",
 		description: "Enter a condition",
 		inputType: "text",
-	})
+	}),
 });
 
 const FormOption = formOptions({
