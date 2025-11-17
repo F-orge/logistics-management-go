@@ -43,14 +43,14 @@ export const UpdateSchema = z.object({
     type: "field",
     label: "Source",
     description: "Enter a source",
-    inputType: "text",
+    inputType: "select",
   }),
   status: LeadsSchema.shape.status.optional().register(fieldRegistry, {
     id: "customer-relations-leads-status-update",
     type: "field",
     label: "Status",
     description: "Enter a status",
-    inputType: "text",
+    inputType: "select",
   }),
   score: LeadsSchema.shape.score.optional().register(fieldRegistry, {
     id: "customer-relations-leads-score-update",

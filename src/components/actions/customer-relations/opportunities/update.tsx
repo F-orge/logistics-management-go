@@ -61,15 +61,13 @@ export const UpdateSchema = z.object({
       description: "Enter an expectedclosedate",
       inputType: "date",
     }),
-  lostReason: OpportunitiesSchema.shape.lostReason
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-opportunities-lostReason-update",
-      type: "field",
-      label: "LostReason",
-      description: "Enter a lostreason",
-      inputType: "textarea",
-    }),
+  lostReason: OpportunitiesSchema.shape.lostReason.register(fieldRegistry, {
+    id: "customer-relations-opportunities-lostReason-update",
+    type: "field",
+    label: "LostReason",
+    description: "Enter a lostreason",
+    inputType: "textarea",
+  }),
 });
 
 const FormOption = formOptions({
