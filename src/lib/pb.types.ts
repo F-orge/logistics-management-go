@@ -707,11 +707,11 @@ export type DeliveryManagementDriverLocationRecord = {
 	timestamp: IsoAutoDateString
 }
 
-export type DeliveryManagementProofOfDeliveriesRecord<TsignatureData = unknown> = {
+export type DeliveryManagementProofOfDeliveriesRecord = {
 	coordinates?: GeoPoint
 	id: string
 	recipientName?: string
-	signatureData?: null | TsignatureData
+	signatureData?: FileNameString
 	task?: RecordIdString
 	timestamp: IsoAutoDateString
 }
@@ -1624,7 +1624,7 @@ export type CustomerRelationsOpportunitiesResponse<Texpand = unknown> = Required
 export type CustomerRelationsOpportunityProductsResponse<Texpand = unknown> = Required<CustomerRelationsOpportunityProductsRecord> & BaseSystemFields<Texpand>
 export type CustomerRelationsProductsResponse<Texpand = unknown> = Required<CustomerRelationsProductsRecord> & BaseSystemFields<Texpand>
 export type DeliveryManagementDriverLocationResponse<Texpand = unknown> = Required<DeliveryManagementDriverLocationRecord> & BaseSystemFields<Texpand>
-export type DeliveryManagementProofOfDeliveriesResponse<TsignatureData = unknown, Texpand = unknown> = Required<DeliveryManagementProofOfDeliveriesRecord<TsignatureData>> & BaseSystemFields<Texpand>
+export type DeliveryManagementProofOfDeliveriesResponse<Texpand = unknown> = Required<DeliveryManagementProofOfDeliveriesRecord> & BaseSystemFields<Texpand>
 export type DeliveryManagementRoutesResponse<Texpand = unknown> = Required<DeliveryManagementRoutesRecord> & BaseSystemFields<Texpand>
 export type DeliveryManagementTaskEventsResponse<Texpand = unknown> = Required<DeliveryManagementTaskEventsRecord> & BaseSystemFields<Texpand>
 export type DeliveryManagementTasksResponse<Texpand = unknown> = Required<DeliveryManagementTasksRecord> & BaseSystemFields<Texpand>
