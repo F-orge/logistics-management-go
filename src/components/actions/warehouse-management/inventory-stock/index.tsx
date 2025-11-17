@@ -9,6 +9,7 @@ import {
 import CreateForm from "./create";
 import DeleteForm from "./delete";
 import UpdateForm from "./update";
+import { Suspense } from "react";
 
 const InventoryStockActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -34,7 +35,11 @@ const InventoryStockActions = () => {
 		Component = {
 			title: "Update Inventory Stock",
 			description: "Modify the inventory stock details below.",
-			Element: <UpdateForm />,
+			Element: (
+        <Suspense>
+          <UpdateForm />
+        </Suspense>
+      ),
 		};
 	}
 

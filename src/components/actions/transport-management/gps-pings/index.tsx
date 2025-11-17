@@ -9,6 +9,7 @@ import {
 import CreateForm from "./create";
 import DeleteForm from "./delete";
 import UpdateForm from "./update";
+import { Suspense } from "react";
 
 const GpsPingsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -34,7 +35,11 @@ const GpsPingsActions = () => {
 		Component = {
 			title: "Update Gps Pings",
 			description: "Modify the gps pings details below.",
-			Element: <UpdateForm />,
+			Element: (
+        <Suspense>
+          <UpdateForm />
+        </Suspense>
+      ),
 		};
 	}
 

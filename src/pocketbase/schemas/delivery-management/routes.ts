@@ -9,6 +9,7 @@ import { Collections } from "@/lib/pb.types";
 
 export const RoutesSchema = z.object({
 	id: z.string(),
+	name: z.string(),
 	driver: z.string().optional(),
 	routeDate: z.date().optional(),
 	status: z

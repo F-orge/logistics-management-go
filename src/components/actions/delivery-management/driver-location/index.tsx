@@ -9,6 +9,7 @@ import {
 import CreateDriverLocationForm from "./create";
 import DeleteDriverLocation from "./delete";
 import UpdateDriverLocationForm from "./update";
+import { Suspense } from "react";
 
 const DriverLocationActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -34,7 +35,11 @@ const DriverLocationActions = () => {
     Component = {
       title: "Update Driver Location",
       description: "Modify the driver location details below.",
-      Element: <UpdateDriverLocationForm />,
+      Element: (
+        <Suspense>
+          <UpdateDriverLocationForm />
+        </Suspense>
+      ),
     };
   }
 

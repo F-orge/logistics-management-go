@@ -13,6 +13,7 @@ import {
 import CreateInvoiceItemsForm from "./create";
 import DeleteInvoiceItems from "./delete";
 import UpdateInvoiceItemsForm from "./update";
+import { Suspense } from "react";
 
 const InvoiceItemsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -38,7 +39,11 @@ const InvoiceItemsActions = () => {
 		Component = {
 			title: "Update Invoice Item",
 			description: "Modify the invoice item details below.",
-			Element: <UpdateInvoiceItemsForm />,
+			Element: (
+        <Suspense>
+          <UpdateInvoiceItemsForm />
+        </Suspense>
+      ),
 		};
 	}
 

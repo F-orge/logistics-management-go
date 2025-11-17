@@ -13,6 +13,7 @@ import {
 import CreateLeadsForm from "./create";
 import DeleteLeads from "./delete";
 import UpdateLeadsForm from "./update";
+import { Suspense } from "react";
 
 const LeadsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -38,7 +39,11 @@ const LeadsActions = () => {
 		Component = {
 			title: "Update Lead",
 			description: "Modify the lead details below.",
-			Element: <UpdateLeadsForm />,
+			Element: (
+        <Suspense>
+          <UpdateLeadsForm />
+        </Suspense>
+      ),
 		};
 	}
 

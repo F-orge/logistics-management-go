@@ -730,6 +730,7 @@ export type DeliveryManagementRoutesRecord = {
 	driver?: RecordIdString
 	estimatedDurationInMinutes?: number
 	id: string
+	name?: string
 	routeDate?: IsoDateString
 	startedAt?: IsoDateString
 	status?: DeliveryManagementRoutesStatusOptions

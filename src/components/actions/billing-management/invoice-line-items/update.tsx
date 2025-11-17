@@ -1,5 +1,5 @@
 import { formOptions } from "@tanstack/react-form";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   UseNavigateResult,
   useNavigate,
@@ -133,9 +133,9 @@ const UpdateForm = () => {
   });
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
-  const { data } = useQuery({
+  const { data } = useSuspenseQuery({
     queryKey: ["invoiceLineItems", searchQuery.id],
-    enabled: !!searchQuery.id,
+
     queryFn: async () => {
       const record = await pocketbase
         .collection(Collections.BillingManagementInvoiceLineItems)
@@ -146,7 +146,7 @@ const UpdateForm = () => {
 
   const form = useAppForm({
     ...FormOption,
-    defaultValues: data || {},
+    defaultValues: data as z.infer<typeof UpdateSchema>,
   });
 
   return (

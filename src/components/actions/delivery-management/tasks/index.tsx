@@ -9,6 +9,7 @@ import {
 import CreateTaskForm from "./create";
 import DeleteTask from "./delete";
 import UpdateTaskForm from "./update";
+import { Suspense } from "react";
 
 const TaskActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -34,7 +35,11 @@ const TaskActions = () => {
 		Component = {
 			title: "Update Task",
 			description: "Modify the task details below.",
-			Element: <UpdateTaskForm />,
+			Element: (
+        <Suspense>
+          <UpdateTaskForm />
+        </Suspense>
+      ),
 		};
 	}
 

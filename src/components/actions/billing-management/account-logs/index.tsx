@@ -12,6 +12,7 @@ import {
 import CreateForm from "./create";
 import DeleteForm from "./delete";
 import UpdateForm from "./update";
+import { Suspense } from "react";
 
 const LogsActions = () => {
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -37,7 +38,11 @@ const LogsActions = () => {
     Component = {
       title: "Update Logs",
       description: "Modify the logs details below.",
-      Element: <UpdateForm />,
+      Element: (
+        <Suspense>
+          <UpdateForm />
+        </Suspense>
+      ),
     };
   }
 

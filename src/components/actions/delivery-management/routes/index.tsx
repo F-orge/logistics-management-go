@@ -9,6 +9,7 @@ import {
 import CreateRouteForm from "./create";
 import DeleteRoute from "./delete";
 import UpdateRouteForm from "./update";
+import { Suspense } from "react";
 
 const RouteActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -34,7 +35,11 @@ const RouteActions = () => {
 		Component = {
 			title: "Update Route",
 			description: "Modify the route details below.",
-			Element: <UpdateRouteForm />,
+			Element: (
+        <Suspense>
+          <UpdateRouteForm />
+        </Suspense>
+      ),
 		};
 	}
 

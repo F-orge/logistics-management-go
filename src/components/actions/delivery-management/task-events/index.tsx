@@ -9,6 +9,7 @@ import {
 import CreateTaskEventForm from "./create";
 import DeleteTaskEvent from "./delete";
 import UpdateTaskEventForm from "./update";
+import { Suspense } from "react";
 
 const TaskEventActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -34,7 +35,11 @@ const TaskEventActions = () => {
 		Component = {
 			title: "Update Task Event",
 			description: "Modify the task event details below.",
-			Element: <UpdateTaskEventForm />,
+			Element: (
+        <Suspense>
+          <UpdateTaskEventForm />
+        </Suspense>
+      ),
 		};
 	}
 

@@ -13,6 +13,7 @@ import {
 import CreateInteractionsForm from "./create";
 import DeleteInteractions from "./delete";
 import UpdateInteractionsForm from "./update";
+import { Suspense } from "react";
 
 const InteractionsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -38,7 +39,11 @@ const InteractionsActions = () => {
 		Component = {
 			title: "Update Interaction",
 			description: "Modify the interaction details below.",
-			Element: <UpdateInteractionsForm />,
+			Element: (
+        <Suspense>
+          <UpdateInteractionsForm />
+        </Suspense>
+      ),
 		};
 	}
 

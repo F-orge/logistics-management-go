@@ -13,6 +13,7 @@ import {
 import CreateProductsForm from "./create";
 import DeleteProducts from "./delete";
 import UpdateProductsForm from "./update";
+import { Suspense } from "react";
 
 const ProductsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -38,7 +39,11 @@ const ProductsActions = () => {
 		Component = {
 			title: "Update Product",
 			description: "Modify the product details below.",
-			Element: <UpdateProductsForm />,
+			Element: (
+        <Suspense>
+          <UpdateProductsForm />
+        </Suspense>
+      ),
 		};
 	}
 

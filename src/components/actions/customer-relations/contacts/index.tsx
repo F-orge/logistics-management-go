@@ -13,6 +13,7 @@ import {
 import CreateContactsForm from "./create";
 import DeleteContacts from "./delete";
 import UpdateContactsForm from "./update";
+import { Suspense } from "react";
 
 const ContactsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -38,7 +39,11 @@ const ContactsActions = () => {
 		Component = {
 			title: "Update Contact",
 			description: "Modify the contact details below.",
-			Element: <UpdateContactsForm />,
+			Element: (
+        <Suspense>
+          <UpdateContactsForm />
+        </Suspense>
+      ),
 		};
 	}
 

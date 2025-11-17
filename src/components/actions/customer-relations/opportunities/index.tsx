@@ -13,6 +13,7 @@ import {
 import CreateOpportunitiesForm from "./create";
 import DeleteOpportunities from "./delete";
 import UpdateOpportunitiesForm from "./update";
+import { Suspense } from "react";
 
 const OpportunitiesActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -38,7 +39,11 @@ const OpportunitiesActions = () => {
 		Component = {
 			title: "Update Opportunity",
 			description: "Modify the opportunity details below.",
-			Element: <UpdateOpportunitiesForm />,
+			Element: (
+        <Suspense>
+          <UpdateOpportunitiesForm />
+        </Suspense>
+      ),
 		};
 	}
 
