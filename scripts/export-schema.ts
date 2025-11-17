@@ -72,27 +72,19 @@ async function getCollectionsFromDB(): Promise<PocketBaseCollection[]> {
     await pb.admins.authWithPassword(ADMIN_EMAIL, ADMIN_PASSWORD);
 
     console.log("📖 Fetching PocketBase collections...");
-    const collectionList =
-      (await pb.collections.getFullList()) as PocketBaseCollection[];
+    const collectionList = (await pb.collections.getFullList()) as PocketBaseCollection[];
 
     console.log(`✅ Found ${collectionList.length} collections`);
 
     // Filter out system collections (those starting with _)
-    const userCollections = collectionList.filter(
-      (col) => !col.name.startsWith("_") && !col.system
-    );
+    const userCollections = collectionList.filter((col) => !col.name.startsWith("_") && !col.system);
 
     console.log(`📦 Processing ${userCollections.length} user collections`);
 
     return userCollections;
   } catch (error) {
-    console.error(
-      "❌ Error connecting to PocketBase:",
-      (error as Error).message
-    );
-    console.warn(
-      `Falling back to schema files only. Make sure PocketBase is running at ${POCKETBASE_URL}`
-    );
+    console.error("❌ Error connecting to PocketBase:", (error as Error).message);
+    console.warn(`Falling back to schema files only. Make sure PocketBase is running at ${POCKETBASE_URL}`);
     return [];
   }
 }
@@ -101,10 +93,7 @@ async function getSchemaFiles(): Promise<SchemaFile[]> {
   const schemasDir = path.join(__dirname, "../src/pocketbase/schemas");
   const schemaFiles: SchemaFile[] = [];
 
-  async function walkDir(
-    currentPath: string,
-    category: string = ""
-  ): Promise<void> {
+  async function walkDir(currentPath: string, category: string = ""): Promise<void> {
     try {
       const entries = await readdir(currentPath, { withFileTypes: true });
 
@@ -114,10 +103,7 @@ async function getSchemaFiles(): Promise<SchemaFile[]> {
 
         if (entry.isDirectory()) {
           await walkDir(fullPath, entry.name);
-        } else if (
-          entry.name.endsWith(".ts") &&
-          !entry.name.includes("index")
-        ) {
+        } else if (entry.name.endsWith(".ts") && !entry.name.includes("index")) {
           const name = entry.name.replace(".ts", "");
           const categoryName = category || "root";
 
@@ -129,9 +115,7 @@ async function getSchemaFiles(): Promise<SchemaFile[]> {
         }
       }
     } catch (err) {
-      console.warn(
-        `Could not read directory ${currentPath}: ${(err as Error).message}`
-      );
+      console.warn(`Could not read directory ${currentPath}: ${(err as Error).message}`);
     }
   }
 

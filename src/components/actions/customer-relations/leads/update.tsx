@@ -16,7 +16,11 @@ import {
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsLeadsRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 import { LeadsSchema } from "@/pocketbase/schemas/customer-relations/leads";
 
 export const UpdateSchema = z.object({
@@ -55,29 +59,6 @@ export const UpdateSchema = z.object({
     description: "Enter a score",
     inputType: "number",
   }),
-  owner: LeadsSchema.shape.owner.optional().register(fieldRegistry, {
-    id: "customer-relations-leads-owner-update",
-    type: "field",
-    label: "Owner",
-    description: "Enter an owner",
-    inputType: "text",
-  }),
-  campaign: LeadsSchema.shape.campaign.optional().register(fieldRegistry, {
-    id: "customer-relations-leads-campaign-update",
-    type: "field",
-    label: "Campaign",
-    description: "Enter a campaign",
-    inputType: "text",
-  }),
-  convertedAt: LeadsSchema.shape.convertedAt
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-leads-convertedAt-update",
-      type: "field",
-      label: "ConvertedAt",
-      description: "Enter a convertedat",
-      inputType: "date",
-    }),
   convertedContact: LeadsSchema.shape.convertedContact
     .optional()
     .register(fieldRegistry, {
@@ -129,14 +110,26 @@ const FormOption = formOptions({
   },
   onSubmitMeta: {} as {
     id: string;
+    record: CustomerRelationsLeadsRecord;
     pocketbase: TypedPocketBase;
     navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
   },
   onSubmit: async ({ value, meta }) => {
     try {
+      const payload = {
+        ...value,
+        convertedAt:
+          (value.convertedContact ||
+            value.convertedCompany ||
+            value.convertedOpportunity) &&
+          !meta.record.convertedAt
+            ? new Date()
+            : undefined,
+      };
+
       await meta
         .pocketbase!.collection(Collections.CustomerRelationsLeads)
-        .update(meta.id, value);
+        .update(meta.id, payload);
 
       toast.success("Lead updated successfully!");
     } catch (error) {
@@ -160,7 +153,6 @@ const UpdateLeadsForm = () => {
 
   const { data } = useSuspenseQuery({
     queryKey: ["lead", searchQuery.id],
-
     queryFn: async () => {
       return await pocketbase
         .collection(Collections.CustomerRelationsLeads)
@@ -180,7 +172,12 @@ const UpdateLeadsForm = () => {
       onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        form.handleSubmit({ id: searchQuery.id!, navigate, pocketbase });
+        form.handleSubmit({
+          id: searchQuery.id!,
+          navigate,
+          pocketbase,
+          record: data,
+        });
       }}
     >
       <form.AppForm>

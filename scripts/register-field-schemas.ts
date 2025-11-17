@@ -162,227 +162,80 @@ function _buildCollectionsMap(): Map<string, string> {
   // Maps snake_case collection names to their Collections enum reference
   const collectionsMap = new Map<string, string>([
     // Billing Management
-    [
-      "billing_management_account_transactions",
-      "Collections.BillingManagementAccountTransactions",
-    ],
-    [
-      "billing_management_client_accounts",
-      "Collections.BillingManagementClientAccounts",
-    ],
-    [
-      "billing_management_credit_notes",
-      "Collections.BillingManagementCreditNotes",
-    ],
+    ["billing_management_account_transactions", "Collections.BillingManagementAccountTransactions"],
+    ["billing_management_client_accounts", "Collections.BillingManagementClientAccounts"],
+    ["billing_management_credit_notes", "Collections.BillingManagementCreditNotes"],
     ["billing_management_disputes", "Collections.BillingManagementDisputes"],
-    [
-      "billing_management_invoice_line_items",
-      "Collections.BillingManagementInvoiceLineItems",
-    ],
+    ["billing_management_invoice_line_items", "Collections.BillingManagementInvoiceLineItems"],
     ["billing_management_invoices", "Collections.BillingManagementInvoices"],
     ["billing_management_logs", "Collections.BillingManagementLogs"],
     ["billing_management_payments", "Collections.BillingManagementPayments"],
     ["billing_management_quotes", "Collections.BillingManagementQuotes"],
     ["billing_management_rate_cards", "Collections.BillingManagementRateCards"],
     ["billing_management_rate_rules", "Collections.BillingManagementRateRules"],
-    [
-      "billing_management_surcharges",
-      "Collections.BillingManagementSurcharges",
-    ],
+    ["billing_management_surcharges", "Collections.BillingManagementSurcharges"],
     // Customer Relations
     ["customer_relations_campaigns", "Collections.CustomerRelationsCampaigns"],
     ["customer_relations_cases", "Collections.CustomerRelationsCases"],
     ["customer_relations_companies", "Collections.CustomerRelationsCompanies"],
     ["customer_relations_contacts", "Collections.CustomerRelationsContacts"],
-    [
-      "customer_relations_interactions",
-      "Collections.CustomerRelationsInteractions",
-    ],
-    [
-      "customer_relations_invoice_items",
-      "Collections.CustomerRelationsInvoiceItems",
-    ],
+    ["customer_relations_interactions", "Collections.CustomerRelationsInteractions"],
+    ["customer_relations_invoice_items", "Collections.CustomerRelationsInvoiceItems"],
     ["customer_relations_invoices", "Collections.CustomerRelationsInvoices"],
     ["customer_relations_leads", "Collections.CustomerRelationsLeads"],
-    [
-      "customer_relations_opportunities",
-      "Collections.CustomerRelationsOpportunities",
-    ],
-    [
-      "customer_relations_opportunity_products",
-      "Collections.CustomerRelationsOpportunityProducts",
-    ],
+    ["customer_relations_opportunities", "Collections.CustomerRelationsOpportunities"],
+    ["customer_relations_opportunity_products", "Collections.CustomerRelationsOpportunityProducts"],
     ["customer_relations_products", "Collections.CustomerRelationsProducts"],
     // Delivery Management
-    [
-      "delivery_management_proof_of_deliveries",
-      "Collections.DeliveryManagementProofOfDeliveries",
-    ],
+    ["delivery_management_proof_of_deliveries", "Collections.DeliveryManagementProofOfDeliveries"],
     ["delivery_management_routes", "Collections.DeliveryManagementRoutes"],
-    [
-      "delivery_management_task_events",
-      "Collections.DeliveryManagementTaskEvents",
-    ],
+    ["delivery_management_task_events", "Collections.DeliveryManagementTaskEvents"],
     ["delivery_management_tasks", "Collections.DeliveryManagementTasks"],
     // Transport Management
-    [
-      "transport_management_carrier_rates",
-      "Collections.TransportManagementCarrierRates",
-    ],
-    [
-      "transport_management_carriers",
-      "Collections.TransportManagementCarriers",
-    ],
-    [
-      "transport_management_driver_schedules",
-      "Collections.TransportManagementDriverSchedules",
-    ],
+    ["transport_management_carrier_rates", "Collections.TransportManagementCarrierRates"],
+    ["transport_management_carriers", "Collections.TransportManagementCarriers"],
+    ["transport_management_driver_schedules", "Collections.TransportManagementDriverSchedules"],
     ["transport_management_drivers", "Collections.TransportManagementDrivers"],
-    [
-      "transport_management_expenses",
-      "Collections.TransportManagementExpenses",
-    ],
-    [
-      "transport_management_geofence",
-      "Collections.TransportManagementGeofence",
-    ],
-    [
-      "transport_management_geofence_events",
-      "Collections.TransportManagementGeofenceEvents",
-    ],
-    [
-      "transport_management_gps_pings",
-      "Collections.TransportManagementGpsPings",
-    ],
-    [
-      "transport_management_partner_invoice",
-      "Collections.TransportManagementPartnerInvoice",
-    ],
-    [
-      "transport_management_partner_invoice_items",
-      "Collections.TransportManagementPartnerInvoiceItems",
-    ],
-    [
-      "transport_management_proof_of_deliveries",
-      "Collections.TransportManagementProofOfDeliveries",
-    ],
+    ["transport_management_expenses", "Collections.TransportManagementExpenses"],
+    ["transport_management_geofence", "Collections.TransportManagementGeofence"],
+    ["transport_management_geofence_events", "Collections.TransportManagementGeofenceEvents"],
+    ["transport_management_gps_pings", "Collections.TransportManagementGpsPings"],
+    ["transport_management_partner_invoice", "Collections.TransportManagementPartnerInvoice"],
+    ["transport_management_partner_invoice_items", "Collections.TransportManagementPartnerInvoiceItems"],
+    ["transport_management_proof_of_deliveries", "Collections.TransportManagementProofOfDeliveries"],
     ["transport_management_routes", "Collections.TransportManagementRoutes"],
-    [
-      "transport_management_shipment_leg_events",
-      "Collections.TransportManagementShipmentLegEvents",
-    ],
-    [
-      "transport_management_shipment_legs",
-      "Collections.TransportManagementShipmentLegs",
-    ],
-    [
-      "transport_management_trip_stops",
-      "Collections.TransportManagementTripStops",
-    ],
+    ["transport_management_shipment_leg_events", "Collections.TransportManagementShipmentLegEvents"],
+    ["transport_management_shipment_legs", "Collections.TransportManagementShipmentLegs"],
+    ["transport_management_trip_stops", "Collections.TransportManagementTripStops"],
     ["transport_management_trips", "Collections.TransportManagementTrips"],
-    [
-      "transport_management_vehicle_maintenance",
-      "Collections.TransportManagementVehicleMaintenance",
-    ],
-    [
-      "transport_management_vehicles",
-      "Collections.TransportManagementVehicles",
-    ],
+    ["transport_management_vehicle_maintenance", "Collections.TransportManagementVehicleMaintenance"],
+    ["transport_management_vehicles", "Collections.TransportManagementVehicles"],
     // Warehouse Management
-    [
-      "warehouse_management_bin_threshold",
-      "Collections.WarehouseManagementBinThreshold",
-    ],
-    [
-      "warehouse_management_inbound_shipment_items",
-      "Collections.WarehouseManagementInboundShipmentItems",
-    ],
-    [
-      "warehouse_management_inbound_shipments",
-      "Collections.WarehouseManagementInboundShipments",
-    ],
-    [
-      "warehouse_management_inventory_adjustment",
-      "Collections.WarehouseManagementInventoryAdjustment",
-    ],
-    [
-      "warehouse_management_inventory_batches",
-      "Collections.WarehouseManagementInventoryBatches",
-    ],
-    [
-      "warehouse_management_inventory_stock",
-      "Collections.WarehouseManagementInventoryStock",
-    ],
-    [
-      "warehouse_management_locations",
-      "Collections.WarehouseManagementLocations",
-    ],
-    [
-      "warehouse_management_outbound_shipment_items",
-      "Collections.WarehouseManagementOutboundShipmentItems",
-    ],
-    [
-      "warehouse_management_outbound_shipments",
-      "Collections.WarehouseManagementOutboundShipments",
-    ],
-    [
-      "warehouse_management_package_items",
-      "Collections.WarehouseManagementPackageItems",
-    ],
-    [
-      "warehouse_management_packages",
-      "Collections.WarehouseManagementPackages",
-    ],
-    [
-      "warehouse_management_pick_batch_items",
-      "Collections.WarehouseManagementPickBatchItems",
-    ],
-    [
-      "warehouse_management_pick_batches",
-      "Collections.WarehouseManagementPickBatches",
-    ],
-    [
-      "warehouse_management_products",
-      "Collections.WarehouseManagementProducts",
-    ],
-    [
-      "warehouse_management_putaway_rules",
-      "Collections.WarehouseManagementPutawayRules",
-    ],
-    [
-      "warehouse_management_reorder_points",
-      "Collections.WarehouseManagementReorderPoints",
-    ],
-    [
-      "warehouse_management_return_items",
-      "Collections.WarehouseManagementReturnItems",
-    ],
+    ["warehouse_management_bin_threshold", "Collections.WarehouseManagementBinThreshold"],
+    ["warehouse_management_inbound_shipment_items", "Collections.WarehouseManagementInboundShipmentItems"],
+    ["warehouse_management_inbound_shipments", "Collections.WarehouseManagementInboundShipments"],
+    ["warehouse_management_inventory_adjustment", "Collections.WarehouseManagementInventoryAdjustment"],
+    ["warehouse_management_inventory_batches", "Collections.WarehouseManagementInventoryBatches"],
+    ["warehouse_management_inventory_stock", "Collections.WarehouseManagementInventoryStock"],
+    ["warehouse_management_locations", "Collections.WarehouseManagementLocations"],
+    ["warehouse_management_outbound_shipment_items", "Collections.WarehouseManagementOutboundShipmentItems"],
+    ["warehouse_management_outbound_shipments", "Collections.WarehouseManagementOutboundShipments"],
+    ["warehouse_management_package_items", "Collections.WarehouseManagementPackageItems"],
+    ["warehouse_management_packages", "Collections.WarehouseManagementPackages"],
+    ["warehouse_management_pick_batch_items", "Collections.WarehouseManagementPickBatchItems"],
+    ["warehouse_management_pick_batches", "Collections.WarehouseManagementPickBatches"],
+    ["warehouse_management_products", "Collections.WarehouseManagementProducts"],
+    ["warehouse_management_putaway_rules", "Collections.WarehouseManagementPutawayRules"],
+    ["warehouse_management_reorder_points", "Collections.WarehouseManagementReorderPoints"],
+    ["warehouse_management_return_items", "Collections.WarehouseManagementReturnItems"],
     ["warehouse_management_returns", "Collections.WarehouseManagementReturns"],
-    [
-      "warehouse_management_sales_order_items",
-      "Collections.WarehouseManagementSalesOrderItems",
-    ],
-    [
-      "warehouse_management_sales_orders",
-      "Collections.WarehouseManagementSalesOrders",
-    ],
-    [
-      "warehouse_management_stock_transfer",
-      "Collections.WarehouseManagementStockTransfer",
-    ],
-    [
-      "warehouse_management_suppliers",
-      "Collections.WarehouseManagementSuppliers",
-    ],
-    [
-      "warehouse_management_task_items",
-      "Collections.WarehouseManagementTaskItems",
-    ],
+    ["warehouse_management_sales_order_items", "Collections.WarehouseManagementSalesOrderItems"],
+    ["warehouse_management_sales_orders", "Collections.WarehouseManagementSalesOrders"],
+    ["warehouse_management_stock_transfer", "Collections.WarehouseManagementStockTransfer"],
+    ["warehouse_management_suppliers", "Collections.WarehouseManagementSuppliers"],
+    ["warehouse_management_task_items", "Collections.WarehouseManagementTaskItems"],
     ["warehouse_management_tasks", "Collections.WarehouseManagementTasks"],
-    [
-      "warehouse_management_warehouses",
-      "Collections.WarehouseManagementWarehouses",
-    ],
+    ["warehouse_management_warehouses", "Collections.WarehouseManagementWarehouses"],
   ]);
 
   return collectionsMap;
@@ -415,227 +268,80 @@ function buildCollectionsMap(): Map<string, string> {
   // Maps snake_case collection names to their Collections enum reference
   const collectionsMap = new Map<string, string>([
     // Billing Management
-    [
-      "billing_management_account_transactions",
-      "Collections.BillingManagementAccountTransactions",
-    ],
-    [
-      "billing_management_client_accounts",
-      "Collections.BillingManagementClientAccounts",
-    ],
-    [
-      "billing_management_credit_notes",
-      "Collections.BillingManagementCreditNotes",
-    ],
+    ["billing_management_account_transactions", "Collections.BillingManagementAccountTransactions"],
+    ["billing_management_client_accounts", "Collections.BillingManagementClientAccounts"],
+    ["billing_management_credit_notes", "Collections.BillingManagementCreditNotes"],
     ["billing_management_disputes", "Collections.BillingManagementDisputes"],
-    [
-      "billing_management_invoice_line_items",
-      "Collections.BillingManagementInvoiceLineItems",
-    ],
+    ["billing_management_invoice_line_items", "Collections.BillingManagementInvoiceLineItems"],
     ["billing_management_invoices", "Collections.BillingManagementInvoices"],
     ["billing_management_logs", "Collections.BillingManagementLogs"],
     ["billing_management_payments", "Collections.BillingManagementPayments"],
     ["billing_management_quotes", "Collections.BillingManagementQuotes"],
     ["billing_management_rate_cards", "Collections.BillingManagementRateCards"],
     ["billing_management_rate_rules", "Collections.BillingManagementRateRules"],
-    [
-      "billing_management_surcharges",
-      "Collections.BillingManagementSurcharges",
-    ],
+    ["billing_management_surcharges", "Collections.BillingManagementSurcharges"],
     // Customer Relations
     ["customer_relations_campaigns", "Collections.CustomerRelationsCampaigns"],
     ["customer_relations_cases", "Collections.CustomerRelationsCases"],
     ["customer_relations_companies", "Collections.CustomerRelationsCompanies"],
     ["customer_relations_contacts", "Collections.CustomerRelationsContacts"],
-    [
-      "customer_relations_interactions",
-      "Collections.CustomerRelationsInteractions",
-    ],
-    [
-      "customer_relations_invoice_items",
-      "Collections.CustomerRelationsInvoiceItems",
-    ],
+    ["customer_relations_interactions", "Collections.CustomerRelationsInteractions"],
+    ["customer_relations_invoice_items", "Collections.CustomerRelationsInvoiceItems"],
     ["customer_relations_invoices", "Collections.CustomerRelationsInvoices"],
     ["customer_relations_leads", "Collections.CustomerRelationsLeads"],
-    [
-      "customer_relations_opportunities",
-      "Collections.CustomerRelationsOpportunities",
-    ],
-    [
-      "customer_relations_opportunity_products",
-      "Collections.CustomerRelationsOpportunityProducts",
-    ],
+    ["customer_relations_opportunities", "Collections.CustomerRelationsOpportunities"],
+    ["customer_relations_opportunity_products", "Collections.CustomerRelationsOpportunityProducts"],
     ["customer_relations_products", "Collections.CustomerRelationsProducts"],
     // Delivery Management
-    [
-      "delivery_management_proof_of_deliveries",
-      "Collections.DeliveryManagementProofOfDeliveries",
-    ],
+    ["delivery_management_proof_of_deliveries", "Collections.DeliveryManagementProofOfDeliveries"],
     ["delivery_management_routes", "Collections.DeliveryManagementRoutes"],
-    [
-      "delivery_management_task_events",
-      "Collections.DeliveryManagementTaskEvents",
-    ],
+    ["delivery_management_task_events", "Collections.DeliveryManagementTaskEvents"],
     ["delivery_management_tasks", "Collections.DeliveryManagementTasks"],
     // Transport Management
-    [
-      "transport_management_carrier_rates",
-      "Collections.TransportManagementCarrierRates",
-    ],
-    [
-      "transport_management_carriers",
-      "Collections.TransportManagementCarriers",
-    ],
-    [
-      "transport_management_driver_schedules",
-      "Collections.TransportManagementDriverSchedules",
-    ],
+    ["transport_management_carrier_rates", "Collections.TransportManagementCarrierRates"],
+    ["transport_management_carriers", "Collections.TransportManagementCarriers"],
+    ["transport_management_driver_schedules", "Collections.TransportManagementDriverSchedules"],
     ["transport_management_drivers", "Collections.TransportManagementDrivers"],
-    [
-      "transport_management_expenses",
-      "Collections.TransportManagementExpenses",
-    ],
-    [
-      "transport_management_geofence",
-      "Collections.TransportManagementGeofence",
-    ],
-    [
-      "transport_management_geofence_events",
-      "Collections.TransportManagementGeofenceEvents",
-    ],
-    [
-      "transport_management_gps_pings",
-      "Collections.TransportManagementGpsPings",
-    ],
-    [
-      "transport_management_partner_invoice",
-      "Collections.TransportManagementPartnerInvoice",
-    ],
-    [
-      "transport_management_partner_invoice_items",
-      "Collections.TransportManagementPartnerInvoiceItems",
-    ],
-    [
-      "transport_management_proof_of_deliveries",
-      "Collections.TransportManagementProofOfDeliveries",
-    ],
+    ["transport_management_expenses", "Collections.TransportManagementExpenses"],
+    ["transport_management_geofence", "Collections.TransportManagementGeofence"],
+    ["transport_management_geofence_events", "Collections.TransportManagementGeofenceEvents"],
+    ["transport_management_gps_pings", "Collections.TransportManagementGpsPings"],
+    ["transport_management_partner_invoice", "Collections.TransportManagementPartnerInvoice"],
+    ["transport_management_partner_invoice_items", "Collections.TransportManagementPartnerInvoiceItems"],
+    ["transport_management_proof_of_deliveries", "Collections.TransportManagementProofOfDeliveries"],
     ["transport_management_routes", "Collections.TransportManagementRoutes"],
-    [
-      "transport_management_shipment_leg_events",
-      "Collections.TransportManagementShipmentLegEvents",
-    ],
-    [
-      "transport_management_shipment_legs",
-      "Collections.TransportManagementShipmentLegs",
-    ],
-    [
-      "transport_management_trip_stops",
-      "Collections.TransportManagementTripStops",
-    ],
+    ["transport_management_shipment_leg_events", "Collections.TransportManagementShipmentLegEvents"],
+    ["transport_management_shipment_legs", "Collections.TransportManagementShipmentLegs"],
+    ["transport_management_trip_stops", "Collections.TransportManagementTripStops"],
     ["transport_management_trips", "Collections.TransportManagementTrips"],
-    [
-      "transport_management_vehicle_maintenance",
-      "Collections.TransportManagementVehicleMaintenance",
-    ],
-    [
-      "transport_management_vehicles",
-      "Collections.TransportManagementVehicles",
-    ],
+    ["transport_management_vehicle_maintenance", "Collections.TransportManagementVehicleMaintenance"],
+    ["transport_management_vehicles", "Collections.TransportManagementVehicles"],
     // Warehouse Management
-    [
-      "warehouse_management_bin_threshold",
-      "Collections.WarehouseManagementBinThreshold",
-    ],
-    [
-      "warehouse_management_inbound_shipment_items",
-      "Collections.WarehouseManagementInboundShipmentItems",
-    ],
-    [
-      "warehouse_management_inbound_shipments",
-      "Collections.WarehouseManagementInboundShipments",
-    ],
-    [
-      "warehouse_management_inventory_adjustment",
-      "Collections.WarehouseManagementInventoryAdjustment",
-    ],
-    [
-      "warehouse_management_inventory_batches",
-      "Collections.WarehouseManagementInventoryBatches",
-    ],
-    [
-      "warehouse_management_inventory_stock",
-      "Collections.WarehouseManagementInventoryStock",
-    ],
-    [
-      "warehouse_management_locations",
-      "Collections.WarehouseManagementLocations",
-    ],
-    [
-      "warehouse_management_outbound_shipment_items",
-      "Collections.WarehouseManagementOutboundShipmentItems",
-    ],
-    [
-      "warehouse_management_outbound_shipments",
-      "Collections.WarehouseManagementOutboundShipments",
-    ],
-    [
-      "warehouse_management_package_items",
-      "Collections.WarehouseManagementPackageItems",
-    ],
-    [
-      "warehouse_management_packages",
-      "Collections.WarehouseManagementPackages",
-    ],
-    [
-      "warehouse_management_pick_batch_items",
-      "Collections.WarehouseManagementPickBatchItems",
-    ],
-    [
-      "warehouse_management_pick_batches",
-      "Collections.WarehouseManagementPickBatches",
-    ],
-    [
-      "warehouse_management_products",
-      "Collections.WarehouseManagementProducts",
-    ],
-    [
-      "warehouse_management_putaway_rules",
-      "Collections.WarehouseManagementPutawayRules",
-    ],
-    [
-      "warehouse_management_reorder_points",
-      "Collections.WarehouseManagementReorderPoints",
-    ],
-    [
-      "warehouse_management_return_items",
-      "Collections.WarehouseManagementReturnItems",
-    ],
+    ["warehouse_management_bin_threshold", "Collections.WarehouseManagementBinThreshold"],
+    ["warehouse_management_inbound_shipment_items", "Collections.WarehouseManagementInboundShipmentItems"],
+    ["warehouse_management_inbound_shipments", "Collections.WarehouseManagementInboundShipments"],
+    ["warehouse_management_inventory_adjustment", "Collections.WarehouseManagementInventoryAdjustment"],
+    ["warehouse_management_inventory_batches", "Collections.WarehouseManagementInventoryBatches"],
+    ["warehouse_management_inventory_stock", "Collections.WarehouseManagementInventoryStock"],
+    ["warehouse_management_locations", "Collections.WarehouseManagementLocations"],
+    ["warehouse_management_outbound_shipment_items", "Collections.WarehouseManagementOutboundShipmentItems"],
+    ["warehouse_management_outbound_shipments", "Collections.WarehouseManagementOutboundShipments"],
+    ["warehouse_management_package_items", "Collections.WarehouseManagementPackageItems"],
+    ["warehouse_management_packages", "Collections.WarehouseManagementPackages"],
+    ["warehouse_management_pick_batch_items", "Collections.WarehouseManagementPickBatchItems"],
+    ["warehouse_management_pick_batches", "Collections.WarehouseManagementPickBatches"],
+    ["warehouse_management_products", "Collections.WarehouseManagementProducts"],
+    ["warehouse_management_putaway_rules", "Collections.WarehouseManagementPutawayRules"],
+    ["warehouse_management_reorder_points", "Collections.WarehouseManagementReorderPoints"],
+    ["warehouse_management_return_items", "Collections.WarehouseManagementReturnItems"],
     ["warehouse_management_returns", "Collections.WarehouseManagementReturns"],
-    [
-      "warehouse_management_sales_order_items",
-      "Collections.WarehouseManagementSalesOrderItems",
-    ],
-    [
-      "warehouse_management_sales_orders",
-      "Collections.WarehouseManagementSalesOrders",
-    ],
-    [
-      "warehouse_management_stock_transfer",
-      "Collections.WarehouseManagementStockTransfer",
-    ],
-    [
-      "warehouse_management_suppliers",
-      "Collections.WarehouseManagementSuppliers",
-    ],
-    [
-      "warehouse_management_task_items",
-      "Collections.WarehouseManagementTaskItems",
-    ],
+    ["warehouse_management_sales_order_items", "Collections.WarehouseManagementSalesOrderItems"],
+    ["warehouse_management_sales_orders", "Collections.WarehouseManagementSalesOrders"],
+    ["warehouse_management_stock_transfer", "Collections.WarehouseManagementStockTransfer"],
+    ["warehouse_management_suppliers", "Collections.WarehouseManagementSuppliers"],
+    ["warehouse_management_task_items", "Collections.WarehouseManagementTaskItems"],
     ["warehouse_management_tasks", "Collections.WarehouseManagementTasks"],
-    [
-      "warehouse_management_warehouses",
-      "Collections.WarehouseManagementWarehouses",
-    ],
+    ["warehouse_management_warehouses", "Collections.WarehouseManagementWarehouses"],
   ]);
 
   return collectionsMap;
@@ -675,18 +381,8 @@ async function discoverSchemas(args: CLIArgs): Promise<SchemaConfig[]> {
         if (args.collection && collectionName !== args.collection) continue;
 
         const schemaFilePath = path.join(domainPath, file);
-        const mutationCreatePath = path.join(
-          actionsDir,
-          domainName,
-          collectionName,
-          "create.tsx"
-        );
-        const mutationUpdatePath = path.join(
-          actionsDir,
-          domainName,
-          collectionName,
-          "update.tsx"
-        );
+        const mutationCreatePath = path.join(actionsDir, domainName, collectionName, "create.tsx");
+        const mutationUpdatePath = path.join(actionsDir, domainName, collectionName, "update.tsx");
 
         // Check if mutation files exist
         try {
@@ -702,8 +398,7 @@ async function discoverSchemas(args: CLIArgs): Promise<SchemaConfig[]> {
 
           for (const field of fields) {
             if (field.isRelation && collectionRelations[field.name]) {
-              field.relationCollectionId =
-                collectionRelations[field.name].relationCollectionId;
+              field.relationCollectionId = collectionRelations[field.name].relationCollectionId;
             }
           }
 
@@ -737,16 +432,12 @@ async function extractSchemaImportName(filePath: string): Promise<string> {
   return match ? match[1] : "Schema"; // Fallback
 }
 
-async function extractSchemaFields(
-  schemaFilePath: string
-): Promise<FieldConfig[]> {
+async function extractSchemaFields(schemaFilePath: string): Promise<FieldConfig[]> {
   const content = await fs.readFile(schemaFilePath, "utf-8");
   const fields: FieldConfig[] = [];
 
   // Parse the Zod schema object
-  const schemaMatch = content.match(
-    /export const \w+Schema = z\.object\(\{([\s\S]*?)\}\);/
-  );
+  const schemaMatch = content.match(/export const \w+Schema = z\.object\(\{([\s\S]*?)\}\);/);
 
   if (!schemaMatch) {
     return fields;
@@ -771,8 +462,7 @@ async function extractSchemaFields(
       isRequired: !typeExpression.includes(".optional()"),
       isArray: typeExpression.includes(".array()"),
       isEnum: typeExpression.includes("z.enum"),
-      isRelation:
-        typeExpression.includes("z.string()") && isLikelyRelation(fieldName),
+      isRelation: typeExpression.includes("z.string()") && isLikelyRelation(fieldName),
       isFile: typeExpression.includes("z.file()"),
       validator: extractValidator(typeExpression),
       description: extractDescription(typeExpression),
@@ -782,9 +472,7 @@ async function extractSchemaFields(
     if (field.isEnum) {
       const enumMatch = typeExpression.match(/z\.enum\(\s*\[(.*?)\]\s*\)/);
       if (enumMatch) {
-        field.enumValues = enumMatch[1]
-          .split(",")
-          .map((v) => v.trim().replace(/^"(.*)"$/, "$1"));
+        field.enumValues = enumMatch[1].split(",").map((v) => v.trim().replace(/^"(.*)"$/, "$1"));
       }
     }
 
@@ -849,9 +537,7 @@ function generateCreateSchema(
   const fieldLines: string[] = [];
 
   // Filter out system fields
-  const userFields = fields.filter(
-    (f) => !["id", "created", "updated"].includes(f.name)
-  );
+  const userFields = fields.filter((f) => !["id", "created", "updated"].includes(f.name));
 
   for (const field of userFields) {
     const id = `${domain}-${collection}-${field.name}-create`;
@@ -868,9 +554,7 @@ function generateCreateSchema(
     // Handle relation fields
     if (field.isRelation) {
       if (field.relationCollectionId) {
-        const relationCollectionName = getRelationCollectionName(
-          field.relationCollectionId
-        );
+        const relationCollectionName = getRelationCollectionName(field.relationCollectionId);
 
         if (relationCollectionName) {
           const collectionRef = collectionsMap.get(relationCollectionName);
@@ -895,13 +579,7 @@ function generateCreateSchema(
       continue;
     }
 
-    const fieldRegistration = generateFieldRegistration(
-      field,
-      id,
-      label,
-      inputType,
-      importName
-    );
+    const fieldRegistration = generateFieldRegistration(field, id, label, inputType, importName);
     fieldLines.push(fieldRegistration);
   }
 
@@ -924,9 +602,7 @@ function generateUpdateSchema(
   const fieldLines: string[] = [];
 
   // Filter out system fields
-  const userFields = fields.filter(
-    (f) => !["id", "created", "updated"].includes(f.name)
-  );
+  const userFields = fields.filter((f) => !["id", "created", "updated"].includes(f.name));
 
   for (const field of userFields) {
     const id = `${domain}-${collection}-${field.name}-update`;
@@ -943,9 +619,7 @@ function generateUpdateSchema(
     // Handle relation fields
     if (field.isRelation) {
       if (field.relationCollectionId) {
-        const relationCollectionName = getRelationCollectionName(
-          field.relationCollectionId
-        );
+        const relationCollectionName = getRelationCollectionName(field.relationCollectionId);
 
         if (relationCollectionName) {
           const collectionRef = collectionsMap.get(relationCollectionName);
@@ -971,14 +645,7 @@ function generateUpdateSchema(
       continue;
     }
 
-    const fieldRegistration = generateFieldRegistration(
-      field,
-      id,
-      label,
-      inputType,
-      importName,
-      true
-    );
+    const fieldRegistration = generateFieldRegistration(field, id, label, inputType, importName, true);
     fieldLines.push(fieldRegistration);
   }
 
@@ -1097,36 +764,20 @@ async function checkExistingRegistrations(filePath: string): Promise<boolean> {
   }
 }
 
-async function generateAllSchemas(
-  schemas: SchemaConfig[]
-): Promise<GeneratedSchema[]> {
+async function generateAllSchemas(schemas: SchemaConfig[]): Promise<GeneratedSchema[]> {
   const generated: GeneratedSchema[] = [];
 
   for (const schema of schemas) {
-    const hasCreate = await checkExistingRegistrations(
-      schema.mutationCreatePath
-    );
-    const hasUpdate = await checkExistingRegistrations(
-      schema.mutationUpdatePath
-    );
+    const hasCreate = await checkExistingRegistrations(schema.mutationCreatePath);
+    const hasUpdate = await checkExistingRegistrations(schema.mutationUpdatePath);
 
     // Skip if both already have registrations
     if (hasCreate && hasUpdate) {
       continue;
     }
 
-    const createResult = generateCreateSchema(
-      schema.domain,
-      schema.collection,
-      schema.fields,
-      schema.importName
-    );
-    const updateResult = generateUpdateSchema(
-      schema.domain,
-      schema.collection,
-      schema.fields,
-      schema.importName
-    );
+    const createResult = generateCreateSchema(schema.domain, schema.collection, schema.fields, schema.importName);
+    const updateResult = generateUpdateSchema(schema.domain, schema.collection, schema.fields, schema.importName);
 
     generated.push({
       schemaPath: `${schema.domain}/${schema.collection}`,
@@ -1139,10 +790,7 @@ async function generateAllSchemas(
   return generated;
 }
 
-async function writeSchemas(
-  schemas: SchemaConfig[],
-  generated: GeneratedSchema[]
-): Promise<void> {
+async function writeSchemas(schemas: SchemaConfig[], generated: GeneratedSchema[]): Promise<void> {
   const generatedMap = new Map(generated.map((g) => [g.schemaPath, g]));
 
   for (const schema of schemas) {
@@ -1209,9 +857,7 @@ function printDryRunPreview(generated: GeneratedSchema[]): void {
   }
 
   console.log("=".repeat(80));
-  console.log(
-    "To apply changes, run without --dry-run flag (add --force to skip confirmation)"
-  );
+  console.log("To apply changes, run without --dry-run flag (add --force to skip confirmation)");
   console.log("=".repeat(80));
 }
 
@@ -1240,9 +886,7 @@ async function main() {
   const generated = await generateAllSchemas(schemas);
 
   if (generated.length === 0) {
-    console.log(
-      "✓ All schemas already have field registrations. No updates needed.\n"
-    );
+    console.log("✓ All schemas already have field registrations. No updates needed.\n");
     process.exit(0);
   }
 
@@ -1251,9 +895,7 @@ async function main() {
   } else {
     console.log("Writing schemas...\n");
     await writeSchemas(schemas, generated);
-    console.log(
-      "\n✓ Field registration complete! All schemas have been updated.\n"
-    );
+    console.log("\n✓ Field registration complete! All schemas have been updated.\n");
 
     // Print warnings
     const allWarnings = generated.flatMap((g) => g.warnings);

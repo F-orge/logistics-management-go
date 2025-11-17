@@ -1,4 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +10,6 @@ import {
 import CreateProofOfDeliveryForm from "./create";
 import DeleteProofOfDelivery from "./delete";
 import UpdateProofOfDeliveryForm from "./update";
-import { Suspense } from "react";
 
 const ProofOfDeliveryActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -36,10 +36,10 @@ const ProofOfDeliveryActions = () => {
 			title: "Update Proof of Delivery",
 			description: "Modify the proof of delivery details below.",
 			Element: (
-        <Suspense>
-          <UpdateProofOfDeliveryForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateProofOfDeliveryForm />
+				</Suspense>
+			),
 		};
 	}
 

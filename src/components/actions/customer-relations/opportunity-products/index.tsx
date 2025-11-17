@@ -3,6 +3,7 @@ import {
 	useRouteContext,
 	useSearch,
 } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -13,7 +14,6 @@ import {
 import CreateOpportunityProductsForm from "./create";
 import DeleteOpportunityProducts from "./delete";
 import UpdateOpportunityProductsForm from "./update";
-import { Suspense } from "react";
 
 const OpportunityProductsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -40,10 +40,10 @@ const OpportunityProductsActions = () => {
 			title: "Update Opportunity Product",
 			description: "Modify the opportunity product details below.",
 			Element: (
-        <Suspense>
-          <UpdateOpportunityProductsForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateOpportunityProductsForm />
+				</Suspense>
+			),
 		};
 	}
 

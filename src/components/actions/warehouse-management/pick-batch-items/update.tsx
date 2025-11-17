@@ -1,18 +1,18 @@
 import { formOptions } from "@tanstack/react-form";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-  UseNavigateResult,
-  useNavigate,
-  useRouteContext,
-  useSearch,
+	UseNavigateResult,
+	useNavigate,
+	useRouteContext,
+	useSearch,
 } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
 import AutoFieldSet from "@/components/ui/autoform-tanstack/auto-fieldset";
 import {
-  fieldRegistry,
-  toAutoFormFieldSet,
+	fieldRegistry,
+	toAutoFormFieldSet,
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
@@ -21,126 +21,126 @@ import { PickBatchItemsSchema } from "@/pocketbase/schemas/warehouse-management/
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-  pickBatch: PickBatchItemsSchema.shape.pickBatch
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-pick-batch-items-pickBatch-update",
-      type: "field",
-      label: "PickBatch",
-      description: "Enter a pickbatch",
-      inputType: "text",
-    }),
-  salesOrder: PickBatchItemsSchema.shape.salesOrder
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-pick-batch-items-salesOrder-update",
-      type: "field",
-      label: "SalesOrder",
-      description: "Enter a salesorder",
-      inputType: "text",
-    }),
-  orderPriority: PickBatchItemsSchema.shape.orderPriority
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-pick-batch-items-orderPriority-update",
-      type: "field",
-      label: "OrderPriority",
-      description: "Enter an orderpriority",
-      inputType: "number",
-    }),
-  estimatedPickTime: PickBatchItemsSchema.shape.estimatedPickTime
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-pick-batch-items-estimatedPickTime-update",
-      type: "field",
-      label: "EstimatedPickTime",
-      description: "Enter an estimatedpicktime",
-      inputType: "date",
-    }),
-  actualPickTime: PickBatchItemsSchema.shape.actualPickTime
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-pick-batch-items-actualPickTime-update",
-      type: "field",
-      label: "ActualPickTime",
-      description: "Enter an actualpicktime",
-      inputType: "number",
-    }),
+	pickBatch: PickBatchItemsSchema.shape.pickBatch
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-pick-batch-items-pickBatch-update",
+			type: "field",
+			label: "PickBatch",
+			description: "Enter a pickbatch",
+			inputType: "text",
+		}),
+	salesOrder: PickBatchItemsSchema.shape.salesOrder
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-pick-batch-items-salesOrder-update",
+			type: "field",
+			label: "SalesOrder",
+			description: "Enter a salesorder",
+			inputType: "text",
+		}),
+	orderPriority: PickBatchItemsSchema.shape.orderPriority
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-pick-batch-items-orderPriority-update",
+			type: "field",
+			label: "OrderPriority",
+			description: "Enter an orderpriority",
+			inputType: "number",
+		}),
+	estimatedPickTime: PickBatchItemsSchema.shape.estimatedPickTime
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-pick-batch-items-estimatedPickTime-update",
+			type: "field",
+			label: "EstimatedPickTime",
+			description: "Enter an estimatedpicktime",
+			inputType: "date",
+		}),
+	actualPickTime: PickBatchItemsSchema.shape.actualPickTime
+		.optional()
+		.register(fieldRegistry, {
+			id: "warehouse-management-pick-batch-items-actualPickTime-update",
+			type: "field",
+			label: "ActualPickTime",
+			description: "Enter an actualpicktime",
+			inputType: "number",
+		}),
 });
 
 const FormOption = formOptions({
-  defaultValues: {} as z.infer<typeof UpdateSchema>,
-  validators: {
-    onSubmit: UpdateSchema,
-  },
-  onSubmitMeta: {} as {
-    id: string;
-    pocketbase: TypedPocketBase;
-    navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-  },
-  onSubmit: async ({ value, meta }) => {
-    try {
-      await meta
-        .pocketbase!.collection(Collections.WarehouseManagementPickBatchItems)
-        .update(meta.id!, value);
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
+	validators: {
+		onSubmit: UpdateSchema,
+	},
+	onSubmitMeta: {} as {
+		id: string;
+		pocketbase: TypedPocketBase;
+		navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+	},
+	onSubmit: async ({ value, meta }) => {
+		try {
+			await meta
+				.pocketbase!.collection(Collections.WarehouseManagementPickBatchItems)
+				.update(meta.id!, value);
 
-      toast.success("Pick Batch Items updated successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to update pick-batch-items: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      meta.navigate!({
-        search: (prev) => ({ ...prev, action: undefined, id: undefined }),
-      });
-    }
-  },
+			toast.success("Pick Batch Items updated successfully!");
+		} catch (error) {
+			if (error instanceof ClientResponseError) {
+				toast.error(
+					`Failed to update pick-batch-items: ${error.message} (${error.status})`,
+				);
+			}
+		} finally {
+			meta.navigate!({
+				search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+			});
+		}
+	},
 });
 
 const UpdateForm = () => {
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
+	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+	const { pocketbase } = useRouteContext({
+		from: "/dashboard/$schema/$collection",
+	});
+	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
-  const { data } = useSuspenseQuery({
-    queryKey: ["pickBatchItems", searchQuery.id],
+	const { data } = useSuspenseQuery({
+		queryKey: ["pickBatchItems", searchQuery.id],
 
-    queryFn: async () => {
-      const record = await pocketbase
-        .collection(Collections.WarehouseManagementPickBatchItems)
-        .getOne(searchQuery.id!);
-      return record;
-    },
-  });
+		queryFn: async () => {
+			const record = await pocketbase
+				.collection(Collections.WarehouseManagementPickBatchItems)
+				.getOne(searchQuery.id!);
+			return record;
+		},
+	});
 
-  const form = useAppForm({
-    ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
-  });
+	const form = useAppForm({
+		...FormOption,
+		defaultValues: data as z.infer<typeof UpdateSchema>,
+	});
 
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit({ navigate, pocketbase, id: searchQuery.id! });
-      }}
-    >
-      <form.AppForm>
-        <AutoFieldSet
-          form={form as any}
-          {...toAutoFormFieldSet(UpdateSchema)}
-        />
-        <DialogFooter>
-          <form.SubmitButton>Update Pick Batch Items</form.SubmitButton>
-        </DialogFooter>
-      </form.AppForm>
-    </form>
-  );
+	return (
+		<form
+			onSubmit={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				form.handleSubmit({ navigate, pocketbase, id: searchQuery.id! });
+			}}
+		>
+			<form.AppForm>
+				<AutoFieldSet
+					form={form as any}
+					{...toAutoFormFieldSet(UpdateSchema)}
+				/>
+				<DialogFooter>
+					<form.SubmitButton>Update Pick Batch Items</form.SubmitButton>
+				</DialogFooter>
+			</form.AppForm>
+		</form>
+	);
 };
 
 export default UpdateForm;

@@ -3,6 +3,7 @@ import {
 	useRouteContext,
 	useSearch,
 } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -13,7 +14,6 @@ import {
 import CreateInvoiceItemsForm from "./create";
 import DeleteInvoiceItems from "./delete";
 import UpdateInvoiceItemsForm from "./update";
-import { Suspense } from "react";
 
 const InvoiceItemsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -40,10 +40,10 @@ const InvoiceItemsActions = () => {
 			title: "Update Invoice Item",
 			description: "Modify the invoice item details below.",
 			Element: (
-        <Suspense>
-          <UpdateInvoiceItemsForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateInvoiceItemsForm />
+				</Suspense>
+			),
 		};
 	}
 

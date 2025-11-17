@@ -50,7 +50,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "Probability",
       description: "Enter a probability",
-      inputType: "text",
+      inputType: "number",
     }),
   expectedCloseDate: OpportunitiesSchema.shape.expectedCloseDate
     .optional()
@@ -68,72 +68,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "LostReason",
       description: "Enter a lostreason",
-      inputType: "text",
-    }),
-  source: OpportunitiesSchema.shape.source.optional().register(fieldRegistry, {
-    id: "customer-relations-opportunities-source-update",
-    type: "field",
-    label: "Source",
-    description: "Enter a source",
-    inputType: "select",
-  }),
-  owner: OpportunitiesSchema.shape.owner.optional().register(fieldRegistry, {
-    id: "customer-relations-opportunities-owner-update",
-    type: "field",
-    label: "Owner",
-    description: "Enter an owner",
-    inputType: "text",
-  }),
-  contact: OpportunitiesSchema.shape.contact
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-opportunities-contact-update",
-      type: "field",
-      label: "Contact",
-      description: "Enter a contact",
-      inputType: "relation",
-      props: {
-        collectionName: Collections.CustomerRelationsContacts,
-        displayField: "name",
-        relationshipName: "contact",
-      },
-    }),
-  company: OpportunitiesSchema.shape.company
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-opportunities-company-update",
-      type: "field",
-      label: "Company",
-      description: "Enter a company",
-      inputType: "relation",
-      props: {
-        collectionName: Collections.CustomerRelationsCompanies,
-        displayField: "name",
-        relationshipName: "company",
-      },
-    }),
-  campaign: OpportunitiesSchema.shape.campaign
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-opportunities-campaign-update",
-      type: "field",
-      label: "Campaign",
-      description: "Enter a campaign",
-      inputType: "text",
-    }),
-  products: OpportunitiesSchema.shape.products
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-opportunities-products-update",
-      type: "field",
-      label: "Products",
-      description: "Enter a products",
-      inputType: "relation",
-      props: {
-        collectionName: Collections.CustomerRelationsOpportunityProducts,
-        displayField: "name",
-        relationshipName: "products",
-      },
+      inputType: "textarea",
     }),
 });
 
@@ -185,7 +120,12 @@ const UpdateOpportunitiesForm = () => {
 
   const form = useAppForm({
     ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
+    defaultValues: {
+      ...data,
+      expectedCloseDate: data.expectedCloseDate
+        ? new Date(data.expectedCloseDate)
+        : undefined,
+    } as z.infer<typeof UpdateSchema>,
   });
 
   if (!data) return null;

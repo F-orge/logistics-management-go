@@ -1,4 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +10,6 @@ import {
 import CreateForm from "./create";
 import DeleteForm from "./delete";
 import UpdateForm from "./update";
-import { Suspense } from "react";
 
 const ShipmentLegsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -36,10 +36,10 @@ const ShipmentLegsActions = () => {
 			title: "Update Shipment Legs",
 			description: "Modify the shipment legs details below.",
 			Element: (
-        <Suspense>
-          <UpdateForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateForm />
+				</Suspense>
+			),
 		};
 	}
 

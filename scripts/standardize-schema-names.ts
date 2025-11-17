@@ -106,9 +106,7 @@ function standardizeSchemaNames(
 
   if (isCreateFile) {
     // Find any "export const Create*Schema" pattern
-    const createMatch = modified.match(
-      /export const Create\w+Schema = z\.object/
-    );
+    const createMatch = modified.match(/export const Create\w+Schema = z\.object/);
     if (createMatch) {
       const oldName = createMatch[0].match(/Create\w+Schema/)?.[0];
       if (oldName && oldName !== "CreateSchema") {
@@ -124,9 +122,7 @@ function standardizeSchemaNames(
     }
   } else {
     // Find any "export const Update*Schema" pattern
-    const updateMatch = modified.match(
-      /export const Update\w+Schema = z\.object/
-    );
+    const updateMatch = modified.match(/export const Update\w+Schema = z\.object/);
     if (updateMatch) {
       const oldName = updateMatch[0].match(/Update\w+Schema/)?.[0];
       if (oldName && oldName !== "UpdateSchema") {
@@ -169,10 +165,7 @@ async function main() {
   for (const file of files) {
     const content = await fs.readFile(file, "utf-8");
     const fileName = path.basename(file);
-    const { modified, changed, changes } = standardizeSchemaNames(
-      content,
-      fileName
-    );
+    const { modified, changed, changes } = standardizeSchemaNames(content, fileName);
 
     if (changed) {
       totalChanged++;

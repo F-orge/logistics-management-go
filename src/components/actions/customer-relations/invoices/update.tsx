@@ -16,88 +16,30 @@ import {
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import {
-  Collections,
-  CustomerRelationsOpportunitiesRecord,
-  TypedPocketBase,
-} from "@/lib/pb.types";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { InvoicesSchema } from "@/pocketbase/schemas/customer-relations";
 
 export const UpdateSchema = z.object({
-  invoiceNumber: InvoicesSchema.shape.invoiceNumber
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-invoices-invoiceNumber-update",
-      type: "field",
-      label: "InvoiceNumber",
-      description: "Invoice number is required",
-      inputType: "text",
-    }),
-  opportunity: InvoicesSchema.shape.opportunity
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-invoices-opportunity-update",
-      type: "field",
-      label: "Opportunity",
-      description: "Enter an opportunity",
-      inputType: "relation",
-      props: {
-        collectionName: Collections.CustomerRelationsOpportunities,
-        displayField: "name",
-        relationshipName: "opportunity",
-      },
-    }),
-  status: InvoicesSchema.shape.status.optional().register(fieldRegistry, {
+  status: InvoicesSchema.shape.status.register(fieldRegistry, {
     id: "customer-relations-invoices-status-update",
     type: "field",
     label: "Status",
     description: "Enter a status",
     inputType: "select",
   }),
-  total: InvoicesSchema.shape.total.optional().register(fieldRegistry, {
-    id: "customer-relations-invoices-total-update",
-    type: "field",
-    label: "Total",
-    description: "Enter a total",
-    inputType: "number",
-  }),
-  issueDate: InvoicesSchema.shape.issueDate.optional().register(fieldRegistry, {
-    id: "customer-relations-invoices-issueDate-update",
-    type: "field",
-    label: "IssueDate",
-    description: "Enter an issuedate",
-    inputType: "text",
-  }),
   dueDate: InvoicesSchema.shape.dueDate.optional().register(fieldRegistry, {
     id: "customer-relations-invoices-dueDate-update",
     type: "field",
     label: "DueDate",
     description: "Enter a duedate",
-    inputType: "text",
+    inputType: "date",
   }),
-  sentAt: InvoicesSchema.shape.sentAt.optional().register(fieldRegistry, {
-    id: "customer-relations-invoices-sentAt-update",
+  paymentMethod: InvoicesSchema.shape.paymentMethod.register(fieldRegistry, {
+    id: "customer-relations-invoices-paymentMethod-update",
     type: "field",
-    label: "SentAt",
-    description: "Enter a sentat",
-    inputType: "text",
-  }),
-  paymentMethod: InvoicesSchema.shape.paymentMethod
-    .optional()
-    .register(fieldRegistry, {
-      id: "customer-relations-invoices-paymentMethod-update",
-      type: "field",
-      label: "PaymentMethod",
-      description: "Enter a paymentmethod",
-      inputType: "text",
-    }),
-  items: InvoicesSchema.shape.items.optional().register(fieldRegistry, {
-    id: "customer-relations-invoices-items-update",
-    type: "field",
-    label: "Items",
-    description: "Enter an items",
-    inputType: "text",
+    label: "PaymentMethod",
+    description: "Enter a paymentmethod",
+    inputType: "select",
   }),
 });
 
@@ -115,7 +57,10 @@ const FormOption = formOptions({
     try {
       await meta
         .pocketbase!.collection(Collections.CustomerRelationsInvoices)
-        .update(meta.id, value);
+        .update(meta.id, {
+          ...value,
+          sentAt: value.status === "sent" ? new Date() : undefined,
+        });
 
       toast.success("Invoice updated successfully!");
     } catch (error) {
@@ -140,17 +85,19 @@ const UpdateInvoiceForm = () => {
   const { data } = useSuspenseQuery({
     queryKey: ["invoice", searchQuery.id],
     queryFn: async () => {
-      if (!searchQuery.id) return null;
-      const record = await pocketbase
+      return await pocketbase
         .collection(Collections.CustomerRelationsInvoices)
-        .getOne(searchQuery.id);
-      return record;
+        .getOne(searchQuery.id!);
     },
   });
 
   const form = useAppForm({
     ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
+    defaultValues: {
+      ...data,
+      dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
+      sentAt: data.sentAt ? new Date(data.sentAt) : undefined,
+    } as z.infer<typeof UpdateSchema>,
   });
 
   return (

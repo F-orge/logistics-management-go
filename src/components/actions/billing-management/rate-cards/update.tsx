@@ -1,18 +1,18 @@
 import { formOptions } from "@tanstack/react-form";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-  UseNavigateResult,
-  useNavigate,
-  useRouteContext,
-  useSearch,
+	UseNavigateResult,
+	useNavigate,
+	useRouteContext,
+	useSearch,
 } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
 import AutoFieldSet from "@/components/ui/autoform-tanstack/auto-fieldset";
 import {
-  fieldRegistry,
-  toAutoFormFieldSet,
+	fieldRegistry,
+	toAutoFormFieldSet,
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
@@ -21,136 +21,136 @@ import { RateCardsSchema } from "@/pocketbase/schemas/billing-management/rate-ca
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-  name: RateCardsSchema.shape.name.optional().register(fieldRegistry, {
-    id: "billing-management-rate-cards-name-update",
-    type: "field",
-    label: "Name",
-    description: "Enter a name",
-    inputType: "text",
-  }),
-  type: RateCardsSchema.shape.type.optional().register(fieldRegistry, {
-    id: "billing-management-rate-cards-type-update",
-    type: "field",
-    label: "Type",
-    description: "Enter a type",
-    inputType: "select",
-  }),
-  isActive: RateCardsSchema.shape.isActive.optional().register(fieldRegistry, {
-    id: "billing-management-rate-cards-isActive-update",
-    type: "field",
-    label: "IsActive",
-    description: "Enter an isactive",
-    inputType: "boolean",
-  }),
-  validFrom: RateCardsSchema.shape.validFrom
-    .optional()
-    .register(fieldRegistry, {
-      id: "billing-management-rate-cards-validFrom-update",
-      type: "field",
-      label: "ValidFrom",
-      description: "Enter a validfrom",
-      inputType: "date",
-    }),
-  validTo: RateCardsSchema.shape.validTo.optional().register(fieldRegistry, {
-    id: "billing-management-rate-cards-validTo-update",
-    type: "field",
-    label: "ValidTo",
-    description: "Enter a validto",
-    inputType: "date",
-  }),
-  description: RateCardsSchema.shape.description
-    .optional()
-    .register(fieldRegistry, {
-      id: "billing-management-rate-cards-description-update",
-      type: "field",
-      label: "Description",
-      description: "Enter a description",
-      inputType: "textarea",
-    }),
-  createdBy: RateCardsSchema.shape.createdBy
-    .optional()
-    .register(fieldRegistry, {
-      id: "billing-management-rate-cards-createdBy-update",
-      type: "field",
-      label: "CreatedBy",
-      description: "Enter a createdby",
-      inputType: "text",
-    }),
+	name: RateCardsSchema.shape.name.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-name-update",
+		type: "field",
+		label: "Name",
+		description: "Enter a name",
+		inputType: "text",
+	}),
+	type: RateCardsSchema.shape.type.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-type-update",
+		type: "field",
+		label: "Type",
+		description: "Enter a type",
+		inputType: "select",
+	}),
+	isActive: RateCardsSchema.shape.isActive.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-isActive-update",
+		type: "field",
+		label: "IsActive",
+		description: "Enter an isactive",
+		inputType: "boolean",
+	}),
+	validFrom: RateCardsSchema.shape.validFrom
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-rate-cards-validFrom-update",
+			type: "field",
+			label: "ValidFrom",
+			description: "Enter a validfrom",
+			inputType: "date",
+		}),
+	validTo: RateCardsSchema.shape.validTo.optional().register(fieldRegistry, {
+		id: "billing-management-rate-cards-validTo-update",
+		type: "field",
+		label: "ValidTo",
+		description: "Enter a validto",
+		inputType: "date",
+	}),
+	description: RateCardsSchema.shape.description
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-rate-cards-description-update",
+			type: "field",
+			label: "Description",
+			description: "Enter a description",
+			inputType: "textarea",
+		}),
+	createdBy: RateCardsSchema.shape.createdBy
+		.optional()
+		.register(fieldRegistry, {
+			id: "billing-management-rate-cards-createdBy-update",
+			type: "field",
+			label: "CreatedBy",
+			description: "Enter a createdby",
+			inputType: "text",
+		}),
 });
 
 const FormOption = formOptions({
-  defaultValues: {} as z.infer<typeof UpdateSchema>,
-  validators: {
-    onSubmit: UpdateSchema,
-  },
-  onSubmitMeta: {} as {
-    id: string;
-    pocketbase: TypedPocketBase;
-    navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-  },
-  onSubmit: async ({ value, meta }) => {
-    try {
-      await meta
-        .pocketbase!.collection(Collections.BillingManagementRateCards)
-        .update(meta.id!, value);
+	defaultValues: {} as z.infer<typeof UpdateSchema>,
+	validators: {
+		onSubmit: UpdateSchema,
+	},
+	onSubmitMeta: {} as {
+		id: string;
+		pocketbase: TypedPocketBase;
+		navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+	},
+	onSubmit: async ({ value, meta }) => {
+		try {
+			await meta
+				.pocketbase!.collection(Collections.BillingManagementRateCards)
+				.update(meta.id!, value);
 
-      toast.success("Rate Cards updated successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to update rate-cards: ${error.message} (${error.status})`
-        );
-      }
-    } finally {
-      meta.navigate!({
-        search: (prev) => ({ ...prev, action: undefined, id: undefined }),
-      });
-    }
-  },
+			toast.success("Rate Cards updated successfully!");
+		} catch (error) {
+			if (error instanceof ClientResponseError) {
+				toast.error(
+					`Failed to update rate-cards: ${error.message} (${error.status})`,
+				);
+			}
+		} finally {
+			meta.navigate!({
+				search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+			});
+		}
+	},
 });
 
 const UpdateForm = () => {
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
-    from: "/dashboard/$schema/$collection",
-  });
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
+	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+	const { pocketbase } = useRouteContext({
+		from: "/dashboard/$schema/$collection",
+	});
+	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
-  const { data } = useSuspenseQuery({
-    queryKey: ["rateCards", searchQuery.id],
+	const { data } = useSuspenseQuery({
+		queryKey: ["rateCards", searchQuery.id],
 
-    queryFn: async () => {
-      const record = await pocketbase
-        .collection(Collections.BillingManagementRateCards)
-        .getOne(searchQuery.id!);
-      return record;
-    },
-  });
+		queryFn: async () => {
+			const record = await pocketbase
+				.collection(Collections.BillingManagementRateCards)
+				.getOne(searchQuery.id!);
+			return record;
+		},
+	});
 
-  const form = useAppForm({
-    ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
-  });
+	const form = useAppForm({
+		...FormOption,
+		defaultValues: data as z.infer<typeof UpdateSchema>,
+	});
 
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit({ navigate, pocketbase, id: searchQuery.id! });
-      }}
-    >
-      <form.AppForm>
-        <AutoFieldSet
-          form={form as any}
-          {...toAutoFormFieldSet(UpdateSchema)}
-        />
-        <DialogFooter>
-          <form.SubmitButton>Update Rate Cards</form.SubmitButton>
-        </DialogFooter>
-      </form.AppForm>
-    </form>
-  );
+	return (
+		<form
+			onSubmit={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				form.handleSubmit({ navigate, pocketbase, id: searchQuery.id! });
+			}}
+		>
+			<form.AppForm>
+				<AutoFieldSet
+					form={form as any}
+					{...toAutoFormFieldSet(UpdateSchema)}
+				/>
+				<DialogFooter>
+					<form.SubmitButton>Update Rate Cards</form.SubmitButton>
+				</DialogFooter>
+			</form.AppForm>
+		</form>
+	);
 };
 
 export default UpdateForm;

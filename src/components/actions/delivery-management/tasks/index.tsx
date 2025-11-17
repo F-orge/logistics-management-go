@@ -1,4 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +10,6 @@ import {
 import CreateTaskForm from "./create";
 import DeleteTask from "./delete";
 import UpdateTaskForm from "./update";
-import { Suspense } from "react";
 
 const TaskActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -36,10 +36,10 @@ const TaskActions = () => {
 			title: "Update Task",
 			description: "Modify the task details below.",
 			Element: (
-        <Suspense>
-          <UpdateTaskForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateTaskForm />
+				</Suspense>
+			),
 		};
 	}
 

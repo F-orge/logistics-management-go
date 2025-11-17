@@ -141,15 +141,19 @@ const FormOption = formOptions({
     navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
   },
   onSubmit: async ({ value, meta }) => {
+    let opportunityId: string | null = null;
+
     try {
       const { products, ...opportunityData } = value;
 
       const opportunity = await meta
         .pocketbase!.collection(Collections.CustomerRelationsOpportunities)
-        .create<Create<Collections.CustomerRelationsOpportunities>>({
+        .create({
           ...opportunityData,
           owner: meta.pocketbase!.authStore.record?.id,
         });
+
+      opportunityId = opportunity.id;
 
       const batch = meta.pocketbase!.createBatch();
 
@@ -168,6 +172,22 @@ const FormOption = formOptions({
       toast.success("Opportunity created successfully!");
     } catch (error) {
       if (error instanceof ClientResponseError) {
+        if (opportunityId) {
+          // Cleanup opportunity if products creation failed
+          try {
+            await meta
+              .pocketbase!.collection(
+                Collections.CustomerRelationsOpportunities
+              )
+              .delete(opportunityId);
+          } catch (deleteError) {
+            console.error(
+              "Failed to cleanup opportunity after product creation failure:",
+              deleteError
+            );
+          }
+        }
+
         toast.error(
           `Failed to create opportunity: ${error.message} (${error.status})`
         );

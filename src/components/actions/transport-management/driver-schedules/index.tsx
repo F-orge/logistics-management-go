@@ -1,4 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +10,6 @@ import {
 import CreateForm from "./create";
 import DeleteForm from "./delete";
 import UpdateForm from "./update";
-import { Suspense } from "react";
 
 const DriverSchedulesActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -36,10 +36,10 @@ const DriverSchedulesActions = () => {
 			title: "Update Driver Schedule",
 			description: "Modify the driver schedule details below.",
 			Element: (
-        <Suspense>
-          <UpdateForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateForm />
+				</Suspense>
+			),
 		};
 	}
 

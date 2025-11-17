@@ -3,6 +3,7 @@ import {
 	useRouteContext,
 	useSearch,
 } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -13,7 +14,6 @@ import {
 import CreateProductsForm from "./create";
 import DeleteProducts from "./delete";
 import UpdateProductsForm from "./update";
-import { Suspense } from "react";
 
 const ProductsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -40,10 +40,10 @@ const ProductsActions = () => {
 			title: "Update Product",
 			description: "Modify the product details below.",
 			Element: (
-        <Suspense>
-          <UpdateProductsForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateProductsForm />
+				</Suspense>
+			),
 		};
 	}
 

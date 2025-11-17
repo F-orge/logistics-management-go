@@ -94,15 +94,8 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "AnnualRevenue",
       description: "Enter an annualrevenue",
-      inputType: "text",
+      inputType: "number",
     }),
-  owner: CompaniesSchema.shape.owner.optional().register(fieldRegistry, {
-    id: "customer-relations-companies-owner-update",
-    type: "field",
-    label: "Owner",
-    description: "Enter an owner",
-    inputType: "text",
-  }),
 });
 
 const FormOption = formOptions({

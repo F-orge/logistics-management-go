@@ -119,12 +119,9 @@ function resetSchemaToEmpty(content: string): {
   }
 
   // Process CreateSchema
-  const createStart = modified.indexOf(
-    "export const CreateSchema = z.object({"
-  );
+  const createStart = modified.indexOf("export const CreateSchema = z.object({");
   if (createStart !== -1) {
-    const openBraceIdx =
-      createStart + "export const CreateSchema = z.object(".length;
+    const openBraceIdx = createStart + "export const CreateSchema = z.object(".length;
     const closeBraceIdx = findClosingBrace(modified, openBraceIdx);
     if (closeBraceIdx !== -1) {
       const semicolonIdx = modified.indexOf(";", closeBraceIdx);
@@ -139,12 +136,9 @@ function resetSchemaToEmpty(content: string): {
   }
 
   // Process UpdateSchema
-  const updateStart = modified.indexOf(
-    "export const UpdateSchema = z.object({"
-  );
+  const updateStart = modified.indexOf("export const UpdateSchema = z.object({");
   if (updateStart !== -1) {
-    const openBraceIdx =
-      updateStart + "export const UpdateSchema = z.object(".length;
+    const openBraceIdx = updateStart + "export const UpdateSchema = z.object(".length;
     const closeBraceIdx = findClosingBrace(modified, openBraceIdx);
     if (closeBraceIdx !== -1) {
       const semicolonIdx = modified.indexOf(";", closeBraceIdx);

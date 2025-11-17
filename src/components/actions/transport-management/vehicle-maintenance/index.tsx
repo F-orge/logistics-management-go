@@ -1,4 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +10,6 @@ import {
 import CreateForm from "./create";
 import DeleteForm from "./delete";
 import UpdateForm from "./update";
-import { Suspense } from "react";
 
 const VehicleMaintenanceActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -36,10 +36,10 @@ const VehicleMaintenanceActions = () => {
 			title: "Update Vehicle Maintenance",
 			description: "Modify the vehicle maintenance details below.",
 			Element: (
-        <Suspense>
-          <UpdateForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateForm />
+				</Suspense>
+			),
 		};
 	}
 

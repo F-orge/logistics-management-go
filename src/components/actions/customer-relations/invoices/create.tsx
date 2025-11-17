@@ -81,25 +81,11 @@ export const CreateSchema = z.object({
     description: "Enter a status",
     inputType: "select",
   }),
-  issueDate: InvoicesSchema.shape.issueDate.register(fieldRegistry, {
-    id: "customer-relations-invoices-issueDate-create",
-    type: "field",
-    label: "IssueDate",
-    description: "Enter an issuedate",
-    inputType: "date",
-  }),
   dueDate: InvoicesSchema.shape.dueDate.register(fieldRegistry, {
     id: "customer-relations-invoices-dueDate-create",
     type: "field",
     label: "DueDate",
     description: "Enter a duedate",
-    inputType: "date",
-  }),
-  sentAt: InvoicesSchema.shape.sentAt.register(fieldRegistry, {
-    id: "customer-relations-invoices-sentAt-create",
-    type: "field",
-    label: "SentAt",
-    description: "Enter a sentat",
     inputType: "date",
   }),
   paymentMethod: InvoicesSchema.shape.paymentMethod.register(fieldRegistry, {
@@ -143,36 +129,55 @@ const FormOption = formOptions({
       const invoicePayload = {
         ...rest,
         total: sumPrices,
+        issueDate: new Date().toISOString(),
       };
 
-      // send invoice first
-      const invoice = await meta
-        .pocketbase!.collection(Collections.CustomerRelationsInvoices)
-        .create(invoicePayload);
+      let invoiceId: string = "";
 
-      const batch = meta.pocketbase.createBatch();
+      try {
+        // send invoice first
+        const invoice = await meta
+          .pocketbase!.collection(Collections.CustomerRelationsInvoices)
+          .create(invoicePayload);
 
-      for (const item of items) {
-        const product = products.items.find((p) => p.id === item.product);
+        invoiceId = invoice.id;
 
-        if (!product) continue;
+        const batch = meta.pocketbase.createBatch();
 
-        const invoiceItemPayload: Create<Collections.CustomerRelationsInvoiceItems> =
-          {
-            invoice: invoice.id,
-            product: item.product,
-            quantity: item.quantity,
-            price: product.price * item.quantity,
-          };
+        for (const item of items) {
+          const product = products.items.find((p) => p.id === item.product);
 
-        batch
-          .collection(Collections.CustomerRelationsInvoiceItems)
-          .create(invoiceItemPayload);
+          if (!product) continue;
+
+          const invoiceItemPayload: Create<Collections.CustomerRelationsInvoiceItems> =
+            {
+              invoice: invoice.id,
+              product: item.product,
+              quantity: item.quantity,
+              price: product.price * item.quantity,
+            };
+
+          batch
+            .collection(Collections.CustomerRelationsInvoiceItems)
+            .create(invoiceItemPayload);
+        }
+
+        await batch.send();
+
+        toast.success("Invoices created successfully!");
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          if (invoiceId) {
+            await meta
+              .pocketbase!.collection(Collections.CustomerRelationsInvoices)
+              .delete(invoiceId);
+          }
+
+          toast.error(
+            `Failed to create invoice items: ${error.message} (${error.status})`
+          );
+        }
       }
-
-      await batch.send();
-
-      toast.success("Invoices created successfully!");
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.error(

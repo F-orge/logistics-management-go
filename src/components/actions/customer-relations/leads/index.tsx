@@ -3,6 +3,7 @@ import {
 	useRouteContext,
 	useSearch,
 } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -13,7 +14,6 @@ import {
 import CreateLeadsForm from "./create";
 import DeleteLeads from "./delete";
 import UpdateLeadsForm from "./update";
-import { Suspense } from "react";
 
 const LeadsActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -40,10 +40,10 @@ const LeadsActions = () => {
 			title: "Update Lead",
 			description: "Modify the lead details below.",
 			Element: (
-        <Suspense>
-          <UpdateLeadsForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateLeadsForm />
+				</Suspense>
+			),
 		};
 	}
 

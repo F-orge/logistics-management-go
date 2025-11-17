@@ -1,4 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Suspense } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -9,7 +10,6 @@ import {
 import CreateRouteForm from "./create";
 import DeleteRoute from "./delete";
 import UpdateRouteForm from "./update";
-import { Suspense } from "react";
 
 const RouteActions = () => {
 	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
@@ -36,10 +36,10 @@ const RouteActions = () => {
 			title: "Update Route",
 			description: "Modify the route details below.",
 			Element: (
-        <Suspense>
-          <UpdateRouteForm />
-        </Suspense>
-      ),
+				<Suspense>
+					<UpdateRouteForm />
+				</Suspense>
+			),
 		};
 	}
 
