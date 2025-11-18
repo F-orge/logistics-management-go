@@ -15,19 +15,24 @@ import { fieldConfigFactory } from "@/components/ui/autoform/AutoForm";
 import { z } from "zod";
 
 export const ProductsSchema = z.object({
-	id: z.string(),
-	sku: z.string().optional(),
-	name: z.string().optional(),
-	description: z.string().optional(),
-	category: z.string().optional(),
-	price: z.number().optional(),
-	unit: z.string().optional(),
-	weight: z.number().optional(),
-	supplier: z.string().optional(),
-	client: z.string().optional(),
-	images: z.array(z.string()).optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  sku: z.string(),
+  name: z.string(),
+  barcode: z.string().optional(),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  price: z.number().optional(),
+  unit: z.string().optional(),
+  weight: z.number().optional(),
+  length: z.number().optional(),
+  width: z.number().optional(),
+  height: z.number().optional(),
+  status: z.enum(["active", "discontinued", "obsolete"]).optional(),
+  supplier: z.string().optional(),
+  client: z.string().optional(),
+  images: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Products = z.infer<typeof ProductsSchema>;
