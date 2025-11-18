@@ -1440,9 +1440,9 @@ export type WarehouseManagementReturnItemsRecord = {
 export enum WarehouseManagementReturnsStatusOptions {
 	"requested" = "requested",
 	"approved" = "approved",
-	"rejeceted" = "rejeceted",
 	"received" = "received",
 	"processed" = "processed",
+	"rejected" = "rejected",
 }
 export type WarehouseManagementReturnsRecord = {
 	client?: RecordIdString

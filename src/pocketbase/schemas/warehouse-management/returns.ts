@@ -14,7 +14,7 @@ export const ReturnsSchema = z.object({
   status: z.enum([
     "requested",
     "approved",
-    "rejeceted",
+    "rejected",
     "received",
     "processed",
   ]),
