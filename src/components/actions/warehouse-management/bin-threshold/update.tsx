@@ -91,6 +91,7 @@ export const UpdateSchema = z.object({
       label: "IsActive",
       description: "Enter an isactive",
       inputType: "bool",
+      orientation: "horizontal",
     }),
 });
 
