@@ -1477,7 +1477,7 @@ export type WarehouseManagementSalesOrdersRecord = {
 	id: string
 	opportunity?: RecordIdString
 	orderNumber: string
-	shippingAddress?: number
+	shippingAddress?: HTMLString
 	status: WarehouseManagementSalesOrdersStatusOptions
 	updated: IsoAutoDateString
 }

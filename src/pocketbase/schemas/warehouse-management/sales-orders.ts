@@ -7,20 +7,20 @@
 import { z } from "zod";
 
 export const SalesOrdersSchema = z.object({
-	id: z.string(),
-	shippingAddress: z.number().optional(),
-	client: z.string(),
-	opportunity: z.string().optional(),
-	status: z.enum([
-		"pending",
-		"processing",
-		"shipped",
-		"completed",
-		"cancelled",
-	]),
-	orderNumber: z.string(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  shippingAddress: z.string().optional(),
+  client: z.string(),
+  opportunity: z.string().optional(),
+  status: z.enum([
+    "pending",
+    "processing",
+    "shipped",
+    "completed",
+    "cancelled",
+  ]),
+  orderNumber: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type SalesOrders = z.infer<typeof SalesOrdersSchema>;
