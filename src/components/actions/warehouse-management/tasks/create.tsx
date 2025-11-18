@@ -10,12 +10,137 @@ import z from "zod";
 import AutoFieldSet from "@/components/ui/autoform-tanstack/auto-fieldset";
 import {
   fieldRegistry,
+  fieldSetRegistry,
   toAutoFormFieldSet,
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import { TaskItemsSchema } from "@/pocketbase/schemas/warehouse-management";
 import { TasksSchema } from "@/pocketbase/schemas/warehouse-management/tasks";
+
+const CreateItemSchema = z
+  .object({
+    product: TaskItemsSchema.shape.product.register(fieldRegistry, {
+      id: "warehouse-management-task-items-product-subitem-create",
+      type: "field",
+      label: "Product",
+      description: "Enter a product",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.WarehouseManagementProducts,
+        displayField: "name",
+        relationshipName: "product",
+      },
+    }),
+    batch: TaskItemsSchema.shape.batch.register(fieldRegistry, {
+      id: "warehouse-management-task-items-batch-subitem-create",
+      type: "field",
+      label: "Batch",
+      description: "Enter a batch",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.WarehouseManagementInventoryBatches,
+        displayField: "batchNumber",
+        relationshipName: "batch",
+      },
+    }),
+    sourceLocation: TaskItemsSchema.shape.sourceLocation.register(
+      fieldRegistry,
+      {
+        id: "warehouse-management-task-items-sourceLocation-subitem-create",
+        type: "field",
+        label: "SourceLocation",
+        description: "Enter a sourcelocation",
+        inputType: "relation",
+        props: {
+          collectionName: Collections.WarehouseManagementLocations,
+          relationshipName: "sourceLocation",
+          displayField: "name",
+        },
+      }
+    ),
+    destinationLocation: TaskItemsSchema.shape.destinationLocation.register(
+      fieldRegistry,
+      {
+        id: "warehouse-management-task-items-destinationLocation-subitem-create",
+        type: "field",
+        label: "DestinationLocation",
+        description: "Enter a destinationlocation",
+        inputType: "relation",
+        props: {
+          collectionName: Collections.WarehouseManagementLocations,
+          relationshipName: "destinationLocation",
+          displayField: "name",
+        },
+      }
+    ),
+    quantityRequired: TaskItemsSchema.shape.quantityRequired.register(
+      fieldRegistry,
+      {
+        id: "warehouse-management-task-items-quantityRequired-subitem-create",
+        type: "field",
+        label: "QuantityRequired",
+        description: "Enter a quantityrequired",
+        inputType: "number",
+      }
+    ),
+    quantityCompleted: TaskItemsSchema.shape.quantityCompleted.register(
+      fieldRegistry,
+      {
+        id: "warehouse-management-task-items-quantityCompleted-subitem-create",
+        type: "field",
+        label: "QuantityCompleted",
+        description: "Enter a quantitycompleted",
+        inputType: "number",
+      }
+    ),
+    status: TaskItemsSchema.shape.status.register(fieldRegistry, {
+      id: "warehouse-management-task-items-status-subitem-create",
+      type: "field",
+      label: "Status",
+      description: "Enter a status",
+      inputType: "select",
+    }),
+    lotNumber: TaskItemsSchema.shape.lotNumber.register(fieldRegistry, {
+      id: "warehouse-management-task-items-lotNumber-subitem-create",
+      type: "field",
+      label: "LotNumber",
+      description: "Enter a lotnumber",
+      inputType: "number",
+    }),
+    expiryDate: TaskItemsSchema.shape.expiryDate.register(fieldRegistry, {
+      id: "warehouse-management-task-items-expiryDate-subitem-create",
+      type: "field",
+      label: "ExpiryDate",
+      description: "Enter an expirydate",
+      inputType: "date",
+      props: {
+        showTime: true,
+      },
+    }),
+    notes: TaskItemsSchema.shape.notes.register(fieldRegistry, {
+      id: "warehouse-management-task-items-notes-subitem-create",
+      type: "field",
+      label: "Notes",
+      description: "Enter a notes",
+      inputType: "textarea",
+    }),
+    completedAt: TaskItemsSchema.shape.completedAt.register(fieldRegistry, {
+      id: "warehouse-management-task-items-completedAt-subitem-create",
+      type: "field",
+      label: "CompletedAt",
+      description: "Enter a completedat",
+      inputType: "date",
+      props: {
+        showTime: true,
+      },
+    }),
+  })
+  .register(fieldSetRegistry, {
+    legend: "Task Items",
+    description: "Add items for the task",
+  });
 
 export const CreateSchema = z.object({
   taskNumber: TasksSchema.shape.taskNumber.register(fieldRegistry, {
@@ -116,6 +241,7 @@ export const CreateSchema = z.object({
       showTime: true,
     },
   }),
+  items: CreateItemSchema.array(),
 });
 
 const FormOption = formOptions({
@@ -130,13 +256,45 @@ const FormOption = formOptions({
     navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
   },
   onSubmit: async ({ value, meta }) => {
+    let taskId: string | null = null;
+
     try {
-      await meta.pocketbase
+      const { items, ...taskData } = value;
+
+      const createdTask = await meta.pocketbase
         .collection(Collections.WarehouseManagementTasks)
-        .create(value);
+        .create(taskData);
+
+      taskId = createdTask.id;
+
+      const batch = meta.pocketbase.createBatch();
+
+      for (const item of items) {
+        batch.collection(Collections.WarehouseManagementTaskItems).create({
+          ...item,
+          task: createdTask.id,
+        });
+      }
+
+      await batch.send();
+
       toast.success("Tasks created successfully!");
     } catch (error) {
       if (error instanceof ClientResponseError) {
+        if (taskId) {
+          // Rollback task creation if task items creation failed
+          try {
+            await meta.pocketbase
+              .collection(Collections.WarehouseManagementTasks)
+              .delete(taskId);
+          } catch (deleteError) {
+            console.error(
+              "Failed to rollback task after item creation failure:",
+              deleteError
+            );
+          }
+        }
+
         toast.error(
           `Failed to create tasks: ${error.message} (${error.status})`
         );
