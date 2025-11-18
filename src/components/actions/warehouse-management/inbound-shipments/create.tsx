@@ -100,17 +100,10 @@ export const CreateSchema = z.object({
       label: "ExpectedArrivalDate",
       description: "Enter an expectedarrivaldate",
       inputType: "date",
+      props: {
+        showTime: true,
+      },
     }),
-  actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate.register(
-    fieldRegistry,
-    {
-      id: "warehouse-management-inbound-shipments-actualArrivalDate-create",
-      type: "field",
-      label: "ActualArrivalDate",
-      description: "Enter an actualarrivaldate",
-      inputType: "date",
-    }
-  ),
   warehouse: InboundShipmentsSchema.shape.warehouse.register(fieldRegistry, {
     id: "warehouse-management-inbound-shipments-warehouse-create",
     type: "field",

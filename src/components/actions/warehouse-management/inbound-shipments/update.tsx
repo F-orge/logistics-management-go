@@ -49,6 +49,9 @@ export const UpdateSchema = z.object({
       label: "ExpectedArrivalDate",
       description: "Enter an expectedarrivaldate",
       inputType: "date",
+      props: {
+        showTime: true,
+      },
     }),
   actualArrivalDate: InboundShipmentsSchema.shape.actualArrivalDate.register(
     fieldRegistry,
@@ -58,6 +61,9 @@ export const UpdateSchema = z.object({
       label: "ActualArrivalDate",
       description: "Enter an actualarrivaldate",
       inputType: "date",
+      props: {
+        showTime: true,
+      },
     }
   ),
   warehouse: InboundShipmentsSchema.shape.warehouse
