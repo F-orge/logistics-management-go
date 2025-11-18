@@ -31,19 +31,17 @@ export const UpdateSchema = z.object({
       inputType: "relation",
       props: {
         collectionName: Collections.WarehouseManagementSalesOrders,
-        displayField: "id",
+        displayField: "orderNumber",
         relationshipName: "salesOrder",
       },
     }),
-  status: OutboundShipmentsSchema.shape.status
-    .optional()
-    .register(fieldRegistry, {
-      id: "warehouse-management-outbound-shipments-status-update",
-      type: "field",
-      label: "Status",
-      description: "Enter a status",
-      inputType: "select",
-    }),
+  status: OutboundShipmentsSchema.shape.status.register(fieldRegistry, {
+    id: "warehouse-management-outbound-shipments-status-update",
+    type: "field",
+    label: "Status",
+    description: "Enter a status",
+    inputType: "select",
+  }),
   trackingNumber: OutboundShipmentsSchema.shape.trackingNumber
     .optional()
     .register(fieldRegistry, {
