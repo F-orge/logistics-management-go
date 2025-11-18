@@ -7,16 +7,16 @@
 import { z } from "zod";
 
 export const ReturnItemsSchema = z.object({
-	id: z.string(),
-	return: z.string(),
-	product: z.string(),
-	quantityExpected: z.number().optional(),
-	quantityRecevied: z.number().optional(),
-	condition: z
-		.enum(["sellable", "damaged", "defective", "expired", "unsellable"])
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  return: z.string(),
+  product: z.string(),
+  quantityExpected: z.number().optional(),
+  quantityReceived: z.number().optional(),
+  condition: z
+    .enum(["sellable", "damaged", "defective", "expired", "unsellable"])
+    .optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type ReturnItems = z.infer<typeof ReturnItemsSchema>;

@@ -1432,7 +1432,7 @@ export type WarehouseManagementReturnItemsRecord = {
 	id: string
 	product: RecordIdString
 	quantityExpected?: number
-	quantityRecevied?: number
+	quantityReceived?: number
 	return: RecordIdString
 	updated: IsoAutoDateString
 }
