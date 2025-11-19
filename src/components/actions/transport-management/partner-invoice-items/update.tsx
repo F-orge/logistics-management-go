@@ -1,130 +1,130 @@
 import { formOptions } from "@tanstack/react-form";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
-	UseNavigateResult,
-	useNavigate,
-	useRouteContext,
-	useSearch,
+  UseNavigateResult,
+  useNavigate,
+  useRouteContext,
+  useSearch,
 } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
 import AutoFieldSet from "@/components/ui/autoform-tanstack/auto-fieldset";
 import {
-	fieldRegistry,
-	toAutoFormFieldSet,
+  fieldRegistry,
+  toAutoFormFieldSet,
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { PartnerInvoiceItemsSchema } from "@/pocketbase/schemas/transport-management";
+import { PartnerInvoiceItemsSchema } from "@/pocketbase/schemas/transport-management/partner-invoice-items";
 import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-	partnerInvoice: PartnerInvoiceItemsSchema.shape.partnerInvoice
-		.optional()
-		.register(fieldRegistry, {
-			id: "transport-management-partner-invoice-items-partnerInvoice-update",
-			type: "field",
-			label: "PartnerInvoice",
-			description: "Enter a partnerinvoice",
-			inputType: "text",
-		}),
-	shipmentLeg: PartnerInvoiceItemsSchema.shape.shipmentLeg
-		.optional()
-		.register(fieldRegistry, {
-			id: "transport-management-partner-invoice-items-shipmentLeg-update",
-			type: "field",
-			label: "ShipmentLeg",
-			description: "Enter a shipmentleg",
-			inputType: "text",
-		}),
-	amount: PartnerInvoiceItemsSchema.shape.amount
-		.optional()
-		.register(fieldRegistry, {
-			id: "transport-management-partner-invoice-items-amount-update",
-			type: "field",
-			label: "Amount",
-			description: "Enter an amount",
-			inputType: "number",
-		}),
+  partnerInvoice: PartnerInvoiceItemsSchema.shape.partnerInvoice
+    .optional()
+    .register(fieldRegistry, {
+      id: "transport-management-partner-invoice-items-partnerInvoice-update",
+      type: "field",
+      label: "PartnerInvoice",
+      description: "Enter a partnerinvoice",
+      inputType: "text",
+    }),
+  shipmentLeg: PartnerInvoiceItemsSchema.shape.shipmentLeg
+    .optional()
+    .register(fieldRegistry, {
+      id: "transport-management-partner-invoice-items-shipmentLeg-update",
+      type: "field",
+      label: "ShipmentLeg",
+      description: "Enter a shipmentleg",
+      inputType: "text",
+    }),
+  amount: PartnerInvoiceItemsSchema.shape.amount
+    .optional()
+    .register(fieldRegistry, {
+      id: "transport-management-partner-invoice-items-amount-update",
+      type: "field",
+      label: "Amount",
+      description: "Enter an amount",
+      inputType: "number",
+    }),
 });
 
 const FormOption = formOptions({
-	defaultValues: {} as z.infer<typeof UpdateSchema>,
-	validators: {
-		onSubmit: UpdateSchema,
-	},
-	onSubmitMeta: {} as {
-		id: string;
-		pocketbase: TypedPocketBase;
-		navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-	},
-	onSubmit: async ({ value, meta }) => {
-		try {
-			await meta
-				.pocketbase!.collection(
-					Collections.TransportManagementPartnerInvoiceItems,
-				)
-				.update(meta.id!, value);
+  defaultValues: {} as z.infer<typeof UpdateSchema>,
+  validators: {
+    onSubmit: UpdateSchema,
+  },
+  onSubmitMeta: {} as {
+    id: string;
+    pocketbase: TypedPocketBase;
+    navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+  },
+  onSubmit: async ({ value, meta }) => {
+    try {
+      await meta
+        .pocketbase!.collection(
+          Collections.TransportManagementPartnerInvoiceItems
+        )
+        .update(meta.id!, value);
 
-			toast.success("Partner Invoice Items updated successfully!");
-		} catch (error) {
-			if (error instanceof ClientResponseError) {
-				toast.error(
-					`Failed to update partner-invoice-items: ${error.message} (${error.status})`,
-				);
-			}
-		} finally {
-			meta.navigate!({
-				search: (prev) => ({ ...prev, action: undefined, id: undefined }),
-			});
-		}
-	},
+      toast.success("Partner Invoice Items updated successfully!");
+    } catch (error) {
+      if (error instanceof ClientResponseError) {
+        toast.error(
+          `Failed to update partner-invoice-items: ${error.message} (${error.status})`
+        );
+      }
+    } finally {
+      meta.navigate!({
+        search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+      });
+    }
+  },
 });
 
 const UpdateForm = () => {
-	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-	const { pocketbase } = useRouteContext({
-		from: "/dashboard/$schema/$collection",
-	});
-	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
+  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+  const { pocketbase } = useRouteContext({
+    from: "/dashboard/$schema/$collection",
+  });
+  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
-	const { data } = useSuspenseQuery({
-		queryKey: ["partnerInvoiceItems", searchQuery.id],
+  const { data } = useSuspenseQuery({
+    queryKey: ["partnerInvoiceItems", searchQuery.id],
 
-		queryFn: async () => {
-			const record = await pocketbase
-				.collection(Collections.TransportManagementPartnerInvoiceItems)
-				.getOne(searchQuery.id!);
-			return record;
-		},
-	});
+    queryFn: async () => {
+      const record = await pocketbase
+        .collection(Collections.TransportManagementPartnerInvoiceItems)
+        .getOne(searchQuery.id!);
+      return record;
+    },
+  });
 
-	const form = useAppForm({
-		...FormOption,
-		defaultValues: data as z.infer<typeof UpdateSchema>,
-	});
+  const form = useAppForm({
+    ...FormOption,
+    defaultValues: data as z.infer<typeof UpdateSchema>,
+  });
 
-	return (
-		<form
-			onSubmit={(e) => {
-				e.preventDefault();
-				e.stopPropagation();
-				form.handleSubmit({ navigate, pocketbase, id: searchQuery.id! });
-			}}
-		>
-			<form.AppForm>
-				<AutoFieldSet
-					form={form as any}
-					{...toAutoFormFieldSet(UpdateSchema)}
-				/>
-				<DialogFooter>
-					<form.SubmitButton>Update Partner Invoice Items</form.SubmitButton>
-				</DialogFooter>
-			</form.AppForm>
-		</form>
-	);
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit({ navigate, pocketbase, id: searchQuery.id! });
+      }}
+    >
+      <form.AppForm>
+        <AutoFieldSet
+          form={form as any}
+          {...toAutoFormFieldSet(UpdateSchema)}
+        />
+        <DialogFooter>
+          <form.SubmitButton>Update Partner Invoice Items</form.SubmitButton>
+        </DialogFooter>
+      </form.AppForm>
+    </form>
+  );
 };
 
 export default UpdateForm;
