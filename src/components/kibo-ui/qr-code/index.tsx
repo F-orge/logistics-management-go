@@ -32,7 +32,7 @@ export const QRCode = ({
   data,
   foreground,
   background,
-  robustness = "M",
+  robustness = "L",
   className,
   ...props
 }: QRCodeProps) => {
@@ -53,8 +53,8 @@ export const QRCode = ({
         );
         const backgroundOklch = getOklch(backgroundColor, [0.985, 0, 0]);
 
-        const newSvg = await QR.toString(data, {
-          type: "svg",
+        const newSvg = await QR.toDataURL(data, {
+          type: "image/png",
           color: {
             dark: formatHex(oklch({ mode: "oklch", ...foregroundOklch })),
             light: formatHex(oklch({ mode: "oklch", ...backgroundOklch })),
@@ -78,10 +78,15 @@ export const QRCode = ({
   }
 
   return (
-    <div
-      className={cn("size-full", "[&_svg]:size-full", className)}
-      // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required for SVG"
-      dangerouslySetInnerHTML={{ __html: svg }}
+    <img
+      className={cn(
+        "size-full",
+        "[&_svg]:size-full",
+        "rounded border bg-white p-4 shadow-xs",
+        className
+      )}
+      src={svg}
+      alt="QR Code"
       {...props}
     />
   );
