@@ -37,7 +37,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "StartLocation",
       description: "Enter a startlocation",
-      inputType: "text",
+      inputType: "geoPoint",
     }),
   endLocation: ShipmentLegsSchema.shape.endLocation
     .optional()
@@ -46,7 +46,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "EndLocation",
       description: "Enter an endlocation",
-      inputType: "text",
+      inputType: "geoPoint",
     }),
   carrier: ShipmentLegsSchema.shape.carrier.optional().register(fieldRegistry, {
     id: "transport-management-shipment-legs-carrier-update",
@@ -60,14 +60,19 @@ export const UpdateSchema = z.object({
       relationshipName: "carrier",
     },
   }),
-  interalTrip: ShipmentLegsSchema.shape.interalTrip
+  internalTrip: ShipmentLegsSchema.shape.internalTrip
     .optional()
     .register(fieldRegistry, {
-      id: "transport-management-shipment-legs-interalTrip-update",
+      id: "transport-management-shipment-legs-internalTrip-update",
       type: "field",
-      label: "InteralTrip",
-      description: "Enter an interaltrip",
-      inputType: "text",
+      label: "InternalTrip",
+      description: "Enter an internaltrip",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.TransportManagementTrips,
+        displayField: "name",
+        relationshipName: "internalTrip",
+      },
     }),
   status: ShipmentLegsSchema.shape.status.optional().register(fieldRegistry, {
     id: "transport-management-shipment-legs-status-update",
@@ -83,7 +88,12 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "Shipment",
       description: "Enter a shipment",
-      inputType: "text",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.WarehouseManagementOutboundShipments,
+        displayField: "trackingNumber",
+        relationshipName: "shipment",
+      },
     }),
 });
 

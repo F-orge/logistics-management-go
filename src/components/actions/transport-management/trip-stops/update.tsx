@@ -26,7 +26,12 @@ export const UpdateSchema = z.object({
     type: "field",
     label: "Trip",
     description: "Enter a trip",
-    inputType: "text",
+    inputType: "relation",
+    props: {
+      collectionName: Collections.TransportManagementTrips,
+      displayField: "id",
+      relationshipName: "trip",
+    },
   }),
   sequence: TripStopsSchema.shape.sequence.optional().register(fieldRegistry, {
     id: "transport-management-trip-stops-sequence-update",
@@ -90,7 +95,12 @@ export const UpdateSchema = z.object({
     type: "field",
     label: "Shipment",
     description: "Enter a shipment",
-    inputType: "text",
+    inputType: "relation",
+    props: {
+      collectionName: Collections.WarehouseManagementOutboundShipments,
+      displayField: "trackingNumber",
+      relationshipName: "shipment",
+    },
   }),
 });
 
@@ -145,7 +155,13 @@ const UpdateForm = () => {
 
   const form = useAppForm({
     ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
+    defaultValues: {
+      ...data,
+      actualDepartureTime: new Date(data.actualDepartureTime) ?? null,
+      actualArrivalTime: new Date(data.actualArrivalTime) ?? null,
+      estimatedDepartureTime: new Date(data.estimatedDepartureTime) ?? null,
+      estimatedArrivalTime: new Date(data.estimatedArrivalTime) ?? null,
+    } as z.infer<typeof UpdateSchema>,
   });
 
   return (

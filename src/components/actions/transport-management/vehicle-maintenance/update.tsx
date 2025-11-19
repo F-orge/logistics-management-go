@@ -51,7 +51,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "ServiceType",
       description: "Enter a servicetype",
-      inputType: "date",
+      inputType: "text",
     }),
   cost: VehicleMaintenanceSchema.shape.cost.optional().register(fieldRegistry, {
     id: "transport-management-vehicle-maintenance-cost-update",
@@ -66,8 +66,8 @@ export const UpdateSchema = z.object({
       id: "transport-management-vehicle-maintenance-notes-update",
       type: "field",
       label: "Notes",
-      description: "Enter a notes",
-      inputType: "text",
+      description: "Enter notes",
+      inputType: "textarea",
     }),
 });
 
@@ -124,7 +124,10 @@ const UpdateForm = () => {
 
   const form = useAppForm({
     ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
+    defaultValues: {
+      ...data,
+      serviceDate: data.serviceDate ? new Date(data.serviceDate) : undefined,
+    } as z.infer<typeof UpdateSchema>,
   });
 
   return (

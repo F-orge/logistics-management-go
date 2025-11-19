@@ -998,7 +998,7 @@ export type TransportManagementShipmentLegsRecord = {
 	created: IsoAutoDateString
 	endLocation: GeoPoint
 	id: string
-	interalTrip?: RecordIdString
+	internalTrip?: RecordIdString
 	legSequence: number
 	shipment?: RecordIdString
 	startLocation: GeoPoint

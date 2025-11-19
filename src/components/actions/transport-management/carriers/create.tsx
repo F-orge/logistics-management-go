@@ -39,6 +39,13 @@ export const CreateSchema = z.object({
     description: "Enter services offered",
     inputType: "textarea",
   }),
+  image: CarriersSchema.shape.image.register(fieldRegistry, {
+    id: "transport-management-carriers-image-create",
+    type: "field",
+    label: "Image",
+    description: "Upload an image",
+    inputType: "file",
+  }),
 });
 
 const FormOption = formOptions({

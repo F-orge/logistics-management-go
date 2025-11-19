@@ -27,8 +27,13 @@ export const UpdateSchema = z.object({
       id: "transport-management-proof-of-deliveries-tripStop-update",
       type: "field",
       label: "TripStop",
-      description: "Enter a tripstop",
-      inputType: "text",
+      description: "Enter a trip stop",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.TransportManagementTripStops,
+        displayField: "id",
+        relationshipName: "tripStop",
+      },
     }),
   coordinate: ProofOfDeliveriesSchema.shape.coordinate
     .optional()
@@ -37,7 +42,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "Coordinate",
       description: "Enter a coordinate",
-      inputType: "text",
+      inputType: "geoPoint",
     }),
 });
 

@@ -39,16 +39,9 @@ export const UpdateSchema = z.object({
       id: "transport-management-gps-pings-coordinates-update",
       type: "field",
       label: "Coordinates",
-      description: "Enter a coordinates",
-      inputType: "text",
+      description: "Enter coordinates",
+      inputType: "geoPoint",
     }),
-  timestamp: GpsPingsSchema.shape.timestamp.optional().register(fieldRegistry, {
-    id: "transport-management-gps-pings-timestamp-update",
-    type: "field",
-    label: "Timestamp",
-    description: "Enter a timestamp",
-    inputType: "date",
-  }),
 });
 
 const FormOption = formOptions({

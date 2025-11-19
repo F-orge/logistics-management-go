@@ -42,7 +42,12 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "Geofence",
       description: "Enter a geofence",
-      inputType: "text",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.TransportManagementGeofence,
+        displayField: "name",
+        relationshipName: "geofence",
+      },
     }),
   type: GeofenceEventsSchema.shape.type.optional().register(fieldRegistry, {
     id: "transport-management-geofence-events-type-update",
@@ -51,15 +56,6 @@ export const UpdateSchema = z.object({
     description: "Enter a type",
     inputType: "select",
   }),
-  timestamp: GeofenceEventsSchema.shape.timestamp
-    .optional()
-    .register(fieldRegistry, {
-      id: "transport-management-geofence-events-timestamp-update",
-      type: "field",
-      label: "Timestamp",
-      description: "Enter a timestamp",
-      inputType: "date",
-    }),
 });
 
 const FormOption = formOptions({

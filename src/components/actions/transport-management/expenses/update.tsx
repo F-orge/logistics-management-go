@@ -26,7 +26,12 @@ export const UpdateSchema = z.object({
     type: "field",
     label: "Trip",
     description: "Enter a trip",
-    inputType: "text",
+    inputType: "relation",
+    props: {
+      collectionName: Collections.TransportManagementTrips,
+      displayField: "id",
+      relationshipName: "trip",
+    },
   }),
   driver: ExpensesSchema.shape.driver.optional().register(fieldRegistry, {
     id: "transport-management-expenses-driver-update",
@@ -87,7 +92,6 @@ export const UpdateSchema = z.object({
     inputType: "select",
   }),
 });
-
 const FormOption = formOptions({
   defaultValues: {} as z.infer<typeof UpdateSchema>,
   validators: {

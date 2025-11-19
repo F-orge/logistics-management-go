@@ -69,14 +69,24 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "Maintenances",
       description: "Enter a maintenances",
-      inputType: "text",
+      inputType: "relation",
+      props: {
+        collectionName: Collections.TransportManagementVehicleMaintenance,
+        displayField: "id",
+        relationshipName: "maintenances",
+      },
     }),
   gps_pings: VehiclesSchema.shape.gps_pings.optional().register(fieldRegistry, {
     id: "transport-management-vehicles-gps_pings-update",
     type: "field",
     label: "Gps_pings",
     description: "Enter a gps_pings",
-    inputType: "text",
+    inputType: "relation",
+    props: {
+      collectionName: Collections.TransportManagementGpsPings,
+      displayField: "id",
+      relationshipName: "gps_pings",
+    },
   }),
 });
 
