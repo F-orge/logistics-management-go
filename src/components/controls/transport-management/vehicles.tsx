@@ -1,6 +1,4 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { GlobalAction } from "@/lib/utils";
 import { SearchIcon, X } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +6,13 @@ import {
   ButtonGroup,
   ButtonGroupSeparator,
 } from "@/components/ui/button-group";
+import {
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   InputGroup,
   InputGroupAddon,
@@ -26,6 +31,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { GlobalAction } from "@/lib/utils";
 
 /**
  * VehicleControls
@@ -33,7 +39,8 @@ import {
  * - registrationNumber
  * - model
  */
-const VehicleControls = () => {const renderMenuItems = (
+const VehicleControls = () => {
+  const renderMenuItems = (
     actions: GlobalAction<"/dashboard/$schema/$collection">[]
   ): React.ReactNode => {
     return actions.map((action, index) => {
@@ -77,13 +84,11 @@ const VehicleControls = () => {const renderMenuItems = (
     });
   };
 
-const handleGlobalAction = (
+  const handleGlobalAction = (
     action: GlobalAction<"/dashboard/$schema/$collection">
   ) => {
     action.onSelect?.(navigate);
   };
-
-
 
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 

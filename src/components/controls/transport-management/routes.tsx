@@ -1,31 +1,34 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { GlobalAction } from "@/lib/utils";
 import { SearchIcon } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
 import {
-  ButtonGroup,
-  ButtonGroupSeparator,
-} from "@/components/ui/button-group";
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { GlobalAction } from "@/lib/utils";
 
 /**
  * RouteControls
  * Searchable fields:
  * - name
  */
-const RouteControls = () => {const renderMenuItems = (
+const RouteControls = () => {
+  const renderMenuItems = (
     actions: GlobalAction<"/dashboard/$schema/$collection">[]
   ): React.ReactNode => {
     return actions.map((action, index) => {
       const submenuItems = action.submenu;
-
       return (
         <React.Fragment key={index}>
           {action.divider && index > 0 && <DropdownMenuSeparator />}
@@ -64,16 +67,13 @@ const RouteControls = () => {const renderMenuItems = (
     });
   };
 
-const handleGlobalAction = (
+  const handleGlobalAction = (
     action: GlobalAction<"/dashboard/$schema/$collection">
   ) => {
     action.onSelect?.(navigate);
   };
 
-
-
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const [searchTerm, setSearchTerm] = React.useState("");
 
