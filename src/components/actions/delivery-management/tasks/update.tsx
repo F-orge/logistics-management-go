@@ -27,7 +27,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "DeliveryAddress",
       description: "Enter a deliveryaddress",
-      inputType: "text",
+      inputType: "textarea",
     }),
   recipientName: TasksSchema.shape.recipientName
     .optional()
@@ -54,7 +54,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "DeliveryInstructions",
       description: "Enter a deliveryinstructions",
-      inputType: "text",
+      inputType: "textarea",
     }),
   estimatedArrivalTime: TasksSchema.shape.estimatedArrivalTime
     .optional()
@@ -79,7 +79,7 @@ export const UpdateSchema = z.object({
     type: "field",
     label: "Status",
     description: "Enter a status",
-    inputType: "text",
+    inputType: "select",
   }),
   attempCount: TasksSchema.shape.attempCount
     .optional()
@@ -88,7 +88,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "AttempCount",
       description: "Enter an attempcount",
-      inputType: "text",
+      inputType: "number",
     }),
   failureReason: TasksSchema.shape.failureReason
     .optional()
@@ -97,7 +97,7 @@ export const UpdateSchema = z.object({
       type: "field",
       label: "FailureReason",
       description: "Enter a failurereason",
-      inputType: "text",
+      inputType: "select",
     }),
 });
 

@@ -92,7 +92,7 @@ export const CreateSchema = z.object({
     inputType: "relation",
     props: {
       collectionName: Collections.Users,
-      displayField: "email",
+      displayField: "name",
       relationshipName: "packedByUser",
     },
   }),

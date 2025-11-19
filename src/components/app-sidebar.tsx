@@ -274,11 +274,6 @@ const navigation: SidebarType = {
               url: "/dashboard/delivery-management/tasks",
             },
             {
-              title: "Delivery Routes",
-              icon: MapIcon,
-              url: "/dashboard/delivery-management/routes",
-            },
-            {
               title: "Proof of Deliveries",
               icon: Check,
               url: "/dashboard/delivery-management/proof-of-deliveries",

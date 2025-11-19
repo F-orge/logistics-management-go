@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-19T15:51:45.993Z",
+  "timestamp": "2025-11-19T19:10:24.399Z",
   "collections": [
     {
       "id": "_pb_users_auth_",
@@ -7766,31 +7766,6 @@
           "type": "relation"
         },
         {
-          "cascadeDelete": false,
-          "collectionId": "pbc_1877544058",
-          "hidden": false,
-          "id": "relation46407801",
-          "maxSelect": 1,
-          "minSelect": 0,
-          "name": "route",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "relation"
-        },
-        {
-          "hidden": false,
-          "id": "number1384568619",
-          "max": null,
-          "min": null,
-          "name": "sequence",
-          "onlyInt": true,
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "number"
-        },
-        {
           "autogeneratePattern": "",
           "hidden": false,
           "id": "text634472464",
@@ -7964,7 +7939,7 @@
       ],
       "indexes": [],
       "created": "2025-11-04 13:22:01.598Z",
-      "updated": "2025-11-06 13:22:49.891Z",
+      "updated": "2025-11-19 18:19:51.737Z",
       "system": false
     },
     {
