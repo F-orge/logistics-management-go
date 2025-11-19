@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ import {
  */
 const WarehousControls = () => {
 	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 	const [searchTerm, setSearchTerm] = React.useState("");
 
 	const handleSearch = () => {
