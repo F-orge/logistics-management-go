@@ -1,7 +1,5 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import { DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { GlobalAction } from "@/lib/utils";
-import { SearchIcon } from "lucide-react";
+import { ChevronDownIcon, SearchIcon } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,18 +7,35 @@ import {
   ButtonGroupSeparator,
 } from "@/components/ui/button-group";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { GlobalAction } from "@/lib/utils";
 
 /**
  * ProofOfDeliveryControls
  * Searchable fields:
  * - recipientName
  */
-const ProofOfDeliveryControls = () => {const renderMenuItems = (
+const ProofOfDeliveryControls = ({
+  globalAction = [],
+}: {
+  globalAction?: Array<GlobalAction<"/dashboard/$schema/$collection">>;
+} = {}) => {
+  const renderMenuItems = (
     actions: GlobalAction<"/dashboard/$schema/$collection">[]
   ): React.ReactNode => {
     return actions.map((action, index) => {
@@ -64,13 +79,11 @@ const ProofOfDeliveryControls = () => {const renderMenuItems = (
     });
   };
 
-const handleGlobalAction = (
+  const handleGlobalAction = (
     action: GlobalAction<"/dashboard/$schema/$collection">
   ) => {
     action.onSelect?.(navigate);
   };
-
-
 
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
@@ -134,6 +147,23 @@ const handleGlobalAction = (
         >
           Create
         </Button>
+        {globalAction.length > 0 && (
+          <>
+            <ButtonGroupSeparator />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button size="icon">
+                  <ChevronDownIcon />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                  {renderMenuItems(globalAction)}
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        )}
       </ButtonGroup>
     </section>
   );
