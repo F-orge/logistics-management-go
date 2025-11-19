@@ -1034,9 +1034,14 @@ export enum TransportManagementTripsStatusOptions {
 	"cancelled" = "cancelled",
 }
 export type TransportManagementTripsRecord = {
+	coordinates: GeoPoint
 	created: IsoAutoDateString
 	driver: RecordIdString
+	endAddress?: string
+	endTime?: IsoDateString
 	id: string
+	startAddress?: string
+	startTime?: IsoDateString
 	status: TransportManagementTripsStatusOptions
 	updated: IsoAutoDateString
 	vehicle: RecordIdString
@@ -1048,7 +1053,7 @@ export type TransportManagementVehicleMaintenanceRecord = {
 	id: string
 	notes?: HTMLString
 	serviceDate: IsoDateString
-	serviceType: IsoDateString
+	serviceType?: string
 	updated: IsoAutoDateString
 	vehicle: RecordIdString
 }

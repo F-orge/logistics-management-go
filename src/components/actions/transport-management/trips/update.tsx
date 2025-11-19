@@ -16,7 +16,13 @@ import {
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import { RelationFieldProps } from "@/components/ui/forms/fields";
+import {
+  Collections,
+  TransportManagementDriversResponse,
+  TypedPocketBase,
+  UsersRecord,
+} from "@/lib/pb.types";
 import { TripsSchema } from "@/pocketbase/schemas/transport-management/trips";
 import { CreateSchema } from "./create";
 
@@ -31,7 +37,12 @@ export const UpdateSchema = z.object({
       collectionName: Collections.TransportManagementDrivers,
       displayField: "name",
       relationshipName: "driver",
-    },
+      renderOption: (record) =>
+        `${record.expand?.user?.name} (${record.expand?.user?.email}) - ${record.licenseNumber}`,
+      recordListOption: { expand: "user" },
+    } as RelationFieldProps<
+      TransportManagementDriversResponse<{ user: UsersRecord }>
+    >,
   }),
   vehicle: TripsSchema.shape.vehicle.optional().register(fieldRegistry, {
     id: "transport-management-trips-vehicle-update",
@@ -41,7 +52,7 @@ export const UpdateSchema = z.object({
     inputType: "relation",
     props: {
       collectionName: Collections.TransportManagementVehicles,
-      displayField: "name",
+      displayField: "registrationNumber",
       relationshipName: "vehicle",
     },
   }),

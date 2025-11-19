@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useId, useRef } from "react";
 import {
   Map,
   MapDrawControl,
@@ -23,6 +23,7 @@ const GeoPointField = (props: GeoPointFieldProps) => {
   const { L } = useLeaflet();
 
   let map = useRef<L.Map>(null);
+  const id = useId();
 
   const field = useFieldContext<GeoPoint>();
   const [currentPosition, setCurrentPosition] = React.useState<GeoPoint | null>(
@@ -67,7 +68,7 @@ const GeoPointField = (props: GeoPointFieldProps) => {
   return (
     <Map
       ref={map}
-      id={field.name}
+      id={id}
       center={
         field.state.value
           ? [field.state.value.lat, field.state.value.lon]
