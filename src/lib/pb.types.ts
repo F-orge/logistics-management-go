@@ -44,8 +44,6 @@ export enum Collections {
 	TransportManagementCarriers = "transport_management_carriers",
 	TransportManagementDrivers = "transport_management_drivers",
 	TransportManagementExpenses = "transport_management_expenses",
-	TransportManagementGeofence = "transport_management_geofence",
-	TransportManagementGeofenceEvents = "transport_management_geofence_events",
 	TransportManagementGpsPings = "transport_management_gps_pings",
 	TransportManagementPartnerInvoice = "transport_management_partner_invoice",
 	TransportManagementPartnerInvoiceItems = "transport_management_partner_invoice_items",
@@ -886,27 +884,6 @@ export type TransportManagementExpensesRecord = {
 	updated: IsoAutoDateString
 }
 
-export type TransportManagementGeofenceRecord = {
-	coordinates: GeoPoint
-	created: IsoAutoDateString
-	id: string
-	name: string
-	radius: number
-	updated: IsoAutoDateString
-}
-
-export enum TransportManagementGeofenceEventsTypeOptions {
-	"enter" = "enter",
-	"exit" = "exit",
-}
-export type TransportManagementGeofenceEventsRecord = {
-	geofence: RecordIdString
-	id: string
-	timestamp: IsoAutoDateString
-	type: TransportManagementGeofenceEventsTypeOptions
-	vehicle: RecordIdString
-}
-
 export type TransportManagementGpsPingsRecord = {
 	coordinates: GeoPoint
 	id: string
@@ -1620,8 +1597,6 @@ export type TransportManagementCarrierRatesResponse<Texpand = unknown> = Require
 export type TransportManagementCarriersResponse<Texpand = unknown> = Required<TransportManagementCarriersRecord> & BaseSystemFields<Texpand>
 export type TransportManagementDriversResponse<Texpand = unknown> = Required<TransportManagementDriversRecord> & BaseSystemFields<Texpand>
 export type TransportManagementExpensesResponse<Texpand = unknown> = Required<TransportManagementExpensesRecord> & BaseSystemFields<Texpand>
-export type TransportManagementGeofenceResponse<Texpand = unknown> = Required<TransportManagementGeofenceRecord> & BaseSystemFields<Texpand>
-export type TransportManagementGeofenceEventsResponse<Texpand = unknown> = Required<TransportManagementGeofenceEventsRecord> & BaseSystemFields<Texpand>
 export type TransportManagementGpsPingsResponse<Texpand = unknown> = Required<TransportManagementGpsPingsRecord> & BaseSystemFields<Texpand>
 export type TransportManagementPartnerInvoiceResponse<Texpand = unknown> = Required<TransportManagementPartnerInvoiceRecord> & BaseSystemFields<Texpand>
 export type TransportManagementPartnerInvoiceItemsResponse<Texpand = unknown> = Required<TransportManagementPartnerInvoiceItemsRecord> & BaseSystemFields<Texpand>
@@ -1701,8 +1676,6 @@ export type CollectionRecords = {
 	transport_management_carriers: TransportManagementCarriersRecord
 	transport_management_drivers: TransportManagementDriversRecord
 	transport_management_expenses: TransportManagementExpensesRecord
-	transport_management_geofence: TransportManagementGeofenceRecord
-	transport_management_geofence_events: TransportManagementGeofenceEventsRecord
 	transport_management_gps_pings: TransportManagementGpsPingsRecord
 	transport_management_partner_invoice: TransportManagementPartnerInvoiceRecord
 	transport_management_partner_invoice_items: TransportManagementPartnerInvoiceItemsRecord
@@ -1781,8 +1754,6 @@ export type CollectionResponses = {
 	transport_management_carriers: TransportManagementCarriersResponse
 	transport_management_drivers: TransportManagementDriversResponse
 	transport_management_expenses: TransportManagementExpensesResponse
-	transport_management_geofence: TransportManagementGeofenceResponse
-	transport_management_geofence_events: TransportManagementGeofenceEventsResponse
 	transport_management_gps_pings: TransportManagementGpsPingsResponse
 	transport_management_partner_invoice: TransportManagementPartnerInvoiceResponse
 	transport_management_partner_invoice_items: TransportManagementPartnerInvoiceItemsResponse
