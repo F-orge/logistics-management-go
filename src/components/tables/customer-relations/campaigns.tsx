@@ -66,10 +66,6 @@ export const actions: ContextMenuItem<CampaignResponse>[] = [
 
 export const columns: ColumnDef<CampaignResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "name",
     header: "Campaign Name",
   },

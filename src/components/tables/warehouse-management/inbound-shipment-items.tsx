@@ -67,10 +67,6 @@ export const actions: ContextMenuItem<InboundShipmentItemResponse>[] = [
 
 export const columns: ColumnDef<InboundShipmentItemResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "inboundShipment",
     header: "Shipment ID",
   },

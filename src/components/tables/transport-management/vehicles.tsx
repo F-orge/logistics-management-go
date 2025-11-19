@@ -71,10 +71,6 @@ export const actions: ContextMenuItem<VehicleResponse>[] = [
 
 export const columns: ColumnDef<VehicleResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "registrationNumber",
     header: "Registration Number",
     cell: ({ row }) =>

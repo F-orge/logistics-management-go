@@ -72,10 +72,6 @@ export const actions: ContextMenuItem<TaskResponse>[] = [
 
 export const columns: ColumnDef<TaskResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "package",
     header: "Package ID",
   },

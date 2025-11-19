@@ -70,10 +70,6 @@ export const actions: ContextMenuItem<InteractionResponse>[] = [
 
 export const columns: ColumnDef<InteractionResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) =>

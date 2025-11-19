@@ -73,10 +73,6 @@ export const actions: ContextMenuItem<CaseResponse>[] = [
 
 export const columns: ColumnDef<CaseResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "caseNumber",
     header: "Case Number",
   },

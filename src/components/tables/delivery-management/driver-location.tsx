@@ -66,10 +66,6 @@ export const actions: ContextMenuItem<DriverLocationResponse>[] = [
 
 export const columns: ColumnDef<DriverLocationResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "driver",
     header: "Driver ID",
   },

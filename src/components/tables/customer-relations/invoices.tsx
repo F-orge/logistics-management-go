@@ -72,10 +72,6 @@ export const actions: ContextMenuItem<InvoiceResponse>[] = [
 
 export const columns: ColumnDef<InvoiceResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "invoiceNumber",
     header: "Invoice Number",
   },

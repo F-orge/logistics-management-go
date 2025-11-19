@@ -70,10 +70,6 @@ export const actions: ContextMenuItem<LocationResponse>[] = [
 
 export const columns: ColumnDef<LocationResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "name",
     header: "Location Name",
   },

@@ -73,10 +73,6 @@ export const actions: ContextMenuItem<TaskEventResponse>[] = [
 
 export const columns: ColumnDef<TaskEventResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "task",
     header: "Task ID",
   },

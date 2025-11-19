@@ -66,10 +66,6 @@ export const actions: ContextMenuItem<SalesOrderItemResponse>[] = [
 
 export const columns: ColumnDef<SalesOrderItemResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "salesOrder",
     header: "Sales Order ID",
   },

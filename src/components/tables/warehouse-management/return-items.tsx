@@ -73,10 +73,6 @@ export const actions: ContextMenuItem<ReturnItemResponse>[] = [
 
 export const columns: ColumnDef<ReturnItemResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "return",
     header: "Return ID",
   },

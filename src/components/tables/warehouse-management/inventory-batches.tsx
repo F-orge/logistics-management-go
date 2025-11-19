@@ -66,10 +66,6 @@ export const actions: ContextMenuItem<InventoryBatchResponse>[] = [
 
 export const columns: ColumnDef<InventoryBatchResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "product",
     header: "Product ID",
   },

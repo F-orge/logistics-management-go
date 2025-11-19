@@ -70,10 +70,6 @@ export const actions: ContextMenuItem<ProofOfDeliveryResponse>[] = [
 
 export const columns: ColumnDef<ProofOfDeliveryResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "task",
     header: "Task ID",
   },

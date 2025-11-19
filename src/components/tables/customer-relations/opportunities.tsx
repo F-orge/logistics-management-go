@@ -73,10 +73,6 @@ export const actions: ContextMenuItem<OpportunityResponse>[] = [
 
 export const columns: ColumnDef<OpportunityResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "name",
     header: "Opportunity Name",
   },

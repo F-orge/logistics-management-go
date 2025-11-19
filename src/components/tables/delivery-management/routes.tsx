@@ -72,10 +72,6 @@ export const actions: ContextMenuItem<RouteResponse>[] = [
 
 export const columns: ColumnDef<RouteResponse>[] = [
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "driver",
     header: "Driver ID",
   },
