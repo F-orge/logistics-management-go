@@ -18,21 +18,8 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { DriversSchema } from "@/pocketbase/schemas/transport-management/drivers";
-import { CreateSchema } from "./create";
 
 export const UpdateSchema = z.object({
-  user: DriversSchema.shape.user.optional().register(fieldRegistry, {
-    id: "transport-management-drivers-user-update",
-    type: "field",
-    label: "User",
-    description: "Enter a user",
-    inputType: "relation",
-    props: {
-      collectionName: Collections.Users,
-      displayField: "email",
-      relationshipName: "user",
-    },
-  }),
   licenseNumber: DriversSchema.shape.licenseNumber
     .optional()
     .register(fieldRegistry, {
@@ -57,18 +44,6 @@ export const UpdateSchema = z.object({
     label: "Status",
     description: "Enter a status",
     inputType: "select",
-  }),
-  schedules: DriversSchema.shape.schedules.optional().register(fieldRegistry, {
-    id: "transport-management-drivers-schedules-update",
-    type: "field",
-    label: "Schedules",
-    description: "Enter schedules",
-    inputType: "relation",
-    props: {
-      collectionName: Collections.TransportManagementDriverSchedules,
-      displayField: "startDate",
-      relationshipName: "schedules",
-    },
   }),
 });
 

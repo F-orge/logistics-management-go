@@ -42,7 +42,6 @@ export enum Collections {
 	Notifications = "notifications",
 	TransportManagementCarrierRates = "transport_management_carrier_rates",
 	TransportManagementCarriers = "transport_management_carriers",
-	TransportManagementDriverSchedules = "transport_management_driver_schedules",
 	TransportManagementDrivers = "transport_management_drivers",
 	TransportManagementExpenses = "transport_management_expenses",
 	TransportManagementGeofence = "transport_management_geofence",
@@ -836,22 +835,6 @@ export type TransportManagementCarriersRecord = {
 	updated: IsoAutoDateString
 }
 
-export enum TransportManagementDriverSchedulesReasonOptions {
-	"vacation" = "vacation",
-	"sick-leave" = "sick-leave",
-	"training" = "training",
-	"personal-leave" = "personal-leave",
-}
-export type TransportManagementDriverSchedulesRecord = {
-	created: IsoAutoDateString
-	driver: RecordIdString
-	endDate: IsoDateString
-	id: string
-	reason?: TransportManagementDriverSchedulesReasonOptions
-	startDate: IsoDateString
-	updated: IsoAutoDateString
-}
-
 export enum TransportManagementDriversStatusOptions {
 	"active" = "active",
 	"inactive" = "inactive",
@@ -862,7 +845,6 @@ export type TransportManagementDriversRecord = {
 	id: string
 	licenseExpiryDate?: IsoDateString
 	licenseNumber: string
-	schedules?: RecordIdString[]
 	status: TransportManagementDriversStatusOptions
 	updated: IsoAutoDateString
 	user?: RecordIdString
@@ -1636,7 +1618,6 @@ export type DeliveryManagementTasksResponse<Texpand = unknown> = Required<Delive
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
 export type TransportManagementCarrierRatesResponse<Texpand = unknown> = Required<TransportManagementCarrierRatesRecord> & BaseSystemFields<Texpand>
 export type TransportManagementCarriersResponse<Texpand = unknown> = Required<TransportManagementCarriersRecord> & BaseSystemFields<Texpand>
-export type TransportManagementDriverSchedulesResponse<Texpand = unknown> = Required<TransportManagementDriverSchedulesRecord> & BaseSystemFields<Texpand>
 export type TransportManagementDriversResponse<Texpand = unknown> = Required<TransportManagementDriversRecord> & BaseSystemFields<Texpand>
 export type TransportManagementExpensesResponse<Texpand = unknown> = Required<TransportManagementExpensesRecord> & BaseSystemFields<Texpand>
 export type TransportManagementGeofenceResponse<Texpand = unknown> = Required<TransportManagementGeofenceRecord> & BaseSystemFields<Texpand>
@@ -1718,7 +1699,6 @@ export type CollectionRecords = {
 	notifications: NotificationsRecord
 	transport_management_carrier_rates: TransportManagementCarrierRatesRecord
 	transport_management_carriers: TransportManagementCarriersRecord
-	transport_management_driver_schedules: TransportManagementDriverSchedulesRecord
 	transport_management_drivers: TransportManagementDriversRecord
 	transport_management_expenses: TransportManagementExpensesRecord
 	transport_management_geofence: TransportManagementGeofenceRecord
@@ -1799,7 +1779,6 @@ export type CollectionResponses = {
 	notifications: NotificationsResponse
 	transport_management_carrier_rates: TransportManagementCarrierRatesResponse
 	transport_management_carriers: TransportManagementCarriersResponse
-	transport_management_driver_schedules: TransportManagementDriverSchedulesResponse
 	transport_management_drivers: TransportManagementDriversResponse
 	transport_management_expenses: TransportManagementExpensesResponse
 	transport_management_geofence: TransportManagementGeofenceResponse

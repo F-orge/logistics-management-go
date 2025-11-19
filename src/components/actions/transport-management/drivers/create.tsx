@@ -54,18 +54,6 @@ export const CreateSchema = z.object({
     description: "Enter a status",
     inputType: "select",
   }),
-  schedules: DriversSchema.shape.schedules.register(fieldRegistry, {
-    id: "transport-management-drivers-schedules-create",
-    type: "field",
-    label: "Schedules",
-    description: "Enter schedules",
-    inputType: "relation",
-    props: {
-      collectionName: Collections.TransportManagementDriverSchedules,
-      displayField: "startDate",
-      relationshipName: "schedules",
-    },
-  }),
 });
 
 const FormOption = formOptions({

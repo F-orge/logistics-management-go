@@ -37,16 +37,14 @@ export const CreateSchema = z.object({
     description: "Enter a coordinate",
     inputType: "geoPoint",
   }),
-  attachments: ProofOfDeliveriesSchema.shape.attachments.register(
-    fieldRegistry,
-    {
-      id: "transport-management-proof-of-deliveries-attachments-create",
-      type: "field",
-      label: "Attachments",
-      description: "Upload attachments",
-      inputType: "file",
-    }
-  ),
+  attachments: z.file().array().register(fieldRegistry, {
+    id: "transport-management-proof-of-deliveries-attachments-create",
+    type: "field",
+    label: "Attachments",
+    description: "Upload attachments",
+    inputType: "file",
+    isArray: true,
+  }),
 });
 
 const FormOption = formOptions({

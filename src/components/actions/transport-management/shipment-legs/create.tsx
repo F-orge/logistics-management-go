@@ -88,7 +88,9 @@ export const CreateSchema = z.object({
 });
 
 const FormOption = formOptions({
-  defaultValues: {} as z.infer<typeof CreateSchema>,
+  defaultValues: {
+    status: "pending",
+  } as z.infer<typeof CreateSchema>,
   validators: {
     onSubmit: CreateSchema,
   },
