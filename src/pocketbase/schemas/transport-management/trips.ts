@@ -8,17 +8,17 @@ import { z } from "zod";
 import { Coordinates } from "@/pocketbase/scalar";
 
 export const TripsSchema = z.object({
-  id: z.string(),
-  driver: z.string(),
-  vehicle: z.string(),
-  status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
-  coordinates: Coordinates,
-  startAddress: z.string(),
-  endAddress: z.string(),
-  startTime: z.date().optional(),
-  endTime: z.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	driver: z.string(),
+	vehicle: z.string(),
+	status: z.enum(["planned", "in-progress", "completed", "cancelled"]),
+	coordinates: Coordinates,
+	startAddress: z.string(),
+	endAddress: z.string(),
+	startTime: z.date().optional(),
+	endTime: z.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Trips = z.infer<typeof TripsSchema>;

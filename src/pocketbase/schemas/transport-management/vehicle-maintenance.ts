@@ -7,14 +7,14 @@
 import { z } from "zod";
 
 export const VehicleMaintenanceSchema = z.object({
-  id: z.string(),
-  vehicle: z.string(),
-  serviceDate: z.date(),
-  serviceType: z.string(),
-  cost: z.number().min(0, "Cost must be non-negative").optional(),
-  notes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	vehicle: z.string(),
+	serviceDate: z.date(),
+	serviceType: z.string(),
+	cost: z.number().min(0, "Cost must be non-negative").optional(),
+	notes: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type VehicleMaintenance = z.infer<typeof VehicleMaintenanceSchema>;

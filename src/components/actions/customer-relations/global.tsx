@@ -1,35 +1,20 @@
-import { useNavigate } from "@tanstack/react-router";
-import { Check } from "lucide-react";
+import { Files } from "lucide-react";
 import { GlobalAction } from "@/lib/utils";
 
 export default [
-	{
-		label: "Sort",
-		submenu: [
-			{
-				label: "Oldest to Newest",
-				onSelect: (navigate) => {
-					navigate({
-						search: (prev) => ({
-							...prev,
-							sort: "created",
-						}),
-					});
-				},
-				icon: (searchQuery) => searchQuery.sort === "created" && <Check />,
-			},
-			{
-				label: "Newest to Oldest",
-				onSelect: (navigate) => {
-					navigate({
-						search: (prev) => ({
-							...prev,
-							sort: "-created",
-						}),
-					});
-				},
-				icon: (searchQuery) => searchQuery.sort === "-created" && <Check />,
-			},
-		],
-	},
+  {
+    label: "Sort",
+    submenuImport: async () => {
+      const { default: items } = await import("./sort");
+      return items;
+    },
+  },
+  {
+    label: "Export",
+    icon: <Files />,
+    submenuImport: async () => {
+      const { default: items } = await import("./export");
+      return items;
+    },
+  },
 ] satisfies GlobalAction<"/dashboard/$schema/$collection">[];

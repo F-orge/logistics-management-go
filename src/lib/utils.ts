@@ -4,24 +4,25 @@ import React from "react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-	return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
 
 export type GlobalAction<TNavigation extends string> = {
-	label: string;
-	onSelect?: (navigate: UseNavigateResult<TNavigation>) => Promise<void> | void;
-	icon?:
-		| React.ReactNode
-		| ((searchQuery: {
-				page: number;
-				perPage: number;
-				filter?: string;
-				sort: string;
-				action?: string;
-				id?: string;
-		  }) => React.ReactNode);
-	disabled?: boolean;
-	variant?: "default" | "destructive";
-	divider?: boolean;
-	submenu?: GlobalAction<TNavigation>[];
+  label: string;
+  onSelect?: (navigate: UseNavigateResult<TNavigation>) => Promise<void> | void;
+  icon?:
+    | React.ReactNode
+    | ((searchQuery?: {
+        page: number;
+        perPage: number;
+        filter?: string;
+        sort?: string;
+        action?: string;
+        id?: string;
+      }) => React.ReactNode);
+  disabled?: boolean;
+  variant?: "default" | "destructive";
+  divider?: boolean;
+  submenu?: GlobalAction<TNavigation>[];
+  submenuImport?: () => Promise<GlobalAction<TNavigation>[]>;
 };
