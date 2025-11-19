@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Copy, EditIcon, Trash } from "lucide-react";
+import { Copy, EditIcon, QrCode, Trash } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
@@ -27,6 +27,14 @@ export const actions: ContextMenuItem<PutawayRuleResponse>[] = [
       navigator.clipboard.writeText(row.original.id);
       toast.success("Putaway Rule ID copied to clipboard");
     },
+  },
+  {
+    label: "Share Via QR Code",
+    icon: <QrCode />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({ ...prev, action: "share", id: row.original.id }),
+      }),
     divider: true,
   },
   {
