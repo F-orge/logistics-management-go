@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-16T17:47:17.076Z",
+  "timestamp": "2025-11-19T15:51:45.993Z",
   "collections": [
     {
       "id": "_pb_users_auth_",
@@ -1905,7 +1905,7 @@
           "type": "text"
         },
         {
-          "cascadeDelete": false,
+          "cascadeDelete": true,
           "collectionId": "pbc_3412302640",
           "hidden": false,
           "id": "relation2422544196",
@@ -1979,7 +1979,7 @@
         "CREATE UNIQUE INDEX `idx_gengIW2idW` ON `customer_relations_invoice_items` (\n  `invoice`,\n  `product`\n)"
       ],
       "created": "2025-11-03 10:46:28.124Z",
-      "updated": "2025-11-06 05:58:34.861Z",
+      "updated": "2025-11-17 08:50:17.920Z",
       "system": false
     },
     {
@@ -2154,19 +2154,6 @@
           ]
         },
         {
-          "cascadeDelete": false,
-          "collectionId": "pbc_3219303414",
-          "hidden": false,
-          "id": "relation826006670",
-          "maxSelect": 999,
-          "minSelect": 0,
-          "name": "schedules",
-          "presentable": false,
-          "required": false,
-          "system": false,
-          "type": "relation"
-        },
-        {
           "hidden": false,
           "id": "autodate2990389176",
           "name": "created",
@@ -2189,108 +2176,7 @@
       ],
       "indexes": [],
       "created": "2025-11-03 10:51:05.454Z",
-      "updated": "2025-11-06 13:01:26.670Z",
-      "system": false
-    },
-    {
-      "id": "pbc_3219303414",
-      "listRule": "@request.auth.id != ''",
-      "viewRule": "@request.auth.id != ''",
-      "createRule": "@request.auth.id != ''",
-      "updateRule": "@request.auth.id != ''",
-      "deleteRule": "@request.auth.id != ''",
-      "name": "transport_management_driver_schedules",
-      "type": "base",
-      "fields": [
-        {
-          "autogeneratePattern": "[a-z0-9]{15}",
-          "hidden": false,
-          "id": "text3208210256",
-          "max": 15,
-          "min": 15,
-          "name": "id",
-          "pattern": "^[a-z0-9]+$",
-          "presentable": false,
-          "primaryKey": true,
-          "required": true,
-          "system": true,
-          "type": "text"
-        },
-        {
-          "cascadeDelete": false,
-          "collectionId": "pbc_3317586480",
-          "hidden": false,
-          "id": "relation291929305",
-          "maxSelect": 1,
-          "minSelect": 0,
-          "name": "driver",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "relation"
-        },
-        {
-          "hidden": false,
-          "id": "date1269603864",
-          "max": "",
-          "min": "",
-          "name": "startDate",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "date"
-        },
-        {
-          "hidden": false,
-          "id": "date826688707",
-          "max": "",
-          "min": "",
-          "name": "endDate",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "date"
-        },
-        {
-          "hidden": false,
-          "id": "select1001949196",
-          "maxSelect": 1,
-          "name": "reason",
-          "presentable": false,
-          "required": false,
-          "system": false,
-          "type": "select",
-          "values": [
-            "vacation",
-            "sick-leave",
-            "training",
-            "personal-leave"
-          ]
-        },
-        {
-          "hidden": false,
-          "id": "autodate2990389176",
-          "name": "created",
-          "onCreate": true,
-          "onUpdate": false,
-          "presentable": false,
-          "system": false,
-          "type": "autodate"
-        },
-        {
-          "hidden": false,
-          "id": "autodate3332085495",
-          "name": "updated",
-          "onCreate": true,
-          "onUpdate": true,
-          "presentable": false,
-          "system": false,
-          "type": "autodate"
-        }
-      ],
-      "indexes": [],
-      "created": "2025-11-03 10:52:29.904Z",
-      "updated": "2025-11-06 13:01:18.800Z",
+      "updated": "2025-11-19 12:16:04.392Z",
       "system": false
     },
     {
@@ -2489,17 +2375,6 @@
         },
         {
           "hidden": false,
-          "id": "date1138201242",
-          "max": "",
-          "min": "",
-          "name": "serviceType",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "date"
-        },
-        {
-          "hidden": false,
           "id": "number405181692",
           "max": null,
           "min": null,
@@ -2520,6 +2395,20 @@
           "required": false,
           "system": false,
           "type": "editor"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text1138201242",
+          "max": 0,
+          "min": 0,
+          "name": "serviceType",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": false,
+          "system": false,
+          "type": "text"
         },
         {
           "hidden": false,
@@ -2544,7 +2433,7 @@
       ],
       "indexes": [],
       "created": "2025-11-03 14:22:22.283Z",
-      "updated": "2025-11-03 15:00:05.736Z",
+      "updated": "2025-11-19 11:48:10.491Z",
       "system": false
     },
     {
@@ -2615,6 +2504,65 @@
         },
         {
           "hidden": false,
+          "id": "geoPoint593843763",
+          "name": "coordinates",
+          "presentable": false,
+          "required": true,
+          "system": false,
+          "type": "geoPoint"
+        },
+        {
+          "hidden": false,
+          "id": "date2393256231",
+          "max": "",
+          "min": "",
+          "name": "startTime",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "date"
+        },
+        {
+          "hidden": false,
+          "id": "date4098681852",
+          "max": "",
+          "min": "",
+          "name": "endTime",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "date"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text4044301838",
+          "max": 0,
+          "min": 0,
+          "name": "startAddress",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": false,
+          "system": false,
+          "type": "text"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text1272699478",
+          "max": 0,
+          "min": 0,
+          "name": "endAddress",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": false,
+          "system": false,
+          "type": "text"
+        },
+        {
+          "hidden": false,
           "id": "autodate2990389176",
           "name": "created",
           "onCreate": true,
@@ -2636,7 +2584,7 @@
       ],
       "indexes": [],
       "created": "2025-11-03 14:24:08.884Z",
-      "updated": "2025-11-06 13:02:57.390Z",
+      "updated": "2025-11-19 12:03:29.905Z",
       "system": false
     },
     {
@@ -3215,171 +3163,6 @@
       "system": false
     },
     {
-      "id": "pbc_209153493",
-      "listRule": "@request.auth.id != ''",
-      "viewRule": "@request.auth.id != ''",
-      "createRule": "@request.auth.id != ''",
-      "updateRule": "@request.auth.id != ''",
-      "deleteRule": "@request.auth.id != ''",
-      "name": "transport_management_geofence",
-      "type": "base",
-      "fields": [
-        {
-          "autogeneratePattern": "[a-z0-9]{15}",
-          "hidden": false,
-          "id": "text3208210256",
-          "max": 15,
-          "min": 15,
-          "name": "id",
-          "pattern": "^[a-z0-9]+$",
-          "presentable": false,
-          "primaryKey": true,
-          "required": true,
-          "system": true,
-          "type": "text"
-        },
-        {
-          "autogeneratePattern": "",
-          "hidden": false,
-          "id": "text1579384326",
-          "max": 0,
-          "min": 0,
-          "name": "name",
-          "pattern": "",
-          "presentable": false,
-          "primaryKey": false,
-          "required": true,
-          "system": false,
-          "type": "text"
-        },
-        {
-          "hidden": false,
-          "id": "geoPoint2551633526",
-          "name": "coordinates",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "geoPoint"
-        },
-        {
-          "hidden": false,
-          "id": "number998010458",
-          "max": null,
-          "min": null,
-          "name": "radius",
-          "onlyInt": false,
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "number"
-        },
-        {
-          "hidden": false,
-          "id": "autodate2990389176",
-          "name": "created",
-          "onCreate": true,
-          "onUpdate": false,
-          "presentable": false,
-          "system": false,
-          "type": "autodate"
-        },
-        {
-          "hidden": false,
-          "id": "autodate3332085495",
-          "name": "updated",
-          "onCreate": true,
-          "onUpdate": true,
-          "presentable": false,
-          "system": false,
-          "type": "autodate"
-        }
-      ],
-      "indexes": [],
-      "created": "2025-11-03 14:39:36.394Z",
-      "updated": "2025-11-06 13:01:43.460Z",
-      "system": false
-    },
-    {
-      "id": "pbc_3858826184",
-      "listRule": "@request.auth.id != ''",
-      "viewRule": "@request.auth.id != ''",
-      "createRule": "@request.auth.id != ''",
-      "updateRule": "@request.auth.id != ''",
-      "deleteRule": "@request.auth.id != ''",
-      "name": "transport_management_geofence_events",
-      "type": "base",
-      "fields": [
-        {
-          "autogeneratePattern": "[a-z0-9]{15}",
-          "hidden": false,
-          "id": "text3208210256",
-          "max": 15,
-          "min": 15,
-          "name": "id",
-          "pattern": "^[a-z0-9]+$",
-          "presentable": false,
-          "primaryKey": true,
-          "required": true,
-          "system": true,
-          "type": "text"
-        },
-        {
-          "cascadeDelete": false,
-          "collectionId": "pbc_2807194220",
-          "hidden": false,
-          "id": "relation461431942",
-          "maxSelect": 1,
-          "minSelect": 0,
-          "name": "vehicle",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "relation"
-        },
-        {
-          "cascadeDelete": false,
-          "collectionId": "pbc_209153493",
-          "hidden": false,
-          "id": "relation3035326019",
-          "maxSelect": 1,
-          "minSelect": 0,
-          "name": "geofence",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "relation"
-        },
-        {
-          "hidden": false,
-          "id": "select2363381545",
-          "maxSelect": 1,
-          "name": "type",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "select",
-          "values": [
-            "enter",
-            "exit"
-          ]
-        },
-        {
-          "hidden": false,
-          "id": "autodate2782324286",
-          "name": "timestamp",
-          "onCreate": true,
-          "onUpdate": false,
-          "presentable": false,
-          "system": false,
-          "type": "autodate"
-        }
-      ],
-      "indexes": [],
-      "created": "2025-11-03 14:41:23.054Z",
-      "updated": "2025-11-06 13:01:50.590Z",
-      "system": false
-    },
-    {
       "id": "pbc_3084165411",
       "listRule": "@request.auth.id != ''",
       "viewRule": "@request.auth.id != ''",
@@ -3687,7 +3470,7 @@
           "id": "relation2848527164",
           "maxSelect": 1,
           "minSelect": 0,
-          "name": "interalTrip",
+          "name": "internalTrip",
           "presentable": false,
           "required": false,
           "system": false,
@@ -3746,7 +3529,7 @@
       ],
       "indexes": [],
       "created": "2025-11-03 14:48:50.764Z",
-      "updated": "2025-11-06 13:03:19.822Z",
+      "updated": "2025-11-19 11:14:09.811Z",
       "system": false
     },
     {
@@ -4328,19 +4111,6 @@
           "type": "relation"
         },
         {
-          "cascadeDelete": false,
-          "collectionId": "pbc_1553687933",
-          "hidden": false,
-          "id": "relation3343123541",
-          "maxSelect": 1,
-          "minSelect": 0,
-          "name": "client",
-          "presentable": false,
-          "required": false,
-          "system": false,
-          "type": "relation"
-        },
-        {
           "hidden": false,
           "id": "file3760176746",
           "maxSelect": 99,
@@ -4353,6 +4123,19 @@
           "system": false,
           "thumbs": [],
           "type": "file"
+        },
+        {
+          "cascadeDelete": false,
+          "collectionId": "pbc_609858025",
+          "hidden": false,
+          "id": "relation3343123541",
+          "maxSelect": 1,
+          "minSelect": 0,
+          "name": "client",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "relation"
         },
         {
           "hidden": false,
@@ -4379,7 +4162,7 @@
         "CREATE UNIQUE INDEX `idx_ZQi3TUV1ce` ON `warehouse_management_products` (\n  `sku`,\n  `barcode`\n)"
       ],
       "created": "2025-11-03 15:17:04.866Z",
-      "updated": "2025-11-06 12:55:28.364Z",
+      "updated": "2025-11-18 20:43:32.864Z",
       "system": false
     },
     {
@@ -5056,18 +4839,6 @@
           "type": "text"
         },
         {
-          "hidden": false,
-          "id": "number278557905",
-          "max": null,
-          "min": null,
-          "name": "shippingAddress",
-          "onlyInt": false,
-          "presentable": false,
-          "required": false,
-          "system": false,
-          "type": "number"
-        },
-        {
           "cascadeDelete": false,
           "collectionId": "pbc_609858025",
           "hidden": false,
@@ -5125,6 +4896,17 @@
           "type": "text"
         },
         {
+          "convertURLs": false,
+          "hidden": false,
+          "id": "editor278557905",
+          "maxSize": 0,
+          "name": "shippingAddress",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "editor"
+        },
+        {
           "hidden": false,
           "id": "autodate2990389176",
           "name": "created",
@@ -5149,7 +4931,7 @@
         "CREATE UNIQUE INDEX `idx_O7OLo3FeqL` ON `warehouse_management_sales_orders` (`orderNumber`)"
       ],
       "created": "2025-11-03 15:47:49.466Z",
-      "updated": "2025-11-06 12:57:08.796Z",
+      "updated": "2025-11-18 22:43:15.710Z",
       "system": false
     },
     {
@@ -5567,9 +5349,9 @@
           "values": [
             "requested",
             "approved",
-            "rejeceted",
             "received",
-            "processed"
+            "processed",
+            "rejected"
           ]
         },
         {
@@ -5608,7 +5390,7 @@
         "CREATE UNIQUE INDEX `idx_TkDrXK72je` ON `warehouse_management_returns` (`returnNumber`)"
       ],
       "created": "2025-11-03 16:04:59.444Z",
-      "updated": "2025-11-06 12:56:09.567Z",
+      "updated": "2025-11-18 22:33:39.531Z",
       "system": false
     },
     {
@@ -5636,7 +5418,7 @@
           "type": "text"
         },
         {
-          "cascadeDelete": false,
+          "cascadeDelete": true,
           "collectionId": "pbc_2733688340",
           "hidden": false,
           "id": "relation2812165903",
@@ -5678,7 +5460,7 @@
           "id": "number2833698925",
           "max": null,
           "min": null,
-          "name": "quantityRecevied",
+          "name": "quantityReceived",
           "onlyInt": false,
           "presentable": false,
           "required": false,
@@ -5727,7 +5509,7 @@
         "CREATE UNIQUE INDEX `idx_OfOcqGlJds` ON `warehouse_management_return_items` (\n  `return`,\n  `product`\n)"
       ],
       "created": "2025-11-03 16:07:56.664Z",
-      "updated": "2025-11-06 12:55:59.174Z",
+      "updated": "2025-11-18 22:34:08.756Z",
       "system": false
     },
     {
@@ -7236,7 +7018,7 @@
           "type": "text"
         },
         {
-          "cascadeDelete": false,
+          "cascadeDelete": true,
           "collectionId": "pbc_2792866097",
           "hidden": false,
           "id": "relation1384045349",
@@ -7424,7 +7206,7 @@
       ],
       "indexes": [],
       "created": "2025-11-03 17:13:29.504Z",
-      "updated": "2025-11-06 12:57:35.071Z",
+      "updated": "2025-11-18 21:25:34.180Z",
       "system": false
     },
     {
@@ -7907,6 +7689,20 @@
           "type": "date"
         },
         {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text1579384326",
+          "max": 0,
+          "min": 0,
+          "name": "name",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": false,
+          "system": false,
+          "type": "text"
+        },
+        {
           "hidden": false,
           "id": "autodate2990389176",
           "name": "created",
@@ -7929,7 +7725,7 @@
       ],
       "indexes": [],
       "created": "2025-11-04 12:49:59.232Z",
-      "updated": "2025-11-06 13:22:30.760Z",
+      "updated": "2025-11-16 20:11:16.680Z",
       "system": false
     },
     {
@@ -8313,16 +8109,6 @@
           "type": "relation"
         },
         {
-          "hidden": false,
-          "id": "json3986658718",
-          "maxSize": 0,
-          "name": "signatureData",
-          "presentable": false,
-          "required": false,
-          "system": false,
-          "type": "json"
-        },
-        {
           "autogeneratePattern": "",
           "hidden": false,
           "id": "text2258204368",
@@ -8347,6 +8133,20 @@
         },
         {
           "hidden": false,
+          "id": "file3986658718",
+          "maxSelect": 1,
+          "maxSize": 0,
+          "mimeTypes": [],
+          "name": "signatureData",
+          "presentable": false,
+          "protected": false,
+          "required": false,
+          "system": false,
+          "thumbs": [],
+          "type": "file"
+        },
+        {
+          "hidden": false,
           "id": "autodate2782324286",
           "name": "timestamp",
           "onCreate": true,
@@ -8358,7 +8158,7 @@
       ],
       "indexes": [],
       "created": "2025-11-04 13:36:55.142Z",
-      "updated": "2025-11-06 13:22:23.081Z",
+      "updated": "2025-11-17 20:08:41.343Z",
       "system": false
     },
     {
@@ -8409,15 +8209,6 @@
         },
         {
           "hidden": false,
-          "id": "geoPoint45367233",
-          "name": "heading",
-          "presentable": false,
-          "required": true,
-          "system": false,
-          "type": "geoPoint"
-        },
-        {
-          "hidden": false,
           "id": "autodate2782324286",
           "name": "timestamp",
           "onCreate": true,
@@ -8429,7 +8220,7 @@
       ],
       "indexes": [],
       "created": "2025-11-04 13:38:18.582Z",
-      "updated": "2025-11-06 13:22:13.020Z",
+      "updated": "2025-11-17 19:48:36.494Z",
       "system": false
     },
     {
