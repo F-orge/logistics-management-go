@@ -63,6 +63,47 @@ export const UpdateSchema = z.object({
     description: "Enter a status",
     inputType: "select",
   }),
+  startAddress: TripsSchema.shape.startAddress.register(fieldRegistry, {
+    id: "transport-management-trips-startAddress-update",
+    type: "field",
+    label: "Start Address",
+    description: "Enter a start address",
+    inputType: "textarea",
+  }),
+  startTime: TripsSchema.shape.startTime.register(fieldRegistry, {
+    id: "transport-management-trips-startTime-update",
+    type: "field",
+    label: "Start Time",
+    description: "Enter a start time",
+    inputType: "date",
+    props: {
+      showTime: true,
+    },
+  }),
+  endAddress: TripsSchema.shape.endAddress.register(fieldRegistry, {
+    id: "transport-management-trips-endAddress-update",
+    type: "field",
+    label: "End Address",
+    description: "Enter an end address",
+    inputType: "textarea",
+  }),
+  endTime: TripsSchema.shape.endTime.register(fieldRegistry, {
+    id: "transport-management-trips-endTime-update",
+    type: "field",
+    label: "End Time",
+    description: "Enter an end time",
+    inputType: "date",
+    props: {
+      showTime: true,
+    },
+  }),
+  coordinates: TripsSchema.shape.coordinates.register(fieldRegistry, {
+    id: "transport-management-trips-coordinates-update",
+    type: "field",
+    label: "Coordinates",
+    description: "Enter coordinates",
+    inputType: "geoPoint",
+  }),
 });
 
 const FormOption = formOptions({
@@ -116,7 +157,11 @@ const UpdateForm = () => {
 
   const form = useAppForm({
     ...FormOption,
-    defaultValues: data as z.infer<typeof UpdateSchema>,
+    defaultValues: {
+      ...data,
+      startTime: data.startTime ? new Date(data.startTime) : undefined,
+      endTime: data.endTime ? new Date(data.endTime) : undefined,
+    } as z.infer<typeof UpdateSchema>,
   });
 
   return (
