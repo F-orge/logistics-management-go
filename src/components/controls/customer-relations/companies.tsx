@@ -1,6 +1,6 @@
 import { useNavigate, useParams, useSearch } from "@tanstack/react-router";
 import { ChevronDownIcon, SearchIcon } from "lucide-react";
-import React, { lazy, Suspense, use } from "react";
+import React, { lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import {
   ButtonGroup,
@@ -80,20 +80,7 @@ const CompanyControls = ({
     actions: GlobalAction<"/dashboard/$schema/$collection">[]
   ): React.ReactNode => {
     return actions.map((action, index) => {
-      let submenuItems:
-        | GlobalAction<"/dashboard/$schema/$collection">[]
-        | undefined;
-
-      // Try to resolve async submenuImport first, fallback to submenu
-      if (action.submenuImport) {
-        try {
-          submenuItems = use(action.submenuImport());
-        } catch {
-          // Silent error handling - render nothing
-        }
-      } else if (action.submenu) {
-        submenuItems = action.submenu;
-      }
+      const submenuItems = action.submenu;
 
       return (
         <React.Fragment key={index}>

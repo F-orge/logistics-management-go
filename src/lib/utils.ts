@@ -24,5 +24,4 @@ export type GlobalAction<TNavigation extends string> = {
   variant?: "default" | "destructive";
   divider?: boolean;
   submenu?: GlobalAction<TNavigation>[];
-  submenuImport?: () => Promise<GlobalAction<TNavigation>[]>;
 };

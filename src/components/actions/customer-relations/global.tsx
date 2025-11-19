@@ -1,20 +1,16 @@
 import { Files } from "lucide-react";
 import { GlobalAction } from "@/lib/utils";
+import exportSubmenu from "./export";
+import sortSubmenu from "./sort";
 
 export default [
   {
     label: "Sort",
-    submenuImport: async () => {
-      const { default: items } = await import("./sort");
-      return items;
-    },
+    submenu: sortSubmenu,
   },
   {
     label: "Export",
     icon: <Files />,
-    submenuImport: async () => {
-      const { default: items } = await import("./export");
-      return items;
-    },
+    submenu: exportSubmenu,
   },
 ] satisfies GlobalAction<"/dashboard/$schema/$collection">[];
