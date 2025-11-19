@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { EditIcon, Trash } from "lucide-react";
+import { Copy, EditIcon, Trash } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
+import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import { coordinatesCell, formatDateTime } from "@/components/utils";
 import { DeliveryManagementDriverLocationResponse } from "@/lib/pb.types";
@@ -10,6 +11,15 @@ type DriverLocationResponse = DeliveryManagementDriverLocationResponse;
 export const options: RecordListOptions = {};
 
 export const actions: ContextMenuItem<DriverLocationResponse>[] = [
+  {
+    label: "Copy ID",
+    icon: <Copy />,
+    onSelect: (row) => {
+      navigator.clipboard.writeText(row.original.id);
+      toast.success("Driver Location ID copied to clipboard");
+    },
+    divider: true,
+  },
   {
     label: "Edit Driver Location",
     icon: <EditIcon />,
