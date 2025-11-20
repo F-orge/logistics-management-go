@@ -13,33 +13,34 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
 import { CampaignForm, CreateSchema } from "./form";
 
-const FormOption = formOptions({
-  defaultValues: {} as z.infer<typeof CreateSchema>,
-  validators: {
-    onSubmit: CampaignsSchema,
-  },
-  onSubmitMeta: {} as {
-    pocketbase: TypedPocketBase;
-    navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-  },
-  onSubmit: async ({ value, meta }) => {
-    try {
-      await meta
-        .pocketbase!.collection(Collections.CustomerRelationsCampaigns)
-        .create(value);
+const FormOption = (pocketbase: TypedPocketBase) =>
+  formOptions({
+    defaultValues: {} as z.infer<ReturnType<typeof CreateSchema>>,
+    validators: {
+      onSubmitAsync: CreateSchema(pocketbase),
+    },
+    onSubmitMeta: {} as {
+      pocketbase: TypedPocketBase;
+      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+    },
+    onSubmit: async ({ value, meta }) => {
+      try {
+        await meta
+          .pocketbase!.collection(Collections.CustomerRelationsCampaigns)
+          .create(value);
 
-      toast.success("Campaign created successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to create campaign: ${error.message} (${error.status})`
-        );
+        toast.success("Campaign created successfully!");
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          toast.error(
+            `Failed to create campaign: ${error.message} (${error.status})`
+          );
+        }
+      } finally {
+        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
       }
-    } finally {
-      meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  },
-});
+    },
+  });
 
 const CreateCampaignForm = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
@@ -47,7 +48,7 @@ const CreateCampaignForm = () => {
     from: "/dashboard/$schema/$collection",
   });
 
-  const form = useAppForm(FormOption);
+  const form = useAppForm(FormOption(pocketbase));
 
   return (
     <form
@@ -58,7 +59,7 @@ const CreateCampaignForm = () => {
       }}
     >
       <form.AppForm>
-        <CampaignForm form={form} action="create" />
+        <CampaignForm form={form as any} action="create" />
         <DialogFooter className="pt-4">
           <form.ClearButton
             type="reset"

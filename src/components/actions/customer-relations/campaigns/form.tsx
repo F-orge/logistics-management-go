@@ -1,26 +1,25 @@
 import { useRouteContext } from "@tanstack/react-router";
 import z from "zod";
 import { withForm } from "@/components/ui/forms";
-import { Collections } from "@/lib/pb.types";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations";
 
 export type CampaignFormProps = {
   action?: "create" | "edit";
 };
 
-export const CreateSchema = CampaignsSchema.omit({
-  id: true,
-  created: true,
-  updated: true,
-});
+export const CreateSchema = (pocketbase: TypedPocketBase) =>
+  CampaignsSchema(pocketbase).omit({
+    id: true,
+    created: true,
+    updated: true,
+  });
 
-export const UpdateSchema = CreateSchema.omit({
-  attachments: true,
-}).partial();
+export const UpdateSchema = (pocketbase: TypedPocketBase) =>
+  CreateSchema(pocketbase).partial();
 
 export const CampaignForm = withForm({
-  defaultValues: {} as z.infer<typeof CreateSchema>,
-  validators: {},
+  defaultValues: {} as z.infer<ReturnType<typeof CampaignsSchema>>,
   props: {} as CampaignFormProps,
   render: ({ form, ...props }) => {
     const { pocketbase } = useRouteContext({
@@ -35,25 +34,7 @@ export const CampaignForm = withForm({
           }}
         >
           {/* name */}
-          <form.AppField
-            validators={{
-              onChangeAsync: async ({ value }) => {
-                if (value === undefined || value === null || value === "")
-                  return;
-                const result = await pocketbase
-                  .collection(Collections.CustomerRelationsCampaigns)
-                  .getFirstListItem(`name = "${value}"`);
-
-                if (result) {
-                  return {
-                    message: "A campaign with this name already exists.",
-                  };
-                }
-              },
-              onChangeAsyncDebounceMs: 1000,
-            }}
-            name="name"
-          >
+          <form.AppField name="name">
             {(field) => (
               <field.Field
                 className="col-span-full"

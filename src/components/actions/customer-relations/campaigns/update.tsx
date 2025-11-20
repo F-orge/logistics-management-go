@@ -20,34 +20,35 @@ import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
 import { CampaignForm, UpdateSchema } from "./form";
 
-const FormOption = formOptions({
-  defaultValues: {} as z.infer<typeof UpdateSchema>,
-  validators: {
-    onSubmit: UpdateSchema,
-  },
-  onSubmitMeta: {} as {
-    id: string;
-    pocketbase: TypedPocketBase;
-    navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-  },
-  onSubmit: async ({ value, meta }) => {
-    try {
-      await meta
-        .pocketbase!.collection(Collections.CustomerRelationsCampaigns)
-        .update(meta.id, value);
+const FormOption = (pocketbase: TypedPocketBase) =>
+  formOptions({
+    defaultValues: {} as z.infer<ReturnType<typeof UpdateSchema>>,
+    validators: {
+      onSubmit: UpdateSchema(pocketbase),
+    },
+    onSubmitMeta: {} as {
+      id: string;
+      pocketbase: TypedPocketBase;
+      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+    },
+    onSubmit: async ({ value, meta }) => {
+      try {
+        await meta
+          .pocketbase!.collection(Collections.CustomerRelationsCampaigns)
+          .update(meta.id, value);
 
-      toast.success("Campaign updated successfully!");
-    } catch (error) {
-      if (error instanceof ClientResponseError) {
-        toast.error(
-          `Failed to update campaign: ${error.message} (${error.status})`
-        );
+        toast.success("Campaign updated successfully!");
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          toast.error(
+            `Failed to update campaign: ${error.message} (${error.status})`
+          );
+        }
+      } finally {
+        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
       }
-    } finally {
-      meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
-    }
-  },
-});
+    },
+  });
 
 const UpdateCampaignForm = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
