@@ -14,9 +14,12 @@ import { UsersRecord } from "@/lib/pb.types";
 export const Route = createFileRoute("/dashboard")({
   component: RouteComponent,
   validateSearch: zodValidator(z.object({ settings: z.boolean().optional() })),
-  beforeLoad: async ({ context }) => {
+  beforeLoad: async ({ context, location }) => {
     if (!context.pocketbase.authStore.isValid) {
-      throw redirect({ to: "/" });
+      throw redirect({
+        to: "/auth/login",
+        search: { redirectTo: location.url },
+      });
     }
   },
   loader: async ({ context }) => {

@@ -63,6 +63,13 @@ export const CreateSchema = z.object({
 		description: "Enter a notes",
 		inputType: "textarea",
 	}),
+	attachments: InteractionsSchema.shape.attachments.register(fieldRegistry, {
+		id: "customer-relations-interactions-attachments-create",
+		type: "field",
+		label: "Attachments",
+		description: "Upload attachments",
+		inputType: "file",
+	}),
 });
 
 const FormOption = formOptions({
