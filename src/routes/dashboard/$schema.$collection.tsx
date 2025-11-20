@@ -108,10 +108,14 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
 
   return (
-    <article className="grid grid-cols-12 gap-5">
-      <section>{/* analytics section */}</section>
+    <article className="grid grid-cols-12 gap-3 md:gap-5">
+      <section className="col-span-full hidden">
+        {/* analytics section */}
+      </section>
       {ControlSection && (
-        <ControlSection globalAction={[...globalActions, ...tableActions]} />
+        <section className="col-span-full">
+          <ControlSection globalAction={[...globalActions, ...tableActions]} />
+        </section>
       )}
       <section className="col-span-full">
         <DataTable
@@ -124,10 +128,10 @@ function RouteComponent() {
           contextItems={actions}
         />
       </section>
-      <section>
+      <section className="col-span-full md:col-span-auto">
         <Actions />
       </section>
-      <section>
+      <section className="hidden">
         <QrDialog />
         <ExportData />
         <RecordDialog />
