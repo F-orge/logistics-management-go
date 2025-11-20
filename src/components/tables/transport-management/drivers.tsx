@@ -4,16 +4,29 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   driverStatusColors,
   expiryDateCell,
   formatDate,
   statusBadgeCell,
 } from "@/components/utils";
-import { TransportManagementDriversResponse } from "@/lib/pb.types";
+import {
+  TransportManagementDriversResponse,
+  UsersResponse,
+} from "@/lib/pb.types";
 
-type DriverResponse = TransportManagementDriversResponse;
+type DriverResponse = TransportManagementDriversResponse<{
+  user: UsersResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "user",
+};
 
 export const actions: ContextMenuItem<DriverResponse>[] = [
   {
@@ -71,33 +84,64 @@ export const actions: ContextMenuItem<DriverResponse>[] = [
 
 export const columns: ColumnDef<DriverResponse>[] = [
   {
-    accessorKey: "user",
-    header: "User ID",
-  },
-  {
     accessorKey: "licenseNumber",
     header: "License Number",
+    cell: ({ row }) => {
+      const user = row.original.expand?.user;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("licenseNumber") as string}</ItemTitle>
+            {user && (
+              <ItemDescription>
+                {user.name} ({user.email})
+              </ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "licenseExpiryDate",
     header: "License Expiry",
-    cell: ({ row }) =>
-      expiryDateCell(row.getValue("licenseExpiryDate") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {expiryDateCell(
+              row.getValue("licenseExpiryDate") as string | undefined
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(row.getValue("status") as string, driverStatusColors),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              driverStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

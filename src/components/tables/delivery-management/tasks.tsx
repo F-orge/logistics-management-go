@@ -4,6 +4,12 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDateTime,
   formatHyphens,
   statusBadgeCell,
@@ -72,72 +78,119 @@ export const actions: ContextMenuItem<TaskResponse>[] = [
 
 export const columns: ColumnDef<TaskResponse>[] = [
   {
-    accessorKey: "package",
-    header: "Package ID",
-  },
-  {
-    accessorKey: "route",
-    header: "Route ID",
-  },
-  {
-    accessorKey: "sequence",
-    header: "Sequence",
+    accessorKey: "deliveryAddress",
+    header: "Delivery Address",
+    cell: ({ row }) => {
+      const recipient = row.getValue("recipientName") as string | undefined;
+      const address = row.getValue("deliveryAddress") as string;
+      const phone = row.getValue("recipientPhone") as string | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{recipient || address}</ItemTitle>
+            {phone && <ItemDescription>{phone}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(row.getValue("status") as string, taskStatusColors),
-  },
-  {
-    accessorKey: "deliveryAddress",
-    header: "Delivery Address",
-  },
-  {
-    accessorKey: "recipientName",
-    header: "Recipient Name",
-  },
-  {
-    accessorKey: "recipientPhone",
-    header: "Recipient Phone",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              taskStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "estimatedArrivalTime",
     header: "Est. Arrival",
-    cell: ({ row }) =>
-      formatDateTime(
-        row.getValue("estimatedArrivalTime") as string | undefined
-      ),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatDateTime(
+              row.getValue("estimatedArrivalTime") as string | undefined
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "actualArrivalTime",
     header: "Actual Arrival",
-    cell: ({ row }) =>
-      formatDateTime(row.getValue("actualArrivalTime") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatDateTime(
+              row.getValue("actualArrivalTime") as string | undefined
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "deliveryTime",
     header: "Delivery Time",
-    cell: ({ row }) =>
-      formatDateTime(row.getValue("deliveryTime") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatDateTime(row.getValue("deliveryTime") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "failureReason",
     header: "Failure Reason",
-    cell: ({ row }) =>
-      formatHyphens(row.getValue("failureReason") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatHyphens(row.getValue("failureReason") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "attempCount",
     header: "Attempts",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("attempCount") || "-"}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "deliveryInstructions",
     header: "Instructions",
-    cell: ({ row }) =>
-      truncateText(
-        row.getValue("deliveryInstructions") as string | undefined,
-        40
-      ),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {truncateText(
+              row.getValue("deliveryInstructions") as string | undefined,
+              40
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

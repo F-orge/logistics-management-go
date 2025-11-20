@@ -3,6 +3,12 @@ import { Copy, EditIcon, QrCode, Trash, View } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
 import { formatDate, truncateText } from "@/components/utils";
 import { TransportManagementCarriersResponse } from "@/lib/pb.types";
 
@@ -68,27 +74,55 @@ export const columns: ColumnDef<CarrierResponse>[] = [
   {
     accessorKey: "name",
     header: "Carrier Name",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("name") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "serviceOffered",
     header: "Services",
-    cell: ({ row }) =>
-      truncateText(row.getValue("serviceOffered") as string | undefined, 50),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemDescription>
+            {truncateText(
+              row.getValue("serviceOffered") as string | undefined,
+              50
+            )}
+          </ItemDescription>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "contactDetails",
     header: "Contact Details",
-    cell: ({ row }) =>
-      truncateText(row.getValue("contactDetails") as string | undefined, 50),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemDescription>
+            {truncateText(
+              row.getValue("contactDetails") as string | undefined,
+              50
+            )}
+          </ItemDescription>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

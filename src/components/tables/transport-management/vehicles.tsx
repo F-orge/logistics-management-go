@@ -4,6 +4,12 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDate,
   registrationNumberCell,
   statusBadgeCell,
@@ -73,35 +79,58 @@ export const columns: ColumnDef<VehicleResponse>[] = [
   {
     accessorKey: "registrationNumber",
     header: "Registration Number",
-    cell: ({ row }) =>
-      registrationNumberCell(row.getValue("registrationNumber") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {registrationNumberCell(
+              row.getValue("registrationNumber") as string
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "model",
     header: "Model",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("model") as string}</ItemTitle>
+          <ItemDescription>
+            Weight: {row.original.capacityWeight ?? "-"} kg | Volume:{" "}
+            {row.original.capacityVolume ?? "-"} m³
+          </ItemDescription>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(row.getValue("status") as string, vehicleStatusColors),
-  },
-  {
-    accessorKey: "capacityWeight",
-    header: "Capacity Weight (kg)",
-  },
-  {
-    accessorKey: "capacityVolume",
-    header: "Capacity Volume (m³)",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              vehicleStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];
