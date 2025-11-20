@@ -3,12 +3,25 @@ import { Copy, EditIcon, QrCode, Trash, View } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
 import { formatDate } from "@/components/utils";
-import { WarehouseManagementInventoryBatchesResponse } from "@/lib/pb.types";
+import {
+  WarehouseManagementInventoryBatchesResponse,
+  WarehouseManagementProductsResponse,
+} from "@/lib/pb.types";
 
-type InventoryBatchResponse = WarehouseManagementInventoryBatchesResponse;
+type InventoryBatchResponse = WarehouseManagementInventoryBatchesResponse<{
+  product: WarehouseManagementProductsResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "product",
+};
 
 export const actions: ContextMenuItem<InventoryBatchResponse>[] = [
   {
@@ -66,37 +79,39 @@ export const actions: ContextMenuItem<InventoryBatchResponse>[] = [
 
 export const columns: ColumnDef<InventoryBatchResponse>[] = [
   {
-    accessorKey: "product",
-    header: "Product ID",
-  },
-  {
     accessorKey: "batchNumber",
     header: "Batch Number",
-  },
-  {
-    accessorKey: "expirationDate",
-    header: "Expiration Date",
     cell: ({ row }) => {
-      const date = row.getValue("expirationDate") as string | undefined;
-      if (!date) return "-";
-      const expDate = new Date(date);
-      const today = new Date();
-      const isExpired = expDate < today;
+      const product = row.original.expand?.product;
+      const expDate = row.original.expirationDate;
+      const isExpired = expDate && new Date(expDate) < new Date();
       return (
-        <span className={isExpired ? "text-red-600 font-semibold" : ""}>
-          {expDate.toLocaleDateString()}
-        </span>
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("batchNumber") as string}</ItemTitle>
+            <ItemDescription>
+              {product?.name ?? "-"}
+              {expDate && (
+                <span className={isExpired ? "text-red-600 font-semibold" : ""}>
+                  {" "}
+                  | Expires: {new Date(expDate).toLocaleDateString()}
+                </span>
+              )}
+            </ItemDescription>
+          </ItemContent>
+        </Item>
       );
     },
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

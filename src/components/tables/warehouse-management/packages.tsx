@@ -4,6 +4,12 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   booleanBadgeCell,
   formatCurrency,
   formatDate,
@@ -70,93 +76,120 @@ export const actions: ContextMenuItem<PackageResponse>[] = [
 
 export const columns: ColumnDef<PackageResponse>[] = [
   {
-    accessorKey: "salesOrder",
-    header: "Sales Order ID",
+    accessorKey: "packageNumber",
+    header: "Package",
+    cell: ({ row }) => {
+      const type = row.original.type;
+      const weight = row.original.weight;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("packageNumber") as string}</ItemTitle>
+            <ItemDescription>
+              {type} | {weight ?? "-"} kg
+            </ItemDescription>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
-    accessorKey: "packageNumber",
-    header: "Package Number",
+    accessorKey: "salesOrder",
+    header: "Sales Order",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("salesOrder") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "warehouse",
-    header: "Warehouse ID",
-  },
-  {
-    accessorKey: "type",
-    header: "Type",
-  },
-  {
-    accessorKey: "weight",
-    header: "Weight (kg)",
-  },
-  {
-    accessorKey: "length",
-    header: "Length",
-  },
-  {
-    accessorKey: "width",
-    header: "Width",
-  },
-  {
-    accessorKey: "height",
-    header: "Height",
+    header: "Warehouse",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("warehouse") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "isFragile",
-    header: "Fragile",
+    header: "Conditions",
     cell: ({ row }) => {
       const isFragile = row.getValue("isFragile") as boolean | undefined;
-      return isFragile ? (
-        <span className="px-2 py-1 bg-red-100 text-red-800 rounded text-sm">
-          Fragile
-        </span>
-      ) : (
-        "-"
+      const isHazmat = row.original.isHazmat;
+      const requireSignature = row.original.requireSignature;
+      const badges = [];
+      if (isFragile)
+        badges.push(
+          <span
+            key="fragile"
+            className="px-2 py-1 bg-red-100 text-red-800 rounded text-sm"
+          >
+            Fragile
+          </span>
+        );
+      if (isHazmat)
+        badges.push(
+          <span
+            key="hazmat"
+            className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-sm"
+          >
+            Hazmat
+          </span>
+        );
+      if (requireSignature)
+        badges.push(
+          <span
+            key="sig"
+            className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm"
+          >
+            Signature
+          </span>
+        );
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-1 flex flex-wrap">
+            {badges.length > 0 ? badges : "-"}
+          </ItemContent>
+        </Item>
       );
     },
-  },
-  {
-    accessorKey: "isHazmat",
-    header: "Hazmat",
-    cell: ({ row }) => {
-      const isHazmat = row.getValue("isHazmat") as boolean | undefined;
-      return isHazmat ? (
-        <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-sm">
-          Hazmat
-        </span>
-      ) : (
-        "-"
-      );
-    },
-  },
-  {
-    accessorKey: "requireSignature",
-    header: "Requires Signature",
-    cell: ({ row }) =>
-      booleanBadgeCell(row.getValue("requireSignature") as boolean | undefined),
   },
   {
     accessorKey: "insuranceValue",
     header: "Insurance Value",
     cell: ({ row }) => {
       const value = row.getValue("insuranceValue") as number | undefined;
-      return value ? formatCurrency(value) : "-";
-    },
-  },
-  {
-    accessorKey: "packedAt",
-    header: "Packed At",
-    cell: ({ row }) => {
-      const date = row.getValue("packedAt") as string | undefined;
-      return date ? formatDate(date) : "-";
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{value ? formatCurrency(value) : "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
     accessorKey: "shippedAt",
-    header: "Shipped At",
+    header: "Timeline",
     cell: ({ row }) => {
-      const date = row.getValue("shippedAt") as string | undefined;
-      return date ? formatDate(date) : "-";
+      const packed = row.original.packedAt;
+      const shipped = row.getValue("shippedAt") as string | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            {shipped && <ItemTitle>Shipped: {formatDate(shipped)}</ItemTitle>}
+            {packed && (
+              <ItemDescription>Packed: {formatDate(packed)}</ItemDescription>
+            )}
+            {!shipped && !packed && <ItemTitle>-</ItemTitle>}
+          </ItemContent>
+        </Item>
+      );
     },
   },
 ];

@@ -4,10 +4,15 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDate,
   returnStatusColors,
   statusBadgeCell,
-  truncateText,
 } from "@/components/utils";
 import { WarehouseManagementReturnsResponse } from "@/lib/pb.types";
 
@@ -73,37 +78,64 @@ export const columns: ColumnDef<ReturnResponse>[] = [
   {
     accessorKey: "returnNumber",
     header: "Return Number",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("returnNumber") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "salesOrder",
-    header: "Sales Order ID",
-  },
-  {
-    accessorKey: "client",
-    header: "Client ID",
+    header: "Sales Order",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("salesOrder") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(row.getValue("status") as string, returnStatusColors),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              returnStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "reason",
     header: "Reason",
     cell: ({ row }) => {
       const reason = row.getValue("reason") as string | undefined;
-      return reason ? truncateText(reason, 50) : "-";
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemDescription>{reason ?? "-"}</ItemDescription>
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

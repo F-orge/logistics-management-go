@@ -3,6 +3,12 @@ import { Copy, EditIcon, QrCode, Trash, View } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
 import { emailCell, formatDate } from "@/components/utils";
 import { WarehouseManagementSuppliersResponse } from "@/lib/pb.types";
 
@@ -67,33 +73,46 @@ export const actions: ContextMenuItem<SupplierResponse>[] = [
 export const columns: ColumnDef<SupplierResponse>[] = [
   {
     accessorKey: "name",
-    header: "Supplier Name",
-  },
-  {
-    accessorKey: "contactPerson",
-    header: "Contact Person",
+    header: "Supplier",
+    cell: ({ row }) => {
+      const contactPerson = row.original.contactPerson;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("name") as string}</ItemTitle>
+            {contactPerson && (
+              <ItemDescription>{contactPerson}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => emailCell(row.getValue("email")),
-  },
-  {
-    accessorKey: "phoneNumber",
-    header: "Phone Number",
-  },
-  {
-    accessorKey: "client",
-    header: "Client ID",
+    header: "Contact",
+    cell: ({ row }) => {
+      const email = row.original.email;
+      const phone = row.original.phoneNumber;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            {email && <ItemTitle>{emailCell(email)}</ItemTitle>}
+            {phone && <ItemDescription>{phone}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

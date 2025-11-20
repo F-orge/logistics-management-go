@@ -4,15 +4,30 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDate,
   inboundShipmentStatusColors,
   statusBadgeCell,
 } from "@/components/utils";
-import { WarehouseManagementInboundShipmentsResponse } from "@/lib/pb.types";
+import {
+  CustomerRelationsCompaniesResponse,
+  WarehouseManagementInboundShipmentsResponse,
+  WarehouseManagementWarehousesResponse,
+} from "@/lib/pb.types";
 
-type InboundShipmentResponse = WarehouseManagementInboundShipmentsResponse;
+type InboundShipmentResponse = WarehouseManagementInboundShipmentsResponse<{
+  warehouse: WarehouseManagementWarehousesResponse;
+  client: CustomerRelationsCompaniesResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "warehouse,client",
+};
 
 export const actions: ContextMenuItem<InboundShipmentResponse>[] = [
   {
@@ -71,45 +86,80 @@ export const actions: ContextMenuItem<InboundShipmentResponse>[] = [
 export const columns: ColumnDef<InboundShipmentResponse>[] = [
   {
     accessorKey: "warehouse",
-    header: "Warehouse ID",
+    header: "Warehouse",
+    cell: ({ row }) => {
+      const warehouse = row.original.expand?.warehouse;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{warehouse?.name ?? "-"}</ItemTitle>
+            {warehouse?.city && (
+              <ItemDescription>{warehouse.city}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "client",
-    header: "Client ID",
+    header: "Client",
+    cell: ({ row }) => {
+      const client = row.original.expand?.client;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{client?.name ?? "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(
-        row.getValue("status") as string,
-        inboundShipmentStatusColors
-      ),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              inboundShipmentStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "expectedArrivalDate",
     header: "Expected Arrival",
     cell: ({ row }) => {
-      const date = row.getValue("expectedArrivalDate") as string | undefined;
-      return date ? formatDate(date) : "-";
-    },
-  },
-  {
-    accessorKey: "actualArrivalDate",
-    header: "Actual Arrival",
-    cell: ({ row }) => {
-      const date = row.getValue("actualArrivalDate") as string | undefined;
-      return date ? formatDate(date) : "-";
+      const expected = row.getValue("expectedArrivalDate") as
+        | string
+        | undefined;
+      const actual = row.original.actualArrivalDate;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{expected ? formatDate(expected) : "-"}</ItemTitle>
+            {actual && (
+              <ItemDescription>Arrived: {formatDate(actual)}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

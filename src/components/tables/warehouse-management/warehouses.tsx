@@ -3,6 +3,12 @@ import { Copy, EditIcon, QrCode, Trash, View } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
 import { booleanBadgeCell, emailCell, formatDate } from "@/components/utils";
 import { WarehouseManagementWarehousesResponse } from "@/lib/pb.types";
 
@@ -67,58 +73,97 @@ export const actions: ContextMenuItem<WarehouseResponse>[] = [
 export const columns: ColumnDef<WarehouseResponse>[] = [
   {
     accessorKey: "name",
-    header: "Warehouse Name",
+    header: "Warehouse",
+    cell: ({ row }) => {
+      const city = row.original.city;
+      const country = row.original.country;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("name") as string}</ItemTitle>
+            {(city || country) && (
+              <ItemDescription>
+                {[city, country].filter(Boolean).join(", ")}
+              </ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "address",
-    header: "Address",
-  },
-  {
-    accessorKey: "city",
-    header: "City",
-  },
-  {
-    accessorKey: "state",
-    header: "State",
-  },
-  {
-    accessorKey: "postalCode",
-    header: "Postal Code",
-  },
-  {
-    accessorKey: "country",
-    header: "Country",
+    header: "Location Details",
+    cell: ({ row }) => {
+      const address = row.original.address;
+      const state = row.original.state;
+      const postalCode = row.original.postalCode;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemDescription>
+              {address}
+              {state && ` | ${state}`}
+              {postalCode && ` | ${postalCode}`}
+            </ItemDescription>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "contactPerson",
-    header: "Contact Person",
-  },
-  {
-    accessorKey: "contactEmail",
-    header: "Contact Email",
-    cell: ({ row }) => emailCell(row.getValue("contactEmail") as string),
-  },
-  {
-    accessorKey: "contactPhone",
-    header: "Contact Phone",
+    header: "Contact",
+    cell: ({ row }) => {
+      const person = row.original.contactPerson;
+      const email = row.original.contactEmail;
+      const phone = row.original.contactPhone;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            {person && <ItemTitle>{person}</ItemTitle>}
+            <ItemDescription>
+              {email && emailCell(email)}
+              {phone && ` | ${phone}`}
+            </ItemDescription>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "timezone",
     header: "Timezone",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("timezone") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "isActive",
-    header: "Active",
-    cell: ({ row }) => booleanBadgeCell(row.getValue("isActive") as boolean),
+    header: "Status",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {booleanBadgeCell(row.getValue("isActive") as boolean)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

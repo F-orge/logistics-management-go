@@ -4,15 +4,30 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDate,
   inventoryStockStatusColors,
   statusBadgeCell,
 } from "@/components/utils";
-import { WarehouseManagementInventoryStockResponse } from "@/lib/pb.types";
+import {
+  WarehouseManagementInventoryStockResponse,
+  WarehouseManagementLocationsResponse,
+  WarehouseManagementProductsResponse,
+} from "@/lib/pb.types";
 
-type InventoryStockResponse = WarehouseManagementInventoryStockResponse;
+type InventoryStockResponse = WarehouseManagementInventoryStockResponse<{
+  product: WarehouseManagementProductsResponse;
+  location: WarehouseManagementLocationsResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "product,location",
+};
 
 export const actions: ContextMenuItem<InventoryStockResponse>[] = [
   {
@@ -71,47 +86,68 @@ export const actions: ContextMenuItem<InventoryStockResponse>[] = [
 export const columns: ColumnDef<InventoryStockResponse>[] = [
   {
     accessorKey: "product",
-    header: "Product ID",
-  },
-  {
-    accessorKey: "location",
-    header: "Location ID",
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantity",
+    header: "Product",
     cell: ({ row }) => {
-      const qty = row.getValue("quantity") as number | undefined;
-      return qty ?? "-";
+      const product = row.original.expand?.product;
+      const qty = row.original.quantity ?? 0;
+      const reserved = row.original.reservedQuantity ?? 0;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{product?.name ?? "-"}</ItemTitle>
+            <ItemDescription>
+              Qty: {qty} | Reserved: {reserved}
+            </ItemDescription>
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
-    accessorKey: "reservedQuantity",
-    header: "Reserved Quantity",
+    accessorKey: "location",
+    header: "Location",
     cell: ({ row }) => {
-      const reserved = row.getValue("reservedQuantity") as number | undefined;
-      return reserved ? (
-        <span className="text-orange-600">{reserved}</span>
-      ) : (
-        "-"
+      const location = row.original.expand?.location;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{location?.name ?? "-"}</ItemTitle>
+            {location?.barcode && (
+              <ItemDescription>{location.barcode}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
       );
     },
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(
-        row.getValue("status") as string,
-        inventoryStockStatusColors
-      ),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              inventoryStockStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "lastMovementAt",
     header: "Last Movement",
     cell: ({ row }) => {
       const date = row.getValue("lastMovementAt") as string | undefined;
-      return date ? formatDate(date) : "-";
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{date ? formatDate(date) : "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
@@ -119,12 +155,24 @@ export const columns: ColumnDef<InventoryStockResponse>[] = [
     header: "Last Counted",
     cell: ({ row }) => {
       const date = row.getValue("lastCountedAt") as string | undefined;
-      return date ? formatDate(date) : "-";
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{date ? formatDate(date) : "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

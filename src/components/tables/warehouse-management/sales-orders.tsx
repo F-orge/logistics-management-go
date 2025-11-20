@@ -4,15 +4,28 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDate,
   salesOrderStatusColors,
   statusBadgeCell,
 } from "@/components/utils";
-import { WarehouseManagementSalesOrdersResponse } from "@/lib/pb.types";
+import {
+  CustomerRelationsCompaniesResponse,
+  WarehouseManagementSalesOrdersResponse,
+} from "@/lib/pb.types";
 
-type SalesOrderResponse = WarehouseManagementSalesOrdersResponse;
+type SalesOrderResponse = WarehouseManagementSalesOrdersResponse<{
+  client: CustomerRelationsCompaniesResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "client",
+};
 
 export const actions: ContextMenuItem<SalesOrderResponse>[] = [
   {
@@ -72,33 +85,56 @@ export const columns: ColumnDef<SalesOrderResponse>[] = [
   {
     accessorKey: "orderNumber",
     header: "Order Number",
-  },
-  {
-    accessorKey: "client",
-    header: "Client ID",
-  },
-  {
-    accessorKey: "opportunity",
-    header: "Opportunity ID",
+    cell: ({ row }) => {
+      const client = row.original.expand?.client;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("orderNumber") as string}</ItemTitle>
+            {client && <ItemDescription>{client.name}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(row.getValue("status") as string, salesOrderStatusColors),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              salesOrderStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "shippingAddress",
     header: "Shipping Address",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemDescription>
+            {row.getValue("shippingAddress") as string}
+          </ItemDescription>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

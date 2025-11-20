@@ -4,15 +4,30 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   formatDate,
   outboundShipmentStatusColors,
   statusBadgeCell,
 } from "@/components/utils";
-import { WarehouseManagementOutboundShipmentsResponse } from "@/lib/pb.types";
+import {
+  TransportManagementCarriersResponse,
+  WarehouseManagementOutboundShipmentsResponse,
+  WarehouseManagementWarehousesResponse,
+} from "@/lib/pb.types";
 
-type OutboundShipmentResponse = WarehouseManagementOutboundShipmentsResponse;
+type OutboundShipmentResponse = WarehouseManagementOutboundShipmentsResponse<{
+  warehouse: WarehouseManagementWarehousesResponse;
+  carrier: TransportManagementCarriersResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "warehouse,carrier",
+};
 
 export const actions: ContextMenuItem<OutboundShipmentResponse>[] = [
   {
@@ -70,46 +85,76 @@ export const actions: ContextMenuItem<OutboundShipmentResponse>[] = [
 
 export const columns: ColumnDef<OutboundShipmentResponse>[] = [
   {
-    accessorKey: "salesOrder",
-    header: "Sales Order ID",
-  },
-  {
     accessorKey: "warehouse",
-    header: "Warehouse ID",
+    header: "Warehouse",
+    cell: ({ row }) => {
+      const warehouse = row.original.expand?.warehouse;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{warehouse?.name ?? "-"}</ItemTitle>
+            {warehouse?.city && (
+              <ItemDescription>{warehouse.city}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "trackingNumber",
     header: "Tracking Number",
     cell: ({ row }) => {
       const tracking = row.getValue("trackingNumber") as string;
+      const carrier = row.original.expand?.carrier;
       return (
-        <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">
-          {tracking}
-        </span>
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle className="font-mono text-sm py-1 rounded">
+              {tracking}
+            </ItemTitle>
+            {carrier && <ItemDescription>{carrier.name}</ItemDescription>}
+          </ItemContent>
+        </Item>
       );
     },
   },
   {
-    accessorKey: "carrier",
-    header: "Carrier ID",
+    accessorKey: "salesOrder",
+    header: "Sales Order",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("salesOrder") as string}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(
-        row.getValue("status") as string,
-        outboundShipmentStatusColors
-      ),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              outboundShipmentStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];
