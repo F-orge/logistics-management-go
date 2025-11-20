@@ -4,6 +4,12 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   casePriorityColors,
   caseStatusColors,
   formatDate,
@@ -11,11 +17,13 @@ import {
   statusBadgeCell,
   truncateText,
 } from "@/components/utils";
-import { CustomerRelationsCasesResponse } from "@/lib/pb.types";
+import { CustomerRelationsCasesResponse, UsersRecord } from "@/lib/pb.types";
 
-type CaseResponse = CustomerRelationsCasesResponse;
+type CaseResponse = CustomerRelationsCasesResponse<{
+  owner?: UsersRecord;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = { expand: "owner" };
 
 export const actions: ContextMenuItem<CaseResponse>[] = [
   {
@@ -75,35 +83,85 @@ export const columns: ColumnDef<CaseResponse>[] = [
   {
     accessorKey: "caseNumber",
     header: "Case Number",
+    cell: ({ row }) => {
+      const owner = row.original.expand?.owner as UsersRecord | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("caseNumber")}</ItemTitle>
+            <ItemDescription>
+              {owner ? owner.name || owner.email : "Unassigned"}
+            </ItemDescription>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "type",
     header: "Type",
-    cell: ({ row }) => formatHyphens(row.getValue("type") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatHyphens(row.getValue("type") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(row.getValue("status") as string, caseStatusColors),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string,
+              caseStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "priority",
     header: "Priority",
     cell: ({ row }) => {
       const priority = row.getValue("priority") as string;
-      return statusBadgeCell(priority, casePriorityColors);
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>
+              {statusBadgeCell(priority, casePriorityColors)}
+            </ItemTitle>
+          </ItemContent>
+        </Item>
+      );
     },
   },
   {
     accessorKey: "description",
     header: "Description",
-    cell: ({ row }) =>
-      truncateText(row.getValue("description") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {truncateText(row.getValue("description") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

@@ -4,17 +4,30 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   emailCell,
   formatDate,
   formatHyphens,
   leadStatusColors,
   statusBadgeCell,
 } from "@/components/utils";
-import { CustomerRelationsLeadsResponse } from "@/lib/pb.types";
+import {
+  CustomerRelationsCampaignsResponse,
+  CustomerRelationsLeadsResponse,
+  UsersRecord,
+} from "@/lib/pb.types";
 
-type LeadResponse = CustomerRelationsLeadsResponse;
+type LeadResponse = CustomerRelationsLeadsResponse<{
+  owner?: UsersRecord;
+  campaign?: CustomerRelationsCampaignsResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = { expand: "owner,campaign" };
 
 export const actions: ContextMenuItem<LeadResponse>[] = [
   {
@@ -74,44 +87,102 @@ export const columns: ColumnDef<LeadResponse>[] = [
   {
     accessorKey: "name",
     header: "Lead Name",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
-    cell: ({ row }) => emailCell(row.getValue("email") as string | undefined),
+    cell: ({ row }) => {
+      const email = row.getValue("email") as string | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("name") || "-"}</ItemTitle>
+            {email && <ItemDescription>{email}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) =>
-      statusBadgeCell(
-        row.getValue("status") as string | undefined,
-        leadStatusColors
-      ),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {statusBadgeCell(
+              row.getValue("status") as string | undefined,
+              leadStatusColors
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "source",
     header: "Source",
-    cell: ({ row }) =>
-      formatHyphens(row.getValue("source") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatHyphens(row.getValue("source") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "score",
     header: "Score",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("score")}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
+  },
+  {
+    accessorKey: "campaign",
+    header: "Campaign",
+    cell: ({ row }) => {
+      const campaign = row.original.expand?.campaign as
+        | CustomerRelationsCampaignsResponse
+        | undefined;
+      if (!campaign) return "-";
+      return (
+        <a
+          href={`/dashboard/customer-relations/campaigns?action=view&id=${campaign.id}`}
+          className="hover:underline"
+        >
+          <Item size="sm" className="p-0">
+            <ItemContent className="gap-0.5">
+              <ItemTitle>{campaign.name}</ItemTitle>
+            </ItemContent>
+          </Item>
+        </a>
+      );
+    },
   },
   {
     accessorKey: "convertedAt",
     header: "Converted At",
-    cell: ({ row }) =>
-      formatDate(row.getValue("convertedAt") as string | undefined),
-  },
-  {
-    accessorKey: "campaign",
-    header: "Campaign ID",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatDate(row.getValue("convertedAt") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

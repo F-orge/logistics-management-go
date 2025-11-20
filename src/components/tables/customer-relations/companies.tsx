@@ -3,12 +3,23 @@ import { Copy, EditIcon, QrCode, Trash, View } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
 import { formatCurrency, formatDate, urlCell } from "@/components/utils";
-import { CustomerRelationsCompaniesResponse } from "@/lib/pb.types";
+import {
+  CustomerRelationsCompaniesResponse,
+  UsersRecord,
+} from "@/lib/pb.types";
 
-type CompanyResponse = CustomerRelationsCompaniesResponse;
+type CompanyResponse = CustomerRelationsCompaniesResponse<{
+  owner?: UsersRecord;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = { expand: "owner" };
 
 export const actions: ContextMenuItem<CompanyResponse>[] = [
   {
@@ -68,58 +79,95 @@ export const columns: ColumnDef<CompanyResponse>[] = [
   {
     accessorKey: "name",
     header: "Company Name",
+    cell: ({ row }) => {
+      const city = row.getValue("city") as string | undefined;
+      const country = row.getValue("country") as string | undefined;
+      const location = [city, country].filter(Boolean).join(", ");
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("name")}</ItemTitle>
+            {location && <ItemDescription>{location}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "industry",
     header: "Industry",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("industry") || "-"}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "annualRevenue",
     header: "Annual Revenue",
-    cell: ({ row }) =>
-      formatCurrency(row.getValue("annualRevenue") as number | undefined),
-  },
-  {
-    accessorKey: "street",
-    header: "Street",
-  },
-  {
-    accessorKey: "city",
-    header: "City",
-  },
-  {
-    accessorKey: "state",
-    header: "State",
-  },
-  {
-    accessorKey: "country",
-    header: "Country",
-  },
-  {
-    accessorKey: "postalCode",
-    header: "Postal Code",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatCurrency(
+              row.getValue("annualRevenue") as number | undefined
+            )}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "phoneNumber",
     header: "Phone Number",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("phoneNumber") || "-"}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "owner",
     header: "Owner",
+    cell: ({ row }) => {
+      const owner = row.original.expand?.owner as UsersRecord | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>
+              {owner ? owner.name || owner.email : "Unassigned"}
+            </ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "website",
     header: "Website",
-    cell: ({ row }) => urlCell(row.getValue("website") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {urlCell(row.getValue("website") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

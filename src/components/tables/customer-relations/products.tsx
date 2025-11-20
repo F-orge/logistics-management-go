@@ -4,6 +4,12 @@ import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
+import {
   capitalize,
   formatCurrency,
   formatDate,
@@ -73,35 +79,61 @@ export const columns: ColumnDef<ProductResponse>[] = [
   {
     accessorKey: "name",
     header: "Product Name",
-  },
-  {
-    accessorKey: "sku",
-    header: "SKU",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("name")}</ItemTitle>
+          <ItemDescription>SKU: {row.original.sku}</ItemDescription>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "type",
     header: "Type",
-    cell: ({ row }) => capitalize(row.getValue("type") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{capitalize(row.getValue("type") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "price",
     header: "Price",
-    cell: ({ row }) => formatCurrency(row.getValue("price") as number),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {formatCurrency(row.getValue("price") as number)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "description",
     header: "Description",
-    cell: ({ row }) =>
-      truncateText(row.getValue("description") as string | undefined),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>
+            {truncateText(row.getValue("description") as string | undefined)}
+          </ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];

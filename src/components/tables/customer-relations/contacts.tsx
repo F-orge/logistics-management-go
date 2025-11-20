@@ -3,12 +3,25 @@ import { Copy, EditIcon, QrCode, Trash, View } from "lucide-react";
 import { RecordListOptions } from "pocketbase";
 import { toast } from "sonner";
 import { ContextMenuItem } from "@/components/ui/data-table";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item";
 import { emailCell, formatDate } from "@/components/utils";
-import { CustomerRelationsContactsResponse } from "@/lib/pb.types";
+import {
+  CustomerRelationsCompaniesResponse,
+  CustomerRelationsContactsResponse,
+  UsersRecord,
+} from "@/lib/pb.types";
 
-type ContactResponse = CustomerRelationsContactsResponse;
+type ContactResponse = CustomerRelationsContactsResponse<{
+  owner?: UsersRecord;
+  company?: CustomerRelationsCompaniesResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = { expand: "owner,company" };
 
 export const actions: ContextMenuItem<ContactResponse>[] = [
   {
@@ -68,32 +81,65 @@ export const columns: ColumnDef<ContactResponse>[] = [
   {
     accessorKey: "name",
     header: "Contact Name",
+    cell: ({ row }) => {
+      const jobTitle = row.getValue("jobTitle") as string | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{row.getValue("name")}</ItemTitle>
+            {jobTitle && <ItemDescription>{jobTitle}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "email",
     header: "Email",
-    cell: ({ row }) => emailCell(row.getValue("email") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{emailCell(row.getValue("email") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "phoneNumber",
     header: "Phone Number",
-  },
-  {
-    accessorKey: "jobTitle",
-    header: "Job Title",
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{row.getValue("phoneNumber") || "-"}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
   {
     accessorKey: "company",
     header: "Company",
+    cell: ({ row }) => {
+      const company = row.original.expand?.company as
+        | CustomerRelationsCompaniesResponse
+        | undefined;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{company?.name || "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "created",
     header: "Created",
-    cell: ({ row }) => formatDate(row.getValue("created") as string),
-  },
-  {
-    accessorKey: "updated",
-    header: "Updated",
-    cell: ({ row }) => formatDate(row.getValue("updated") as string),
+    cell: ({ row }) => (
+      <Item size="sm" className="p-0">
+        <ItemContent className="gap-0.5">
+          <ItemTitle>{formatDate(row.getValue("created") as string)}</ItemTitle>
+        </ItemContent>
+      </Item>
+    ),
   },
 ];
