@@ -1,5 +1,7 @@
+import { useRouteContext } from "@tanstack/react-router";
 import z from "zod";
 import { withForm } from "@/components/ui/forms";
+import { Collections } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations";
 
 export type CampaignFormProps = {
@@ -18,8 +20,13 @@ export const UpdateSchema = CreateSchema.omit({
 
 export const CampaignForm = withForm({
   defaultValues: {} as z.infer<typeof CreateSchema>,
+  validators: {},
   props: {} as CampaignFormProps,
   render: ({ form, ...props }) => {
+    const { pocketbase } = useRouteContext({
+      from: "/dashboard/$schema/$collection",
+    });
+
     if (props.action === "create") {
       return (
         <form.FieldSet
@@ -28,7 +35,25 @@ export const CampaignForm = withForm({
           }}
         >
           {/* name */}
-          <form.AppField name="name">
+          <form.AppField
+            validators={{
+              onChangeAsync: async ({ value }) => {
+                if (value === undefined || value === null || value === "")
+                  return;
+                const result = await pocketbase
+                  .collection(Collections.CustomerRelationsCampaigns)
+                  .getFirstListItem(`name = "${value}"`);
+
+                if (result) {
+                  return {
+                    message: "A campaign with this name already exists.",
+                  };
+                }
+              },
+              onChangeAsyncDebounceMs: 1000,
+            }}
+            name="name"
+          >
             {(field) => (
               <field.Field
                 className="col-span-full"

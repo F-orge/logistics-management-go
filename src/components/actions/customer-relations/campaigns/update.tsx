@@ -58,7 +58,6 @@ const UpdateCampaignForm = () => {
 
   const { data } = useSuspenseQuery({
     queryKey: ["campaign", searchQuery.id],
-
     queryFn: async () => {
       return await pocketbase
         .collection(Collections.CustomerRelationsCampaigns)
