@@ -55,32 +55,6 @@ export const actions: ContextMenuItem<InteractionResponse>[] = [
         search: (prev) => ({ ...prev, action: "view", id: row.original.id }),
       }),
   },
-  {
-    label: "Edit Interaction",
-    icon: <EditIcon />,
-    onSelect: (row, navigate) =>
-      navigate({
-        search: (prev) => ({
-          ...prev,
-          action: "update",
-          id: row.original.id,
-        }),
-      }),
-    divider: true,
-  },
-  {
-    label: "Delete Interaction",
-    variant: "destructive",
-    icon: <Trash />,
-    onSelect: (row, navigate) =>
-      navigate({
-        search: (prev) => ({
-          ...prev,
-          action: "delete",
-          id: row.original.id,
-        }),
-      }),
-  },
 ];
 
 export const columns: ColumnDef<InteractionResponse>[] = [

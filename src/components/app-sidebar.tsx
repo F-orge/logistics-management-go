@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouteContext } from "@tanstack/react-router";
 import {
   AudioWaveform,
   BookOpen,
@@ -33,7 +34,173 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import {
+  TypedPocketBase,
+  UsersRecord,
+  UsersRolesOptions,
+} from "@/lib/pb.types";
 import { NavUser } from "./nav-user";
+
+// RBAC permission mappings
+const rolePermissions: Record<
+  UsersRolesOptions,
+  {
+    subSystems: string[];
+    navigationSections: string[];
+  }
+> = {
+  [UsersRolesOptions.admin]: {
+    subSystems: [
+      "customer-relations",
+      "warehouse-management",
+      "transport-management",
+      "delivery-management",
+    ],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions.developer]: {
+    subSystems: [
+      "customer-relations",
+      "warehouse-management",
+      "transport-management",
+      "delivery-management",
+    ],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions.user]: {
+    subSystems: [
+      "customer-relations",
+      "warehouse-management",
+      "transport-management",
+      "delivery-management",
+    ],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions["sales-rep"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core", "Sales"],
+  },
+  [UsersRolesOptions["account-manager"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core", "Sales", "Billing"],
+  },
+  [UsersRolesOptions["inventory-manager"]]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Inventory"],
+  },
+  [UsersRolesOptions["warehouse-manager"]]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: [
+      "Inventory",
+      "Warehouse Operations",
+      "Suppliers & Orders",
+    ],
+  },
+  [UsersRolesOptions["receiving-manager"]]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Warehouse Operations", "Suppliers & Orders"],
+  },
+  [UsersRolesOptions["warehouse-operator"]]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Warehouse Operations"],
+  },
+  [UsersRolesOptions.picker]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Inventory", "Warehouse Operations"],
+  },
+  [UsersRolesOptions.packer]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Warehouse Operations"],
+  },
+  [UsersRolesOptions["returns-processor"]]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Warehouse Operations"],
+  },
+  [UsersRolesOptions["qc-manager"]]: {
+    subSystems: ["warehouse-management"],
+    navigationSections: ["Inventory", "Warehouse Operations"],
+  },
+  [UsersRolesOptions["logistics-coordinator"]]: {
+    subSystems: ["transport-management", "delivery-management"],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions["logistics-manager"]]: {
+    subSystems: [
+      "warehouse-management",
+      "transport-management",
+      "delivery-management",
+    ],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions["logistics-planner"]]: {
+    subSystems: ["transport-management", "delivery-management"],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions.dispatcher]: {
+    subSystems: ["transport-management", "delivery-management"],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions.driver]: {
+    subSystems: ["delivery-management"],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions["fleet-manager"]]: {
+    subSystems: ["transport-management"],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions["transport-manager"]]: {
+    subSystems: ["transport-management", "delivery-management"],
+    navigationSections: ["all"],
+  },
+  [UsersRolesOptions["finance-manager"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Billing"],
+  },
+  [UsersRolesOptions["marketing-manager"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core", "Sales"],
+  },
+  [UsersRolesOptions["customer-support-agent"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core", "Support"],
+  },
+  [UsersRolesOptions["product-manager"]]: {
+    subSystems: ["customer-relations", "warehouse-management"],
+    navigationSections: ["Sales", "Inventory"],
+  },
+  [UsersRolesOptions.client]: {
+    subSystems: [],
+    navigationSections: [],
+  },
+  [UsersRolesOptions["client-admin"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core"],
+  },
+  [UsersRolesOptions["end-customer"]]: {
+    subSystems: [],
+    navigationSections: [],
+  },
+  [UsersRolesOptions.sdr]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core", "Sales"],
+  },
+  [UsersRolesOptions["sales-manager"]]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Core", "Sales", "Billing"],
+  },
+  [UsersRolesOptions["pricing-analyst"]]: {
+    subSystems: ["customer-relations", "warehouse-management"],
+    navigationSections: ["Sales", "Suppliers & Orders"],
+  },
+  [UsersRolesOptions.accountant]: {
+    subSystems: ["customer-relations"],
+    navigationSections: ["Billing"],
+  },
+  [UsersRolesOptions.carrier]: {
+    subSystems: ["transport-management"],
+    navigationSections: ["Fleet & Drivers"],
+  },
+};
 
 export type SidebarType = {
   subSystems: {
@@ -57,6 +224,74 @@ export type SidebarType = {
       }[];
     }[];
   }[];
+};
+
+/**
+ * Get allowed subSystems and navigation sections based on user roles
+ * Aggregates permissions across all roles assigned to the user
+ */
+const getAllowedPermissions = (roles?: UsersRolesOptions[]) => {
+  if (!roles || roles.length === 0) {
+    return { subSystems: [], navigationSections: [] };
+  }
+
+  const allowedSubSystems = new Set<string>();
+  const allowedNavSections = new Set<string>();
+
+  for (const role of roles) {
+    const permission = rolePermissions[role];
+    if (permission) {
+      permission.subSystems.forEach((sys) => allowedSubSystems.add(sys));
+      permission.navigationSections.forEach((section) =>
+        allowedNavSections.add(section)
+      );
+    }
+  }
+
+  return {
+    subSystems: Array.from(allowedSubSystems),
+    navigationSections: Array.from(allowedNavSections),
+  };
+};
+
+export const getNavigation = (pocketbase: TypedPocketBase): SidebarType => {
+  const user = pocketbase.authStore.record as unknown as UsersRecord;
+
+  const {
+    subSystems: allowedSubSystems,
+    navigationSections: allowedNavSections,
+  } = getAllowedPermissions(user.roles);
+
+  // Check if user has "all" permission (admin/developer)
+  const hasAllPermission = allowedNavSections.includes("all");
+
+  // Filter subSystems based on allowed permissions
+  const filteredSubSystems = navigation.subSystems.filter((system) => {
+    // Extract subsystem name from urlToMatch (e.g., "/dashboard/customer-relations" -> "customer-relations")
+    const subsystemName = system.urlToMatch.split("/").pop() || "";
+    return allowedSubSystems.includes(subsystemName);
+  });
+
+  // Filter navigation sections based on allowed permissions
+  const filteredNavMain = navigation.navMain
+    .map((navSection) => ({
+      ...navSection,
+      navigation: navSection.navigation.filter(
+        (section) =>
+          hasAllPermission || allowedNavSections.includes(section.title)
+      ),
+    }))
+    .filter((navSection) => navSection.navigation.length > 0);
+
+  console.log("Filtered Navigation:", {
+    subSystems: filteredSubSystems,
+    navMain: filteredNavMain,
+  });
+
+  return {
+    subSystems: filteredSubSystems,
+    navMain: filteredNavMain,
+  };
 };
 
 const navigation: SidebarType = {
@@ -291,13 +526,16 @@ const navigation: SidebarType = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { pocketbase } = useRouteContext({ from: "/dashboard" });
+  const filteredNavigation = getNavigation(pocketbase);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SubSystemSwitcher subSystems={navigation.subSystems} />
+        <SubSystemSwitcher subSystems={filteredNavigation.subSystems} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain systemNavs={navigation.navMain} />
+        <NavMain systemNavs={filteredNavigation.navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

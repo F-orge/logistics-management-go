@@ -14,11 +14,18 @@ import {
   returnStatusColors,
   statusBadgeCell,
 } from "@/components/utils";
-import { WarehouseManagementReturnsResponse } from "@/lib/pb.types";
+import {
+  WarehouseManagementReturnsResponse,
+  WarehouseManagementSalesOrdersResponse,
+} from "@/lib/pb.types";
 
-type ReturnResponse = WarehouseManagementReturnsResponse;
+type ReturnResponse = WarehouseManagementReturnsResponse<{
+  salesOrder: WarehouseManagementSalesOrdersResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "salesOrder",
+};
 
 export const actions: ContextMenuItem<ReturnResponse>[] = [
   {
@@ -89,13 +96,16 @@ export const columns: ColumnDef<ReturnResponse>[] = [
   {
     accessorKey: "salesOrder",
     header: "Sales Order",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("salesOrder") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const salesOrder = row.original.expand?.salesOrder;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{salesOrder?.orderNumber ?? "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "status",

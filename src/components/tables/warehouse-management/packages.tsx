@@ -14,11 +14,20 @@ import {
   formatCurrency,
   formatDate,
 } from "@/components/utils";
-import { WarehouseManagementPackagesResponse } from "@/lib/pb.types";
+import {
+  WarehouseManagementPackagesResponse,
+  WarehouseManagementSalesOrdersResponse,
+  WarehouseManagementWarehousesResponse,
+} from "@/lib/pb.types";
 
-type PackageResponse = WarehouseManagementPackagesResponse;
+type PackageResponse = WarehouseManagementPackagesResponse<{
+  salesOrder: WarehouseManagementSalesOrdersResponse;
+  warehouse: WarehouseManagementWarehousesResponse;
+}>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "salesOrder,warehouse",
+};
 
 export const actions: ContextMenuItem<PackageResponse>[] = [
   {
@@ -96,24 +105,33 @@ export const columns: ColumnDef<PackageResponse>[] = [
   {
     accessorKey: "salesOrder",
     header: "Sales Order",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("salesOrder") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const salesOrder = row.original.expand?.salesOrder;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{salesOrder?.orderNumber ?? "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "warehouse",
     header: "Warehouse",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("warehouse") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const warehouse = row.original.expand?.warehouse;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{warehouse?.name ?? "-"}</ItemTitle>
+            {warehouse?.city && (
+              <ItemDescription>{warehouse.city}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "isFragile",

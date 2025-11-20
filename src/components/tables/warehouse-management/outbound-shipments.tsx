@@ -17,16 +17,18 @@ import {
 import {
   TransportManagementCarriersResponse,
   WarehouseManagementOutboundShipmentsResponse,
+  WarehouseManagementSalesOrdersResponse,
   WarehouseManagementWarehousesResponse,
 } from "@/lib/pb.types";
 
 type OutboundShipmentResponse = WarehouseManagementOutboundShipmentsResponse<{
   warehouse: WarehouseManagementWarehousesResponse;
   carrier: TransportManagementCarriersResponse;
+  salesOrder: WarehouseManagementSalesOrdersResponse;
 }>;
 
 export const options: RecordListOptions = {
-  expand: "warehouse,carrier",
+  expand: "warehouse,carrier,salesOrder",
 };
 
 export const actions: ContextMenuItem<OutboundShipmentResponse>[] = [
@@ -122,13 +124,16 @@ export const columns: ColumnDef<OutboundShipmentResponse>[] = [
   {
     accessorKey: "salesOrder",
     header: "Sales Order",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("salesOrder") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const salesOrder = row.original.expand?.salesOrder;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{salesOrder?.orderNumber ?? "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "status",

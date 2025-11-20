@@ -10,12 +10,23 @@ import {
   ItemTitle,
 } from "@/components/ui/item";
 import { formatDate, formatLocationType } from "@/components/utils";
-import { WarehouseManagementInventoryAdjustmentResponse } from "@/lib/pb.types";
+import {
+  UsersResponse,
+  WarehouseManagementInventoryAdjustmentResponse,
+  WarehouseManagementProductsResponse,
+  WarehouseManagementWarehousesResponse,
+} from "@/lib/pb.types";
 
 type InventoryAdjustmentResponse =
-  WarehouseManagementInventoryAdjustmentResponse;
+  WarehouseManagementInventoryAdjustmentResponse<{
+    product: WarehouseManagementProductsResponse;
+    warehouse: WarehouseManagementWarehousesResponse;
+    user: UsersResponse;
+  }>;
 
-export const options: RecordListOptions = {};
+export const options: RecordListOptions = {
+  expand: "product,warehouse,user",
+};
 
 export const actions: ContextMenuItem<InventoryAdjustmentResponse>[] = [
   {
@@ -75,24 +86,33 @@ export const columns: ColumnDef<InventoryAdjustmentResponse>[] = [
   {
     accessorKey: "product",
     header: "Product",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("product") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const product = row.original.expand?.product;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{product?.name ?? "-"}</ItemTitle>
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "warehouse",
     header: "Warehouse",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("warehouse") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const warehouse = row.original.expand?.warehouse;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{warehouse?.name ?? "-"}</ItemTitle>
+            {warehouse?.city && (
+              <ItemDescription>{warehouse.city}</ItemDescription>
+            )}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "quantityChange",
@@ -130,13 +150,17 @@ export const columns: ColumnDef<InventoryAdjustmentResponse>[] = [
   {
     accessorKey: "user",
     header: "Adjusted By",
-    cell: ({ row }) => (
-      <Item size="sm" className="p-0">
-        <ItemContent className="gap-0.5">
-          <ItemTitle>{row.getValue("user") as string}</ItemTitle>
-        </ItemContent>
-      </Item>
-    ),
+    cell: ({ row }) => {
+      const user = row.original.expand?.user;
+      return (
+        <Item size="sm" className="p-0">
+          <ItemContent className="gap-0.5">
+            <ItemTitle>{user?.name ?? "-"}</ItemTitle>
+            {user?.email && <ItemDescription>{user.email}</ItemDescription>}
+          </ItemContent>
+        </Item>
+      );
+    },
   },
   {
     accessorKey: "notes",
