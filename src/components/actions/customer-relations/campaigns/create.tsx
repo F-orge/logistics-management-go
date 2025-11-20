@@ -15,7 +15,10 @@ import { CampaignForm, CreateSchema } from "./form";
 
 const FormOption = (pocketbase: TypedPocketBase) =>
   formOptions({
-    defaultValues: {} as z.infer<ReturnType<typeof CreateSchema>>,
+    defaultValues: {
+      budget: 0,
+      startDate: new Date(),
+    } as z.infer<ReturnType<typeof CreateSchema>>,
     validators: {
       onSubmitAsync: CreateSchema(pocketbase),
     },

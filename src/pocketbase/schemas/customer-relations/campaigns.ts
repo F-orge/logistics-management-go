@@ -8,34 +8,17 @@ import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
-export const CampaignsSchema = (pocketbase: TypedPocketBase) =>
-  z.object({
-    id: z.string(),
-    name: z
-      .string("Campaign name is required")
-      .nonempty("Campaign name is required")
-      .refine(async (value) => {
-        try {
-          const result = await pocketbase
-            .collection(Collections.CustomerRelationsCampaigns)
-            .getFirstListItem(`name = "${value}"`);
-          return !result;
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            if (error.status === 404) {
-              return true;
-            }
-            return false;
-          }
-          return false;
-        }
-      }, "Campaign name already exist in the database"),
-    budget: z.number().min(0, "Campaign budget must be non-negative"),
-    startDate: z.date().optional(),
-    endDate: z.date().optional(),
-    attachments: z.file().array().optional(),
-    created: z.iso.datetime().optional(),
-    updated: z.iso.datetime().optional(),
-  });
+export const CampaignsSchema = z.object({
+  id: z.string(),
+  name: z
+    .string("Campaign name is required")
+    .nonempty("Campaign name is required"),
+  budget: z.number().min(0, "Campaign budget must be non-negative"),
+  startDate: z.date("Must be a valid date").optional(),
+  endDate: z.date("Must be a valid date").optional(),
+  attachments: z.file().array().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
+});
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

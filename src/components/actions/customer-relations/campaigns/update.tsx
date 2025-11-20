@@ -9,22 +9,16 @@ import {
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
-import AutoFieldSet from "@/components/ui/autoform-tanstack/auto-fieldset";
-import {
-  fieldRegistry,
-  toAutoFormFieldSet,
-} from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
 import { CampaignForm, UpdateSchema } from "./form";
 
-const FormOption = (pocketbase: TypedPocketBase) =>
+const FormOption = (pocketbase: TypedPocketBase, id: string) =>
   formOptions({
     defaultValues: {} as z.infer<ReturnType<typeof UpdateSchema>>,
     validators: {
-      onSubmit: UpdateSchema(pocketbase),
+      onSubmitAsync: UpdateSchema(pocketbase, id),
     },
     onSubmitMeta: {} as {
       id: string;
@@ -32,6 +26,7 @@ const FormOption = (pocketbase: TypedPocketBase) =>
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
     onSubmit: async ({ value, meta }) => {
+      console.log("Submitting update with value:", value);
       try {
         await meta
           .pocketbase!.collection(Collections.CustomerRelationsCampaigns)
@@ -53,26 +48,29 @@ const FormOption = (pocketbase: TypedPocketBase) =>
 const UpdateCampaignForm = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
-  const { pocketbase } = useRouteContext({
+  const { pocketbase, queryClient } = useRouteContext({
     from: "/dashboard/$schema/$collection",
   });
 
-  const { data } = useSuspenseQuery({
-    queryKey: ["campaign", searchQuery.id],
-    queryFn: async () => {
-      return await pocketbase
-        .collection(Collections.CustomerRelationsCampaigns)
-        .getOne(searchQuery.id!);
+  const { data } = useSuspenseQuery(
+    {
+      queryKey: ["campaign", searchQuery.id],
+      queryFn: async () => {
+        return await pocketbase
+          .collection(Collections.CustomerRelationsCampaigns)
+          .getOne(searchQuery.id!);
+      },
     },
-  });
+    queryClient
+  );
 
   const form = useAppForm({
-    ...FormOption,
+    ...FormOption(pocketbase, searchQuery.id!),
     defaultValues: {
       ...data,
       startDate: data?.startDate ? new Date(data.startDate) : undefined,
       endDate: data?.endDate ? new Date(data.endDate) : undefined,
-    } as z.infer<typeof UpdateSchema>,
+    } as z.infer<ReturnType<typeof UpdateSchema>>,
   });
 
   if (!data) return null;
