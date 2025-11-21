@@ -1,7 +1,11 @@
 import { useRouteContext } from "@tanstack/react-router";
+import { X } from "lucide-react";
 import { ClientResponseError } from "pocketbase";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
+import { InputGroupButton } from "@/components/ui/input-group";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations";
 
@@ -190,6 +194,43 @@ export const CampaignForm = withForm({
               </field.Field>
             )}
           </form.AppField>
+          <FieldSeparator className="col-span-full" />
+          <form.FieldSet
+            className="col-span-full"
+            legend="Attachments"
+            description="Upload files related to the campaign."
+          >
+            <form.AppField name="attachments" mode="array">
+              {(field) => (
+                <>
+                  {field.state.value?.map((_, index) => (
+                    <form.AppField key={index} name={`attachments[${index}]`}>
+                      {(subField) => (
+                        <subField.Field className="mb-2">
+                          <subField.FileField>
+                            <InputGroupButton
+                              onClick={() => field.removeValue(index)}
+                              aria-label={`Remove attachment ${index + 1}`}
+                            >
+                              <X />
+                            </InputGroupButton>
+                          </subField.FileField>
+                        </subField.Field>
+                      )}
+                    </form.AppField>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => field.pushValue(undefined as any)}
+                  >
+                    Add Attachments
+                  </Button>
+                </>
+              )}
+            </form.AppField>
+          </form.FieldSet>
         </form.FieldSet>
       );
     }

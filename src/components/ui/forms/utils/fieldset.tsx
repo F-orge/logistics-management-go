@@ -7,6 +7,8 @@ import {
 } from "../../field";
 
 export type FieldSetProps = React.ComponentProps<typeof BaseFieldSet> & {
+  legend?: React.ReactNode;
+  description?: React.ReactNode;
   legendProps?: React.ComponentProps<typeof FieldLegend>;
   descriptionProps?: React.ComponentProps<typeof FieldDescription>;
   fieldGroupProps?: React.ComponentProps<typeof FieldGroup>;
@@ -16,12 +18,16 @@ const FieldSet = ({
   legendProps,
   descriptionProps,
   fieldGroupProps,
+  legend,
+  description,
   ...props
 }: FieldSetProps) => {
   return (
     <BaseFieldSet {...props}>
-      {legendProps && <FieldLegend {...legendProps} />}
-      {descriptionProps && <FieldDescription {...descriptionProps} />}
+      {legend && <FieldLegend {...legendProps}>{legend}</FieldLegend>}
+      {description && (
+        <FieldDescription {...descriptionProps}>{description}</FieldDescription>
+      )}
       <FieldGroup {...fieldGroupProps}>{props.children}</FieldGroup>
     </BaseFieldSet>
   );
