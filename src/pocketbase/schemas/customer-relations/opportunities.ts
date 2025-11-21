@@ -4,51 +4,132 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const OpportunitiesSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	stage: z
-		.enum([
-			"prospecting",
-			"qualification",
-			"need-analysis",
-			"demo",
-			"proposal",
-			"negotiation",
-			"closed-won",
-			"closed-lost",
-		])
-		.optional(),
-	dealValue: z.number().optional(),
-	probability: z
-		.number()
-		.min(0, "Probability must be at least 0")
-		.max(1, "Probability must be at most 1 (0-1 scale, not 0-100)")
-		.optional(),
-	expectedCloseDate: z.date().optional(),
-	lostReason: z.string().optional(),
-	source: z.enum([
-		"website",
-		"referral",
-		"social-media",
-		"email-campaign",
-		"cold-call",
-		"event",
-		"advertisment",
-		"partner",
-		"existing-customer",
-		"other",
-	]),
-	owner: z.string(),
-	contact: z.string().optional(),
-	company: z.string().optional(),
-	campaign: z.string().optional(),
-	attachments: z.file().array().optional(),
-	products: z.array(z.string()).optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  name: z.string(),
+  stage: z
+    .enum([
+      "prospecting",
+      "qualification",
+      "need-analysis",
+      "demo",
+      "proposal",
+      "negotiation",
+      "closed-won",
+      "closed-lost",
+    ])
+    .optional(),
+  dealValue: z.number().optional(),
+  probability: z
+    .number()
+    .min(0, "Probability must be at least 0")
+    .max(1, "Probability must be at most 1 (0-1 scale, not 0-100)")
+    .optional(),
+  expectedCloseDate: z.date().optional(),
+  lostReason: z.string().optional(),
+  source: z.enum([
+    "website",
+    "referral",
+    "social-media",
+    "email-campaign",
+    "cold-call",
+    "event",
+    "advertisment",
+    "partner",
+    "existing-customer",
+    "other",
+  ]),
+  owner: z.string(),
+  contact: z.string().optional(),
+  company: z.string().optional(),
+  campaign: z.string().optional(),
+  products: z.array(z.string()).nonempty("At least one product is required"),
+  attachments: z.file().array().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Opportunities = z.infer<typeof OpportunitiesSchema>;
+
+export const CreateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
+  OpportunitiesSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine((data, ctx) => {
+    // Validate opportunity name is provided
+    if (!data.name || data.name.trim().length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["name"],
+        message: "Opportunity name is required",
+      });
+    }
+
+    // Validate deal value is provided and positive
+    if (data.dealValue !== undefined && data.dealValue < 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["dealValue"],
+        message: "Deal value cannot be negative",
+      });
+    }
+  });
+
+export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
+  OpportunitiesSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+      attachments: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Stage transitions - closed stages are terminal and immutable
+      const terminalStages = ["closed-won", "closed-lost"] as const;
+      if (data.stage && terminalStages.includes(data.stage as never)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["stage"],
+          message:
+            "Opportunities in 'closed-won' or 'closed-lost' status cannot be modified",
+        });
+        return; // Prevent further validation if in terminal state
+      }
+
+      // If name is being updated, ensure it's not empty
+      if (data.name !== undefined && data.name.trim().length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["name"],
+          message: "Opportunity name cannot be empty",
+        });
+      }
+
+      // Validate deal value is not negative
+      if (data.dealValue !== undefined && data.dealValue < 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["dealValue"],
+          message: "Deal value cannot be negative",
+        });
+      }
+
+      // Validate lost reason is provided when marking as closed-lost
+      if (data.stage === "closed-lost" && !data.lostReason) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["lostReason"],
+          message:
+            "Lost reason is required when marking opportunity as closed-lost",
+        });
+      }
+
+      // Note: Probability is typically auto-calculated based on stage
+      // If manually provided, ensure it's within valid range (0-1)
+      // This is already validated in the base schema
+    });

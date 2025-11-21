@@ -4,19 +4,145 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const InvoiceItemsSchema = z.object({
-	id: z.string(),
-	invoice: z.string(),
-	product: z.string(),
-	quantity: z
-		.number()
-		.min(0, "Quantity must be non-negative")
-		.int("Quantity must be an integer"),
-	price: z.number().min(0, "Unit price must be non-negative"),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  invoice: z.string(),
+  product: z.string(),
+  quantity: z
+    .number()
+    .min(0, "Quantity must be non-negative")
+    .int("Quantity must be an integer"),
+  price: z.number().min(0, "Unit price must be non-negative"),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InvoiceItems = z.infer<typeof InvoiceItemsSchema>;
+
+export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
+  InvoiceItemsSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Validate required references
+    if (!data.invoice) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["invoice"],
+        message: "Invoice reference is required",
+      });
+    }
+
+    if (!data.product) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["product"],
+        message: "Product reference is required",
+      });
+      return; // Skip uniqueness check if references are missing
+    }
+
+    // Validate quantity is greater than 0
+    if (data.quantity <= 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["quantity"],
+        message: "Quantity must be greater than 0",
+      });
+    }
+
+    // Validate price is non-negative
+    if (data.price < 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["price"],
+        message: "Unit price cannot be negative",
+      });
+    }
+
+    // Composite unique constraint: (invoice, product) must be unique
+    if (data.invoice && data.product) {
+      try {
+        const existingInvoiceItem = await pocketbase
+          .collection(Collections.CustomerRelationsInvoiceItems)
+          .getFirstListItem(
+            `invoice = "${data.invoice.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
+            { requestKey: null }
+          );
+
+        if (existingInvoiceItem) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["product"],
+            message: "This product is already added to the invoice",
+          });
+        }
+      } catch (error) {
+        // Record not found is expected - combination is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Invoice-product uniqueness check error:", error);
+        }
+      }
+    }
+  });
+
+export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
+  InvoiceItemsSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Validate quantity if being updated
+      if (data.quantity !== undefined && data.quantity <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["quantity"],
+          message: "Quantity must be greater than 0",
+        });
+      }
+
+      // Validate price if being updated
+      if (data.price !== undefined && data.price < 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["price"],
+          message: "Unit price cannot be negative",
+        });
+      }
+
+      // Composite unique constraint: (invoice, product) must be unique if either is being changed
+      if (data.invoice || data.product) {
+        // Note: In a real implementation, we would have the current record's IDs
+        // to exclude from the uniqueness check
+        try {
+          if (data.invoice && data.product) {
+            const existingInvoiceItem = await pocketbase
+              .collection(Collections.CustomerRelationsInvoiceItems)
+              .getFirstListItem(
+                `invoice = "${data.invoice.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
+                { requestKey: null }
+              );
+
+            if (existingInvoiceItem) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ["product"],
+                message: "This product is already added to the invoice",
+              });
+            }
+          }
+        } catch (error) {
+          // Record not found is expected - combination is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Invoice-product uniqueness check error:", error);
+          }
+        }
+      }
+    });

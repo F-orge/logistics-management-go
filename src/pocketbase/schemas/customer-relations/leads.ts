@@ -4,38 +4,127 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const LeadsSchema = z.object({
-	id: z.string(),
-	name: z.string().optional(),
-	email: z.string().email().optional(),
-	source: z
-		.enum([
-			"website",
-			"referral",
-			"social-media",
-			"email-campaign",
-			"cold-call",
-			"event",
-			"advertisment",
-			"partner",
-			"other",
-		])
-		.optional(),
-	status: z
-		.enum(["new", "contacted", "qualified", "unqualified", "converted"])
-		.optional(),
-	score: z.number().min(0, "Lead score must be non-negative"),
-	owner: z.string(),
-	campaign: z.string().optional(),
-	convertedAt: z.date().optional(),
-	convertedContact: z.string().optional(),
-	convertedCompany: z.string().optional(),
-	convertedOpportunity: z.string().optional(),
-	attachments: z.file().array().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  name: z.string().nonempty("Lead name is required"),
+  email: z.string().email().optional(),
+  source: z.enum([
+    "website",
+    "referral",
+    "social-media",
+    "email-campaign",
+    "cold-call",
+    "event",
+    "advertisment",
+    "partner",
+    "other",
+  ]),
+  status: z
+    .enum(["new", "contacted", "qualified", "unqualified", "converted"])
+    .optional(),
+  score: z.number().min(0, "Lead score must be non-negative"),
+  owner: z.string(),
+  campaign: z.string().optional(),
+  convertedAt: z.date().optional(),
+  convertedContact: z.string().optional(),
+  convertedCompany: z.string().optional(),
+  convertedOpportunity: z.string().optional(),
+  attachments: z.file().array().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Leads = z.infer<typeof LeadsSchema>;
+
+export const CreateLeadsSchema = (pocketbase: TypedPocketBase) =>
+  LeadsSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  })
+    .refine((data) => data.name && data.name.trim().length > 0, {
+      message: "Lead name is required",
+      path: ["name"],
+    })
+    .superRefine(async (data, ctx) => {
+      // Unique constraint: Email must be unique if provided
+      if (data.email) {
+        try {
+          const existingLead = await pocketbase
+            .collection(Collections.CustomerRelationsLeads)
+            .getFirstListItem(`email = "${data.email.replace(/"/g, '\\"')}"`, {
+              requestKey: null,
+            });
+
+          if (existingLead) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ["email"],
+              message: `Email "${data.email}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - email is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Email uniqueness check error:", error);
+          }
+        }
+      }
+    });
+
+export const UpdateLeadsSchema = (pocketbase: TypedPocketBase) =>
+  LeadsSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+      attachments: true,
+    })
+    .refine(
+      (data) =>
+        data.name === undefined || (data.name && data.name.trim().length > 0),
+      {
+        message: "Lead name cannot be empty",
+        path: ["name"],
+      }
+    )
+    .superRefine(async (data, ctx) => {
+      // Terminal/immutable state - converted leads cannot be modified
+      // Valid state machine: new -> contacted -> qualified | unqualified -> converted (terminal)
+      if (data.convertedAt !== undefined || data.status === "converted") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["status"],
+          message: "Converted leads are immutable and cannot be modified",
+        });
+        return; // Prevent further validation on terminal states
+      }
+
+      // Unique constraint: Email must be unique if being updated
+      if (data.email) {
+        try {
+          const existingLead = await pocketbase
+            .collection(Collections.CustomerRelationsLeads)
+            .getFirstListItem(`email = "${data.email.replace(/"/g, '\\"')}"`, {
+              requestKey: null,
+            });
+
+          if (existingLead) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ["email"],
+              message: `Email "${data.email}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - email is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Email uniqueness check error:", error);
+          }
+        }
+      }
+    });

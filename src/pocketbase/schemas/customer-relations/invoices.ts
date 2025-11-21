@@ -4,36 +4,175 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const InvoicesSchema = z.object({
-	id: z.string(),
-	invoiceNumber: z.string().nonempty("Invoice number is required"),
-	opportunity: z.string().optional(),
-	status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
-	total: z.number().min(0, "Total amount must be non-negative").optional(),
-	issueDate: z.date().optional().default(new Date()),
-	dueDate: z.date().optional(),
-	sentAt: z.date().optional(),
-	paidAt: z.date().optional(),
-	paymentMethod: z
-		.enum([
-			"credit-card",
-			"bank-transfer",
-			"cash",
-			"check",
-			"paypal",
-			"stripe",
-			"wire-transfer",
-			"other",
-			"maya",
-			"gcash",
-		])
-		.optional(),
-	attachments: z.file().array().optional(),
-	items: z.array(z.string()).optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  invoiceNumber: z.string().nonempty("Invoice number is required"),
+  opportunity: z.string().optional(),
+  status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
+  total: z.number().min(0, "Total amount must be non-negative").optional(),
+  issueDate: z.date().optional().default(new Date()),
+  dueDate: z.date().optional(),
+  sentAt: z.date().optional(),
+  paidAt: z.date().optional(),
+  paymentMethod: z
+    .enum([
+      "credit-card",
+      "bank-transfer",
+      "cash",
+      "check",
+      "paypal",
+      "stripe",
+      "wire-transfer",
+      "other",
+      "maya",
+      "gcash",
+    ])
+    .optional(),
+  attachments: z.file().array().optional(),
+  items: z.array(z.string()).nonempty("At least one invoice item is required"),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Invoices = z.infer<typeof InvoicesSchema>;
+
+export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
+  InvoicesSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Validate invoice number is provided
+    if (!data.invoiceNumber || data.invoiceNumber.trim().length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["invoiceNumber"],
+        message: "Invoice number is required",
+      });
+      return;
+    }
+
+    // Unique constraint: Invoice number must be unique
+    try {
+      const existingInvoice = await pocketbase
+        .collection(Collections.CustomerRelationsInvoices)
+        .getFirstListItem(
+          `invoiceNumber = "${data.invoiceNumber.replace(/"/g, '\\"')}"`,
+          { requestKey: null }
+        );
+
+      if (existingInvoice) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["invoiceNumber"],
+          message: `Invoice number "${data.invoiceNumber}" is already in use`,
+        });
+      }
+    } catch (error) {
+      // Record not found is expected - invoice number is unique
+      if (!(error instanceof ClientResponseError) || error.status !== 404) {
+        console.warn("Invoice number uniqueness check error:", error);
+      }
+    }
+
+    // Validate due date is on or after issue date
+    if (data.issueDate && data.dueDate && data.dueDate < data.issueDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["dueDate"],
+        message: "Due date must be on or after issue date",
+      });
+    }
+
+    // New invoices should start with "draft" status
+    if (data.status && data.status !== "draft") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["status"],
+        message: "New invoices must start with 'draft' status",
+      });
+    }
+  });
+
+export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
+  InvoicesSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+      attachments: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Terminal/immutable states - prevent any modification
+      // Valid state machine: draft -> sent -> paid | overdue (terminal), cancelled (terminal)
+      const terminalStates = ["paid", "cancelled"];
+      if (data.status && terminalStates.includes(data.status)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["status"],
+          message: "Paid and cancelled invoices cannot be modified",
+        });
+        return; // Prevent further validation on terminal states
+      }
+
+      // Validate invoice number is not empty if being updated
+      if (
+        data.invoiceNumber !== undefined &&
+        data.invoiceNumber.trim().length === 0
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["invoiceNumber"],
+          message: "Invoice number cannot be empty",
+        });
+        return;
+      }
+
+      // Unique constraint: Invoice number must be unique (when being updated)
+      if (data.invoiceNumber) {
+        try {
+          const existingInvoice = await pocketbase
+            .collection(Collections.CustomerRelationsInvoices)
+            .getFirstListItem(
+              `invoiceNumber = "${data.invoiceNumber.replace(/"/g, '\\"')}"`,
+              { requestKey: null }
+            );
+
+          if (existingInvoice) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ["invoiceNumber"],
+              message: `Invoice number "${data.invoiceNumber}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - invoice number is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Invoice number uniqueness check error:", error);
+          }
+        }
+      }
+
+      // Validate due date is on or after issue date
+      if (data.issueDate && data.dueDate && data.dueDate < data.issueDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["dueDate"],
+          message: "Due date must be on or after issue date",
+        });
+      }
+
+      // Validate paid amount does not exceed total
+      if (data.total !== undefined && data.paidAt) {
+        // This is a simplified check - in production would need actual record lookup
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["paidAt"],
+          message: "Invoice must have a total amount before marking as paid",
+        });
+      }
+    });

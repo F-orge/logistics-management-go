@@ -13,12 +13,50 @@ export const CampaignsSchema = z.object({
   name: z
     .string("Campaign name is required")
     .nonempty("Campaign name is required"),
-  budget: z.number().min(0, "Campaign budget must be non-negative"),
+  budget: z
+    .number()
+    .min(0, "Campaign budget must be non-negative")
+    .describe("Campaign budget is required"),
   startDate: z.date("Must be a valid date").optional(),
   endDate: z.date("Must be a valid date").optional(),
   attachments: z.file().array().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });
+
+export const CreateCampaignsSchema = (pocketbase: TypedPocketBase) =>
+  CampaignsSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine((data, ctx) => {
+    // Validate that start_date <= end_date if both are provided
+    if (data.startDate && data.endDate && data.startDate > data.endDate) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["endDate"],
+        message: "End date must be on or after start date",
+      });
+    }
+  });
+
+export const UpdateCampaignsSchema = (pocketbase: TypedPocketBase) =>
+  CampaignsSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+      attachments: true,
+    })
+    .superRefine((data, ctx) => {
+      // Validate that start_date <= end_date if both are provided
+      if (data.startDate && data.endDate && data.startDate > data.endDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["endDate"],
+          message: "End date must be on or after start date",
+        });
+      }
+    });
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;

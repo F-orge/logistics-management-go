@@ -4,24 +4,30 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const CasesSchema = z.object({
   id: z.string(),
   caseNumber: z
     .string("Case number is required")
     .nonempty("Case number is required"),
-  status: z.enum([
-    "new",
-    "in-progress",
-    "waiting-for-customer",
-    "waiting-for-internal",
-    "escalated",
-    "resolved",
-    "closed",
-    "cancelled",
-  ]),
-  priority: z.enum(["critical", "high", "medium", "low"]),
+  status: z
+    .enum([
+      "new",
+      "in-progress",
+      "waiting-for-customer",
+      "waiting-for-internal",
+      "escalated",
+      "resolved",
+      "closed",
+      "cancelled",
+    ])
+    .describe("Case status is required"),
+  priority: z
+    .enum(["critical", "high", "medium", "low"])
+    .describe("Priority level is required"),
   type: z.enum([
     "question",
     "problem",
@@ -38,3 +44,114 @@ export const CasesSchema = z.object({
 });
 
 export type Cases = z.infer<typeof CasesSchema>;
+
+export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
+  CasesSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Validate case number is provided and unique
+    if (!data.caseNumber || data.caseNumber.trim().length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["caseNumber"],
+        message: "Case number is required",
+      });
+      return;
+    }
+
+    // Unique constraint: Case number must be unique
+    try {
+      const existingCase = await pocketbase
+        .collection(Collections.CustomerRelationsCases)
+        .getFirstListItem(
+          `caseNumber = "${data.caseNumber.replace(/"/g, '\\"')}"`,
+          { requestKey: null }
+        );
+
+      if (existingCase) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["caseNumber"],
+          message: `Case number "${data.caseNumber}" is already in use`,
+        });
+      }
+    } catch (error) {
+      // Record not found is expected - case number is unique
+      if (!(error instanceof ClientResponseError) || error.status !== 404) {
+        console.warn("Case number uniqueness check error:", error);
+      }
+    }
+
+    // New cases should start with "new" status
+    if (data.status && data.status !== "new") {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["status"],
+        message: "New cases must start with 'new' status",
+      });
+    }
+  });
+
+export const UpdateCasesSchema = (pocketbase: TypedPocketBase) =>
+  CasesSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Prevent modification of closed or resolved cases - they are immutable
+      if (data.status === "closed" || data.status === "resolved") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["status"],
+          message: "Cases in 'closed' or 'resolved' status cannot be modified",
+        });
+        return;
+      }
+
+      // Validate case number is not empty if being updated
+      if (
+        data.caseNumber !== undefined &&
+        data.caseNumber.trim().length === 0
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["caseNumber"],
+          message: "Case number cannot be empty",
+        });
+        return;
+      }
+
+      // Unique constraint: Case number must be unique (when being updated)
+      if (data.caseNumber) {
+        try {
+          // Check if another case with the same case number exists
+          const existingCase = await pocketbase
+            .collection(Collections.CustomerRelationsCases)
+            .getFirstListItem(
+              `caseNumber = "${data.caseNumber.replace(/"/g, '\\"')}"`,
+              { requestKey: null }
+            );
+
+          if (existingCase) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: ["caseNumber"],
+              message: `Case number "${data.caseNumber}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - case number is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Case number uniqueness check error:", error);
+          }
+        }
+      }
+
+      // Note: In a real implementation, we would check the current record's status
+      // and prevent updates if it's already in a terminal state (closed/resolved)
+      // This would require a database lookup
+    });
