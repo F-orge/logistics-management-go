@@ -36,7 +36,10 @@ export const CompaniesSchema = z.object({
     .min(0, "Annual revenue must be non-negative")
     .optional(),
   owner: z.string().optional(),
-  attachments: z.file().array().optional(),
+  attachments: z
+    .union([z.instanceof(File), z.string()])
+    .array()
+    .optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });
