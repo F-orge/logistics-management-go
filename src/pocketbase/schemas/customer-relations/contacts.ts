@@ -41,7 +41,7 @@ export const CreateContactsSchema = (pocketbase: TypedPocketBase) =>
       // Ensure name is provided and not empty
       if (!data.name || data.name.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["name"],
           message: "Contact name is required",
         });
@@ -50,7 +50,7 @@ export const CreateContactsSchema = (pocketbase: TypedPocketBase) =>
       // Ensure email is provided
       if (!data.email || data.email.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["email"],
           message: "Contact email is required",
         });
@@ -67,7 +67,7 @@ export const CreateContactsSchema = (pocketbase: TypedPocketBase) =>
 
         if (existingContact) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             path: ["email"],
             message: `Email "${data.email}" is already in use`,
           });
@@ -100,7 +100,7 @@ export const UpdateContactsSchema = (pocketbase: TypedPocketBase) =>
       // If name is being updated, ensure it's not empty
       if (data.name !== undefined && data.name.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["name"],
           message: "Contact name cannot be empty",
         });
@@ -109,7 +109,7 @@ export const UpdateContactsSchema = (pocketbase: TypedPocketBase) =>
       // If email is being updated, ensure it's not empty
       if (data.email !== undefined && data.email.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["email"],
           message: "Contact email cannot be empty",
         });
@@ -127,7 +127,7 @@ export const UpdateContactsSchema = (pocketbase: TypedPocketBase) =>
 
           if (existingContact) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["email"],
               message: `Email "${data.email}" is already in use`,
             });

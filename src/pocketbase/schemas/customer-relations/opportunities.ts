@@ -64,7 +64,7 @@ export const CreateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
     // Validate opportunity name is provided
     if (!data.name || data.name.trim().length === 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["name"],
         message: "Opportunity name is required",
       });
@@ -73,7 +73,7 @@ export const CreateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
     // Validate deal value is provided and positive
     if (data.dealValue !== undefined && data.dealValue < 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["dealValue"],
         message: "Deal value cannot be negative",
       });
@@ -93,7 +93,7 @@ export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       const terminalStages = ["closed-won", "closed-lost"] as const;
       if (data.stage && terminalStages.includes(data.stage as never)) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["stage"],
           message:
             "Opportunities in 'closed-won' or 'closed-lost' status cannot be modified",
@@ -104,7 +104,7 @@ export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       // If name is being updated, ensure it's not empty
       if (data.name !== undefined && data.name.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["name"],
           message: "Opportunity name cannot be empty",
         });
@@ -113,7 +113,7 @@ export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       // Validate deal value is not negative
       if (data.dealValue !== undefined && data.dealValue < 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["dealValue"],
           message: "Deal value cannot be negative",
         });
@@ -122,7 +122,7 @@ export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       // Validate lost reason is provided when marking as closed-lost
       if (data.stage === "closed-lost" && !data.lostReason) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["lostReason"],
           message:
             "Lost reason is required when marking opportunity as closed-lost",

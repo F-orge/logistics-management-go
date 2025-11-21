@@ -39,7 +39,7 @@ export const CreateProductsSchema = (pocketbase: TypedPocketBase) =>
 
         if (existingProduct) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             path: ["sku"],
             message: `SKU "${data.sku}" is already in use`,
           });
@@ -76,7 +76,7 @@ export const UpdateProductsSchema = (pocketbase: TypedPocketBase) =>
 
           if (existingProduct) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["sku"],
               message: `SKU "${data.sku}" is already in use`,
             });

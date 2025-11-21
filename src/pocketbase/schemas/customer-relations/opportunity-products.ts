@@ -35,7 +35,7 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
     // Validate required references
     if (!data.opportunity) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["opportunity"],
         message: "Opportunity reference is required",
       });
@@ -43,7 +43,7 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
 
     if (!data.product) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["product"],
         message: "Product reference is required",
       });
@@ -53,7 +53,7 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
     // Validate quantity
     if (data.quantity <= 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["quantity"],
         message: "Quantity must be greater than 0",
       });
@@ -71,7 +71,7 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
 
         if (existingOpportunityProduct) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             path: ["product"],
             message: "This product is already added to the opportunity",
           });
@@ -95,7 +95,7 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
           // For validation purposes, we're ensuring a price is captured
           if (product.price < 0) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["priceSnapshot"],
               message: "Product has an invalid price",
             });
@@ -103,7 +103,7 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
         }
       } catch (error) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["product"],
           message: "Product reference not found",
         });
@@ -122,7 +122,7 @@ export const UpdateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
       // Validate quantity if being updated
       if (data.quantity !== undefined && data.quantity <= 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["quantity"],
           message: "Quantity must be greater than 0",
         });
@@ -132,7 +132,7 @@ export const UpdateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
       // to maintain historical accuracy, but we allow it if explicitly changed
       if (data.priceSnapshot !== undefined && data.priceSnapshot < 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["priceSnapshot"],
           message: "Price snapshot cannot be negative",
         });
@@ -153,7 +153,7 @@ export const UpdateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
 
             if (existingOpportunityProduct) {
               ctx.addIssue({
-                code: z.ZodIssueCode.custom,
+                code: "custom",
                 path: ["product"],
                 message: "This product is already added to the opportunity",
               });

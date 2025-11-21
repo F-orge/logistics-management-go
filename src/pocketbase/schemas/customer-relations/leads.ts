@@ -62,7 +62,7 @@ export const CreateLeadsSchema = (pocketbase: TypedPocketBase) =>
 
           if (existingLead) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["email"],
               message: `Email "${data.email}" is already in use`,
             });
@@ -97,7 +97,7 @@ export const UpdateLeadsSchema = (pocketbase: TypedPocketBase) =>
       // Valid state machine: new -> contacted -> qualified | unqualified -> converted (terminal)
       if (data.convertedAt !== undefined || data.status === "converted") {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["status"],
           message: "Converted leads are immutable and cannot be modified",
         });
@@ -115,7 +115,7 @@ export const UpdateLeadsSchema = (pocketbase: TypedPocketBase) =>
 
           if (existingLead) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["email"],
               message: `Email "${data.email}" is already in use`,
             });

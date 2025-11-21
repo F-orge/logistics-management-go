@@ -29,7 +29,7 @@ export const CreateInteractionsSchema = (pocketbase: TypedPocketBase) =>
     // Validate required references
     if (!data.contact) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["contact"],
         message: "Contact reference is required",
       });
@@ -37,7 +37,7 @@ export const CreateInteractionsSchema = (pocketbase: TypedPocketBase) =>
 
     if (!data.user) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["user"],
         message: "User reference is required",
       });
@@ -46,7 +46,7 @@ export const CreateInteractionsSchema = (pocketbase: TypedPocketBase) =>
     // Validate interaction date if provided
     if (data.interactionDate && data.interactionDate > new Date()) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["interactionDate"],
         message: "Interaction date cannot be in the future",
       });
@@ -63,7 +63,7 @@ export const UpdateInteractionsSchema = (pocketbase: TypedPocketBase) =>
       // Validate interaction date if provided
       if (data.interactionDate && data.interactionDate > new Date()) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["interactionDate"],
           message: "Interaction date cannot be in the future",
         });
@@ -72,7 +72,7 @@ export const UpdateInteractionsSchema = (pocketbase: TypedPocketBase) =>
       // Validate that notes are not empty if provided
       if (data.notes !== undefined && data.notes.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["notes"],
           message: "Interaction notes cannot be empty",
         });

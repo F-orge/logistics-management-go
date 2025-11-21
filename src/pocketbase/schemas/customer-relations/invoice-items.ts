@@ -32,7 +32,7 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
     // Validate required references
     if (!data.invoice) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["invoice"],
         message: "Invoice reference is required",
       });
@@ -40,7 +40,7 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
 
     if (!data.product) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["product"],
         message: "Product reference is required",
       });
@@ -50,7 +50,7 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
     // Validate quantity is greater than 0
     if (data.quantity <= 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["quantity"],
         message: "Quantity must be greater than 0",
       });
@@ -59,7 +59,7 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
     // Validate price is non-negative
     if (data.price < 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["price"],
         message: "Unit price cannot be negative",
       });
@@ -77,7 +77,7 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
 
         if (existingInvoiceItem) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             path: ["product"],
             message: "This product is already added to the invoice",
           });
@@ -102,7 +102,7 @@ export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
       // Validate quantity if being updated
       if (data.quantity !== undefined && data.quantity <= 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["quantity"],
           message: "Quantity must be greater than 0",
         });
@@ -111,7 +111,7 @@ export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
       // Validate price if being updated
       if (data.price !== undefined && data.price < 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["price"],
           message: "Unit price cannot be negative",
         });
@@ -132,7 +132,7 @@ export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
 
             if (existingInvoiceItem) {
               ctx.addIssue({
-                code: z.ZodIssueCode.custom,
+                code: "custom",
                 path: ["product"],
                 message: "This product is already added to the invoice",
               });

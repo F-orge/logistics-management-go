@@ -55,7 +55,7 @@ export const CreateCompaniesSchema = (pocketbase: TypedPocketBase) =>
     // Name is already required via nonempty() but we ensure it's enforced
     if (!data.name || data.name.trim().length === 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["name"],
         message: "Company name is required",
       });
@@ -74,7 +74,7 @@ export const UpdateCompaniesSchema = (pocketbase: TypedPocketBase) =>
       // If name is being updated, ensure it's not empty
       if (data.name !== undefined && data.name.trim().length === 0) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["name"],
           message: "Company name cannot be empty",
         });
@@ -87,7 +87,7 @@ export const UpdateCompaniesSchema = (pocketbase: TypedPocketBase) =>
       ) {
         if (data.phoneNumber.length < 7 || data.phoneNumber.length > 15) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             path: ["phoneNumber"],
             message: "Phone number must be between 7 and 15 characters",
           });
@@ -101,7 +101,7 @@ export const UpdateCompaniesSchema = (pocketbase: TypedPocketBase) =>
           !/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}/.test(data.website)
         ) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             path: ["website"],
             message: "Website must be a valid URL or 'NA'",
           });

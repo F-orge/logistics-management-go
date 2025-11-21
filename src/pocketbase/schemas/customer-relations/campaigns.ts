@@ -33,7 +33,7 @@ export const CreateCampaignsSchema = (pocketbase: TypedPocketBase) =>
     // Validate that start_date <= end_date if both are provided
     if (data.startDate && data.endDate && data.startDate > data.endDate) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["endDate"],
         message: "End date must be on or after start date",
       });
@@ -52,7 +52,7 @@ export const UpdateCampaignsSchema = (pocketbase: TypedPocketBase) =>
       // Validate that start_date <= end_date if both are provided
       if (data.startDate && data.endDate && data.startDate > data.endDate) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["endDate"],
           message: "End date must be on or after start date",
         });

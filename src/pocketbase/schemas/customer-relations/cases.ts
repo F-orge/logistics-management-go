@@ -54,7 +54,7 @@ export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
     // Validate case number is provided and unique
     if (!data.caseNumber || data.caseNumber.trim().length === 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["caseNumber"],
         message: "Case number is required",
       });
@@ -72,7 +72,7 @@ export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
 
       if (existingCase) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["caseNumber"],
           message: `Case number "${data.caseNumber}" is already in use`,
         });
@@ -87,7 +87,7 @@ export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
     // New cases should start with "new" status
     if (data.status && data.status !== "new") {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["status"],
         message: "New cases must start with 'new' status",
       });
@@ -105,7 +105,7 @@ export const UpdateCasesSchema = (pocketbase: TypedPocketBase) =>
       // Prevent modification of closed or resolved cases - they are immutable
       if (data.status === "closed" || data.status === "resolved") {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["status"],
           message: "Cases in 'closed' or 'resolved' status cannot be modified",
         });
@@ -118,7 +118,7 @@ export const UpdateCasesSchema = (pocketbase: TypedPocketBase) =>
         data.caseNumber.trim().length === 0
       ) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["caseNumber"],
           message: "Case number cannot be empty",
         });
@@ -138,7 +138,7 @@ export const UpdateCasesSchema = (pocketbase: TypedPocketBase) =>
 
           if (existingCase) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["caseNumber"],
               message: `Case number "${data.caseNumber}" is already in use`,
             });

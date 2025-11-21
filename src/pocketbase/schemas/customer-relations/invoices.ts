@@ -49,7 +49,7 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
     // Validate invoice number is provided
     if (!data.invoiceNumber || data.invoiceNumber.trim().length === 0) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["invoiceNumber"],
         message: "Invoice number is required",
       });
@@ -67,7 +67,7 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
 
       if (existingInvoice) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["invoiceNumber"],
           message: `Invoice number "${data.invoiceNumber}" is already in use`,
         });
@@ -82,7 +82,7 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
     // Validate due date is on or after issue date
     if (data.issueDate && data.dueDate && data.dueDate < data.issueDate) {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["dueDate"],
         message: "Due date must be on or after issue date",
       });
@@ -91,7 +91,7 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
     // New invoices should start with "draft" status
     if (data.status && data.status !== "draft") {
       ctx.addIssue({
-        code: z.ZodIssueCode.custom,
+        code: "custom",
         path: ["status"],
         message: "New invoices must start with 'draft' status",
       });
@@ -112,7 +112,7 @@ export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
       const terminalStates = ["paid", "cancelled"];
       if (data.status && terminalStates.includes(data.status)) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["status"],
           message: "Paid and cancelled invoices cannot be modified",
         });
@@ -125,7 +125,7 @@ export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
         data.invoiceNumber.trim().length === 0
       ) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["invoiceNumber"],
           message: "Invoice number cannot be empty",
         });
@@ -144,7 +144,7 @@ export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
 
           if (existingInvoice) {
             ctx.addIssue({
-              code: z.ZodIssueCode.custom,
+              code: "custom",
               path: ["invoiceNumber"],
               message: `Invoice number "${data.invoiceNumber}" is already in use`,
             });
@@ -160,7 +160,7 @@ export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
       // Validate due date is on or after issue date
       if (data.issueDate && data.dueDate && data.dueDate < data.issueDate) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["dueDate"],
           message: "Due date must be on or after issue date",
         });
@@ -170,7 +170,7 @@ export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
       if (data.total !== undefined && data.paidAt) {
         // This is a simplified check - in production would need actual record lookup
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: "custom",
           path: ["paidAt"],
           message: "Invoice must have a total amount before marking as paid",
         });
