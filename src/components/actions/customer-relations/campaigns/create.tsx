@@ -10,7 +10,6 @@ import z from "zod";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations/campaigns";
 import { CampaignForm, CreateSchema } from "./form";
 
 const FormOption = (pocketbase: TypedPocketBase) =>

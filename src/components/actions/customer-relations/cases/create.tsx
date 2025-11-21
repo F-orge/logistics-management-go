@@ -14,12 +14,7 @@ import {
 } from "@/components/ui/autoform-tanstack/types";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
-import { RelationFieldProps } from "@/components/ui/forms/fields";
-import {
-  Collections,
-  CustomerRelationsCompaniesRecord,
-  TypedPocketBase,
-} from "@/lib/pb.types";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CasesSchema } from "@/pocketbase/schemas/customer-relations/cases";
 
 export const CreateSchema = z.object({

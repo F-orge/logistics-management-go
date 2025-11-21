@@ -193,6 +193,7 @@ export const CampaignForm = withForm({
             </field.Field>
           )}
         </form.AppField>
+        {/* attachments */}
         {props.action === "create" && (
           <>
             <FieldSeparator className="col-span-full" />
