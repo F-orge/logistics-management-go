@@ -5,20 +5,41 @@
  */
 
 import { z } from "zod";
-import {
-	fieldRegistry,
-	fieldSetRegistry,
-} from "@/components/ui/autoform-tanstack/types";
-import { Collections } from "@/lib/pb.types";
 
 export const CarriersSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	contactDetails: z.unknown().optional(),
-	serviceOffered: z.unknown().optional(),
-	image: z.file().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  name: z.string().nonempty("Carrier name is required"),
+  contactDetails: z.unknown().optional(),
+  serviceOffered: z.unknown().optional(),
+  image: z.file().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Carriers = z.infer<typeof CarriersSchema>;
+
+export const CreateCarriersSchema = () =>
+  CarriersSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).refine((data) => data.name && data.name.trim().length > 0, {
+    path: ["name"],
+    message: "Carrier name is required",
+  });
+
+export const UpdateCarriersSchema = () =>
+  CarriersSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .refine(
+      (data) =>
+        data.name === undefined || (data.name && data.name.trim().length > 0),
+      {
+        path: ["name"],
+        message: "Carrier name cannot be empty",
+      }
+    );

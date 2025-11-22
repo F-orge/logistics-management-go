@@ -4,25 +4,137 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
+
+// Registration number format: 4 letters + dash + 4 digits (e.g., ABCD-1234)
+const REGISTRATION_NUMBER_REGEX = /^[A-Z]{4}[\s-]?[0-9]{4}$/;
 
 export const VehiclesSchema = z.object({
-	id: z.string(),
-	registrationNumber: z.string(),
-	model: z.string().optional(),
-	capacityVolume: z
-		.number()
-		.min(0, "Capacity volume must be non-negative")
-		.optional(),
-	capacityWeight: z
-		.number()
-		.min(0, "Capacity weight must be non-negative")
-		.optional(),
-	status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
-	maintenances: z.array(z.string()).optional(),
-	gps_pings: z.array(z.string()).optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  registrationNumber: z
+    .string()
+    .nonempty("Registration number is required")
+    .regex(
+      REGISTRATION_NUMBER_REGEX,
+      "Registration number must be in format: 4 letters + 4 digits (e.g., ABCD-1234)"
+    ),
+  model: z.string().optional(),
+  capacityVolume: z
+    .number()
+    .min(0, "Capacity volume must be non-negative")
+    .optional(),
+  capacityWeight: z
+    .number()
+    .min(0, "Capacity weight must be non-negative")
+    .optional(),
+  status: z.enum(["available", "in-maintenance", "on-trip", "out-of-service"]),
+  maintenances: z.array(z.string()).optional(),
+  gps_pings: z.array(z.string()).optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Vehicles = z.infer<typeof VehiclesSchema>;
+
+export const CreateVehiclesSchema = (pocketbase: TypedPocketBase) =>
+  VehiclesSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  })
+    .refine((data) => data.status !== undefined, {
+      path: ["status"],
+      message: "Status is required",
+    })
+    .superRefine(async (data, ctx) => {
+      // Validate registration number is provided
+      if (
+        !data.registrationNumber ||
+        data.registrationNumber.trim().length === 0
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["registrationNumber"],
+          message: "Registration number is required",
+        });
+        return;
+      }
+
+      // Unique constraint: Registration number must be unique (database index)
+      try {
+        const existingVehicle = await pocketbase
+          .collection(Collections.TransportManagementVehicles)
+          .getFirstListItem(
+            `registrationNumber = "${data.registrationNumber.replace(/"/g, '\\"')}"`,
+            {
+              requestKey: null,
+            }
+          );
+
+        if (existingVehicle) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["registrationNumber"],
+            message: `Registration number "${data.registrationNumber}" is already in use`,
+          });
+        }
+      } catch (error) {
+        // Record not found is expected - registration number is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Registration number uniqueness check error:", error);
+        }
+      }
+    });
+
+export const UpdateVehiclesSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
+  VehiclesSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Validate registration number is not empty if being updated
+      if (
+        data.registrationNumber !== undefined &&
+        data.registrationNumber.trim().length === 0
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["registrationNumber"],
+          message: "Registration number cannot be empty",
+        });
+        return;
+      }
+
+      // Unique constraint: Registration number must be unique (when being updated)
+      if (data.registrationNumber) {
+        try {
+          const existingVehicle = await pocketbase
+            .collection(Collections.TransportManagementVehicles)
+            .getFirstListItem(
+              `registrationNumber = "${data.registrationNumber.replace(/"/g, '\\"')}"`,
+              { requestKey: null }
+            );
+
+          // If found, check if it's a different record (not the one being updated)
+          if (existingVehicle && existingVehicle.id !== id) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["registrationNumber"],
+              message: `Registration number "${data.registrationNumber}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - registration number is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Registration number uniqueness check error:", error);
+          }
+        }
+      }
+    });
