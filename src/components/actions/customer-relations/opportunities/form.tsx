@@ -10,11 +10,11 @@ import { withForm } from "@/components/ui/forms";
 import { InputGroupButton } from "@/components/ui/input-group";
 import {
   Collections,
+  Create,
   CustomerRelationsCampaignsResponse,
   CustomerRelationsCompaniesResponse,
   CustomerRelationsContactsResponse,
   CustomerRelationsOpportunitiesRecord,
-  CustomerRelationsProductsResponse,
   TypedPocketBase,
 } from "@/lib/pb.types";
 import {
@@ -304,14 +304,51 @@ export const CreateOpportunitiesFormOption = (pocketbase: TypedPocketBase) =>
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
     onSubmit: async ({ value, meta }) => {
+      let opportunityId: string | null = null;
+
       try {
-        await pocketbase
+        const { products, ...opportunityData } = value;
+
+        const opportunity = await pocketbase
           .collection(Collections.CustomerRelationsOpportunities)
-          .create(value);
+          .create({
+            ...opportunityData,
+            owner: pocketbase.authStore.record?.id,
+          });
+
+        opportunityId = opportunity.id;
+
+        const batch = pocketbase.createBatch();
+
+        for (const item of products || []) {
+          batch
+            .collection(Collections.CustomerRelationsOpportunityProducts)
+            .create({
+              opportunity: opportunity.id,
+              product: item.product,
+              quantity: item.quantity,
+            } as Create<Collections.CustomerRelationsOpportunityProducts>);
+        }
+
+        await batch.send();
 
         toast.success("Opportunity created successfully!");
       } catch (error) {
         if (error instanceof ClientResponseError) {
+          if (opportunityId) {
+            // Cleanup opportunity if products creation failed
+            try {
+              await pocketbase!
+                .collection(Collections.CustomerRelationsOpportunities)
+                .delete(opportunityId);
+            } catch (deleteError) {
+              console.error(
+                "Failed to cleanup opportunity after product creation failure:",
+                deleteError
+              );
+            }
+          }
+
           toast.error(
             `Failed to create opportunity: ${error.message} (${error.status})`
           );

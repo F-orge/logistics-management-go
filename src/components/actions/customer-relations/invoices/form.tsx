@@ -358,36 +358,3 @@ export const CreateInvoicesFormOption = (pocketbase: TypedPocketBase) =>
       }
     },
   });
-
-export const UpdateInvoicesFormOption = (
-  pocketbase: TypedPocketBase,
-  record?: CustomerRelationsInvoicesRecord
-) =>
-  formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateInvoicesSchema>>
-    >,
-    validators: {
-      onSubmitAsync: UpdateInvoicesSchema(pocketbase, record),
-    },
-    onSubmitMeta: {} as {
-      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-    },
-    onSubmit: async ({ value, meta }) => {
-      try {
-        await pocketbase
-          .collection(Collections.CustomerRelationsInvoices)
-          .update(record?.id!, value);
-
-        toast.success("Invoice updated successfully!");
-      } catch (error) {
-        if (error instanceof ClientResponseError) {
-          toast.error(
-            `Failed to update invoice: ${error.message} (${error.status})`
-          );
-        }
-      } finally {
-        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
-      }
-    },
-  });

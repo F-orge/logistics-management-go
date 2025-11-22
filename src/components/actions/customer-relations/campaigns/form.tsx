@@ -1,10 +1,23 @@
+import { formOptions } from "@tanstack/react-form";
+import { UseNavigateResult } from "@tanstack/react-router";
 import { X } from "lucide-react";
+import { ClientResponseError } from "pocketbase";
+import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
 import { InputGroupButton } from "@/components/ui/input-group";
-import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations";
+import {
+  Collections,
+  CustomerRelationsCampaignsRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
+import {
+  CampaignsSchema,
+  CreateCampaignsSchema,
+  UpdateCampaignsSchema,
+} from "@/pocketbase/schemas/customer-relations";
 
 export type CampaignFormProps = {
   action?: "create" | "edit";
@@ -118,3 +131,70 @@ export const CampaignForm = withForm({
     );
   },
 });
+
+export const CreateCampaignsFormOption = (pocketbase: TypedPocketBase) =>
+  formOptions({
+    defaultValues: {
+      name: "",
+      budget: 0,
+      startDate: new Date(),
+      endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      attachments: [],
+    } as Partial<z.infer<ReturnType<typeof CreateCampaignsSchema>>>,
+    validators: {
+      onSubmitAsync: CreateCampaignsSchema(pocketbase),
+    },
+    onSubmitMeta: {} as {
+      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+    },
+    onSubmit: async ({ value, meta }) => {
+      try {
+        await pocketbase
+          .collection(Collections.CustomerRelationsCampaigns)
+          .create(value);
+
+        toast.success("Campaign created successfully!");
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          toast.error(
+            `Failed to create campaign: ${error.message} (${error.status})`
+          );
+        }
+      } finally {
+        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
+      }
+    },
+  });
+
+export const UpdateCampaignsFormOption = (
+  pocketbase: TypedPocketBase,
+  record?: CustomerRelationsCampaignsRecord
+) =>
+  formOptions({
+    defaultValues: record as Partial<
+      z.infer<ReturnType<typeof UpdateCampaignsSchema>>
+    >,
+    validators: {
+      onSubmitAsync: UpdateCampaignsSchema(pocketbase, record),
+    },
+    onSubmitMeta: {} as {
+      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+    },
+    onSubmit: async ({ value, meta }) => {
+      try {
+        await pocketbase
+          .collection(Collections.CustomerRelationsCampaigns)
+          .update(record?.id!, value);
+
+        toast.success("Campaign updated successfully!");
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          toast.error(
+            `Failed to update campaign: ${error.message} (${error.status})`
+          );
+        }
+      } finally {
+        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
+      }
+    },
+  });
