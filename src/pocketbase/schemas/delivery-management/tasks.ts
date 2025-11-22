@@ -4,51 +4,191 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections } from "@/lib/pb.types";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const TasksSchema = z.object({
-	id: z.string(),
-	package: z.string(),
-	route: z.string(),
-	sequence: z.number().min(1, "Sequence must be at least 1"),
-	deliveryAddress: z.string(),
-	recipientName: z.string().optional(),
-	recipientPhone: z.string().optional(),
-	deliveryInstructions: z.string().optional(),
-	estimatedArrivalTime: z.date().optional(),
-	actualArrivalTime: z.date().optional(),
-	deliveryTime: z.date().optional(),
-	status: z
-		.enum([
-			"pending",
-			"assigned",
-			"out-for-delivery",
-			"delivered",
-			"failed",
-			"cancelled",
-			"rescheduled",
-		])
-		.optional(),
-	attempCount: z
-		.number()
-		.min(0, "Attempt count must be non-negative")
-		.optional(),
-	attachments: z.file().array().optional(),
-	failureReason: z
-		.enum([
-			"recipient-not-home",
-			"address-not-found",
-			"refused-delivery",
-			"damaged-package",
-			"access-denied",
-			"weather-conditions",
-			"vehicle-breakdown",
-			"other",
-		])
-		.optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  package: z.string().min(1, "Package is required"),
+  route: z.string().min(1, "Route is required"),
+  sequence: z.number().min(1, "Sequence must be at least 1"),
+  deliveryAddress: z.string().min(1, "Delivery address is required"),
+  recipientName: z.string().optional(),
+  recipientPhone: z.string().optional(),
+  deliveryInstructions: z.string().optional(),
+  estimatedArrivalTime: z.date().optional(),
+  actualArrivalTime: z.date().optional(),
+  deliveryTime: z.date().optional(),
+  status: z
+    .enum([
+      "pending",
+      "assigned",
+      "out-for-delivery",
+      "delivered",
+      "failed",
+      "cancelled",
+      "rescheduled",
+    ])
+    .optional(),
+  attempCount: z
+    .number()
+    .min(0, "Attempt count must be non-negative")
+    .optional(),
+  attachments: z.file().array().optional(),
+  failureReason: z
+    .enum([
+      "recipient-not-home",
+      "address-not-found",
+      "refused-delivery",
+      "damaged-package",
+      "access-denied",
+      "weather-conditions",
+      "vehicle-breakdown",
+      "other",
+    ])
+    .optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Tasks = z.infer<typeof TasksSchema>;
+
+export const CreateTasksSchema = (pocketbase: TypedPocketBase) =>
+  TasksSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  })
+    .refine((data) => data.package && data.package.trim().length > 0, {
+      path: ["package"],
+      message: "Package is required",
+    })
+    .refine((data) => data.route && data.route.trim().length > 0, {
+      path: ["route"],
+      message: "Route is required",
+    })
+    .refine(
+      (data) => data.deliveryAddress && data.deliveryAddress.trim().length > 0,
+      {
+        path: ["deliveryAddress"],
+        message: "Delivery address is required",
+      }
+    )
+    .superRefine(async (data, ctx) => {
+      // Validate that package reference exists
+      if (!data.package || data.package.trim().length === 0) {
+        return;
+      }
+
+      try {
+        await pocketbase
+          .collection(Collections.WarehouseManagementPackages)
+          .getOne(data.package, { requestKey: null });
+      } catch (error) {
+        if (error instanceof ClientResponseError && error.status === 404) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["package"],
+            message: "Package not found",
+          });
+        } else if (!(error instanceof ClientResponseError)) {
+          console.warn("Package reference validation error:", error);
+        }
+      }
+
+      // Validate that route reference exists
+      if (!data.route || data.route.trim().length === 0) {
+        return;
+      }
+
+      try {
+        await pocketbase
+          .collection(Collections.DeliveryManagementRoutes)
+          .getOne(data.route, { requestKey: null });
+      } catch (error) {
+        if (error instanceof ClientResponseError && error.status === 404) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["route"],
+            message: "Route not found",
+          });
+        } else if (!(error instanceof ClientResponseError)) {
+          console.warn("Route reference validation error:", error);
+        }
+      }
+    });
+
+export const UpdateTasksSchema = (pocketbase: TypedPocketBase, id?: string) =>
+  TasksSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .refine(
+      (data) =>
+        data.package === undefined ||
+        (data.package && data.package.trim().length > 0),
+      {
+        path: ["package"],
+        message: "Package cannot be empty",
+      }
+    )
+    .refine(
+      (data) =>
+        data.route === undefined ||
+        (data.route && data.route.trim().length > 0),
+      {
+        path: ["route"],
+        message: "Route cannot be empty",
+      }
+    )
+    .refine(
+      (data) =>
+        data.deliveryAddress === undefined ||
+        (data.deliveryAddress && data.deliveryAddress.trim().length > 0),
+      {
+        path: ["deliveryAddress"],
+        message: "Delivery address cannot be empty",
+      }
+    )
+    .superRefine(async (data, ctx) => {
+      // Validate that package reference exists if being updated
+      if (data.package && data.package.trim().length > 0) {
+        try {
+          await pocketbase
+            .collection(Collections.WarehouseManagementPackages)
+            .getOne(data.package, { requestKey: null });
+        } catch (error) {
+          if (error instanceof ClientResponseError && error.status === 404) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["package"],
+              message: "Package not found",
+            });
+          } else if (!(error instanceof ClientResponseError)) {
+            console.warn("Package reference validation error:", error);
+          }
+        }
+      }
+
+      // Validate that route reference exists if being updated
+      if (data.route && data.route.trim().length > 0) {
+        try {
+          await pocketbase
+            .collection(Collections.DeliveryManagementRoutes)
+            .getOne(data.route, { requestKey: null });
+        } catch (error) {
+          if (error instanceof ClientResponseError && error.status === 404) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["route"],
+              message: "Route not found",
+            });
+          } else if (!(error instanceof ClientResponseError)) {
+            console.warn("Route reference validation error:", error);
+          }
+        }
+      }
+    });

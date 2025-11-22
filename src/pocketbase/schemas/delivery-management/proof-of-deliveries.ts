@@ -4,17 +4,84 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections } from "@/lib/pb.types";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
 export const ProofOfDeliveriesSchema = z.object({
-	id: z.string(),
-	task: z.string().optional(),
-	signatureData: z.any().optional(),
-	recipientName: z.string().optional(),
-	coordinates: Coordinates.optional(),
-	timestamp: z.iso.datetime().optional(),
+  id: z.string(),
+  task: z.string().min(1, "Task is required"),
+  signatureData: z.file().optional(),
+  recipientName: z.string().optional(),
+  coordinates: Coordinates.optional(),
+  timestamp: z.iso.datetime().optional(),
 });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;
+
+export const CreateProofOfDeliveriesSchema = (pocketbase: TypedPocketBase) =>
+  ProofOfDeliveriesSchema.omit({
+    id: true,
+    timestamp: true,
+  })
+    .refine((data) => data.task && data.task.trim().length > 0, {
+      path: ["task"],
+      message: "Task is required",
+    })
+    .superRefine(async (data, ctx) => {
+      // Validate that task reference exists
+      try {
+        await pocketbase
+          .collection(Collections.DeliveryManagementTasks)
+          .getOne(data.task, { requestKey: null });
+      } catch (error) {
+        if (error instanceof ClientResponseError && error.status === 404) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["task"],
+            message: "Task not found",
+          });
+        } else if (!(error instanceof ClientResponseError)) {
+          console.warn("Task reference validation error:", error);
+        }
+      }
+    });
+
+export const UpdateProofOfDeliveriesSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
+  ProofOfDeliveriesSchema.partial()
+    .omit({
+      id: true,
+      timestamp: true,
+    })
+    .refine(
+      (data) =>
+        data.task === undefined || (data.task && data.task.trim().length > 0),
+      {
+        path: ["task"],
+        message: "Task cannot be empty",
+      }
+    )
+    .superRefine(async (data, ctx) => {
+      // Validate that task reference exists if being updated
+      if (data.task) {
+        try {
+          await pocketbase
+            .collection(Collections.DeliveryManagementTasks)
+            .getOne(data.task, { requestKey: null });
+        } catch (error) {
+          if (error instanceof ClientResponseError && error.status === 404) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["task"],
+              message: "Task not found",
+            });
+          } else if (!(error instanceof ClientResponseError)) {
+            console.warn("Task reference validation error:", error);
+          }
+        }
+      }
+    });

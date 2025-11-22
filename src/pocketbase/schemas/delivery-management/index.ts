@@ -6,6 +6,5 @@
 
 export * from "./driver-location";
 export * from "./proof-of-deliveries";
-export * from "./routes";
 export * from "./task-events";
 export * from "./tasks";

@@ -4,7 +4,9 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const CarriersSchema = z.object({
   id: z.string(),
@@ -18,17 +20,54 @@ export const CarriersSchema = z.object({
 
 export type Carriers = z.infer<typeof CarriersSchema>;
 
-export const CreateCarriersSchema = () =>
+export const CreateCarriersSchema = (pocketbase: TypedPocketBase) =>
   CarriersSchema.omit({
     id: true,
     created: true,
     updated: true,
-  }).refine((data) => data.name && data.name.trim().length > 0, {
-    path: ["name"],
-    message: "Carrier name is required",
-  });
+  })
+    .refine((data) => data.name && data.name.trim().length > 0, {
+      path: ["name"],
+      message: "Carrier name is required",
+    })
+    .superRefine(async (data, ctx) => {
+      // Validate carrier name is not empty
+      if (!data.name || data.name.trim().length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["name"],
+          message: "Carrier name is required",
+        });
+        return;
+      }
 
-export const UpdateCarriersSchema = () =>
+      // Unique constraint: Carrier name must be unique
+      try {
+        const existingCarrier = await pocketbase
+          .collection(Collections.TransportManagementCarriers)
+          .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+            requestKey: null,
+          });
+
+        if (existingCarrier) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["name"],
+            message: `Carrier name "${data.name}" is already in use`,
+          });
+        }
+      } catch (error) {
+        // Record not found is expected - name is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Carrier name uniqueness check error:", error);
+        }
+      }
+    });
+
+export const UpdateCarriersSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   CarriersSchema.partial()
     .omit({
       id: true,
@@ -42,4 +81,40 @@ export const UpdateCarriersSchema = () =>
         path: ["name"],
         message: "Carrier name cannot be empty",
       }
-    );
+    )
+    .superRefine(async (data, ctx) => {
+      // Validate carrier name is not empty if being updated
+      if (data.name !== undefined && data.name.trim().length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["name"],
+          message: "Carrier name cannot be empty",
+        });
+        return;
+      }
+
+      // Unique constraint: Carrier name must be unique (when being updated)
+      if (data.name) {
+        try {
+          const existingCarrier = await pocketbase
+            .collection(Collections.TransportManagementCarriers)
+            .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+              requestKey: null,
+            });
+
+          // If found, check if it's a different record (not the one being updated)
+          if (existingCarrier && existingCarrier.id !== id) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["name"],
+              message: `Carrier name "${data.name}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - name is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Carrier name uniqueness check error:", error);
+          }
+        }
+      }
+    });
