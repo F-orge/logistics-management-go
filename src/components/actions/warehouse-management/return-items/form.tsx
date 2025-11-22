@@ -1,14 +1,14 @@
 import z from "zod";
 import { withFieldGroup } from "@/components/ui/forms";
-import { OpportunityProductsSchema } from "@/pocketbase/schemas/customer-relations";
+import { ReturnItemsSchema } from "@/pocketbase/schemas/warehouse-management/return-items";
 
-export type OpportunityProductsProps = {
+export type ReturnItemsFormProps = {
   action?: "create" | "edit";
 };
 
-export const OpportunityProductsForm = withFieldGroup({
-  defaultValues: {} as z.infer<typeof OpportunityProductsSchema>,
-  props: {} as OpportunityProductsProps,
+export const ReturnItemsForm = withFieldGroup({
+  defaultValues: {} as z.infer<typeof ReturnItemsSchema>,
+  props: {} as ReturnItemsFormProps,
   render: ({ group, ...props }) => {
     return (
       <group.FieldSet
@@ -16,10 +16,10 @@ export const OpportunityProductsForm = withFieldGroup({
           className: "grid grid-cols-4 gap-4",
         }}
       >
-        {/* opportunity - string (relation) */}
+        {/* return - string (relation) */}
         {/* product - string (relation) */}
         {/* quantity - number */}
-        {/* priceSnapshot - number */}
+        {/* conditionStatus - enum */}
       </group.FieldSet>
     );
   },

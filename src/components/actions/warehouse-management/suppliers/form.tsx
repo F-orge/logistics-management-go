@@ -1,14 +1,14 @@
 import z from "zod";
 import { withForm } from "@/components/ui/forms";
-import { ContactsSchema } from "@/pocketbase/schemas/customer-relations";
+import { SuppliersSchema } from "@/pocketbase/schemas/warehouse-management/suppliers";
 
-export type ContactsFormProps = {
+export type SuppliersFormProps = {
   action?: "create" | "edit";
 };
 
-export const ContactsForm = withForm({
-  defaultValues: {} as z.infer<typeof ContactsSchema>,
-  props: {} as ContactsFormProps,
+export const SuppliersForm = withForm({
+  defaultValues: {} as z.infer<typeof SuppliersSchema>,
+  props: {} as SuppliersFormProps,
   render: ({ form, ...props }) => {
     return (
       <form.FieldSet
@@ -17,12 +17,10 @@ export const ContactsForm = withForm({
         }}
       >
         {/* name - string */}
+        {/* contactPerson - string */}
         {/* email - string */}
         {/* phoneNumber - string */}
-        {/* jobTitle - string */}
-        {/* company - string (relation) */}
-        {/* owner - string (relation) */}
-        {/* attachments - file array */}
+        {/* client - string (relation) */}
       </form.FieldSet>
     );
   },

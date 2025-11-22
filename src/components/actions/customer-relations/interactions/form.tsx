@@ -1,18 +1,14 @@
-import { X } from "lucide-react";
 import z from "zod";
-import { Button } from "@/components/ui/button";
-import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
-import { InputGroupButton } from "@/components/ui/input-group";
-import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations";
+import { InteractionsSchema } from "@/pocketbase/schemas/customer-relations";
 
-export type CampaignFormProps = {
+export type InteractionsFormProps = {
   action?: "create" | "edit";
 };
 
-export const CampaignForm = withForm({
-  defaultValues: {} as z.infer<typeof CampaignsSchema>,
-  props: {} as CampaignFormProps,
+export const InteractionsForm = withForm({
+  defaultValues: {} as z.infer<typeof InteractionsSchema>,
+  props: {} as InteractionsFormProps,
   render: ({ form, ...props }) => {
     return (
       <form.FieldSet
@@ -20,100 +16,14 @@ export const CampaignForm = withForm({
           className: "grid grid-cols-4 gap-4",
         }}
       >
-        {/* name */}
-        <form.AppField name="name">
-          {(field) => (
-            <field.Field
-              className="col-span-full"
-              tooltip="Example: Holiday Sale 2025"
-              title="Name"
-              description="The campaign name used to identify this campaign in lists and reports."
-            >
-              <field.TextField showClearButton />
-            </field.Field>
-          )}
-        </form.AppField>
-        {/* budget */}
-        <form.AppField name="budget">
-          {(field) => (
-            <field.Field
-              className="col-span-full"
-              tooltip="Example: 10000"
-              title="Budget"
-              description="The total monetary budget allocated to this campaign (numeric value)."
-            >
-              <field.NumberField addonStart="₱" />
-            </field.Field>
-          )}
-        </form.AppField>
-        {/* startDate */}
-        <form.AppField name="startDate">
-          {(field) => (
-            <field.Field
-              className="col-span-2"
-              tooltip="Example: 2025-12-01T00:00:00Z"
-              title="Start Date"
-              description="The start date and time when this campaign becomes active."
-            >
-              <field.DateTimeField />
-            </field.Field>
-          )}
-        </form.AppField>
-        {/* endDate */}
-        <form.AppField name="endDate">
-          {(field) => (
-            <field.Field
-              className="col-span-2"
-              tooltip="Example: 2026-01-01T00:00:00Z"
-              title="End Date"
-              description="The end date and time when this campaign stops being active."
-            >
-              <field.DateTimeField />
-            </field.Field>
-          )}
-        </form.AppField>
-        {/* attachments */}
-        {props.action === "create" && (
-          <>
-            <FieldSeparator className="col-span-full" />
-            <form.FieldSet
-              className="col-span-full"
-              legend="Attachments"
-              description="Upload files related to the campaign."
-            >
-              <form.AppField name="attachments" mode="array">
-                {(field) => (
-                  <>
-                    {field.state.value?.map((_, index) => (
-                      <form.AppField key={index} name={`attachments[${index}]`}>
-                        {(subField) => (
-                          <subField.Field className="mb-2">
-                            <subField.FileField>
-                              <InputGroupButton
-                                onClick={() => field.removeValue(index)}
-                                aria-label={`Remove attachment ${index + 1}`}
-                              >
-                                <X />
-                              </InputGroupButton>
-                            </subField.FileField>
-                          </subField.Field>
-                        )}
-                      </form.AppField>
-                    ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => field.pushValue(undefined as any)}
-                    >
-                      Add Attachments
-                    </Button>
-                  </>
-                )}
-              </form.AppField>
-            </form.FieldSet>
-          </>
-        )}
+        {/* contact - string (relation) */}
+        {/* user - string (relation) */}
+        {/* case - string (relation) */}
+        {/* type - enum */}
+        {/* outcome - string */}
+        {/* notes - string */}
+        {/* interactionDate - date */}
+        {/* attachments - file array */}
       </form.FieldSet>
     );
   },
