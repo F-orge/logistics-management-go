@@ -5,17 +5,174 @@
  */
 
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const PackageItemsSchema = z.object({
-	id: z.string(),
-	package: z.string(),
-	product: z.string(),
-	batch: z.string().optional(),
-	quantity: z.number(),
-	lotNumber: z.string().optional(),
-	expiryDate: z.date().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  package: z.string(),
+  product: z.string(),
+  batch: z.string().optional(),
+  quantity: z.number(),
+  lotNumber: z.string().optional(),
+  expiryDate: z.date().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type PackageItems = z.infer<typeof PackageItemsSchema>;
+
+export const CreatePackageItemsSchema = (pocketbase: TypedPocketBase) =>
+  PackageItemsSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Verify package exists
+    try {
+      const pkg = await pocketbase
+        .collection(Collections.WarehouseManagementPackages)
+        .getOne(data.package, { requestKey: null });
+      if (!pkg) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["package"],
+          message: "Package does not exist",
+        });
+      }
+    } catch (error) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["package"],
+        message: "Package does not exist",
+      });
+    }
+
+    // Verify product exists
+    try {
+      const product = await pocketbase
+        .collection(Collections.WarehouseManagementProducts)
+        .getOne(data.product, { requestKey: null });
+      if (!product) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["product"],
+          message: "Product does not exist",
+        });
+      }
+    } catch (error) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["product"],
+        message: "Product does not exist",
+      });
+    }
+
+    // Verify batch exists if provided
+    if (data.batch) {
+      try {
+        const batch = await pocketbase
+          .collection(Collections.WarehouseManagementInventoryBatches)
+          .getOne(data.batch, { requestKey: null });
+        if (!batch) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["batch"],
+            message: "Batch does not exist",
+          });
+        }
+      } catch (error) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["batch"],
+          message: "Batch does not exist",
+        });
+      }
+    }
+
+    // Validate quantity is positive
+    if (data.quantity <= 0) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["quantity"],
+        message: "Quantity must be a positive value",
+      });
+    }
+  });
+
+export const UpdatePackageItemsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
+  PackageItemsSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify package exists if being updated
+      if (data.package) {
+        try {
+          const pkg = await pocketbase
+            .collection(Collections.WarehouseManagementPackages)
+            .getOne(data.package, { requestKey: null });
+          if (!pkg) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["package"],
+              message: "Package does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["package"],
+            message: "Package does not exist",
+          });
+        }
+      }
+
+      // Verify product exists if being updated
+      if (data.product) {
+        try {
+          const product = await pocketbase
+            .collection(Collections.WarehouseManagementProducts)
+            .getOne(data.product, { requestKey: null });
+          if (!product) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["product"],
+              message: "Product does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["product"],
+            message: "Product does not exist",
+          });
+        }
+      }
+
+      // Verify batch exists if being updated
+      if (data.batch) {
+        try {
+          const batch = await pocketbase
+            .collection(Collections.WarehouseManagementInventoryBatches)
+            .getOne(data.batch, { requestKey: null });
+          if (!batch) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["batch"],
+              message: "Batch does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["batch"],
+            message: "Batch does not exist",
+          });
+        }
+      }
+    });

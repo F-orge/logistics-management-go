@@ -5,18 +5,133 @@
  */
 
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const InboundShipmentsSchema = z.object({
-	id: z.string(),
-	client: z.string(),
-	status: z
-		.enum(["pending", "arrived", "processing", "completed", "cancelled"])
-		.optional(),
-	expectedArrivalDate: z.date().optional(),
-	actualArrivalDate: z.date().optional(),
-	warehouse: z.string(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  client: z.string(),
+  status: z
+    .enum(["pending", "arrived", "processing", "completed", "cancelled"])
+    .optional(),
+  expectedArrivalDate: z.date().optional(),
+  actualArrivalDate: z.date().optional(),
+  warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InboundShipments = z.infer<typeof InboundShipmentsSchema>;
+
+export const CreateInboundShipmentsSchema = (pocketbase: TypedPocketBase) =>
+  InboundShipmentsSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Verify warehouse exists
+    try {
+      const warehouse = await pocketbase
+        .collection(Collections.WarehouseManagementWarehouses)
+        .getOne(data.warehouse, { requestKey: null });
+      if (!warehouse) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["warehouse"],
+          message: "Warehouse does not exist",
+        });
+      }
+    } catch (error) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["warehouse"],
+        message: "Warehouse does not exist",
+      });
+    }
+
+    // Verify client exists
+    try {
+      const client = await pocketbase
+        .collection(Collections.CustomerRelationsCompanies)
+        .getOne(data.client, { requestKey: null });
+      if (!client) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["client"],
+          message: "Client does not exist",
+        });
+      }
+    } catch (error) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["client"],
+        message: "Client does not exist",
+      });
+    }
+
+    // Validate date logic if both dates are provided
+    if (data.expectedArrivalDate && data.actualArrivalDate) {
+      if (data.actualArrivalDate < data.expectedArrivalDate) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["actualArrivalDate"],
+          message: "Actual arrival date cannot be before expected arrival date",
+        });
+      }
+    }
+  });
+
+export const UpdateInboundShipmentsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
+  InboundShipmentsSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify warehouse exists if being updated
+      if (data.warehouse) {
+        try {
+          const warehouse = await pocketbase
+            .collection(Collections.WarehouseManagementWarehouses)
+            .getOne(data.warehouse, { requestKey: null });
+          if (!warehouse) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["warehouse"],
+              message: "Warehouse does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["warehouse"],
+            message: "Warehouse does not exist",
+          });
+        }
+      }
+
+      // Verify client exists if being updated
+      if (data.client) {
+        try {
+          const client = await pocketbase
+            .collection(Collections.CustomerRelationsCompanies)
+            .getOne(data.client, { requestKey: null });
+          if (!client) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["client"],
+              message: "Client does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["client"],
+            message: "Client does not exist",
+          });
+        }
+      }
+    });

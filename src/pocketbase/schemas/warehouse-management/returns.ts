@@ -4,23 +4,199 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const ReturnsSchema = z.object({
-	id: z.string(),
-	returnNumber: z.string().optional(),
-	salesOrder: z.string().optional(),
-	client: z.string().optional(),
-	status: z.enum([
-		"requested",
-		"approved",
-		"rejected",
-		"received",
-		"processed",
-	]),
-	reason: z.unknown().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  returnNumber: z.string().optional(),
+  salesOrder: z.string().optional(),
+  client: z.string().optional(),
+  status: z.enum([
+    "requested",
+    "approved",
+    "rejected",
+    "received",
+    "processed",
+  ]),
+  reason: z.unknown().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Returns = z.infer<typeof ReturnsSchema>;
+
+export const CreateReturnsSchema = (pocketbase: TypedPocketBase) =>
+  ReturnsSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Verify sales order exists if provided
+    if (data.salesOrder) {
+      try {
+        const salesOrder = await pocketbase
+          .collection(Collections.WarehouseManagementSalesOrders)
+          .getOne(data.salesOrder, { requestKey: null });
+        if (!salesOrder) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["salesOrder"],
+            message: "Sales order does not exist",
+          });
+        }
+      } catch (error) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["salesOrder"],
+          message: "Sales order does not exist",
+        });
+      }
+    }
+
+    // Verify client exists if provided
+    if (data.client) {
+      try {
+        const client = await pocketbase
+          .collection(Collections.CustomerRelationsCompanies)
+          .getOne(data.client, { requestKey: null });
+        if (!client) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["client"],
+            message: "Client does not exist",
+          });
+        }
+      } catch (error) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["client"],
+          message: "Client does not exist",
+        });
+      }
+    }
+
+    // Validate return number is not empty
+    if (!data.returnNumber || data.returnNumber.trim().length === 0) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["returnNumber"],
+        message: "Return number is required",
+      });
+    }
+
+    // New returns must start with "requested" status
+    if (data.status && data.status !== "requested") {
+      ctx.addIssue({
+        code: "custom",
+        path: ["status"],
+        message: "New returns must start with 'requested' status",
+      });
+    }
+
+    // Unique constraint: returnNumber must be unique
+    if (data.returnNumber) {
+      try {
+        const existingReturn = await pocketbase
+          .collection(Collections.WarehouseManagementReturns)
+          .getFirstListItem(
+            `returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}"`,
+            {
+              requestKey: null,
+            }
+          );
+
+        if (existingReturn) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["returnNumber"],
+            message: `Return number "${data.returnNumber}" is already in use`,
+          });
+        }
+      } catch (error) {
+        // Record not found is expected - returnNumber is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Return number uniqueness check error:", error);
+        }
+      }
+    }
+  });
+
+export const UpdateReturnsSchema = (pocketbase: TypedPocketBase, id?: string) =>
+  ReturnsSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify sales order exists if being updated
+      if (data.salesOrder) {
+        try {
+          const salesOrder = await pocketbase
+            .collection(Collections.WarehouseManagementSalesOrders)
+            .getOne(data.salesOrder, { requestKey: null });
+          if (!salesOrder) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["salesOrder"],
+              message: "Sales order does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["salesOrder"],
+            message: "Sales order does not exist",
+          });
+        }
+      }
+
+      // Verify client exists if being updated
+      if (data.client) {
+        try {
+          const client = await pocketbase
+            .collection(Collections.CustomerRelationsCompanies)
+            .getOne(data.client, { requestKey: null });
+          if (!client) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["client"],
+              message: "Client does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["client"],
+            message: "Client does not exist",
+          });
+        }
+      }
+
+      // Unique constraint: returnNumber must be unique (when being updated)
+      if (data.returnNumber && id) {
+        try {
+          const existingReturn = await pocketbase
+            .collection(Collections.WarehouseManagementReturns)
+            .getFirstListItem(
+              `returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}" && id != "${id}"`,
+              { requestKey: null }
+            );
+
+          if (existingReturn) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["returnNumber"],
+              message: `Return number "${data.returnNumber}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - returnNumber is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Return number uniqueness check error:", error);
+          }
+        }
+      }
+    });

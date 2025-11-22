@@ -5,16 +5,54 @@
  */
 
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const SuppliersSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	contactPerson: z.string().optional(),
-	email: z.email().optional(),
-	phoneNumber: z.string().optional(),
-	client: z.string().optional(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  name: z.string(),
+  contactPerson: z.string().optional(),
+  email: z.email().optional(),
+  phoneNumber: z.string().optional(),
+  client: z.string().optional(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type Suppliers = z.infer<typeof SuppliersSchema>;
+
+export const CreateSuppliersSchema = (pocketbase: TypedPocketBase) =>
+  SuppliersSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Validate supplier name is not empty
+    if (!data.name || data.name.trim().length === 0) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["name"],
+        message: "Supplier name is required",
+      });
+    }
+  });
+
+export const UpdateSuppliersSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
+  SuppliersSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Validate supplier name is not empty if being updated
+      if (data.name !== undefined && data.name.trim().length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["name"],
+          message: "Supplier name cannot be empty",
+        });
+      }
+    });

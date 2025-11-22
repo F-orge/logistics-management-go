@@ -5,26 +5,139 @@
  */
 
 import { z } from "zod";
+import { Collections, TypedPocketBase } from "@/lib/pb.types";
 
 export const InventoryAdjustmentSchema = z.object({
-	id: z.string(),
-	product: z.string(),
-	user: z.string(),
-	quantityChange: z
-		.number()
-		.refine((n) => n !== 0, "Quantity change cannot be zero"),
-	reason: z.enum([
-		"cycle-count",
-		"damaged-goods",
-		"theft",
-		"expired",
-		"return-to-vendor",
-		"manual-correction",
-	]),
-	notes: z.unknown().optional(),
-	warehouse: z.string(),
-	created: z.iso.datetime().optional(),
-	updated: z.iso.datetime().optional(),
+  id: z.string(),
+  product: z.string(),
+  user: z.string(),
+  quantityChange: z
+    .number()
+    .refine((n) => n !== 0, "Quantity change cannot be zero"),
+  reason: z.enum([
+    "cycle-count",
+    "damaged-goods",
+    "theft",
+    "expired",
+    "return-to-vendor",
+    "manual-correction",
+  ]),
+  notes: z.unknown().optional(),
+  warehouse: z.string(),
+  created: z.iso.datetime().optional(),
+  updated: z.iso.datetime().optional(),
 });
 
 export type InventoryAdjustment = z.infer<typeof InventoryAdjustmentSchema>;
+
+export const CreateInventoryAdjustmentSchema = (pocketbase: TypedPocketBase) =>
+  InventoryAdjustmentSchema.omit({
+    id: true,
+    created: true,
+    updated: true,
+  }).superRefine(async (data, ctx) => {
+    // Validate reason is a mandatory field for audit trail
+    if (!data.reason) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["reason"],
+        message: "Reason is required for inventory adjustment audit trail",
+      });
+    }
+
+    // Verify product exists
+    try {
+      const product = await pocketbase
+        .collection(Collections.WarehouseManagementProducts)
+        .getOne(data.product, { requestKey: null });
+      if (!product) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["product"],
+          message: "Product does not exist",
+        });
+      }
+    } catch (error) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["product"],
+        message: "Product does not exist",
+      });
+    }
+
+    // Verify warehouse exists
+    try {
+      const warehouse = await pocketbase
+        .collection(Collections.WarehouseManagementWarehouses)
+        .getOne(data.warehouse, { requestKey: null });
+      if (!warehouse) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["warehouse"],
+          message: "Warehouse does not exist",
+        });
+      }
+    } catch (error) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["warehouse"],
+        message: "Warehouse does not exist",
+      });
+    }
+  });
+
+export const UpdateInventoryAdjustmentSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
+  InventoryAdjustmentSchema.partial()
+    .omit({
+      id: true,
+      created: true,
+      updated: true,
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify product exists if being updated
+      if (data.product) {
+        try {
+          const product = await pocketbase
+            .collection(Collections.WarehouseManagementProducts)
+            .getOne(data.product, { requestKey: null });
+          if (!product) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["product"],
+              message: "Product does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["product"],
+            message: "Product does not exist",
+          });
+        }
+      }
+
+      // Verify warehouse exists if being updated
+      if (data.warehouse) {
+        try {
+          const warehouse = await pocketbase
+            .collection(Collections.WarehouseManagementWarehouses)
+            .getOne(data.warehouse, { requestKey: null });
+          if (!warehouse) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["warehouse"],
+              message: "Warehouse does not exist",
+            });
+          }
+        } catch (error) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["warehouse"],
+            message: "Warehouse does not exist",
+          });
+        }
+      }
+    });
