@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsCasesRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const CasesSchema = z.object({
   id: z.string(),
@@ -39,6 +43,7 @@ export const CasesSchema = z.object({
   owner: z.string(),
   contact: z.string().optional(),
   description: z.unknown().optional(),
+  attachments: z.file().array().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });
@@ -74,7 +79,7 @@ export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
         ctx.addIssue({
           code: "custom",
           path: ["caseNumber"],
-          message: `Case number "${data.caseNumber}" is already in use`,
+          message: `Case number "${data.caseNumber}" is already in use. please reload the page to get the latest case number`,
         });
       }
     } catch (error) {
@@ -94,22 +99,80 @@ export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateCasesSchema = (pocketbase: TypedPocketBase, id?: string) =>
+export const UpdateCasesSchema = (
+  pocketbase: TypedPocketBase,
+  record?: CustomerRelationsCasesRecord
+) =>
   CasesSchema.partial()
     .omit({
       id: true,
       created: true,
       updated: true,
+      attachments: true,
     })
     .superRefine(async (data, ctx) => {
-      // Prevent modification of closed or resolved cases - they are immutable
-      if (data.status === "closed" || data.status === "resolved") {
+      // Get current case status from existing record
+      const currentStatus = record?.status;
+      const newStatus = data.status;
+
+      // Prevent modification if case is already in a terminal state
+      if (currentStatus === "closed" || currentStatus === "cancelled") {
         ctx.addIssue({
           code: "custom",
           path: ["status"],
-          message: "Cases in 'closed' or 'resolved' status cannot be modified",
+          message: `Cases in '${currentStatus}' status cannot be modified`,
         });
         return;
+      }
+
+      // Validate status transitions using state machine rules
+      if (newStatus && currentStatus) {
+        const validTransitions: Record<string, string[]> = {
+          new: [
+            "in-progress",
+            "waiting-for-customer",
+            "waiting-for-internal",
+            "escalated",
+            "cancelled",
+          ],
+          "in-progress": [
+            "waiting-for-customer",
+            "waiting-for-internal",
+            "escalated",
+            "resolved",
+            "cancelled",
+          ],
+          "waiting-for-customer": [
+            "in-progress",
+            "escalated",
+            "resolved",
+            "cancelled",
+          ],
+          "waiting-for-internal": [
+            "in-progress",
+            "escalated",
+            "resolved",
+            "cancelled",
+          ],
+          escalated: [
+            "in-progress",
+            "waiting-for-customer",
+            "waiting-for-internal",
+            "resolved",
+            "cancelled",
+          ],
+          resolved: ["closed"],
+        };
+
+        const allowedTransitions = validTransitions[currentStatus] || [];
+
+        if (!allowedTransitions.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
       }
 
       // Validate case number is not empty if being updated
@@ -137,7 +200,7 @@ export const UpdateCasesSchema = (pocketbase: TypedPocketBase, id?: string) =>
             );
 
           // If found, check if it's a different record (not the one being updated)
-          if (existingCase && existingCase.id !== id) {
+          if (existingCase && existingCase.id !== record?.id) {
             ctx.addIssue({
               code: "custom",
               path: ["caseNumber"],
@@ -151,8 +214,4 @@ export const UpdateCasesSchema = (pocketbase: TypedPocketBase, id?: string) =>
           }
         }
       }
-
-      // Note: In a real implementation, we would check the current record's status
-      // and prevent updates if it's already in a terminal state (closed/resolved)
-      // This would require a database lookup
     });

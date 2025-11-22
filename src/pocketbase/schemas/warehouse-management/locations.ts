@@ -5,7 +5,11 @@
  */
 
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementLocationsRecord,
+} from "@/lib/pb.types";
 
 export const LocationsSchema = z.object({
   id: z.string(),
@@ -127,7 +131,7 @@ export const CreateLocationsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateLocationsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementLocationsRecord
 ) =>
   LocationsSchema.partial()
     .omit({

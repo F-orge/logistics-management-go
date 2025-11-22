@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsLeadsRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const LeadsSchema = z.object({
   id: z.string(),
@@ -76,7 +80,10 @@ export const CreateLeadsSchema = (pocketbase: TypedPocketBase) =>
       }
     });
 
-export const UpdateLeadsSchema = (pocketbase: TypedPocketBase, id?: string) =>
+export const UpdateLeadsSchema = (
+  pocketbase: TypedPocketBase,
+  record?: CustomerRelationsLeadsRecord
+) =>
   LeadsSchema.partial()
     .omit({
       id: true,
@@ -93,15 +100,57 @@ export const UpdateLeadsSchema = (pocketbase: TypedPocketBase, id?: string) =>
       }
     )
     .superRefine(async (data, ctx) => {
-      // Terminal/immutable state - converted leads cannot be modified
-      // Valid state machine: new -> contacted -> qualified | unqualified -> converted (terminal)
-      if (data.convertedAt !== undefined || data.status === "converted") {
+      // Get current lead status from existing record
+      const currentStatus = record?.status;
+      const newStatus = data.status;
+
+      // Prevent modification if lead is already in terminal state (converted)
+      if (currentStatus === "converted" || record?.convertedAt) {
         ctx.addIssue({
           code: "custom",
           path: ["status"],
           message: "Converted leads are immutable and cannot be modified",
         });
-        return; // Prevent further validation on terminal states
+        return;
+      }
+
+      // Prevent setting converted status or convertedAt without both
+      if (data.status === "converted" || data.convertedAt !== undefined) {
+        if (!data.convertedAt && !record?.convertedAt) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["convertedAt"],
+            message: "convertedAt must be set when converting a lead",
+          });
+        }
+        if (!data.status && record?.status !== "converted") {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: "Status must be set to 'converted' when converting a lead",
+          });
+        }
+      }
+
+      // Validate status transitions using state machine rules
+      if (newStatus && currentStatus) {
+        const validTransitions: Record<string, string[]> = {
+          new: ["contacted", "qualified", "unqualified"],
+          contacted: ["qualified", "unqualified", "new"],
+          qualified: ["converted", "new", "contacted"],
+          unqualified: ["new", "contacted"],
+          converted: [], // Terminal state
+        };
+
+        const allowedTransitions = validTransitions[currentStatus] || [];
+
+        if (!allowedTransitions.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
       }
 
       // Unique constraint: Email must be unique if being updated
@@ -114,7 +163,7 @@ export const UpdateLeadsSchema = (pocketbase: TypedPocketBase, id?: string) =>
             });
 
           // If found, check if it's a different record (not the one being updated)
-          if (existingLead && existingLead.id !== id) {
+          if (existingLead && existingLead.id !== record?.id) {
             ctx.addIssue({
               code: "custom",
               path: ["email"],

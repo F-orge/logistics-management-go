@@ -4,8 +4,13 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementInboundShipmentsRecord,
+} from "@/lib/pb.types";
 
 export const InboundShipmentsSchema = z.object({
   id: z.string(),
@@ -82,7 +87,7 @@ export const CreateInboundShipmentsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateInboundShipmentsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementInboundShipmentsRecord
 ) =>
   InboundShipmentsSchema.partial()
     .omit({
@@ -132,6 +137,43 @@ export const UpdateInboundShipmentsSchema = (
             path: ["client"],
             message: "Client does not exist",
           });
+        }
+      }
+
+      // Validate status transitions (State Machine)
+      if (data.status && record?.id) {
+        try {
+          const currentShipment = await pocketbase
+            .collection(Collections.WarehouseManagementInboundShipments)
+            .getOne(record.id, { requestKey: null });
+
+          const currentStatus = currentShipment.status;
+          const newStatus = data.status;
+
+          // Define valid transitions: pending -> arrived -> processing -> completed
+          // Can be cancelled at any stage
+          const validTransitions: Record<string, string[]> = {
+            pending: ["arrived", "cancelled"],
+            arrived: ["processing", "cancelled"],
+            processing: ["completed", "cancelled"],
+            completed: [], // Terminal state
+            cancelled: [], // Terminal state
+          };
+
+          if (!validTransitions[currentStatus]?.includes(newStatus)) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["status"],
+              message: `Cannot transition inbound shipment status from '${currentStatus}' to '${newStatus}'`,
+            });
+          }
+        } catch (error) {
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn(
+              "Inbound shipment status transition check error:",
+              error
+            );
+          }
         }
       }
     });

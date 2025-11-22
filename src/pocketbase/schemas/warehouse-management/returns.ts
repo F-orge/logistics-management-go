@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementReturnsRecord,
+} from "@/lib/pb.types";
 
 export const ReturnsSchema = z.object({
   id: z.string(),
@@ -123,7 +127,10 @@ export const CreateReturnsSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateReturnsSchema = (pocketbase: TypedPocketBase, id?: string) =>
+export const UpdateReturnsSchema = (
+  pocketbase: TypedPocketBase,
+  record?: WarehouseManagementReturnsRecord
+) =>
   ReturnsSchema.partial()
     .omit({
       id: true,
@@ -176,12 +183,12 @@ export const UpdateReturnsSchema = (pocketbase: TypedPocketBase, id?: string) =>
       }
 
       // Unique constraint: returnNumber must be unique (when being updated)
-      if (data.returnNumber && id) {
+      if (data.returnNumber && record?.id) {
         try {
           const existingReturn = await pocketbase
             .collection(Collections.WarehouseManagementReturns)
             .getFirstListItem(
-              `returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}" && id != "${id}"`,
+              `returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}" && id != "${record.id}"`,
               { requestKey: null }
             );
 
@@ -196,6 +203,40 @@ export const UpdateReturnsSchema = (pocketbase: TypedPocketBase, id?: string) =>
           // Record not found is expected - returnNumber is unique
           if (!(error instanceof ClientResponseError) || error.status !== 404) {
             console.warn("Return number uniqueness check error:", error);
+          }
+        }
+      }
+
+      // Validate status transitions (State Machine)
+      if (data.status && record?.id) {
+        try {
+          const currentReturn = await pocketbase
+            .collection(Collections.WarehouseManagementReturns)
+            .getOne(record.id, { requestKey: null });
+
+          const currentStatus = currentReturn.status;
+          const newStatus = data.status;
+
+          // Define valid transitions: requested -> approved -> received -> processed
+          // rejected is a terminal state
+          const validTransitions: Record<string, string[]> = {
+            requested: ["approved", "rejected"],
+            approved: ["received", "rejected"],
+            rejected: [], // Terminal state
+            received: ["processed"],
+            processed: [], // Terminal state
+          };
+
+          if (!validTransitions[currentStatus]?.includes(newStatus)) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["status"],
+              message: `Cannot transition return status from '${currentStatus}' to '${newStatus}'`,
+            });
+          }
+        } catch (error) {
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Return status transition check error:", error);
           }
         }
       }

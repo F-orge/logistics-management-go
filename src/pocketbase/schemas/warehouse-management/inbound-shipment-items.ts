@@ -5,7 +5,11 @@
  */
 
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementInboundShipmentItemsRecord,
+} from "@/lib/pb.types";
 
 export const InboundShipmentItemsSchema = z.object({
   id: z.string(),
@@ -88,7 +92,7 @@ export const CreateInboundShipmentItemsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateInboundShipmentItemsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementInboundShipmentItemsRecord
 ) =>
   InboundShipmentItemsSchema.partial()
     .omit({

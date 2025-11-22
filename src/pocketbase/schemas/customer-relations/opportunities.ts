@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsOpportunitiesRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const OpportunitiesSchema = z.object({
   id: z.string(),
@@ -80,7 +84,10 @@ export const CreateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateOpportunitiesSchema = (
+  pocketbase: TypedPocketBase,
+  record?: CustomerRelationsOpportunitiesRecord
+) =>
   OpportunitiesSchema.partial()
     .omit({
       id: true,
@@ -89,16 +96,42 @@ export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       attachments: true,
     })
     .superRefine(async (data, ctx) => {
-      // Stage transitions - closed stages are terminal and immutable
-      const terminalStages = ["closed-won", "closed-lost"] as const;
-      if (data.stage && terminalStages.includes(data.stage as never)) {
+      // Get current opportunity stage from existing record
+      const currentStage = record?.stage;
+      const newStage = data.stage;
+
+      // Prevent modification if opportunity is already in a terminal state
+      if (currentStage === "closed-won" || currentStage === "closed-lost") {
         ctx.addIssue({
           code: "custom",
           path: ["stage"],
-          message:
-            "Opportunities in 'closed-won' or 'closed-lost' status cannot be modified",
+          message: `Opportunities in '${currentStage}' stage cannot be modified`,
         });
-        return; // Prevent further validation if in terminal state
+        return;
+      }
+
+      // Validate stage transitions using state machine rules
+      if (newStage && currentStage) {
+        const validTransitions: Record<string, string[]> = {
+          prospecting: ["qualification", "closed-lost"],
+          qualification: ["need-analysis", "closed-lost", "prospecting"],
+          "need-analysis": ["demo", "closed-lost", "qualification"],
+          demo: ["proposal", "closed-lost", "need-analysis"],
+          proposal: ["negotiation", "closed-lost", "demo"],
+          negotiation: ["closed-won", "closed-lost", "proposal"],
+          "closed-won": [], // Terminal state
+          "closed-lost": [], // Terminal state
+        };
+
+        const allowedTransitions = validTransitions[currentStage] || [];
+
+        if (!allowedTransitions.includes(newStage)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["stage"],
+            message: `Cannot transition from '${currentStage}' to '${newStage}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
       }
 
       // If name is being updated, ensure it's not empty
@@ -120,7 +153,11 @@ export const UpdateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       }
 
       // Validate lost reason is provided when marking as closed-lost
-      if (data.stage === "closed-lost" && !data.lostReason) {
+      if (
+        newStage === "closed-lost" &&
+        !data.lostReason &&
+        !record?.lostReason
+      ) {
         ctx.addIssue({
           code: "custom",
           path: ["lostReason"],

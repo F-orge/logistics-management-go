@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TransportManagementCarriersRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const CarriersSchema = z.object({
   id: z.string(),
@@ -66,7 +70,7 @@ export const CreateCarriersSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateCarriersSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: TransportManagementCarriersRecord
 ) =>
   CarriersSchema.partial()
     .omit({
@@ -103,7 +107,7 @@ export const UpdateCarriersSchema = (
             });
 
           // If found, check if it's a different record (not the one being updated)
-          if (existingCarrier && existingCarrier.id !== id) {
+          if (existingCarrier && existingCarrier.id !== record?.id) {
             ctx.addIssue({
               code: "custom",
               path: ["name"],

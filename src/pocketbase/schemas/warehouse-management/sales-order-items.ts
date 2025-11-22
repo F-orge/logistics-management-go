@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementSalesOrderItemsRecord,
+} from "@/lib/pb.types";
 
 export const SalesOrderItemsSchema = z.object({
   id: z.string(),
@@ -106,7 +110,7 @@ export const CreateSalesOrderItemsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateSalesOrderItemsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementSalesOrderItemsRecord
 ) =>
   SalesOrderItemsSchema.partial()
     .omit({
@@ -160,11 +164,11 @@ export const UpdateSalesOrderItemsSchema = (
       }
 
       // Unique constraint: salesOrder + product combination must be unique (when being updated)
-      if ((data.salesOrder || data.product) && id) {
+      if ((data.salesOrder || data.product) && record?.id) {
         try {
           const currentItem = await pocketbase
             .collection(Collections.WarehouseManagementSalesOrderItems)
-            .getOne(id, { requestKey: null });
+            .getOne(record?.id, { requestKey: null });
 
           const salesOrderToCheck = data.salesOrder || currentItem.salesOrder;
           const productToCheck = data.product || currentItem.product;
@@ -172,7 +176,7 @@ export const UpdateSalesOrderItemsSchema = (
           const existingItem = await pocketbase
             .collection(Collections.WarehouseManagementSalesOrderItems)
             .getFirstListItem(
-              `salesOrder = "${salesOrderToCheck}" && product = "${productToCheck}" && id != "${id}"`,
+              `salesOrder = "${salesOrderToCheck}" && product = "${productToCheck}" && id != "${record?.id}"`,
               { requestKey: null }
             );
 

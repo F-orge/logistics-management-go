@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementOutboundShipmentItemsRecord,
+} from "@/lib/pb.types";
 
 export const OutboundShipmentItemsSchema = z.object({
   id: z.string(),
@@ -145,7 +149,7 @@ export const CreateOutboundShipmentItemsSchema = (
 
 export const UpdateOutboundShipmentItemsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementOutboundShipmentItemsRecord
 ) =>
   OutboundShipmentItemsSchema.partial()
     .omit({
@@ -248,12 +252,12 @@ export const UpdateOutboundShipmentItemsSchema = (
           data.salesOrderItem ||
           data.product ||
           data.batch) &&
-        id
+        record?.id
       ) {
         try {
           const currentItem = await pocketbase
             .collection(Collections.WarehouseManagementOutboundShipmentItems)
-            .getOne(id, { requestKey: null });
+            .getOne(record.id, { requestKey: null });
 
           const outboundShipmentToCheck =
             data.outboundShipment || currentItem.outboundShipment;
@@ -265,7 +269,7 @@ export const UpdateOutboundShipmentItemsSchema = (
           const existingItem = await pocketbase
             .collection(Collections.WarehouseManagementOutboundShipmentItems)
             .getFirstListItem(
-              `outboundShipment = "${outboundShipmentToCheck}" && salesOrderItem = "${salesOrderItemToCheck}" && product = "${productToCheck}" && batch = "${batchToCheck}" && id != "${id}"`,
+              `outboundShipment = "${outboundShipmentToCheck}" && salesOrderItem = "${salesOrderItemToCheck}" && product = "${productToCheck}" && batch = "${batchToCheck}" && id != "${record.id}"`,
               { requestKey: null }
             );
 

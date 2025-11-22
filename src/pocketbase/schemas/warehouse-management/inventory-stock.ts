@@ -4,8 +4,13 @@
  * DO NOT EDIT MANUALLY
  */
 
+import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementInventoryStockRecord,
+} from "@/lib/pb.types";
 
 export const InventoryStockSchema = z.object({
   id: z.string(),
@@ -101,11 +106,53 @@ export const CreateInventoryStockSchema = (pocketbase: TypedPocketBase) =>
         });
       }
     }
+
+    // Validate status transitions (State Machine)
+    if (data.status && record?.id) {
+      try {
+        const currentStock = await pocketbase
+          .collection(Collections.WarehouseManagementInventoryStock)
+          .getOne(record.id, { requestKey: null });
+
+        const currentStatus = currentStock.status;
+        const newStatus = data.status;
+
+        // Define valid transitions for inventory stock statuses
+        const validTransitions: Record<string, string[]> = {
+          available: [
+            "allocated",
+            "damaged",
+            "quarantine",
+            "hold",
+            "shipped",
+            "expired",
+          ],
+          allocated: ["available", "shipped", "damaged", "expired"],
+          damaged: ["available", "hold"],
+          quarantine: ["available", "hold", "damaged"],
+          hold: ["available", "damaged"],
+          shipped: ["available"], // Can be returned
+          expired: ["hold"], // Expired items go to hold
+        };
+
+        if (!validTransitions[currentStatus]?.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition inventory stock status from '${currentStatus}' to '${newStatus}'`,
+          });
+        }
+      } catch (error) {
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Inventory stock status transition check error:", error);
+        }
+      }
+    }
   });
 
 export const UpdateInventoryStockSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementInventoryStockRecord
 ) =>
   InventoryStockSchema.partial()
     .omit({

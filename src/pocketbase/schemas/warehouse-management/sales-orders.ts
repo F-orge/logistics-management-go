@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementSalesOrdersRecord,
+} from "@/lib/pb.types";
 
 export const SalesOrdersSchema = z.object({
   id: z.string(),
@@ -90,7 +94,7 @@ export const CreateSalesOrdersSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateSalesOrdersSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementSalesOrdersRecord
 ) =>
   SalesOrdersSchema.partial()
     .omit({
@@ -122,11 +126,11 @@ export const UpdateSalesOrdersSchema = (
       }
 
       // Validate status transitions (State Machine)
-      if (data.status && id) {
+      if (data.status && record?.id) {
         try {
           const currentOrder = await pocketbase
             .collection(Collections.WarehouseManagementSalesOrders)
-            .getOne(id, { requestKey: null });
+            .getOne(record.id, { requestKey: null });
 
           const currentStatus = currentOrder.status;
           const newStatus = data.status;
@@ -156,12 +160,12 @@ export const UpdateSalesOrdersSchema = (
       }
 
       // Unique constraint: orderNumber must be unique (when being updated)
-      if (data.orderNumber && id) {
+      if (data.orderNumber && record?.id) {
         try {
           const existingOrder = await pocketbase
             .collection(Collections.WarehouseManagementSalesOrders)
             .getFirstListItem(
-              `orderNumber = "${data.orderNumber.replace(/"/g, '\\"')}" && id != "${id}"`,
+              `orderNumber = "${data.orderNumber.replace(/"/g, '\\"')}" && id != "${record.id}"`,
               { requestKey: null }
             );
 

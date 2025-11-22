@@ -49,8 +49,10 @@ const Field = ({
           {label}{" "}
           {tooltip && (
             <Tooltip {...tooltipProps}>
-              {tooltipIcon?.({ size: 14 }) || <Info />}
-              {tooltip}
+              <TooltipTrigger>
+                {tooltipIcon?.({ size: 14 }) || <Info size={14} />}
+              </TooltipTrigger>
+              <TooltipContent>{tooltip}</TooltipContent>
             </Tooltip>
           )}
         </FieldLabel>
@@ -76,7 +78,14 @@ const Field = ({
           )}
         </FieldContent>
       ) : (
-        props.children
+        <>
+          {props.children}
+          {description && (
+            <FieldDescription {...descriptionProps}>
+              {description}
+            </FieldDescription>
+          )}
+        </>
       )}
       <FieldError errors={field.state.meta.errors} />
     </BaseField>

@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementProductsRecord,
+} from "@/lib/pb.types";
 
 export const ProductsSchema = z.object({
   id: z.string(),
@@ -150,7 +154,7 @@ export const CreateProductsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateProductsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementProductsRecord
 ) =>
   ProductsSchema.partial()
     .omit({
@@ -181,12 +185,43 @@ export const UpdateProductsSchema = (
         }
       }
 
-      // Unique constraint: sku + barcode combination must be unique (when being updated)
-      if ((data.sku || data.barcode) && id) {
+      // Validate status transitions (State Machine)
+      if (data.status && record?.id) {
         try {
           const currentProduct = await pocketbase
             .collection(Collections.WarehouseManagementProducts)
-            .getOne(id, { requestKey: null });
+            .getOne(record.id, { requestKey: null });
+
+          const currentStatus = currentProduct.status;
+          const newStatus = data.status;
+
+          // Define valid transitions: active -> discontinued -> obsolete
+          const validTransitions: Record<string, string[]> = {
+            active: ["discontinued"],
+            discontinued: ["obsolete"],
+            obsolete: [], // Terminal state
+          };
+
+          if (!validTransitions[currentStatus]?.includes(newStatus)) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["status"],
+              message: `Cannot transition product status from '${currentStatus}' to '${newStatus}'`,
+            });
+          }
+        } catch (error) {
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Product status transition check error:", error);
+          }
+        }
+      }
+
+      // Unique constraint: sku + barcode combination must be unique (when being updated)
+      if ((data.sku || data.barcode) && record?.id) {
+        try {
+          const currentProduct = await pocketbase
+            .collection(Collections.WarehouseManagementProducts)
+            .getOne(record?.id, { requestKey: null });
 
           const skuToCheck = data.sku || currentProduct.sku;
           const barcodeToCheck =
@@ -195,7 +230,7 @@ export const UpdateProductsSchema = (
           const existingProduct = await pocketbase
             .collection(Collections.WarehouseManagementProducts)
             .getFirstListItem(
-              `sku = "${skuToCheck.replace(/"/g, '\\"')}" && barcode = "${(barcodeToCheck || "").replace(/"/g, '\\"')}" && id != "${id}"`
+              `sku = "${skuToCheck.replace(/"/g, '\\"')}" && barcode = "${(barcodeToCheck || "").replace(/"/g, '\\"')}" && id != "${record?.id}"`
             );
 
           if (existingProduct) {

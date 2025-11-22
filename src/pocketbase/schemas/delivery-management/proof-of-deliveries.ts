@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  DeliveryManagementProofOfDeliveriesRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
 export const ProofOfDeliveriesSchema = z.object({
@@ -50,7 +54,7 @@ export const CreateProofOfDeliveriesSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateProofOfDeliveriesSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: DeliveryManagementProofOfDeliveriesRecord
 ) =>
   ProofOfDeliveriesSchema.partial()
     .omit({

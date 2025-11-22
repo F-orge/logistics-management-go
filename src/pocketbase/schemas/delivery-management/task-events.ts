@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  DeliveryManagementTaskEventsRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
 export const TaskEventsSchema = z.object({
@@ -62,7 +66,7 @@ export const CreateTaskEventsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateTaskEventsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: DeliveryManagementTaskEventsRecord
 ) =>
   TaskEventsSchema.partial()
     .omit({

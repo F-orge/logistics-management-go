@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TransportManagementDriversRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 // License number format: 1-2-2-6 format (e.g., N02-18-001234)
 const LICENSE_NUMBER_REGEX = /^[A-Z]{1}[0-9]{2}[\s-]?[0-9]{2}[\s-]?[0-9]{6}$/;
@@ -86,7 +90,10 @@ export const CreateDriversSchema = (pocketbase: TypedPocketBase) =>
       }
     });
 
-export const UpdateDriversSchema = (pocketbase: TypedPocketBase, id?: string) =>
+export const UpdateDriversSchema = (
+  pocketbase: TypedPocketBase,
+  record?: TransportManagementDriversRecord
+) =>
   DriversSchema.partial()
     .omit({
       id: true,
@@ -94,6 +101,29 @@ export const UpdateDriversSchema = (pocketbase: TypedPocketBase, id?: string) =>
       updated: true,
     })
     .superRefine(async (data, ctx) => {
+      // Get current driver status from existing record
+      const currentStatus = record?.status;
+      const newStatus = data.status;
+
+      // Validate status transitions using state machine rules
+      if (newStatus && currentStatus) {
+        const validTransitions: Record<string, string[]> = {
+          active: ["inactive", "on-leave"],
+          inactive: ["active"],
+          "on-leave": ["active", "inactive"],
+        };
+
+        const allowedTransitions = validTransitions[currentStatus] || [];
+
+        if (!allowedTransitions.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
+      }
+
       // Validate license number is not empty if being updated
       if (
         data.licenseNumber !== undefined &&
@@ -118,7 +148,7 @@ export const UpdateDriversSchema = (pocketbase: TypedPocketBase, id?: string) =>
             );
 
           // If found, check if it's a different record (not the one being updated)
-          if (existingDriver && existingDriver.id !== id) {
+          if (existingDriver && existingDriver.id !== record?.id) {
             ctx.addIssue({
               code: "custom",
               path: ["licenseNumber"],

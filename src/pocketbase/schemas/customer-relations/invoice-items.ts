@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsInvoiceItemsRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const InvoiceItemsSchema = z.object({
   id: z.string(),
@@ -93,7 +97,7 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateInvoiceItemsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: CustomerRelationsInvoiceItemsRecord
 ) =>
   InvoiceItemsSchema.partial()
     .omit({
@@ -132,7 +136,7 @@ export const UpdateInvoiceItemsSchema = (
               );
 
             // If found, check if it's a different record (not the one being updated)
-            if (existingInvoiceItem && existingInvoiceItem.id !== id) {
+            if (existingInvoiceItem && existingInvoiceItem.id !== record?.id) {
               ctx.addIssue({
                 code: "custom",
                 path: ["product"],

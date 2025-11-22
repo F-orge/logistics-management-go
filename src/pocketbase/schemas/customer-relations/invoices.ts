@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsInvoicesRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const InvoicesSchema = z.object({
   id: z.string(),
@@ -100,7 +104,7 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateInvoicesSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: CustomerRelationsInvoicesRecord
 ) =>
   InvoicesSchema.partial()
     .omit({
@@ -110,16 +114,39 @@ export const UpdateInvoicesSchema = (
       attachments: true,
     })
     .superRefine(async (data, ctx) => {
-      // Terminal/immutable states - prevent any modification
-      // Valid state machine: draft -> sent -> paid | overdue (terminal), cancelled (terminal)
-      const terminalStates = ["paid", "cancelled"];
-      if (data.status && terminalStates.includes(data.status)) {
+      // Get current invoice status from existing record
+      const currentStatus = record?.status;
+      const newStatus = data.status;
+
+      // Prevent modification if invoice is already in a terminal state
+      if (currentStatus === "paid" || currentStatus === "cancelled") {
         ctx.addIssue({
           code: "custom",
           path: ["status"],
-          message: "Paid and cancelled invoices cannot be modified",
+          message: `Invoices in '${currentStatus}' status cannot be modified`,
         });
-        return; // Prevent further validation on terminal states
+        return;
+      }
+
+      // Validate status transitions using state machine rules
+      if (newStatus && currentStatus) {
+        const validTransitions: Record<string, string[]> = {
+          draft: ["sent", "cancelled"],
+          sent: ["paid", "overdue", "cancelled"],
+          overdue: ["paid", "cancelled"],
+          paid: [], // Terminal state
+          cancelled: [], // Terminal state
+        };
+
+        const allowedTransitions = validTransitions[currentStatus] || [];
+
+        if (!allowedTransitions.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
       }
 
       // Validate invoice number is not empty if being updated
@@ -146,7 +173,7 @@ export const UpdateInvoicesSchema = (
             );
 
           // If found, check if it's a different record (not the one being updated)
-          if (existingInvoice && existingInvoice.id !== id) {
+          if (existingInvoice && existingInvoice.id !== record?.id) {
             ctx.addIssue({
               code: "custom",
               path: ["invoiceNumber"],

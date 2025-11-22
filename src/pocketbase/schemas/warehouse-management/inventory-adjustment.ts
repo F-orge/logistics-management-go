@@ -5,7 +5,11 @@
  */
 
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementInventoryAdjustmentRecord,
+} from "@/lib/pb.types";
 
 export const InventoryAdjustmentSchema = z.object({
   id: z.string(),
@@ -88,7 +92,7 @@ export const CreateInventoryAdjustmentSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateInventoryAdjustmentSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementInventoryAdjustmentRecord
 ) =>
   InventoryAdjustmentSchema.partial()
     .omit({

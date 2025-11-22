@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  DeliveryManagementDriverLocationRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
 export const DriverLocationSchema = z.object({
@@ -49,7 +53,7 @@ export const CreateDriverLocationSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateDriverLocationSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: DeliveryManagementDriverLocationRecord
 ) =>
   DriverLocationSchema.partial()
     .omit({

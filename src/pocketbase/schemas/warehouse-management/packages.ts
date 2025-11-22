@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementPackagesRecord,
+} from "@/lib/pb.types";
 
 export const PackagesSchema = z.object({
   id: z.string(),
@@ -147,7 +151,7 @@ export const CreatePackagesSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdatePackagesSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementPackagesRecord
 ) =>
   PackagesSchema.partial()
     .omit({
@@ -201,12 +205,12 @@ export const UpdatePackagesSchema = (
       }
 
       // Unique constraint: packageNumber must be unique (when being updated)
-      if (data.packageNumber && id) {
+      if (data.packageNumber && record?.id) {
         try {
           const existingPackage = await pocketbase
             .collection(Collections.WarehouseManagementPackages)
             .getFirstListItem(
-              `packageNumber = "${data.packageNumber.replace(/"/g, '\\"')}" && id != "${id}"`,
+              `packageNumber = "${data.packageNumber.replace(/"/g, '\\"')}" && id != "${record?.id}"`,
               { requestKey: null }
             );
 

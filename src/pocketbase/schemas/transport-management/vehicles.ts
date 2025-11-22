@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TransportManagementVehiclesRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 // Registration number format: 4 letters + dash + 4 digits (e.g., ABCD-1234)
 const REGISTRATION_NUMBER_REGEX = /^[A-Z]{4}[\s-]?[0-9]{4}$/;
@@ -90,7 +94,7 @@ export const CreateVehiclesSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateVehiclesSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: TransportManagementVehiclesRecord
 ) =>
   VehiclesSchema.partial()
     .omit({
@@ -99,6 +103,30 @@ export const UpdateVehiclesSchema = (
       updated: true,
     })
     .superRefine(async (data, ctx) => {
+      // Get current vehicle status from existing record
+      const currentStatus = record?.status;
+      const newStatus = data.status;
+
+      // Validate status transitions using state machine rules
+      if (newStatus && currentStatus) {
+        const validTransitions: Record<string, string[]> = {
+          available: ["in-maintenance", "on-trip", "out-of-service"],
+          "in-maintenance": ["available", "out-of-service"],
+          "on-trip": ["available"],
+          "out-of-service": ["in-maintenance", "available"],
+        };
+
+        const allowedTransitions = validTransitions[currentStatus] || [];
+
+        if (!allowedTransitions.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
+      }
+
       // Validate registration number is not empty if being updated
       if (
         data.registrationNumber !== undefined &&
@@ -123,7 +151,7 @@ export const UpdateVehiclesSchema = (
             );
 
           // If found, check if it's a different record (not the one being updated)
-          if (existingVehicle && existingVehicle.id !== id) {
+          if (existingVehicle && existingVehicle.id !== record?.id) {
             ctx.addIssue({
               code: "custom",
               path: ["registrationNumber"],

@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  TypedPocketBase,
+  WarehouseManagementReturnItemsRecord,
+} from "@/lib/pb.types";
 
 export const ReturnItemsSchema = z.object({
   id: z.string(),
@@ -110,7 +114,7 @@ export const CreateReturnItemsSchema = (pocketbase: TypedPocketBase) =>
 
 export const UpdateReturnItemsSchema = (
   pocketbase: TypedPocketBase,
-  id?: string
+  record?: WarehouseManagementReturnItemsRecord
 ) =>
   ReturnItemsSchema.partial()
     .omit({
@@ -164,11 +168,11 @@ export const UpdateReturnItemsSchema = (
       }
 
       // Unique constraint: return + product combination must be unique (when being updated)
-      if ((data.return || data.product) && id) {
+      if ((data.return || data.product) && record?.id) {
         try {
           const currentItem = await pocketbase
             .collection(Collections.WarehouseManagementReturnItems)
-            .getOne(id, { requestKey: null });
+            .getOne(record?.id, { requestKey: null });
 
           const returnToCheck = data.return || currentItem.return;
           const productToCheck = data.product || currentItem.product;
@@ -176,7 +180,7 @@ export const UpdateReturnItemsSchema = (
           const existingItem = await pocketbase
             .collection(Collections.WarehouseManagementReturnItems)
             .getFirstListItem(
-              `return = "${returnToCheck}" && product = "${productToCheck}" && id != "${id}"`,
+              `return = "${returnToCheck}" && product = "${productToCheck}" && id != "${record?.id}"`,
               { requestKey: null }
             );
 

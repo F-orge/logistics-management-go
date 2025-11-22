@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  DeliveryManagementTasksRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const TasksSchema = z.object({
   id: z.string(),
@@ -119,7 +123,10 @@ export const CreateTasksSchema = (pocketbase: TypedPocketBase) =>
       }
     });
 
-export const UpdateTasksSchema = (pocketbase: TypedPocketBase, id?: string) =>
+export const UpdateTasksSchema = (
+  pocketbase: TypedPocketBase,
+  record?: DeliveryManagementTasksRecord
+) =>
   TasksSchema.partial()
     .omit({
       id: true,
@@ -154,6 +161,33 @@ export const UpdateTasksSchema = (pocketbase: TypedPocketBase, id?: string) =>
       }
     )
     .superRefine(async (data, ctx) => {
+      // Get current task status from existing record
+      const currentStatus = record?.status;
+      const newStatus = data.status;
+
+      // Validate status transitions using state machine rules
+      if (newStatus && currentStatus) {
+        const validTransitions: Record<string, string[]> = {
+          pending: ["assigned", "cancelled"],
+          assigned: ["out-for-delivery", "cancelled"],
+          "out-for-delivery": ["delivered", "failed", "rescheduled"],
+          delivered: [], // Terminal state
+          failed: ["rescheduled", "cancelled"],
+          cancelled: [], // Terminal state
+          rescheduled: ["assigned", "cancelled"],
+        };
+
+        const allowedTransitions = validTransitions[currentStatus] || [];
+
+        if (!allowedTransitions.includes(newStatus)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["status"],
+            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+          });
+        }
+      }
+
       // Validate that package reference exists if being updated
       if (data.package && data.package.trim().length > 0) {
         try {

@@ -6,7 +6,11 @@
 
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
+import {
+  Collections,
+  CustomerRelationsInteractionsRecord,
+  TypedPocketBase,
+} from "@/lib/pb.types";
 
 export const InteractionsSchema = z.object({
   id: z.string(),
@@ -53,7 +57,10 @@ export const CreateInteractionsSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateInteractionsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateInteractionsSchema = (
+  pocketbase: TypedPocketBase,
+  record?: CustomerRelationsInteractionsRecord
+) =>
   InteractionsSchema.partial()
     .omit({
       id: true,
