@@ -111,7 +111,10 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateOpportunityProductsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   OpportunityProductsSchema.partial()
     .omit({
       id: true,
@@ -140,8 +143,6 @@ export const UpdateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
 
       // Composite unique constraint: (opportunity, product) must be unique if either is being changed
       if (data.opportunity || data.product) {
-        // Note: In a real implementation, we would have the current record's IDs
-        // to exclude from the uniqueness check
         try {
           if (data.opportunity && data.product) {
             const existingOpportunityProduct = await pocketbase
@@ -151,7 +152,11 @@ export const UpdateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
                 { requestKey: null }
               );
 
-            if (existingOpportunityProduct) {
+            // If found, check if it's a different record (not the one being updated)
+            if (
+              existingOpportunityProduct &&
+              existingOpportunityProduct.id !== id
+            ) {
               ctx.addIssue({
                 code: "custom",
                 path: ["product"],

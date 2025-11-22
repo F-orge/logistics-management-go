@@ -29,7 +29,32 @@ export const CreateCampaignsSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine((data, ctx) => {
+  }).superRefine(async (data, ctx) => {
+    // Unique constraint: Campaign name must be unique
+    if (data.name) {
+      try {
+        const existingCampaign = await pocketbase
+          .collection(Collections.CustomerRelationsCampaigns)
+          .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+            requestKey: null,
+          });
+
+        if (existingCampaign) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["name"],
+            message: `Campaign name "${data.name}" is already in use`,
+          });
+          return; // Prevent further validation
+        }
+      } catch (error) {
+        // Record not found is expected - name is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Campaign name uniqueness check error:", error);
+        }
+      }
+    }
+
     // Validate that start_date <= end_date if both are provided
     if (data.startDate && data.endDate && data.startDate > data.endDate) {
       ctx.addIssue({
@@ -40,7 +65,10 @@ export const CreateCampaignsSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateCampaignsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateCampaignsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   CampaignsSchema.partial()
     .omit({
       id: true,
@@ -48,7 +76,7 @@ export const UpdateCampaignsSchema = (pocketbase: TypedPocketBase) =>
       updated: true,
       attachments: true,
     })
-    .superRefine((data, ctx) => {
+    .superRefine(async (data, ctx) => {
       // Validate that start_date <= end_date if both are provided
       if (data.startDate && data.endDate && data.startDate > data.endDate) {
         ctx.addIssue({
@@ -56,6 +84,31 @@ export const UpdateCampaignsSchema = (pocketbase: TypedPocketBase) =>
           path: ["endDate"],
           message: "End date must be on or after start date",
         });
+      }
+
+      // Unique constraint: Campaign name must be unique (when being updated)
+      if (data.name) {
+        try {
+          const existingCampaign = await pocketbase
+            .collection(Collections.CustomerRelationsCampaigns)
+            .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+              requestKey: null,
+            });
+
+          // If found, check if it's a different record (not the one being updated)
+          if (existingCampaign && existingCampaign.id !== id) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["name"],
+              message: `Campaign name "${data.name}" is already in use`,
+            });
+          }
+        } catch (error) {
+          // Record not found is expected - name is unique
+          if (!(error instanceof ClientResponseError) || error.status !== 404) {
+            console.warn("Campaign name uniqueness check error:", error);
+          }
+        }
       }
     });
 

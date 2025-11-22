@@ -10,16 +10,17 @@ import z from "zod";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { CampaignForm, CreateSchema } from "./form";
+import { CreateCampaignsSchema } from "@/pocketbase/schemas/customer-relations";
+import { CampaignForm } from "./form";
 
 const FormOption = (pocketbase: TypedPocketBase) =>
   formOptions({
     defaultValues: {
       budget: 0,
       startDate: new Date(),
-    } as z.infer<ReturnType<typeof CreateSchema>>,
+    } as z.infer<ReturnType<typeof CreateCampaignsSchema>>,
     validators: {
-      onSubmitAsync: CreateSchema(pocketbase),
+      onSubmitAsync: CreateCampaignsSchema(pocketbase),
     },
     onSubmitMeta: {} as {
       pocketbase: TypedPocketBase;

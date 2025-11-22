@@ -12,13 +12,14 @@ import z from "zod";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { CampaignForm, UpdateSchema } from "./form";
+import { UpdateCampaignsSchema } from "@/pocketbase/schemas/customer-relations";
+import { CampaignForm } from "./form";
 
 const FormOption = (pocketbase: TypedPocketBase, id: string) =>
   formOptions({
-    defaultValues: {} as z.infer<ReturnType<typeof UpdateSchema>>,
+    defaultValues: {} as z.infer<ReturnType<typeof UpdateCampaignsSchema>>,
     validators: {
-      onSubmitAsync: UpdateSchema(pocketbase, id),
+      onSubmitAsync: UpdateCampaignsSchema(pocketbase, id),
     },
     onSubmitMeta: {} as {
       id: string;
@@ -70,7 +71,7 @@ const UpdateCampaignForm = () => {
       ...data,
       startDate: data?.startDate ? new Date(data.startDate) : undefined,
       endDate: data?.endDate ? new Date(data.endDate) : undefined,
-    } as z.infer<ReturnType<typeof UpdateSchema>>,
+    } as z.infer<ReturnType<typeof UpdateCampaignsSchema>>,
   });
 
   if (!data) return null;

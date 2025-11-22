@@ -94,7 +94,7 @@ export const CreateCasesSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateCasesSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateCasesSchema = (pocketbase: TypedPocketBase, id?: string) =>
   CasesSchema.partial()
     .omit({
       id: true,
@@ -136,7 +136,8 @@ export const UpdateCasesSchema = (pocketbase: TypedPocketBase) =>
               { requestKey: null }
             );
 
-          if (existingCase) {
+          // If found, check if it's a different record (not the one being updated)
+          if (existingCase && existingCase.id !== id) {
             ctx.addIssue({
               code: "custom",
               path: ["caseNumber"],

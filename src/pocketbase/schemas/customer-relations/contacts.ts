@@ -80,7 +80,10 @@ export const CreateContactsSchema = (pocketbase: TypedPocketBase) =>
       }
     });
 
-export const UpdateContactsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateContactsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   ContactsSchema.partial()
     .omit({
       id: true,
@@ -125,7 +128,8 @@ export const UpdateContactsSchema = (pocketbase: TypedPocketBase) =>
               requestKey: null,
             });
 
-          if (existingContact) {
+          // If found, check if it's a different record (not the one being updated)
+          if (existingContact && existingContact.id !== id) {
             ctx.addIssue({
               code: "custom",
               path: ["email"],

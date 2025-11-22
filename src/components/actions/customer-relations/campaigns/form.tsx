@@ -1,135 +1,14 @@
-import { useRouteContext } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import { ClientResponseError } from "pocketbase";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
 import { InputGroupButton } from "@/components/ui/input-group";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
 import { CampaignsSchema } from "@/pocketbase/schemas/customer-relations";
 
 export type CampaignFormProps = {
   action?: "create" | "edit";
 };
-
-export const CreateSchema = (pocketbase: TypedPocketBase) =>
-  CampaignsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // - campaign name must be unique
-    if (data.name) {
-      try {
-        const existing = await pocketbase
-          .collection(Collections.CustomerRelationsCampaigns)
-          .getFirstListItem(`name = '${data.name}'`);
-
-        if (existing) {
-          ctx.addIssue({
-            code: "custom",
-            message: "Campaign name must be unique",
-            path: ["name"],
-          });
-        }
-      } catch (error) {
-        if (error instanceof ClientResponseError) {
-          if (error.status !== 404 && error.status !== 0) {
-            ctx.addIssue({
-              code: "custom",
-              message: `Error checking campaign name uniqueness: ${error.message} (${error.status})`,
-            });
-          }
-        }
-      }
-    }
-
-    // - start date must not be in the past and be today or future date
-    if (data.startDate) {
-      const now = new Date();
-      now.setHours(0, 0, 0, 0); // Set to start of today
-      if (data.startDate < now) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Start date cannot be in the past",
-          path: ["startDate"],
-        });
-      }
-    }
-
-    // - endDate must be after startDate
-    if (data.startDate && data.endDate) {
-      if (data.endDate <= data.startDate) {
-        ctx.addIssue({
-          code: "custom",
-          message: "End date must be after start date",
-          path: ["endDate"],
-        });
-      }
-    }
-  });
-
-export const UpdateSchema = (pocketbase: TypedPocketBase, id?: string) =>
-  CampaignsSchema.partial()
-    .omit({
-      attachments: true,
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      console.log("Refining update schema with data:", data);
-      // - campaign name must be unique but ignore current record
-      if (data.name) {
-        try {
-          const existing = await pocketbase
-            .collection(Collections.CustomerRelationsCampaigns)
-            .getFirstListItem(`id != '${id}' && name = '${data.name}'`);
-
-          if (existing) {
-            ctx.addIssue({
-              code: "custom",
-              message: "Campaign name must be unique",
-              path: ["name"],
-            });
-          }
-        } catch (error) {
-          if (error instanceof ClientResponseError) {
-            if (error.status !== 404 && error.status !== 0) {
-              ctx.addIssue({
-                code: "custom",
-                message: `Error checking campaign name uniqueness: ${error.message} (${error.status})`,
-              });
-            }
-          }
-        }
-      }
-
-      // - start date must not be in the past and be today or future date
-      if (data.startDate) {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0); // Set to start of today
-        if (data.startDate < now) {
-          ctx.addIssue({
-            code: "custom",
-            message: "Start date cannot be in the past",
-            path: ["startDate"],
-          });
-        }
-      }
-
-      // - endDate must be after startDate
-      if (data.startDate && data.endDate) {
-        if (data.endDate <= data.startDate) {
-          ctx.addIssue({
-            code: "custom",
-            message: "End date must be after start date",
-            path: ["endDate"],
-          });
-        }
-      }
-    });
 
 export const CampaignForm = withForm({
   defaultValues: {} as z.infer<typeof CampaignsSchema>,

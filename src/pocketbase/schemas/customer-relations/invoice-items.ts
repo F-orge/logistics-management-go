@@ -91,7 +91,10 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateInvoiceItemsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   InvoiceItemsSchema.partial()
     .omit({
       id: true,
@@ -119,8 +122,6 @@ export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
 
       // Composite unique constraint: (invoice, product) must be unique if either is being changed
       if (data.invoice || data.product) {
-        // Note: In a real implementation, we would have the current record's IDs
-        // to exclude from the uniqueness check
         try {
           if (data.invoice && data.product) {
             const existingInvoiceItem = await pocketbase
@@ -130,7 +131,8 @@ export const UpdateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
                 { requestKey: null }
               );
 
-            if (existingInvoiceItem) {
+            // If found, check if it's a different record (not the one being updated)
+            if (existingInvoiceItem && existingInvoiceItem.id !== id) {
               ctx.addIssue({
                 code: "custom",
                 path: ["product"],

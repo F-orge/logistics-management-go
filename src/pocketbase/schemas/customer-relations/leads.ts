@@ -76,7 +76,7 @@ export const CreateLeadsSchema = (pocketbase: TypedPocketBase) =>
       }
     });
 
-export const UpdateLeadsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateLeadsSchema = (pocketbase: TypedPocketBase, id?: string) =>
   LeadsSchema.partial()
     .omit({
       id: true,
@@ -113,7 +113,8 @@ export const UpdateLeadsSchema = (pocketbase: TypedPocketBase) =>
               requestKey: null,
             });
 
-          if (existingLead) {
+          // If found, check if it's a different record (not the one being updated)
+          if (existingLead && existingLead.id !== id) {
             ctx.addIssue({
               code: "custom",
               path: ["email"],

@@ -98,7 +98,10 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateInvoicesSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   InvoicesSchema.partial()
     .omit({
       id: true,
@@ -142,7 +145,8 @@ export const UpdateInvoicesSchema = (pocketbase: TypedPocketBase) =>
               { requestKey: null }
             );
 
-          if (existingInvoice) {
+          // If found, check if it's a different record (not the one being updated)
+          if (existingInvoice && existingInvoice.id !== id) {
             ctx.addIssue({
               code: "custom",
               path: ["invoiceNumber"],

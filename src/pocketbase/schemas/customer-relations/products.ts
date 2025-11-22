@@ -54,7 +54,10 @@ export const CreateProductsSchema = (pocketbase: TypedPocketBase) =>
     }
   });
 
-export const UpdateProductsSchema = (pocketbase: TypedPocketBase) =>
+export const UpdateProductsSchema = (
+  pocketbase: TypedPocketBase,
+  id?: string
+) =>
   ProductsSchema.partial()
     .omit({
       id: true,
@@ -66,15 +69,14 @@ export const UpdateProductsSchema = (pocketbase: TypedPocketBase) =>
       // Unique constraint: SKU must be unique (when being updated)
       if (data.sku) {
         try {
-          // Note: In a real update scenario, the product ID would be available
-          // This is a simplified check - in production, you'd exclude the current record
           const existingProduct = await pocketbase
             .collection(Collections.CustomerRelationsProducts)
             .getFirstListItem(`sku = "${data.sku.replace(/"/g, '\\"')}"`, {
               requestKey: null,
             });
 
-          if (existingProduct) {
+          // If found, check if it's a different record (not the one being updated)
+          if (existingProduct && existingProduct.id !== id) {
             ctx.addIssue({
               code: "custom",
               path: ["sku"],
