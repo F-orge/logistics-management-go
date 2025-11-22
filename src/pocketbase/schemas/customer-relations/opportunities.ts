@@ -11,6 +11,7 @@ import {
   CustomerRelationsOpportunitiesRecord,
   TypedPocketBase,
 } from "@/lib/pb.types";
+import { CreateOpportunityProductsSchema } from "./opportunity-products";
 
 export const OpportunitiesSchema = z.object({
   id: z.string(),
@@ -64,25 +65,29 @@ export const CreateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine((data, ctx) => {
-    // Validate opportunity name is provided
-    if (!data.name || data.name.trim().length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["name"],
-        message: "Opportunity name is required",
-      });
-    }
+  })
+    .extend({
+      products: CreateOpportunityProductsSchema(pocketbase).array(),
+    })
+    .superRefine((data, ctx) => {
+      // Validate opportunity name is provided
+      if (!data.name || data.name.trim().length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["name"],
+          message: "Opportunity name is required",
+        });
+      }
 
-    // Validate deal value is provided and positive
-    if (data.dealValue !== undefined && data.dealValue < 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["dealValue"],
-        message: "Deal value cannot be negative",
-      });
-    }
-  });
+      // Validate deal value is provided and positive
+      if (data.dealValue !== undefined && data.dealValue < 0) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["dealValue"],
+          message: "Deal value cannot be negative",
+        });
+      }
+    });
 
 export const UpdateOpportunitiesSchema = (
   pocketbase: TypedPocketBase,

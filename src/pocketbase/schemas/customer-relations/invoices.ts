@@ -11,6 +11,7 @@ import {
   CustomerRelationsInvoicesRecord,
   TypedPocketBase,
 } from "@/lib/pb.types";
+import { CreateInvoiceItemsSchema } from "./invoice-items";
 
 export const InvoicesSchema = z.object({
   id: z.string(),
@@ -49,58 +50,60 @@ export const CreateInvoicesSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Validate invoice number is provided
-    if (!data.invoiceNumber || data.invoiceNumber.trim().length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["invoiceNumber"],
-        message: "Invoice number is required",
-      });
-      return;
-    }
-
-    // Unique constraint: Invoice number must be unique
-    try {
-      const existingInvoice = await pocketbase
-        .collection(Collections.CustomerRelationsInvoices)
-        .getFirstListItem(
-          `invoiceNumber = "${data.invoiceNumber.replace(/"/g, '\\"')}"`,
-          { requestKey: null }
-        );
-
-      if (existingInvoice) {
+  })
+    .extend({ items: CreateInvoiceItemsSchema(pocketbase).array() })
+    .superRefine(async (data, ctx) => {
+      // Validate invoice number is provided
+      if (!data.invoiceNumber || data.invoiceNumber.trim().length === 0) {
         ctx.addIssue({
           code: "custom",
           path: ["invoiceNumber"],
-          message: `Invoice number "${data.invoiceNumber}" is already in use`,
+          message: "Invoice number is required",
+        });
+        return;
+      }
+
+      // Unique constraint: Invoice number must be unique
+      try {
+        const existingInvoice = await pocketbase
+          .collection(Collections.CustomerRelationsInvoices)
+          .getFirstListItem(
+            `invoiceNumber = "${data.invoiceNumber.replace(/"/g, '\\"')}"`,
+            { requestKey: null }
+          );
+
+        if (existingInvoice) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["invoiceNumber"],
+            message: `Invoice number "${data.invoiceNumber}" is already in use`,
+          });
+        }
+      } catch (error) {
+        // Record not found is expected - invoice number is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Invoice number uniqueness check error:", error);
+        }
+      }
+
+      // Validate due date is on or after issue date
+      if (data.issueDate && data.dueDate && data.dueDate < data.issueDate) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["dueDate"],
+          message: "Due date must be on or after issue date",
         });
       }
-    } catch (error) {
-      // Record not found is expected - invoice number is unique
-      if (!(error instanceof ClientResponseError) || error.status !== 404) {
-        console.warn("Invoice number uniqueness check error:", error);
+
+      // New invoices should start with "draft" status
+      if (data.status && data.status !== "draft") {
+        ctx.addIssue({
+          code: "custom",
+          path: ["status"],
+          message: "New invoices must start with 'draft' status",
+        });
       }
-    }
-
-    // Validate due date is on or after issue date
-    if (data.issueDate && data.dueDate && data.dueDate < data.issueDate) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["dueDate"],
-        message: "Due date must be on or after issue date",
-      });
-    }
-
-    // New invoices should start with "draft" status
-    if (data.status && data.status !== "draft") {
-      ctx.addIssue({
-        code: "custom",
-        path: ["status"],
-        message: "New invoices must start with 'draft' status",
-      });
-    }
-  });
+    });
 
 export const UpdateInvoicesSchema = (
   pocketbase: TypedPocketBase,
