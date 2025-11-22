@@ -28,3 +28,5 @@ const CreateInvoicesForm = () => {
     </form>
   );
 };
+
+export default CreateInvoicesForm;

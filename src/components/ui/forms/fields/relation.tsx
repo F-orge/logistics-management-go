@@ -85,7 +85,6 @@ const RelationField = <Records extends RelationItem>(
   return (
     <AsyncSelect<Records>
       disabled={props.disabled}
-      triggerClassName="w-[90%]"
       fetcher={fetcher}
       preload={preload}
       renderOption={(item) =>

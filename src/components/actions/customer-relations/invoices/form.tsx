@@ -14,7 +14,6 @@ import {
   Create,
   CustomerRelationsInvoicesRecord,
   CustomerRelationsOpportunitiesResponse,
-  CustomerRelationsProductsResponse,
   TypedPocketBase,
 } from "@/lib/pb.types";
 import {
@@ -47,7 +46,7 @@ export const InvoicesForm = withForm({
               description="Unique identifier for this invoice."
               tooltip="Example: INV-2025-001"
             >
-              <field.TextField showClearButton />
+              <field.TextField disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -81,7 +80,7 @@ export const InvoicesForm = withForm({
               description="Date when invoice was created."
               tooltip="Select issue date"
             >
-              <field.DateTimeField />
+              <field.DateTimeField disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -107,7 +106,7 @@ export const InvoicesForm = withForm({
               description="Total invoice amount."
               tooltip="Example: 50000"
             >
-              <field.NumberField addonStart="₱" />
+              <field.NumberField addonStart="₱" disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -150,6 +149,7 @@ export const InvoicesForm = withForm({
                 collectionName={Collections.CustomerRelationsOpportunities}
                 relationshipName="opportunity"
                 renderOption={(item) => `${item.name}`}
+                disabled
               />
             </field.Field>
           )}
@@ -163,7 +163,7 @@ export const InvoicesForm = withForm({
               description="Date when invoice was sent to customer."
               tooltip="Select sent date"
             >
-              <field.DateTimeField />
+              <field.DateTimeField disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -176,40 +176,44 @@ export const InvoicesForm = withForm({
               description="Date when payment was received."
               tooltip="Select payment date"
             >
-              <field.DateTimeField />
+              <field.DateTimeField disabled />
             </field.Field>
           )}
         </form.AppField>
         {/* items */}
-        <FieldSeparator className="col-span-full" />
-        <form.FieldSet
-          className="col-span-full"
-          legend="Invoice Items"
-          description="Add line items to this invoice."
-        >
-          <form.AppField name="items" mode="array">
-            {(field) => (
-              <>
-                {field.state.value?.map((_, index) => (
-                  <InvoiceItemsForm
-                    key={index}
-                    form={form}
-                    fields={`items[${index}]` as any}
-                    onRemove={() => field.removeValue(index)}
-                  />
-                ))}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => field.pushValue(undefined as any)}
-                >
-                  Add Item
-                </Button>
-              </>
-            )}
-          </form.AppField>
-        </form.FieldSet>
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Invoice Items"
+              description="Add line items to this invoice."
+            >
+              <form.AppField name="items" mode="array">
+                {(field) => (
+                  <>
+                    {field.state.value?.map((_, index) => (
+                      <InvoiceItemsForm
+                        key={index}
+                        form={form}
+                        fields={`items[${index}]` as any}
+                        onRemove={() => field.removeValue(index)}
+                      />
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Item
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
         {/* attachments */}
         {props.action === "create" && (
           <>
@@ -351,6 +355,39 @@ export const CreateInvoicesFormOption = (pocketbase: TypedPocketBase) =>
         if (error instanceof ClientResponseError) {
           toast.error(
             `Failed to create invoices: ${error.message} (${error.status})`
+          );
+        }
+      } finally {
+        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
+      }
+    },
+  });
+
+export const UpdateInvoicesFormOption = (
+  pocketbase: TypedPocketBase,
+  record?: CustomerRelationsInvoicesRecord
+) =>
+  formOptions({
+    defaultValues: record as Partial<
+      z.infer<ReturnType<typeof UpdateInvoicesSchema>>
+    >,
+    validators: {
+      onSubmitAsync: UpdateInvoicesSchema(pocketbase, record),
+    },
+    onSubmitMeta: {} as {
+      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
+    },
+    onSubmit: async ({ value, meta }) => {
+      try {
+        await pocketbase
+          .collection(Collections.CustomerRelationsInvoices)
+          .update(record?.id!, value);
+
+        toast.success("Invoice updated successfully!");
+      } catch (error) {
+        if (error instanceof ClientResponseError) {
+          toast.error(
+            `Failed to update invoice: ${error.message} (${error.status})`
           );
         }
       } finally {
