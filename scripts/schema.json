@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-19T19:10:24.399Z",
+  "timestamp": "2025-11-23T14:05:24.556Z",
   "collections": [
     {
       "id": "_pb_users_auth_",
@@ -8122,6 +8122,20 @@
         },
         {
           "hidden": false,
+          "id": "file1204091606",
+          "maxSelect": 99,
+          "maxSize": 0,
+          "mimeTypes": [],
+          "name": "attachments",
+          "presentable": false,
+          "protected": false,
+          "required": false,
+          "system": false,
+          "thumbs": [],
+          "type": "file"
+        },
+        {
+          "hidden": false,
           "id": "autodate2782324286",
           "name": "timestamp",
           "onCreate": true,
@@ -8133,7 +8147,7 @@
       ],
       "indexes": [],
       "created": "2025-11-04 13:36:55.142Z",
-      "updated": "2025-11-17 20:08:41.343Z",
+      "updated": "2025-11-23 06:41:01.815Z",
       "system": false
     },
     {
@@ -10346,53 +10360,115 @@
       "created": "2025-11-04 18:17:29.350Z",
       "updated": "2025-11-16 17:46:33.419Z",
       "system": false
+    },
+    {
+      "id": "pbc_2073203996",
+      "listRule": null,
+      "viewRule": null,
+      "createRule": null,
+      "updateRule": null,
+      "deleteRule": null,
+      "name": "emails",
+      "type": "base",
+      "fields": [
+        {
+          "autogeneratePattern": "[a-z0-9]{15}",
+          "hidden": false,
+          "id": "text3208210256",
+          "max": 15,
+          "min": 15,
+          "name": "id",
+          "pattern": "^[a-z0-9]+$",
+          "presentable": false,
+          "primaryKey": true,
+          "required": true,
+          "system": true,
+          "type": "text"
+        },
+        {
+          "cascadeDelete": false,
+          "collectionId": "_pb_users_auth_",
+          "hidden": false,
+          "id": "relation2375276105",
+          "maxSelect": 1,
+          "minSelect": 0,
+          "name": "user",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "relation"
+        },
+        {
+          "exceptDomains": [],
+          "hidden": false,
+          "id": "email3105530224",
+          "name": "from",
+          "onlyDomains": [],
+          "presentable": false,
+          "required": true,
+          "system": false,
+          "type": "email"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text4224597626",
+          "max": 0,
+          "min": 0,
+          "name": "subject",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": true,
+          "system": false,
+          "type": "text"
+        },
+        {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text3065852031",
+          "max": 0,
+          "min": 0,
+          "name": "message",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": true,
+          "system": false,
+          "type": "text"
+        },
+        {
+          "hidden": false,
+          "id": "autodate2990389176",
+          "name": "created",
+          "onCreate": true,
+          "onUpdate": false,
+          "presentable": false,
+          "system": false,
+          "type": "autodate"
+        },
+        {
+          "hidden": false,
+          "id": "autodate3332085495",
+          "name": "updated",
+          "onCreate": true,
+          "onUpdate": true,
+          "presentable": false,
+          "system": false,
+          "type": "autodate"
+        }
+      ],
+      "indexes": [],
+      "created": "2025-11-23 13:25:18.371Z",
+      "updated": "2025-11-23 14:03:00.278Z",
+      "system": false
     }
   ],
   "schemaFiles": [
     {
-      "name": "partner-invoices",
-      "category": "transport-management",
-      "path": "/transport-management/partner-invoices.ts"
-    },
-    {
       "name": "carriers",
       "category": "transport-management",
       "path": "/transport-management/carriers.ts"
-    },
-    {
-      "name": "shipment-legs",
-      "category": "transport-management",
-      "path": "/transport-management/shipment-legs.ts"
-    },
-    {
-      "name": "driver-schedules",
-      "category": "transport-management",
-      "path": "/transport-management/driver-schedules.ts"
-    },
-    {
-      "name": "carrier-rates",
-      "category": "transport-management",
-      "path": "/transport-management/carrier-rates.ts"
-    },
-    {
-      "name": "vehicle-maintenance",
-      "category": "transport-management",
-      "path": "/transport-management/vehicle-maintenance.ts"
-    },
-    {
-      "name": "gps-pings",
-      "category": "transport-management",
-      "path": "/transport-management/gps-pings.ts"
-    },
-    {
-      "name": "proof-of-deliveries",
-      "category": "transport-management",
-      "path": "/transport-management/proof-of-deliveries.ts"
-    },
-    {
-      "name": "expenses",
-      "category": "transport-management",
-      "path": "/transport-management/expenses.ts"
     },
     {
       "name": "drivers",
@@ -10400,44 +10476,9 @@
       "path": "/transport-management/drivers.ts"
     },
     {
-      "name": "shipment-leg-events",
-      "category": "transport-management",
-      "path": "/transport-management/shipment-leg-events.ts"
-    },
-    {
       "name": "vehicles",
       "category": "transport-management",
       "path": "/transport-management/vehicles.ts"
-    },
-    {
-      "name": "trip-stops",
-      "category": "transport-management",
-      "path": "/transport-management/trip-stops.ts"
-    },
-    {
-      "name": "trips",
-      "category": "transport-management",
-      "path": "/transport-management/trips.ts"
-    },
-    {
-      "name": "geofence",
-      "category": "transport-management",
-      "path": "/transport-management/geofence.ts"
-    },
-    {
-      "name": "routes",
-      "category": "transport-management",
-      "path": "/transport-management/routes.ts"
-    },
-    {
-      "name": "partner-invoice-items",
-      "category": "transport-management",
-      "path": "/transport-management/partner-invoice-items.ts"
-    },
-    {
-      "name": "geofence-events",
-      "category": "transport-management",
-      "path": "/transport-management/geofence-events.ts"
     },
     {
       "name": "campaigns",
@@ -10540,11 +10581,6 @@
       "path": "/delivery-management/tasks.ts"
     },
     {
-      "name": "routes",
-      "category": "delivery-management",
-      "path": "/delivery-management/routes.ts"
-    },
-    {
       "name": "task-events",
       "category": "delivery-management",
       "path": "/delivery-management/task-events.ts"
@@ -10553,11 +10589,6 @@
       "name": "driver-location",
       "category": "delivery-management",
       "path": "/delivery-management/driver-location.ts"
-    },
-    {
-      "name": "pick-batches",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/pick-batches.ts"
     },
     {
       "name": "returns",
@@ -10580,11 +10611,6 @@
       "path": "/warehouse-management/products.ts"
     },
     {
-      "name": "putaway-rules",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/putaway-rules.ts"
-    },
-    {
       "name": "return-items",
       "category": "warehouse-management",
       "path": "/warehouse-management/return-items.ts"
@@ -10605,21 +10631,6 @@
       "path": "/warehouse-management/package-items.ts"
     },
     {
-      "name": "stock-transfer",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/stock-transfer.ts"
-    },
-    {
-      "name": "tasks",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/tasks.ts"
-    },
-    {
-      "name": "pick-batch-items",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/pick-batch-items.ts"
-    },
-    {
       "name": "inbound-shipments",
       "category": "warehouse-management",
       "path": "/warehouse-management/inbound-shipments.ts"
@@ -10630,19 +10641,9 @@
       "path": "/warehouse-management/outbound-shipment-items.ts"
     },
     {
-      "name": "task-items",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/task-items.ts"
-    },
-    {
       "name": "locations",
       "category": "warehouse-management",
       "path": "/warehouse-management/locations.ts"
-    },
-    {
-      "name": "bin-threshold",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/bin-threshold.ts"
     },
     {
       "name": "inventory-stock",
@@ -10653,11 +10654,6 @@
       "name": "packages",
       "category": "warehouse-management",
       "path": "/warehouse-management/packages.ts"
-    },
-    {
-      "name": "reorder-points",
-      "category": "warehouse-management",
-      "path": "/warehouse-management/reorder-points.ts"
     },
     {
       "name": "inventory-batches",
@@ -10678,66 +10674,6 @@
       "name": "sales-orders",
       "category": "warehouse-management",
       "path": "/warehouse-management/sales-orders.ts"
-    },
-    {
-      "name": "rate-rules",
-      "category": "billing-management",
-      "path": "/billing-management/rate-rules.ts"
-    },
-    {
-      "name": "surcharges",
-      "category": "billing-management",
-      "path": "/billing-management/surcharges.ts"
-    },
-    {
-      "name": "client-accounts",
-      "category": "billing-management",
-      "path": "/billing-management/client-accounts.ts"
-    },
-    {
-      "name": "quotes",
-      "category": "billing-management",
-      "path": "/billing-management/quotes.ts"
-    },
-    {
-      "name": "payments",
-      "category": "billing-management",
-      "path": "/billing-management/payments.ts"
-    },
-    {
-      "name": "invoices",
-      "category": "billing-management",
-      "path": "/billing-management/invoices.ts"
-    },
-    {
-      "name": "disputes",
-      "category": "billing-management",
-      "path": "/billing-management/disputes.ts"
-    },
-    {
-      "name": "invoice-line-items",
-      "category": "billing-management",
-      "path": "/billing-management/invoice-line-items.ts"
-    },
-    {
-      "name": "account-transactions",
-      "category": "billing-management",
-      "path": "/billing-management/account-transactions.ts"
-    },
-    {
-      "name": "credit-notes",
-      "category": "billing-management",
-      "path": "/billing-management/credit-notes.ts"
-    },
-    {
-      "name": "rate-cards",
-      "category": "billing-management",
-      "path": "/billing-management/rate-cards.ts"
-    },
-    {
-      "name": "logs",
-      "category": "billing-management",
-      "path": "/billing-management/logs.ts"
     }
   ]
 }
