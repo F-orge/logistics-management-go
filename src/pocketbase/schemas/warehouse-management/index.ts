@@ -4,7 +4,6 @@
  * DO NOT EDIT MANUALLY
  */
 
-export * from "./bin-threshold";
 export * from "./inbound-shipment-items";
 export * from "./inbound-shipments";
 export * from "./inventory-adjustment";
@@ -15,17 +14,10 @@ export * from "./outbound-shipment-items";
 export * from "./outbound-shipments";
 export * from "./package-items";
 export * from "./packages";
-export * from "./pick-batch-items";
-export * from "./pick-batches";
 export * from "./products";
-export * from "./putaway-rules";
-export * from "./reorder-points";
 export * from "./return-items";
 export * from "./returns";
 export * from "./sales-order-items";
 export * from "./sales-orders";
-export * from "./stock-transfer";
 export * from "./suppliers";
-export * from "./task-items";
-export * from "./tasks";
 export * from "./warehouses";

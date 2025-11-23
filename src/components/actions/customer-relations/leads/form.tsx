@@ -295,9 +295,12 @@ export const UpdateLeadsFormOption = (
   record?: CustomerRelationsLeadsRecord
 ) =>
   formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateLeadsSchema>>
-    >,
+    defaultValues: {
+      ...record,
+      convertedAt: record?.convertedAt
+        ? new Date(record.convertedAt)
+        : undefined,
+    } as Partial<z.infer<ReturnType<typeof UpdateLeadsSchema>>>,
     validators: {
       onSubmitAsync: UpdateLeadsSchema(pocketbase, record),
     },
