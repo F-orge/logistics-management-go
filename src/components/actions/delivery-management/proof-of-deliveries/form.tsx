@@ -190,36 +190,3 @@ export const CreateProofOfDeliveriesFormOption = (
       }
     },
   });
-
-export const UpdateProofOfDeliveriesFormOption = (
-  pocketbase: TypedPocketBase,
-  record?: DeliveryManagementProofOfDeliveriesRecord
-) =>
-  formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateProofOfDeliveriesSchema>>
-    >,
-    validators: {
-      onSubmitAsync: UpdateProofOfDeliveriesSchema(pocketbase, record),
-    },
-    onSubmitMeta: {} as {
-      navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
-    },
-    onSubmit: async ({ value, meta }) => {
-      try {
-        await pocketbase
-          .collection(Collections.DeliveryManagementProofOfDeliveries)
-          .update(record?.id!, value);
-
-        toast.success("Proof of delivery updated successfully!");
-      } catch (error) {
-        if (error instanceof ClientResponseError) {
-          toast.error(
-            `Failed to update proof of delivery: ${error.message} (${error.status})`
-          );
-        }
-      } finally {
-        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
-      }
-    },
-  });

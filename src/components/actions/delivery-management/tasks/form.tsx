@@ -47,6 +47,7 @@ export const TasksForm = withForm({
                 collectionName={Collections.WarehouseManagementPackages}
                 relationshipName="package"
                 renderOption={(item) => `${item.packageNumber}`}
+                disabled={props.action === "edit"}
               />
             </field.Field>
           )}
@@ -71,7 +72,7 @@ export const TasksForm = withForm({
         <form.AppField name="sequence">
           {(field) => (
             <field.Field
-              className="col-span-1"
+              className="col-span-full"
               label="Sequence"
               description="Order in delivery route"
             >
@@ -83,7 +84,7 @@ export const TasksForm = withForm({
         <form.AppField name="deliveryAddress">
           {(field) => (
             <field.Field
-              className="col-span-3"
+              className="col-span-full"
               label="Delivery Address"
               description="Complete delivery address"
             >
@@ -139,7 +140,7 @@ export const TasksForm = withForm({
             </field.Field>
           )}
         </form.AppField>
-        {/* actualArrivalTime - date */}
+        {/* actualArrivalTime - date
         <form.AppField name="actualArrivalTime">
           {(field) => (
             <field.Field
@@ -150,7 +151,7 @@ export const TasksForm = withForm({
               <field.DateTimeField />
             </field.Field>
           )}
-        </form.AppField>
+        </form.AppField> */}
         {/* deliveryTime - date */}
         <form.AppField name="deliveryTime">
           {(field) => (
@@ -219,17 +220,19 @@ export const TasksForm = withForm({
           )}
         </form.AppField>
         {/* attachments - file array */}
-        <form.AppField name="attachments" mode="array">
-          {(field) => (
-            <field.Field
-              className="col-span-full"
-              label="Attachments"
-              description="Upload proof or additional files"
-            >
-              <field.FileField />
-            </field.Field>
-          )}
-        </form.AppField>
+        {props.action === "create" && (
+          <form.AppField name="attachments" mode="array">
+            {(field) => (
+              <field.Field
+                className="col-span-full"
+                label="Attachments"
+                description="Upload proof or additional files"
+              >
+                <field.FileField />
+              </field.Field>
+            )}
+          </form.AppField>
+        )}
       </form.FieldSet>
     );
   },
@@ -283,9 +286,15 @@ export const UpdateTasksFormOption = (
   record?: DeliveryManagementTasksRecord
 ) =>
   formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateTasksSchema>>
-    >,
+    defaultValues: {
+      ...record,
+      deliveryTime: record?.deliveryTime
+        ? new Date(record.deliveryTime)
+        : undefined,
+      estimatedArrivalTime: record?.estimatedArrivalTime
+        ? new Date(record.estimatedArrivalTime)
+        : undefined,
+    } as Partial<z.infer<ReturnType<typeof UpdateTasksSchema>>>,
     validators: {
       onSubmitAsync: UpdateTasksSchema(pocketbase, record),
     },
@@ -296,7 +305,10 @@ export const UpdateTasksFormOption = (
       try {
         await pocketbase
           .collection(Collections.DeliveryManagementTasks)
-          .update(record?.id!, value);
+          .update(record?.id!, {
+            ...value,
+            actualArrivalTime: value.status === "delivered" ? new Date() : null,
+          });
 
         toast.success("Task updated successfully!");
       } catch (error) {
