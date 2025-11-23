@@ -16,10 +16,12 @@ import (
 func OnLeadQualified(e *core.RecordEvent) error {
 	// Get the lead record
 	leadRecord := e.Record
+	orig := leadRecord.Original()
 
-	// Check if the status changed to "qualified"
-	oldStatus := leadRecord.GetString("status")
-	if oldStatus == "qualified" {
+	// Check if status changed TO "qualified"
+	newStatus := leadRecord.GetString("status")
+	oldStatus := orig.GetString("status")
+	if newStatus != "qualified" || oldStatus == "qualified" {
 		return e.Next()
 	}
 
@@ -76,10 +78,12 @@ func OnLeadQualified(e *core.RecordEvent) error {
 func OnLeadConverted(e *core.RecordEvent) error {
 	// Get the lead record
 	leadRecord := e.Record
+	orig := leadRecord.Original()
 
-	// Check if the status changed to "converted"
-	oldStatus := leadRecord.GetString("status")
-	if oldStatus == "converted" {
+	// Check if status changed TO "converted"
+	newStatus := leadRecord.GetString("status")
+	oldStatus := orig.GetString("status")
+	if newStatus != "converted" || oldStatus == "converted" {
 		return e.Next()
 	}
 
@@ -136,10 +140,12 @@ func OnLeadConverted(e *core.RecordEvent) error {
 func OnLeadUnqualified(e *core.RecordEvent) error {
 	// Get the lead record
 	leadRecord := e.Record
+	orig := leadRecord.Original()
 
-	// Check if the status changed to "unqualified"
-	oldStatus := leadRecord.GetString("status")
-	if oldStatus == "unqualified" {
+	// Check if status changed TO "unqualified"
+	newStatus := leadRecord.GetString("status")
+	oldStatus := orig.GetString("status")
+	if newStatus != "unqualified" || oldStatus == "unqualified" {
 		return e.Next()
 	}
 
