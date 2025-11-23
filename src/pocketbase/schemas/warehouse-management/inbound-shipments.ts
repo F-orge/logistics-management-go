@@ -11,6 +11,7 @@ import {
   TypedPocketBase,
   WarehouseManagementInboundShipmentsRecord,
 } from "@/lib/pb.types";
+import { CreateInboundShipmentItemsSchema } from "./inbound-shipment-items";
 
 export const InboundShipmentsSchema = z.object({
   id: z.string(),
@@ -32,58 +33,63 @@ export const CreateInboundShipmentsSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify warehouse exists
-    try {
-      const warehouse = await pocketbase
-        .collection(Collections.WarehouseManagementWarehouses)
-        .getOne(data.warehouse, { requestKey: null });
-      if (!warehouse) {
+  })
+    .extend({
+      items: CreateInboundShipmentItemsSchema(pocketbase).array(),
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify warehouse exists
+      try {
+        const warehouse = await pocketbase
+          .collection(Collections.WarehouseManagementWarehouses)
+          .getOne(data.warehouse, { requestKey: null });
+        if (!warehouse) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["warehouse"],
+            message: "Warehouse does not exist",
+          });
+        }
+      } catch (error) {
         ctx.addIssue({
           code: "custom",
           path: ["warehouse"],
           message: "Warehouse does not exist",
         });
       }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["warehouse"],
-        message: "Warehouse does not exist",
-      });
-    }
 
-    // Verify client exists
-    try {
-      const client = await pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
-        .getOne(data.client, { requestKey: null });
-      if (!client) {
+      // Verify client exists
+      try {
+        const client = await pocketbase
+          .collection(Collections.CustomerRelationsCompanies)
+          .getOne(data.client, { requestKey: null });
+        if (!client) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["client"],
+            message: "Client does not exist",
+          });
+        }
+      } catch (error) {
         ctx.addIssue({
           code: "custom",
           path: ["client"],
           message: "Client does not exist",
         });
       }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["client"],
-        message: "Client does not exist",
-      });
-    }
 
-    // Validate date logic if both dates are provided
-    if (data.expectedArrivalDate && data.actualArrivalDate) {
-      if (data.actualArrivalDate < data.expectedArrivalDate) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["actualArrivalDate"],
-          message: "Actual arrival date cannot be before expected arrival date",
-        });
+      // Validate date logic if both dates are provided
+      if (data.expectedArrivalDate && data.actualArrivalDate) {
+        if (data.actualArrivalDate < data.expectedArrivalDate) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["actualArrivalDate"],
+            message:
+              "Actual arrival date cannot be before expected arrival date",
+          });
+        }
       }
-    }
-  });
+    });
 
 export const UpdateInboundShipmentsSchema = (
   pocketbase: TypedPocketBase,

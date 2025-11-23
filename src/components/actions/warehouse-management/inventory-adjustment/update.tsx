@@ -7,9 +7,12 @@ import {
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
 import { Collections } from "@/lib/pb.types";
-import { ProductsForm, UpdateProductsFormOption } from "./form";
+import {
+  InventoryAdjustmentForm,
+  UpdateInventoryAdjustmentFormOption,
+} from "./form";
 
-const UpdateProductsForm = () => {
+const UpdateInventoryAdjustmentForm = () => {
   const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
   const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
   const { pocketbase } = useRouteContext({
@@ -17,15 +20,17 @@ const UpdateProductsForm = () => {
   });
 
   const { data } = useSuspenseQuery({
-    queryKey: ["product", searchQuery.id],
+    queryKey: ["inventory-adjustment", searchQuery.id],
     queryFn: async () => {
       return await pocketbase
-        .collection(Collections.WarehouseManagementProducts)
+        .collection(Collections.WarehouseManagementInventoryAdjustment)
         .getOne(searchQuery.id!);
     },
   });
 
-  const form = useAppForm(UpdateProductsFormOption(pocketbase, data));
+  const form = useAppForm(
+    UpdateInventoryAdjustmentFormOption(pocketbase, data)
+  );
 
   return (
     <form
@@ -36,13 +41,13 @@ const UpdateProductsForm = () => {
       }}
     >
       <form.AppForm>
-        <ProductsForm form={form as any} action="edit" />
+        <InventoryAdjustmentForm form={form as any} action="edit" />
         <DialogFooter>
-          <form.SubmitButton>Update Product</form.SubmitButton>
+          <form.SubmitButton>Update Inventory Adjustment</form.SubmitButton>
         </DialogFooter>
       </form.AppForm>
     </form>
   );
 };
 
-export default UpdateProductsForm;
+export default UpdateInventoryAdjustmentForm;

@@ -11,6 +11,7 @@ import {
   TypedPocketBase,
   WarehouseManagementOutboundShipmentsRecord,
 } from "@/lib/pb.types";
+import { CreateOutboundShipmentItemsSchema } from "./outbound-shipment-items";
 
 export const OutboundShipmentsSchema = z.object({
   id: z.string(),
@@ -20,7 +21,6 @@ export const OutboundShipmentsSchema = z.object({
     .optional(),
   trackingNumber: z.string(),
   carrier: z.string().optional(),
-  items: z.array(z.string()).optional(),
   warehouse: z.string(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
@@ -33,69 +33,73 @@ export const CreateOutboundShipmentsSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify sales order exists
-    try {
-      const salesOrder = await pocketbase
-        .collection(Collections.WarehouseManagementSalesOrders)
-        .getOne(data.salesOrder, { requestKey: null });
-      if (!salesOrder) {
+  })
+    .extend({
+      items: CreateOutboundShipmentItemsSchema(pocketbase).array(),
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify sales order exists
+      try {
+        const salesOrder = await pocketbase
+          .collection(Collections.WarehouseManagementSalesOrders)
+          .getOne(data.salesOrder, { requestKey: null });
+        if (!salesOrder) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["salesOrder"],
+            message: "Sales order does not exist",
+          });
+        }
+      } catch (error) {
         ctx.addIssue({
           code: "custom",
           path: ["salesOrder"],
           message: "Sales order does not exist",
         });
       }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["salesOrder"],
-        message: "Sales order does not exist",
-      });
-    }
 
-    // Verify warehouse exists
-    try {
-      const warehouse = await pocketbase
-        .collection(Collections.WarehouseManagementWarehouses)
-        .getOne(data.warehouse, { requestKey: null });
-      if (!warehouse) {
+      // Verify warehouse exists
+      try {
+        const warehouse = await pocketbase
+          .collection(Collections.WarehouseManagementWarehouses)
+          .getOne(data.warehouse, { requestKey: null });
+        if (!warehouse) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["warehouse"],
+            message: "Warehouse does not exist",
+          });
+        }
+      } catch (error) {
         ctx.addIssue({
           code: "custom",
           path: ["warehouse"],
           message: "Warehouse does not exist",
         });
       }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["warehouse"],
-        message: "Warehouse does not exist",
-      });
-    }
 
-    // Verify carrier exists if provided
-    if (data.carrier) {
-      try {
-        const carrier = await pocketbase
-          .collection(Collections.TransportManagementCarriers)
-          .getOne(data.carrier, { requestKey: null });
-        if (!carrier) {
+      // Verify carrier exists if provided
+      if (data.carrier) {
+        try {
+          const carrier = await pocketbase
+            .collection(Collections.TransportManagementCarriers)
+            .getOne(data.carrier, { requestKey: null });
+          if (!carrier) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["carrier"],
+              message: "Carrier does not exist",
+            });
+          }
+        } catch (error) {
           ctx.addIssue({
             code: "custom",
             path: ["carrier"],
             message: "Carrier does not exist",
           });
         }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["carrier"],
-          message: "Carrier does not exist",
-        });
       }
-    }
-  });
+    });
 
 export const UpdateOutboundShipmentsSchema = (
   pocketbase: TypedPocketBase,

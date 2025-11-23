@@ -11,6 +11,7 @@ import {
   TypedPocketBase,
   WarehouseManagementSalesOrdersRecord,
 } from "@/lib/pb.types";
+import { CreateSalesOrderItemsSchema } from "./sales-order-items";
 
 export const SalesOrdersSchema = z.object({
   id: z.string(),
@@ -101,6 +102,9 @@ export const UpdateSalesOrdersSchema = (
       id: true,
       created: true,
       updated: true,
+    })
+    .extend({
+      items: CreateSalesOrderItemsSchema(pocketbase).array(),
     })
     .superRefine(async (data, ctx) => {
       // Verify client exists if being updated
