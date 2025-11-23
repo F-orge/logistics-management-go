@@ -1,14 +1,20 @@
 import { formOptions } from "@tanstack/react-form";
 import { UseNavigateResult } from "@tanstack/react-router";
+import { X } from "lucide-react";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
+import { InputGroupButton } from "@/components/ui/input-group";
 import {
   Collections,
   DeliveryManagementProofOfDeliveriesRecord,
   DeliveryManagementTasksResponse,
   TypedPocketBase,
+  WarehouseManagementOutboundShipmentsRecord,
+  WarehouseManagementPackagesRecord,
 } from "@/lib/pb.types";
 import {
   CreateProofOfDeliveriesSchema,
@@ -38,10 +44,19 @@ export const ProofOfDeliveriesForm = withForm({
               label="Task"
               description="Select the delivery task."
             >
-              <field.RelationField<DeliveryManagementTasksResponse>
+              <field.RelationField<
+                DeliveryManagementTasksResponse<{
+                  package: WarehouseManagementPackagesRecord;
+                }>
+              >
                 collectionName={Collections.DeliveryManagementTasks}
                 relationshipName="task"
-                renderOption={(item) => `Task #${item.sequence}`}
+                recordListOption={{
+                  expand: "package",
+                }}
+                renderOption={(item) =>
+                  `Task #${item.expand.package.packageNumber}`
+                }
               />
             </field.Field>
           )}
@@ -70,27 +85,68 @@ export const ProofOfDeliveriesForm = withForm({
             </field.Field>
           )}
         </form.AppField>
-        {/* coordinates - json */}
+        {/* coordinates - geo point */}
         <form.AppField name="coordinates">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               label="Coordinates"
               description="GPS coordinates of delivery location"
             >
-              <field.JSONField />
+              <field.GeoPointField />
             </field.Field>
           )}
         </form.AppField>
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Attachments"
+              description="Upload files related to the campaign."
+            >
+              <form.AppField name="attachments" mode="array">
+                {(field) => (
+                  <>
+                    {field.state.value?.map((_, index) => (
+                      <form.AppField key={index} name={`attachments[${index}]`}>
+                        {(subField) => (
+                          <subField.Field className="mb-2">
+                            <subField.FileField>
+                              <InputGroupButton
+                                onClick={() => field.removeValue(index)}
+                                aria-label={`Remove attachment ${index + 1}`}
+                              >
+                                <X />
+                              </InputGroupButton>
+                            </subField.FileField>
+                          </subField.Field>
+                        )}
+                      </form.AppField>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Attachments
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
         {/* timestamp - datetime */}
         <form.AppField name="timestamp">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               label="Timestamp"
               description="Date and time of delivery"
             >
-              <field.DateTimeField />
+              <field.DateTimeField disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -108,7 +164,7 @@ export const CreateProofOfDeliveriesFormOption = (
       signatureData: undefined,
       recipientName: "",
       coordinates: undefined,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(),
     } as Partial<z.infer<ReturnType<typeof CreateProofOfDeliveriesSchema>>>,
     validators: {
       onSubmitAsync: CreateProofOfDeliveriesSchema(pocketbase),

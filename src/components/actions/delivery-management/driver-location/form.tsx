@@ -42,6 +42,7 @@ export const DriverLocationForm = withForm({
                 collectionName={Collections.TransportManagementDrivers}
                 relationshipName="driver"
                 renderOption={(item) => `${item.licenseNumber}`}
+                disabled={props.action === "edit"}
               />
             </field.Field>
           )}
@@ -50,23 +51,11 @@ export const DriverLocationForm = withForm({
         <form.AppField name="coordinates">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               label="Coordinates"
               description="GPS coordinates (latitude, longitude)"
             >
-              <field.JSONField />
-            </field.Field>
-          )}
-        </form.AppField>
-        {/* heading - json */}
-        <form.AppField name="heading">
-          {(field) => (
-            <field.Field
-              className="col-span-2"
-              label="Heading"
-              description="Direction or heading data"
-            >
-              <field.JSONField />
+              <field.GeoPointField />
             </field.Field>
           )}
         </form.AppField>
@@ -78,7 +67,7 @@ export const DriverLocationForm = withForm({
               label="Timestamp"
               description="Date and time of location record"
             >
-              <field.DateTimeField />
+              <field.DateTimeField disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -92,8 +81,7 @@ export const CreateDriverLocationFormOption = (pocketbase: TypedPocketBase) =>
     defaultValues: {
       driver: undefined,
       coordinates: undefined,
-      heading: undefined,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(),
     } as Partial<z.infer<ReturnType<typeof CreateDriverLocationSchema>>>,
     validators: {
       onSubmitAsync: CreateDriverLocationSchema(pocketbase),
@@ -125,9 +113,10 @@ export const UpdateDriverLocationFormOption = (
   record?: DeliveryManagementDriverLocationRecord
 ) =>
   formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateDriverLocationSchema>>
-    >,
+    defaultValues: {
+      ...record,
+      timestamp: new Date(),
+    } as Partial<z.infer<ReturnType<typeof UpdateDriverLocationSchema>>>,
     validators: {
       onSubmitAsync: UpdateDriverLocationSchema(pocketbase, record),
     },

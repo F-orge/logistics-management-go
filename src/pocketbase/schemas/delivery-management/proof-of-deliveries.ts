@@ -20,6 +20,7 @@ export const ProofOfDeliveriesSchema = z.object({
   recipientName: z.string().optional(),
   coordinates: Coordinates.optional(),
   timestamp: z.iso.datetime().optional(),
+  attachments: z.array(z.file()).optional(),
 });
 
 export type ProofOfDeliveries = z.infer<typeof ProofOfDeliveriesSchema>;
@@ -60,6 +61,7 @@ export const UpdateProofOfDeliveriesSchema = (
     .omit({
       id: true,
       timestamp: true,
+      attachments: true,
     })
     .refine(
       (data) =>
