@@ -1,3 +1,4 @@
+import { Trash } from "lucide-react";
 import z from "zod";
 import { Button } from "@/components/ui/button";
 import { withFieldGroup } from "@/components/ui/forms";
@@ -23,7 +24,7 @@ export const OpportunityProductsForm = withFieldGroup({
         <group.AppField name="product">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-1"
               title="Product"
               description="Product associated with the opportunity."
               tooltip="Select product"
@@ -37,31 +38,22 @@ export const OpportunityProductsForm = withFieldGroup({
           )}
         </group.AppField>
         {/* quantity */}
-        <group.AppField name="quantity">
-          {(field) => (
-            <field.Field
-              className="col-span-1"
-              title="Quantity"
-              description="Quantity of this product in the opportunity."
-              tooltip="Example: 10"
-            >
-              <field.NumberField min={0} step={1} />
-            </field.Field>
-          )}
-        </group.AppField>
-        {/* priceSnapshot */}
-        <group.AppField name="priceSnapshot">
-          {(field) => (
-            <field.Field
-              className="col-span-1"
-              title="Price Snapshot"
-              description="Price of product at time of opportunity creation."
-              tooltip="Example: 2500"
-            >
-              <field.NumberField addonStart="₱" min={0} />
-            </field.Field>
-          )}
-        </group.AppField>
+        <div className="col-span-3 flex items-center gap-2.5 justify-between">
+          <group.AppField name="quantity">
+            {(field) => (
+              <field.Field
+                title="Quantity"
+                description="Quantity of this product in the opportunity."
+                tooltip="Example: 10"
+              >
+                <field.NumberField min={0} step={1} />
+              </field.Field>
+            )}
+          </group.AppField>
+          <Button variant="destructive" onClick={props.onRemove}>
+            <Trash />
+          </Button>
+        </div>
       </group.FieldSet>
     );
   },

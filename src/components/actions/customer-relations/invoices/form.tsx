@@ -368,9 +368,13 @@ export const UpdateInvoicesFormOption = (
   record?: CustomerRelationsInvoicesRecord
 ) =>
   formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateInvoicesSchema>>
-    >,
+    defaultValues: {
+      ...record,
+      issueDate: record?.issueDate ? new Date(record.issueDate) : new Date(),
+      dueDate: record?.dueDate ? new Date(record.dueDate) : undefined,
+      sentAt: record?.sentAt ? new Date(record.sentAt) : undefined,
+      paidAt: record?.paidAt ? new Date(record.paidAt) : undefined,
+    } as Partial<z.infer<ReturnType<typeof UpdateInvoicesSchema>>>,
     validators: {
       onSubmitAsync: UpdateInvoicesSchema(pocketbase, record),
     },

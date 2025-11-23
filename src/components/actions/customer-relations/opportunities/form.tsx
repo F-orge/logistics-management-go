@@ -205,35 +205,39 @@ export const OpportunitiesForm = withForm({
           )}
         </form.AppField>
         {/* products */}
-        <FieldSeparator className="col-span-full" />
-        <form.FieldSet
-          className="col-span-full"
-          legend="Products"
-          description="Add products to this opportunity."
-        >
-          <form.AppField name="products" mode="array">
-            {(field) => (
-              <>
-                {field.state.value?.map((_, index) => (
-                  <OpportunityProductsForm
-                    key={index}
-                    form={form}
-                    fields={`products[${index}]` as any}
-                    onRemove={() => field.removeValue(index)}
-                  />
-                ))}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => field.pushValue(undefined as any)}
-                >
-                  Add Product
-                </Button>
-              </>
-            )}
-          </form.AppField>
-        </form.FieldSet>
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Products"
+              description="Add products to this opportunity."
+            >
+              <form.AppField name="products" mode="array">
+                {(field) => (
+                  <>
+                    {field.state.value?.map((_, index) => (
+                      <OpportunityProductsForm
+                        key={index}
+                        form={form}
+                        fields={`products[${index}]` as any}
+                        onRemove={() => field.removeValue(index)}
+                      />
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Product
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
         {/* attachments */}
         {props.action === "create" && (
           <>
@@ -364,9 +368,12 @@ export const UpdateOpportunitiesFormOption = (
   record?: CustomerRelationsOpportunitiesRecord
 ) =>
   formOptions({
-    defaultValues: record as Partial<
-      z.infer<ReturnType<typeof UpdateOpportunitiesSchema>>
-    >,
+    defaultValues: {
+      ...record,
+      expectedCloseDate: record?.expectedCloseDate
+        ? new Date(record.expectedCloseDate)
+        : undefined,
+    } as Partial<z.infer<ReturnType<typeof UpdateOpportunitiesSchema>>>,
     validators: {
       onSubmitAsync: UpdateOpportunitiesSchema(pocketbase, record),
     },

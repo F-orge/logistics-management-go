@@ -4,10 +4,8 @@
  * DO NOT EDIT MANUALLY
  */
 
-import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
   CustomerRelationsOpportunitiesRecord,
   TypedPocketBase,
 } from "@/lib/pb.types";
@@ -99,6 +97,7 @@ export const UpdateOpportunitiesSchema = (
       created: true,
       updated: true,
       attachments: true,
+      products: true,
     })
     .superRefine(async (data, ctx) => {
       // Get current opportunity stage from existing record

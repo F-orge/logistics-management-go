@@ -54,6 +54,14 @@ export const actions: ContextMenuItem<InvoiceResponse>[] = [
       }),
   },
   {
+    label: "Edit Record",
+    icon: <EditIcon />,
+    onSelect: (row, navigate) =>
+      navigate({
+        search: (prev) => ({ ...prev, action: "update", id: row.original.id }),
+      }),
+  },
+  {
     label: "Delete Invoice",
     variant: "destructive",
     icon: <Trash />,

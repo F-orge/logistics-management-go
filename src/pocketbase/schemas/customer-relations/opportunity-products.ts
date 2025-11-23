@@ -20,10 +20,6 @@ export const OpportunityProductsSchema = z.object({
     .number()
     .min(0, "Quantity must be non-negative")
     .int("Quantity must be an integer"),
-  priceSnapshot: z
-    .number()
-    .min(0, "Price snapshot must be non-negative")
-    .optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });
@@ -87,32 +83,6 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
         }
       }
     }
-
-    // Price snapshot: Fetch and capture the current product price if not provided
-    if (data.product && !data.priceSnapshot) {
-      try {
-        const product = await pocketbase
-          .collection(Collections.CustomerRelationsProducts)
-          .getOne(data.product);
-        if (product && typeof product.price === "number") {
-          // In a real implementation, this would be automatically set
-          // For validation purposes, we're ensuring a price is captured
-          if (product.price < 0) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["priceSnapshot"],
-              message: "Product has an invalid price",
-            });
-          }
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product reference not found",
-        });
-      }
-    }
   });
 
 export const UpdateOpportunityProductsSchema = (
@@ -132,16 +102,6 @@ export const UpdateOpportunityProductsSchema = (
           code: "custom",
           path: ["quantity"],
           message: "Quantity must be greater than 0",
-        });
-      }
-
-      // Price snapshot should generally not be updated after creation
-      // to maintain historical accuracy, but we allow it if explicitly changed
-      if (data.priceSnapshot !== undefined && data.priceSnapshot < 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["priceSnapshot"],
-          message: "Price snapshot cannot be negative",
         });
       }
 

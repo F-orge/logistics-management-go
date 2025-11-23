@@ -115,6 +115,7 @@ export const UpdateInvoicesSchema = (
       created: true,
       updated: true,
       attachments: true,
+      items: true,
     })
     .superRefine(async (data, ctx) => {
       // Get current invoice status from existing record
