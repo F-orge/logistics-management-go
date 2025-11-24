@@ -148,7 +148,7 @@ export const LeadsForm = withForm({
               description="Date and time when lead was converted."
               tooltip="Select conversion date"
             >
-              <field.DateTimeField />
+              <field.DateTimeField disabled />
             </field.Field>
           )}
         </form.AppField>
@@ -173,7 +173,7 @@ export const LeadsForm = withForm({
         <form.AppField name="convertedCompany">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               title="Converted to Company"
               description="Company record created from this lead."
               tooltip="Select company"
