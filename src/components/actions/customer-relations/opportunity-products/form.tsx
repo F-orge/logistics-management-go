@@ -24,7 +24,7 @@ export const OpportunityProductsForm = withFieldGroup({
         <group.AppField name="product">
           {(field) => (
             <field.Field
-              className="col-span-1"
+              className="col-span-2"
               title="Product"
               description="Product associated with the opportunity."
               tooltip="Select product"
@@ -38,7 +38,7 @@ export const OpportunityProductsForm = withFieldGroup({
           )}
         </group.AppField>
         {/* quantity */}
-        <div className="col-span-3 flex items-center gap-2.5 justify-between">
+        <div className="col-span-2 flex items-center gap-2.5 justify-between">
           <group.AppField name="quantity">
             {(field) => (
               <field.Field

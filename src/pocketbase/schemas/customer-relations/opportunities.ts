@@ -27,11 +27,7 @@ export const OpportunitiesSchema = z.object({
     ])
     .optional(),
   dealValue: z.number().optional(),
-  probability: z
-    .number()
-    .min(0, "Probability must be at least 0")
-    .max(1, "Probability must be at most 1 (0-1 scale, not 0-100)")
-    .optional(),
+  probability: z.number().optional(),
   expectedCloseDate: z.date().optional(),
   lostReason: z.string().optional(),
   source: z.enum([
@@ -68,7 +64,6 @@ export const CreateOpportunitiesSchema = (pocketbase: TypedPocketBase) =>
       products: CreateOpportunityProductsSchema(pocketbase).array(),
     })
     .superRefine((data, ctx) => {
-      // Validate opportunity name is provided
       if (!data.name || data.name.trim().length === 0) {
         ctx.addIssue({
           code: "custom",

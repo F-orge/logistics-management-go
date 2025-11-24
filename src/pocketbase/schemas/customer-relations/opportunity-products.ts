@@ -31,25 +31,8 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Validate required references
-    if (!data.opportunity) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["opportunity"],
-        message: "Opportunity reference is required",
-      });
-    }
-
-    if (!data.product) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["product"],
-        message: "Product reference is required",
-      });
-      return; // Skip uniqueness check if references are missing
-    }
-
+    opportunity: true,
+  }).superRefine((data, ctx) => {
     // Validate quantity
     if (data.quantity <= 0) {
       ctx.addIssue({
@@ -57,31 +40,6 @@ export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
         path: ["quantity"],
         message: "Quantity must be greater than 0",
       });
-    }
-
-    // Composite unique constraint: (opportunity, product) must be unique
-    if (data.opportunity && data.product) {
-      try {
-        const existingOpportunityProduct = await pocketbase
-          .collection(Collections.CustomerRelationsOpportunityProducts)
-          .getFirstListItem(
-            `opportunity = "${data.opportunity.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
-            { requestKey: null }
-          );
-
-        if (existingOpportunityProduct) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "This product is already added to the opportunity",
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - combination is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Opportunity-product uniqueness check error:", error);
-        }
-      }
     }
   });
 

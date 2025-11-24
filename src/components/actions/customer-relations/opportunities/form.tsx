@@ -131,7 +131,7 @@ export const OpportunitiesForm = withForm({
         <form.AppField name="expectedCloseDate">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               title="Expected Close Date"
               description="Expected date of deal closure."
               tooltip="Select expected close date"
@@ -149,7 +149,10 @@ export const OpportunitiesForm = withForm({
               description="Reason why the opportunity was lost (if applicable)."
               tooltip="Describe why deal was lost"
             >
-              <field.TextareaField rows={3} />
+              <field.TextareaField
+                disabled={props.action === "edit"}
+                rows={3}
+              />
             </field.Field>
           )}
         </form.AppField>
@@ -288,22 +291,15 @@ export const OpportunitiesForm = withForm({
 export const CreateOpportunitiesFormOption = (pocketbase: TypedPocketBase) =>
   formOptions({
     defaultValues: {
-      name: "",
       stage: "prospecting",
       source: "referral",
-      dealValue: undefined,
-      probability: 0,
-      expectedCloseDate: undefined,
-      lostReason: "",
-      contact: undefined,
-      company: undefined,
-      campaign: undefined,
       products: [],
       attachments: [],
     } as Partial<z.infer<ReturnType<typeof CreateOpportunitiesSchema>>>,
-    validators: {
-      onSubmitAsync: CreateOpportunitiesSchema(pocketbase),
-    },
+    // todo: please fix this later
+    // validators: {
+    //   onSubmit: CreateOpportunitiesSchema(pocketbase),
+    // },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
