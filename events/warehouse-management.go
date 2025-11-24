@@ -23,7 +23,12 @@ func OnOrderShipped(e *core.RecordEvent) error {
 	orderNumber := e.Record.GetString("orderNumber")
 	orderID := e.Record.GetString("id")
 	shippingAddress := e.Record.GetString("shippingAddress")
-	companyID := e.Record.GetString("client")
+	clientID := e.Record.GetString("client")
+
+	// Validate that we have required fields
+	if orderNumber == "" || clientID == "" {
+		return e.Next()
+	}
 
 	// Query for a contact associated with this company
 	contacts, err := e.App.FindRecordsByFilter(
@@ -32,7 +37,7 @@ func OnOrderShipped(e *core.RecordEvent) error {
 		"", // sort
 		1,  // limit
 		0,  // offset
-		dbx.Params{"company": companyID},
+		dbx.Params{"company": clientID},
 	)
 	if err != nil || len(contacts) == 0 {
 		return e.Next() // Skip if no contact found
@@ -92,7 +97,12 @@ func OnOrderCompleted(e *core.RecordEvent) error {
 	// Extract order information
 	orderNumber := e.Record.GetString("orderNumber")
 	orderID := e.Record.GetString("id")
-	companyID := e.Record.GetString("client")
+	clientID := e.Record.GetString("client")
+
+	// Validate that we have required fields
+	if orderNumber == "" || clientID == "" {
+		return e.Next()
+	}
 
 	// Query for a contact associated with this company
 	contacts, err := e.App.FindRecordsByFilter(
@@ -101,7 +111,7 @@ func OnOrderCompleted(e *core.RecordEvent) error {
 		"", // sort
 		1,  // limit
 		0,  // offset
-		dbx.Params{"company": companyID},
+		dbx.Params{"company": clientID},
 	)
 	if err != nil || len(contacts) == 0 {
 		return e.Next() // Skip if no contact found
@@ -160,7 +170,12 @@ func OnOrderCancelled(e *core.RecordEvent) error {
 	// Extract order information
 	orderNumber := e.Record.GetString("orderNumber")
 	orderID := e.Record.GetString("id")
-	companyID := e.Record.GetString("client")
+	clientID := e.Record.GetString("client")
+
+	// Validate that we have required fields
+	if orderNumber == "" || clientID == "" {
+		return e.Next()
+	}
 
 	// Query for a contact associated with this company
 	contacts, err := e.App.FindRecordsByFilter(
@@ -169,7 +184,7 @@ func OnOrderCancelled(e *core.RecordEvent) error {
 		"", // sort
 		1,  // limit
 		0,  // offset
-		dbx.Params{"company": companyID},
+		dbx.Params{"company": clientID},
 	)
 	if err != nil || len(contacts) == 0 {
 		return e.Next() // Skip if no contact found
