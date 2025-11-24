@@ -16,7 +16,7 @@ import { CreateInvoiceItemsSchema } from "./invoice-items";
 export const InvoicesSchema = z.object({
   id: z.string(),
   invoiceNumber: z.string().nonempty("Invoice number is required"),
-  opportunity: z.string().optional(),
+  opportunity: z.string(),
   status: z.enum(["draft", "sent", "paid", "overdue", "cancelled"]).optional(),
   total: z.number().min(0, "Total amount must be non-negative").optional(),
   issueDate: z.date().optional().default(new Date()),

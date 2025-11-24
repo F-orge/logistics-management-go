@@ -149,7 +149,7 @@ export const InvoicesForm = withForm({
                 collectionName={Collections.CustomerRelationsOpportunities}
                 relationshipName="opportunity"
                 renderOption={(item) => `${item.name}`}
-                disabled
+                disabled={props.action === "edit"}
               />
             </field.Field>
           )}
@@ -383,9 +383,16 @@ export const UpdateInvoicesFormOption = (
     },
     onSubmit: async ({ value, meta }) => {
       try {
-        await pocketbase
+        const result = await pocketbase
           .collection(Collections.CustomerRelationsInvoices)
-          .update(record?.id!, value);
+          .update(record?.id!, {
+            ...value,
+            sentAt:
+              value.status === "sent" && value.sentAt ? new Date() : undefined,
+            paidAt: value.paidAt ? new Date() : undefined,
+          });
+
+        console.log("Update result:", result);
 
         toast.success("Invoice updated successfully!");
       } catch (error) {
@@ -395,7 +402,9 @@ export const UpdateInvoicesFormOption = (
           );
         }
       } finally {
-        meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
+        meta.navigate!({
+          search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+        });
       }
     },
   });

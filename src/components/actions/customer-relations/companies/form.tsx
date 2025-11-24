@@ -154,7 +154,7 @@ export const CompaniesForm = withForm({
         <form.AppField name="annualRevenue">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               title="Annual Revenue"
               description="Company's annual revenue."
               tooltip="Example: 1000000"

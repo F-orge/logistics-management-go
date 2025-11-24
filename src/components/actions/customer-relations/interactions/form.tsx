@@ -109,7 +109,7 @@ export const InteractionsForm = withForm({
         <form.AppField name="outcome">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               title="Outcome"
               description="Result or outcome of the interaction."
               tooltip="Describe the outcome"
@@ -122,7 +122,7 @@ export const InteractionsForm = withForm({
         <form.AppField name="notes">
           {(field) => (
             <field.Field
-              className="col-span-2"
+              className="col-span-full"
               title="Notes"
               description="Additional notes about the interaction."
               tooltip="Add detailed notes"

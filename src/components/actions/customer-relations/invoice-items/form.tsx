@@ -28,7 +28,7 @@ export const InvoiceItemsForm = withFieldGroup({
         <group.AppField name="product">
           {(field) => (
             <field.Field
-              className="col-span-1"
+              className="col-span-2"
               title="Product"
               description="Product or service on this invoice line."
               tooltip="Select product"
@@ -55,18 +55,7 @@ export const InvoiceItemsForm = withFieldGroup({
           )}
         </group.AppField>
         {/* price */}
-        <div className="col-span-2 flex justify-between items-center gap-2.5">
-          <group.AppField name="price">
-            {(field) => (
-              <field.Field
-                title="Unit Price"
-                description="Price per unit."
-                tooltip="Example: 1000"
-              >
-                <field.NumberField addonStart="₱" min={0} />
-              </field.Field>
-            )}
-          </group.AppField>
+        <div className="col-span-1 flex justify-between items-center gap-2.5">
           {/* remove button */}
           {props.onRemove && (
             <div className="flex justify-end">

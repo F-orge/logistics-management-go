@@ -32,16 +32,9 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
+    price: true,
+    invoice: true,
   }).superRefine(async (data, ctx) => {
-    // Validate required references
-    if (!data.invoice) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["invoice"],
-        message: "Invoice reference is required",
-      });
-    }
-
     if (!data.product) {
       ctx.addIssue({
         code: "custom",
@@ -59,40 +52,6 @@ export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
         message: "Quantity must be greater than 0",
       });
     }
-
-    // Validate price is non-negative
-    if (data.price < 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["price"],
-        message: "Unit price cannot be negative",
-      });
-    }
-
-    // Composite unique constraint: (invoice, product) must be unique
-    if (data.invoice && data.product) {
-      try {
-        const existingInvoiceItem = await pocketbase
-          .collection(Collections.CustomerRelationsInvoiceItems)
-          .getFirstListItem(
-            `invoice = "${data.invoice.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
-            { requestKey: null }
-          );
-
-        if (existingInvoiceItem) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "This product is already added to the invoice",
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - combination is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Invoice-product uniqueness check error:", error);
-        }
-      }
-    }
   });
 
 export const UpdateInvoiceItemsSchema = (
@@ -104,6 +63,7 @@ export const UpdateInvoiceItemsSchema = (
       id: true,
       created: true,
       updated: true,
+      invoice: true,
     })
     .superRefine(async (data, ctx) => {
       // Validate quantity if being updated
@@ -122,33 +82,5 @@ export const UpdateInvoiceItemsSchema = (
           path: ["price"],
           message: "Unit price cannot be negative",
         });
-      }
-
-      // Composite unique constraint: (invoice, product) must be unique if either is being changed
-      if (data.invoice || data.product) {
-        try {
-          if (data.invoice && data.product) {
-            const existingInvoiceItem = await pocketbase
-              .collection(Collections.CustomerRelationsInvoiceItems)
-              .getFirstListItem(
-                `invoice = "${data.invoice.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
-                { requestKey: null }
-              );
-
-            // If found, check if it's a different record (not the one being updated)
-            if (existingInvoiceItem && existingInvoiceItem.id !== record?.id) {
-              ctx.addIssue({
-                code: "custom",
-                path: ["product"],
-                message: "This product is already added to the invoice",
-              });
-            }
-          }
-        } catch (error) {
-          // Record not found is expected - combination is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Invoice-product uniqueness check error:", error);
-          }
-        }
       }
     });
