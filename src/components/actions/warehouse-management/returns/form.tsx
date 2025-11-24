@@ -1,8 +1,11 @@
 import { formOptions } from "@tanstack/react-form";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
+import React from "react";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
 import {
   Collections,
@@ -16,6 +19,7 @@ import {
   ReturnsSchema,
   UpdateReturnsSchema,
 } from "@/pocketbase/schemas/warehouse-management/returns";
+import { ReturnItemsForm } from "../return-items/form";
 
 export type ReturnsFormProps = {
   action?: "create" | "edit";
@@ -107,6 +111,45 @@ export const ReturnsForm = withForm({
             </field.Field>
           )}
         </form.AppField>
+        {/* items */}
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Return Items"
+              description="Add items to this return."
+            >
+              {/* @ts-ignore - items field is added dynamically in CreateReturnsSchema */}
+              <form.AppField name="items" mode="array">
+                {(field) => (
+                  <>
+                    {/* @ts-ignore */}
+                    {field.state.value?.map((_: any, index: number) => (
+                      <React.Fragment key={index}>
+                        <ReturnItemsForm
+                          key={index}
+                          form={form}
+                          fields={`items[${index}]` as any}
+                          onRemove={() => field.removeValue(index)}
+                        />
+                        <FieldSeparator className="col-span-full" />
+                      </React.Fragment>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Item
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
       </form.FieldSet>
     );
   },
@@ -120,18 +163,39 @@ export const CreateReturnsFormOption = (pocketbase: TypedPocketBase) =>
       salesOrder: undefined,
       status: undefined,
       reason: "",
+      items: [],
     } as Partial<z.infer<ReturnType<typeof CreateReturnsSchema>>>,
-    validators: {
-      onSubmitAsync: CreateReturnsSchema(pocketbase),
-    },
+    // validators: {
+    //   onSubmitAsync: CreateReturnsSchema(pocketbase),
+    // },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
     onSubmit: async ({ value, meta }) => {
+      let returnId: string | null = null;
+
       try {
-        await pocketbase
+        // @ts-ignore
+        const { items, ...returnData } = value;
+
+        const created = await pocketbase
           .collection(Collections.WarehouseManagementReturns)
-          .create(value);
+          .create(returnData);
+
+        returnId = created.id;
+
+        // Now create each return item linked to the created return
+
+        const batch = pocketbase.createBatch();
+
+        for (const item of items!) {
+          batch.collection(Collections.WarehouseManagementReturnItems).create({
+            ...item,
+            return: returnId,
+          });
+        }
+
+        await batch.send();
 
         toast.success("Return created successfully!");
       } catch (error) {

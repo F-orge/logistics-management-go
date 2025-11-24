@@ -147,7 +147,7 @@ export const CreateInventoryAdjustmentFormOption = (
       warehouse: undefined,
     } as Partial<z.infer<ReturnType<typeof CreateInventoryAdjustmentSchema>>>,
     validators: {
-      onSubmitAsync: CreateInventoryAdjustmentSchema(pocketbase),
+      // onSubmitAsync: CreateInventoryAdjustmentSchema(pocketbase),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
@@ -180,7 +180,7 @@ export const UpdateInventoryAdjustmentFormOption = (
       z.infer<ReturnType<typeof UpdateInventoryAdjustmentSchema>>
     >,
     validators: {
-      onSubmitAsync: UpdateInventoryAdjustmentSchema(pocketbase, record),
+      // onSubmitAsync: UpdateInventoryAdjustmentSchema(pocketbase, record),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;

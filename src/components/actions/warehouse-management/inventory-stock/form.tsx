@@ -169,7 +169,7 @@ export const CreateInventoryStockFormOption = (pocketbase: TypedPocketBase) =>
       lastMovementAt: undefined,
     } as Partial<z.infer<ReturnType<typeof CreateInventoryStockSchema>>>,
     validators: {
-      onSubmitAsync: CreateInventoryStockSchema(pocketbase),
+      // onSubmitAsync: CreateInventoryStockSchema(pocketbase),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
@@ -202,7 +202,7 @@ export const UpdateInventoryStockFormOption = (
       z.infer<ReturnType<typeof UpdateInventoryStockSchema>>
     >,
     validators: {
-      onSubmitAsync: UpdateInventoryStockSchema(pocketbase, record),
+      // onSubmitAsync: UpdateInventoryStockSchema(pocketbase, record),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;

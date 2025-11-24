@@ -3,6 +3,7 @@ import { UseNavigateResult } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
 import { withFieldGroup } from "@/components/ui/forms";
 import {
   Collections,
@@ -18,6 +19,7 @@ import {
 
 export type SalesOrderItemsFormProps = {
   action?: "create" | "edit";
+  onRemove?: () => void;
 };
 
 export const SalesOrderItemsForm = withFieldGroup({
@@ -74,6 +76,17 @@ export const SalesOrderItemsForm = withFieldGroup({
             </field.Field>
           )}
         </group.AppField>
+        {props.onRemove && (
+          <Button
+            type="button"
+            variant="destructive"
+            size="sm"
+            onClick={props.onRemove}
+            className="col-span-full"
+          >
+            Remove Item
+          </Button>
+        )}
       </group.FieldSet>
     );
   },

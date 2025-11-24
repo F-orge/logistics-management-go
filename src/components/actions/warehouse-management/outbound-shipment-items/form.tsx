@@ -20,6 +20,7 @@ import {
 
 export type OutboundShipmentItemsFormProps = {
   action?: "create" | "edit";
+  onRemove?: () => void;
 };
 
 export const OutboundShipmentItemsForm = withFieldGroup({
@@ -34,24 +35,6 @@ export const OutboundShipmentItemsForm = withFieldGroup({
           className: "grid grid-cols-4 gap-4",
         }}
       >
-        {/* outboundShipment - string (relation) */}
-        <group.AppField name="outboundShipment">
-          {(field) => (
-            <field.Field
-              className="col-span-2"
-              label="Outbound Shipment"
-              description="Parent shipment"
-            >
-              <field.RelationField<WarehouseManagementOutboundShipmentsResponse>
-                collectionName={
-                  Collections.WarehouseManagementOutboundShipments
-                }
-                relationshipName="outboundShipment"
-                renderOption={(item) => `${item.trackingNumber}`}
-              />
-            </field.Field>
-          )}
-        </group.AppField>
         {/* salesOrderItem - string (relation) */}
         <group.AppField name="salesOrderItem">
           {(field) => (

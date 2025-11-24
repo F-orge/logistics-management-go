@@ -83,7 +83,7 @@ export const CreateInventoryBatchesFormOption = (pocketbase: TypedPocketBase) =>
       expirationDate: undefined,
     } as Partial<z.infer<ReturnType<typeof CreateInventoryBatchesSchema>>>,
     validators: {
-      onSubmitAsync: CreateInventoryBatchesSchema(pocketbase),
+      // onSubmitAsync: CreateInventoryBatchesSchema(pocketbase),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
@@ -116,7 +116,7 @@ export const UpdateInventoryBatchesFormOption = (
       z.infer<ReturnType<typeof UpdateInventoryBatchesSchema>>
     >,
     validators: {
-      onSubmitAsync: UpdateInventoryBatchesSchema(pocketbase, record),
+      // onSubmitAsync: UpdateInventoryBatchesSchema(pocketbase, record),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;

@@ -24,6 +24,7 @@ export const InboundShipmentsSchema = z.object({
   warehouse: z.string(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
+  items: z.array(z.string()).optional(),
 });
 
 export type InboundShipments = z.infer<typeof InboundShipmentsSchema>;
@@ -100,6 +101,9 @@ export const UpdateInboundShipmentsSchema = (
       id: true,
       created: true,
       updated: true,
+    })
+    .extend({
+      items: CreateInboundShipmentItemsSchema(pocketbase).array().optional(),
     })
     .superRefine(async (data, ctx) => {
       // Verify warehouse exists if being updated

@@ -1,8 +1,11 @@
 import { formOptions } from "@tanstack/react-form";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
+import React from "react";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
 import {
   Collections,
@@ -17,6 +20,7 @@ import {
   InboundShipmentsSchema,
   UpdateInboundShipmentsSchema,
 } from "@/pocketbase/schemas/warehouse-management/inbound-shipments";
+import { InboundShipmentItemsForm } from "../inbound-shipment-items/form";
 
 export type InboundShipmentsFormProps = {
   action?: "create" | "edit";
@@ -110,6 +114,43 @@ export const InboundShipmentsForm = withForm({
             </field.Field>
           )}
         </form.AppField>
+        {/* items */}
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Inbound Shipment Items"
+              description="Add line items to this shipment."
+            >
+              <form.AppField name="items" mode="array">
+                {(field) => (
+                  <>
+                    {field.state.value?.map((_, index) => (
+                      <React.Fragment key={index}>
+                        <InboundShipmentItemsForm
+                          key={index}
+                          form={form}
+                          fields={`items[${index}]` as any}
+                          onRemove={() => field.removeValue(index)}
+                        />
+                        <FieldSeparator className="col-span-full" />
+                      </React.Fragment>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Item
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
       </form.FieldSet>
     );
   },

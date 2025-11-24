@@ -28,6 +28,9 @@ export const SalesOrdersSchema = z.object({
   orderNumber: z.string(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
+  items: z
+    .array(z.string())
+    .nonempty("At least one sales order item is required"),
 });
 
 export type SalesOrders = z.infer<typeof SalesOrdersSchema>;
@@ -37,61 +40,65 @@ export const CreateSalesOrdersSchema = (pocketbase: TypedPocketBase) =>
     id: true,
     created: true,
     updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify client exists
-    try {
-      const client = await pocketbase
-        .collection(Collections.CustomerRelationsCompanies)
-        .getOne(data.client, { requestKey: null });
-      if (!client) {
+  })
+    .extend({
+      items: CreateSalesOrderItemsSchema(pocketbase).array(),
+    })
+    .superRefine(async (data, ctx) => {
+      // Verify client exists
+      try {
+        const client = await pocketbase
+          .collection(Collections.CustomerRelationsCompanies)
+          .getOne(data.client, { requestKey: null });
+        if (!client) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["client"],
+            message: "Client does not exist",
+          });
+        }
+      } catch (error) {
         ctx.addIssue({
           code: "custom",
           path: ["client"],
           message: "Client does not exist",
         });
       }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["client"],
-        message: "Client does not exist",
-      });
-    }
 
-    // Validate order number is not empty
-    if (!data.orderNumber || data.orderNumber.trim().length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["orderNumber"],
-        message: "Order number is required",
-      });
-    }
-
-    // Unique constraint: orderNumber must be unique
-    try {
-      const existingOrder = await pocketbase
-        .collection(Collections.WarehouseManagementSalesOrders)
-        .getFirstListItem(
-          `orderNumber = "${data.orderNumber.replace(/"/g, '\\"')}"`,
-          {
-            requestKey: null,
-          }
-        );
-
-      if (existingOrder) {
+      // Validate order number is not empty
+      if (!data.orderNumber || data.orderNumber.trim().length === 0) {
         ctx.addIssue({
           code: "custom",
           path: ["orderNumber"],
-          message: `Order number "${data.orderNumber}" is already in use`,
+          message: "Order number is required",
         });
       }
-    } catch (error) {
-      // Record not found is expected - orderNumber is unique
-      if (!(error instanceof ClientResponseError) || error.status !== 404) {
-        console.warn("Order number uniqueness check error:", error);
+
+      // Unique constraint: orderNumber must be unique
+      try {
+        const existingOrder = await pocketbase
+          .collection(Collections.WarehouseManagementSalesOrders)
+          .getFirstListItem(
+            `orderNumber = "${data.orderNumber.replace(/"/g, '\\"')}"`,
+            {
+              requestKey: null,
+            }
+          );
+
+        if (existingOrder) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["orderNumber"],
+            message: `Order number "${data.orderNumber}" is already in use`,
+          });
+        }
+      } catch (error) {
+        // Record not found is expected - orderNumber is unique
+        if (!(error instanceof ClientResponseError) || error.status !== 404) {
+          console.warn("Order number uniqueness check error:", error);
+        }
       }
-    }
-  });
+    });
 
 export const UpdateSalesOrdersSchema = (
   pocketbase: TypedPocketBase,
@@ -102,9 +109,7 @@ export const UpdateSalesOrdersSchema = (
       id: true,
       created: true,
       updated: true,
-    })
-    .extend({
-      items: CreateSalesOrderItemsSchema(pocketbase).array(),
+      items: true,
     })
     .superRefine(async (data, ctx) => {
       // Verify client exists if being updated

@@ -1,8 +1,11 @@
 import { formOptions } from "@tanstack/react-form";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
+import React from "react";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
 import {
   Collections,
@@ -17,6 +20,7 @@ import {
   OutboundShipmentsSchema,
   UpdateOutboundShipmentsSchema,
 } from "@/pocketbase/schemas/warehouse-management/outbound-shipments";
+import { OutboundShipmentItemsForm } from "../outbound-shipment-items/form";
 
 export type OutboundShipmentsFormProps = {
   action?: "create" | "edit";
@@ -114,6 +118,43 @@ export const OutboundShipmentsForm = withForm({
             </field.Field>
           )}
         </form.AppField>
+        {/* items */}
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Outbound Shipment Items"
+              description="Add line items to this shipment."
+            >
+              <form.AppField name="items" mode="array">
+                {(field) => (
+                  <>
+                    {field.state.value?.map((_, index) => (
+                      <React.Fragment key={index}>
+                        <OutboundShipmentItemsForm
+                          key={index}
+                          form={form}
+                          fields={`items[${index}]` as any}
+                          onRemove={() => field.removeValue(index)}
+                        />
+                        <FieldSeparator className="col-span-full" />
+                      </React.Fragment>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Item
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
       </form.FieldSet>
     );
   },
@@ -129,18 +170,40 @@ export const CreateOutboundShipmentsFormOption = (
       status: undefined,
       trackingNumber: "",
       carrier: undefined,
+      items: [],
     } as Partial<z.infer<ReturnType<typeof CreateOutboundShipmentsSchema>>>,
-    validators: {
-      onSubmitAsync: CreateOutboundShipmentsSchema(pocketbase),
-    },
+    // validators: {
+    //   onSubmitAsync: CreateOutboundShipmentsSchema(pocketbase),
+    // },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
     onSubmit: async ({ value, meta }) => {
+      let outboundShipmentId: string | null = null;
+
       try {
-        await pocketbase
+        const { items, ...outboundShipmentData } = value;
+
+        const created = await pocketbase
           .collection(Collections.WarehouseManagementOutboundShipments)
-          .create(value);
+          .create(outboundShipmentData);
+
+        outboundShipmentId = created.id;
+
+        // Now create each outbound shipment item linked to the created outbound shipment
+
+        const batch = pocketbase.createBatch();
+
+        for (const item of items!) {
+          batch
+            .collection(Collections.WarehouseManagementOutboundShipmentItems)
+            .create({
+              ...item,
+              outboundShipment: outboundShipmentId,
+            });
+        }
+
+        await batch.send();
 
         toast.success("Outbound shipment created successfully!");
       } catch (error) {
@@ -163,9 +226,9 @@ export const UpdateOutboundShipmentsFormOption = (
     defaultValues: record as Partial<
       z.infer<ReturnType<typeof UpdateOutboundShipmentsSchema>>
     >,
-    validators: {
-      onSubmitAsync: UpdateOutboundShipmentsSchema(pocketbase, record),
-    },
+    // validators: {
+    //   onSubmitAsync: UpdateOutboundShipmentsSchema(pocketbase, record),
+    // },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },

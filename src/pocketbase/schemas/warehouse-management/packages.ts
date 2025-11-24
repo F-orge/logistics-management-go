@@ -33,6 +33,7 @@ export const PackagesSchema = z.object({
   images: z.file().array().optional(),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
+  items: z.array(z.string()).nonempty("At least one package item is required"),
 });
 
 export type Packages = z.infer<typeof PackagesSchema>;

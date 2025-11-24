@@ -22,6 +22,7 @@ export const OutboundShipmentsSchema = z.object({
   trackingNumber: z.string(),
   carrier: z.string().optional(),
   warehouse: z.string(),
+  items: z.array(z.string()).nonempty("At least one shipment item is required"),
   created: z.iso.datetime().optional(),
   updated: z.iso.datetime().optional(),
 });

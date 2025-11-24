@@ -1,8 +1,11 @@
 import { formOptions } from "@tanstack/react-form";
 import { UseNavigateResult } from "@tanstack/react-router";
 import { ClientResponseError } from "pocketbase";
+import React from "react";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
+import { FieldSeparator } from "@/components/ui/field";
 import { withForm } from "@/components/ui/forms";
 import {
   Collections,
@@ -16,6 +19,7 @@ import {
   SalesOrdersSchema,
   UpdateSalesOrdersSchema,
 } from "@/pocketbase/schemas/warehouse-management/sales-orders";
+import { SalesOrderItemsForm } from "../sales-order-items/form";
 
 export type SalesOrdersFormProps = {
   action?: "create" | "edit";
@@ -108,6 +112,45 @@ export const SalesOrdersForm = withForm({
             </field.Field>
           )}
         </form.AppField>
+        {/* items */}
+        {props.action === "create" && (
+          <>
+            <FieldSeparator className="col-span-full" />
+            <form.FieldSet
+              className="col-span-full"
+              legend="Sales Order Items"
+              description="Add items to this order."
+            >
+              {/* @ts-ignore - items field is added dynamically in CreateSalesOrdersSchema */}
+              <form.AppField name="items" mode="array">
+                {(field) => (
+                  <>
+                    {/* @ts-ignore */}
+                    {field.state.value?.map((_: any, index: number) => (
+                      <React.Fragment key={index}>
+                        <SalesOrderItemsForm
+                          key={index}
+                          form={form}
+                          fields={`items[${index}]` as any}
+                          onRemove={() => field.removeValue(index)}
+                        />
+                        <FieldSeparator className="col-span-full" />
+                      </React.Fragment>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => field.pushValue(undefined as any)}
+                    >
+                      Add Item
+                    </Button>
+                  </>
+                )}
+              </form.AppField>
+            </form.FieldSet>
+          </>
+        )}
       </form.FieldSet>
     );
   },
@@ -121,18 +164,41 @@ export const CreateSalesOrdersFormOption = (pocketbase: TypedPocketBase) =>
       opportunity: undefined,
       status: undefined,
       shippingAddress: "",
+      items: [],
     } as Partial<z.infer<ReturnType<typeof CreateSalesOrdersSchema>>>,
-    validators: {
-      onSubmitAsync: CreateSalesOrdersSchema(pocketbase),
-    },
+    // validators: {
+    //   onSubmitAsync: CreateSalesOrdersSchema(pocketbase),
+    // },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
     onSubmit: async ({ value, meta }) => {
+      let orderId: string | null = null;
+
       try {
-        await pocketbase
+        // @ts-ignore
+        const { items, ...orderData } = value;
+
+        const created = await pocketbase
           .collection(Collections.WarehouseManagementSalesOrders)
-          .create(value);
+          .create(orderData);
+
+        orderId = created.id;
+
+        // Now create each sales order item linked to the created order
+
+        const batch = pocketbase.createBatch();
+
+        for (const item of items!) {
+          batch
+            .collection(Collections.WarehouseManagementSalesOrderItems)
+            .create({
+              ...item,
+              salesOrder: orderId,
+            });
+        }
+
+        await batch.send();
 
         toast.success("Sales order created successfully!");
       } catch (error) {

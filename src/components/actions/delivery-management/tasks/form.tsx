@@ -68,18 +68,6 @@ export const TasksForm = withForm({
             </field.Field>
           )}
         </form.AppField>
-        {/* sequence - number */}
-        <form.AppField name="sequence">
-          {(field) => (
-            <field.Field
-              className="col-span-full"
-              label="Sequence"
-              description="Order in delivery route"
-            >
-              <field.NumberField />
-            </field.Field>
-          )}
-        </form.AppField>
         {/* deliveryAddress - string */}
         <form.AppField name="deliveryAddress">
           {(field) => (
@@ -214,6 +202,7 @@ export const TasksForm = withForm({
                   { label: "Damaged Package", value: "damaged-package" },
                   { label: "Access Denied", value: "access-denied" },
                   { label: "Weather Conditions", value: "weather-conditions" },
+                  { label: "Other", value: "other" },
                 ]}
               />
             </field.Field>
@@ -243,7 +232,6 @@ export const CreateTasksFormOption = (pocketbase: TypedPocketBase) =>
     defaultValues: {
       package: undefined,
       route: undefined,
-      sequence: 1,
       deliveryAddress: "",
       recipientName: "",
       recipientPhone: "",
@@ -296,7 +284,8 @@ export const UpdateTasksFormOption = (
         : undefined,
     } as Partial<z.infer<ReturnType<typeof UpdateTasksSchema>>>,
     validators: {
-      onSubmitAsync: UpdateTasksSchema(pocketbase, record),
+      // todo: fix later
+      // onSubmitAsync: UpdateTasksSchema(pocketbase, record),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;

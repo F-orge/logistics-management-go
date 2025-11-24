@@ -169,12 +169,12 @@ export const UpdateTasksSchema = (
       if (newStatus && currentStatus) {
         const validTransitions: Record<string, string[]> = {
           pending: ["assigned", "cancelled"],
-          assigned: ["out-for-delivery", "cancelled"],
-          "out-for-delivery": ["delivered", "failed", "rescheduled"],
-          delivered: [], // Terminal state
-          failed: ["rescheduled", "cancelled"],
+          assigned: ["out-for-delivery", "pending", "cancelled"],
+          "out-for-delivery": ["delivered", "failed"],
+          delivered: ["rescheduled", "cancelled"], // Allow rescheduling or cancelling delivered items
+          failed: ["out-for-delivery", "rescheduled", "cancelled"], // Allow retry or reschedule
           cancelled: [], // Terminal state
-          rescheduled: ["assigned", "cancelled"],
+          rescheduled: ["pending", "assigned", "cancelled"], // After rescheduling, go back to pending or assigned
         };
 
         const allowedTransitions = validTransitions[currentStatus] || [];

@@ -1,8 +1,10 @@
 import { formOptions } from "@tanstack/react-form";
 import { UseNavigateResult } from "@tanstack/react-router";
+import { Trash } from "lucide-react";
 import { ClientResponseError } from "pocketbase";
 import { toast } from "sonner";
 import z from "zod";
+import { Button } from "@/components/ui/button";
 import { withFieldGroup } from "@/components/ui/forms";
 import {
   Collections,
@@ -18,6 +20,7 @@ import {
 
 export type InboundShipmentItemsFormProps = {
   action?: "create" | "edit";
+  onRemove?: () => void;
 };
 
 export const InboundShipmentItemsForm = withFieldGroup({
@@ -32,38 +35,23 @@ export const InboundShipmentItemsForm = withFieldGroup({
           className: "grid grid-cols-4 gap-4",
         }}
       >
-        {/* inboundShipment - string (relation) */}
-        <group.AppField name="inboundShipment">
-          {(field) => (
-            <field.Field
-              className="col-span-2"
-              label="Inbound Shipment"
-              description="Parent shipment"
-            >
-              <field.RelationField<WarehouseManagementInboundShipmentsResponse>
-                collectionName={Collections.WarehouseManagementInboundShipments}
-                relationshipName="inboundShipment"
-                renderOption={(item) => `${item.id}`}
-              />
-            </field.Field>
-          )}
-        </group.AppField>
         {/* product - string (relation) */}
-        <group.AppField name="product">
-          {(field) => (
-            <field.Field
-              className="col-span-2"
-              label="Product"
-              description="Product in shipment"
-            >
-              <field.RelationField<WarehouseManagementProductsResponse>
-                collectionName={Collections.WarehouseManagementProducts}
-                relationshipName="product"
-                renderOption={(item) => `${item.name}`}
-              />
-            </field.Field>
-          )}
-        </group.AppField>
+        <div className="col-span-full flex items-center gap-2.5 justify-between">
+          <group.AppField name="product">
+            {(field) => (
+              <field.Field label="Product" description="Product in shipment">
+                <field.RelationField<WarehouseManagementProductsResponse>
+                  collectionName={Collections.WarehouseManagementProducts}
+                  relationshipName="product"
+                  renderOption={(item) => `${item.name}`}
+                />
+              </field.Field>
+            )}
+          </group.AppField>
+          <Button onClick={props.onRemove} variant={"destructive"}>
+            <Trash />
+          </Button>
+        </div>
         {/* expectedQuantity - number */}
         <group.AppField name="expectedQuantity">
           {(field) => (

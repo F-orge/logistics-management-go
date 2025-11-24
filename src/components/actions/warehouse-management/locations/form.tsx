@@ -244,7 +244,7 @@ export const CreateLocationsFormOption = (pocketbase: TypedPocketBase) =>
       parentLocation: undefined,
     } as Partial<z.infer<ReturnType<typeof CreateLocationsSchema>>>,
     validators: {
-      onSubmitAsync: CreateLocationsSchema(pocketbase),
+      // onSubmitAsync: CreateLocationsSchema(pocketbase),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
@@ -277,7 +277,7 @@ export const UpdateLocationsFormOption = (
       z.infer<ReturnType<typeof UpdateLocationsSchema>>
     >,
     validators: {
-      onSubmitAsync: UpdateLocationsSchema(pocketbase, record),
+      // onSubmitAsync: UpdateLocationsSchema(pocketbase, record),
     },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
