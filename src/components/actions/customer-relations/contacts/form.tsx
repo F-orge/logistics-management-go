@@ -160,9 +160,9 @@ export const CreateContactsFormOption = (pocketbase: TypedPocketBase) =>
       company: undefined,
       attachments: [],
     } as Partial<z.infer<ReturnType<typeof CreateContactsSchema>>>,
-    validators: {
-      onSubmitAsync: CreateContactsSchema(pocketbase),
-    },
+    // validators: {
+    //   onSubmitAsync: CreateContactsSchema(pocketbase),
+    // },
     onSubmitMeta: {} as {
       navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
     },
@@ -170,7 +170,10 @@ export const CreateContactsFormOption = (pocketbase: TypedPocketBase) =>
       try {
         await pocketbase
           .collection(Collections.CustomerRelationsContacts)
-          .create(value);
+          .create({
+            ...value,
+            owner: pocketbase.authStore.record?.id,
+          });
 
         toast.success("Contact created successfully!");
       } catch (error) {
