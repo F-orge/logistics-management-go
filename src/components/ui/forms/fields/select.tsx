@@ -1,0 +1,54 @@
+import type React from "react";
+import { useEffect } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../select";
+import { useFieldContext } from "..";
+
+type SelectOption = { label: string; value: string };
+
+export type SelectFieldProps = {
+  label?: React.ReactNode;
+  description?: React.ReactNode;
+  tooltip?: React.ReactNode;
+  tooltipSide?: "top" | "right" | "bottom" | "left";
+  options: SelectOption[];
+  placeholder?: string;
+  required?: boolean;
+};
+
+const SelectField = (props: SelectFieldProps) => {
+  const { placeholder = "Select an option..." } = props;
+  const field = useFieldContext<string>();
+
+  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+
+  useEffect(() => {
+    field.handleChange(field.state.value);
+  }, [field.state.value]);
+
+  return (
+    <Select value={field.state.value || ""} onValueChange={field.handleChange}>
+      <SelectTrigger
+        className="w-full"
+        id={field.name}
+        aria-invalid={isInvalid}
+      >
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        {props.options.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
+
+export default SelectField;

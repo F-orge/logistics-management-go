@@ -16,54 +16,6 @@ These constraints govern end-to-end flows that cross multiple schemas and are cr
 
 ---
 
-## Auth Schema (`public`)
-
-This schema governs user identity, authentication, and session management.
-
-### `user` table
-
-**Access Control**
-- User creation is public (registration).
-- `role` assignment is restricted to 'Admin' users.
-
-**CREATE**
-- `email`: Must be unique across all users and have a valid email format.
-- `name`: Is a required field.
-- `email_verified`: Defaults to `false`.
-
-**UPDATE**
-- `email`: If changed, the new email must also be unique.
-- `role`: Must be one of the predefined values in the `user_role` enum.
-- `banned`: If a user is banned (`banned` = `true`), `ban_reason` should not be empty.
-
-**DELETE**
-- Deleting a user should cascade and delete all associated records in `account` and `session` tables to maintain data integrity.
-
-### `session` table
-
-**CREATE**
-- `token`: Must be unique.
-- `user_id`: Must correspond to an existing record in the `user` table.
-- `expires_at`: Must be a timestamp in the future.
-
-**UPDATE**
-- Core session fields (`id`, `token`, `user_id`, `created_at`, `expires_at`) should be considered immutable. Only metadata like `ip_address` or `user_agent` might be updatable.
-
-**DELETE**
-- A session can be deleted manually (user logout).
-- A periodic job must delete all sessions where `expires_at` is in the past.
-
-### `account` table
-
-**CREATE**
-- `user_id`: Must correspond to an existing record in the `user` table.
-- `provider_id` and `account_id`: The combination must be unique to prevent duplicate provider accounts for the same user.
-
-**DELETE**
-- Accounts should be deleted when the parent `user` record is deleted.
-
----
-
 ## Billing Schema
 
 This schema manages all financial aspects, from quoting and invoicing to payments and disputes.
@@ -150,6 +102,22 @@ This schema manages customer relationships, sales pipelines, and support cases.
 
 **Access Control**
 - `CREATE`, `UPDATE`, `DELETE` operations are restricted to users with the 'Sales Manager' role.
+
+### `campaigns` table
+
+**Access Control**
+- `CREATE`, `UPDATE`, `DELETE` operations are restricted to users with the 'Marketing Manager' role.
+
+**CREATE / UPDATE**
+- `name`: Must be present (non-empty string). Consider enforcing a unique constraint scoped to the tenant or workspace if required by the business.
+- `budget`: Must be a non-negative numeric value. The UI should enforce this and the database should apply a CHECK (budget >= 0).
+- `start_date` and `end_date`: If both dates are provided, a constraint must ensure `start_date` <= `end_date`.
+
+**Derived state**
+- A campaign is considered `active` when the current timestamp is between `start_date` and `end_date` (inclusive) — useful for business rules and reporting, but not a stored state.
+
+**Analytics & Accounting**
+- `budget` should be linked to reporting / ROI calculations; any financial ledger entries (expenses) that reference a campaign should reference the campaign id and be validated on insert/update.
 
 ### `leads` table
 

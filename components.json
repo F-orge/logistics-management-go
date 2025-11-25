@@ -10,6 +10,7 @@
     "cssVariables": true,
     "prefix": ""
   },
+  "iconLibrary": "lucide",
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
@@ -18,7 +19,6 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@kibo-ui": "https://www.kibo-ui.com/r/${name}.json"
-  },
-  "iconLibrary": "lucide"
+    "@kibo-ui": "https://www.kibo-ui.com/r/{name}.json"
+  }
 }

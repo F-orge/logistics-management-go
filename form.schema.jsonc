@@ -1,0 +1,150 @@
+{
+  "form": {
+    // Form-level props (className, onSubmit handlers, etc.)
+    "props": {},
+
+    // Array of FieldSet components
+    // Each fieldset represents a semantic grouping of related fields
+    "fieldsets": [
+      {
+        // FieldLegend: Semantic title for the fieldset
+        // Maps to shadcn FieldLegend component
+        // Renders as an <legend> element within the FieldSet
+        "legend": "",
+
+        // FieldDescription: Helper text describing the entire fieldset
+        // Maps to shadcn FieldDescription component
+        // Provides context for all fields within this fieldset
+        "description": "",
+
+        // Array of field or fieldset groups
+        "groups": [
+          {
+            // ---- TYPE DEFINITION (required, determines behavior) ----
+
+            // Type of field component
+            // - "field": renders a single input control
+            // - "fieldset": renders a nested fieldset (recursive structure)
+            // Fieldsets can also be arrays (isArray: true)
+            "type": "field", // enum: "field" | "fieldset"
+
+            // ---- IDENTIFIER & LABEL PROPERTIES ----
+
+            // Unique identifier for the field/fieldset (REQUIRED)
+            // Used as HTML id attribute and form field name
+            // Must be: non-empty string, kebab-case or snake_case
+            // Pattern: /^[a-z0-9_-]+$/
+            // Example: "email-address", "phone_number"
+            // Note: Will be used in form data submission and accessibility trees
+            "id": "",
+
+            // Form field name (used for form data submission)
+            // If not provided, renderer falls back to using id
+            // Must be: non-empty string matching id pattern
+            // Pattern: /^[a-z0-9_-]+$/
+            // Example: "email_address", "phone-number"
+            "name": "",
+
+            // FieldLabel: Label text for the field/fieldset
+            // Maps to shadcn FieldLabel component
+            // - When type: "field": renders as <label> for the input control
+            // - When type: "fieldset": renders as a sub-legend for nested groups
+            // Note: Fieldset already has "legend" at parent level; this is for the group itself
+            "label": "",
+
+            // FieldDescription: Helper text for individual field/fieldset
+            "description": "",
+
+            // ---- BEHAVIOR & LAYOUT PROPERTIES ----
+
+            // Whether this field is required
+            // Affects form validation and UI rendering (e.g., asterisk on label)
+            "required": false,
+
+            // Whether this field/fieldset can have multiple instances
+            // Supported for both type: "field" and type: "fieldset"
+            // Used to render array controls (add/remove buttons)
+            "isArray": false,
+
+            // Field layout orientation
+            // - "vertical": label above input (default, mobile-first)
+            // - "horizontal": label beside input
+            // - "responsive": automatic column layout based on container width
+            // Note: Only applies when type: "field"
+            "orientation": "vertical", // enum: "vertical" | "horizontal" | "responsive"
+
+            // ---- FIELD-SPECIFIC PROPERTIES (when type: "field") ----
+
+            // Specific input component type for rendering
+            // Examples: text, email, password, number, textarea, select, checkbox, radio, switch, slider, file
+            // Only used when type: "field"
+            "inputType": "text", // enum: "text" | "email" | "password" | "number" | "textarea" | "select" | "checkbox" | "radio" | "switch" | "slider" | "file"
+
+            // ---- STATE & VALIDATION PROPERTIES ----
+
+            // Validation rules (handled separately from schema)
+            // Can be managed through custom resolvers or external validation system
+            // Expected keys may include: required, min, max, minLength, maxLength, pattern, custom, etc.
+            "validation": {},
+
+            // Error state and message(s)
+            // Supports single error string or array of error objects for shadcn FieldError
+            // Populated dynamically by form state/validation
+            "error": "",
+
+            // ---- FIELDSET-SPECIFIC PROPERTIES (when type: "fieldset") ----
+
+            // Nested groups (required if type: "fieldset")
+            // Recursive structure allowing arbitrarily nested fieldsets and fields
+            // When isArray: true with type: "fieldset", this defines the repeating structure
+            // See maxDepth property to prevent infinite nesting
+            "groups": [],
+
+            // Maximum nesting depth for this fieldset and its children
+            // Prevents infinite recursion and limits form complexity
+            // Default: 5 levels (fieldset can contain fieldsets up to 5 levels deep)
+            // Recommended max: 10 levels (practical UI limit)
+            // Note: Only applies when type: "fieldset"
+            // Example: maxDepth: 3 means this fieldset can contain up to 3 nested levels
+            "maxDepth": 5,
+
+            // ---- ARRAY-SPECIFIC PROPERTIES (when isArray: true) ----
+
+            // Configuration for array field/fieldset handling
+            // Applied when isArray: true for both "field" and "fieldset" types
+            "arrayConfig": {
+              // Minimum number of items in the array (required items)
+              "minItems": 0,
+              // Maximum number of items in the array (null for unlimited)
+              "maxItems": null,
+              // Label for add button (e.g., "Add Item", "Add Address")
+              "addLabel": "Add",
+              // Label for remove button (e.g., "Remove Item")
+              "removeLabel": "Remove"
+            },
+
+            // ---- CONTAINER & STYLING PROPERTIES ----
+
+            // Field-level props (className, data-invalid, etc.)
+            // Applied to the Field/FieldSet wrapper component
+            "props": {},
+
+            // ---- LAYOUT SEPARATORS ----
+
+            // Separator after this field/group
+            // - false: no separator
+            // - true: simple divider line
+            // - string: divider with centered text label (e.g., "Or continue with")
+            "separator": false
+          }
+        ],
+
+        // Separator after this fieldset
+        // - false: no separator
+        // - true: simple divider line
+        // - string: divider with centered text label
+        "separator": false
+      }
+    ]
+  }
+}
