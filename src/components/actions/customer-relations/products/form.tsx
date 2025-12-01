@@ -184,8 +184,6 @@ export const CreateProductsFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create product: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -208,6 +206,8 @@ export const UpdateProductsFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Product updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -216,8 +216,6 @@ export const UpdateProductsFormOption = (
 						`Failed to update product: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

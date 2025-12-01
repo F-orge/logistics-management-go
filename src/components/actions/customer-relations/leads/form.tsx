@@ -287,8 +287,6 @@ export const CreateLeadsFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create lead: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -314,6 +312,8 @@ export const UpdateLeadsFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Lead updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -322,8 +322,6 @@ export const UpdateLeadsFormOption = (
 						`Failed to update lead: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

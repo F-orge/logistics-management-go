@@ -362,8 +362,6 @@ export const CreateInvoicesFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create invoices: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -397,6 +395,10 @@ export const UpdateInvoicesFormOption = (
 				console.log("Update result:", result);
 
 				toast.success("Invoice updated successfully!");
+
+				meta.navigate!({
+					search: (prev) => ({ ...prev, action: undefined, id: undefined }),
+				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -405,10 +407,6 @@ export const UpdateInvoicesFormOption = (
 						`Failed to update invoice: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({
-					search: (prev) => ({ ...prev, action: undefined, id: undefined }),
-				});
 			}
 		},
 	});

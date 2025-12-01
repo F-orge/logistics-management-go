@@ -185,8 +185,6 @@ export const CreateContactsFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create contact: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -209,6 +207,8 @@ export const UpdateContactsFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Contact updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -217,8 +217,6 @@ export const UpdateContactsFormOption = (
 						`Failed to update contact: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

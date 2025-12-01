@@ -247,8 +247,6 @@ export const CreateCompaniesFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create company: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -271,6 +269,8 @@ export const UpdateCompaniesFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Company updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -279,8 +279,6 @@ export const UpdateCompaniesFormOption = (
 						`Failed to update company: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

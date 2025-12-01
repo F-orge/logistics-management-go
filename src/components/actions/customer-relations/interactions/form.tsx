@@ -211,8 +211,6 @@ export const CreateInteractionsFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create interaction: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -238,6 +236,8 @@ export const UpdateInteractionsFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Interaction updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -246,8 +246,6 @@ export const UpdateInteractionsFormOption = (
 						`Failed to update interaction: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

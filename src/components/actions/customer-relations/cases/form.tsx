@@ -238,8 +238,6 @@ export const CreateCasesFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create case: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -262,6 +260,8 @@ export const UpdateCasesFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Case updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -270,8 +270,6 @@ export const UpdateCasesFormOption = (
 						`Failed to update case: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

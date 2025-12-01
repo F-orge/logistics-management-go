@@ -303,7 +303,7 @@ export const CreateOpportunitiesFormOption = (pocketbase: TypedPocketBase) =>
 		onSubmitMeta: {} as {
 			navigate: UseNavigateResult<"/dashboard/$schema/$collection">;
 		},
-		onSubmit: async ({ value, meta }) => {
+		onSubmit: async ({ value, meta, formApi }) => {
 			let opportunityId: string | null = null;
 
 			try {
@@ -333,8 +333,12 @@ export const CreateOpportunitiesFormOption = (pocketbase: TypedPocketBase) =>
 				await batch.send();
 
 				toast.success("Opportunity created successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
+					formApi.setErrorMap({ onSubmit: error.data.data });
+
 					if (opportunityId) {
 						// Cleanup opportunity if products creation failed
 						try {
@@ -353,8 +357,6 @@ export const CreateOpportunitiesFormOption = (pocketbase: TypedPocketBase) =>
 						`Failed to create opportunity: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
@@ -380,6 +382,8 @@ export const UpdateOpportunitiesFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Opportunity updated successfully!");
+
+				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -388,8 +392,6 @@ export const UpdateOpportunitiesFormOption = (
 						`Failed to update opportunity: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});

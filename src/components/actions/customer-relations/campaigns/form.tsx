@@ -185,6 +185,10 @@ export const UpdateCampaignsFormOption = (
 					.update(record?.id!, value);
 
 				toast.success("Campaign updated successfully!");
+
+				meta.navigate!({
+					search: (prev) => ({ ...prev, action: undefined }),
+				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
 					formApi.setErrorMap({ onSubmit: error.data.data });
@@ -193,8 +197,6 @@ export const UpdateCampaignsFormOption = (
 						`Failed to update campaign: ${error.message} (${error.status})`,
 					);
 				}
-			} finally {
-				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			}
 		},
 	});
