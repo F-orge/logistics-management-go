@@ -32,11 +32,7 @@ function getAllControlFiles(dir: string = CONTROLS_DIR): string[] {
   return files;
 }
 
-function addImportIfMissing(
-  content: string,
-  from: string,
-  imports: string[]
-): string {
+function addImportIfMissing(content: string, from: string, imports: string[]): string {
   // Check if this import from already exists
   const importRegex = new RegExp(
     `import\\s+\\{([^}]*)\\}\\s+from\\s+["']${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["'];`
@@ -62,8 +58,7 @@ function addImportIfMissing(
   // Add new import after last import
   const lastImportMatch = content.match(/import\s+.*from\s+["'].*["'];/);
   if (lastImportMatch) {
-    const lastImportPos =
-      content.indexOf(lastImportMatch[0]) + lastImportMatch[0].length;
+    const lastImportPos = content.indexOf(lastImportMatch[0]) + lastImportMatch[0].length;
     const importLine = `import { ${imports.join(", ")} } from "${from}";`;
     const result = `${content.substring(0, lastImportPos)}\n${importLine}${content.substring(lastImportPos)}`;
     return result;

@@ -7,191 +7,191 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementSalesOrderItemsRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementSalesOrderItemsRecord,
 } from "@/lib/pb.types";
 
 export const SalesOrderItemsSchema = z.object({
-  id: z.string(),
-  salesOrder: z.string().optional(),
-  product: z.string().optional(),
-  quantityOrdered: z.number(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	salesOrder: z.string().optional(),
+	product: z.string().optional(),
+	quantityOrdered: z.number(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type SalesOrderItems = z.infer<typeof SalesOrderItemsSchema>;
 
 export const CreateSalesOrderItemsSchema = (pocketbase: TypedPocketBase) =>
-  SalesOrderItemsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify sales order exists if provided
-    if (data.salesOrder) {
-      try {
-        const salesOrder = await pocketbase
-          .collection(Collections.WarehouseManagementSalesOrders)
-          .getOne(data.salesOrder, { requestKey: null });
-        if (!salesOrder) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrder"],
-            message: "Sales order does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["salesOrder"],
-          message: "Sales order does not exist",
-        });
-      }
-    }
+	SalesOrderItemsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Verify sales order exists if provided
+		if (data.salesOrder) {
+			try {
+				const salesOrder = await pocketbase
+					.collection(Collections.WarehouseManagementSalesOrders)
+					.getOne(data.salesOrder, { requestKey: null });
+				if (!salesOrder) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrder"],
+						message: "Sales order does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["salesOrder"],
+					message: "Sales order does not exist",
+				});
+			}
+		}
 
-    // Verify product exists if provided
-    if (data.product) {
-      try {
-        const product = await pocketbase
-          .collection(Collections.WarehouseManagementProducts)
-          .getOne(data.product, { requestKey: null });
-        if (!product) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product does not exist",
-        });
-      }
-    }
+		// Verify product exists if provided
+		if (data.product) {
+			try {
+				const product = await pocketbase
+					.collection(Collections.WarehouseManagementProducts)
+					.getOne(data.product, { requestKey: null });
+				if (!product) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["product"],
+					message: "Product does not exist",
+				});
+			}
+		}
 
-    // Validate quantity ordered is positive
-    if (data.quantityOrdered <= 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["quantityOrdered"],
-        message: "Quantity ordered must be a positive value",
-      });
-    }
+		// Validate quantity ordered is positive
+		if (data.quantityOrdered <= 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["quantityOrdered"],
+				message: "Quantity ordered must be a positive value",
+			});
+		}
 
-    // Unique constraint: salesOrder + product combination must be unique
-    if (data.salesOrder && data.product) {
-      try {
-        const existingItem = await pocketbase
-          .collection(Collections.WarehouseManagementSalesOrderItems)
-          .getFirstListItem(
-            `salesOrder = "${data.salesOrder}" && product = "${data.product}"`,
-            { requestKey: null }
-          );
+		// Unique constraint: salesOrder + product combination must be unique
+		if (data.salesOrder && data.product) {
+			try {
+				const existingItem = await pocketbase
+					.collection(Collections.WarehouseManagementSalesOrderItems)
+					.getFirstListItem(
+						`salesOrder = "${data.salesOrder}" && product = "${data.product}"`,
+						{ requestKey: null },
+					);
 
-        if (existingItem) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "This product is already added to this sales order",
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - combination is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Sales order item uniqueness check error:", error);
-        }
-      }
-    }
-  });
+				if (existingItem) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "This product is already added to this sales order",
+					});
+				}
+			} catch (error) {
+				// Record not found is expected - combination is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Sales order item uniqueness check error:", error);
+				}
+			}
+		}
+	});
 
 export const UpdateSalesOrderItemsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementSalesOrderItemsRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementSalesOrderItemsRecord,
 ) =>
-  SalesOrderItemsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify sales order exists if being updated
-      if (data.salesOrder) {
-        try {
-          const salesOrder = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrders)
-            .getOne(data.salesOrder, { requestKey: null });
-          if (!salesOrder) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["salesOrder"],
-              message: "Sales order does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrder"],
-            message: "Sales order does not exist",
-          });
-        }
-      }
+	SalesOrderItemsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify sales order exists if being updated
+			if (data.salesOrder) {
+				try {
+					const salesOrder = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrders)
+						.getOne(data.salesOrder, { requestKey: null });
+					if (!salesOrder) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["salesOrder"],
+							message: "Sales order does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrder"],
+						message: "Sales order does not exist",
+					});
+				}
+			}
 
-      // Verify product exists if being updated
-      if (data.product) {
-        try {
-          const product = await pocketbase
-            .collection(Collections.WarehouseManagementProducts)
-            .getOne(data.product, { requestKey: null });
-          if (!product) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "Product does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      }
+			// Verify product exists if being updated
+			if (data.product) {
+				try {
+					const product = await pocketbase
+						.collection(Collections.WarehouseManagementProducts)
+						.getOne(data.product, { requestKey: null });
+					if (!product) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "Product does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			}
 
-      // Unique constraint: salesOrder + product combination must be unique (when being updated)
-      if ((data.salesOrder || data.product) && record?.id) {
-        try {
-          const currentItem = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrderItems)
-            .getOne(record?.id, { requestKey: null });
+			// Unique constraint: salesOrder + product combination must be unique (when being updated)
+			if ((data.salesOrder || data.product) && record?.id) {
+				try {
+					const currentItem = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrderItems)
+						.getOne(record?.id, { requestKey: null });
 
-          const salesOrderToCheck = data.salesOrder || currentItem.salesOrder;
-          const productToCheck = data.product || currentItem.product;
+					const salesOrderToCheck = data.salesOrder || currentItem.salesOrder;
+					const productToCheck = data.product || currentItem.product;
 
-          const existingItem = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrderItems)
-            .getFirstListItem(
-              `salesOrder = "${salesOrderToCheck}" && product = "${productToCheck}" && id != "${record?.id}"`,
-              { requestKey: null }
-            );
+					const existingItem = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrderItems)
+						.getFirstListItem(
+							`salesOrder = "${salesOrderToCheck}" && product = "${productToCheck}" && id != "${record?.id}"`,
+							{ requestKey: null },
+						);
 
-          if (existingItem) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "This product is already added to this sales order",
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - combination is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Sales order item uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					if (existingItem) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "This product is already added to this sales order",
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - combination is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Sales order item uniqueness check error:", error);
+					}
+				}
+			}
+		});

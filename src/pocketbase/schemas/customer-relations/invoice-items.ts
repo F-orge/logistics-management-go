@@ -7,80 +7,80 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  CustomerRelationsInvoiceItemsRecord,
-  TypedPocketBase,
+	Collections,
+	CustomerRelationsInvoiceItemsRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 
 export const InvoiceItemsSchema = z.object({
-  id: z.string(),
-  invoice: z.string(),
-  product: z.string(),
-  quantity: z
-    .number()
-    .min(0, "Quantity must be non-negative")
-    .int("Quantity must be an integer"),
-  price: z.number().min(0, "Unit price must be non-negative"),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	invoice: z.string(),
+	product: z.string(),
+	quantity: z
+		.number()
+		.min(0, "Quantity must be non-negative")
+		.int("Quantity must be an integer"),
+	price: z.number().min(0, "Unit price must be non-negative"),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InvoiceItems = z.infer<typeof InvoiceItemsSchema>;
 
 export const CreateInvoiceItemsSchema = (pocketbase: TypedPocketBase) =>
-  InvoiceItemsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-    price: true,
-    invoice: true,
-  }).superRefine(async (data, ctx) => {
-    if (!data.product) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["product"],
-        message: "Product reference is required",
-      });
-      return; // Skip uniqueness check if references are missing
-    }
+	InvoiceItemsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+		price: true,
+		invoice: true,
+	}).superRefine(async (data, ctx) => {
+		if (!data.product) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["product"],
+				message: "Product reference is required",
+			});
+			return; // Skip uniqueness check if references are missing
+		}
 
-    // Validate quantity is greater than 0
-    if (data.quantity <= 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["quantity"],
-        message: "Quantity must be greater than 0",
-      });
-    }
-  });
+		// Validate quantity is greater than 0
+		if (data.quantity <= 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["quantity"],
+				message: "Quantity must be greater than 0",
+			});
+		}
+	});
 
 export const UpdateInvoiceItemsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: CustomerRelationsInvoiceItemsRecord
+	pocketbase: TypedPocketBase,
+	record?: CustomerRelationsInvoiceItemsRecord,
 ) =>
-  InvoiceItemsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-      invoice: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate quantity if being updated
-      if (data.quantity !== undefined && data.quantity <= 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["quantity"],
-          message: "Quantity must be greater than 0",
-        });
-      }
+	InvoiceItemsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+			invoice: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate quantity if being updated
+			if (data.quantity !== undefined && data.quantity <= 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["quantity"],
+					message: "Quantity must be greater than 0",
+				});
+			}
 
-      // Validate price if being updated
-      if (data.price !== undefined && data.price < 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["price"],
-          message: "Unit price cannot be negative",
-        });
-      }
-    });
+			// Validate price if being updated
+			if (data.price !== undefined && data.price < 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["price"],
+					message: "Unit price cannot be negative",
+				});
+			}
+		});

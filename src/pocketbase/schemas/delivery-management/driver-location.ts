@@ -7,85 +7,85 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  DeliveryManagementDriverLocationRecord,
-  TypedPocketBase,
+	Collections,
+	DeliveryManagementDriverLocationRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 import { Coordinates } from "@/pocketbase/scalar";
 
 export const DriverLocationSchema = z.object({
-  id: z.string(),
-  driver: z.string().min(1, "Driver is required"),
-  coordinates: Coordinates,
-  heading: Coordinates,
-  timestamp: z.iso.datetime().optional(),
+	id: z.string(),
+	driver: z.string().min(1, "Driver is required"),
+	coordinates: Coordinates,
+	heading: Coordinates,
+	timestamp: z.iso.datetime().optional(),
 });
 
 export type DriverLocation = z.infer<typeof DriverLocationSchema>;
 
 export const CreateDriverLocationSchema = (pocketbase: TypedPocketBase) =>
-  DriverLocationSchema.omit({
-    id: true,
-    timestamp: true,
-  })
-    .refine((data) => data.driver && data.driver.trim().length > 0, {
-      path: ["driver"],
-      message: "Driver is required",
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate that driver reference exists
-      try {
-        await pocketbase
-          .collection(Collections.TransportManagementDrivers)
-          .getOne(data.driver, { requestKey: null });
-      } catch (error) {
-        if (error instanceof ClientResponseError && error.status === 404) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["driver"],
-            message: "Driver not found",
-          });
-        } else if (!(error instanceof ClientResponseError)) {
-          console.warn("Driver reference validation error:", error);
-        }
-      }
-    });
+	DriverLocationSchema.omit({
+		id: true,
+		timestamp: true,
+	})
+		.refine((data) => data.driver && data.driver.trim().length > 0, {
+			path: ["driver"],
+			message: "Driver is required",
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate that driver reference exists
+			try {
+				await pocketbase
+					.collection(Collections.TransportManagementDrivers)
+					.getOne(data.driver, { requestKey: null });
+			} catch (error) {
+				if (error instanceof ClientResponseError && error.status === 404) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["driver"],
+						message: "Driver not found",
+					});
+				} else if (!(error instanceof ClientResponseError)) {
+					console.warn("Driver reference validation error:", error);
+				}
+			}
+		});
 
 export const UpdateDriverLocationSchema = (
-  pocketbase: TypedPocketBase,
-  record?: DeliveryManagementDriverLocationRecord
+	pocketbase: TypedPocketBase,
+	record?: DeliveryManagementDriverLocationRecord,
 ) =>
-  DriverLocationSchema.partial()
-    .omit({
-      id: true,
-      timestamp: true,
-    })
-    .refine(
-      (data) =>
-        data.driver === undefined ||
-        (data.driver && data.driver.trim().length > 0),
-      {
-        path: ["driver"],
-        message: "Driver cannot be empty",
-      }
-    )
-    .superRefine(async (data, ctx) => {
-      // Validate that driver reference exists if being updated
-      if (data.driver) {
-        try {
-          await pocketbase
-            .collection(Collections.TransportManagementDrivers)
-            .getOne(data.driver, { requestKey: null });
-        } catch (error) {
-          if (error instanceof ClientResponseError && error.status === 404) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["driver"],
-              message: "Driver not found",
-            });
-          } else if (!(error instanceof ClientResponseError)) {
-            console.warn("Driver reference validation error:", error);
-          }
-        }
-      }
-    });
+	DriverLocationSchema.partial()
+		.omit({
+			id: true,
+			timestamp: true,
+		})
+		.refine(
+			(data) =>
+				data.driver === undefined ||
+				(data.driver && data.driver.trim().length > 0),
+			{
+				path: ["driver"],
+				message: "Driver cannot be empty",
+			},
+		)
+		.superRefine(async (data, ctx) => {
+			// Validate that driver reference exists if being updated
+			if (data.driver) {
+				try {
+					await pocketbase
+						.collection(Collections.TransportManagementDrivers)
+						.getOne(data.driver, { requestKey: null });
+				} catch (error) {
+					if (error instanceof ClientResponseError && error.status === 404) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["driver"],
+							message: "Driver not found",
+						});
+					} else if (!(error instanceof ClientResponseError)) {
+						console.warn("Driver reference validation error:", error);
+					}
+				}
+			}
+		});

@@ -38,168 +38,168 @@ import SupplierRecord from "./warehouse-management/suppliers";
 import WarehouseRecord from "./warehouse-management/warehouses";
 
 const RecordDialog = () => {
-  const params = useParams({ from: "/dashboard/$schema/$collection" });
-  const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
-  const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
+	const params = useParams({ from: "/dashboard/$schema/$collection" });
+	const navigate = useNavigate({ from: "/dashboard/$schema/$collection" });
+	const searchQuery = useSearch({ from: "/dashboard/$schema/$collection" });
 
-  let Component: React.ReactNode = null;
+	let Component: React.ReactNode = null;
 
-  // customer relations
+	// customer relations
 
-  if (params.schema === "customer-relations") {
-    switch (params.collection) {
-      case "contacts":
-        Component = <ContactRecord />;
-        break;
-      case "companies":
-        Component = <CompanyRecord />;
-        break;
-      case "campaigns":
-        Component = <CampaignRecord />;
-        break;
-      case "cases":
-        Component = <CaseRecord />;
-        break;
-      case "interactions":
-        Component = <InteractionRecord />;
-        break;
-      case "invoices":
-        Component = <InvoiceRecord />;
-        break;
-      case "invoice-items":
-        Component = <InvoiceItemRecord />;
-        break;
-      case "leads":
-        Component = <LeadRecord />;
-        break;
-      case "opportunities":
-        Component = <OpportunityRecord />;
-        break;
-      case "opportunity-products":
-        Component = <OpportunityProductRecord />;
-        break;
-      case "products":
-        Component = <ProductRecord />;
-        break;
-      default:
-        Component = <div>No valid collection selected</div>;
-    }
-  }
+	if (params.schema === "customer-relations") {
+		switch (params.collection) {
+			case "contacts":
+				Component = <ContactRecord />;
+				break;
+			case "companies":
+				Component = <CompanyRecord />;
+				break;
+			case "campaigns":
+				Component = <CampaignRecord />;
+				break;
+			case "cases":
+				Component = <CaseRecord />;
+				break;
+			case "interactions":
+				Component = <InteractionRecord />;
+				break;
+			case "invoices":
+				Component = <InvoiceRecord />;
+				break;
+			case "invoice-items":
+				Component = <InvoiceItemRecord />;
+				break;
+			case "leads":
+				Component = <LeadRecord />;
+				break;
+			case "opportunities":
+				Component = <OpportunityRecord />;
+				break;
+			case "opportunity-products":
+				Component = <OpportunityProductRecord />;
+				break;
+			case "products":
+				Component = <ProductRecord />;
+				break;
+			default:
+				Component = <div>No valid collection selected</div>;
+		}
+	}
 
-  // delivery management
+	// delivery management
 
-  if (params.schema === "delivery-management") {
-    switch (params.collection) {
-      case "driver-location":
-        Component = <DriverLocationRecord />;
-        break;
-      case "proof-of-deliveries":
-        Component = <ProofOfDeliveryRecord />;
-        break;
-      case "tasks":
-        Component = <TaskRecord />;
-        break;
-      case "task-events":
-        Component = <TaskEventRecord />;
-        break;
-      default:
-        Component = <div>No valid collection selected</div>;
-    }
-  }
+	if (params.schema === "delivery-management") {
+		switch (params.collection) {
+			case "driver-location":
+				Component = <DriverLocationRecord />;
+				break;
+			case "proof-of-deliveries":
+				Component = <ProofOfDeliveryRecord />;
+				break;
+			case "tasks":
+				Component = <TaskRecord />;
+				break;
+			case "task-events":
+				Component = <TaskEventRecord />;
+				break;
+			default:
+				Component = <div>No valid collection selected</div>;
+		}
+	}
 
-  // warehouse management
+	// warehouse management
 
-  if (params.schema === "warehouse-management") {
-    switch (params.collection) {
-      case "inventory-batches":
-        Component = <InventoryBatchRecord />;
-        break;
-      case "inventory-adjustment":
-        Component = <InventoryAdjustmentRecord />;
-        break;
-      case "inventory-stock":
-        Component = <InventoryStockRecord />;
-        break;
-      case "locations":
-        Component = <LocationRecord />;
-        break;
-      case "products":
-        Component = <ProductWarehouseRecord />;
-        break;
-      case "suppliers":
-        Component = <SupplierRecord />;
-        break;
-      case "inbound-shipments":
-        Component = <InboundShipmentRecord />;
-        break;
-      case "inbound-shipment-items":
-        Component = <InboundShipmentItemRecord />;
-        break;
-      case "outbound-shipments":
-        Component = <OutboundShipmentRecord />;
-        break;
-      case "outbound-shipment-items":
-        Component = <OutboundShipmentItemRecord />;
-        break;
-      case "sales-orders":
-        Component = <SalesOrderRecord />;
-        break;
-      case "sales-order-items":
-        Component = <SalesOrderItemRecord />;
-        break;
-      case "packages":
-        Component = <PackageRecord />;
-        break;
-      case "package-items":
-        Component = <PackageItemRecord />;
-        break;
-      case "returns":
-        Component = <ReturnRecord />;
-        break;
-      case "return-items":
-        Component = <ReturnItemRecord />;
-        break;
-      case "warehouses":
-        Component = <WarehouseRecord />;
-        break;
-      default:
-        Component = <div>No valid collection selected</div>;
-    }
-  }
+	if (params.schema === "warehouse-management") {
+		switch (params.collection) {
+			case "inventory-batches":
+				Component = <InventoryBatchRecord />;
+				break;
+			case "inventory-adjustment":
+				Component = <InventoryAdjustmentRecord />;
+				break;
+			case "inventory-stock":
+				Component = <InventoryStockRecord />;
+				break;
+			case "locations":
+				Component = <LocationRecord />;
+				break;
+			case "products":
+				Component = <ProductWarehouseRecord />;
+				break;
+			case "suppliers":
+				Component = <SupplierRecord />;
+				break;
+			case "inbound-shipments":
+				Component = <InboundShipmentRecord />;
+				break;
+			case "inbound-shipment-items":
+				Component = <InboundShipmentItemRecord />;
+				break;
+			case "outbound-shipments":
+				Component = <OutboundShipmentRecord />;
+				break;
+			case "outbound-shipment-items":
+				Component = <OutboundShipmentItemRecord />;
+				break;
+			case "sales-orders":
+				Component = <SalesOrderRecord />;
+				break;
+			case "sales-order-items":
+				Component = <SalesOrderItemRecord />;
+				break;
+			case "packages":
+				Component = <PackageRecord />;
+				break;
+			case "package-items":
+				Component = <PackageItemRecord />;
+				break;
+			case "returns":
+				Component = <ReturnRecord />;
+				break;
+			case "return-items":
+				Component = <ReturnItemRecord />;
+				break;
+			case "warehouses":
+				Component = <WarehouseRecord />;
+				break;
+			default:
+				Component = <div>No valid collection selected</div>;
+		}
+	}
 
-  // transport management
+	// transport management
 
-  if (params.schema === "transport-management") {
-    switch (params.collection) {
-      case "carriers":
-        Component = <CarrierRecord />;
-        break;
-      case "drivers":
-        Component = <DriverRecord />;
-        break;
-      case "vehicles":
-        Component = <VehicleRecord />;
-        break;
-      default:
-        Component = <div>No valid collection selected</div>;
-    }
-  }
+	if (params.schema === "transport-management") {
+		switch (params.collection) {
+			case "carriers":
+				Component = <CarrierRecord />;
+				break;
+			case "drivers":
+				Component = <DriverRecord />;
+				break;
+			case "vehicles":
+				Component = <VehicleRecord />;
+				break;
+			default:
+				Component = <div>No valid collection selected</div>;
+		}
+	}
 
-  return (
-    <Dialog
-      open={!!searchQuery.id && searchQuery.action === "view"}
-      onOpenChange={() =>
-        navigate({
-          search: (prev) => ({ ...prev, id: undefined, action: undefined }),
-        })
-      }
-    >
-      <DialogContent className="max-h-3/4 overflow-y-auto">
-        <DialogHeader></DialogHeader>
-        {Component}
-      </DialogContent>
-    </Dialog>
-  );
+	return (
+		<Dialog
+			open={!!searchQuery.id && searchQuery.action === "view"}
+			onOpenChange={() =>
+				navigate({
+					search: (prev) => ({ ...prev, id: undefined, action: undefined }),
+				})
+			}
+		>
+			<DialogContent className="max-h-3/4 overflow-y-auto">
+				<DialogHeader></DialogHeader>
+				{Component}
+			</DialogContent>
+		</Dialog>
+	);
 };
 
 export default RecordDialog;

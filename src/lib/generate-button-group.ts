@@ -6,21 +6,21 @@
  */
 
 export interface ButtonGroupGeneratorConfig {
-  /** Primary button label */
-  primaryButtonLabel: string;
-  /** Whether to include dropdown menu for global actions */
-  includeDropdown: boolean;
-  /** Navigation route context (e.g., "/dashboard/$schema/$collection") */
-  navigationRoute: string;
-  /** Global actions array type hint */
-  globalActionsType?: string;
+	/** Primary button label */
+	primaryButtonLabel: string;
+	/** Whether to include dropdown menu for global actions */
+	includeDropdown: boolean;
+	/** Navigation route context (e.g., "/dashboard/$schema/$collection") */
+	navigationRoute: string;
+	/** Global actions array type hint */
+	globalActionsType?: string;
 }
 
 /**
  * Generate imports needed for button group functionality
  */
 export const generateButtonGroupImports = (): string => {
-  return `import { ChevronDownIcon, SearchIcon } from "lucide-react";
+	return `import { ChevronDownIcon, SearchIcon } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,26 +45,26 @@ import { GlobalAction } from "@/lib/utils";`;
  * Generate the button group JSX code
  */
 export const generateButtonGroupJSX = (
-  config: ButtonGroupGeneratorConfig
+	config: ButtonGroupGeneratorConfig,
 ): string => {
-  const baseButtonGroup = `<ButtonGroup>\n  <Button\n    onClick={() =>\n      navigate({ search: (prev) => ({ ...prev, action: "create" }) })\n    }\n  >\n    ${config.primaryButtonLabel}\n  </Button>`;
+	const baseButtonGroup = `<ButtonGroup>\n  <Button\n    onClick={() =>\n      navigate({ search: (prev) => ({ ...prev, action: "create" }) })\n    }\n  >\n    ${config.primaryButtonLabel}\n  </Button>`;
 
-  if (!config.includeDropdown) {
-    return `${baseButtonGroup}\n</ButtonGroup>`;
-  }
+	if (!config.includeDropdown) {
+		return `${baseButtonGroup}\n</ButtonGroup>`;
+	}
 
-  const dropdownPart = `\n  {globalAction.length > 0 && (\n    <>\n      <ButtonGroupSeparator />\n      <DropdownMenu>\n        <DropdownMenuTrigger asChild>\n          <Button size="icon">\n            <ChevronDownIcon />\n          </Button>\n        </DropdownMenuTrigger>\n        <DropdownMenuContent align="end">\n          <DropdownMenuGroup>\n            {renderMenuItems(globalAction)}\n          </DropdownMenuGroup>\n        </DropdownMenuContent>\n      </DropdownMenu>\n    </>\n  )}\n</ButtonGroup>`;
+	const dropdownPart = `\n  {globalAction.length > 0 && (\n    <>\n      <ButtonGroupSeparator />\n      <DropdownMenu>\n        <DropdownMenuTrigger asChild>\n          <Button size="icon">\n            <ChevronDownIcon />\n          </Button>\n        </DropdownMenuTrigger>\n        <DropdownMenuContent align="end">\n          <DropdownMenuGroup>\n            {renderMenuItems(globalAction)}\n          </DropdownMenuGroup>\n        </DropdownMenuContent>\n      </DropdownMenu>\n    </>\n  )}\n</ButtonGroup>`;
 
-  return baseButtonGroup + dropdownPart;
+	return baseButtonGroup + dropdownPart;
 };
 
 /**
  * Generate the renderMenuItems helper function
  */
 export const generateRenderMenuItemsFunction = (
-  navigationRoute: string
+	navigationRoute: string,
 ): string => {
-  return `const renderMenuItems = (
+	return `const renderMenuItems = (
     actions: GlobalAction<"${navigationRoute}">[]
   ): React.ReactNode => {
     return actions.map((action, index) => {
@@ -113,9 +113,9 @@ export const generateRenderMenuItemsFunction = (
  * Generate the global action handler function
  */
 export const generateGlobalActionHandler = (
-  navigationRoute: string
+	navigationRoute: string,
 ): string => {
-  return `const handleGlobalAction = (
+	return `const handleGlobalAction = (
     action: GlobalAction<"${navigationRoute}">
   ) => {
     action.onSelect?.(navigate);
@@ -127,19 +127,19 @@ export const generateGlobalActionHandler = (
  * Returns an object with individual pieces that can be integrated
  */
 export const generateButtonGroupIntegration = (
-  config: ButtonGroupGeneratorConfig
+	config: ButtonGroupGeneratorConfig,
 ): {
-  imports: string;
-  renderMenuItems: string;
-  handleGlobalAction: string;
-  buttonGroupJSX: string;
+	imports: string;
+	renderMenuItems: string;
+	handleGlobalAction: string;
+	buttonGroupJSX: string;
 } => {
-  return {
-    imports: generateButtonGroupImports(),
-    renderMenuItems: generateRenderMenuItemsFunction(config.navigationRoute),
-    handleGlobalAction: generateGlobalActionHandler(config.navigationRoute),
-    buttonGroupJSX: generateButtonGroupJSX(config),
-  };
+	return {
+		imports: generateButtonGroupImports(),
+		renderMenuItems: generateRenderMenuItemsFunction(config.navigationRoute),
+		handleGlobalAction: generateGlobalActionHandler(config.navigationRoute),
+		buttonGroupJSX: generateButtonGroupJSX(config),
+	};
 };
 
 /**
@@ -155,7 +155,7 @@ export const generateButtonGroupIntegration = (
  * console.log(code.buttonGroupJSX);
  */
 export const getButtonGroupCode = (
-  config: ButtonGroupGeneratorConfig
+	config: ButtonGroupGeneratorConfig,
 ): ReturnType<typeof generateButtonGroupIntegration> => {
-  return generateButtonGroupIntegration(config);
+	return generateButtonGroupIntegration(config);
 };

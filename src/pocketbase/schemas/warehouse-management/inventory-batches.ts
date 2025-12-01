@@ -6,79 +6,79 @@
 
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementInventoryBatchesRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementInventoryBatchesRecord,
 } from "@/lib/pb.types";
 
 export const InventoryBatchesSchema = z.object({
-  id: z.string(),
-  product: z.string(),
-  batchNumber: z.string(),
-  expirationDate: z.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	product: z.string(),
+	batchNumber: z.string(),
+	expirationDate: z.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InventoryBatches = z.infer<typeof InventoryBatchesSchema>;
 
 export const CreateInventoryBatchesSchema = (pocketbase: TypedPocketBase) =>
-  InventoryBatchesSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify product exists
-    try {
-      const product = await pocketbase
-        .collection(Collections.WarehouseManagementProducts)
-        .getOne(data.product, { requestKey: null });
-      if (!product) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["product"],
-        message: "Product does not exist",
-      });
-    }
-  });
+	InventoryBatchesSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Verify product exists
+		try {
+			const product = await pocketbase
+				.collection(Collections.WarehouseManagementProducts)
+				.getOne(data.product, { requestKey: null });
+			if (!product) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["product"],
+					message: "Product does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["product"],
+				message: "Product does not exist",
+			});
+		}
+	});
 
 export const UpdateInventoryBatchesSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementInventoryBatchesRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementInventoryBatchesRecord,
 ) =>
-  InventoryBatchesSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify product exists if being updated
-      if (data.product) {
-        try {
-          const product = await pocketbase
-            .collection(Collections.WarehouseManagementProducts)
-            .getOne(data.product, { requestKey: null });
-          if (!product) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "Product does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      }
-    });
+	InventoryBatchesSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify product exists if being updated
+			if (data.product) {
+				try {
+					const product = await pocketbase
+						.collection(Collections.WarehouseManagementProducts)
+						.getOne(data.product, { requestKey: null });
+					if (!product) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "Product does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			}
+		});

@@ -7,231 +7,231 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementPackagesRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementPackagesRecord,
 } from "@/lib/pb.types";
 import { CreatePackageItemsSchema } from "./package-items";
 
 export const PackagesSchema = z.object({
-  id: z.string(),
-  salesOrder: z.string(),
-  packageNumber: z.string(),
-  warehouse: z.string(),
-  type: z.string().optional(),
-  weight: z.number().optional(),
-  length: z.number().optional(),
-  width: z.number().optional(),
-  height: z.number().optional(),
-  packedByUser: z.string().optional(),
-  packedAt: z.date().optional(),
-  shippedAt: z.date().optional(),
-  isFragile: z.unknown().optional(),
-  isHazmat: z.unknown().optional(),
-  requireSignature: z.unknown().optional(),
-  insuranceValue: z.number().optional(),
-  images: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-  items: z.array(z.string()).nonempty("At least one package item is required"),
+	id: z.string(),
+	salesOrder: z.string(),
+	packageNumber: z.string(),
+	warehouse: z.string(),
+	type: z.string().optional(),
+	weight: z.number().optional(),
+	length: z.number().optional(),
+	width: z.number().optional(),
+	height: z.number().optional(),
+	packedByUser: z.string().optional(),
+	packedAt: z.date().optional(),
+	shippedAt: z.date().optional(),
+	isFragile: z.unknown().optional(),
+	isHazmat: z.unknown().optional(),
+	requireSignature: z.unknown().optional(),
+	insuranceValue: z.number().optional(),
+	images: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
+	items: z.array(z.string()).nonempty("At least one package item is required"),
 });
 
 export type Packages = z.infer<typeof PackagesSchema>;
 
 export const CreatePackagesSchema = (pocketbase: TypedPocketBase) =>
-  PackagesSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  })
-    .extend({
-      items: CreatePackageItemsSchema(pocketbase).array(),
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify sales order exists
-      try {
-        const salesOrder = await pocketbase
-          .collection(Collections.WarehouseManagementSalesOrders)
-          .getOne(data.salesOrder, { requestKey: null });
-        if (!salesOrder) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrder"],
-            message: "Sales order does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["salesOrder"],
-          message: "Sales order does not exist",
-        });
-      }
+	PackagesSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	})
+		.extend({
+			items: CreatePackageItemsSchema(pocketbase).array(),
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify sales order exists
+			try {
+				const salesOrder = await pocketbase
+					.collection(Collections.WarehouseManagementSalesOrders)
+					.getOne(data.salesOrder, { requestKey: null });
+				if (!salesOrder) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrder"],
+						message: "Sales order does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["salesOrder"],
+					message: "Sales order does not exist",
+				});
+			}
 
-      // Verify warehouse exists
-      try {
-        const warehouse = await pocketbase
-          .collection(Collections.WarehouseManagementWarehouses)
-          .getOne(data.warehouse, { requestKey: null });
-        if (!warehouse) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["warehouse"],
-            message: "Warehouse does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["warehouse"],
-          message: "Warehouse does not exist",
-        });
-      }
+			// Verify warehouse exists
+			try {
+				const warehouse = await pocketbase
+					.collection(Collections.WarehouseManagementWarehouses)
+					.getOne(data.warehouse, { requestKey: null });
+				if (!warehouse) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["warehouse"],
+						message: "Warehouse does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["warehouse"],
+					message: "Warehouse does not exist",
+				});
+			}
 
-      // Validate dimensions are positive if provided
-      if (data.weight !== undefined && data.weight <= 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["weight"],
-          message: "Weight must be a positive value",
-        });
-      }
-      if (data.length !== undefined && data.length <= 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["length"],
-          message: "Length must be a positive value",
-        });
-      }
-      if (data.width !== undefined && data.width <= 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["width"],
-          message: "Width must be a positive value",
-        });
-      }
-      if (data.height !== undefined && data.height <= 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["height"],
-          message: "Height must be a positive value",
-        });
-      }
+			// Validate dimensions are positive if provided
+			if (data.weight !== undefined && data.weight <= 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["weight"],
+					message: "Weight must be a positive value",
+				});
+			}
+			if (data.length !== undefined && data.length <= 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["length"],
+					message: "Length must be a positive value",
+				});
+			}
+			if (data.width !== undefined && data.width <= 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["width"],
+					message: "Width must be a positive value",
+				});
+			}
+			if (data.height !== undefined && data.height <= 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["height"],
+					message: "Height must be a positive value",
+				});
+			}
 
-      // Validate insurance value is non-negative if provided
-      if (data.insuranceValue !== undefined && data.insuranceValue < 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["insuranceValue"],
-          message: "Insurance value cannot be negative",
-        });
-      }
+			// Validate insurance value is non-negative if provided
+			if (data.insuranceValue !== undefined && data.insuranceValue < 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["insuranceValue"],
+					message: "Insurance value cannot be negative",
+				});
+			}
 
-      // Unique constraint: packageNumber must be unique
-      if (data.packageNumber) {
-        try {
-          const existingPackage = await pocketbase
-            .collection(Collections.WarehouseManagementPackages)
-            .getFirstListItem(
-              `packageNumber = "${data.packageNumber.replace(/"/g, '\\"')}"`,
-              {
-                requestKey: null,
-              }
-            );
+			// Unique constraint: packageNumber must be unique
+			if (data.packageNumber) {
+				try {
+					const existingPackage = await pocketbase
+						.collection(Collections.WarehouseManagementPackages)
+						.getFirstListItem(
+							`packageNumber = "${data.packageNumber.replace(/"/g, '\\"')}"`,
+							{
+								requestKey: null,
+							},
+						);
 
-          if (existingPackage) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["packageNumber"],
-              message: `Package number "${data.packageNumber}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - packageNumber is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Package number uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					if (existingPackage) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["packageNumber"],
+							message: `Package number "${data.packageNumber}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - packageNumber is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Package number uniqueness check error:", error);
+					}
+				}
+			}
+		});
 
 export const UpdatePackagesSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementPackagesRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementPackagesRecord,
 ) =>
-  PackagesSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify sales order exists if being updated
-      if (data.salesOrder) {
-        try {
-          const salesOrder = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrders)
-            .getOne(data.salesOrder, { requestKey: null });
-          if (!salesOrder) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["salesOrder"],
-              message: "Sales order does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrder"],
-            message: "Sales order does not exist",
-          });
-        }
-      }
+	PackagesSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify sales order exists if being updated
+			if (data.salesOrder) {
+				try {
+					const salesOrder = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrders)
+						.getOne(data.salesOrder, { requestKey: null });
+					if (!salesOrder) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["salesOrder"],
+							message: "Sales order does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrder"],
+						message: "Sales order does not exist",
+					});
+				}
+			}
 
-      // Verify warehouse exists if being updated
-      if (data.warehouse) {
-        try {
-          const warehouse = await pocketbase
-            .collection(Collections.WarehouseManagementWarehouses)
-            .getOne(data.warehouse, { requestKey: null });
-          if (!warehouse) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["warehouse"],
-              message: "Warehouse does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["warehouse"],
-            message: "Warehouse does not exist",
-          });
-        }
-      }
+			// Verify warehouse exists if being updated
+			if (data.warehouse) {
+				try {
+					const warehouse = await pocketbase
+						.collection(Collections.WarehouseManagementWarehouses)
+						.getOne(data.warehouse, { requestKey: null });
+					if (!warehouse) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["warehouse"],
+							message: "Warehouse does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["warehouse"],
+						message: "Warehouse does not exist",
+					});
+				}
+			}
 
-      // Unique constraint: packageNumber must be unique (when being updated)
-      if (data.packageNumber && record?.id) {
-        try {
-          const existingPackage = await pocketbase
-            .collection(Collections.WarehouseManagementPackages)
-            .getFirstListItem(
-              `packageNumber = "${data.packageNumber.replace(/"/g, '\\"')}" && id != "${record?.id}"`,
-              { requestKey: null }
-            );
+			// Unique constraint: packageNumber must be unique (when being updated)
+			if (data.packageNumber && record?.id) {
+				try {
+					const existingPackage = await pocketbase
+						.collection(Collections.WarehouseManagementPackages)
+						.getFirstListItem(
+							`packageNumber = "${data.packageNumber.replace(/"/g, '\\"')}" && id != "${record?.id}"`,
+							{ requestKey: null },
+						);
 
-          if (existingPackage) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["packageNumber"],
-              message: `Package number "${data.packageNumber}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - packageNumber is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Package number uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					if (existingPackage) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["packageNumber"],
+							message: `Package number "${data.packageNumber}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - packageNumber is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Package number uniqueness check error:", error);
+					}
+				}
+			}
+		});

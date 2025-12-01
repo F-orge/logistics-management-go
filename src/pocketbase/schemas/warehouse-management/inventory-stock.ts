@@ -7,223 +7,223 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementInventoryStockRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementInventoryStockRecord,
 } from "@/lib/pb.types";
 
 export const InventoryStockSchema = z.object({
-  id: z.string(),
-  location: z.string(),
-  product: z.string(),
-  batch: z.string().optional(),
-  quantity: z.number().min(0, "Quantity on hand cannot be negative").optional(),
-  reservedQuantity: z
-    .number()
-    .min(0, "Reserved quantity cannot be negative")
-    .optional(),
-  status: z.enum([
-    "available",
-    "allocated",
-    "damaged",
-    "quarantine",
-    "hold",
-    "shipped",
-    "expired",
-  ]),
-  lastCountedAt: z.date().optional(),
-  lastMovementAt: z.date().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	location: z.string(),
+	product: z.string(),
+	batch: z.string().optional(),
+	quantity: z.number().min(0, "Quantity on hand cannot be negative").optional(),
+	reservedQuantity: z
+		.number()
+		.min(0, "Reserved quantity cannot be negative")
+		.optional(),
+	status: z.enum([
+		"available",
+		"allocated",
+		"damaged",
+		"quarantine",
+		"hold",
+		"shipped",
+		"expired",
+	]),
+	lastCountedAt: z.date().optional(),
+	lastMovementAt: z.date().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InventoryStock = z.infer<typeof InventoryStockSchema>;
 
 export const CreateInventoryStockSchema = (pocketbase: TypedPocketBase) =>
-  InventoryStockSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify location exists
-    try {
-      const location = await pocketbase
-        .collection(Collections.WarehouseManagementLocations)
-        .getOne(data.location, { requestKey: null });
-      if (!location) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["location"],
-          message: "Location does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["location"],
-        message: "Location does not exist",
-      });
-    }
+	InventoryStockSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Verify location exists
+		try {
+			const location = await pocketbase
+				.collection(Collections.WarehouseManagementLocations)
+				.getOne(data.location, { requestKey: null });
+			if (!location) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["location"],
+					message: "Location does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["location"],
+				message: "Location does not exist",
+			});
+		}
 
-    // Verify product exists
-    try {
-      const product = await pocketbase
-        .collection(Collections.WarehouseManagementProducts)
-        .getOne(data.product, { requestKey: null });
-      if (!product) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["product"],
-        message: "Product does not exist",
-      });
-    }
+		// Verify product exists
+		try {
+			const product = await pocketbase
+				.collection(Collections.WarehouseManagementProducts)
+				.getOne(data.product, { requestKey: null });
+			if (!product) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["product"],
+					message: "Product does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["product"],
+				message: "Product does not exist",
+			});
+		}
 
-    // Verify batch exists if provided
-    if (data.batch) {
-      try {
-        const batch = await pocketbase
-          .collection(Collections.WarehouseManagementInventoryBatches)
-          .getOne(data.batch, { requestKey: null });
-        if (!batch) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["batch"],
-            message: "Batch does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["batch"],
-          message: "Batch does not exist",
-        });
-      }
-    }
+		// Verify batch exists if provided
+		if (data.batch) {
+			try {
+				const batch = await pocketbase
+					.collection(Collections.WarehouseManagementInventoryBatches)
+					.getOne(data.batch, { requestKey: null });
+				if (!batch) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["batch"],
+						message: "Batch does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["batch"],
+					message: "Batch does not exist",
+				});
+			}
+		}
 
-    // Validate status transitions (State Machine)
-    if (data.status && record?.id) {
-      try {
-        const currentStock = await pocketbase
-          .collection(Collections.WarehouseManagementInventoryStock)
-          .getOne(record.id, { requestKey: null });
+		// Validate status transitions (State Machine)
+		if (data.status && record?.id) {
+			try {
+				const currentStock = await pocketbase
+					.collection(Collections.WarehouseManagementInventoryStock)
+					.getOne(record.id, { requestKey: null });
 
-        const currentStatus = currentStock.status;
-        const newStatus = data.status;
+				const currentStatus = currentStock.status;
+				const newStatus = data.status;
 
-        // Define valid transitions for inventory stock statuses
-        const validTransitions: Record<string, string[]> = {
-          available: [
-            "allocated",
-            "damaged",
-            "quarantine",
-            "hold",
-            "shipped",
-            "expired",
-          ],
-          allocated: ["available", "shipped", "damaged", "expired"],
-          damaged: ["available", "hold"],
-          quarantine: ["available", "hold", "damaged"],
-          hold: ["available", "damaged"],
-          shipped: ["available"], // Can be returned
-          expired: ["hold"], // Expired items go to hold
-        };
+				// Define valid transitions for inventory stock statuses
+				const validTransitions: Record<string, string[]> = {
+					available: [
+						"allocated",
+						"damaged",
+						"quarantine",
+						"hold",
+						"shipped",
+						"expired",
+					],
+					allocated: ["available", "shipped", "damaged", "expired"],
+					damaged: ["available", "hold"],
+					quarantine: ["available", "hold", "damaged"],
+					hold: ["available", "damaged"],
+					shipped: ["available"], // Can be returned
+					expired: ["hold"], // Expired items go to hold
+				};
 
-        if (!validTransitions[currentStatus]?.includes(newStatus)) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["status"],
-            message: `Cannot transition inventory stock status from '${currentStatus}' to '${newStatus}'`,
-          });
-        }
-      } catch (error) {
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Inventory stock status transition check error:", error);
-        }
-      }
-    }
-  });
+				if (!validTransitions[currentStatus]?.includes(newStatus)) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["status"],
+						message: `Cannot transition inventory stock status from '${currentStatus}' to '${newStatus}'`,
+					});
+				}
+			} catch (error) {
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Inventory stock status transition check error:", error);
+				}
+			}
+		}
+	});
 
 export const UpdateInventoryStockSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementInventoryStockRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementInventoryStockRecord,
 ) =>
-  InventoryStockSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify location exists if being updated
-      if (data.location) {
-        try {
-          const location = await pocketbase
-            .collection(Collections.WarehouseManagementLocations)
-            .getOne(data.location, { requestKey: null });
-          if (!location) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["location"],
-              message: "Location does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["location"],
-            message: "Location does not exist",
-          });
-        }
-      }
+	InventoryStockSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify location exists if being updated
+			if (data.location) {
+				try {
+					const location = await pocketbase
+						.collection(Collections.WarehouseManagementLocations)
+						.getOne(data.location, { requestKey: null });
+					if (!location) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["location"],
+							message: "Location does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["location"],
+						message: "Location does not exist",
+					});
+				}
+			}
 
-      // Verify product exists if being updated
-      if (data.product) {
-        try {
-          const product = await pocketbase
-            .collection(Collections.WarehouseManagementProducts)
-            .getOne(data.product, { requestKey: null });
-          if (!product) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "Product does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      }
+			// Verify product exists if being updated
+			if (data.product) {
+				try {
+					const product = await pocketbase
+						.collection(Collections.WarehouseManagementProducts)
+						.getOne(data.product, { requestKey: null });
+					if (!product) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "Product does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			}
 
-      // Verify batch exists if being updated
-      if (data.batch) {
-        try {
-          const batch = await pocketbase
-            .collection(Collections.WarehouseManagementInventoryBatches)
-            .getOne(data.batch, { requestKey: null });
-          if (!batch) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["batch"],
-              message: "Batch does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["batch"],
-            message: "Batch does not exist",
-          });
-        }
-      }
-    });
+			// Verify batch exists if being updated
+			if (data.batch) {
+				try {
+					const batch = await pocketbase
+						.collection(Collections.WarehouseManagementInventoryBatches)
+						.getOne(data.batch, { requestKey: null });
+					if (!batch) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["batch"],
+							message: "Batch does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["batch"],
+						message: "Batch does not exist",
+					});
+				}
+			}
+		});

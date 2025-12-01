@@ -7,144 +7,144 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  CustomerRelationsContactsRecord,
-  TypedPocketBase,
+	Collections,
+	CustomerRelationsContactsRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 
 export const ContactsSchema = z.object({
-  id: z.string(),
-  name: z.string().nonempty("Contact name is required"),
-  email: z.email("Must be a valid email address"),
-  phoneNumber: z
-    .string()
-    .min(7, "Phone number must be at least 7 digits")
-    .max(15, "Phone number must be at most 15 characters")
-    .optional(),
-  jobTitle: z.string().optional(),
-  company: z.string().optional(),
-  owner: z.string(),
-  attachments: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().nonempty("Contact name is required"),
+	email: z.email("Must be a valid email address"),
+	phoneNumber: z
+		.string()
+		.min(7, "Phone number must be at least 7 digits")
+		.max(15, "Phone number must be at most 15 characters")
+		.optional(),
+	jobTitle: z.string().optional(),
+	company: z.string().optional(),
+	owner: z.string(),
+	attachments: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Contacts = z.infer<typeof ContactsSchema>;
 
 export const CreateContactsSchema = (pocketbase: TypedPocketBase) =>
-  ContactsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  })
-    .refine((data) => data.name && data.name.trim().length > 0, {
-      message: "Contact name is required",
-      path: ["name"],
-    })
-    .superRefine(async (data, ctx) => {
-      // Ensure name is provided and not empty
-      if (!data.name || data.name.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["name"],
-          message: "Contact name is required",
-        });
-      }
+	ContactsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	})
+		.refine((data) => data.name && data.name.trim().length > 0, {
+			message: "Contact name is required",
+			path: ["name"],
+		})
+		.superRefine(async (data, ctx) => {
+			// Ensure name is provided and not empty
+			if (!data.name || data.name.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["name"],
+					message: "Contact name is required",
+				});
+			}
 
-      // Ensure email is provided
-      if (!data.email || data.email.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["email"],
-          message: "Contact email is required",
-        });
-        return;
-      }
+			// Ensure email is provided
+			if (!data.email || data.email.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["email"],
+					message: "Contact email is required",
+				});
+				return;
+			}
 
-      // Unique constraint: Email must be unique
-      try {
-        const existingContact = await pocketbase
-          .collection(Collections.CustomerRelationsContacts)
-          .getFirstListItem(`email = "${data.email.replace(/"/g, '\\"')}"`, {
-            requestKey: null,
-          });
+			// Unique constraint: Email must be unique
+			try {
+				const existingContact = await pocketbase
+					.collection(Collections.CustomerRelationsContacts)
+					.getFirstListItem(`email = "${data.email.replace(/"/g, '\\"')}"`, {
+						requestKey: null,
+					});
 
-        if (existingContact) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["email"],
-            message: `Email "${data.email}" is already in use`,
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - email is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Email uniqueness check error:", error);
-        }
-      }
-    });
+				if (existingContact) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["email"],
+						message: `Email "${data.email}" is already in use`,
+					});
+				}
+			} catch (error) {
+				// Record not found is expected - email is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Email uniqueness check error:", error);
+				}
+			}
+		});
 
 export const UpdateContactsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: CustomerRelationsContactsRecord
+	pocketbase: TypedPocketBase,
+	record?: CustomerRelationsContactsRecord,
 ) =>
-  ContactsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-      attachments: true,
-    })
-    .refine(
-      (data) =>
-        data.name === undefined || (data.name && data.name.trim().length > 0),
-      {
-        message: "Contact name cannot be empty",
-        path: ["name"],
-      }
-    )
-    .superRefine(async (data, ctx) => {
-      // If name is being updated, ensure it's not empty
-      if (data.name !== undefined && data.name.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["name"],
-          message: "Contact name cannot be empty",
-        });
-      }
+	ContactsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+			attachments: true,
+		})
+		.refine(
+			(data) =>
+				data.name === undefined || (data.name && data.name.trim().length > 0),
+			{
+				message: "Contact name cannot be empty",
+				path: ["name"],
+			},
+		)
+		.superRefine(async (data, ctx) => {
+			// If name is being updated, ensure it's not empty
+			if (data.name !== undefined && data.name.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["name"],
+					message: "Contact name cannot be empty",
+				});
+			}
 
-      // If email is being updated, ensure it's not empty
-      if (data.email !== undefined && data.email.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["email"],
-          message: "Contact email cannot be empty",
-        });
-        return;
-      }
+			// If email is being updated, ensure it's not empty
+			if (data.email !== undefined && data.email.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["email"],
+					message: "Contact email cannot be empty",
+				});
+				return;
+			}
 
-      // Unique constraint: Email must be unique (when being updated)
-      if (data.email) {
-        try {
-          const existingContact = await pocketbase
-            .collection(Collections.CustomerRelationsContacts)
-            .getFirstListItem(`email = "${data.email.replace(/"/g, '\\"')}"`, {
-              requestKey: null,
-            });
+			// Unique constraint: Email must be unique (when being updated)
+			if (data.email) {
+				try {
+					const existingContact = await pocketbase
+						.collection(Collections.CustomerRelationsContacts)
+						.getFirstListItem(`email = "${data.email.replace(/"/g, '\\"')}"`, {
+							requestKey: null,
+						});
 
-          // If found, check if it's a different record (not the one being updated)
-          if (existingContact && existingContact.id !== record?.id) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["email"],
-              message: `Email "${data.email}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - email is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Email uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					// If found, check if it's a different record (not the one being updated)
+					if (existingContact && existingContact.id !== record?.id) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["email"],
+							message: `Email "${data.email}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - email is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Email uniqueness check error:", error);
+					}
+				}
+			}
+		});

@@ -66,10 +66,7 @@ function extractNavigationRoute(content: string): string | null {
   return match ? match[1] : null;
 }
 
-function addButtonGroupToFile(
-  filePath: string,
-  dryRun: boolean = false
-): FileModificationResult {
+function addButtonGroupToFile(filePath: string, dryRun: boolean = false): FileModificationResult {
   try {
     const content = readFileSync(filePath, "utf-8");
 
@@ -112,65 +109,38 @@ function addButtonGroupToFile(
     const addedFunctions: string[] = [];
 
     // Add missing imports at the top
-    if (
-      !hasChevronDownIcon &&
-      generatedCode.imports.includes("ChevronDownIcon")
-    ) {
-      modifiedContent = addImport(
-        modifiedContent,
-        "ChevronDownIcon",
-        "lucide-react"
-      );
+    if (!hasChevronDownIcon && generatedCode.imports.includes("ChevronDownIcon")) {
+      modifiedContent = addImport(modifiedContent, "ChevronDownIcon", "lucide-react");
       addedImports.push("ChevronDownIcon");
     }
 
     if (!hasButtonGroupImport) {
-      modifiedContent = addImport(
-        modifiedContent,
-        "ButtonGroup, ButtonGroupSeparator",
-        "@/components/ui/button-group"
-      );
+      modifiedContent = addImport(modifiedContent, "ButtonGroup, ButtonGroupSeparator", "@/components/ui/button-group");
       addedImports.push("ButtonGroup, ButtonGroupSeparator");
     }
 
-    if (
-      !hasDropdownMenuImport &&
-      generatedCode.imports.includes("DropdownMenu")
-    ) {
-      modifiedContent = addImportMultiple(
-        modifiedContent,
-        "@/components/ui/dropdown-menu",
-        [
-          "DropdownMenu",
-          "DropdownMenuContent",
-          "DropdownMenuGroup",
-          "DropdownMenuItem",
-          "DropdownMenuSeparator",
-          "DropdownMenuSub",
-          "DropdownMenuSubContent",
-          "DropdownMenuSubTrigger",
-          "DropdownMenuTrigger",
-        ]
-      );
+    if (!hasDropdownMenuImport && generatedCode.imports.includes("DropdownMenu")) {
+      modifiedContent = addImportMultiple(modifiedContent, "@/components/ui/dropdown-menu", [
+        "DropdownMenu",
+        "DropdownMenuContent",
+        "DropdownMenuGroup",
+        "DropdownMenuItem",
+        "DropdownMenuSeparator",
+        "DropdownMenuSub",
+        "DropdownMenuSubContent",
+        "DropdownMenuSubTrigger",
+        "DropdownMenuTrigger",
+      ]);
       addedImports.push("DropdownMenu (and related)");
     }
 
-    if (
-      !hasGlobalActionImport &&
-      generatedCode.imports.includes("GlobalAction")
-    ) {
-      modifiedContent = addImport(
-        modifiedContent,
-        "GlobalAction",
-        "@/lib/utils"
-      );
+    if (!hasGlobalActionImport && generatedCode.imports.includes("GlobalAction")) {
+      modifiedContent = addImport(modifiedContent, "GlobalAction", "@/lib/utils");
       addedImports.push("GlobalAction");
     }
 
     // Add helper functions before the component definition
-    const componentDefMatch = modifiedContent.match(
-      /(const\s+\w+\s*=\s*\(\{|const\s+\w+:\s*React\.FC)/
-    );
+    const componentDefMatch = modifiedContent.match(/(const\s+\w+\s*=\s*\(\{|const\s+\w+:\s*React\.FC)/);
     if (componentDefMatch) {
       const insertPos = componentDefMatch.index || 0;
       const beforeComponent = modifiedContent.substring(0, insertPos);
@@ -211,19 +181,14 @@ function addImport(content: string, imports: string, from: string): string {
   const lastImportMatch = content.match(/import\s+.*from\s+["'].*["'];/);
 
   if (lastImportMatch) {
-    const lastImportPos =
-      content.indexOf(lastImportMatch[0]) + lastImportMatch[0].length;
+    const lastImportPos = content.indexOf(lastImportMatch[0]) + lastImportMatch[0].length;
     return `${content.substring(0, lastImportPos)}\n${importLine}${content.substring(lastImportPos)}`;
   }
 
   return importLine + content;
 }
 
-function addImportMultiple(
-  content: string,
-  from: string,
-  imports: string[]
-): string {
+function addImportMultiple(content: string, from: string, imports: string[]): string {
   // Check if this import from already exists
   const importRegex = new RegExp(
     `import\\s+\\{([^}]*)\\}\\s+from\\s+["']${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["'];`
@@ -247,10 +212,7 @@ function addImportMultiple(
   return addImport(content, imports.join(", "), from);
 }
 
-function printResults(
-  results: FileModificationResult[],
-  dryRun: boolean
-): void {
+function printResults(results: FileModificationResult[], dryRun: boolean): void {
   console.log(`\n${"=".repeat(80)}`);
   console.log(`Button Group Modification Results${dryRun ? " (DRY RUN)" : ""}`);
   console.log("=".repeat(80));
@@ -265,14 +227,10 @@ function printResults(
       console.log(`  📄 ${relPath}`);
       if (result.changes) {
         if (result.changes.addedImports.length > 0) {
-          console.log(
-            `     Added imports: ${result.changes.addedImports.join(", ")}`
-          );
+          console.log(`     Added imports: ${result.changes.addedImports.join(", ")}`);
         }
         if (result.changes.addedFunctions.length > 0) {
-          console.log(
-            `     Added functions: ${result.changes.addedFunctions.join(", ")}`
-          );
+          console.log(`     Added functions: ${result.changes.addedFunctions.join(", ")}`);
         }
       }
     }
@@ -288,9 +246,7 @@ function printResults(
   }
 
   console.log(`\n${"=".repeat(80)}`);
-  console.log(
-    `Summary: ${modified.length} modified, ${unmodified.length} skipped`
-  );
+  console.log(`Summary: ${modified.length} modified, ${unmodified.length} skipped`);
   console.log(`${"=".repeat(80)}\n`);
 }
 

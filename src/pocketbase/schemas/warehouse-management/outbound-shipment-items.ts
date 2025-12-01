@@ -7,288 +7,288 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementOutboundShipmentItemsRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementOutboundShipmentItemsRecord,
 } from "@/lib/pb.types";
 
 export const OutboundShipmentItemsSchema = z.object({
-  id: z.string(),
-  outboundShipment: z.string(),
-  salesOrderItem: z.string(),
-  product: z.string(),
-  batch: z.string().optional(),
-  quantityShipped: z.number().min(1, "Quantity shipped must be at least 1"),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	outboundShipment: z.string(),
+	salesOrderItem: z.string(),
+	product: z.string(),
+	batch: z.string().optional(),
+	quantityShipped: z.number().min(1, "Quantity shipped must be at least 1"),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type OutboundShipmentItems = z.infer<typeof OutboundShipmentItemsSchema>;
 
 export const CreateOutboundShipmentItemsSchema = (
-  pocketbase: TypedPocketBase
+	pocketbase: TypedPocketBase,
 ) =>
-  OutboundShipmentItemsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify outbound shipment exists
-    try {
-      const shipment = await pocketbase
-        .collection(Collections.WarehouseManagementOutboundShipments)
-        .getOne(data.outboundShipment, { requestKey: null });
-      if (!shipment) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["outboundShipment"],
-          message: "Outbound shipment does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["outboundShipment"],
-        message: "Outbound shipment does not exist",
-      });
-    }
+	OutboundShipmentItemsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Verify outbound shipment exists
+		try {
+			const shipment = await pocketbase
+				.collection(Collections.WarehouseManagementOutboundShipments)
+				.getOne(data.outboundShipment, { requestKey: null });
+			if (!shipment) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["outboundShipment"],
+					message: "Outbound shipment does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["outboundShipment"],
+				message: "Outbound shipment does not exist",
+			});
+		}
 
-    // Verify sales order item exists
-    try {
-      const orderItem = await pocketbase
-        .collection(Collections.WarehouseManagementSalesOrderItems)
-        .getOne(data.salesOrderItem, { requestKey: null });
-      if (!orderItem) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["salesOrderItem"],
-          message: "Sales order item does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["salesOrderItem"],
-        message: "Sales order item does not exist",
-      });
-    }
+		// Verify sales order item exists
+		try {
+			const orderItem = await pocketbase
+				.collection(Collections.WarehouseManagementSalesOrderItems)
+				.getOne(data.salesOrderItem, { requestKey: null });
+			if (!orderItem) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["salesOrderItem"],
+					message: "Sales order item does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["salesOrderItem"],
+				message: "Sales order item does not exist",
+			});
+		}
 
-    // Verify product exists
-    try {
-      const product = await pocketbase
-        .collection(Collections.WarehouseManagementProducts)
-        .getOne(data.product, { requestKey: null });
-      if (!product) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["product"],
-        message: "Product does not exist",
-      });
-    }
+		// Verify product exists
+		try {
+			const product = await pocketbase
+				.collection(Collections.WarehouseManagementProducts)
+				.getOne(data.product, { requestKey: null });
+			if (!product) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["product"],
+					message: "Product does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["product"],
+				message: "Product does not exist",
+			});
+		}
 
-    // Verify batch exists if provided
-    if (data.batch) {
-      try {
-        const batch = await pocketbase
-          .collection(Collections.WarehouseManagementInventoryBatches)
-          .getOne(data.batch, { requestKey: null });
-        if (!batch) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["batch"],
-            message: "Batch does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["batch"],
-          message: "Batch does not exist",
-        });
-      }
-    }
+		// Verify batch exists if provided
+		if (data.batch) {
+			try {
+				const batch = await pocketbase
+					.collection(Collections.WarehouseManagementInventoryBatches)
+					.getOne(data.batch, { requestKey: null });
+				if (!batch) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["batch"],
+						message: "Batch does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["batch"],
+					message: "Batch does not exist",
+				});
+			}
+		}
 
-    // Unique constraint: outboundShipment + salesOrderItem + product + batch combination must be unique
-    if (
-      data.outboundShipment &&
-      data.salesOrderItem &&
-      data.product &&
-      data.batch
-    ) {
-      try {
-        const existingItem = await pocketbase
-          .collection(Collections.WarehouseManagementOutboundShipmentItems)
-          .getFirstListItem(
-            `outboundShipment = "${data.outboundShipment}" && salesOrderItem = "${data.salesOrderItem}" && product = "${data.product}" && batch = "${data.batch}"`,
-            { requestKey: null }
-          );
+		// Unique constraint: outboundShipment + salesOrderItem + product + batch combination must be unique
+		if (
+			data.outboundShipment &&
+			data.salesOrderItem &&
+			data.product &&
+			data.batch
+		) {
+			try {
+				const existingItem = await pocketbase
+					.collection(Collections.WarehouseManagementOutboundShipmentItems)
+					.getFirstListItem(
+						`outboundShipment = "${data.outboundShipment}" && salesOrderItem = "${data.salesOrderItem}" && product = "${data.product}" && batch = "${data.batch}"`,
+						{ requestKey: null },
+					);
 
-        if (existingItem) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message:
-              "This product/batch combination is already in this shipment",
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - combination is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Outbound shipment item uniqueness check error:", error);
-        }
-      }
-    }
-  });
+				if (existingItem) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message:
+							"This product/batch combination is already in this shipment",
+					});
+				}
+			} catch (error) {
+				// Record not found is expected - combination is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Outbound shipment item uniqueness check error:", error);
+				}
+			}
+		}
+	});
 
 export const UpdateOutboundShipmentItemsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementOutboundShipmentItemsRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementOutboundShipmentItemsRecord,
 ) =>
-  OutboundShipmentItemsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify outbound shipment exists if being updated
-      if (data.outboundShipment) {
-        try {
-          const shipment = await pocketbase
-            .collection(Collections.WarehouseManagementOutboundShipments)
-            .getOne(data.outboundShipment, { requestKey: null });
-          if (!shipment) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["outboundShipment"],
-              message: "Outbound shipment does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["outboundShipment"],
-            message: "Outbound shipment does not exist",
-          });
-        }
-      }
+	OutboundShipmentItemsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify outbound shipment exists if being updated
+			if (data.outboundShipment) {
+				try {
+					const shipment = await pocketbase
+						.collection(Collections.WarehouseManagementOutboundShipments)
+						.getOne(data.outboundShipment, { requestKey: null });
+					if (!shipment) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["outboundShipment"],
+							message: "Outbound shipment does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["outboundShipment"],
+						message: "Outbound shipment does not exist",
+					});
+				}
+			}
 
-      // Verify sales order item exists if being updated
-      if (data.salesOrderItem) {
-        try {
-          const orderItem = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrderItems)
-            .getOne(data.salesOrderItem, { requestKey: null });
-          if (!orderItem) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["salesOrderItem"],
-              message: "Sales order item does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrderItem"],
-            message: "Sales order item does not exist",
-          });
-        }
-      }
+			// Verify sales order item exists if being updated
+			if (data.salesOrderItem) {
+				try {
+					const orderItem = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrderItems)
+						.getOne(data.salesOrderItem, { requestKey: null });
+					if (!orderItem) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["salesOrderItem"],
+							message: "Sales order item does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrderItem"],
+						message: "Sales order item does not exist",
+					});
+				}
+			}
 
-      // Verify product exists if being updated
-      if (data.product) {
-        try {
-          const product = await pocketbase
-            .collection(Collections.WarehouseManagementProducts)
-            .getOne(data.product, { requestKey: null });
-          if (!product) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "Product does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      }
+			// Verify product exists if being updated
+			if (data.product) {
+				try {
+					const product = await pocketbase
+						.collection(Collections.WarehouseManagementProducts)
+						.getOne(data.product, { requestKey: null });
+					if (!product) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "Product does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			}
 
-      // Verify batch exists if being updated
-      if (data.batch) {
-        try {
-          const batch = await pocketbase
-            .collection(Collections.WarehouseManagementInventoryBatches)
-            .getOne(data.batch, { requestKey: null });
-          if (!batch) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["batch"],
-              message: "Batch does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["batch"],
-            message: "Batch does not exist",
-          });
-        }
-      }
+			// Verify batch exists if being updated
+			if (data.batch) {
+				try {
+					const batch = await pocketbase
+						.collection(Collections.WarehouseManagementInventoryBatches)
+						.getOne(data.batch, { requestKey: null });
+					if (!batch) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["batch"],
+							message: "Batch does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["batch"],
+						message: "Batch does not exist",
+					});
+				}
+			}
 
-      // Unique constraint: outboundShipment + salesOrderItem + product + batch combination must be unique (when being updated)
-      if (
-        (data.outboundShipment ||
-          data.salesOrderItem ||
-          data.product ||
-          data.batch) &&
-        record?.id
-      ) {
-        try {
-          const currentItem = await pocketbase
-            .collection(Collections.WarehouseManagementOutboundShipmentItems)
-            .getOne(record.id, { requestKey: null });
+			// Unique constraint: outboundShipment + salesOrderItem + product + batch combination must be unique (when being updated)
+			if (
+				(data.outboundShipment ||
+					data.salesOrderItem ||
+					data.product ||
+					data.batch) &&
+				record?.id
+			) {
+				try {
+					const currentItem = await pocketbase
+						.collection(Collections.WarehouseManagementOutboundShipmentItems)
+						.getOne(record.id, { requestKey: null });
 
-          const outboundShipmentToCheck =
-            data.outboundShipment || currentItem.outboundShipment;
-          const salesOrderItemToCheck =
-            data.salesOrderItem || currentItem.salesOrderItem;
-          const productToCheck = data.product || currentItem.product;
-          const batchToCheck = data.batch || currentItem.batch;
+					const outboundShipmentToCheck =
+						data.outboundShipment || currentItem.outboundShipment;
+					const salesOrderItemToCheck =
+						data.salesOrderItem || currentItem.salesOrderItem;
+					const productToCheck = data.product || currentItem.product;
+					const batchToCheck = data.batch || currentItem.batch;
 
-          const existingItem = await pocketbase
-            .collection(Collections.WarehouseManagementOutboundShipmentItems)
-            .getFirstListItem(
-              `outboundShipment = "${outboundShipmentToCheck}" && salesOrderItem = "${salesOrderItemToCheck}" && product = "${productToCheck}" && batch = "${batchToCheck}" && id != "${record.id}"`,
-              { requestKey: null }
-            );
+					const existingItem = await pocketbase
+						.collection(Collections.WarehouseManagementOutboundShipmentItems)
+						.getFirstListItem(
+							`outboundShipment = "${outboundShipmentToCheck}" && salesOrderItem = "${salesOrderItemToCheck}" && product = "${productToCheck}" && batch = "${batchToCheck}" && id != "${record.id}"`,
+							{ requestKey: null },
+						);
 
-          if (existingItem) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message:
-                "This product/batch combination is already in this shipment",
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - combination is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn(
-              "Outbound shipment item uniqueness check error:",
-              error
-            );
-          }
-        }
-      }
-    });
+					if (existingItem) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message:
+								"This product/batch combination is already in this shipment",
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - combination is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn(
+							"Outbound shipment item uniqueness check error:",
+							error,
+						);
+					}
+				}
+			}
+		});

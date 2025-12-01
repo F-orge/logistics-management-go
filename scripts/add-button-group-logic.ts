@@ -117,10 +117,7 @@ function generateRenderMenuItems(navigationRoute: string): string {
 }
 
 function hasButtonGroupDropdownLogic(content: string): boolean {
-  return (
-    content.includes("renderMenuItems") &&
-    content.includes("handleGlobalAction")
-  );
+  return content.includes("renderMenuItems") && content.includes("handleGlobalAction");
 }
 
 function hasButtonGroup(content: string): boolean {
@@ -131,11 +128,7 @@ function hasGlobalActionImport(content: string): boolean {
   return content.includes("GlobalAction");
 }
 
-function addImportIfMissing(
-  content: string,
-  from: string,
-  imports: string[]
-): string {
+function addImportIfMissing(content: string, from: string, imports: string[]): string {
   const importRegex = new RegExp(
     `import\\s+\\{([^}]*)\\}\\s+from\\s+["']${from.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["'];`
   );
@@ -160,24 +153,15 @@ function addImportIfMissing(
   // Add new import after last import
   const lastImportMatch = content.match(/import\s+.*from\s+["'].*["'];/);
   if (lastImportMatch) {
-    const lastImportPos =
-      content.indexOf(lastImportMatch[0]) + lastImportMatch[0].length;
+    const lastImportPos = content.indexOf(lastImportMatch[0]) + lastImportMatch[0].length;
     const importLine = `import { ${imports.join(", ")} } from "${from}";`;
-    return (
-      content.substring(0, lastImportPos) +
-      "\n" +
-      importLine +
-      content.substring(lastImportPos)
-    );
+    return content.substring(0, lastImportPos) + "\n" + importLine + content.substring(lastImportPos);
   }
 
   return content;
 }
 
-function addDropdownLogicToFile(
-  filePath: string,
-  dryRun: boolean = false
-): FileModificationResult {
+function addDropdownLogicToFile(filePath: string, dryRun: boolean = false): FileModificationResult {
   try {
     let content = readFileSync(filePath, "utf-8");
 
@@ -217,8 +201,7 @@ function addDropdownLogicToFile(
     ]);
 
     // Find the component function definition - look for "const [ComponentName] = () => {"
-    const componentDefRegex =
-      /^\s*const\s+\w+\s*=\s*(?:\([^)]*\)\s*)?=>?\s*\{/m;
+    const componentDefRegex = /^\s*const\s+\w+\s*=\s*(?:\([^)]*\)\s*)?=>?\s*\{/m;
     const componentMatch = content.match(componentDefRegex);
 
     if (!componentMatch || !componentMatch.index) {
@@ -256,14 +239,9 @@ function addDropdownLogicToFile(
   }
 }
 
-function printResults(
-  results: FileModificationResult[],
-  dryRun: boolean
-): void {
+function printResults(results: FileModificationResult[], dryRun: boolean): void {
   console.log(`\n${"=".repeat(80)}`);
-  console.log(
-    `Button Group Logic Addition Results${dryRun ? " (DRY RUN)" : ""}`
-  );
+  console.log(`Button Group Logic Addition Results${dryRun ? " (DRY RUN)" : ""}`);
   console.log("=".repeat(80));
 
   const modified = results.filter((r) => r.modified);
@@ -288,9 +266,7 @@ function printResults(
   }
 
   console.log(`\n${"=".repeat(80)}`);
-  console.log(
-    `Summary: ${modified.length} modified, ${unmodified.length} skipped`
-  );
+  console.log(`Summary: ${modified.length} modified, ${unmodified.length} skipped`);
   console.log(`${"=".repeat(80)}\n`);
 }
 

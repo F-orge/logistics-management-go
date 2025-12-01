@@ -37,10 +37,7 @@ function getAllControlFiles(dir: string = CONTROLS_DIR): string[] {
   return files;
 }
 
-function addSearchQueryHook(
-  filePath: string,
-  dryRun: boolean = false
-): FileModificationResult {
+function addSearchQueryHook(filePath: string, dryRun: boolean = false): FileModificationResult {
   try {
     const content = readFileSync(filePath, "utf-8");
 
@@ -64,10 +61,7 @@ function addSearchQueryHook(
 
       if (useNavigateMatch) {
         const importLine = useNavigateMatch[0];
-        const updatedImport = importLine.replace(
-          /import\s*{\s*useNavigate/,
-          "import { useNavigate, useSearch"
-        );
+        const updatedImport = importLine.replace(/import\s*{\s*useNavigate/, "import { useNavigate, useSearch");
         modifiedContent = modifiedContent.replace(importLine, updatedImport);
       } else {
         return {
@@ -88,9 +82,7 @@ function addSearchQueryHook(
     }
 
     // Find the first const declaration inside the component function
-    const componentBodyMatch = modifiedContent.match(
-      /^(\s+)const\s+navigate\s*=\s*useNavigate/m
-    );
+    const componentBodyMatch = modifiedContent.match(/^(\s+)const\s+navigate\s*=\s*useNavigate/m);
 
     if (!componentBodyMatch) {
       return {
@@ -150,9 +142,7 @@ async function main(): Promise<void> {
   const unmodified = results.filter((r) => !r.modified);
 
   console.log("=".repeat(80));
-  console.log(
-    `Search Query Hook Addition Results${dryRun ? " (DRY RUN)" : ""}`
-  );
+  console.log(`Search Query Hook Addition Results${dryRun ? " (DRY RUN)" : ""}`);
   console.log("=".repeat(80));
 
   if (modified.length > 0) {
@@ -173,9 +163,7 @@ async function main(): Promise<void> {
   }
 
   console.log(`\n${"=".repeat(80)}`);
-  console.log(
-    `Summary: ${modified.length} modified, ${unmodified.length} skipped`
-  );
+  console.log(`Summary: ${modified.length} modified, ${unmodified.length} skipped`);
   console.log(`${"=".repeat(80)}\n`);
 
   if (!dryRun && modified.length > 0) {

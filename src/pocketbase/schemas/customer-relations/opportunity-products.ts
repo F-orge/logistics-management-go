@@ -7,90 +7,90 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  CustomerRelationsOpportunityProductsRecord,
-  TypedPocketBase,
+	Collections,
+	CustomerRelationsOpportunityProductsRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 
 export const OpportunityProductsSchema = z.object({
-  id: z.string(),
-  opportunity: z.string().optional(),
-  product: z.string().optional(),
-  quantity: z
-    .number()
-    .min(0, "Quantity must be non-negative")
-    .int("Quantity must be an integer"),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	opportunity: z.string().optional(),
+	product: z.string().optional(),
+	quantity: z
+		.number()
+		.min(0, "Quantity must be non-negative")
+		.int("Quantity must be an integer"),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type OpportunityProducts = z.infer<typeof OpportunityProductsSchema>;
 
 export const CreateOpportunityProductsSchema = (pocketbase: TypedPocketBase) =>
-  OpportunityProductsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-    opportunity: true,
-  }).superRefine((data, ctx) => {
-    // Validate quantity
-    if (data.quantity <= 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["quantity"],
-        message: "Quantity must be greater than 0",
-      });
-    }
-  });
+	OpportunityProductsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+		opportunity: true,
+	}).superRefine((data, ctx) => {
+		// Validate quantity
+		if (data.quantity <= 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["quantity"],
+				message: "Quantity must be greater than 0",
+			});
+		}
+	});
 
 export const UpdateOpportunityProductsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: CustomerRelationsOpportunityProductsRecord
+	pocketbase: TypedPocketBase,
+	record?: CustomerRelationsOpportunityProductsRecord,
 ) =>
-  OpportunityProductsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate quantity if being updated
-      if (data.quantity !== undefined && data.quantity <= 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["quantity"],
-          message: "Quantity must be greater than 0",
-        });
-      }
+	OpportunityProductsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate quantity if being updated
+			if (data.quantity !== undefined && data.quantity <= 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["quantity"],
+					message: "Quantity must be greater than 0",
+				});
+			}
 
-      // Composite unique constraint: (opportunity, product) must be unique if either is being changed
-      if (data.opportunity || data.product) {
-        try {
-          if (data.opportunity && data.product) {
-            const existingOpportunityProduct = await pocketbase
-              .collection(Collections.CustomerRelationsOpportunityProducts)
-              .getFirstListItem(
-                `opportunity = "${data.opportunity.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
-                { requestKey: null }
-              );
+			// Composite unique constraint: (opportunity, product) must be unique if either is being changed
+			if (data.opportunity || data.product) {
+				try {
+					if (data.opportunity && data.product) {
+						const existingOpportunityProduct = await pocketbase
+							.collection(Collections.CustomerRelationsOpportunityProducts)
+							.getFirstListItem(
+								`opportunity = "${data.opportunity.replace(/"/g, '\\"')}" && product = "${data.product.replace(/"/g, '\\"')}"`,
+								{ requestKey: null },
+							);
 
-            // If found, check if it's a different record (not the one being updated)
-            if (
-              existingOpportunityProduct &&
-              existingOpportunityProduct.id !== record?.id
-            ) {
-              ctx.addIssue({
-                code: "custom",
-                path: ["product"],
-                message: "This product is already added to the opportunity",
-              });
-            }
-          }
-        } catch (error) {
-          // Record not found is expected - combination is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Opportunity-product uniqueness check error:", error);
-          }
-        }
-      }
-    });
+						// If found, check if it's a different record (not the one being updated)
+						if (
+							existingOpportunityProduct &&
+							existingOpportunityProduct.id !== record?.id
+						) {
+							ctx.addIssue({
+								code: "custom",
+								path: ["product"],
+								message: "This product is already added to the opportunity",
+							});
+						}
+					}
+				} catch (error) {
+					// Record not found is expected - combination is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Opportunity-product uniqueness check error:", error);
+					}
+				}
+			}
+		});

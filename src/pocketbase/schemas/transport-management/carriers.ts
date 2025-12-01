@@ -7,118 +7,118 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TransportManagementCarriersRecord,
-  TypedPocketBase,
+	Collections,
+	TransportManagementCarriersRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 
 export const CarriersSchema = z.object({
-  id: z.string(),
-  name: z.string().nonempty("Carrier name is required"),
-  contactDetails: z.unknown().optional(),
-  serviceOffered: z.unknown().optional(),
-  image: z.file().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string().nonempty("Carrier name is required"),
+	contactDetails: z.unknown().optional(),
+	serviceOffered: z.unknown().optional(),
+	image: z.file().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Carriers = z.infer<typeof CarriersSchema>;
 
 export const CreateCarriersSchema = (pocketbase: TypedPocketBase) =>
-  CarriersSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  })
-    .refine((data) => data.name && data.name.trim().length > 0, {
-      path: ["name"],
-      message: "Carrier name is required",
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate carrier name is not empty
-      if (!data.name || data.name.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["name"],
-          message: "Carrier name is required",
-        });
-        return;
-      }
+	CarriersSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	})
+		.refine((data) => data.name && data.name.trim().length > 0, {
+			path: ["name"],
+			message: "Carrier name is required",
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate carrier name is not empty
+			if (!data.name || data.name.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["name"],
+					message: "Carrier name is required",
+				});
+				return;
+			}
 
-      // Unique constraint: Carrier name must be unique
-      try {
-        const existingCarrier = await pocketbase
-          .collection(Collections.TransportManagementCarriers)
-          .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
-            requestKey: null,
-          });
+			// Unique constraint: Carrier name must be unique
+			try {
+				const existingCarrier = await pocketbase
+					.collection(Collections.TransportManagementCarriers)
+					.getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+						requestKey: null,
+					});
 
-        if (existingCarrier) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["name"],
-            message: `Carrier name "${data.name}" is already in use`,
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - name is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Carrier name uniqueness check error:", error);
-        }
-      }
-    });
+				if (existingCarrier) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["name"],
+						message: `Carrier name "${data.name}" is already in use`,
+					});
+				}
+			} catch (error) {
+				// Record not found is expected - name is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Carrier name uniqueness check error:", error);
+				}
+			}
+		});
 
 export const UpdateCarriersSchema = (
-  pocketbase: TypedPocketBase,
-  record?: TransportManagementCarriersRecord
+	pocketbase: TypedPocketBase,
+	record?: TransportManagementCarriersRecord,
 ) =>
-  CarriersSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .refine(
-      (data) =>
-        data.name === undefined || (data.name && data.name.trim().length > 0),
-      {
-        path: ["name"],
-        message: "Carrier name cannot be empty",
-      }
-    )
-    .superRefine(async (data, ctx) => {
-      // Validate carrier name is not empty if being updated
-      if (data.name !== undefined && data.name.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["name"],
-          message: "Carrier name cannot be empty",
-        });
-        return;
-      }
+	CarriersSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.refine(
+			(data) =>
+				data.name === undefined || (data.name && data.name.trim().length > 0),
+			{
+				path: ["name"],
+				message: "Carrier name cannot be empty",
+			},
+		)
+		.superRefine(async (data, ctx) => {
+			// Validate carrier name is not empty if being updated
+			if (data.name !== undefined && data.name.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["name"],
+					message: "Carrier name cannot be empty",
+				});
+				return;
+			}
 
-      // Unique constraint: Carrier name must be unique (when being updated)
-      if (data.name) {
-        try {
-          const existingCarrier = await pocketbase
-            .collection(Collections.TransportManagementCarriers)
-            .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
-              requestKey: null,
-            });
+			// Unique constraint: Carrier name must be unique (when being updated)
+			if (data.name) {
+				try {
+					const existingCarrier = await pocketbase
+						.collection(Collections.TransportManagementCarriers)
+						.getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+							requestKey: null,
+						});
 
-          // If found, check if it's a different record (not the one being updated)
-          if (existingCarrier && existingCarrier.id !== record?.id) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["name"],
-              message: `Carrier name "${data.name}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - name is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Carrier name uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					// If found, check if it's a different record (not the one being updated)
+					if (existingCarrier && existingCarrier.id !== record?.id) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["name"],
+							message: `Carrier name "${data.name}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - name is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Carrier name uniqueness check error:", error);
+					}
+				}
+			}
+		});

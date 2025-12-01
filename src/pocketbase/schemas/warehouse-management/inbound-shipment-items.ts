@@ -6,142 +6,142 @@
 
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementInboundShipmentItemsRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementInboundShipmentItemsRecord,
 } from "@/lib/pb.types";
 
 export const InboundShipmentItemsSchema = z.object({
-  id: z.string(),
-  inboundShipment: z.string().optional(),
-  product: z.string().optional(),
-  expectedQuantity: z.number().min(1, "Expected quantity must be at least 1"),
-  receivedQuantity: z
-    .number()
-    .min(0, "Received quantity cannot be negative")
-    .optional(),
-  discrepancyNotes: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	inboundShipment: z.string().optional(),
+	product: z.string().optional(),
+	expectedQuantity: z.number().min(1, "Expected quantity must be at least 1"),
+	receivedQuantity: z
+		.number()
+		.min(0, "Received quantity cannot be negative")
+		.optional(),
+	discrepancyNotes: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type InboundShipmentItems = z.infer<typeof InboundShipmentItemsSchema>;
 
 export const CreateInboundShipmentItemsSchema = (pocketbase: TypedPocketBase) =>
-  InboundShipmentItemsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify inbound shipment exists if provided
-    if (data.inboundShipment) {
-      try {
-        const shipment = await pocketbase
-          .collection(Collections.WarehouseManagementInboundShipments)
-          .getOne(data.inboundShipment, { requestKey: null });
-        if (!shipment) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["inboundShipment"],
-            message: "Inbound shipment does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["inboundShipment"],
-          message: "Inbound shipment does not exist",
-        });
-      }
-    }
+	InboundShipmentItemsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Verify inbound shipment exists if provided
+		if (data.inboundShipment) {
+			try {
+				const shipment = await pocketbase
+					.collection(Collections.WarehouseManagementInboundShipments)
+					.getOne(data.inboundShipment, { requestKey: null });
+				if (!shipment) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["inboundShipment"],
+						message: "Inbound shipment does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["inboundShipment"],
+					message: "Inbound shipment does not exist",
+				});
+			}
+		}
 
-    // Verify product exists if provided
-    if (data.product) {
-      try {
-        const product = await pocketbase
-          .collection(Collections.WarehouseManagementProducts)
-          .getOne(data.product, { requestKey: null });
-        if (!product) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product does not exist",
-        });
-      }
-    }
+		// Verify product exists if provided
+		if (data.product) {
+			try {
+				const product = await pocketbase
+					.collection(Collections.WarehouseManagementProducts)
+					.getOne(data.product, { requestKey: null });
+				if (!product) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["product"],
+					message: "Product does not exist",
+				});
+			}
+		}
 
-    // Validate receivedQuantity is not greater than expectedQuantity if both are provided
-    if (
-      data.receivedQuantity !== undefined &&
-      data.receivedQuantity > data.expectedQuantity
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["receivedQuantity"],
-        message: "Received quantity cannot exceed expected quantity",
-      });
-    }
-  });
+		// Validate receivedQuantity is not greater than expectedQuantity if both are provided
+		if (
+			data.receivedQuantity !== undefined &&
+			data.receivedQuantity > data.expectedQuantity
+		) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["receivedQuantity"],
+				message: "Received quantity cannot exceed expected quantity",
+			});
+		}
+	});
 
 export const UpdateInboundShipmentItemsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementInboundShipmentItemsRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementInboundShipmentItemsRecord,
 ) =>
-  InboundShipmentItemsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify inbound shipment exists if being updated
-      if (data.inboundShipment) {
-        try {
-          const shipment = await pocketbase
-            .collection(Collections.WarehouseManagementInboundShipments)
-            .getOne(data.inboundShipment, { requestKey: null });
-          if (!shipment) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["inboundShipment"],
-              message: "Inbound shipment does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["inboundShipment"],
-            message: "Inbound shipment does not exist",
-          });
-        }
-      }
+	InboundShipmentItemsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify inbound shipment exists if being updated
+			if (data.inboundShipment) {
+				try {
+					const shipment = await pocketbase
+						.collection(Collections.WarehouseManagementInboundShipments)
+						.getOne(data.inboundShipment, { requestKey: null });
+					if (!shipment) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["inboundShipment"],
+							message: "Inbound shipment does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["inboundShipment"],
+						message: "Inbound shipment does not exist",
+					});
+				}
+			}
 
-      // Verify product exists if being updated
-      if (data.product) {
-        try {
-          const product = await pocketbase
-            .collection(Collections.WarehouseManagementProducts)
-            .getOne(data.product, { requestKey: null });
-          if (!product) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "Product does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      }
-    });
+			// Verify product exists if being updated
+			if (data.product) {
+				try {
+					const product = await pocketbase
+						.collection(Collections.WarehouseManagementProducts)
+						.getOne(data.product, { requestKey: null });
+					if (!product) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "Product does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			}
+		});

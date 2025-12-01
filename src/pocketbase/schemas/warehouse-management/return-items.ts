@@ -7,195 +7,195 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementReturnItemsRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementReturnItemsRecord,
 } from "@/lib/pb.types";
 
 export const ReturnItemsSchema = z.object({
-  id: z.string(),
-  return: z.string(),
-  product: z.string(),
-  quantityExpected: z.number().optional(),
-  quantityReceived: z.number().optional(),
-  condition: z
-    .enum(["sellable", "damaged", "defective", "expired", "unsellable"])
-    .optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	return: z.string(),
+	product: z.string(),
+	quantityExpected: z.number().optional(),
+	quantityReceived: z.number().optional(),
+	condition: z
+		.enum(["sellable", "damaged", "defective", "expired", "unsellable"])
+		.optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type ReturnItems = z.infer<typeof ReturnItemsSchema>;
 
 export const CreateReturnItemsSchema = (pocketbase: TypedPocketBase) =>
-  ReturnItemsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Verify return exists
-    try {
-      const ret = await pocketbase
-        .collection(Collections.WarehouseManagementReturns)
-        .getOne(data.return, { requestKey: null });
-      if (!ret) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["return"],
-          message: "Return does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["return"],
-        message: "Return does not exist",
-      });
-    }
+	ReturnItemsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Verify return exists
+		try {
+			const ret = await pocketbase
+				.collection(Collections.WarehouseManagementReturns)
+				.getOne(data.return, { requestKey: null });
+			if (!ret) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["return"],
+					message: "Return does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["return"],
+				message: "Return does not exist",
+			});
+		}
 
-    // Verify product exists
-    try {
-      const product = await pocketbase
-        .collection(Collections.WarehouseManagementProducts)
-        .getOne(data.product, { requestKey: null });
-      if (!product) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["product"],
-          message: "Product does not exist",
-        });
-      }
-    } catch (error) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["product"],
-        message: "Product does not exist",
-      });
-    }
+		// Verify product exists
+		try {
+			const product = await pocketbase
+				.collection(Collections.WarehouseManagementProducts)
+				.getOne(data.product, { requestKey: null });
+			if (!product) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["product"],
+					message: "Product does not exist",
+				});
+			}
+		} catch (error) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["product"],
+				message: "Product does not exist",
+			});
+		}
 
-    // Validate quantityReceived does not exceed quantityExpected if both provided
-    if (
-      data.quantityExpected !== undefined &&
-      data.quantityReceived !== undefined &&
-      data.quantityReceived > data.quantityExpected
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["quantityReceived"],
-        message: "Quantity received cannot exceed quantity expected",
-      });
-    }
+		// Validate quantityReceived does not exceed quantityExpected if both provided
+		if (
+			data.quantityExpected !== undefined &&
+			data.quantityReceived !== undefined &&
+			data.quantityReceived > data.quantityExpected
+		) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["quantityReceived"],
+				message: "Quantity received cannot exceed quantity expected",
+			});
+		}
 
-    // Unique constraint: return + product combination must be unique
-    if (data.return && data.product) {
-      try {
-        const existingItem = await pocketbase
-          .collection(Collections.WarehouseManagementReturnItems)
-          .getFirstListItem(
-            `return = "${data.return}" && product = "${data.product}"`,
-            { requestKey: null }
-          );
+		// Unique constraint: return + product combination must be unique
+		if (data.return && data.product) {
+			try {
+				const existingItem = await pocketbase
+					.collection(Collections.WarehouseManagementReturnItems)
+					.getFirstListItem(
+						`return = "${data.return}" && product = "${data.product}"`,
+						{ requestKey: null },
+					);
 
-        if (existingItem) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "This product is already in this return",
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - combination is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Return item uniqueness check error:", error);
-        }
-      }
-    }
-  });
+				if (existingItem) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "This product is already in this return",
+					});
+				}
+			} catch (error) {
+				// Record not found is expected - combination is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Return item uniqueness check error:", error);
+				}
+			}
+		}
+	});
 
 export const UpdateReturnItemsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementReturnItemsRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementReturnItemsRecord,
 ) =>
-  ReturnItemsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify return exists if being updated
-      if (data.return) {
-        try {
-          const ret = await pocketbase
-            .collection(Collections.WarehouseManagementReturns)
-            .getOne(data.return, { requestKey: null });
-          if (!ret) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["return"],
-              message: "Return does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["return"],
-            message: "Return does not exist",
-          });
-        }
-      }
+	ReturnItemsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify return exists if being updated
+			if (data.return) {
+				try {
+					const ret = await pocketbase
+						.collection(Collections.WarehouseManagementReturns)
+						.getOne(data.return, { requestKey: null });
+					if (!ret) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["return"],
+							message: "Return does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["return"],
+						message: "Return does not exist",
+					});
+				}
+			}
 
-      // Verify product exists if being updated
-      if (data.product) {
-        try {
-          const product = await pocketbase
-            .collection(Collections.WarehouseManagementProducts)
-            .getOne(data.product, { requestKey: null });
-          if (!product) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "Product does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["product"],
-            message: "Product does not exist",
-          });
-        }
-      }
+			// Verify product exists if being updated
+			if (data.product) {
+				try {
+					const product = await pocketbase
+						.collection(Collections.WarehouseManagementProducts)
+						.getOne(data.product, { requestKey: null });
+					if (!product) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "Product does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["product"],
+						message: "Product does not exist",
+					});
+				}
+			}
 
-      // Unique constraint: return + product combination must be unique (when being updated)
-      if ((data.return || data.product) && record?.id) {
-        try {
-          const currentItem = await pocketbase
-            .collection(Collections.WarehouseManagementReturnItems)
-            .getOne(record?.id, { requestKey: null });
+			// Unique constraint: return + product combination must be unique (when being updated)
+			if ((data.return || data.product) && record?.id) {
+				try {
+					const currentItem = await pocketbase
+						.collection(Collections.WarehouseManagementReturnItems)
+						.getOne(record?.id, { requestKey: null });
 
-          const returnToCheck = data.return || currentItem.return;
-          const productToCheck = data.product || currentItem.product;
+					const returnToCheck = data.return || currentItem.return;
+					const productToCheck = data.product || currentItem.product;
 
-          const existingItem = await pocketbase
-            .collection(Collections.WarehouseManagementReturnItems)
-            .getFirstListItem(
-              `return = "${returnToCheck}" && product = "${productToCheck}" && id != "${record?.id}"`,
-              { requestKey: null }
-            );
+					const existingItem = await pocketbase
+						.collection(Collections.WarehouseManagementReturnItems)
+						.getFirstListItem(
+							`return = "${returnToCheck}" && product = "${productToCheck}" && id != "${record?.id}"`,
+							{ requestKey: null },
+						);
 
-          if (existingItem) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["product"],
-              message: "This product is already in this return",
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - combination is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Return item uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					if (existingItem) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["product"],
+							message: "This product is already in this return",
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - combination is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Return item uniqueness check error:", error);
+					}
+				}
+			}
+		});

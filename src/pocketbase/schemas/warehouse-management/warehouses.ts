@@ -6,65 +6,65 @@
 
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementWarehousesRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementWarehousesRecord,
 } from "@/lib/pb.types";
 
 export const WarehousesSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  address: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: z.string().optional(),
-  timezone: z.string().optional(),
-  contactPerson: z.string().optional(),
-  contactEmail: z.email().optional(),
-  contactPhone: z.string().optional(),
-  isActive: z.unknown().optional(),
-  images: z.array(z.file()).optional(),
-  location: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z.string(),
+	address: z.string().optional(),
+	city: z.string().optional(),
+	state: z.string().optional(),
+	postalCode: z.string().optional(),
+	country: z.string().optional(),
+	timezone: z.string().optional(),
+	contactPerson: z.string().optional(),
+	contactEmail: z.email().optional(),
+	contactPhone: z.string().optional(),
+	isActive: z.unknown().optional(),
+	images: z.array(z.file()).optional(),
+	location: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Warehouses = z.infer<typeof WarehousesSchema>;
 
 export const CreateWarehousesSchema = (pocketbase: TypedPocketBase) =>
-  WarehousesSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Validate warehouse name is not empty
-    if (!data.name || data.name.trim().length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["name"],
-        message: "Warehouse name is required",
-      });
-    }
-  });
+	WarehousesSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Validate warehouse name is not empty
+		if (!data.name || data.name.trim().length === 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["name"],
+				message: "Warehouse name is required",
+			});
+		}
+	});
 
 export const UpdateWarehousesSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementWarehousesRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementWarehousesRecord,
 ) =>
-  WarehousesSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate warehouse name is not empty if being updated
-      if (data.name !== undefined && data.name.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["name"],
-          message: "Warehouse name cannot be empty",
-        });
-      }
-    });
+	WarehousesSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate warehouse name is not empty if being updated
+			if (data.name !== undefined && data.name.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["name"],
+					message: "Warehouse name cannot be empty",
+				});
+			}
+		});

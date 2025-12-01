@@ -100,10 +100,7 @@ Examples:
   console.log(helpText);
 }
 
-function formatOutput(
-  code: ReturnType<typeof getButtonGroupCode>,
-  format: ScriptArgs["format"]
-): string {
+function formatOutput(code: ReturnType<typeof getButtonGroupCode>, format: ScriptArgs["format"]): string {
   switch (format) {
     case "jsx":
       return code.buttonGroupJSX;

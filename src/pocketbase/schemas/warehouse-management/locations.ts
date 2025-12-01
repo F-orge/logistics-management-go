@@ -6,181 +6,181 @@
 
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementLocationsRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementLocationsRecord,
 } from "@/lib/pb.types";
 
 export const LocationsSchema = z.object({
-  id: z.string(),
-  warehouse: z.string().optional(),
-  name: z.string(),
-  barcode: z.string().optional(),
-  type: z
-    .enum([
-      "receiving-dock",
-      "pick-bin",
-      "packing-station",
-      "cross-dock-area",
-      "bulk-storage",
-      "reserve-storage",
-      "damaged-goods",
-      "staging-area",
-      "quality-control",
-      "returns-area",
-    ])
-    .optional(),
-  level: z.number().optional(),
-  maxWeight: z.number().optional(),
-  maxVolume: z.number().optional(),
-  maxPallets: z.number().optional(),
-  isPickable: z.unknown().optional(),
-  isReceivable: z.unknown().optional(),
-  temperatureControlled: z.unknown().optional(),
-  hazmatApproved: z.unknown().optional(),
-  isActive: z.unknown().optional(),
-  parentLocation: z.string().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	warehouse: z.string().optional(),
+	name: z.string(),
+	barcode: z.string().optional(),
+	type: z
+		.enum([
+			"receiving-dock",
+			"pick-bin",
+			"packing-station",
+			"cross-dock-area",
+			"bulk-storage",
+			"reserve-storage",
+			"damaged-goods",
+			"staging-area",
+			"quality-control",
+			"returns-area",
+		])
+		.optional(),
+	level: z.number().optional(),
+	maxWeight: z.number().optional(),
+	maxVolume: z.number().optional(),
+	maxPallets: z.number().optional(),
+	isPickable: z.unknown().optional(),
+	isReceivable: z.unknown().optional(),
+	temperatureControlled: z.unknown().optional(),
+	hazmatApproved: z.unknown().optional(),
+	isActive: z.unknown().optional(),
+	parentLocation: z.string().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Locations = z.infer<typeof LocationsSchema>;
 
 export const CreateLocationsSchema = (pocketbase: TypedPocketBase) =>
-  LocationsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Validate location name is not empty
-    if (!data.name || data.name.trim().length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["name"],
-        message: "Location name is required",
-      });
-    }
+	LocationsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Validate location name is not empty
+		if (!data.name || data.name.trim().length === 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["name"],
+				message: "Location name is required",
+			});
+		}
 
-    // Verify warehouse exists if provided
-    if (data.warehouse) {
-      try {
-        const warehouse = await pocketbase
-          .collection(Collections.WarehouseManagementWarehouses)
-          .getOne(data.warehouse, { requestKey: null });
-        if (!warehouse) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["warehouse"],
-            message: "Warehouse does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["warehouse"],
-          message: "Warehouse does not exist",
-        });
-      }
-    }
+		// Verify warehouse exists if provided
+		if (data.warehouse) {
+			try {
+				const warehouse = await pocketbase
+					.collection(Collections.WarehouseManagementWarehouses)
+					.getOne(data.warehouse, { requestKey: null });
+				if (!warehouse) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["warehouse"],
+						message: "Warehouse does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["warehouse"],
+					message: "Warehouse does not exist",
+				});
+			}
+		}
 
-    // Verify parent location exists if provided
-    if (data.parentLocation) {
-      try {
-        const parent = await pocketbase
-          .collection(Collections.WarehouseManagementLocations)
-          .getOne(data.parentLocation, { requestKey: null });
-        if (!parent) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["parentLocation"],
-            message: "Parent location does not exist",
-          });
-        }
-      } catch (error) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["parentLocation"],
-          message: "Parent location does not exist",
-        });
-      }
-    }
+		// Verify parent location exists if provided
+		if (data.parentLocation) {
+			try {
+				const parent = await pocketbase
+					.collection(Collections.WarehouseManagementLocations)
+					.getOne(data.parentLocation, { requestKey: null });
+				if (!parent) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["parentLocation"],
+						message: "Parent location does not exist",
+					});
+				}
+			} catch (error) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["parentLocation"],
+					message: "Parent location does not exist",
+				});
+			}
+		}
 
-    // Validate capacity values are positive if provided
-    if (data.maxWeight !== undefined && data.maxWeight <= 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["maxWeight"],
-        message: "Max weight must be a positive value",
-      });
-    }
-    if (data.maxVolume !== undefined && data.maxVolume <= 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["maxVolume"],
-        message: "Max volume must be a positive value",
-      });
-    }
-    if (data.maxPallets !== undefined && data.maxPallets <= 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["maxPallets"],
-        message: "Max pallets must be a positive value",
-      });
-    }
-  });
+		// Validate capacity values are positive if provided
+		if (data.maxWeight !== undefined && data.maxWeight <= 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["maxWeight"],
+				message: "Max weight must be a positive value",
+			});
+		}
+		if (data.maxVolume !== undefined && data.maxVolume <= 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["maxVolume"],
+				message: "Max volume must be a positive value",
+			});
+		}
+		if (data.maxPallets !== undefined && data.maxPallets <= 0) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["maxPallets"],
+				message: "Max pallets must be a positive value",
+			});
+		}
+	});
 
 export const UpdateLocationsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementLocationsRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementLocationsRecord,
 ) =>
-  LocationsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify warehouse exists if being updated
-      if (data.warehouse) {
-        try {
-          const warehouse = await pocketbase
-            .collection(Collections.WarehouseManagementWarehouses)
-            .getOne(data.warehouse, { requestKey: null });
-          if (!warehouse) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["warehouse"],
-              message: "Warehouse does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["warehouse"],
-            message: "Warehouse does not exist",
-          });
-        }
-      }
+	LocationsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify warehouse exists if being updated
+			if (data.warehouse) {
+				try {
+					const warehouse = await pocketbase
+						.collection(Collections.WarehouseManagementWarehouses)
+						.getOne(data.warehouse, { requestKey: null });
+					if (!warehouse) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["warehouse"],
+							message: "Warehouse does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["warehouse"],
+						message: "Warehouse does not exist",
+					});
+				}
+			}
 
-      // Verify parent location exists if being updated
-      if (data.parentLocation) {
-        try {
-          const parent = await pocketbase
-            .collection(Collections.WarehouseManagementLocations)
-            .getOne(data.parentLocation, { requestKey: null });
-          if (!parent) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["parentLocation"],
-              message: "Parent location does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["parentLocation"],
-            message: "Parent location does not exist",
-          });
-        }
-      }
-    });
+			// Verify parent location exists if being updated
+			if (data.parentLocation) {
+				try {
+					const parent = await pocketbase
+						.collection(Collections.WarehouseManagementLocations)
+						.getOne(data.parentLocation, { requestKey: null });
+					if (!parent) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["parentLocation"],
+							message: "Parent location does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["parentLocation"],
+						message: "Parent location does not exist",
+					});
+				}
+			}
+		});

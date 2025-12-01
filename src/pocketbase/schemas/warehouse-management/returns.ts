@@ -7,243 +7,243 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TypedPocketBase,
-  WarehouseManagementReturnsRecord,
+	Collections,
+	TypedPocketBase,
+	WarehouseManagementReturnsRecord,
 } from "@/lib/pb.types";
 import { CreateReturnItemsSchema } from "./return-items";
 
 export const ReturnsSchema = z.object({
-  id: z.string(),
-  returnNumber: z.string().optional(),
-  salesOrder: z.string().optional(),
-  client: z.string().optional(),
-  status: z.enum([
-    "requested",
-    "approved",
-    "rejected",
-    "received",
-    "processed",
-  ]),
-  reason: z.unknown().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
-  items: z.array(z.string()).nonempty("At least one return item is required"),
+	id: z.string(),
+	returnNumber: z.string().optional(),
+	salesOrder: z.string().optional(),
+	client: z.string().optional(),
+	status: z.enum([
+		"requested",
+		"approved",
+		"rejected",
+		"received",
+		"processed",
+	]),
+	reason: z.unknown().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
+	items: z.array(z.string()).nonempty("At least one return item is required"),
 });
 
 export type Returns = z.infer<typeof ReturnsSchema>;
 
 export const CreateReturnsSchema = (pocketbase: TypedPocketBase) =>
-  ReturnsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  })
-    .extend({
-      items: CreateReturnItemsSchema(pocketbase).array(),
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify sales order exists if provided
-      if (data.salesOrder) {
-        try {
-          const salesOrder = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrders)
-            .getOne(data.salesOrder, { requestKey: null });
-          if (!salesOrder) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["salesOrder"],
-              message: "Sales order does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrder"],
-            message: "Sales order does not exist",
-          });
-        }
-      }
+	ReturnsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	})
+		.extend({
+			items: CreateReturnItemsSchema(pocketbase).array(),
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify sales order exists if provided
+			if (data.salesOrder) {
+				try {
+					const salesOrder = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrders)
+						.getOne(data.salesOrder, { requestKey: null });
+					if (!salesOrder) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["salesOrder"],
+							message: "Sales order does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrder"],
+						message: "Sales order does not exist",
+					});
+				}
+			}
 
-      // Verify client exists if provided
-      if (data.client) {
-        try {
-          const client = await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
-            .getOne(data.client, { requestKey: null });
-          if (!client) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["client"],
-              message: "Client does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["client"],
-            message: "Client does not exist",
-          });
-        }
-      }
+			// Verify client exists if provided
+			if (data.client) {
+				try {
+					const client = await pocketbase
+						.collection(Collections.CustomerRelationsCompanies)
+						.getOne(data.client, { requestKey: null });
+					if (!client) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["client"],
+							message: "Client does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["client"],
+						message: "Client does not exist",
+					});
+				}
+			}
 
-      // Validate return number is not empty
-      if (!data.returnNumber || data.returnNumber.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["returnNumber"],
-          message: "Return number is required",
-        });
-      }
+			// Validate return number is not empty
+			if (!data.returnNumber || data.returnNumber.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["returnNumber"],
+					message: "Return number is required",
+				});
+			}
 
-      // New returns must start with "requested" status
-      if (data.status && data.status !== "requested") {
-        ctx.addIssue({
-          code: "custom",
-          path: ["status"],
-          message: "New returns must start with 'requested' status",
-        });
-      }
+			// New returns must start with "requested" status
+			if (data.status && data.status !== "requested") {
+				ctx.addIssue({
+					code: "custom",
+					path: ["status"],
+					message: "New returns must start with 'requested' status",
+				});
+			}
 
-      // Unique constraint: returnNumber must be unique
-      if (data.returnNumber) {
-        try {
-          const existingReturn = await pocketbase
-            .collection(Collections.WarehouseManagementReturns)
-            .getFirstListItem(
-              `returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}"`,
-              {
-                requestKey: null,
-              }
-            );
+			// Unique constraint: returnNumber must be unique
+			if (data.returnNumber) {
+				try {
+					const existingReturn = await pocketbase
+						.collection(Collections.WarehouseManagementReturns)
+						.getFirstListItem(
+							`returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}"`,
+							{
+								requestKey: null,
+							},
+						);
 
-          if (existingReturn) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["returnNumber"],
-              message: `Return number "${data.returnNumber}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - returnNumber is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Return number uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					if (existingReturn) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["returnNumber"],
+							message: `Return number "${data.returnNumber}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - returnNumber is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Return number uniqueness check error:", error);
+					}
+				}
+			}
+		});
 
 export const UpdateReturnsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: WarehouseManagementReturnsRecord
+	pocketbase: TypedPocketBase,
+	record?: WarehouseManagementReturnsRecord,
 ) =>
-  ReturnsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Verify sales order exists if being updated
-      if (data.salesOrder) {
-        try {
-          const salesOrder = await pocketbase
-            .collection(Collections.WarehouseManagementSalesOrders)
-            .getOne(data.salesOrder, { requestKey: null });
-          if (!salesOrder) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["salesOrder"],
-              message: "Sales order does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["salesOrder"],
-            message: "Sales order does not exist",
-          });
-        }
-      }
+	ReturnsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Verify sales order exists if being updated
+			if (data.salesOrder) {
+				try {
+					const salesOrder = await pocketbase
+						.collection(Collections.WarehouseManagementSalesOrders)
+						.getOne(data.salesOrder, { requestKey: null });
+					if (!salesOrder) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["salesOrder"],
+							message: "Sales order does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["salesOrder"],
+						message: "Sales order does not exist",
+					});
+				}
+			}
 
-      // Verify client exists if being updated
-      if (data.client) {
-        try {
-          const client = await pocketbase
-            .collection(Collections.CustomerRelationsCompanies)
-            .getOne(data.client, { requestKey: null });
-          if (!client) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["client"],
-              message: "Client does not exist",
-            });
-          }
-        } catch (error) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["client"],
-            message: "Client does not exist",
-          });
-        }
-      }
+			// Verify client exists if being updated
+			if (data.client) {
+				try {
+					const client = await pocketbase
+						.collection(Collections.CustomerRelationsCompanies)
+						.getOne(data.client, { requestKey: null });
+					if (!client) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["client"],
+							message: "Client does not exist",
+						});
+					}
+				} catch (error) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["client"],
+						message: "Client does not exist",
+					});
+				}
+			}
 
-      // Unique constraint: returnNumber must be unique (when being updated)
-      if (data.returnNumber && record?.id) {
-        try {
-          const existingReturn = await pocketbase
-            .collection(Collections.WarehouseManagementReturns)
-            .getFirstListItem(
-              `returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}" && id != "${record.id}"`,
-              { requestKey: null }
-            );
+			// Unique constraint: returnNumber must be unique (when being updated)
+			if (data.returnNumber && record?.id) {
+				try {
+					const existingReturn = await pocketbase
+						.collection(Collections.WarehouseManagementReturns)
+						.getFirstListItem(
+							`returnNumber = "${data.returnNumber.replace(/"/g, '\\"')}" && id != "${record.id}"`,
+							{ requestKey: null },
+						);
 
-          if (existingReturn) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["returnNumber"],
-              message: `Return number "${data.returnNumber}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - returnNumber is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Return number uniqueness check error:", error);
-          }
-        }
-      }
+					if (existingReturn) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["returnNumber"],
+							message: `Return number "${data.returnNumber}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - returnNumber is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Return number uniqueness check error:", error);
+					}
+				}
+			}
 
-      // Validate status transitions (State Machine)
-      if (data.status && record?.id) {
-        try {
-          const currentReturn = await pocketbase
-            .collection(Collections.WarehouseManagementReturns)
-            .getOne(record.id, { requestKey: null });
+			// Validate status transitions (State Machine)
+			if (data.status && record?.id) {
+				try {
+					const currentReturn = await pocketbase
+						.collection(Collections.WarehouseManagementReturns)
+						.getOne(record.id, { requestKey: null });
 
-          const currentStatus = currentReturn.status;
-          const newStatus = data.status;
+					const currentStatus = currentReturn.status;
+					const newStatus = data.status;
 
-          // Define valid transitions: requested -> approved -> received -> processed
-          // rejected is a terminal state
-          const validTransitions: Record<string, string[]> = {
-            requested: ["approved", "rejected"],
-            approved: ["received", "rejected"],
-            rejected: [], // Terminal state
-            received: ["processed"],
-            processed: [], // Terminal state
-          };
+					// Define valid transitions: requested -> approved -> received -> processed
+					// rejected is a terminal state
+					const validTransitions: Record<string, string[]> = {
+						requested: ["approved", "rejected"],
+						approved: ["received", "rejected"],
+						rejected: [], // Terminal state
+						received: ["processed"],
+						processed: [], // Terminal state
+					};
 
-          if (!validTransitions[currentStatus]?.includes(newStatus)) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["status"],
-              message: `Cannot transition return status from '${currentStatus}' to '${newStatus}'`,
-            });
-          }
-        } catch (error) {
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Return status transition check error:", error);
-          }
-        }
-      }
-    });
+					if (!validTransitions[currentStatus]?.includes(newStatus)) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["status"],
+							message: `Cannot transition return status from '${currentStatus}' to '${newStatus}'`,
+						});
+					}
+				} catch (error) {
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Return status transition check error:", error);
+					}
+				}
+			}
+		});

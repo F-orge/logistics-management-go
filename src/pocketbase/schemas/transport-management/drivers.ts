@@ -7,171 +7,171 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  TransportManagementDriversRecord,
-  TypedPocketBase,
+	Collections,
+	TransportManagementDriversRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 
 // License number format: 1-2-2-6 format (e.g., N02-18-001234)
 const LICENSE_NUMBER_REGEX = /^[A-Z]{1}[0-9]{2}[\s-]?[0-9]{2}[\s-]?[0-9]{6}$/;
 
 export const DriversSchema = z.object({
-  id: z.string(),
-  user: z.string().optional(),
-  licenseNumber: z
-    .string()
-    .min(1, "License number is required")
-    .regex(
-      LICENSE_NUMBER_REGEX,
-      "License number must be in format: 1 letter + 2 digits + 2 digits + 6 digits (e.g., N02-18-001234)"
-    ),
-  licenseExpiryDate: z.date().optional(),
-  status: z.enum(["active", "inactive", "on-leave"]),
-  schedules: z.array(z.string()).optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	user: z.string().optional(),
+	licenseNumber: z
+		.string()
+		.min(1, "License number is required")
+		.regex(
+			LICENSE_NUMBER_REGEX,
+			"License number must be in format: 1 letter + 2 digits + 2 digits + 6 digits (e.g., N02-18-001234)",
+		),
+	licenseExpiryDate: z.date().optional(),
+	status: z.enum(["active", "inactive", "on-leave"]),
+	schedules: z.array(z.string()).optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export type Drivers = z.infer<typeof DriversSchema>;
 
 export const CreateDriversSchema = (pocketbase: TypedPocketBase) =>
-  DriversSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  })
-    .refine((data) => data.status !== undefined, {
-      path: ["status"],
-      message: "Status is required",
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate license number is provided
-      if (!data.licenseNumber || data.licenseNumber.trim().length === 0) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["licenseNumber"],
-          message: "License number is required",
-        });
-        return;
-      }
+	DriversSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	})
+		.refine((data) => data.status !== undefined, {
+			path: ["status"],
+			message: "Status is required",
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate license number is provided
+			if (!data.licenseNumber || data.licenseNumber.trim().length === 0) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["licenseNumber"],
+					message: "License number is required",
+				});
+				return;
+			}
 
-      // Unique constraint: License number must be unique
-      try {
-        const existingDriver = await pocketbase
-          .collection(Collections.TransportManagementDrivers)
-          .getFirstListItem(
-            `licenseNumber = "${data.licenseNumber.replace(/"/g, '\\"')}"`,
-            {
-              requestKey: null,
-            }
-          );
+			// Unique constraint: License number must be unique
+			try {
+				const existingDriver = await pocketbase
+					.collection(Collections.TransportManagementDrivers)
+					.getFirstListItem(
+						`licenseNumber = "${data.licenseNumber.replace(/"/g, '\\"')}"`,
+						{
+							requestKey: null,
+						},
+					);
 
-        if (existingDriver) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["licenseNumber"],
-            message: `License number "${data.licenseNumber}" is already in use`,
-          });
-        }
-      } catch (error) {
-        // Record not found is expected - license number is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("License number uniqueness check error:", error);
-        }
-      }
+				if (existingDriver) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["licenseNumber"],
+						message: `License number "${data.licenseNumber}" is already in use`,
+					});
+				}
+			} catch (error) {
+				// Record not found is expected - license number is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("License number uniqueness check error:", error);
+				}
+			}
 
-      // Validate license expiry date is in the future if provided
-      if (data.licenseExpiryDate && data.licenseExpiryDate < new Date()) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["licenseExpiryDate"],
-          message: "License expiry date must be in the future",
-        });
-      }
-    });
+			// Validate license expiry date is in the future if provided
+			if (data.licenseExpiryDate && data.licenseExpiryDate < new Date()) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["licenseExpiryDate"],
+					message: "License expiry date must be in the future",
+				});
+			}
+		});
 
 export const UpdateDriversSchema = (
-  pocketbase: TypedPocketBase,
-  record?: TransportManagementDriversRecord
+	pocketbase: TypedPocketBase,
+	record?: TransportManagementDriversRecord,
 ) =>
-  DriversSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Get current driver status from existing record
-      const currentStatus = record?.status;
-      const newStatus = data.status;
+	DriversSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Get current driver status from existing record
+			const currentStatus = record?.status;
+			const newStatus = data.status;
 
-      // Validate status transitions using state machine rules
-      if (newStatus && currentStatus) {
-        const validTransitions: Record<string, string[]> = {
-          active: ["inactive", "on-leave"],
-          inactive: ["active"],
-          "on-leave": ["active", "inactive"],
-        };
+			// Validate status transitions using state machine rules
+			if (newStatus && currentStatus) {
+				const validTransitions: Record<string, string[]> = {
+					active: ["inactive", "on-leave"],
+					inactive: ["active"],
+					"on-leave": ["active", "inactive"],
+				};
 
-        const allowedTransitions = validTransitions[currentStatus] || [];
+				const allowedTransitions = validTransitions[currentStatus] || [];
 
-        if (!allowedTransitions.includes(newStatus)) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["status"],
-            message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
-          });
-        }
-      }
+				if (!allowedTransitions.includes(newStatus)) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["status"],
+						message: `Cannot transition from '${currentStatus}' to '${newStatus}'. Valid transitions: ${allowedTransitions.join(", ")}`,
+					});
+				}
+			}
 
-      // Validate license number is not empty if being updated
-      if (
-        data.licenseNumber !== undefined &&
-        data.licenseNumber.trim().length === 0
-      ) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["licenseNumber"],
-          message: "License number cannot be empty",
-        });
-        return;
-      }
+			// Validate license number is not empty if being updated
+			if (
+				data.licenseNumber !== undefined &&
+				data.licenseNumber.trim().length === 0
+			) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["licenseNumber"],
+					message: "License number cannot be empty",
+				});
+				return;
+			}
 
-      // Unique constraint: License number must be unique (when being updated)
-      if (data.licenseNumber) {
-        try {
-          const existingDriver = await pocketbase
-            .collection(Collections.TransportManagementDrivers)
-            .getFirstListItem(
-              `licenseNumber = "${data.licenseNumber.replace(/"/g, '\\"')}"`,
-              { requestKey: null }
-            );
+			// Unique constraint: License number must be unique (when being updated)
+			if (data.licenseNumber) {
+				try {
+					const existingDriver = await pocketbase
+						.collection(Collections.TransportManagementDrivers)
+						.getFirstListItem(
+							`licenseNumber = "${data.licenseNumber.replace(/"/g, '\\"')}"`,
+							{ requestKey: null },
+						);
 
-          // If found, check if it's a different record (not the one being updated)
-          if (existingDriver && existingDriver.id !== record?.id) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["licenseNumber"],
-              message: `License number "${data.licenseNumber}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - license number is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("License number uniqueness check error:", error);
-          }
-        }
-      }
+					// If found, check if it's a different record (not the one being updated)
+					if (existingDriver && existingDriver.id !== record?.id) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["licenseNumber"],
+							message: `License number "${data.licenseNumber}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - license number is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("License number uniqueness check error:", error);
+					}
+				}
+			}
 
-      // Validate license expiry date is in the future if being updated
-      if (
-        data.licenseExpiryDate !== undefined &&
-        data.licenseExpiryDate < new Date()
-      ) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["licenseExpiryDate"],
-          message: "License expiry date must be in the future",
-        });
-      }
-    });
+			// Validate license expiry date is in the future if being updated
+			if (
+				data.licenseExpiryDate !== undefined &&
+				data.licenseExpiryDate < new Date()
+			) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["licenseExpiryDate"],
+					message: "License expiry date must be in the future",
+				});
+			}
+		});

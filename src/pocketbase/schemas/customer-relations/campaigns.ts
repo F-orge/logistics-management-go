@@ -7,113 +7,113 @@
 import { ClientResponseError } from "pocketbase";
 import { z } from "zod";
 import {
-  Collections,
-  CustomerRelationsCampaignsRecord,
-  TypedPocketBase,
+	Collections,
+	CustomerRelationsCampaignsRecord,
+	TypedPocketBase,
 } from "@/lib/pb.types";
 
 export const CampaignsSchema = z.object({
-  id: z.string(),
-  name: z
-    .string("Campaign name is required")
-    .nonempty("Campaign name is required"),
-  budget: z
-    .number()
-    .min(0, "Campaign budget must be non-negative")
-    .describe("Campaign budget is required"),
-  startDate: z.date("Must be a valid date").optional(),
-  endDate: z.date("Must be a valid date").optional(),
-  attachments: z.file().array().optional(),
-  created: z.iso.datetime().optional(),
-  updated: z.iso.datetime().optional(),
+	id: z.string(),
+	name: z
+		.string("Campaign name is required")
+		.nonempty("Campaign name is required"),
+	budget: z
+		.number()
+		.min(0, "Campaign budget must be non-negative")
+		.describe("Campaign budget is required"),
+	startDate: z.date("Must be a valid date").optional(),
+	endDate: z.date("Must be a valid date").optional(),
+	attachments: z.file().array().optional(),
+	created: z.iso.datetime().optional(),
+	updated: z.iso.datetime().optional(),
 });
 
 export const CreateCampaignsSchema = (pocketbase: TypedPocketBase) =>
-  CampaignsSchema.omit({
-    id: true,
-    created: true,
-    updated: true,
-  }).superRefine(async (data, ctx) => {
-    // Unique constraint: Campaign name must be unique
-    if (data.name) {
-      try {
-        const existingCampaign = await pocketbase
-          .collection(Collections.CustomerRelationsCampaigns)
-          .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
-            requestKey: null,
-          });
+	CampaignsSchema.omit({
+		id: true,
+		created: true,
+		updated: true,
+	}).superRefine(async (data, ctx) => {
+		// Unique constraint: Campaign name must be unique
+		if (data.name) {
+			try {
+				const existingCampaign = await pocketbase
+					.collection(Collections.CustomerRelationsCampaigns)
+					.getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+						requestKey: null,
+					});
 
-        if (existingCampaign) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["name"],
-            message: `Campaign name "${data.name}" is already in use`,
-          });
-          return; // Prevent further validation
-        }
-      } catch (error) {
-        // Record not found is expected - name is unique
-        if (!(error instanceof ClientResponseError) || error.status !== 404) {
-          console.warn("Campaign name uniqueness check error:", error);
-        }
-      }
-    }
+				if (existingCampaign) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["name"],
+						message: `Campaign name "${data.name}" is already in use`,
+					});
+					return; // Prevent further validation
+				}
+			} catch (error) {
+				// Record not found is expected - name is unique
+				if (!(error instanceof ClientResponseError) || error.status !== 404) {
+					console.warn("Campaign name uniqueness check error:", error);
+				}
+			}
+		}
 
-    // Validate that start_date <= end_date if both are provided
-    if (data.startDate && data.endDate && data.startDate > data.endDate) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["endDate"],
-        message: "End date must be on or after start date",
-      });
-    }
-  });
+		// Validate that start_date <= end_date if both are provided
+		if (data.startDate && data.endDate && data.startDate > data.endDate) {
+			ctx.addIssue({
+				code: "custom",
+				path: ["endDate"],
+				message: "End date must be on or after start date",
+			});
+		}
+	});
 
 export const UpdateCampaignsSchema = (
-  pocketbase: TypedPocketBase,
-  record?: CustomerRelationsCampaignsRecord
+	pocketbase: TypedPocketBase,
+	record?: CustomerRelationsCampaignsRecord,
 ) =>
-  CampaignsSchema.partial()
-    .omit({
-      id: true,
-      created: true,
-      updated: true,
-      attachments: true,
-    })
-    .superRefine(async (data, ctx) => {
-      // Validate that start_date <= end_date if both are provided
-      if (data.startDate && data.endDate && data.startDate > data.endDate) {
-        ctx.addIssue({
-          code: "custom",
-          path: ["endDate"],
-          message: "End date must be on or after start date",
-        });
-      }
+	CampaignsSchema.partial()
+		.omit({
+			id: true,
+			created: true,
+			updated: true,
+			attachments: true,
+		})
+		.superRefine(async (data, ctx) => {
+			// Validate that start_date <= end_date if both are provided
+			if (data.startDate && data.endDate && data.startDate > data.endDate) {
+				ctx.addIssue({
+					code: "custom",
+					path: ["endDate"],
+					message: "End date must be on or after start date",
+				});
+			}
 
-      // Unique constraint: Campaign name must be unique (when being updated)
-      if (data.name) {
-        try {
-          const existingCampaign = await pocketbase
-            .collection(Collections.CustomerRelationsCampaigns)
-            .getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
-              requestKey: null,
-            });
+			// Unique constraint: Campaign name must be unique (when being updated)
+			if (data.name) {
+				try {
+					const existingCampaign = await pocketbase
+						.collection(Collections.CustomerRelationsCampaigns)
+						.getFirstListItem(`name = "${data.name.replace(/"/g, '\\"')}"`, {
+							requestKey: null,
+						});
 
-          // If found, check if it's a different record (not the one being updated)
-          if (existingCampaign && existingCampaign.id !== record?.id) {
-            ctx.addIssue({
-              code: "custom",
-              path: ["name"],
-              message: `Campaign name "${data.name}" is already in use`,
-            });
-          }
-        } catch (error) {
-          // Record not found is expected - name is unique
-          if (!(error instanceof ClientResponseError) || error.status !== 404) {
-            console.warn("Campaign name uniqueness check error:", error);
-          }
-        }
-      }
-    });
+					// If found, check if it's a different record (not the one being updated)
+					if (existingCampaign && existingCampaign.id !== record?.id) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["name"],
+							message: `Campaign name "${data.name}" is already in use`,
+						});
+					}
+				} catch (error) {
+					// Record not found is expected - name is unique
+					if (!(error instanceof ClientResponseError) || error.status !== 404) {
+						console.warn("Campaign name uniqueness check error:", error);
+					}
+				}
+			}
+		});
 
 export type Campaigns = z.infer<typeof CampaignsSchema>;
