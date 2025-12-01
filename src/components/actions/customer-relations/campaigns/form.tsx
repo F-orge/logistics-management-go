@@ -157,7 +157,7 @@ export const CreateCampaignsFormOption = (pocketbase: TypedPocketBase) =>
 				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to create campaign: ${error.message} (${error.status})`,
@@ -191,7 +191,7 @@ export const UpdateCampaignsFormOption = (
 				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to update campaign: ${error.message} (${error.status})`,

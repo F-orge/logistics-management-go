@@ -256,7 +256,7 @@ export const CreateLocationsFormOption = (pocketbase: TypedPocketBase) =>
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to create location: ${error.message} (${error.status})`,
 					);
@@ -286,7 +286,7 @@ export const UpdateLocationsFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to update location: ${error.message} (${error.status})`,
 					);

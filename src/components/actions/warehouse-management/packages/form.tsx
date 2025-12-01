@@ -338,7 +338,7 @@ export const CreatePackagesFormOption = (pocketbase: TypedPocketBase) =>
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to create package: ${error.message} (${error.status})`,
 					);
@@ -368,7 +368,7 @@ export const UpdatePackagesFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to update package: ${error.message} (${error.status})`,
 					);

@@ -216,7 +216,7 @@ export const CreateWarehousesFormOption = (pocketbase: TypedPocketBase) =>
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to create warehouse: ${error.message} (${error.status})`,
 					);
@@ -246,7 +246,7 @@ export const UpdateWarehousesFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to update warehouse: ${error.message} (${error.status})`,
 					);

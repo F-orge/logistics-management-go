@@ -121,7 +121,7 @@ export const CreateSuppliersFormOption = (pocketbase: TypedPocketBase) =>
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to create supplier: ${error.message} (${error.status})`,
 					);
@@ -151,7 +151,7 @@ export const UpdateSuppliersFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to update supplier: ${error.message} (${error.status})`,
 					);

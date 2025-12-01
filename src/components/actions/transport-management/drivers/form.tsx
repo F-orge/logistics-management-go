@@ -118,7 +118,7 @@ export const CreateDriversFormOption = (pocketbase: TypedPocketBase) =>
 				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to create driver: ${error.message} (${error.status})`,
@@ -150,7 +150,7 @@ export const UpdateDriversFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to update driver: ${error.message} (${error.status})`,

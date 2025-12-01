@@ -40,7 +40,7 @@ const Field = ({
 }: FieldProps) => {
 	const field = useFieldContext<any>();
 
-	const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+	const isInvalid = !!field.state.meta.errorMap.onSubmit;
 
 	return (
 		<BaseField data-invalid={isInvalid} {...props}>
@@ -87,7 +87,7 @@ const Field = ({
 					)}
 				</>
 			)}
-			<FieldError errors={field.state.meta.errors} />
+			<FieldError>{field.state.meta.errorMap.onSubmit?.message}</FieldError>
 		</BaseField>
 	);
 };

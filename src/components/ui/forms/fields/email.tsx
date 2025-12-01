@@ -45,7 +45,7 @@ const EmailField = (props: EmailFieldProps) => {
 		textAddonEnd,
 		iconAddonEnd,
 		showClearButton = false,
-		showValidationIcon = true, // Default to true for email validation feedback
+		showValidationIcon = false, // Default to true for email validation feedback
 		inputGroupClassName,
 		addonEnd,
 		...inputProps

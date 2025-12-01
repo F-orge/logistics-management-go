@@ -341,7 +341,7 @@ export const CreateInvoicesFormOption = (pocketbase: TypedPocketBase) =>
 					});
 				} catch (error) {
 					if (error instanceof ClientResponseError) {
-						formApi.setErrorMap({ onSubmit: error.data.data });
+						formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 						if (invoiceId) {
 							await pocketbase
@@ -356,7 +356,7 @@ export const CreateInvoicesFormOption = (pocketbase: TypedPocketBase) =>
 				}
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to create invoices: ${error.message} (${error.status})`,
@@ -401,7 +401,7 @@ export const UpdateInvoicesFormOption = (
 				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to update invoice: ${error.message} (${error.status})`,

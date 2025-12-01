@@ -201,7 +201,7 @@ export const CreateSalesOrdersFormOption = (pocketbase: TypedPocketBase) =>
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to create order: ${error.message} (${error.status})`,
 					);
@@ -231,7 +231,7 @@ export const UpdateSalesOrdersFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 					toast.error(
 						`Failed to update order: ${error.message} (${error.status})`,
 					);

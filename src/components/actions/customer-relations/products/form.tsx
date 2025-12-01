@@ -178,7 +178,7 @@ export const CreateProductsFormOption = (pocketbase: TypedPocketBase) =>
 				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to create product: ${error.message} (${error.status})`,
@@ -210,7 +210,7 @@ export const UpdateProductsFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to update product: ${error.message} (${error.status})`,

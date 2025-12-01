@@ -99,7 +99,7 @@ export const CreateDriverLocationFormOption = (pocketbase: TypedPocketBase) =>
 				});
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to create driver location: ${error.message} (${error.status})`,
@@ -132,7 +132,7 @@ export const UpdateDriverLocationFormOption = (
 				meta.navigate!({ search: (prev) => ({ ...prev, action: undefined }) });
 			} catch (error) {
 				if (error instanceof ClientResponseError) {
-					formApi.setErrorMap({ onSubmit: error.data.data });
+					formApi.setErrorMap({ onSubmit: { fields: error.data.data } });
 
 					toast.error(
 						`Failed to update driver location: ${error.message} (${error.status})`,
