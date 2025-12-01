@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-11-23T14:05:24.556Z",
+  "timestamp": "2025-12-01T07:43:15.248Z",
   "collections": [
     {
       "id": "_pb_users_auth_",
@@ -184,8 +184,8 @@
         "CREATE UNIQUE INDEX `idx_tokenKey__pb_users_auth_` ON `users` (`tokenKey`)",
         "CREATE UNIQUE INDEX `idx_email__pb_users_auth_` ON `users` (`email`) WHERE `email` != ''"
       ],
-      "created": "2025-11-03 09:40:16.112Z",
-      "updated": "2025-11-06 14:46:01.671Z",
+      "created": "2025-12-01 07:42:44.491Z",
+      "updated": "2025-12-01 07:42:49.094Z",
       "system": false,
       "authRule": "",
       "manageRule": null,
@@ -383,8 +383,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_DBzj8lczyB` ON `customer_relations_products` (`sku`)"
       ],
-      "created": "2025-11-03 09:57:51.551Z",
-      "updated": "2025-11-06 05:59:05.490Z",
+      "created": "2025-12-01 07:42:44.562Z",
+      "updated": "2025-12-01 07:42:47.750Z",
       "system": false
     },
     {
@@ -495,8 +495,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:12:14.624Z",
-      "updated": "2025-11-06 05:58:00.291Z",
+      "created": "2025-12-01 07:42:44.599Z",
+      "updated": "2025-12-01 07:42:47.541Z",
       "system": false
     },
     {
@@ -707,8 +707,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:16:49.174Z",
-      "updated": "2025-11-06 05:58:15.520Z",
+      "created": "2025-12-01 07:42:44.632Z",
+      "updated": "2025-12-01 07:42:47.585Z",
       "system": false
     },
     {
@@ -736,6 +736,20 @@
           "type": "text"
         },
         {
+          "hidden": false,
+          "id": "file1204091606",
+          "maxSelect": 99,
+          "maxSize": 0,
+          "mimeTypes": [],
+          "name": "attachments",
+          "presentable": false,
+          "protected": false,
+          "required": false,
+          "system": false,
+          "thumbs": [],
+          "type": "file"
+        },
+        {
           "autogeneratePattern": "",
           "hidden": false,
           "id": "text1579384326",
@@ -750,6 +764,20 @@
           "type": "text"
         },
         {
+          "autogeneratePattern": "",
+          "hidden": false,
+          "id": "text3898508260",
+          "max": 20,
+          "min": 0,
+          "name": "phoneNumber",
+          "pattern": "",
+          "presentable": false,
+          "primaryKey": false,
+          "required": false,
+          "system": false,
+          "type": "text"
+        },
+        {
           "exceptDomains": [],
           "hidden": false,
           "id": "email3885137012",
@@ -759,20 +787,6 @@
           "required": true,
           "system": false,
           "type": "email"
-        },
-        {
-          "autogeneratePattern": "",
-          "hidden": false,
-          "id": "text3898508260",
-          "max": 20,
-          "min": 0,
-          "name": "phoneNumber",
-          "pattern": "\\+(9[976]\\d|8[987530]\\d|6[987]\\d|5[90]\\d|42\\d|3[875]\\d| 2[98654321]\\d|9[8543210]|8[6421]|6[6543210]|5[87654321]| 4[987654310]|3[9643210]|2[70]|7|1)\\d{1,14}$",
-          "presentable": false,
-          "primaryKey": false,
-          "required": false,
-          "system": false,
-          "type": "text"
         },
         {
           "autogeneratePattern": "",
@@ -816,20 +830,6 @@
         },
         {
           "hidden": false,
-          "id": "file1204091606",
-          "maxSelect": 99,
-          "maxSize": 0,
-          "mimeTypes": [],
-          "name": "attachments",
-          "presentable": false,
-          "protected": false,
-          "required": false,
-          "system": false,
-          "thumbs": [],
-          "type": "file"
-        },
-        {
-          "hidden": false,
           "id": "autodate2990389176",
           "name": "created",
           "onCreate": true,
@@ -850,8 +850,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:19:55.854Z",
-      "updated": "2025-11-06 05:58:22.080Z",
+      "created": "2025-12-01 07:42:44.668Z",
+      "updated": "2025-12-01 07:42:50.653Z",
       "system": false
     },
     {
@@ -1081,8 +1081,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:24:25.184Z",
-      "updated": "2025-11-06 05:58:53.461Z",
+      "created": "2025-12-01 07:42:44.683Z",
+      "updated": "2025-12-01 07:42:47.708Z",
       "system": false
     },
     {
@@ -1296,8 +1296,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:28:15.853Z",
-      "updated": "2025-11-06 05:58:47.200Z",
+      "created": "2025-12-01 07:42:44.694Z",
+      "updated": "2025-12-01 07:42:47.686Z",
       "system": false
     },
     {
@@ -1453,8 +1453,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_mFbmr4u3fO` ON `customer_relations_cases` (`caseNumber`)"
       ],
-      "created": "2025-11-03 10:34:30.166Z",
-      "updated": "2025-11-06 05:58:08.560Z",
+      "created": "2025-12-01 07:42:44.766Z",
+      "updated": "2025-12-01 07:42:47.563Z",
       "system": false
     },
     {
@@ -1587,8 +1587,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:37:20.324Z",
-      "updated": "2025-11-06 05:58:28.601Z",
+      "created": "2025-12-01 07:42:44.777Z",
+      "updated": "2025-12-01 07:42:47.627Z",
       "system": false
     },
     {
@@ -1677,8 +1677,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_nGEjuWPbTN` ON `customer_relations_opportunity_products` (\n  `opportunity`,\n  `product`\n)"
       ],
-      "created": "2025-11-03 10:39:26.834Z",
-      "updated": "2025-11-06 05:58:59.870Z",
+      "created": "2025-12-01 07:42:44.817Z",
+      "updated": "2025-12-01 07:42:47.727Z",
       "system": false
     },
     {
@@ -1876,8 +1876,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:44:22.074Z",
-      "updated": "2025-11-06 05:58:40.962Z",
+      "created": "2025-12-01 07:42:44.828Z",
+      "updated": "2025-12-01 07:42:47.666Z",
       "system": false
     },
     {
@@ -1978,8 +1978,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_gengIW2idW` ON `customer_relations_invoice_items` (\n  `invoice`,\n  `product`\n)"
       ],
-      "created": "2025-11-03 10:46:28.124Z",
-      "updated": "2025-11-17 08:50:17.920Z",
+      "created": "2025-12-01 07:42:44.878Z",
+      "updated": "2025-12-01 07:42:49.195Z",
       "system": false
     },
     {
@@ -2072,8 +2072,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:49:09.394Z",
-      "updated": "2025-11-03 10:49:09.394Z",
+      "created": "2025-12-01 07:42:44.982Z",
+      "updated": "2025-12-01 07:42:44.982Z",
       "system": false
     },
     {
@@ -2175,8 +2175,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 10:51:05.454Z",
-      "updated": "2025-11-19 12:16:04.392Z",
+      "created": "2025-12-01 07:42:44.992Z",
+      "updated": "2025-12-01 07:42:49.934Z",
       "system": false
     },
     {
@@ -2321,8 +2321,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_I4gsCPpxDf` ON `transport_management_vehicles` (`registrationNumber`)"
       ],
-      "created": "2025-11-03 10:57:19.908Z",
-      "updated": "2025-11-06 13:03:45.341Z",
+      "created": "2025-12-01 07:42:45.042Z",
+      "updated": "2025-12-01 07:42:48.693Z",
       "system": false
     },
     {
@@ -2432,8 +2432,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:22:22.283Z",
-      "updated": "2025-11-19 11:48:10.491Z",
+      "created": "2025-12-01 07:42:45.050Z",
+      "updated": "2025-12-01 07:42:49.672Z",
       "system": false
     },
     {
@@ -2583,8 +2583,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:24:08.884Z",
-      "updated": "2025-11-19 12:03:29.905Z",
+      "created": "2025-12-01 07:42:45.097Z",
+      "updated": "2025-12-01 07:42:49.826Z",
       "system": false
     },
     {
@@ -2745,8 +2745,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:28:54.210Z",
-      "updated": "2025-11-03 15:54:32.775Z",
+      "created": "2025-12-01 07:42:45.105Z",
+      "updated": "2025-12-01 07:42:46.054Z",
       "system": false
     },
     {
@@ -2807,8 +2807,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:29:56.354Z",
-      "updated": "2025-11-06 13:01:57.970Z",
+      "created": "2025-12-01 07:42:45.113Z",
+      "updated": "2025-12-01 07:42:48.543Z",
       "system": false
     },
     {
@@ -2897,8 +2897,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_t4Hl6YwYnd` ON `transport_management_routes` (`name`)"
       ],
-      "created": "2025-11-03 14:32:34.614Z",
-      "updated": "2025-11-06 13:02:30.580Z",
+      "created": "2025-12-01 07:42:45.151Z",
+      "updated": "2025-12-01 07:42:48.624Z",
       "system": false
     },
     {
@@ -2983,8 +2983,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:34:33.474Z",
-      "updated": "2025-11-06 13:02:22.320Z",
+      "created": "2025-12-01 07:42:45.160Z",
+      "updated": "2025-12-01 07:42:48.603Z",
       "system": false
     },
     {
@@ -3158,8 +3158,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:38:43.084Z",
-      "updated": "2025-11-06 13:01:34.640Z",
+      "created": "2025-12-01 07:42:45.400Z",
+      "updated": "2025-12-01 07:42:48.489Z",
       "system": false
     },
     {
@@ -3258,8 +3258,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:42:36.544Z",
-      "updated": "2025-11-06 13:01:11.270Z",
+      "created": "2025-12-01 07:42:45.454Z",
+      "updated": "2025-12-01 07:42:48.428Z",
       "system": false
     },
     {
@@ -3392,8 +3392,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:43:15.634Z",
-      "updated": "2025-11-06 13:01:02.850Z",
+      "created": "2025-12-01 07:42:45.464Z",
+      "updated": "2025-12-01 07:42:48.410Z",
       "system": false
     },
     {
@@ -3528,8 +3528,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:48:50.764Z",
-      "updated": "2025-11-19 11:14:09.811Z",
+      "created": "2025-12-01 07:42:45.580Z",
+      "updated": "2025-12-01 07:42:49.582Z",
       "system": false
     },
     {
@@ -3604,8 +3604,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:50:43.104Z",
-      "updated": "2025-11-06 13:02:37.490Z",
+      "created": "2025-12-01 07:42:45.592Z",
+      "updated": "2025-12-01 07:42:48.645Z",
       "system": false
     },
     {
@@ -3734,8 +3734,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 14:53:22.134Z",
-      "updated": "2025-11-06 13:02:05.290Z",
+      "created": "2025-12-01 07:42:45.606Z",
+      "updated": "2025-12-01 07:42:48.562Z",
       "system": false
     },
     {
@@ -3824,8 +3824,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_iqFV8etVYZ` ON `transport_management_partner_invoice_items` (\n  `partnerInvoice`,\n  `shipmentLeg`\n)"
       ],
-      "created": "2025-11-03 14:54:25.994Z",
-      "updated": "2025-11-06 13:02:13.650Z",
+      "created": "2025-12-01 07:42:45.618Z",
+      "updated": "2025-12-01 07:42:48.581Z",
       "system": false
     },
     {
@@ -3940,8 +3940,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:11:41.584Z",
-      "updated": "2025-11-06 12:57:25.940Z",
+      "created": "2025-12-01 07:42:45.840Z",
+      "updated": "2025-12-01 07:42:48.325Z",
       "system": false
     },
     {
@@ -4161,8 +4161,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_ZQi3TUV1ce` ON `warehouse_management_products` (\n  `sku`,\n  `barcode`\n)"
       ],
-      "created": "2025-11-03 15:17:04.866Z",
-      "updated": "2025-11-18 20:43:32.864Z",
+      "created": "2025-12-01 07:42:45.851Z",
+      "updated": "2025-12-01 07:42:49.332Z",
       "system": false
     },
     {
@@ -4249,8 +4249,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:22:26.864Z",
-      "updated": "2025-11-06 12:54:05.892Z",
+      "created": "2025-12-01 07:42:45.920Z",
+      "updated": "2025-12-01 07:42:47.961Z",
       "system": false
     },
     {
@@ -4379,8 +4379,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:27:50.154Z",
-      "updated": "2025-11-06 12:53:54.260Z",
+      "created": "2025-12-01 07:42:45.941Z",
+      "updated": "2025-12-01 07:42:47.941Z",
       "system": false
     },
     {
@@ -4467,8 +4467,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:30:00.284Z",
-      "updated": "2025-11-06 12:55:48.700Z",
+      "created": "2025-12-01 07:42:45.954Z",
+      "updated": "2025-12-01 07:42:48.201Z",
       "system": false
     },
     {
@@ -4582,8 +4582,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:32:50.204Z",
-      "updated": "2025-11-06 12:53:30.180Z",
+      "created": "2025-12-01 07:42:45.968Z",
+      "updated": "2025-12-01 07:42:47.922Z",
       "system": false
     },
     {
@@ -4693,8 +4693,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:34:39.514Z",
-      "updated": "2025-11-06 12:53:22.142Z",
+      "created": "2025-12-01 07:42:45.982Z",
+      "updated": "2025-12-01 07:42:47.899Z",
       "system": false
     },
     {
@@ -4810,8 +4810,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:38:45.274Z",
-      "updated": "2025-11-06 12:57:16.500Z",
+      "created": "2025-12-01 07:42:45.998Z",
+      "updated": "2025-12-01 07:42:48.303Z",
       "system": false
     },
     {
@@ -4930,8 +4930,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_O7OLo3FeqL` ON `warehouse_management_sales_orders` (`orderNumber`)"
       ],
-      "created": "2025-11-03 15:47:49.466Z",
-      "updated": "2025-11-18 22:43:15.710Z",
+      "created": "2025-12-01 07:42:46.010Z",
+      "updated": "2025-12-01 07:42:49.532Z",
       "system": false
     },
     {
@@ -5020,8 +5020,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_xpWZexSXOG` ON `warehouse_management_sales_order_items` (\n  `salesOrder`,\n  `product`\n)"
       ],
-      "created": "2025-11-03 15:48:45.044Z",
-      "updated": "2025-11-06 12:56:59.940Z",
+      "created": "2025-12-01 07:42:46.026Z",
+      "updated": "2025-12-01 07:42:48.262Z",
       "system": false
     },
     {
@@ -5153,8 +5153,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 15:53:18.524Z",
-      "updated": "2025-11-06 12:54:47.592Z",
+      "created": "2025-12-01 07:42:46.041Z",
+      "updated": "2025-12-01 07:42:48.046Z",
       "system": false
     },
     {
@@ -5269,8 +5269,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_yb6YRpLpzm` ON `warehouse_management_outbound_shipment_items` (\n  `outboundShipment`,\n  `salesOrderItem`,\n  `product`,\n  `batch`\n)"
       ],
-      "created": "2025-11-03 15:58:32.354Z",
-      "updated": "2025-11-06 12:54:36.785Z",
+      "created": "2025-12-01 07:42:46.130Z",
+      "updated": "2025-12-01 07:42:48.022Z",
       "system": false
     },
     {
@@ -5389,8 +5389,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_TkDrXK72je` ON `warehouse_management_returns` (`returnNumber`)"
       ],
-      "created": "2025-11-03 16:04:59.444Z",
-      "updated": "2025-11-18 22:33:39.531Z",
+      "created": "2025-12-01 07:42:46.208Z",
+      "updated": "2025-12-01 07:42:49.449Z",
       "system": false
     },
     {
@@ -5508,8 +5508,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_OfOcqGlJds` ON `warehouse_management_return_items` (\n  `return`,\n  `product`\n)"
       ],
-      "created": "2025-11-03 16:07:56.664Z",
-      "updated": "2025-11-18 22:34:08.756Z",
+      "created": "2025-12-01 07:42:46.225Z",
+      "updated": "2025-12-01 07:42:49.470Z",
       "system": false
     },
     {
@@ -5595,10 +5595,10 @@
         {
           "autogeneratePattern": "",
           "hidden": false,
-          "id": "text3320367065",
-          "max": 20,
+          "id": "text1400097126",
+          "max": 50,
           "min": 0,
-          "name": "postalCode",
+          "name": "country",
           "pattern": "",
           "presentable": false,
           "primaryKey": false,
@@ -5609,10 +5609,10 @@
         {
           "autogeneratePattern": "",
           "hidden": false,
-          "id": "text1400097126",
-          "max": 50,
+          "id": "text3320367065",
+          "max": 20,
           "min": 0,
-          "name": "country",
+          "name": "postalCode",
           "pattern": "",
           "presentable": false,
           "primaryKey": false,
@@ -5727,8 +5727,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 16:10:41.304Z",
-      "updated": "2025-11-06 12:57:51.571Z",
+      "created": "2025-12-01 07:42:46.240Z",
+      "updated": "2025-12-01 07:42:48.387Z",
       "system": false
     },
     {
@@ -5946,8 +5946,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 16:21:31.232Z",
-      "updated": "2025-11-06 12:54:26.352Z",
+      "created": "2025-12-01 07:42:46.475Z",
+      "updated": "2025-12-01 07:42:48.001Z",
       "system": false
     },
     {
@@ -6100,8 +6100,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 16:40:50.244Z",
-      "updated": "2025-11-06 12:54:16.555Z",
+      "created": "2025-12-01 07:42:46.523Z",
+      "updated": "2025-12-01 07:42:47.981Z",
       "system": false
     },
     {
@@ -6311,8 +6311,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 16:46:37.694Z",
-      "updated": "2025-11-06 12:55:37.851Z",
+      "created": "2025-12-01 07:42:46.540Z",
+      "updated": "2025-12-01 07:42:48.178Z",
       "system": false
     },
     {
@@ -6444,8 +6444,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 16:52:28.071Z",
-      "updated": "2025-11-06 12:53:12.440Z",
+      "created": "2025-12-01 07:42:46.554Z",
+      "updated": "2025-12-01 07:42:47.878Z",
       "system": false
     },
     {
@@ -6662,8 +6662,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 16:57:09.204Z",
-      "updated": "2025-11-06 12:55:19.491Z",
+      "created": "2025-12-01 07:42:46.571Z",
+      "updated": "2025-12-01 07:42:48.136Z",
       "system": false
     },
     {
@@ -6775,8 +6775,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_C76RskmrS1` ON `warehouse_management_pick_batch_items` (\n  `pickBatch`,\n  `salesOrder`\n)"
       ],
-      "created": "2025-11-03 16:59:00.914Z",
-      "updated": "2025-11-06 12:55:12.780Z",
+      "created": "2025-12-01 07:42:46.589Z",
+      "updated": "2025-12-01 07:42:48.115Z",
       "system": false
     },
     {
@@ -6989,8 +6989,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_AdQr0zOKPo` ON `warehouse_management_tasks` (`taskNumber`)"
       ],
-      "created": "2025-11-03 17:09:14.828Z",
-      "updated": "2025-11-06 12:57:42.820Z",
+      "created": "2025-12-01 07:42:46.681Z",
+      "updated": "2025-12-01 07:42:48.364Z",
       "system": false
     },
     {
@@ -7205,8 +7205,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 17:13:29.504Z",
-      "updated": "2025-11-18 21:25:34.180Z",
+      "created": "2025-12-01 07:42:46.770Z",
+      "updated": "2025-12-01 07:42:49.370Z",
       "system": false
     },
     {
@@ -7447,8 +7447,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_s07bDoWox7` ON `warehouse_management_packages` (`packageNumber`)"
       ],
-      "created": "2025-11-03 17:17:31.914Z",
-      "updated": "2025-11-06 12:55:05.490Z",
+      "created": "2025-12-01 07:42:46.790Z",
+      "updated": "2025-12-01 07:42:48.094Z",
       "system": false
     },
     {
@@ -7573,8 +7573,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-03 17:19:23.604Z",
-      "updated": "2025-11-06 12:54:56.834Z",
+      "created": "2025-12-01 07:42:46.813Z",
+      "updated": "2025-12-01 07:42:48.071Z",
       "system": false
     },
     {
@@ -7724,8 +7724,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 12:49:59.232Z",
-      "updated": "2025-11-16 20:11:16.680Z",
+      "created": "2025-12-01 07:42:46.834Z",
+      "updated": "2025-12-01 07:42:49.156Z",
       "system": false
     },
     {
@@ -7938,8 +7938,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 13:22:01.598Z",
-      "updated": "2025-11-19 18:19:51.737Z",
+      "created": "2025-12-01 07:42:46.880Z",
+      "updated": "2025-12-01 07:42:50.209Z",
       "system": false
     },
     {
@@ -8042,8 +8042,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 13:33:45.423Z",
-      "updated": "2025-11-06 13:22:40.501Z",
+      "created": "2025-12-01 07:42:46.900Z",
+      "updated": "2025-12-01 07:42:48.771Z",
       "system": false
     },
     {
@@ -8146,8 +8146,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 13:36:55.142Z",
-      "updated": "2025-11-23 06:41:01.815Z",
+      "created": "2025-12-01 07:42:46.918Z",
+      "updated": "2025-12-01 07:42:50.349Z",
       "system": false
     },
     {
@@ -8208,8 +8208,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 13:38:18.582Z",
-      "updated": "2025-11-17 19:48:36.494Z",
+      "created": "2025-12-01 07:42:46.934Z",
+      "updated": "2025-12-01 07:42:49.215Z",
       "system": false
     },
     {
@@ -8347,8 +8347,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 15:14:26.813Z",
-      "updated": "2025-11-06 13:24:26.041Z",
+      "created": "2025-12-01 07:42:46.952Z",
+      "updated": "2025-12-01 07:42:49.008Z",
       "system": false
     },
     {
@@ -8514,8 +8514,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 15:20:19.515Z",
-      "updated": "2025-11-06 13:24:34.560Z",
+      "created": "2025-12-01 07:42:46.990Z",
+      "updated": "2025-12-01 07:42:49.028Z",
       "system": false
     },
     {
@@ -8662,8 +8662,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 15:25:16.172Z",
-      "updated": "2025-11-06 13:24:42.851Z",
+      "created": "2025-12-01 07:42:47.006Z",
+      "updated": "2025-12-01 07:42:49.050Z",
       "system": false
     },
     {
@@ -8903,8 +8903,8 @@
       "indexes": [
         "CREATE UNIQUE INDEX `idx_11jP8DSCih` ON `billing_management_quotes` (`quoteNumber`)"
       ],
-      "created": "2025-11-04 15:29:18.522Z",
-      "updated": "2025-11-06 13:24:18.381Z",
+      "created": "2025-12-01 07:42:47.026Z",
+      "updated": "2025-12-01 07:42:48.984Z",
       "system": false
     },
     {
@@ -9048,8 +9048,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 15:47:17.936Z",
-      "updated": "2025-11-06 13:23:22.340Z",
+      "created": "2025-12-01 07:42:47.049Z",
+      "updated": "2025-12-01 07:42:48.832Z",
       "system": false
     },
     {
@@ -9191,8 +9191,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 16:01:14.198Z",
-      "updated": "2025-11-06 13:23:14.691Z",
+      "created": "2025-12-01 07:42:47.068Z",
+      "updated": "2025-12-01 07:42:48.813Z",
       "system": false
     },
     {
@@ -9444,8 +9444,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 16:06:03.153Z",
-      "updated": "2025-11-06 13:23:54.632Z",
+      "created": "2025-12-01 07:42:47.106Z",
+      "updated": "2025-12-01 07:42:48.917Z",
       "system": false
     },
     {
@@ -9590,8 +9590,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 16:11:23.656Z",
-      "updated": "2025-11-06 13:23:47.078Z",
+      "created": "2025-12-01 07:42:47.126Z",
+      "updated": "2025-12-01 07:42:48.896Z",
       "system": false
     },
     {
@@ -9829,8 +9829,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 17:10:45.430Z",
-      "updated": "2025-11-06 13:24:09.798Z",
+      "created": "2025-12-01 07:42:47.147Z",
+      "updated": "2025-12-01 07:42:48.963Z",
       "system": false
     },
     {
@@ -10006,8 +10006,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 18:07:05.356Z",
-      "updated": "2025-11-06 13:23:37.375Z",
+      "created": "2025-12-01 07:42:47.351Z",
+      "updated": "2025-12-01 07:42:48.875Z",
       "system": false
     },
     {
@@ -10166,8 +10166,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 18:10:28.422Z",
-      "updated": "2025-11-06 13:23:29.777Z",
+      "created": "2025-12-01 07:42:47.450Z",
+      "updated": "2025-12-01 07:42:48.853Z",
       "system": false
     },
     {
@@ -10357,8 +10357,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-04 18:17:29.350Z",
-      "updated": "2025-11-16 17:46:33.419Z",
+      "created": "2025-12-01 07:42:47.496Z",
+      "updated": "2025-12-01 07:42:49.123Z",
       "system": false
     },
     {
@@ -10402,7 +10402,7 @@
           "exceptDomains": [],
           "hidden": false,
           "id": "email3105530224",
-          "name": "from",
+          "name": "to",
           "onlyDomains": [],
           "presentable": false,
           "required": true,
@@ -10439,6 +10439,15 @@
         },
         {
           "hidden": false,
+          "id": "bool1667088791",
+          "name": "hasSent",
+          "presentable": false,
+          "required": false,
+          "system": false,
+          "type": "bool"
+        },
+        {
+          "hidden": false,
           "id": "autodate2990389176",
           "name": "created",
           "onCreate": true,
@@ -10459,8 +10468,8 @@
         }
       ],
       "indexes": [],
-      "created": "2025-11-23 13:25:18.371Z",
-      "updated": "2025-11-23 14:03:00.278Z",
+      "created": "2025-12-01 07:42:50.486Z",
+      "updated": "2025-12-01 07:42:50.615Z",
       "system": false
     }
   ],
