@@ -1,16 +1,6 @@
-import { formOptions } from "@tanstack/react-form";
-import {
-	UseNavigateResult,
-	useNavigate,
-	useRouteContext,
-} from "@tanstack/react-router";
-import { ClientResponseError } from "pocketbase";
-import { toast } from "sonner";
-import z from "zod";
+import { useNavigate, useRouteContext } from "@tanstack/react-router";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useAppForm } from "@/components/ui/forms";
-import { Collections, TypedPocketBase } from "@/lib/pb.types";
-import { CreateCampaignsSchema } from "@/pocketbase/schemas/customer-relations";
 import { CampaignForm, CreateCampaignsFormOption } from "./form";
 
 const CreateCampaignForm = () => {
